@@ -11,6 +11,10 @@ class LoginScreen extends Component {
 
   handleLogin() {
     const bitgo = new BitGoJS.BitGo({ env: this.state.env });
+    // We will attach this to the window for now. More idiomatic solution coming in next iteration
+    window.bitgo = bitgp;
+
+
     try {
       await bitgo.authenticate({
         username: this.state.usernme,
