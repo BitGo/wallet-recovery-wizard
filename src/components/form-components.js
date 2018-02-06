@@ -1,6 +1,10 @@
 import React from 'react';
-import Select from 'react-select';
 import coinConfig from '../constants/coin-config';
+
+import {
+  Input,
+  Tooltip
+} from 'reactstrap';
 
 export const CoinDropdown = ({ allowedCoins, onChange, value }) => {
   const options = allowedCoins.map((coin) => ({
@@ -27,15 +31,27 @@ const CoinDropdownOption = ({ icon, label }) => (
   </div>
 );
 
-// const Input = ({ label, onChange, isPassword, value }) => (
-//   <div>
-//     {label && <label className='input-label'>{label}</label>}
-//     <div className='input-text'>
-//       <input
-//         type={password ? 'password' : 'text'}
-//         onChange={onUpdate}
-//         value={value}
-//       />
-//     </div>
-//   </div>
-// );
+const InputField = ({ label, tooltipText, onChange, isPassword, name, value }) => (
+  <div>
+    {label &&
+      <label className='input-label'>
+        {label}
+        {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
+      </label>
+    }
+    <div className='input-text'>
+      <Input
+        type={password ? 'password' : 'text'}
+        onChange={onUpdate}
+        value={value}
+      />
+    </div>
+  </div>
+);
+
+const FieldTooltip = ({ name, tooltipText }) => (
+  <span>
+    <img id={`tooltip-${name}`} src={questionMarkIcon} alt='0' border='0' />
+    <Tooltip target={`tooltip-${name}`}>{tooltipText}</Tooltip>
+  </span>
+);

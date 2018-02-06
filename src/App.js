@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Dashboard from './views/dashboard';
-import Login from './views/login';
+import Dashboard from 'views/dashboard';
+import Login from 'views/login';
 
 import './App.css';
 
