@@ -1,0 +1,184 @@
+@charset "UTF-8";
+/* CSS Document */
+
+
+body {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#414042;font-size: 14px;
+	font-weight:400;
+	margin:0;
+}
+p {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#414042;font-size: 14px;
+	font-weight:400;
+	margin:0;
+}
+h1 {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#282828;
+	font-size: 30px;
+	font-weight:400;
+}
+h2 {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#00AEEF;
+	font-size: 20px;
+	font-weight:400;
+}
+a:hover {
+	text-decoration:none;
+}
+a {
+	text-decoration:none;
+}
+.wrapper {
+	width:1366px;
+	height:800px;
+	margin: 0;
+}
+.header {
+	position:fixed;
+	top:0; left:0;
+	background-color:#282828;
+	width:100%;
+	height:80px;
+}
+.toolTitle {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#ffffff;
+	font-size: 20px;
+	font-weight:400;
+	position: fixed;
+	top: 27px;
+	left:220px;
+}
+.logo {
+	position:fixed;
+	top:25px;
+	left:30px;
+	width:110px;
+	height:27px;
+}
+.user {
+	float: right;
+	margin: 34px 35px 0 0;
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#ffffff;
+	font-size: 14px;
+	font-weight:400;
+}
+.userIcon {
+	float: right;
+	margin: 27px 15px 0 0;
+
+}
+.leftNavBar {
+	position:fixed;
+	top:80px;
+	left:0;
+	height:100%;
+	width:270px;
+	background-color:#00AEEF;
+}
+.leftNavBar :hover {
+	background-color:#1ba5de;
+}
+.leftNav {
+	width:270px;
+	background-color:#00AEEF;
+	border-bottom: 1px solid #4abff0;
+}
+.leftNav.selected {
+	width:270px;
+	background-color:#1ba5de;
+	border-bottom: 1px solid #4abff0;
+}
+.navigation {
+	font-family: 'Helvetica Neue', sans-serif;
+	color:#ffffff;
+	font-size: 14px;
+	font-weight:400;
+	margin:0px 0 0 30px;
+	padding:30px 0 30px 0
+}
+.content {
+	position:absolute;
+	top:100px;
+	left: 330px;
+	width:966px;
+	margin: 0px 40px 40px 0;
+
+}
+.optionBox {
+	height:100px;
+	width:250px;
+	border: 1px solid #c4c4c4;
+	border-radius: 4px;
+	text-align: center;
+	padding:10px 25px 40px 25px;
+	float:left;
+	margin:20px 20px 0 0;
+	background-color:#ffffff;
+}
+
+.optionBox:hover {
+	background-color:#f5f5f5;
+}
+
+
+input {
+	padding: 0px 0px 0px 15px;
+	height:42px;
+	width:300px;
+	border: 1px solid #d5d5d5;
+	border-radius: 4px;
+	margin-top: 20px;
+	font-family: 'Helvetica Neue', sans-serif;
+	font-size:14px;
+	color:#8e9091;
+}
+
+button {
+	border-radius: 10px;
+	background: #00AEEF;
+	padding: 20px;
+	width: 320px;
+	height: 60px;
+	border:0px;
+	color:#ffffff;
+	font-size:18px;
+	margin-top:20px;
+}
+
+button:hover {
+	background: #0684ac;
+
+}
+
+button.disabled {
+	background: #C4C4C4;
+}
+
+button.disabled:hover {
+	background: #8E9091;
+}
+
+.login {
+	margin-top: 100px;
+
+}
+.loginBox {
+	width:350px;
+	box-shadow: 1px 1px 30px 1px #c4c4c4;
+	padding:25px 25px 40px 25px;
+}
+
+.logoutLink:hover {
+	cursor: pointer;
+}
+
+.errorMessage {
+	margin-top: 10px;
+	color: #C51112;
+}

@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ErrorMessage = ({ children }) => (
-  <p>
+  <p className='errorMessage'>{children}</p>
 );
 
 
-export default Input;
+export default ErrorMessage;

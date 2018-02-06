@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 
 const Sidebar = () => (
   <div className="leftNavBar">
-    <div className="leftNav">
+    {/*<div className="leftNav">
       <Link to='/keycard'><div className="navigation">KeyCard Recoveries</div></Link>
     </div>
-    {/*<a href="">
+    <a href="">
       <div className="leftNav">
         <div className="navigation">Legacy SafeHD Recoveries</div>
       </div>

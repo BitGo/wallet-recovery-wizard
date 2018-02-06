@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const MainNav = () => (
-  <div className="content">
+  <div>
     <h1>What would you like to do?</h1>
     {/*<Link to='/keycard'>
       <div className="optionBox">
