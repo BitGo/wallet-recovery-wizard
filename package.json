@@ -1,5 +1,6 @@
 {
   "name": "wallet-recovery-wizard",
+  "description": "An UI-based desktop app for BitGo Recoveries",
   "version": "0.1.0",
   "private": true,
   "main": "main.js",
@@ -12,23 +13,27 @@
     "dev": "nf start",
     "electron": "electron .",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "bitgo": "^4.19.1",
-    "node-sass-chokidar": "^0.0.3",
+    "bootstrap": "4.0.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",
     "react-select": "^1.2.1",
-    "reactstrap": "^4.8.0",
+    "react-transition-group": "^2.2.1",
+    "reactstrap": "^5.0.0-beta",
     "redux": "^3.7.2",
     "redux-saga": "^0.16.0"
   },
   "devDependencies": {
     "electron": "^1.7.12",
-    "foreman": "^2.0.0"
+    "electron-builder": "^19.56.0",
+    "foreman": "^2.0.0",
+    "node-sass-chokidar": "^0.0.3"
   }
 }

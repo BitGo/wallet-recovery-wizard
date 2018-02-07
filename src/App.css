@@ -36,6 +36,7 @@ a {
 	width:1366px;
 	height:800px;
 	margin: 0;
+	box-sizing: initial;
 }
 .header {
 	position:fixed;
@@ -43,6 +44,8 @@ a {
 	background-color:#282828;
 	width:100%;
 	height:80px;
+	box-sizing: initial;
+
 }
 .toolTitle {
 	font-family: 'Helvetica Neue', sans-serif;
@@ -88,6 +91,8 @@ a {
 	width:270px;
 	background-color:#00AEEF;
 	border-bottom: 1px solid #4abff0;
+	box-sizing: initial;
+
 }
 .leftNav.selected {
 	width:270px;
@@ -108,6 +113,7 @@ a {
 	left: 330px;
 	width:966px;
 	margin: 0px 40px 40px 0;
+	box-sizing: initial;
 
 }
 .optionBox {
@@ -120,6 +126,7 @@ a {
 	float:left;
 	margin:20px 20px 0 0;
 	background-color:#ffffff;
+	box-sizing: initial;
 }
 
 .optionBox:hover {
@@ -127,7 +134,7 @@ a {
 }
 
 
-input {
+.loginBox input {
 	padding: 0px 0px 0px 15px;
 	height:42px;
 	width:300px;
@@ -137,6 +144,8 @@ input {
 	font-family: 'Helvetica Neue', sans-serif;
 	font-size:14px;
 	color:#8e9091;
+	box-sizing: initial;
+
 }
 
 button {
@@ -172,6 +181,7 @@ button.disabled:hover {
 	width:350px;
 	box-shadow: 1px 1px 30px 1px #c4c4c4;
 	padding:25px 25px 40px 25px;
+	box-sizing: initial;
 }
 
 .logoutLink:hover {
@@ -181,4 +191,22 @@ button.disabled:hover {
 .errorMessage {
 	margin-top: 10px;
 	color: #C51112;
+}
+
+.subtitle {
+	margin-bottom: 14px;
+}
+
+.tooltip-icon {
+	margin-left: 3px;
+	margin-bottom: 10px;
+	width: 12px;
+	height: 12px;
+	opacity: 0.6;
+}
+
+.coin-icon {
+	margin-right: 10px;
+	width: 12px;
+	height: 12px;
 }

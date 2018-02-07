@@ -1,57 +1,63 @@
 import React from 'react';
 import coinConfig from '../constants/coin-config';
 
+import Select from 'react-select';
+
 import {
   Input,
-  Tooltip
+  UncontrolledTooltip,
+  FormGroup,
+  Label
 } from 'reactstrap';
 
-export const CoinDropdown = ({ allowedCoins, onChange, value }) => {
-  const options = allowedCoins.map((coin) => ({
-    value: coin,
-    label: coinConfig[coin].fullName,
-    icon: coinConfig[coin].icon
-  }));
+import questionMarkIcon from 'images/question_mark.png';
 
+export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, tooltipText }) => {
   return (
-    <Select
-      options={options}
-      onChange={onChange}
-      value={value}
-      optionRenderer={CoinDropdownOption}
-      clearable={false}
-    />
+    <FormGroup>
+      {label &&
+        <Label className='input-label'>
+          {label}
+          {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
+        </Label>
+      }
+      <Input
+        type='select'
+        onChange={onChange}
+        name={name}
+        value={value}
+      >
+        {allowedCoins.map((coin) =>
+          <option value={coin} key={coin}>
+              <img src={coinConfig[coin].icon} alt='' border='0' className='coin-icon' />
+              {coinConfig[coin].fullName}
+          </option>
+        )}
+      </Input>
+    </FormGroup>
   );
 }
-
-const CoinDropdownOption = ({ icon, label }) => (
-  <div>
-    <img src={icon} alt='' />
-    <span>{label}</span>
-  </div>
-);
-
-const InputField = ({ label, tooltipText, onChange, isPassword, name, value }) => (
-  <div>
+export const InputField = ({ label, name, value, onChange, tooltipText, isPassword }) => (
+  <FormGroup>
     {label &&
-      <label className='input-label'>
+      <Label className='input-label'>
         {label}
         {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
-      </label>
+      </Label>
     }
-    <div className='input-text'>
-      <Input
-        type={password ? 'password' : 'text'}
-        onChange={onUpdate}
-        value={value}
-      />
-    </div>
-  </div>
+    <Input
+      type={isPassword ? 'password' : 'text'}
+      onChange={onChange}
+      value={value}
+    />
+  </FormGroup>
 );
 
-const FieldTooltip = ({ name, tooltipText }) => (
+const FieldTooltip = ({ name, text }) => (
   <span>
-    <img id={`tooltip-${name}`} src={questionMarkIcon} alt='0' border='0' />
-    <Tooltip target={`tooltip-${name}`}>{tooltipText}</Tooltip>
+    <a href="#" id={`tooltip-${name}`}>
+      <img id={`tooltip-${name}`} src={questionMarkIcon} alt='' border='0' className='tooltip-icon'/>
+    </a>
+    <UncontrolledTooltip placement='right' target={`tooltip-${name}`}>{text}</UncontrolledTooltip>
   </span>
 );

@@ -3,7 +3,9 @@ import React, { Component } from 'react';
 import Dashboard from 'views/dashboard';
 import Login from 'views/login';
 
+import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+
 
 class App extends Component {
   state = { isLoggedIn: false, bitgo: null };

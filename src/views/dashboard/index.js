@@ -5,12 +5,11 @@ import {
   Route
 } from 'react-router-dom';
 
-// import BitGoJS from 'bitgo';
-
 import Sidebar from 'components/sidebar';
 import Header from 'components/header';
 import MainNav from 'components/main-nav';
 import CrossChainRecoveryForm from 'components/cross-chain';
+
 
 class Dashboard extends Component {
   render() {

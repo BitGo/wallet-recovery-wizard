@@ -1,0 +1,9 @@
+directories:
+  output: dist
+  buildResources: assets
+files:
+  - build/**/*
+extraMetadata:
+  main: build/electron.js
+extends: react-cra
+electronVersion: 1.8.2
