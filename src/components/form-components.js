@@ -35,10 +35,10 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
         type='select'
         options={options}
         optionComponent={CoinDropdownOption}
-        onChange={sayHello}
+        onChange={onChange}
         name={name}
         value={value}
-        valueComponent={CoinDropdownValue}
+        // valueComponent={CoinDropdownValue}
         clearable={false}
         searchable={false}
       />
@@ -47,10 +47,17 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
 }
 
 class CoinDropdownOption extends Component {
+  handleMouseDown = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.props.onSelect(this.props.option, event);
+  }
+
   render() {
     const { option } = this.props;
     return (
-      <div className='coin-dropdown-option'>
+      <div className='coin-dropdown-option'  onMouseDown={this.handleMouseDown}>
         <img src={option.icon} alt='' border='0' className='coin-icon' />
         {option.label}
       </div>

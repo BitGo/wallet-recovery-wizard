@@ -14,7 +14,8 @@ import {
   Input,
   UncontrolledTooltip,
   FormGroup,
-  Label
+  Label,
+  Button
 } from 'reactstrap';
 
 import tooltips from 'constants/tooltips';
@@ -35,9 +36,13 @@ class CrossChainRecoveryForm extends Component {
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+  }
+
+  updateSelect = (fieldName) => (option) => {
+    this.setState({ [fieldName]: option.value });
 
     if (fieldName === 'sourceCoin') {
-      const recoveryCoins = coinConfig[event.target.value].supportedRecoveries;
+      const recoveryCoins = coinConfig[option.value].supportedRecoveries;
 
       if (!recoveryCoins.includes(this.state.recoveryCoin)) {
         this.setState({ recoveryCoin: recoveryCoins[0] });
@@ -56,6 +61,8 @@ class CrossChainRecoveryForm extends Component {
       return <BuildTxForm
         formState={this.state}
         updateRecoveryInfo={this.updateRecoveryInfo}
+        updateSelect={this.updateSelect}
+        findUnspents={this.findUnspents.bind(this)}
       />
     } else if (currentStep === 'signTx') {
       return <SignTxForm
@@ -77,6 +84,11 @@ class CrossChainRecoveryForm extends Component {
     }
   }
 
+  async findUnspents() {
+    console.log('Finding...');
+    console.log(this.state);
+  }
+
   render() {
     return (
       <div>
@@ -96,10 +108,16 @@ class BuildTxForm extends Component {
     this.setState({ unspentStrategy: strategy.value });
   }
 
+  async doFindUnspents() {
+    this.setState({ searching: true });
+    await this.props.findUnspents();
+    this.setState({ searching: false });
+  }
+
   render() {
-    const { formState, updateRecoveryInfo } = this.props;
+    const { formState, updateRecoveryInfo, updateSelect } = this.props;
     const { sourceCoin, recoveryCoin } = formState;
-    const { unspentStrategy } = this.state;
+    const { unspentStrategy, searching } = this.state;
     const allCoins = Object.keys(coinConfig);
     const recoveryCoins = coinConfig[sourceCoin].supportedRecoveries;
 
@@ -126,7 +144,7 @@ class BuildTxForm extends Component {
               label='Source Coin'
               name='sourceCoin'
               allowedCoins={allCoins}
-              onChange={updateRecoveryInfo('sourceCoin')}
+              onChange={updateSelect('sourceCoin')}
               value={sourceCoin}
               tooltipText={formTooltips.sourceCoin()}
             />
@@ -136,7 +154,7 @@ class BuildTxForm extends Component {
               label='Destination Coin'
               name='recoveryCoin'
               allowedCoins={recoveryCoins}
-              onChange={updateRecoveryInfo('recoveryCoin')}
+              onChange={updateSelect('recoveryCoin')}
               value={recoveryCoin}
               tooltipText={formTooltips.destinationCoin()}
             />
@@ -196,6 +214,9 @@ class BuildTxForm extends Component {
             tooltipText={formTooltips.unspent(formState.sourceCoin)}
           />
         }
+        <Button onClick={this.doFindUnspents.bind(this)} disabled={!!this.state.searching} className='bitgo-button'>
+          {this.state.searching ? 'Searching...' : 'Find'}
+        </Button>
       </Form>
     );
   }
