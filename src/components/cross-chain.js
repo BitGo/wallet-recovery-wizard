@@ -5,14 +5,14 @@ import {
   InputField
 } from './form-components';
 
+import ErrorMessage from './error-message';
+
 import Select from 'react-select';
 
 import {
   Form,
   Row,
   Col,
-  Input,
-  UncontrolledTooltip,
   FormGroup,
   Label,
   Button
@@ -21,17 +21,31 @@ import {
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 
+import CrossChainRecoveryTool from 'tools/cross-chain';
+
 const formTooltips = tooltips.crossChain;
 
 class CrossChainRecoveryForm extends Component {
+  // state = {
+  //   sourceCoin: 'btc',
+  //   recoveryCoin: 'ltc',
+  //   wallet: '',
+  //   txid: '',
+  //   unspent: '',
+  //   address: '',
+  //   currentStep: 'buildTx',
+  //   logging: ['']
+  // }
+
   state = {
-    sourceCoin: 'btc',
-    recoveryCoin: 'ltc',
-    wallet: '',
-    txid: '',
+    sourceCoin: 'ltc',
+    recoveryCoin: 'btc',
+    wallet: '2NEPb2roGiFSNAcE4DYVL7tx6vtbxLE24pr',
+    txid: '4778e738b948b2b43e7e1380a3455d65e428cd2e0563e5131baefa0207fdb848',
     unspent: '',
     address: '',
-    currentStep: 'buildTx'
+    currentStep: 'buildTx',
+    logging: ['']
   }
 
   updateRecoveryInfo = (fieldName) => (event) => {
@@ -85,8 +99,42 @@ class CrossChainRecoveryForm extends Component {
   }
 
   async findUnspents() {
-    console.log('Finding...');
-    console.log(this.state);
+    const { bitgo } = this.props;
+    const {
+      sourceCoin,
+      recoveryCoin,
+      wallet,
+      txid
+    } = this.state;
+
+    this.RecoveryTool = new CrossChainRecoveryTool({
+      bitgo: bitgo,
+      sourceCoin: sourceCoin,
+      recoveryType: recoveryCoin,
+      test: true,
+      logger: this.collectLog
+    });
+
+    if (wallet && txid) {
+      try {
+        console.log('setting walet...')
+        await this.RecoveryTool.setWallet(wallet);
+        console.log('finding unspents...')
+        await this.RecoveryTool.findUnspents(txid);
+        console.log('building inputs...')
+        await this.RecoveryTool.buildInputs();
+        this.RecoveryTool.setFees();
+      } catch (e) {
+        this.setState({ error: e.message });
+      }
+    }
+
+  }
+
+  collectLog = (...args) => {
+    const { logging } = this.state;
+    const newLogging = logging.concat(args);
+    this.setState({ logging: newLogging });
   }
 
   render() {
@@ -116,7 +164,7 @@ class BuildTxForm extends Component {
 
   render() {
     const { formState, updateRecoveryInfo, updateSelect } = this.props;
-    const { sourceCoin, recoveryCoin } = formState;
+    const { sourceCoin, recoveryCoin, logging, error } = formState;
     const { unspentStrategy, searching } = this.state;
     const allCoins = Object.keys(coinConfig);
     const recoveryCoins = coinConfig[sourceCoin].supportedRecoveries;
@@ -214,8 +262,10 @@ class BuildTxForm extends Component {
             tooltipText={formTooltips.unspent(formState.sourceCoin)}
           />
         }
-        <Button onClick={this.doFindUnspents.bind(this)} disabled={!!this.state.searching} className='bitgo-button'>
-          {this.state.searching ? 'Searching...' : 'Find'}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
+        <Button onClick={this.doFindUnspents.bind(this)} disabled={!!searching} className='bitgo-button'>
+          {searching ? 'Searching...' : 'Find'}
         </Button>
       </Form>
     );

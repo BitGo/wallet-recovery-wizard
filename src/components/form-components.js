@@ -19,10 +19,6 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
     icon: coinConfig[coin].icon
   }));
 
-  function sayHello() {
-    console.log('Hi there')
-  }
-
   return (
     <FormGroup>
       {label &&

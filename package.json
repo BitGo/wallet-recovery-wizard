@@ -18,7 +18,10 @@
   },
   "dependencies": {
     "bitgo": "^4.19.1",
+    "bluebird": "^3.5.1",
     "bootstrap": "4.0.0",
+    "lodash": "^4.17.5",
+    "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-redux": "^5.0.6",
@@ -28,7 +31,9 @@
     "react-transition-group": "^2.2.1",
     "reactstrap": "^5.0.0-beta",
     "redux": "^3.7.2",
-    "redux-saga": "^0.16.0"
+    "redux-saga": "^0.16.0",
+    "superagent": "^3.8.2",
+    "superagent-as-promised": "^4.0.0"
   },
   "devDependencies": {
     "electron": "^1.7.12",

@@ -1,11 +1,12 @@
-const request = require('superagent');
-require('superagent-as-promised')(request);
-const fs = require('fs');
-const Promise = require('bluebird');
+const request = window.require('superagent');
+window.require('superagent-as-promised')(request);
+const fs = window.require('fs');
+const Promise = window.require('bluebird');
 const co = Promise.coroutine;
-const _ = require('lodash');
-const bitcoin = require('bitgo').bitcoin;
-const moment = require('moment');
+const _ = window.require('lodash');
+const bitcoin = window.require('bitgo').bitcoin;
+const moment = window.require('moment');
+// const Buffer = window.require('buffer');
 
 /**
 * An instance of the recovery tool, which encapsulates the recovery functions
@@ -20,6 +21,8 @@ const CrossChainRecoveryTool = function CrossChainRecoveryTool(opts) {
   if (!this.bitgo) {
     throw new Error('Please instantiate the recovery tool with a bitgo instance.');
   }
+
+  window.b = this.bitgo;
 
   // List of coins we support. Add modifiers (e.g. segwit) after the dash
   this.supportedCoins = ['btc', 'bch', 'ltc', 'btc-segwit'];
@@ -107,7 +110,7 @@ CrossChainRecoveryTool.prototype.setWallet = function setWallet(walletId) {
       throw new Error('Please provide wallet id');
     }
 
-    this._log(`Fetching ${coinType} wallet...`);
+    // this._log(`Fetching ${coinType} wallet...`);
 
     if (this.sourceCoin.type !== coinType && this.recoveryCoin.type !== coinType) {
       throw new Error('Cannot set a wallet for this coin type - this is not a coin involved in the recovery tx.');
@@ -118,6 +121,7 @@ CrossChainRecoveryTool.prototype.setWallet = function setWallet(walletId) {
       wallet = yield this.bitgo.coin(coinType).wallets().get({ id: walletId });
     } catch (e) {
       if (e.status !== 404 && e.status !== 400) {
+        console.log('THROWING')
         throw e;
       }
 
@@ -126,7 +130,7 @@ CrossChainRecoveryTool.prototype.setWallet = function setWallet(walletId) {
 
     if (!wallet && coinType.endsWith('btc')) {
       try {
-        this._log('Could not find v2 wallet. Falling back to v1...');
+        // this._log('Could not find v2 wallet. Falling back to v1...');
         wallet = yield this.bitgo.wallets().get({ id: walletId });
         wallet.isV1 = true;
       } catch (e) {
@@ -151,14 +155,15 @@ CrossChainRecoveryTool.prototype.findUnspents = function findUnspents(faultyTxId
       throw new Error('Please provide a faultyTxId');
     }
 
-    this._log('Grabbing info for faulty tx...');
+    console.log('Grabbing info for faulty tx...');
 
     this.faultyTxId = faultyTxId;
     const TX_INFO_URL = this.sourceCoin.url(`/public/tx/${faultyTxId}`);
+    console.log(TX_INFO_URL);
     const res = yield request.get(TX_INFO_URL);
     const faultyTxInfo = res.body;
 
-    this._log('Getting unspents on output addresses..');
+    console.log('Getting unspents on output addresses..');
 
     // Get output addresses that do not belong to wallet
     // These are where the 'lost coins' live
@@ -204,7 +209,7 @@ CrossChainRecoveryTool.prototype.findUnspents = function findUnspents(faultyTxId
       outputAddresses = outputAddresses.map((address) => this.sourceCoin.canonicalAddress(address, 2));
     }
 
-    this._log(`Finding unspents for these output addresses: ${outputAddresses.join(', ')}`);
+    // this._log(`Finding unspents for these output addresses: ${outputAddresses.join(', ')}`);
 
     // Get unspents for addresses
     const ADDRESS_UNSPENTS_URL = this.sourceCoin.url(`/public/addressUnspents/${outputAddresses.join(',')}`);
@@ -274,6 +279,7 @@ CrossChainRecoveryTool.prototype.buildInputs = function buildInputs(unspents) {
       try {
         this.recoveryTx.addInput(hash, inputIndex);
       } catch (e) {
+        console.log(e.stack);
         throw new Error(`Error adding unspent ${unspent.id}`);
       }
 
@@ -470,4 +476,4 @@ CrossChainRecoveryTool.prototype.buildTransaction = function buildTransaction({ 
   }).call(this);
 };
 
-module.exports = CrossChainRecoveryTool;
+export default CrossChainRecoveryTool;

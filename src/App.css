@@ -304,3 +304,7 @@ button.bitgo-button {
 .bitgo-button.negative.disabled, .bitgo-button.negative:disabled {
 	display: none;
 }
+
+.recovery-logging {
+	color: #37AD4F;
+}

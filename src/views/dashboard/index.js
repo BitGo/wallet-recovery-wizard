@@ -24,8 +24,8 @@ class Dashboard extends Component {
 
             <div className='content'>
               <Switch>
-                <Route exact path='/' component={MainNav} />
-                <Route path='/crosschain' component={CrossChainRecoveryForm} />
+                <Route exact path='/' render={(props) => <MainNav {...props} />} />
+                <Route path='/crosschain' render={(props) => <CrossChainRecoveryForm bitgo={bitgo} {...props} />} />
               </Switch>
             </div>
         </div>
