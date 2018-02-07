@@ -23,6 +23,14 @@ class CrossChainRecoveryForm extends Component {
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+
+    if (fieldName === 'sourceCoin') {
+      const recoveryCoins = coinConfig[event.target.value].supportedRecoveries;
+
+      if (!recoveryCoins.includes(this.state.recoveryCoin)) {
+        this.setState({ recoveryCoin: recoveryCoins[0] });
+      }
+    }
   }
 
   switchStep = (toStep) => () => {

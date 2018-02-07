@@ -4,6 +4,7 @@ import Dashboard from 'views/dashboard';
 import Login from 'views/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import 'react-select/dist/react-select.css';
 import './App.css';
 
 

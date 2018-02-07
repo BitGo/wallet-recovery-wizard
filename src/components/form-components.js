@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import coinConfig from '../constants/coin-config';
 
 import Select from 'react-select';
@@ -13,6 +13,12 @@ import {
 import questionMarkIcon from 'images/question_mark.png';
 
 export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, tooltipText }) => {
+  const options = allowedCoins.map((coin) => ({
+    value: coin,
+    label: coinConfig[coin].fullName,
+    icon: coinConfig[coin].icon
+  }));
+
   return (
     <FormGroup>
       {label &&
@@ -21,22 +27,39 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
           {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
         </Label>
       }
-      <Input
+      <Select
         type='select'
+        options={options}
+        optionComponent={CoinDropdownOption}
         onChange={onChange}
         name={name}
         value={value}
-      >
-        {allowedCoins.map((coin) =>
-          <option value={coin} key={coin}>
-              <img src={coinConfig[coin].icon} alt='' border='0' className='coin-icon' />
-              {coinConfig[coin].fullName}
-          </option>
-        )}
-      </Input>
+        valueComponent={CoinDropdownValue}
+        clearable={false}
+        searchable={false}
+      />
     </FormGroup>
   );
 }
+
+class CoinDropdownOption extends Component {
+  render() {
+    const { option } = this.props;
+    return (
+      <div className='coin-dropdown-option'>
+        <img src={option.icon} alt='' border='0' className='coin-icon' />
+        {option.label}
+      </div>
+    );
+  }
+}
+const CoinDropdownValue = ({ value }) => (
+  <div className='coin-dropdown-option'>
+    <img src={value.icon} alt='' border='0' className='coin-icon' />
+    {value.label}
+  </div>
+);
+
 export const InputField = ({ label, name, value, onChange, tooltipText, isPassword }) => (
   <FormGroup>
     {label &&
