@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ErrorMessage from 'components/error-message';
+import HeaderLogo from 'images/header_logo.png';
 
 class Login extends Component {
   // state = { username: '', password: '', otp: '', env: 'test' };
@@ -37,7 +38,7 @@ class Login extends Component {
 
     return (
       <div className="login" align="center">
-        <img src="https://www.bitgo.com/img/newDesign/BitGo-Header-Logo.3bd7c2af5bcac098.png" alt='' border="0" align="center" />
+        <img src={HeaderLogo} alt='' border="0" align="center" />
         <h1>Wallet Recovery Wizard</h1>
 
         <div className="loginBox">

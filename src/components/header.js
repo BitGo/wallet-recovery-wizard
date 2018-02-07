@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import userImage from 'images/User.png';
+import badgeLogo from 'images/badge_logo.png'
 
 class Header extends Component {
   state = { username: '' }
@@ -28,7 +29,7 @@ class Header extends Component {
     return (
       <div className="header">
         <div className="logo">
-          <img src="https://test.bitgo.com/img/new_bitgo/logo.71b677f29e55836e.png" alt='' border="0" width="110" height="27" />
+          <img src={badgeLogo} alt='' border="0" width="110" height="27" />
         </div>
         <div className="toolTitle">Wallet Recovery Wizard</div>
         <div className="user">

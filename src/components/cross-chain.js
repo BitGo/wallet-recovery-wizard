@@ -1,11 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import {
   CoinDropdown,
   InputField
 } from './form-components';
 
-import { Form, Row, Col } from 'reactstrap';
+import Select from 'react-select';
+
+import {
+  Form,
+  Row,
+  Col,
+  Input,
+  UncontrolledTooltip,
+  FormGroup,
+  Label
+} from 'reactstrap';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
@@ -18,6 +28,8 @@ class CrossChainRecoveryForm extends Component {
     recoveryCoin: 'ltc',
     wallet: '',
     txid: '',
+    unspent: '',
+    address: '',
     currentStep: 'buildTx'
   }
 
@@ -77,52 +89,117 @@ class CrossChainRecoveryForm extends Component {
   }
 }
 
-const BuildTxForm = ({ formState, updateRecoveryInfo }) => {
-  const { sourceCoin, recoveryCoin } = formState;
-  const allCoins = Object.keys(coinConfig);
-  const recoveryCoins = coinConfig[sourceCoin].supportedRecoveries;
+class BuildTxForm extends Component {
+  state = { unspentStrategy: 'wallet' };
 
-  return (
-    <Form>
-      <Row>
-        <Col xs={3}>
-          <CoinDropdown
-            label='Source Coin'
-            name='sourceCoin'
-            allowedCoins={allCoins}
-            onChange={updateRecoveryInfo('sourceCoin')}
-            value={sourceCoin}
-            tooltipText={formTooltips.sourceCoin()}
+  updateUnspentStratgies = (strategy) => {
+    this.setState({ unspentStrategy: strategy.value });
+  }
+
+  render() {
+    const { formState, updateRecoveryInfo } = this.props;
+    const { sourceCoin, recoveryCoin } = formState;
+    const { unspentStrategy } = this.state;
+    const allCoins = Object.keys(coinConfig);
+    const recoveryCoins = coinConfig[sourceCoin].supportedRecoveries;
+
+    const unspentStrategies = [
+      {
+        label: 'Wallet ID & Transaction ID',
+        value: 'wallet'
+      },
+      {
+        label: 'Address',
+        value: 'address'
+      },
+      {
+        label: 'Unspent ID',
+        value: 'unspents'
+      },
+    ];
+
+    return (
+      <Form>
+        <Row>
+          <Col xs={3}>
+            <CoinDropdown
+              label='Source Coin'
+              name='sourceCoin'
+              allowedCoins={allCoins}
+              onChange={updateRecoveryInfo('sourceCoin')}
+              value={sourceCoin}
+              tooltipText={formTooltips.sourceCoin()}
+            />
+          </Col>
+          <Col xs={3}>
+            <CoinDropdown
+              label='Destination Coin'
+              name='recoveryCoin'
+              allowedCoins={recoveryCoins}
+              onChange={updateRecoveryInfo('recoveryCoin')}
+              value={recoveryCoin}
+              tooltipText={formTooltips.destinationCoin()}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={6}>
+            <FormGroup>
+              <Label className='input-label'>
+                How would you like to recover your coin?
+              </Label>
+              <Select
+                type='select'
+                options={unspentStrategies}
+                onChange={this.updateUnspentStratgies}
+                name={'unspentStrategy'}
+                value={unspentStrategy}
+                clearable={false}
+                searchable={false}
+              />
+            </FormGroup>
+          </Col>
+        </Row>
+        {unspentStrategy === 'wallet' &&
+          <Fragment>
+            <InputField
+              label='Wallet ID'
+              name='wallet'
+              onChange={updateRecoveryInfo('wallet')}
+              value={formState.wallet}
+              tooltipText={formTooltips.wallet(formState.recoveryCoin)}
+            />
+            <InputField
+              label='Transaction ID'
+              name='txid'
+              onChange={updateRecoveryInfo('txid')}
+              value={formState.txid}
+              tooltipText={formTooltips.txid(formState.sourceCoin)}
+            />
+          </Fragment>
+        }
+        {unspentStrategy === 'address' &&
+          <InputField
+            label='Address'
+            name='address'
+            onChange={updateRecoveryInfo('address')}
+            value={formState.address}
+            tooltipText={formTooltips.address(formState.recoveryCoin)}
           />
-        </Col>
-        <Col xs={3}>
-          <CoinDropdown
-            label='Destination Coin'
-            name='recoveryCoin'
-            allowedCoins={recoveryCoins}
-            onChange={updateRecoveryInfo('recoveryCoin')}
-            value={recoveryCoin}
-            tooltipText={formTooltips.destinationCoin()}
+        }
+        {unspentStrategy === 'unspents' &&
+          <InputField
+            label='Unspent ID'
+            name='unspent'
+            onChange={updateRecoveryInfo('unspent')}
+            value={formState.unspent}
+            tooltipText={formTooltips.unspent(formState.sourceCoin)}
           />
-        </Col>
-      </Row>
-      <InputField
-        label='Wallet ID'
-        name='wallet'
-        onChange={updateRecoveryInfo('wallet')}
-        value={formState.wallet}
-        tooltipText={formTooltips.wallet(formState.recoveryCoin)}
-      />
-      <InputField
-        label='Transaction ID'
-        name='txid'
-        onChange={updateRecoveryInfo('txid')}
-        value={formState.txid}
-        tooltipText={formTooltips.txid(formState.sourceCoin)}
-      />
-    </Form>
-  );
-};
+        }
+      </Form>
+    );
+  }
+}
 
 const SignTxForm = ({ formState, updateRecoveryInfo }) => (
   <Form>
