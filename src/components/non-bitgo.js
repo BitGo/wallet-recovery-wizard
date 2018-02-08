@@ -37,6 +37,19 @@ class NonBitGoRecoveryForm extends Component {
     }
   }
 
+  resetRecovery = () => {
+    this.setState({
+      boxAValue: '',
+      boxBValue: '',
+      walletContractAddress: '',
+      walletPassphrase: '',
+      recoveryAddress: '',
+      env: 'test',
+      done: false,
+      error: ''
+    })
+  }
+
   render() {
     const envOptions = [ { label: 'Mainnet', value: 'prod' }, { label: 'Testnet (Kovan)', value: 'test' } ];
 
@@ -105,6 +118,11 @@ class NonBitGoRecoveryForm extends Component {
           {!this.state.done &&
             <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
               {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
+            </Button>
+          }
+          {this.state.done &&
+            <Button onClick={this.resetRecovery} className='bitgo-button'>
+              Perform Another Recovery
             </Button>
           }
         </Form>
