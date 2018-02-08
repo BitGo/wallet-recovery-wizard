@@ -6,7 +6,6 @@ const EthTx = require('ethereumjs-tx');
 const bitcoin = require('bitcoinjs-lib');
 const prova = require('prova-lib');
 const sjcl = require('sjcl');
-window.sjcl = sjcl;
 const request = require('request-promise');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,11 +25,6 @@ const gasLimit = new ethUtil.BN('500000');
 // Call the function to recover
 // console.log('Doing recovery....');
 // recoverEth();
-
-const b = `{"iv":"nwrarfMhWKpxAzi6cP01Gg==","v":1,"iter":10000,"ks":256,"ts":64,"mode"
-:"ccm","adata":"","cipher":"aes","salt":"GNxoO+OeaDA=","ct":"jekipq4V+uJS2q
-boLRo5r+kT6VajHsRP33dMcJWdBBeOYy8VhyXJxVmpcu2GJe9/S9sbxo3J982im7fq+E2CEDQj/
-j3XD1YkPucZY5RH27Om/soI96QI5dtMK3jj+HNiwWXcKT1fupCWXCW0541ywkYZeCp0+6c="}`;
 
 async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletPassphrase, recoveryAddress }) {
   // Decrypt private keys from KeyCard values

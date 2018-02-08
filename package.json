@@ -7,14 +7,19 @@
   "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build-react": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "nf start",
     "electron": "electron .",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "dist": "electron-builder"
+    "build-all": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=all --arch=all --overwrite",
+    "build-windows": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=win32 --arch=x64 --overwrite",
+    "build-mac": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; npm install; grunt; cd ..; asar pack app app.asar; rm -rf app; cd ./",
+    "build-mac-test": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; npm install; grunt; cd ./",
+    "build-linux": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=linux --arch=all --overwrite",
+    "build-clean": "rm -rf ./build/*"
   },
   "dependencies": {
     "bitcoinjs-lib": "^3.3.2",
@@ -48,6 +53,7 @@
   "devDependencies": {
     "electron": "^1.7.12",
     "electron-builder": "^19.56.0",
+    "electron-packager": "^11.0.0",
     "foreman": "^2.0.0",
     "node-sass-chokidar": "^0.0.3"
   }

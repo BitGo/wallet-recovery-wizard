@@ -29,33 +29,33 @@ const { dialog } = window.require('electron').remote;
 const formTooltips = tooltips.crossChain;
 
 class CrossChainRecoveryForm extends Component {
-  // state = {
-  //   sourceCoin: 'btc',
-  //   recoveryCoin: 'ltc',
-  //   wallet: '',
-  //   txid: '',
-  //   unspent: '',
-  //   address: '',
-  //   recoveryAddress: '',
-  //   passphrase: '',
-  //   prv: '',
-  //   currentStep: 'buildTx',
-  //   logging: ['']
-  // }
-
   state = {
-    sourceCoin: 'ltc',
-    recoveryCoin: 'btc',
-    wallet: '2NEPb2roGiFSNAcE4DYVL7tx6vtbxLE24pr',
-    txid: '4778e738b948b2b43e7e1380a3455d65e428cd2e0563e5131baefa0207fdb848',
+    sourceCoin: 'btc',
+    recoveryCoin: 'ltc',
+    wallet: '',
+    txid: '',
     unspent: '',
     address: '',
-    recoveryAddress: 'Qj3wJx1crbFSfG1Z6ex63kqEjcqyHZkED2',
-    passphrase: 'bigballerbrand2',
+    recoveryAddress: '',
+    passphrase: '',
     prv: '',
     currentStep: 'buildTx',
     logging: ['']
   }
+
+  // state = {
+  //   sourceCoin: 'ltc',
+  //   recoveryCoin: 'btc',
+  //   wallet: '2NEPb2roGiFSNAcE4DYVL7tx6vtbxLE24pr',
+  //   txid: '4778e738b948b2b43e7e1380a3455d65e428cd2e0563e5131baefa0207fdb848',
+  //   unspent: '',
+  //   address: '',
+  //   recoveryAddress: 'Qj3wJx1crbFSfG1Z6ex63kqEjcqyHZkED2',
+  //   passphrase: 'bigballerbrand2',
+  //   prv: '',
+  //   currentStep: 'buildTx',
+  //   logging: ['']
+  // }
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
