@@ -9,6 +9,7 @@ import Sidebar from 'components/sidebar';
 import Header from 'components/header';
 import MainNav from 'components/main-nav';
 import CrossChainRecoveryForm from 'components/cross-chain';
+import NonBitGoRecoveryForm from 'components/non-bitgo';
 
 
 class Dashboard extends Component {
@@ -26,6 +27,7 @@ class Dashboard extends Component {
               <Switch>
                 <Route exact path='/' render={(props) => <MainNav {...props} />} />
                 <Route path='/crosschain' render={(props) => <CrossChainRecoveryForm bitgo={bitgo} {...props} />} />
+                <Route path='/nonbitgo' render={(props) => <NonBitGoRecoveryForm {...props} />} />
               </Switch>
             </div>
         </div>

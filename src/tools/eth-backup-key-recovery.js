@@ -6,6 +6,7 @@ const EthTx = require('ethereumjs-tx');
 const bitcoin = require('bitcoinjs-lib');
 const prova = require('prova-lib');
 const sjcl = require('sjcl');
+window.sjcl = sjcl;
 const request = require('request-promise');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -15,26 +16,6 @@ const request = require('request-promise');
 // run the tool again to successfully build the recovery tx.                  //
 ////////////////////////////////////////////////////////////////////////////////
 
-// Paste values from recovery KeyCard here. Don't remove the line breaks!
-
-// Encrypted User Key (should be a string)
-const BOX_A_VALUE = process.argv[2] || ``;
-
-// Encrypted Backup Key (should be a string)
-const BOX_B_VALUE = process.argv[3] || ``;
-
-// BitGo Pub Key
-const BOX_C_VALUE = process.argv[4] || '';
-
-// Wallet contract address
-const WALLET_CONTRACT_ADDRESS = '';
-
-// Wallet passphrase
-const WALLET_PASSPHRASE = process.argv[5] || '';
-
-// Address to recover funds to
-const DESTINATION_ADDRESS = '';
-
 // This signature will be valid for 1 week
 const EXPIRETIME_DEFAULT = Math.floor((new Date().getTime()) / 1000) + (60 * 60 * 24 * 7);
 
@@ -43,16 +24,21 @@ const gasPrice = new ethUtil.BN('20000000000');
 const gasLimit = new ethUtil.BN('500000');
 
 // Call the function to recover
-console.log('Doing recovery....');
-recoverEth();
+// console.log('Doing recovery....');
+// recoverEth();
 
-async function recoverEth() {
+const b = `{"iv":"nwrarfMhWKpxAzi6cP01Gg==","v":1,"iter":10000,"ks":256,"ts":64,"mode"
+:"ccm","adata":"","cipher":"aes","salt":"GNxoO+OeaDA=","ct":"jekipq4V+uJS2q
+boLRo5r+kT6VajHsRP33dMcJWdBBeOYy8VhyXJxVmpcu2GJe9/S9sbxo3J982im7fq+E2CEDQj/
+j3XD1YkPucZY5RH27Om/soI96QI5dtMK3jj+HNiwWXcKT1fupCWXCW0541ywkYZeCp0+6c="}`;
+
+async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletPassphrase, recoveryAddress }) {
   // Decrypt private keys from KeyCard values
-  const userPrv = sjcl.decrypt(WALLET_PASSPHRASE, BOX_A_VALUE);
-  const userHDNode = prova.HDNode.fromBase58(userPrv);
+  const userPrv = sjcl.decrypt(walletPassphrase, boxAValue);
+  // const userHDNode = prova.HDNode.fromBase58(userPrv);
 
   // Decrypt backup private key and get address
-  const backupPrv = sjcl.decrypt(WALLET_PASSPHRASE, BOX_B_VALUE);
+  const backupPrv = sjcl.decrypt(walletPassphrase, boxBValue);
   const backupHDNode = prova.HDNode.fromBase58(backupPrv);
   const backupSigningKey = backupHDNode.getKey().getPrivateKeyBuffer();
   const backupKeyAddress = `0x${ethUtil.privateToAddress(backupSigningKey).toString('hex')}`;
@@ -73,12 +59,12 @@ async function recoverEth() {
   }
 
   // get balance of wallet and deduct fees to get transaction amount
-  const { result: balance } = await request.get(`https://kovan.etherscan.io/api?module=account&action=balance&address=${WALLET_CONTRACT_ADDRESS}`).json();
+  const { result: balance } = await request.get(`https://kovan.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`).json();
   const txAmount = new ethUtil.BN(balance, 10).toString(10);
 
   // build recipients object
   const recipients = [{
-    address: DESTINATION_ADDRESS,
+    address: recoveryAddress,
     amount: txAmount
   }];
 
@@ -86,7 +72,7 @@ async function recoverEth() {
   const sequenceIdMethodSignature = ethAbi.methodID('getNextSequenceId', []);
   const sequenceIdArgs = ethAbi.rawEncode([], []);
   const sequenceIdData = Buffer.concat([sequenceIdMethodSignature, sequenceIdArgs]).toString('hex');
-  const { result: sequenceIdHex } = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_call&to=${WALLET_CONTRACT_ADDRESS}&data=${sequenceIdData}&tag=latest`).json();
+  const { result: sequenceIdHex } = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_call&to=${walletContractAddress}&data=${sequenceIdData}&tag=latest`).json();
   const sequenceId = new ethUtil.BN(sequenceIdHex.slice(2), 16).toNumber();
 
   // Get operation hash and sign it
@@ -94,7 +80,7 @@ async function recoverEth() {
   const signature = ethSignMsgHash(operationHash, xprvToEthPrivateKey(userPrv));
 
   try {
-    const pubKey = ecRecoverEthAddress(operationHash, signature);
+    ecRecoverEthAddress(operationHash, signature);
   } catch (e) {
     throw new Error('Invalid signature');
   }
@@ -116,7 +102,7 @@ async function recoverEth() {
 
   // Build contract call and sign it
   const tx = new EthTx({
-    to: WALLET_CONTRACT_ADDRESS,
+    to: walletContractAddress,
     nonce: backupKeyNonce,
     value: 0,
     gasPrice: gasPrice,
@@ -135,10 +121,11 @@ async function recoverEth() {
   console.log('Fully signed:');
   console.log(signedTx);
 
-  const sendResult = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
+  return signedTx;
 
-  console.log('Send result:');
-  console.log(sendResult);
+  // const sendResult = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
+
+  // return sendResult;
 }
 
 function getOperationSha3ForExecuteAndConfirm(recipients, expireTime, contractSequenceId) {
@@ -249,8 +236,10 @@ function pluck(obj, prop) {
   return obj.map((val) => val[prop]);
 }
 
-process.on('unhandledRejection', (err) => {
-  console.error('error')
-  console.error(err.message);
-  console.error(err.stack);
-});
+// process.on('unhandledRejection', (err) => {
+//   console.error('error')
+//   console.error(err.message);
+//   console.error(err.stack);
+// });
+
+export default recoverEth;

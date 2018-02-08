@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import userImage from 'images/User.png';
+import { Link } from 'react-router-dom';
+import userImage from 'images/profile_pic.jpeg';
 import badgeLogo from 'images/badge_logo.png'
 
 class Header extends Component {
@@ -31,13 +32,15 @@ class Header extends Component {
         <div className="logo">
           <img src={badgeLogo} alt='' border="0" width="110" height="27" />
         </div>
-        <div className="toolTitle">Wallet Recovery Wizard</div>
+        <div className="toolTitle">
+          <Link to='/'>Wallet Recovery Wizard</Link>
+        </div>
         <div className="user">
           {username} |
           <span className='logoutLink' onClick={this.doLogout.bind(this)}> Logout</span>
         </div>
         <div className="userIcon">
-          <img src={userImage} border="0" width="30" height="30" alt='' />
+          <img src={userImage} border="0" width="30" height="30" alt='' className='profile-pic' />
         </div>
       </div>
     );

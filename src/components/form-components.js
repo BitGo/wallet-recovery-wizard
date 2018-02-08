@@ -83,6 +83,23 @@ export const InputField = ({ label, name, value, onChange, tooltipText, isPasswo
   </FormGroup>
 );
 
+export const InputTextarea = ({ label, name, value, onChange, tooltipText }) => (
+  <FormGroup>
+    {label &&
+      <Label className='input-label'>
+        {label}
+        {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
+      </Label>
+    }
+    <Input
+      type='textarea'
+      onChange={onChange}
+      value={value}
+      rows={4}
+    />
+  </FormGroup>
+);
+
 const FieldTooltip = ({ name, text }) => (
   <span>
     <a href="#" id={`tooltip-${name}`}>

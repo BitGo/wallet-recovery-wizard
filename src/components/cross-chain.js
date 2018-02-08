@@ -501,8 +501,4 @@ class ConfirmTx extends Component {
   }
 }
 
-class RecoveryComplete extends Component {
-
-}
-
 export default CrossChainRecoveryForm;
