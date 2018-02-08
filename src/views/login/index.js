@@ -5,8 +5,8 @@ import HeaderLogo from 'images/header_logo.png';
 const BitGoJS = window.require('bitgo');
 
 class Login extends Component {
-  // state = { username: '', password: '', otp: '', env: 'test' };
-  state = { username: 'kevin@bitgo.com', password: 'bigballerbrand2', otp: '000000', env: 'test' };
+  state = { username: '', password: '', otp: '', env: 'test' };
+  // state = { username: 'kevin@bitgo.com', password: 'bigballerbrand2', otp: '000000', env: 'test' };
 
   updateField = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
