@@ -6,7 +6,6 @@ const EthTx = require('ethereumjs-tx');
 const bitcoin = require('bitcoinjs-lib');
 const prova = require('prova-lib');
 const sjcl = require('sjcl');
-window.sjcl = sjcl;
 const request = require('request-promise');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,12 +29,27 @@ const gasLimit = new ethUtil.BN('500000');
 async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletPassphrase, recoveryAddress, env }) {
   const ETHERSCAN_SUBDOMAIN = env === 'prod' ? 'api' : 'kovan';
 
+  // CLean up whitespace from entered values
+  boxAValue = boxAValue.replace(/\s/g, '');
+  boxBValue = boxBValue.replace(/\s/g, '');
+
   // Decrypt private keys from KeyCard values
-  const userPrv = sjcl.decrypt(walletPassphrase, boxAValue);
+  let userPrv;
+  try {
+    userPrv = sjcl.decrypt(walletPassphrase, boxAValue);
+  } catch (e) {
+    throw new Error(`Error decrypting user keychain: ${e.message}`);
+  }
   // const userHDNode = prova.HDNode.fromBase58(userPrv);
 
   // Decrypt backup private key and get address
-  const backupPrv = sjcl.decrypt(walletPassphrase, boxBValue);
+  let backupPrv;
+  try {
+    backupPrv = sjcl.decrypt(walletPassphrase, boxBValue);
+  } catch (e) {
+    throw new Error(`Error decrypting backup keychain: ${e.message}`);
+  }
+
   const backupHDNode = prova.HDNode.fromBase58(backupPrv);
   const backupSigningKey = backupHDNode.getKey().getPrivateKeyBuffer();
   const backupKeyAddress = `0x${ethUtil.privateToAddress(backupSigningKey).toString('hex')}`;
@@ -118,11 +132,9 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   console.log('Fully signed:');
   console.log(signedTx);
 
-  return signedTx;
+  const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
 
-  // const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
-
-  // return sendResult;
+  return sendResult;
 }
 
 function getOperationSha3ForExecuteAndConfirm(recipients, expireTime, contractSequenceId) {

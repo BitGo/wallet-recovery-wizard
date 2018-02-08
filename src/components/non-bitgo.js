@@ -30,11 +30,8 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' })
     try {
-      console.log('Recovering with these parameters', this.state);
-      window.recoveryParams = this.state;
       const sendResult = await recoverEth(this.state);
-      console.log(sendResult);
-      this.setState({ recovering: false, done: true });
+      this.setState({ recovering: false, done: true, finalTx: sendResult.result });
     } catch (e) {
       this.setState({ error: e.message, recovering: false });
     }
@@ -104,9 +101,12 @@ class NonBitGoRecoveryForm extends Component {
             tooltipText={formTooltips.recoveryAddress}
           />
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
-            {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
-          </Button>
+          {this.state.done && <p className='recovery-logging'>Successfully broadcast recovery transaction. TXID: {this.state.finalTx}</p>}
+          {!this.state.done &&
+            <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
+              {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
+            </Button>
+          }
         </Form>
       </div>
     )
