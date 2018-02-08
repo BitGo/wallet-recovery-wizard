@@ -38,7 +38,7 @@ class App extends Component {
     return (
       <Router>
           <Switch>
-            <Route exact path='/' render={this.renderMain} />
+            <Route path='/' render={this.renderMain} />
           </Switch>
       </Router>
     )

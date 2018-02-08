@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import Select from 'react-select';
 import { InputField, InputTextarea } from './form-components';
-import { Form, Button } from 'reactstrap';
+import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import ErrorMessage from './error-message';
 
 import recoverEth from 'tools/eth-backup-key-recovery';
@@ -14,11 +15,16 @@ class NonBitGoRecoveryForm extends Component {
     boxBValue: '',
     walletContractAddress: '',
     walletPassphrase: '',
-    recoveryAddress: ''
+    recoveryAddress: '',
+    env: 'test'
   }
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+  }
+
+  updateEnv = (option) => {
+    this.setState({ env: option.value });
   }
 
   async performRecovery() {
@@ -35,12 +41,32 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   render() {
+    const envOptions = [ { label: 'Mainnet', value: 'prod' }, { label: 'Testnet (Kovan)', value: 'test' } ];
+
     return (
       <div>
         <h1>ETH Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
         <hr />
         <Form>
+          <Row>
+            <Col xs={6}>
+              <FormGroup>
+                <Label className='input-label'>
+                  Environment
+                </Label>
+                <Select
+                  type='select'
+                  options={envOptions}
+                  onChange={this.updateEnv}
+                  name={'env'}
+                  value={this.state.env}
+                  clearable={false}
+                  searchable={false}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
           <InputTextarea
             label='Box A Value'
             name='boxAValue'

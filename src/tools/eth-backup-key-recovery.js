@@ -6,6 +6,7 @@ const EthTx = require('ethereumjs-tx');
 const bitcoin = require('bitcoinjs-lib');
 const prova = require('prova-lib');
 const sjcl = require('sjcl');
+window.sjcl = sjcl;
 const request = require('request-promise');
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +27,9 @@ const gasLimit = new ethUtil.BN('500000');
 // console.log('Doing recovery....');
 // recoverEth();
 
-async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletPassphrase, recoveryAddress }) {
+async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletPassphrase, recoveryAddress, env }) {
+  const ETHERSCAN_SUBDOMAIN = env === 'prod' ? 'api' : 'kovan';
+
   // Decrypt private keys from KeyCard values
   const userPrv = sjcl.decrypt(walletPassphrase, boxAValue);
   // const userHDNode = prova.HDNode.fromBase58(userPrv);
@@ -39,13 +42,13 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
 
   // Get nonce for backup key (should be 0)
   let backupKeyNonce = 0;
-  const { result: backupKeyTxList } = await request.get(`https://kovan.etherscan.io/api?module=account&action=txlist&address=${backupKeyAddress}`).json();
+  const { result: backupKeyTxList } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=txlist&address=${backupKeyAddress}`).json();
   if (backupKeyTxList.length > 0) {
     backupKeyNonce = parseInt(backupKeyTxList[backupKeyTxList.length - 1].nonce, 10) + 1;
   }
 
   // get balance of wallet and deduct fees to get transaction amount
-  let { result: backupKeyBalance } = await request.get(`https://kovan.etherscan.io/api?module=account&action=balance&address=${backupKeyAddress}`).json();
+  let { result: backupKeyBalance } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${backupKeyAddress}`).json();
   backupKeyBalance = new ethUtil.BN(backupKeyBalance, 10);
 
   if (backupKeyBalance.lt(gasPrice.mul(gasLimit))) {
@@ -53,7 +56,7 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   }
 
   // get balance of wallet and deduct fees to get transaction amount
-  const { result: balance } = await request.get(`https://kovan.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`).json();
+  const { result: balance } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`).json();
   const txAmount = new ethUtil.BN(balance, 10).toString(10);
 
   // build recipients object
@@ -66,7 +69,7 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   const sequenceIdMethodSignature = ethAbi.methodID('getNextSequenceId', []);
   const sequenceIdArgs = ethAbi.rawEncode([], []);
   const sequenceIdData = Buffer.concat([sequenceIdMethodSignature, sequenceIdArgs]).toString('hex');
-  const { result: sequenceIdHex } = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_call&to=${walletContractAddress}&data=${sequenceIdData}&tag=latest`).json();
+  const { result: sequenceIdHex } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_call&to=${walletContractAddress}&data=${sequenceIdData}&tag=latest`).json();
   const sequenceId = new ethUtil.BN(sequenceIdHex.slice(2), 16).toNumber();
 
   // Get operation hash and sign it
@@ -117,7 +120,7 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
 
   return signedTx;
 
-  // const sendResult = await request.get(`https://kovan.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
+  // const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
 
   // return sendResult;
 }
