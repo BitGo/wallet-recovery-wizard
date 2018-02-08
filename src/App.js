@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Dashboard from 'views/dashboard';
 import Login from 'views/login';
@@ -9,24 +10,38 @@ import './App.css';
 
 
 class App extends Component {
-  state = { isLoggedIn: false, bitgo: null };
+  state = { isLoggedIn: false, loginBypass: false, bitgo: null };
 
   updateLoginState = (isLoggedIn) => (bitgoInstance) => {
     if (isLoggedIn && !bitgoInstance) {
       throw new Error('If logging in, please pass in an authenticated BitGoJS instance.');
     }
 
-    this.setState({ isLoggedIn, bitgo: bitgoInstance });
+    this.setState({ isLoggedIn, bitgo: bitgoInstance, loginBypass: false });
+  }
+
+  updateLoginBypass = () => {
+    this.setState({ loginBypass: true });
+  }
+
+  renderMain = (props) => {
+    const { isLoggedIn, loginBypass, bitgo } = this.state;
+
+    if (isLoggedIn || loginBypass) {
+      return <Dashboard bitgo={bitgo} resetLogin={this.updateLoginState(false)} isLoggedIn={isLoggedIn} {...props} />;
+    } else {
+      return <Login finishLogin={this.updateLoginState(true)} bypassLogin={this.updateLoginBypass} {...props} />;
+    }
   }
 
   render() {
-    const { isLoggedIn, bitgo } = this.state;
-
-    if (isLoggedIn) {
-      return <Dashboard bitgo={bitgo} onLogout={this.updateLoginState(false)} />;
-    } else {
-      return <Login finishLogin={this.updateLoginState(true)} />;
-    }
+    return (
+      <Router>
+          <Switch>
+            <Route exact path='/' render={this.renderMain} />
+          </Switch>
+      </Router>
+    )
   }
 }
 

@@ -60,6 +60,10 @@ a {
 		color:#ffffff;
 }
 
+.user a {
+		color:#ffffff;
+}
+
 .logo {
 	position:fixed;
 	top:25px;
@@ -149,7 +153,10 @@ a {
 	font-size:14px;
 	color:#8e9091;
 	box-sizing: initial;
+}
 
+.loginBox-select {
+	width: 320px;
 }
 
 button {
@@ -319,4 +326,9 @@ button.bitgo-button {
 
 .profile-pic {
 	border-radius: 100%;
+}
+
+.dubberdub-title {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }

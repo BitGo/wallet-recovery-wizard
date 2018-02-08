@@ -1,15 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ErrorMessage from 'components/error-message';
 import HeaderLogo from 'images/header_logo.png';
+import Select from 'react-select';
+
 
 const BitGoJS = window.require('bitgo');
 
 class Login extends Component {
-  state = { username: '', password: '', otp: '', env: 'test' };
+  state = { username: '', password: '', otp: '', env: '' };
   // state = { username: 'kevin@bitgo.com', password: 'bigballerbrand2', otp: '000000', env: 'test' };
 
   updateField = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+  }
+
+  updateEnv = (env) => {
+    this.setState({ env: env.value });
   }
 
   async doLogin() {
@@ -33,32 +39,79 @@ class Login extends Component {
     }
   }
 
+  goToNonBitGo() {
+    this.props.bypassLogin();
+  }
+
   render() {
-    const { username, password, otp, error, loginInProgress } = this.state;
+    const { username, password, otp, env, error, loginInProgress } = this.state;
     const allFieldsSet = !!username && !!password && !!otp;
     const loginDisabled = loginInProgress || !allFieldsSet;
+    const needsLogin = env === 'prod' || env === 'test';
+
+    const loginOptions = [
+      {
+        label: '- Select Environment -',
+        value: '',
+        disabled: true
+      },
+      {
+        label: 'Testnet',
+        value: 'test'
+      },
+      {
+        label: 'Mainnet',
+        value: 'prod'
+      },
+      {
+        label: 'Non-BitGo Recoveries',
+        value: 'none'
+      }
+    ];
 
     return (
       <div className="login" align="center">
         <img src={HeaderLogo} alt='' border="0" align="center" />
-        <h1>Wallet Recovery Wizard</h1>
-
+        <h1 className='dubberdub-title'>Wallet Recovery Wizard</h1>
         <div className="loginBox">
           <form>
-            <input type="text" placeholder="Email" onChange={this.updateField('username')} value={username} autoFocus />
-            <input type="password" placeholder="Password" onChange={this.updateField('password')} value={password} />
-            <input type="text" placeholder="2FA Code" name="otp" onChange={this.updateField('otp')} value={otp} />
+            <Select
+              type='select'
+              className='loginBox-select'
+              options={loginOptions}
+              onChange={this.updateEnv}
+              name={'env'}
+              value={env}
+              clearable={false}
+              searchable={false}
+            />
+            {needsLogin &&
+              <Fragment>
+                <input type="text" placeholder="Email" onChange={this.updateField('username')} value={username} autoFocus />
+                <input type="password" placeholder="Password" onChange={this.updateField('password')} value={password} />
+                <input type="text" placeholder="2FA Code" name="otp" onChange={this.updateField('otp')} value={otp} />
+              </Fragment>
+            }
           </form>
 
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          <button
-            onClick={this.doLogin.bind(this)}
-            disabled={loginDisabled}
-            className={loginDisabled ? 'disabled' : undefined}
-          >
-            {loginInProgress ? 'LOGGING IN...' : 'LOGIN'}
-          </button>
+          {needsLogin &&
+            <button
+              onClick={this.doLogin.bind(this)}
+              disabled={loginDisabled}
+              className={loginDisabled ? 'disabled' : undefined}
+            >
+              {loginInProgress ? 'LOGGING IN...' : 'LOGIN'}
+            </button>
+          }
+          {env === 'none' &&
+            <button
+              onClick={this.goToNonBitGo.bind(this)}
+            >
+              CONTINUE
+            </button>
+          }
         </div>
 		  </div>
     );

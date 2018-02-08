@@ -14,18 +14,18 @@ import NonBitGoRecoveryForm from 'components/non-bitgo';
 
 class Dashboard extends Component {
   render() {
-    const { onLogout, bitgo } = this.props;
+    const { isLoggedIn, resetLogin, bitgo } = this.props;
 
     return (
       <Router>
         <div className="wrapper">
 
-            <Header onLogout={onLogout} bitgo={bitgo} />
-            <Sidebar />
+            <Header resetLogin={resetLogin} bitgo={bitgo} isLoggedIn={isLoggedIn} />
+            <Sidebar isLoggedIn={isLoggedIn} />
 
             <div className='content'>
               <Switch>
-                <Route exact path='/' render={(props) => <MainNav {...props} />} />
+                <Route exact path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
                 <Route path='/crosschain' render={(props) => <CrossChainRecoveryForm bitgo={bitgo} {...props} />} />
                 <Route path='/nonbitgo' render={(props) => <NonBitGoRecoveryForm {...props} />} />
               </Switch>
