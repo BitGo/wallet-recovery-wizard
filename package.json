@@ -17,13 +17,17 @@
     "dist": "electron-builder"
   },
   "dependencies": {
+    "bitcoinjs-lib": "^3.3.2",
     "bitgo": "^4.19.1",
     "bluebird": "^3.5.1",
     "bootstrap": "4.0.0",
+    "buffer": "^5.0.8",
+    "dns": "^0.2.2",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
+    "react-mailto": "^0.4.0",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.0",

@@ -297,7 +297,7 @@ button.bitgo-button {
 	border-color: #C51112;
 }
 
-.bitgo-button:hover {
+.bitgo-button.negative:hover {
 	background-color: #EDB9BF;
 }
 
@@ -307,4 +307,8 @@ button.bitgo-button {
 
 .recovery-logging {
 	color: #37AD4F;
+}
+
+.confirm-tx-field {
+	font-weight: 700;
 }

@@ -4,9 +4,9 @@ const fs = window.require('fs');
 const Promise = window.require('bluebird');
 const co = Promise.coroutine;
 const _ = window.require('lodash');
-const bitcoin = window.require('bitgo').bitcoin;
+const bitcoin = require('bitgo').bitcoin;
+// const bitcoin = window.require('bitcoinjs-lib');
 const moment = window.require('moment');
-// const Buffer = window.require('buffer');
 
 /**
 * An instance of the recovery tool, which encapsulates the recovery functions
@@ -193,7 +193,7 @@ CrossChainRecoveryTool.prototype.findUnspents = function findUnspents(faultyTxId
         const walletAddress = yield this.wallet[methodName]({ address: address });
         outputAddresses.push(walletAddress.address);
       } catch (e) {
-        this._log(`Address ${address} not found on wallet`);
+        // this._log(`Address ${address} not found on wallet`);
       }
     }
 
@@ -223,7 +223,7 @@ CrossChainRecoveryTool.prototype.findUnspents = function findUnspents(faultyTxId
 
 CrossChainRecoveryTool.prototype.buildInputs = function buildInputs(unspents) {
   return co(function* () {
-    this._log('Building inputs for recovery transaction...');
+    // this._log('Building inputs for recovery transaction...');
 
     unspents = unspents || this.unspents;
 
@@ -275,6 +275,8 @@ CrossChainRecoveryTool.prototype.buildInputs = function buildInputs(unspents) {
       const inputIndex = parseInt(index, 10);
       let hash = new Buffer(txHash, 'hex');
       hash = new Buffer(Array.prototype.reverse.call(hash));
+      window.hash = hash;
+      window.inputIndex = inputIndex;
 
       try {
         this.recoveryTx.addInput(hash, inputIndex);
@@ -353,7 +355,7 @@ CrossChainRecoveryTool.prototype.buildOutputs = function buildOutputs(recoveryAd
     throw new Error('Could not find transaction info. Please provide an output amount, or call buildInputs.');
   }
 
-  this._log(`Building outputs for recovery transaction. Funds will be sent to ${recoveryAddress}...`);
+  // this._log(`Building outputs for recovery transaction. Funds will be sent to ${recoveryAddress}...`);
 
   outputAmount = outputAmount || this.txInfo.inputAmount - (recoveryFee || this.txInfo.minerFee);
   this.txInfo.outputAmount = outputAmount;
@@ -391,7 +393,7 @@ CrossChainRecoveryTool.prototype.signTransaction = function signTransaction({ pr
       throw new Error('Could not find txInfo. Please build a transaction');
     }
 
-    this._log('Signing the transaction...');
+    // this._log('Signing the transaction...');
 
     const transactionHex = this.recoveryTx.buildIncomplete().toHex();
 
@@ -401,6 +403,8 @@ CrossChainRecoveryTool.prototype.signTransaction = function signTransaction({ pr
 
     const txPrebuild = { txHex: transactionHex, txInfo: this.txInfo };
     this.halfSignedRecoveryTx = this.sourceCoin.signTransaction({ txPrebuild, prv });
+
+    this._log('Succesfully signed transaction.');
 
     return this.halfSignedRecoveryTx;
   }).call(this);
@@ -420,12 +424,12 @@ CrossChainRecoveryTool.prototype.getKeys = function getPrv(passphrase) {
     }
 
     if (!passphrase) {
-      throw new Error('You have an encrypted user keychain - please provide the passphrase to decrypt it');
+      throw new Error('You have an encrypted user keychain - please provide the passphrase to decrypt it.');
     }
 
     if (this.wallet.isV1) {
       if (!keychain) {
-        throw new Error('V1 wallets need a user keychain - could not find the proper keychain. Aborting');
+        throw new Error('V1 wallets need a user keychain - could not find the proper keychain. Aborting.');
       }
     }
 
@@ -434,7 +438,7 @@ CrossChainRecoveryTool.prototype.getKeys = function getPrv(passphrase) {
         const encryptedPrv = this.wallet.isV1 ? keychain.encryptedXprv : keychain.encryptedPrv;
         prv = this.bitgo.decrypt({ input: encryptedPrv, password: passphrase });
       } catch (e) {
-        throw new Error('Error reading private key. Please check that you have the correct wallet passphrase');
+        throw new Error('Error reading private key. Please check that you have the correct wallet passphrase.');
       }
     }
 
@@ -442,10 +446,8 @@ CrossChainRecoveryTool.prototype.getKeys = function getPrv(passphrase) {
   }).call(this);
 };
 
-CrossChainRecoveryTool.prototype.saveToFile = function saveToFile(fileName) {
-  fileName = fileName || `${this.sourceCoin.type}r-${this.faultyTxId.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
-
-  const fileData = {
+CrossChainRecoveryTool.prototype.getFileData = function getFileData() {
+  return {
     version: this.wallet.isV1 ? 1 : 2,
     sourceCoin: this.sourceCoin.type,
     recoveryCoin: this.recoveryCoin.type,
@@ -455,6 +457,12 @@ CrossChainRecoveryTool.prototype.saveToFile = function saveToFile(fileName) {
     txHex: this.halfSignedRecoveryTx.txHex || this.halfSignedRecoveryTx.tx,
     txInfo: this.txInfo
   };
+}
+
+CrossChainRecoveryTool.prototype.saveToFile = function saveToFile(fileName) {
+  fileName = fileName || `${this.sourceCoin.type}r-${this.faultyTxId.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
+
+  const fileData = this.getFileData();
 
   fs.writeFileSync(fileName, JSON.stringify(fileData, null, 4));
 
