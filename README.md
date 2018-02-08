@@ -11,6 +11,6 @@ The application currently offers the following recoveries:
 ```shell
 git clone git@github.com:BitGo/wallet-recovery-wizard.git # install the application
 cd wallet-recovery-wizard
-yarn install --ignore-engines # cam also use npm
+yarn install --ignore-engines # can also use npm
 yarn run dev # run a development server and start the app
 ```
