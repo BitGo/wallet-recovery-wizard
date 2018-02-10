@@ -8,7 +8,7 @@ const MainNav = ({ isLoggedIn }) => {
 
   return (
     <div>
-      <h1>What would you like to do?</h1>
+      <h1 className='content-header'>What would you like to do?</h1>
       {nav.main.map((section, index) =>
         <Link to={linkUrl(section)} key={`main-nav-${index}`}>
           <div className="optionBox">
