@@ -22,3 +22,6 @@ yarn-error.log*
 
 # Generated css files
 # src/**/*.css
+
+# App Binaries
+dist/
