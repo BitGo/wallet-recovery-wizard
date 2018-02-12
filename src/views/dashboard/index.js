@@ -2,19 +2,29 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route
+  Route,
+  Redirect
 } from 'react-router-dom';
 
 import Sidebar from 'components/sidebar';
 import Header from 'components/header';
 import MainNav from 'components/main-nav';
-import CrossChainRecoveryForm from 'components/cross-chain';
-import NonBitGoRecoveryForm from 'components/non-bitgo';
-
+import nav from 'constants/nav';
 
 class Dashboard extends Component {
+  _getRoute = ({ url, NavComponent, needsLogin }) => {
+    const { isLoggedIn, bitgo } = this.props;
+
+    if (needsLogin && !isLoggedIn) {
+      return <Redirect from={url} to='/' key={url} />
+    }
+
+    return <Route path={url} key={url} render={(props) => <NavComponent bitgo={bitgo} {...props} />} />;
+  }
+
   render() {
     const { isLoggedIn, resetLogin, bitgo } = this.props;
+    const { main: navElements } = nav;
 
     return (
       <Router>
@@ -26,8 +36,7 @@ class Dashboard extends Component {
             <div className='content'>
               <Switch>
                 <Route exact path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
-                <Route path='/crosschain' render={(props) => <CrossChainRecoveryForm bitgo={bitgo} {...props} />} />
-                <Route path='/nonbitgo' render={(props) => <NonBitGoRecoveryForm {...props} />} />
+                {navElements.map(this._getRoute)}
               </Switch>
             </div>
         </div>

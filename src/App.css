@@ -141,6 +141,14 @@ a {
 	background-color:#f5f5f5;
 }
 
+.optionBox.disabled .optionBox-title {
+	color:#8e9091;
+}
+
+.optionBox.disabled:hover {
+	background-color:#ffffff;
+}
+
 
 .loginBox input {
 	padding: 0px 0px 0px 15px;

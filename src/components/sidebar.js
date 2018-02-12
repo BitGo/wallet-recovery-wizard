@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import nav from 'constants/nav';
 
 const Sidebar = ({ isLoggedIn }) => {
-  const linkUrl = (section) => section.needsLogin && !isLoggedIn ? '/' : section.url;
+  // Don't show unusable sidebar elements
+  const navElements = nav.main.filter(({ needsLogin }) => isLoggedIn || !needsLogin);
 
   return (
     <div className="leftNavBar">
-      {nav.main.map((section, index) =>
+      {navElements.map((section, index) =>
         <div className="leftNav" key={`nav-${index}`}>
-          <Link to={linkUrl(section)}><div className="navigation">{section.title}</div></Link>
+          <Link to={section.url}><div className="navigation">{section.title}</div></Link>
         </div>
       )}
     </div>
