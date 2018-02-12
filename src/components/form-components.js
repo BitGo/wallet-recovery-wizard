@@ -60,12 +60,13 @@ class CoinDropdownOption extends Component {
     );
   }
 }
-const CoinDropdownValue = ({ value }) => (
-  <div className='coin-dropdown-option'>
-    <img src={value.icon} alt='' border='0' className='coin-icon' />
-    {value.label}
-  </div>
-);
+
+// const CoinDropdownValue = ({ value }) => (
+//   <div className='coin-dropdown-option'>
+//     <img src={value.icon} alt='' border='0' className='coin-icon' />
+//     {value.label}
+//   </div>
+// );
 
 export const InputField = ({ label, name, value, onChange, tooltipText, isPassword }) => (
   <FormGroup>
@@ -102,7 +103,7 @@ export const InputTextarea = ({ label, name, value, onChange, tooltipText }) => 
 
 const FieldTooltip = ({ name, text }) => (
   <span>
-    <a href="#" id={`tooltip-${name}`}>
+    <a id={`tooltip-${name}`}>
       <img id={`tooltip-${name}`} src={questionMarkIcon} alt='' border='0' className='tooltip-icon'/>
     </a>
     <UncontrolledTooltip placement='right' target={`tooltip-${name}`}>{text}</UncontrolledTooltip>
