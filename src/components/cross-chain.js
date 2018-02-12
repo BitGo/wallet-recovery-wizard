@@ -367,25 +367,23 @@ class BuildTxForm extends Component {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
         <Row>
-          <Col xs={4}>
-            {done &&
-              <Button onClick={this.props.goToNextStep} disabled={!!searching} className='bitgo-button'>
-                Next
-              </Button>
-            }
-            {!done &&
-              <Button onClick={this.doFindUnspents.bind(this)} disabled={!!searching} className='bitgo-button'>
-                {searching ? 'Searching...' : 'Find Lost Coin'}
-              </Button>
-            }
-          </Col>
-          <Col xs={4}>
-            {done &&
-              <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
-                Cancel
-              </Button>
-            }
-          </Col>
+            <Col xs={12}>
+              {done &&
+                <Button onClick={this.props.goToNextStep} disabled={!!searching} className='bitgo-button'>
+                  Next
+                </Button>
+              }
+              {!done &&
+                <Button onClick={this.doFindUnspents.bind(this)} disabled={!!searching} className='bitgo-button'>
+                  {searching ? 'Searching...' : 'Find Lost Coin'}
+                </Button>
+              }
+              {done &&
+                <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
+                  Cancel
+                </Button>
+              }
+            </Col>
         </Row>
       </Form>
     );
@@ -434,7 +432,7 @@ class SignTxForm extends Component {
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
         <Row>
-          <Col xs={4}>
+          <Col xs={12}>
             {!error && done &&
               <Button onClick={this.props.goToNextStep} disabled={!!signing} className='bitgo-button'>
                 Next
@@ -445,8 +443,6 @@ class SignTxForm extends Component {
                 {signing ? 'Signing...' : 'Sign Transaction'}
               </Button>
             }
-          </Col>
-          <Col xs={4}>
             <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
               Cancel
             </Button>
@@ -485,12 +481,10 @@ class ConfirmTx extends Component {
         </Row>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Row>
-          <Col xs={4}>
+          <Col xs={12}>
             <Button onClick={this.props.saveTransaction} className='bitgo-button'>
               Save Recovery Transaction
             </Button>
-          </Col>
-          <Col xs={4}>
             <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
               Cancel
             </Button>

@@ -159,11 +159,15 @@ a {
 	width: 320px;
 }
 
+.loginBox button {
+	width: 320px;
+}
+
 button {
 	border-radius: 10px;
 	background: #00AEEF;
 	padding: 20px;
-	width: 320px;
+	/* width: 320px; */
 	height: 60px;
 	border:0px;
 	color:#ffffff;
@@ -240,6 +244,10 @@ button.bitgo-button {
   min-width: 64px;
   padding: 0px 32px;
 	border-radius: 24px;
+}
+
+.bitgo-button + .bitgo-button {
+	margin-left: 12px;
 }
 
 .bitgo-button:focus {
