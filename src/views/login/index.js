@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import ErrorMessage from 'components/error-message';
 import HeaderLogo from 'images/header_logo.png';
 import Select from 'react-select';
+import classNames from 'classnames';
 
 
 const BitGoJS = window.require('bitgo');
@@ -100,13 +101,14 @@ class Login extends Component {
             <button
               onClick={this.doLogin.bind(this)}
               disabled={loginDisabled}
-              className={loginDisabled ? 'disabled' : undefined}
+              className={classNames('bitgo-button', loginDisabled && 'disabled')}
             >
               {loginInProgress ? 'LOGGING IN...' : 'LOGIN'}
             </button>
           }
           {env === 'none' &&
             <button
+              className='bitgo-button'
               onClick={this.goToNonBitGo.bind(this)}
             >
               CONTINUE
