@@ -24,4 +24,4 @@ yarn-error.log*
 # src/**/*.css
 
 # App Binaries
-dist/
+electron-build/

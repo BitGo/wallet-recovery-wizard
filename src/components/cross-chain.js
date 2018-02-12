@@ -43,20 +43,6 @@ class CrossChainRecoveryForm extends Component {
     logging: ['']
   }
 
-  // state = {
-  //   sourceCoin: 'ltc',
-  //   recoveryCoin: 'btc',
-  //   wallet: '2NEPb2roGiFSNAcE4DYVL7tx6vtbxLE24pr',
-  //   txid: '4778e738b948b2b43e7e1380a3455d65e428cd2e0563e5131baefa0207fdb848',
-  //   unspent: '',
-  //   address: '',
-  //   recoveryAddress: 'Qj3wJx1crbFSfG1Z6ex63kqEjcqyHZkED2',
-  //   passphrase: 'bigballerbrand2',
-  //   prv: '',
-  //   currentStep: 'buildTx',
-  //   logging: ['']
-  // }
-
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
   }
