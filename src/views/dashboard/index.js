@@ -23,7 +23,7 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { isLoggedIn, resetLogin, bitgo } = this.props;
+    const { isLoggedIn, resetLogin, bitgo, location } = this.props;
     const { main: navElements } = nav;
 
     return (

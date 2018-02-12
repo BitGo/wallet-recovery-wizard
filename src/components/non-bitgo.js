@@ -55,7 +55,7 @@ class NonBitGoRecoveryForm extends Component {
 
     return (
       <div>
-        <h1>ETH Non-BitGo Recovery</h1>
+        <h1 className='content-header'>ETH Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
         <hr />
         <Form>

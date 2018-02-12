@@ -36,6 +36,7 @@
     "moment": "^2.20.1",
     "prova-lib": "^0.2.9",
     "react": "^16.2.0",
+    "react-addons-css-transition-group": "^15.6.2",
     "react-dom": "^16.2.0",
     "react-mailto": "^0.4.0",
     "react-redux": "^5.0.6",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import classNames from 'classnames';
 import nav from 'constants/nav';
 
@@ -8,15 +9,24 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
   // Don't show unusable sidebar elements
   const navElements = nav.main.filter(({ needsLogin }) => isLoggedIn || !needsLogin);
   const getCurrentRoute = (section) => section.url === location.pathname && 'selected';
+  const showSidebar = location.pathname !== '/';
 
   return (
-    <div className='leftNavBar'>
-      {navElements.map((section, index) =>
-        <div className={classNames('leftNav', getCurrentRoute(section))} key={`nav-${index}`}>
-          <Link to={section.url}><div className='navigation'>{section.title}</div></Link>
+    <ReactCSSTransitionGroup
+      transitionName='slide'
+      transitionEnterTimeout={500}
+      transitionLeaveTimeout={300}
+    >
+      {showSidebar &&
+        <div className={classNames('leftNavBar', 'slideLeft')} key='sidebar' >
+          {navElements.map((section, index) =>
+            <div className={classNames('leftNav', getCurrentRoute(section))} key={`nav-${index}`}>
+              <Link to={section.url}><div className='navigation'>{section.title}</div></Link>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      }
+    </ReactCSSTransitionGroup>
   );
 });
 

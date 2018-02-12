@@ -242,7 +242,7 @@ class CrossChainRecoveryForm extends Component {
   render() {
     return (
       <div>
-        <h1>Wrong Chain Recoveries</h1>
+        <h1 className='content-header'>Wrong Chain Recoveries</h1>
         {this.getSubtitleForStep()}
         <hr />
         {this.getFormForStep()}
