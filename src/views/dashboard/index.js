@@ -57,8 +57,8 @@ class Dashboard extends Component {
             <div className='content'>
               <Sidebar isLoggedIn={isLoggedIn} />
               <Switch>
-                <Route exact path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
                 {navElements.map(this._getRoute)}
+                <Route path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
               </Switch>
             </div>
         </div>

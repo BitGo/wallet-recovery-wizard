@@ -15,7 +15,7 @@
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "build-all": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=all --arch=all --overwrite",
     "build-windows": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=win32 --arch=x64 --overwrite",
-    "build-mac": "./node_modules/.bin/electron-packager ./ --out='./electron-build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; yarn install --ignore-engines; cd ..; asar pack app app.asar; rm -rf app; cd ./",
+    "build-mac": "./node_modules/.bin/electron-packager ./ --out='./electron-build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite;",
     "build-mac-test": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; yarn install --ignore-engines; cd ./",
     "build-linux": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=linux --arch=all --overwrite",
     "build-clean": "rm -rf ./build/*"
