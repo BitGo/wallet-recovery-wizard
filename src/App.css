@@ -201,13 +201,12 @@ a {
 }
 
 .bitgo-select {
-	width: 320px;
+	width: 318px;
 	box-sizing: initial;
-	padding: 0px 0px 0px 15px;
 	text-align: left;
 	height: 42px;
 	line-height: 34px;
-	border: 1px solid #d5d5d5;
+	/* border: 1px solid #d5d5d5; */
 	border-radius: 4px;
 	margin-top: 20px;
 	font-family: 'Helvetica Neue', sans-serif;
@@ -215,9 +214,70 @@ a {
 	color:#8e9091;
 }
 
+.bitgo-select.is-focused {
+	outline: none;
+}
+
+.bitgo-select .Select-control {
+	height: 42px;
+	box-sizing: initial;
+}
+
+.bitgo-select.is-focused .Select-control {
+	height: 42px;
+	border: 1px solid #00AEEF !important;
+	outline: none;
+	box-shadow: none;
+}
+
+.bitgo-select.is-focused .Select-menu-outer {
+	/* height: 42px; */
+	border-color: #00AEEF;
+	border-top: 0;
+	width: 320px;
+}
+
+.bitgo-select.is-focused .Select-arrow {
+	border-color: #00AEEF transparent transparent;
+}
+
+.bitgo-select.is-focused.is-open .Select-arrow {
+	border-color: transparent transparent #00AEEF;
+}
+/*
+.bitgo-select.is-focused {
+	border: 1px solid #00AEEF;
+} */
+
+.bitgo-select .Select-value {
+	display: inline-flex;
+	align-items: center;
+	padding-left: 15px !important;
+}
+
+.bitgo-select .Select-value-label {
+	color:#8e9091 !important;
+}
+
+.bitgo-select .Select-menu-outer .Select-option {
+	color:#8e9091 !important;
+	padding-left: 15px !important;
+}
+
+.bitgo-select .Select-menu-outer .Select-option:nth-child(odd) {
+	background-color: #F5F5F5;
+}
+
+/* .bitgo-select .Select-menu-outer .Select-option:hover {
+	background-color: #CDE9F7 !important;
+} */
+
+.bitgo-select .Select-menu-outer .Select-option.is-focused {
+	background-color: #CDE9F7 !important;
+}
 
 .loginBox button {
-	width: 320px;
+	width: 318px;
 }
 
 button {
