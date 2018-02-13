@@ -77,7 +77,7 @@ class Login extends Component {
           <form>
             <Select
               type='select'
-              className='loginBox-select'
+              className='loginBox-select bitgo-select'
               options={loginOptions}
               onChange={this.updateEnv}
               name={'env'}
