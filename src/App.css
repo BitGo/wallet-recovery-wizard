@@ -197,14 +197,11 @@ a {
 	box-sizing: initial;
 }
 
-.loginBox-select {
-}
-
-.bitgo-select {
+.loginBox .bitgo-select {
 	width: 318px;
 	box-sizing: initial;
 	text-align: left;
-	height: 42px;
+	height: 44px;
 	line-height: 34px;
 	/* border: 1px solid #d5d5d5; */
 	border-radius: 4px;
@@ -218,23 +215,31 @@ a {
 	outline: none;
 }
 
-.bitgo-select .Select-control {
+.loginBox .bitgo-select .Select-control {
 	height: 42px;
 	box-sizing: initial;
+	width: 99.7%;
+}
+
+.loginBox .bitgo-select.is-focused .Select-control {
+	height: 42px;
 }
 
 .bitgo-select.is-focused .Select-control {
-	height: 42px;
 	border: 1px solid #00AEEF !important;
 	outline: none;
 	box-shadow: none;
 }
 
+.loginBox .bitgo-select.is-focused .Select-menu-outer  {
+	width: 320px;
+}
+
+
 .bitgo-select.is-focused .Select-menu-outer {
 	/* height: 42px; */
 	border-color: #00AEEF;
 	border-top: 0;
-	width: 320px;
 }
 
 .bitgo-select.is-focused .Select-arrow {
@@ -249,23 +254,36 @@ a {
 	border: 1px solid #00AEEF;
 } */
 
-.bitgo-select .Select-value {
+.loginBox .bitgo-select .Select-value {
 	display: inline-flex;
 	align-items: center;
 	padding-left: 15px !important;
+	height: 44px !important;
 }
 
-.bitgo-select .Select-value-label {
+.loginBox .bitgo-select .Select-value-label {
 	color:#8e9091 !important;
 }
 
-.bitgo-select .Select-menu-outer .Select-option {
+.loginBox .bitgo-select .Select-menu-outer .Select-option {
 	color:#8e9091 !important;
 	padding-left: 15px !important;
+}
+
+.bitgo-select .Select-menu-outer .coin-dropdown-option:nth-child(odd) {
+	background-color: #F5F5F5;
 }
 
 .bitgo-select .Select-menu-outer .Select-option:nth-child(odd) {
 	background-color: #F5F5F5;
+}
+
+.bitgo-select .Select-menu-outer .coin-dropdown-option:nth-child(odd):hover {
+	background-color: #CDE9F7;
+}
+
+.bitgo-select .Select-menu-outer .Select-option:nth-child(odd):hover {
+	background-color: #CDE9F7;
 }
 
 /* .bitgo-select .Select-menu-outer .Select-option:hover {
@@ -347,8 +365,12 @@ button.disabled:hover {
 	padding: 5px;
 }
 
+.coin-dropdown-option:nth-child(even) {
+	background-color: #FFFFFF;
+}
+
 .coin-dropdown-option:hover {
-	background: #CCE9F8;
+	background: #CDE9F7;
 }
 
 button.bitgo-button {

@@ -29,6 +29,7 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
       }
       <Select
         type='select'
+        className='bitgo-select'
         options={options}
         optionComponent={CoinDropdownOption}
         onChange={onChange}
