@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import classNames from 'classnames';
 import ErrorMessage from './error-message';
 
 import recoverEth from 'tools/eth-backup-key-recovery';
@@ -65,9 +66,10 @@ class NonBitGoRecoveryForm extends Component {
 
   render() {
     const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo;
+    const { isLoggedIn } = this.props;
 
     return (
-      <div>
+      <div className={classNames(isLoggedIn || 'content-centered')}>
         <h1 className='content-header'>Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
         <hr />

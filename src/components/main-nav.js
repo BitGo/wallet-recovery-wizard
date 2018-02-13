@@ -9,7 +9,7 @@ const MainNav = ({ isLoggedIn }) => {
   const getDisabled = (section) => isDisabled(section) && 'disabled';
 
   return (
-    <div>
+    <div className='content-centered'>
       <h1 className='content-header nav-title'>What would you like to do?</h1>
       <div className='option-box-container'>
         {nav.main.map((section, index) =>

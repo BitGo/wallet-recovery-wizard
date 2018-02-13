@@ -11,7 +11,7 @@ export default {
       NavComponent: CrossChainRecoveryForm
     },
     {
-      title: 'Non Bit-Go Recoveries',
+      title: 'Non BitGo Recoveries',
       url: '/nonbitgo',
       description: 'Recover wallets using the user and backup key (sign a transaction without BitGo).',
       needsLogin: false,

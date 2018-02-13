@@ -139,10 +139,11 @@ a {
 .content {
 	position:absolute;
 	top:100px;
-	left: 330px;
-	width:966px;
+	/* left: 330px; */
+	width: 100%;
 	margin: 0px 40px 40px 0;
 	box-sizing: initial;
+	display: flex;
 }
 
 .option-box-container {
@@ -489,4 +490,8 @@ button.bitgo-button {
 
 .content-header.nav-title {
 	text-align: center;
+}
+
+.content-centered {
+	margin: auto;
 }

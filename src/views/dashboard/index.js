@@ -7,6 +7,8 @@ import {
   withRouter
 } from 'react-router-dom';
 
+import classNames from 'classnames';
+
 import Sidebar from 'components/sidebar';
 import Header from 'components/header';
 import MainNav from 'components/main-nav';
@@ -29,7 +31,17 @@ class Dashboard extends Component {
       return <Redirect from={url} to='/' key={url} />
     }
 
-    return <Route path={url} key={url} render={(props) => <NavComponent bitgo={bitgo} {...props} />} />;
+    // Push all components to the right if logged in (to make room for sidebar)
+    // Otherwise, center them
+    const contentStyle = {
+      marginLeft: isLoggedIn ? '330px' : 'auto',
+      marginRight: isLoggedIn ? '100px' : 'auto',
+      flexGrow: isLoggedIn ? 1 : undefined
+    };
+
+    return <Route path={url} key={url} render={(props) =>
+      <div style={contentStyle}><NavComponent bitgo={bitgo} isLoggedIn={isLoggedIn} {...props} /></div>
+    } />;
   }
 
   render() {
@@ -41,9 +53,9 @@ class Dashboard extends Component {
         <div className="wrapper">
 
             <Header resetLogin={resetLogin} bitgo={bitgo} isLoggedIn={isLoggedIn} />
-            <Sidebar isLoggedIn={isLoggedIn} />
 
             <div className='content'>
+              <Sidebar isLoggedIn={isLoggedIn} />
               <Switch>
                 <Route exact path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
                 {navElements.map(this._getRoute)}
