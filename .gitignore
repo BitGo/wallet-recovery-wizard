@@ -25,3 +25,5 @@ yarn-error.log*
 
 # App Binaries
 electron-build/
+
+src/images/profile_pic_2.jpeg
