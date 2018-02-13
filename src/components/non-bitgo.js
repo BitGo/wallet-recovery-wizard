@@ -1,22 +1,29 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, InputTextarea } from './form-components';
+import { InputField, InputTextarea, CoinDropdown } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import ErrorMessage from './error-message';
 
 import recoverEth from 'tools/eth-backup-key-recovery';
 
 import tooltips from 'constants/tooltips';
+import coinConfig from 'constants/coin-config';
+
 const formTooltips = tooltips.ethRecovery;
 
 class NonBitGoRecoveryForm extends Component {
   state = {
+    coin: 'eth',
     boxAValue: '',
     boxBValue: '',
     walletContractAddress: '',
     walletPassphrase: '',
     recoveryAddress: '',
     env: 'test'
+  }
+
+  recoveryTools = {
+    eth: recoverEth
   }
 
   updateRecoveryInfo = (fieldName) => (event) => {
@@ -27,10 +34,16 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ env: option.value });
   }
 
+  updateCoin = (option) => {
+    this.setState({ coin: option.value });
+  }
+
   async performRecovery() {
-    this.setState({ recovering: true, error: '' })
+    this.setState({ recovering: true, error: '' });
+    const recoveryTool = this.recoveryTools[this.state.coin];
+
     try {
-      const sendResult = await recoverEth(this.state);
+      const sendResult = await recoveryTool(this.state);
       this.setState({ recovering: false, done: true, finalTx: sendResult.result });
     } catch (e) {
       this.setState({ error: e.message, recovering: false });
@@ -51,15 +64,24 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   render() {
-    const envOptions = [ { label: 'Mainnet', value: 'prod' }, { label: 'Testnet (Kovan)', value: 'test' } ];
+    const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo;
 
     return (
       <div>
-        <h1 className='content-header'>ETH Non-BitGo Recovery</h1>
+        <h1 className='content-header'>Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
         <hr />
         <Form>
           <Row>
+            <Col xs={6}>
+              <CoinDropdown
+                label='Wallet Type'
+                name='coin'
+                allowedCoins={recoveryCoins}
+                onChange={this.updateCoin}
+                value={this.state.coin}
+              />
+            </Col>
             <Col xs={6}>
               <FormGroup>
                 <Label className='input-label'>
@@ -67,7 +89,8 @@ class NonBitGoRecoveryForm extends Component {
                 </Label>
                 <Select
                   type='select'
-                  options={envOptions}
+                  className='bitgo-select'
+                  options={coinConfig.allCoins[this.state.coin].envOptions}
                   onChange={this.updateEnv}
                   name={'env'}
                   value={this.state.env}

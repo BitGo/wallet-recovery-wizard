@@ -361,7 +361,7 @@ button.disabled:hover {
 	height: 20px;
 }
 
-.coin-dropdown-option {
+.coin-dropdown-option, .coin-dropdown-value {
 	padding: 5px;
 }
 

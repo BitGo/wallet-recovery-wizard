@@ -15,8 +15,8 @@ import questionMarkIcon from 'images/question_mark.png';
 export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, tooltipText }) => {
   const options = allowedCoins.map((coin) => ({
     value: coin,
-    label: coinConfig[coin].fullName,
-    icon: coinConfig[coin].icon
+    label: coinConfig.allCoins[coin].fullName,
+    icon: coinConfig.allCoins[coin].icon
   }));
 
   return (
@@ -35,7 +35,7 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
         onChange={onChange}
         name={name}
         value={value}
-        // valueComponent={CoinDropdownValue}
+        valueComponent={CoinDropdownValue}
         clearable={false}
         searchable={false}
       />
@@ -62,12 +62,12 @@ class CoinDropdownOption extends Component {
   }
 }
 
-// const CoinDropdownValue = ({ value }) => (
-//   <div className='coin-dropdown-option'>
-//     <img src={value.icon} alt='' border='0' className='coin-icon' />
-//     {value.label}
-//   </div>
-// );
+const CoinDropdownValue = ({ value }) => (
+  <span className='coin-dropdown-value'>
+    <img src={value.icon} alt='' border='0' className='coin-icon' />
+    {value.label}
+  </span>
+);
 
 export const InputField = ({ label, name, value, onChange, tooltipText, isPassword }) => (
   <FormGroup>

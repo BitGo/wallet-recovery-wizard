@@ -9,7 +9,7 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
   // Don't show unusable sidebar elements
   const navElements = nav.main.filter(({ needsLogin }) => isLoggedIn || !needsLogin);
   const getCurrentRoute = (section) => section.url === location.pathname && 'selected';
-  const showSidebar = location.pathname !== '/';
+  const showSidebar = location.pathname !== '/' && isLoggedIn;
 
   return (
     <ReactCSSTransitionGroup

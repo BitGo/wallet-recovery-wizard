@@ -11,9 +11,9 @@ export default {
       NavComponent: CrossChainRecoveryForm
     },
     {
-      title: 'ETH Recoveries',
+      title: 'Non Bit-Go Recoveries',
       url: '/nonbitgo',
-      description: 'Recover ETH wallets using the user and backup key (sign a transaction without BitGo).',
+      description: 'Recover wallets using the user and backup key (sign a transaction without BitGo).',
       needsLogin: false,
       NavComponent: NonBitGoRecoveryForm
     }

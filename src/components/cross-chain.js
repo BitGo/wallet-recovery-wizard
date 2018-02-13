@@ -51,7 +51,7 @@ class CrossChainRecoveryForm extends Component {
     this.setState({ [fieldName]: option.value });
 
     if (fieldName === 'sourceCoin') {
-      const recoveryCoins = coinConfig[option.value].supportedRecoveries;
+      const recoveryCoins = coinConfig.allCoins[option.value].supportedRecoveries;
 
       if (!recoveryCoins.includes(this.state.recoveryCoin)) {
         this.setState({ recoveryCoin: recoveryCoins[0] });
@@ -254,8 +254,8 @@ class BuildTxForm extends Component {
     const { formState, updateRecoveryInfo, updateSelect } = this.props;
     const { sourceCoin, recoveryCoin, logging, error } = formState;
     const { unspentStrategy, searching, done } = this.state;
-    const allCoins = Object.keys(coinConfig);
-    const recoveryCoins = coinConfig[sourceCoin].supportedRecoveries;
+    const allCoins = coinConfig.supportedRecoveries.crossChain;
+    const recoveryCoins = coinConfig.allCoins[sourceCoin].supportedRecoveries;
 
     const unspentStrategies = [
       {
@@ -303,6 +303,7 @@ class BuildTxForm extends Component {
                 How would you like to recover your coin?
               </Label>
               <Select
+                className='bitgo-select'
                 type='select'
                 options={unspentStrategies}
                 onChange={this.updateUnspentStratgies}
@@ -447,11 +448,11 @@ class ConfirmTx extends Component {
       <div>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-          <Col xs={5}>{coinConfig[txDetails.sourceCoin].fullName} ({txDetails.sourceCoin.toUpperCase()})</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.sourceCoin].fullName} ({txDetails.sourceCoin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Recovery Coin:</Col>
-          <Col xs={5}>{coinConfig[txDetails.recoveryCoin].fullName} ({txDetails.recoveryCoin.toUpperCase()})</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.recoveryCoin].fullName} ({txDetails.recoveryCoin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
