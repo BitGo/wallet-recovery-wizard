@@ -10,22 +10,24 @@ const MainNav = ({ isLoggedIn }) => {
 
   return (
     <div>
-      <h1 className='content-header'>What would you like to do?</h1>
-      {nav.main.map((section, index) =>
-        <NavBoxContent isDisabled={isDisabled(section)} section={section}>
-          <div className={classNames('optionBox', getDisabled(section))}>
-            <h2 className='optionBox-title'>{section.title}</h2>
-            <p>{section.description}</p>
-          </div>
-        </NavBoxContent>
-      )}
+      <h1 className='content-header nav-title'>What would you like to do?</h1>
+      <div className='option-box-container'>
+        {nav.main.map((section, index) =>
+          <NavBoxContent isDisabled={isDisabled(section)} section={section} key={index}>
+            <div className={classNames('optionBox', getDisabled(section))}>
+              <h2 className='optionBox-title'>{section.title}</h2>
+              <p>{section.description}</p>
+            </div>
+          </NavBoxContent>
+        )}
+      </div>
     </div>
   );
 };
 
 const NavBoxContent = ({ isDisabled, children, section }) => {
   if (isDisabled) {
-    return <div>{children}</div>;
+    return children;
   }
 
   return <Link to={section.url}>{children}</Link>;

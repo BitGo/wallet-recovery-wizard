@@ -143,16 +143,22 @@ a {
 	width:966px;
 	margin: 0px 40px 40px 0;
 	box-sizing: initial;
-
 }
+
+.option-box-container {
+	display: flex;
+	justify-content: center;
+}
+
 .optionBox {
+	display: inline-grid;
 	height:100px;
 	width:250px;
 	border: 1px solid #c4c4c4;
 	border-radius: 4px;
 	text-align: center;
 	padding: 25px;
-	float:left;
+	/* float:left; */
 	margin:20px 20px 0 0;
 	background-color:#ffffff;
 	box-sizing: initial;
@@ -290,6 +296,9 @@ button.bitgo-button {
 	border: 1px solid #00AEEF;
 	background-color: #00AEEF;
 
+	font-size: 16px;
+	font-weight: bold;
+
 	text-transform: uppercase;
 	height: 32px;
 	min-width: 64px;
@@ -394,4 +403,8 @@ button.bitgo-button {
 
 .content-header {
 	margin-top: 35px;
+}
+
+.content-header.nav-title {
+	text-align: center;
 }
