@@ -355,12 +355,12 @@ class BuildTxForm extends Component {
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
         <Row>
             <Col xs={12}>
-              {done &&
+              {!error && done &&
                 <Button onClick={this.props.goToNextStep} disabled={!!searching} className='bitgo-button'>
                   Next
                 </Button>
               }
-              {!done &&
+              {(error || !done) &&
                 <Button onClick={this.doFindUnspents.bind(this)} disabled={!!searching} className='bitgo-button'>
                   {searching ? 'Searching...' : 'Find Lost Coin'}
                 </Button>
