@@ -5,7 +5,7 @@ import Select from 'react-select';
 import classNames from 'classnames';
 
 
-const BitGoJS = window.require('bitgo');
+// const BitGoJS = window.require('bitgo');
 
 class Login extends Component {
   state = { username: '', password: '', otp: '', env: '' };
@@ -24,7 +24,7 @@ class Login extends Component {
 
     // Instantiate a bitgo instance
     const { username, password, otp, env = 'test' } = this.state;
-    const bitgo = new BitGoJS.BitGo({ env });
+    const bitgo = new window.BitGoJS.BitGo({ env });
 
     console.log('Logging in...');
 
