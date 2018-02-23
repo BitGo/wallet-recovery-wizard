@@ -3,13 +3,13 @@
   "description": "An UI-based desktop app for BitGo Recoveries",
   "version": "0.1.0",
   "private": true,
-  "main": "main.js",
+  "main": "src/main.js",
   "homepage": "./",
   "scripts": {
     "start": "node scripts/start.js",
     "build-react": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "dev": "nf start",
+    "dev": "NODE_ENV=development nf start",
     "electron": "electron .",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
@@ -18,7 +18,9 @@
     "build-mac": "./node_modules/.bin/electron-packager ./ --out='./electron-build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite;",
     "build-mac-test": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; yarn install --ignore-engines; cd ./",
     "build-linux": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=linux --arch=all --overwrite",
-    "build-clean": "rm -rf ./build/*"
+    "build-clean": "rm -rf ./build/*",
+    "package": "sh scripts/package.sh",
+    "make": "electron-forge make"
   },
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -26,7 +28,6 @@
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
     "babel-loader": "7.1.2",
-    "babel-preset-react-app": "^3.1.1",
     "babel-runtime": "6.26.0",
     "bitcoinjs-lib": "^3.3.2",
     "bitgo": "^4.19.1",
@@ -40,6 +41,8 @@
     "dns": "^0.2.2",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.0.1",
+    "electron-compile": "^6.4.2",
+    "electron-squirrel-startup": "^1.0.0",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
@@ -88,9 +91,12 @@
     "whatwg-fetch": "2.0.3"
   },
   "devDependencies": {
-    "electron": "^1.7.12",
-    "electron-builder": "^19.56.0",
-    "electron-packager": "^11.0.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-react-app": "^3.1.1",
+    "electron-forge": "^5.1.1",
+    "electron-prebuilt-compile": "1.8.2",
     "foreman": "^2.0.0",
     "node-sass-chokidar": "^0.0.3"
   },
@@ -135,5 +141,37 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "npm"
+      },
+      "electronWinstallerConfig": {
+        "name": "wallet_recovery_wizard"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "walletrecoverywizard"
+      }
+    }
   }
 }

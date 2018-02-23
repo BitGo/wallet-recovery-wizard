@@ -17,10 +17,12 @@ function createWindow() {
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, '/../app/build/index.html'),
+        pathname: path.join(__dirname, '/../build/index.html'),
         protocol: 'file:',
-        slashes: true
+        slashes: true,
     });
+
+    app.dock.setIcon('/Users/kevin/Bitgo/wallet-recovery-wizard/public/icons/png/icon4.png');
 
     mainWindow.loadURL(startUrl);
 
