@@ -70,6 +70,7 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   }
 
   // get balance of wallet and deduct fees to get transaction amount
+  console.log('URL', `https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`);
   const { result: balance } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`).json();
   const txAmount = new ethUtil.BN(balance, 10).toString(10);
 
@@ -111,6 +112,8 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   const encodedArgs = ethAbi.rawEncode(pluck(sendMethodArgs, 'type'), pluck(sendMethodArgs, 'value'));
   const sendData = Buffer.concat([methodSignature, encodedArgs]);
 
+  console.log('Using this nonce', backupKeyNonce);
+
   // Build contract call and sign it
   const tx = new EthTx({
     to: walletContractAddress,
@@ -132,14 +135,13 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   console.log('Fully signed:');
   console.log(signedTx);
 
-  console.log('Subdomain', ETHERSCAN_SUBDOMAIN);
+  return signedTx;
+  // const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
 
-  const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
+  // console.log('Send result:')
+  // console.log(sendResult);
 
-  console.log('Send result:')
-  console.log(sendResult);
-
-  return sendResult;
+  // return sendResult;
 }
 
 function getOperationSha3ForExecuteAndConfirm(recipients, expireTime, contractSequenceId) {

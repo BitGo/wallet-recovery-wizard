@@ -495,3 +495,11 @@ button.bitgo-button {
 .content-centered {
 	margin: auto;
 }
+
+.tx-hex {
+	word-wrap: break-word;
+}
+
+.recovery-logging {
+	max-width: 948px;
+}

@@ -45,7 +45,7 @@ class NonBitGoRecoveryForm extends Component {
 
     try {
       const sendResult = await recoveryTool(this.state);
-      this.setState({ recovering: false, done: true, finalTx: sendResult.result });
+      this.setState({ recovering: false, done: true, finalTx: sendResult.tx });
     } catch (e) {
       this.setState({ error: e.message, recovering: false });
     }
@@ -139,7 +139,7 @@ class NonBitGoRecoveryForm extends Component {
             tooltipText={formTooltips.recoveryAddress}
           />
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          {this.state.done && <p className='recovery-logging'>Successfully broadcast recovery transaction. TXID: {this.state.finalTx}</p>}
+          {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Transaction Hex: <span className='tx-hex'>{this.state.finalTx}</span></p>}
           {!this.state.done &&
             <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
               {this.state.recovering ? 'Recovering...' : 'Recover Funds'}

@@ -26,7 +26,7 @@ function createWindow() {
     // Open the DevTools.
     mainWindow.webContents.openDevTools();
 
-    app.dock.setIcon(path.join(__dirname, '..', 'public', 'icons', 'png', 'appicon.png'));
+    // app.dock.setIcon(path.join(__dirname, '..', 'public', 'icons', 'png', 'appicon.png'));
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
