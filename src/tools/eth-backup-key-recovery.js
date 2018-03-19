@@ -132,7 +132,12 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   console.log('Fully signed:');
   console.log(signedTx);
 
+  console.log('Subdomain', ETHERSCAN_SUBDOMAIN);
+
   const sendResult = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=proxy&action=eth_sendRawTransaction&hex=${signedTx.tx}`).json();
+
+  console.log('Send result:')
+  console.log(sendResult);
 
   return sendResult;
 }

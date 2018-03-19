@@ -17,17 +17,16 @@ function createWindow() {
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
-        pathname: path.join(__dirname, '/../build/index.html'),
+        pathname: path.join(__dirname, '..', 'build', 'index.html'),
         protocol: 'file:',
         slashes: true,
     });
 
-    app.dock.setIcon('/Users/kevin/Bitgo/wallet-recovery-wizard/public/icons/png/icon4.png');
-
     mainWindow.loadURL(startUrl);
-
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
+
+    app.dock.setIcon(path.join(__dirname, '..', 'public', 'icons', 'png', 'appicon.png'));
 
     // Emitted when the window is closed.
     mainWindow.on('closed', () => {
