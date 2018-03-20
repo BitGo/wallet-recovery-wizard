@@ -58,7 +58,9 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   let backupKeyNonce = 0;
   const { result: backupKeyTxList } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=txlist&address=${backupKeyAddress}`).json();
   if (backupKeyTxList.length > 0) {
-    backupKeyNonce = parseInt(backupKeyTxList[backupKeyTxList.length - 1].nonce, 10) + 1;
+    // Calculate last nonce used
+    const outgoingTxs = backupKeyTxList.filter((tx) => tx.from === backupKeyAddress);
+    backupKeyNonce = outgoingTxs.length;
   }
 
   // get balance of wallet and deduct fees to get transaction amount
@@ -70,7 +72,6 @@ async function recoverEth({ boxAValue, boxBValue, walletContractAddress, walletP
   }
 
   // get balance of wallet and deduct fees to get transaction amount
-  console.log('URL', `https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`);
   const { result: balance } = await request.get(`https://${ETHERSCAN_SUBDOMAIN}.etherscan.io/api?module=account&action=balance&address=${walletContractAddress}`).json();
   const txAmount = new ethUtil.BN(balance, 10).toString(10);
 
