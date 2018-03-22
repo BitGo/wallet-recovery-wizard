@@ -14,11 +14,40 @@ async function doPackaging(platform = 'darwin') {
 
   // Grab a prebuilt executable
   console.log('====================================== grabbing executable');
-  await runCmd('cp', ['-r', path.join(__dirname, '..', 'node_modules', 'electron', 'dist'), path.join(__dirname, '..')]);
+  const electronPrebuiltPath = path.join(__dirname, '..', 'node_modules', 'electron', 'dist');
+  const appDir = path.join(__dirname, '..')
+  await runCmd('cp', ['-r', electronPrebuiltPath, appDir]);
   console.log('====================================== end grabbing executable');
 
-  // Move project into executable
-  await runCmd('cp', ['-r', path.join(__dirname, '..', 'package.json'), path.join(__dirname, '..', ...appSourcePaths[platform])]);
+
+  // Move project into executable (right now, just moving package.json)
+  console.log('====================================== moving source code into executable');
+  const appDirs = ['package.json', 'src/main.js', 'build'].map((appDir) => path.join(__dirname, '..', appDir));
+  const prebuildSourcePath = path.join(__dirname, '..', 'dist', ...appSourcePaths[platform]);
+
+  if (platform === 'darwin') {
+    // Make app directory in prebuildSourcePath
+    await runCmd('mkdir', ['-p', path.join(prebuildSourcePath, 'src')]);
+  }
+
+  // Copy the files
+  for (const appDir of appDirs) {
+    await runCmd('cp', ['-r', appDir, prebuildSourcePath]);
+  }
+
+  // Move main.js into src directory
+  const mainJSPath = path.join(prebuildSourcePath, 'main.js');
+  const srcDir = path.join(prebuildSourcePath, 'src');
+  await runCmd('mv', [mainJSPath, srcDir]);
+  console.log('====================================== end moving source code into executable');
+
+  // install packages
+  console.log('====================================== installing packages');
+  console.log('Running yarn install from', prebuildSourcePath);
+  await runCmd('yarn', ['install', '--ignore-engines', '--prod', '--no-lockfile', `--modules-folder`, path.join(prebuildSourcePath, 'node_modules')]);
+  console.log('====================================== end installing packages');
+
+
 
   // Pack the executable
 
