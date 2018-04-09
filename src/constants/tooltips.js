@@ -13,8 +13,11 @@ export default {
   ethRecovery: {
     boxAValue: `Your encrypted user key, as found on your recovery KeyCard.`,
     boxBValue: `Your encrypted backup key, as found on your recovery KeyCard.`,
+    boxCValue: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,
+    rootAddress: 'The root address of the XRP wallet.',
     walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,
     walletPassphrase: `The passphrase of the wallet.`,
-    recoveryAddress: `The address your recovery transaction will send to.`
+    recoveryAddress: `The address your recovery transaction will send to.`,
+    scan: 'The amount of addresses without transactions to scan before stopping the tool.'
   }
 }

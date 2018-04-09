@@ -5,8 +5,6 @@ import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 
-import recoverEth from 'tools/eth-backup-key-recovery';
-
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 
@@ -17,14 +15,13 @@ class NonBitGoRecoveryForm extends Component {
     coin: 'eth',
     boxAValue: '',
     boxBValue: '',
+    boxCValue: '',
+    rootAddress: '',
     walletContractAddress: '',
     walletPassphrase: '',
     recoveryAddress: '',
+    scan: 20,
     env: 'test'
-  }
-
-  recoveryTools = {
-    eth: recoverEth
   }
 
   updateRecoveryInfo = (fieldName) => (event) => {
@@ -41,11 +38,25 @@ class NonBitGoRecoveryForm extends Component {
 
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
-    const recoveryTool = this.recoveryTools[this.state.coin];
+
+    const coin = this.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+
+    const recoveryTool = this.props.bitgo.coin(coin).recover;
+
+    if (!recoveryTool) {
+      this.setState({ error: `Recovery tool not found for ${coin}`, recovering: false });
+      return;
+    }
 
     try {
-      const sendResult = await recoveryTool(this.state);
-      this.setState({ recovering: false, done: true, finalTx: sendResult.tx });
+      const recovery = await recoveryTool(this.state);
+      const recoveryTx = recovery.tx || recovery.transactionHex || recovery.txHex;
+
+      if (!recoveryTx) {
+        throw new Error('Fully-signed recovery transaction not detected.');
+      }
+
+      this.setState({ recovering: false, done: true, finalTx: recoveryTx });
     } catch (e) {
       this.setState({ error: e.message, recovering: false });
     }
@@ -116,13 +127,33 @@ class NonBitGoRecoveryForm extends Component {
             value={this.state.boxBValue}
             tooltipText={formTooltips.boxBValue}
           />
-          <InputField
-            label='Wallet Contract Address'
-            name='walletContractAddress'
-            onChange={this.updateRecoveryInfo('walletContractAddress')}
-            value={this.state.walletContractAddress}
-            tooltipText={formTooltips.walletContractAddress}
-          />
+          {!['xrp', 'eth'].includes(this.state.coin) &&
+            <inputField
+              label='Box C Value'
+              name='boxCValue'
+              onChange={this.updateRecoveryInfo('boxCValue')}
+              value={this.state.boxCValue}
+              tooltipText={formTooltips.boxCValue}
+            />
+          }
+          {this.state.coin === 'xrp' &&
+            <InputField
+              label='Root Address'
+              name='rootAddress'
+              onChange={this.updateRecoveryInfo('rootAddress')}
+              value={this.state.rootAddress}
+              tooltipText={formTooltips.rootAddress}
+            />
+          }
+          {this.state.coin === 'eth' &&
+            <InputField
+              label='Wallet Contract Address'
+              name='walletContractAddress'
+              onChange={this.updateRecoveryInfo('walletContractAddress')}
+              value={this.state.walletContractAddress}
+              tooltipText={formTooltips.walletContractAddress}
+            />
+          }
           <InputField
             label='Wallet Passphrase'
             name='walletPassphrase'
@@ -138,6 +169,15 @@ class NonBitGoRecoveryForm extends Component {
             value={this.state.recoveryAddress}
             tooltipText={formTooltips.recoveryAddress}
           />
+          {!['xrp', 'eth'].includes(this.state.coin) &&
+            <InputField
+              label='Address Scanning Factor'
+              name='scan'
+              onChange={this.updateRecoveryInfo('scan')}
+              value={this.state.scan}
+              tooltipText={formTooltips.scan}
+            />
+          }
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Transaction Hex: <span className='tx-hex'>{this.state.finalTx}</span></p>}
           {!this.state.done &&
