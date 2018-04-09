@@ -13,14 +13,9 @@
     "electron": "electron .",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "build-all": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=all --arch=all --overwrite",
-    "build-windows": "./node_modules/.bin/electron-packager ./ --out='./electron-build' --name='BitGo Wallet Recovery Wizard' --platform=win32 --arch=x64 --overwrite",
-    "build-mac": "./node_modules/.bin/electron-packager ./ --out='./electron-build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite;",
-    "build-mac-test": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=darwin --arch=all --overwrite; cd build/bitgo-recovery-wizard-darwin-x64/bitgo-recovery-wizard.app/Contents/Resources/app; yarn install --ignore-engines; cd ./",
-    "build-linux": "./node_modules/.bin/electron-packager ./ --out='./build' --name='BitGo Wallet Recovery Wizard' --platform=linux --arch=all --overwrite",
     "build-clean": "rm -rf ./build/*",
-    "package": "sh scripts/package.sh",
-    "make": "electron-forge make"
+    "package": "node scripts/package.js",
+    "publish": "electron-forge publish --skip-package"
   },
   "dependencies": {
     "autoprefixer": "7.1.6",
@@ -174,6 +169,10 @@
       "windowsStoreConfig": {
         "packageName": "",
         "name": "walletrecoverywizard"
+      },
+      "github_repository": {
+        "owner": "BitGo",
+        "name": "wallet-recovery-wizard"
       }
     }
   }
