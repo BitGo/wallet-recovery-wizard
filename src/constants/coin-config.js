@@ -35,7 +35,7 @@ export default {
       ]
     },
     btg: {
-      fullName: 'Litecoin',
+      fullName: 'Bitcoin Gold',
       supportedRecoveries: [],
       icon: btgIcon,
       envOptions: [

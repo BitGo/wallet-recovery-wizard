@@ -1,3 +1,4 @@
+const pjson = require('../package.json');
 const spawn = require('child_process').spawn;
 const path = require('path');
 
@@ -7,7 +8,7 @@ const appSourcePaths = {
 }
 
 const forgePaths = {
-  darwin: ['out', 'wallet-recovery-wizard-darwin-x64']
+  darwin: ['out', 'BitGoWalletRecoveryWizard-darwin-x64']
 };
 
 async function doPackaging(platform = 'darwin') {
@@ -70,10 +71,20 @@ async function doPackaging(platform = 'darwin') {
   console.log('====================================== end removing unpacked source');
 
   // Rename the app
+  if (platform === 'darwin') {
+    console.log('====================================== renaming app');
+    // await runCmd('pwd', { cwd: packagedAppDir });
+    await runCmd('mv', [path.join(appDir, 'Electron.app'), path.join(appDir, `${pjson.name}.app`)]);
+    console.log('====================================== end renaming app');
+  }
 
   // Give app an icon
 
   // Make a distributable
+  console.log('====================================== creating distributable');
+  // await runCmd('pwd', { cwd: packagedAppDir });
+  await runCmd('electron-forge', ['make', '--skip-package']);
+  console.log('====================================== end creating distributable');
 }
 
 function runCmd(cmd, args, opts) {
