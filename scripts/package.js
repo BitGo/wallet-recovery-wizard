@@ -6,12 +6,22 @@ const platformConfig = {
   darwin: {
     appSourcePath: ['Electron.app', 'Contents', 'Resources'],
     forgePath: ['out', 'BitGoWalletRecoveryWizard-darwin-x64'],
-    buildSteps: {}
+    buildSteps: {
+      clean: (dir) => ['rm', '-rf', path.join(dir, '*')],
+      clear: (dir) => ['rm', '-rf', dir],
+      copy: (src, dest) => ['cp', '-r', src, dest],
+      move: (src, dest) => ['mv', src, dest]
+    }
   },
   win32: {
     appSourcePath: ['resources'],
     forgePath: ['out', 'BitGoWalletRecoveryWizard-win32-x64'],
-    buildSteps: {}
+    buildSteps: {
+      clean: (dir) => ['rm', '-rf', path.join(dir, '*')],
+      clear: (dir) => ['rm', '-rf', dir],
+      copy: (src, dest) => ['xcopy', '/E', '/I', src, dest],
+      move: (src, dest) => ['mv', src, dest]
+    }
   }
 };
 
@@ -34,7 +44,8 @@ async function doPackaging(platform = 'darwin') {
 
   // Clear build folder
   console.log('====================================== clearing build folder');
-  await runCmd('rm', ['-rf', path.join('out', '*')]);
+  const [cleanCmd, ...cleanArgs] = buildSteps.clean('out');
+  await runCmd(cleanCmd, cleanArgs);
   console.log('====================================== end clearing build folder');
 
   // Grab a prebuilt executable
@@ -42,11 +53,8 @@ async function doPackaging(platform = 'darwin') {
   const electronPrebuiltPath = path.join(__dirname, '..', 'node_modules', 'electron', 'dist');
   const appDir = path.join(__dirname, '..', ...forgePath);
 
-  if (platform === 'win32') {
-    await runCmd('xcopy', ['/E', '/I', electronPrebuiltPath, appDir]);
-  } else {
-    await runCmd('cp', ['-r', electronPrebuiltPath, appDir]);
-  }
+  const [copyPrebuiltCmd, ...copyPrebuiltArgs] = buildSteps.copy(electronPrebuiltPath, appDir);
+  await runCmd(copyPrebuiltCmd, copyPrebuiltArgs);
 
   console.log('====================================== end grabbing executable');
 
@@ -55,24 +63,23 @@ async function doPackaging(platform = 'darwin') {
   const appDirs = ['package.json', 'src/main.js', 'build'].map((appDir) => path.join(__dirname, '..', appDir));
   const prebuildSourcePath = path.join(__dirname, '..', ...forgePath, ...appSourcePath, 'app');
 
-  if (platform === 'darwin') {
+  if (platform !== 'win32') {
     // Make app directory in prebuildSourcePath
     await runCmd('mkdir', ['-p', path.join(prebuildSourcePath, 'src')]);
   }
 
   // Copy the files
   for (const appDir of appDirs) {
-    if (platform === 'win32') {
-      await runCmd('xcopy', ['/E', '/I', appDir, prebuildSourcePath]);
-    } else {
-      await runCmd('cp', ['-r', appDir, prebuildSourcePath]);
-    }
+    const [copyCmd, ...copyArgs] = buildSteps.copy(appDir, prebuildSourcePath);
+    await runCmd(copyCmd, copyArgs);
   }
 
   // Move main.js into src directory
   const mainJSPath = path.join(prebuildSourcePath, 'main.js');
   const srcDir = path.join(prebuildSourcePath, 'src');
-  await runCmd('mv', [mainJSPath, srcDir]);
+
+  const [mvMainCmd, ...mvMainArgs] = buildSteps.move(mainJSPath, srcDir);
+  await runCmd(mvMainCmd, mvMainArgs);
   console.log('====================================== end moving source code into executable');
 
   // install packages
@@ -90,16 +97,18 @@ async function doPackaging(platform = 'darwin') {
 
   // Remove unpacked source code
   console.log('====================================== removing unpacked source');
-  // await runCmd('pwd', { cwd: packagedAppDir });
-  await runCmd('rm', ['-r', path.join(packagedAppDir, 'app/')]);
+  const [rmSrcCmd, ...rmSrcArgs] = buildSteps.clear(path.join(packagedAppDir, 'app/'));
+  await runCmd(rmSrcCmd, rmSrcArgs);
   console.log('====================================== end removing unpacked source');
 
   // Rename the app
-  if (platform === 'darwin') {
+  if (platform !== 'win32') {
     console.log('====================================== renaming app');
     // await runCmd('pwd', { cwd: packagedAppDir });
     await runCmd('mv', [path.join(appDir, 'Electron.app'), path.join(appDir, `${pjson.name}.app`)]);
     console.log('====================================== end renaming app');
+  } else {
+    // rename app for windows
   }
 
   // Give app an icon
