@@ -4,13 +4,13 @@ const path = require('path');
 
 const platformConfig = {
   darwin: {
-    appSourcePath: ['Electron.app', 'Contents', 'Resources']
-    forgePath: ['out', 'BitGoWalletRecoveryWizard-darwin-x64']
+    appSourcePath: ['Electron.app', 'Contents', 'Resources'],
+    forgePath: ['out', 'BitGoWalletRecoveryWizard-darwin-x64'],
     buildSteps: {}
   },
   win32: {
-    appSourcePath: ['resources']
-    forgePath: ['out', 'BitGoWalletRecoveryWizard-win32-x64']
+    appSourcePath: ['resources'],
+    forgePath: ['out', 'BitGoWalletRecoveryWizard-win32-x64'],
     buildSteps: {}
   }
 };
@@ -20,7 +20,7 @@ async function doPackaging(platform = 'darwin') {
     throw new Error(`Unsupported platform: ${platform}`);
   }
 
-  const { appSourcePath, forgePath, buildSteps } = platform;
+  const { appSourcePath, forgePath, buildSteps } = platformConfig[platform];
 
   // Install modules
   console.log('====================================== installing modules');
@@ -29,12 +29,12 @@ async function doPackaging(platform = 'darwin') {
 
   // Compile the js
   console.log('====================================== building javascript');
-  // await runCmd('yarn', ['run', 'build-react']);
+  await runCmd('yarn', ['run', 'build-react']);
   console.log('====================================== end building javascript');
 
   // Clear build folder
   console.log('====================================== clearing build folder');
-  await runCmd('rm', ['-rf', 'out', '*']);
+  await runCmd('rm', ['-rf', path.join('out', '*')]);
   console.log('====================================== end clearing build folder');
 
   // Grab a prebuilt executable
