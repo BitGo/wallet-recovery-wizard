@@ -1,13 +1,15 @@
 const pjson = require('../package.json');
 const spawn = require('child_process').spawn;
 const path = require('path');
+const winstaller = require('electron-winstaller');
+
+// Requires cygwin for windows
 
 const platformConfig = {
   darwin: {
     appSourcePath: ['Electron.app', 'Contents', 'Resources'],
     forgePath: ['out', 'BitGoWalletRecoveryWizard-darwin-x64'],
     buildSteps: {
-      clean: (dir) => ['rm', '-rf', path.join(dir, '*')],
       clear: (dir) => ['rm', '-rf', dir],
       copy: (src, dest) => ['cp', '-r', src, dest],
       move: (src, dest) => ['mv', src, dest]
@@ -17,9 +19,8 @@ const platformConfig = {
     appSourcePath: ['resources'],
     forgePath: ['out', 'BitGoWalletRecoveryWizard-win32-x64'],
     buildSteps: {
-      clean: (dir) => ['rm', '-rf', path.join(dir, '*')],
       clear: (dir) => ['rm', '-rf', dir],
-      copy: (src, dest) => ['xcopy', '/E', '/I', src, dest],
+      copy: (src, dest) => ['cp', '-r', src, dest],
       move: (src, dest) => ['mv', src, dest]
     }
   }
@@ -39,13 +40,14 @@ async function doPackaging(platform = 'darwin') {
 
   // Compile the js
   console.log('====================================== building javascript');
-  await runCmd('yarn', ['run', 'build-react']);
+  // await runCmd('yarn', ['run', 'build-react']);
   console.log('====================================== end building javascript');
 
   // Clear build folder
   console.log('====================================== clearing build folder');
-  const [cleanCmd, ...cleanArgs] = buildSteps.clean('out');
+  const [cleanCmd, ...cleanArgs] = buildSteps.clear('out');
   await runCmd(cleanCmd, cleanArgs);
+  await runCmd('mkdir', ['out']);
   console.log('====================================== end clearing build folder');
 
   // Grab a prebuilt executable
@@ -63,10 +65,12 @@ async function doPackaging(platform = 'darwin') {
   const appDirs = ['package.json', 'src/main.js', 'build'].map((appDir) => path.join(__dirname, '..', appDir));
   const prebuildSourcePath = path.join(__dirname, '..', ...forgePath, ...appSourcePath, 'app');
 
-  if (platform !== 'win32') {
-    // Make app directory in prebuildSourcePath
-    await runCmd('mkdir', ['-p', path.join(prebuildSourcePath, 'src')]);
+  // Make app directory in prebuildSourcePath
+  if (platform === 'win32') {
+    await runCmd('mkdir', [prebuildSourcePath]);
   }
+
+  await runCmd('mkdir', [path.join(prebuildSourcePath, 'src')]);
 
   // Copy the files
   for (const appDir of appDirs) {
@@ -87,35 +91,50 @@ async function doPackaging(platform = 'darwin') {
   await runCmd('yarn', ['install', '--ignore-engines', '--prod', '--no-lockfile', `--modules-folder`, path.join(prebuildSourcePath, 'node_modules')]);
   console.log('====================================== end installing packages');
 
+  // return;
+
   // Pack the source code (asar)
   console.log('====================================== packing application source');
   const packagedAppDir = path.join(__dirname, '..', ...forgePath, ...appSourcePath);
-  const appPath = path.join(packagedAppDir, 'app/');
+  const appPath = path.join(packagedAppDir, 'app');
   const asarPath = path.join(packagedAppDir, 'app.asar');
+
   await runCmd('asar', ['pack', appPath, asarPath]);
   console.log('====================================== end packing application source');
 
   // Remove unpacked source code
   console.log('====================================== removing unpacked source');
   const [rmSrcCmd, ...rmSrcArgs] = buildSteps.clear(path.join(packagedAppDir, 'app/'));
+  console.log('PATH TO REMOVE');
+  console.log(path.join(packagedAppDir, 'app/'));
   await runCmd(rmSrcCmd, rmSrcArgs);
   console.log('====================================== end removing unpacked source');
 
+  console.log('====================================== renaming app');
+
   // Rename the app
   if (platform !== 'win32') {
-    console.log('====================================== renaming app');
-    // await runCmd('pwd', { cwd: packagedAppDir });
     await runCmd('mv', [path.join(appDir, 'Electron.app'), path.join(appDir, `${pjson.name}.app`)]);
-    console.log('====================================== end renaming app');
   } else {
     // rename app for windows
+    await runCmd('mv', [path.join(appDir, 'electron.exe'), path.join(appDir, `${pjson.name}.exe`)]);
   }
+
+  console.log('====================================== end renaming app');
 
   // Give app an icon
 
+
   // Make a distributable
   console.log('====================================== creating distributable');
+  if (platform === 'win32') {
+    console.log('====================================== re-installing modules');
+    // need to re-install node_modules because asar deletes it (why? who knows)
+    await runCmd('yarn', ['install', '--ignore-engines']);
+  }
+
   await runCmd('electron-forge', ['make', '--skip-package']);
+
   console.log('====================================== end creating distributable');
 }
 
