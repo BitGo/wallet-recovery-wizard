@@ -1,7 +1,6 @@
 const pjson = require('../package.json');
 const spawn = require('child_process').spawn;
 const path = require('path');
-const winstaller = require('electron-winstaller');
 
 // Requires cygwin for windows
 
@@ -63,14 +62,14 @@ async function doPackaging(platform = 'darwin') {
   // Move project into executable
   console.log('====================================== moving source code into executable');
   const appDirs = ['package.json', 'src/main.js', 'build'].map((appDir) => path.join(__dirname, '..', appDir));
-  const prebuildSourcePath = path.join(__dirname, '..', ...forgePath, ...appSourcePath, 'app');
+  const prebuildSourcePath = path.join(__dirname, '..', ...forgePath, ...appSourcePath, 'app/');
 
   // Make app directory in prebuildSourcePath
   if (platform === 'win32') {
     await runCmd('mkdir', [prebuildSourcePath]);
   }
 
-  await runCmd('mkdir', [path.join(prebuildSourcePath, 'src')]);
+  await runCmd('mkdir', ['-p', path.join(prebuildSourcePath, 'src')]);
 
   // Copy the files
   for (const appDir of appDirs) {
