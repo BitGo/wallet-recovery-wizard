@@ -10,7 +10,7 @@ export default {
     passphrase: (coin) => `The wallet passphrase of the ${coin.toUpperCase()} wallet that received the source coin. You can leave this blank if you know the private key.`,
     prv: (coin) => `The private key (xprv) for the ${coin.toUpperCase()} wallet that received the source coin. If you have your wallet passphrase, you don't need this.`
   },
-  ethRecovery: {
+  recovery: {
     userKey: `Your encrypted user key, as found on your recovery KeyCard.`,
     backupKey: `Your encrypted backup key, as found on your recovery KeyCard.`,
     bitgoKey: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,

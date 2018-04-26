@@ -8,7 +8,7 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 
-const formTooltips = tooltips.ethRecovery;
+const formTooltips = tooltips.recovery;
 
 class NonBitGoRecoveryForm extends Component {
   state = {
@@ -70,9 +70,6 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      console.log('THIS IS PARAMS')
-      console.log(recoveryParams);
-
       const recovery = await this.props.bitgo.coin(coin).recover(recoveryParams);
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
@@ -82,7 +79,7 @@ class NonBitGoRecoveryForm extends Component {
 
       this.setState({ recovering: false, done: true, finalTx: recoveryTx });
     } catch (e) {
-      this.setState({ error: e.stack, recovering: false });
+      this.setState({ error: e.message, recovering: false });
     }
   }
 

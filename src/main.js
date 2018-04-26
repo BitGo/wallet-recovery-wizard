@@ -33,7 +33,7 @@ const template = [{
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 1200, height: 768 });
+    mainWindow = new BrowserWindow({ width: 1366, height: 768, resizable: false });
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
@@ -44,7 +44,7 @@ function createWindow() {
 
     mainWindow.loadURL(startUrl);
     // Open the DevTools.
-    mainWindow.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 

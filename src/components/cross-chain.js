@@ -296,7 +296,7 @@ class BuildTxForm extends Component {
             />
           </Col>
         </Row>
-        <Row>
+        {/*<Row>
           <Col xs={6}>
             <FormGroup>
               <Label className='input-label'>
@@ -314,7 +314,7 @@ class BuildTxForm extends Component {
               />
             </FormGroup>
           </Col>
-        </Row>
+        </Row>*/}
         {unspentStrategy === 'wallet' &&
           <Fragment>
             <InputField

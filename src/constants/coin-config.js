@@ -62,6 +62,6 @@ export default {
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
-    nonBitGo: ['eth', 'btc', 'ltc', 'bch', 'btg', 'xrp']
+    nonBitGo: ['eth', 'btc', 'ltc', 'bch', 'btg']
   }
 }
