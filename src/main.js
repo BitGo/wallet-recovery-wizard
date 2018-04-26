@@ -44,10 +44,9 @@ function createWindow() {
 
     mainWindow.loadURL(startUrl);
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
-
 
     // app.dock.setIcon(path.join(__dirname, '..', 'public', 'icons', 'png', 'appicon.png'));
 

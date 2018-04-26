@@ -13,16 +13,16 @@ const formTooltips = tooltips.ethRecovery;
 class NonBitGoRecoveryForm extends Component {
   state = {
     coin: 'eth',
-    boxAValue: '',
-    boxBValue: '',
-    boxCValue: '',
+    userKey: '',
+    backupKey: '',
+    bitgoKey: '',
     rootAddress: '',
     walletContractAddress: '',
     walletPassphrase: '',
-    recoveryAddress: '',
+    recoveryDestination: '',
     scan: 20,
     env: 'test'
-  }
+  };
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
@@ -39,9 +39,10 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    const coin = this.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+    const coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
 
-    const recoveryTool = this.props.bitgo.coin(coin).recover;
+    const baseCoin = this.props.bitgo.coin(coin);
+    const recoveryTool = baseCoin.recover;
 
     if (!recoveryTool) {
       this.setState({ error: `Recovery tool not found for ${coin}`, recovering: false });
@@ -49,8 +50,31 @@ class NonBitGoRecoveryForm extends Component {
     }
 
     try {
-      const recovery = await recoveryTool(this.state);
-      const recoveryTx = recovery.tx || recovery.transactionHex || recovery.txHex;
+      // This is like _.pick
+      const recoveryParams = [
+        'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
+        'walletContractAddress', 'walletPassphrase',
+        'recoveryDestination', 'scan'
+      ].reduce((obj, param) => {
+        if (!!this.state[param]) {
+          let value = this.state[param];
+
+          if (param === 'userKey' || param === 'backupKey') {
+            // remove whitespace
+            value = value.replace(/\\/g, '');
+          }
+
+          return Object.assign(obj, { [param]: value })
+        }
+
+        return obj;
+      }, {});
+
+      console.log('THIS IS PARAMS')
+      console.log(recoveryParams);
+
+      const recovery = await this.props.bitgo.coin(coin).recover(recoveryParams);
+      const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
       if (!recoveryTx) {
         throw new Error('Fully-signed recovery transaction not detected.');
@@ -58,17 +82,17 @@ class NonBitGoRecoveryForm extends Component {
 
       this.setState({ recovering: false, done: true, finalTx: recoveryTx });
     } catch (e) {
-      this.setState({ error: e.message, recovering: false });
+      this.setState({ error: e.stack, recovering: false });
     }
   }
 
   resetRecovery = () => {
     this.setState({
-      boxAValue: '',
-      boxBValue: '',
+      userKey: '',
+      backupKey: '',
       walletContractAddress: '',
       walletPassphrase: '',
-      recoveryAddress: '',
+      recoveryDestination: '',
       env: 'test',
       done: false,
       error: ''
@@ -115,25 +139,25 @@ class NonBitGoRecoveryForm extends Component {
           </Row>
           <InputTextarea
             label='Box A Value'
-            name='boxAValue'
-            onChange={this.updateRecoveryInfo('boxAValue')}
-            value={this.state.boxAValue}
-            tooltipText={formTooltips.boxAValue}
+            name='userKey'
+            onChange={this.updateRecoveryInfo('userKey')}
+            value={this.state.userKey}
+            tooltipText={formTooltips.userKey}
           />
           <InputTextarea
             label='Box B Value'
-            name='boxBValue'
-            onChange={this.updateRecoveryInfo('boxBValue')}
-            value={this.state.boxBValue}
-            tooltipText={formTooltips.boxBValue}
+            name='backupKey'
+            onChange={this.updateRecoveryInfo('backupKey')}
+            value={this.state.backupKey}
+            tooltipText={formTooltips.backupKey}
           />
           {!['xrp', 'eth'].includes(this.state.coin) &&
-            <inputField
+            <InputField
               label='Box C Value'
-              name='boxCValue'
-              onChange={this.updateRecoveryInfo('boxCValue')}
-              value={this.state.boxCValue}
-              tooltipText={formTooltips.boxCValue}
+              name='bitgoKey'
+              onChange={this.updateRecoveryInfo('bitgoKey')}
+              value={this.state.bitgoKey}
+              tooltipText={formTooltips.bitgoKey}
             />
           }
           {this.state.coin === 'xrp' &&
@@ -164,10 +188,10 @@ class NonBitGoRecoveryForm extends Component {
           />
           <InputField
             label='Destination Address'
-            name='recoveryAddress'
-            onChange={this.updateRecoveryInfo('recoveryAddress')}
-            value={this.state.recoveryAddress}
-            tooltipText={formTooltips.recoveryAddress}
+            name='recoveryDestination'
+            onChange={this.updateRecoveryInfo('recoveryDestination')}
+            value={this.state.recoveryDestination}
+            tooltipText={formTooltips.recoveryDestination}
           />
           {!['xrp', 'eth'].includes(this.state.coin) &&
             <InputField

@@ -20,8 +20,8 @@ class App extends Component {
     this.setState({ isLoggedIn, bitgo: bitgoInstance, loginBypass: false });
   }
 
-  updateLoginBypass = () => {
-    this.setState({ loginBypass: true });
+  updateLoginBypass = (bitgoInstance) => {
+    this.setState({ loginBypass: true, bitgo: bitgoInstance });
   }
 
   renderMain = (props) => {

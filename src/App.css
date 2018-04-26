@@ -37,6 +37,8 @@ a {
 	height:800px;
 	margin: 0;
 	box-sizing: initial;
+	position: relative;
+	margin: auto;
 }
 .header {
 	position:fixed;

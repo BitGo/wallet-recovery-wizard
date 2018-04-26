@@ -4,10 +4,7 @@ import {
   Switch,
   Route,
   Redirect,
-  withRouter
 } from 'react-router-dom';
-
-import classNames from 'classnames';
 
 import Sidebar from 'components/sidebar';
 import Header from 'components/header';
