@@ -1,7 +1,7 @@
 {
   "name": "BitGoWalletRecoveryWizard",
-  "description": "An UI-based desktop app for BitGo Recoveries",
-  "version": "1.0.0",
+  "description": "A UI-based desktop app for BitGo Recoveries",
+  "version": "1.0.1",
   "private": true,
   "main": "src/main.js",
   "homepage": "./",
