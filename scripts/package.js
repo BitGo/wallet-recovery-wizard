@@ -39,7 +39,7 @@ async function doPackaging(platform = 'darwin') {
 
   // Compile the js
   console.log('====================================== building javascript');
-  // await runCmd('yarn', ['run', 'build-react']);
+  await runCmd('yarn', ['run', 'build-react']);
   console.log('====================================== end building javascript');
 
   // Clear build folder

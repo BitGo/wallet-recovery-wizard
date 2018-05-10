@@ -40,6 +40,7 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ recovering: true, error: '' });
 
     const coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+    this.props.bitgo.env = this.state.env;
 
     const baseCoin = this.props.bitgo.coin(coin);
     const recoveryTool = baseCoin.recover;
