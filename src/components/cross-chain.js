@@ -158,7 +158,7 @@ class CrossChainRecoveryForm extends Component {
       bitgo: bitgo,
       sourceCoin: sourceCoin,
       recoveryType: recoveryCoin,
-      test: true,
+      test: !(bitgo.env === 'prod'),
       logger: this.collectLog
     });
 
