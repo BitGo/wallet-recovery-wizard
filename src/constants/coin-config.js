@@ -18,7 +18,7 @@ export default {
     },
     bch: {
       fullName: 'Bitcoin Cash',
-      supportedRecoveries: ['btc'],
+      supportedRecoveries: ['btc', 'ltc'],
       icon: bchIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
