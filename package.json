@@ -20,7 +20,7 @@
   "dependencies": {
     "autoprefixer": "7.1.6",
     "bitcoinjs-lib": "^3.3.2",
-    "bitgo": "^4.19.1",
+    "bitgo": "^4.28.0",
     "bluebird": "^3.5.1",
     "bootstrap": "4.0.0",
     "buffer": "^5.0.8",
