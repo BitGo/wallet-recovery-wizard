@@ -58,6 +58,42 @@ export default {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet (Kovan)', value: 'test' }
       ]
+    },
+    tbtc: {
+      fullName: 'Testnet Bitcoin',
+      supportedRecoveries: ['bch', 'ltc'],
+      icon: btcIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' },
+      ]
+    },
+    tbch: {
+      fullName: 'Testnet Bitcoin Cash',
+      supportedRecoveries: ['btc', 'ltc'],
+      icon: bchIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' },
+      ]
+    },
+    tltc: {
+      fullName: 'Testnet Litecoin',
+      supportedRecoveries: ['btc'],
+      icon: ltcIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' },
+      ]
+    },
+    teth: {
+      fullName: 'Testnet Ethereum',
+      supportedRecoveries: ['btc'],
+      icon: ethIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet (Kovan)', value: 'test' }
+      ]
     }
   },
   supportedRecoveries: {

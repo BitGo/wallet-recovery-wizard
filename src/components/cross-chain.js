@@ -6,21 +6,16 @@ import {
 } from './form-components';
 
 import ErrorMessage from './error-message';
-import Select from 'react-select';
 
 import {
   Form,
   Row,
   Col,
-  FormGroup,
-  Label,
   Button
 } from 'reactstrap';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-
-import CrossChainRecoveryTool from 'tools/cross-chain';
 
 import moment from 'moment';
 
@@ -39,7 +34,7 @@ class CrossChainRecoveryForm extends Component {
     recoveryAddress: '',
     passphrase: '',
     prv: '',
-    currentStep: 'buildTx',
+    recoveryTx: null,
     logging: ['']
   }
 
@@ -70,111 +65,19 @@ class CrossChainRecoveryForm extends Component {
       recoveryAddress: '',
       passphrase: '',
       prv: '',
-      currentStep: 'buildTx',
+      recoveryTx: null,
       logging: [''],
       error: ''
     });
   }
 
-  switchStep = (toStep) => () => {
-    this.setState({ currentStep: toStep, logging: [''] });
-  }
-
-  getFormForStep = () => {
-    const { currentStep } = this.state;
-
-    if (currentStep === 'buildTx') {
-      return <BuildTxForm
-        formState={this.state}
-        updateRecoveryInfo={this.updateRecoveryInfo}
-        updateSelect={this.updateSelect}
-        findUnspents={this.findUnspents.bind(this)}
-        goToNextStep={this.switchStep('signTx')}
-        resetRecovery={this.resetRecovery}
-      />;
-    } else if (currentStep === 'signTx') {
-      return <SignTxForm
-        formState={this.state}
-        updateRecoveryInfo={this.updateRecoveryInfo}
-        completeTx={this.completeTx.bind(this)}
-        goToNextStep={this.switchStep('confirmTx')}
-        resetRecovery={this.resetRecovery}
-      />;
-    } else if (currentStep === 'confirmTx') {
-      const txDetails = {
-        sourceCoin: this.state.sourceCoin,
-        recoveryCoin: this.state.recoveryCoin,
-        wallet: this.state.wallet,
-        recoveryAmount: this.RecoveryTool.recoveryAmount,
-        recoveryAddress: this.state.recoveryAddress
-      };
-
-      return <ConfirmTx
-        txDetails={txDetails}
-        saveTransaction={this.saveTransaction}
-        error={this.state.error}
-        resetRecovery={this.resetRecovery}
-      />;
-    } else if (currentStep === 'complete') {
-      return (
-        <div>
-          <p className='subtitle'>
-            <span>Successfully built recovery transaction. Please take the saved JSON file and submit it to </span>
-            <a href={'mailto:support@bitgo.com'}>support@bitgo.com</a>.
-          </p>
-          <Button onClick={this.resetRecovery} className='bitgo-button'>
-            Perform Another Recovery
-          </Button>
-        </div>
-      );
-    }
-  }
-
-  getSubtitleForStep = () => {
-    const { currentStep, recoveryAmount, recoveryCoin } = this.state;
-
-    if (currentStep === 'buildTx') {
-      return <p className='subtitle'>This tool will help you construct a transaction to recover coins sent to addresses on the wrong chain.</p>;
-    } else if (currentStep === 'signTx') {
-      return <p className='subtitle'>Please sign your transaction recovering the {recoveryAmount} {recoveryCoin.toUpperCase()} found.</p>;
-    } else if (currentStep === 'confirmTx') {
-      return <p className='subtitle'>Please confirm the following information about your recovery transaction.</p>;
-    } else if (currentStep === 'complete') {
-    }
-  }
-
-  async findUnspents() {
+  performRecovery = async () => {
     const { bitgo } = this.props;
     const {
       sourceCoin,
       recoveryCoin,
       wallet,
       txid,
-    } = this.state;
-
-    this.setState({ error: '' });
-
-    this.RecoveryTool = new CrossChainRecoveryTool({
-      bitgo: bitgo,
-      sourceCoin: sourceCoin,
-      recoveryType: recoveryCoin,
-      test: !(bitgo.env === 'prod'),
-      logger: this.collectLog
-    });
-
-    if (wallet && txid) {
-      try {
-        await this.RecoveryTool.setWallet(wallet);
-        await this.RecoveryTool.findUnspents(txid);
-        await this.RecoveryTool.buildInputs();
-      } catch (e) {
-        this.setState({ error: e.message });
-      }
-    }
-  }
-
-  async completeTx() {
-    const {
       recoveryAddress,
       passphrase,
       prv
@@ -183,17 +86,25 @@ class CrossChainRecoveryForm extends Component {
     this.setState({ error: '' });
 
     try {
-      this.RecoveryTool.setFees();
-      this.RecoveryTool.buildOutputs(recoveryAddress);
-      await this.RecoveryTool.signTransaction({ passphrase, prv });
+      const recoveryTx = await bitgo.coin(sourceCoin).recoverFromWrongChain({
+        txid: txid,
+        recoveryAddress: recoveryAddress,
+        wallet: wallet,
+        coin: recoveryCoin,
+        walletPassphrase: passphrase,
+        xprv: prv
+      });
+
+      this.setState({ recoveryTx: recoveryTx });
     } catch (e) {
+      this.collectLog(e.message);
       this.setState({ error: e.message });
     }
   }
 
   saveTransaction = () => {
-    const fileData = this.RecoveryTool.getFileData();
-    const fileName = `${this.RecoveryTool.sourceCoin.type}r-${this.RecoveryTool.faultyTxId.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
+    const fileData = this.state.recoveryTx;
+    const fileName = `${fileData.sourceCoin}r-${this.state.txid.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
 
     const dialogParams = {
       filters: [{
@@ -212,7 +123,6 @@ class CrossChainRecoveryForm extends Component {
 
     try {
       fs.writeFileSync(filePath, JSON.stringify(fileData, null, 4), 'utf8');
-      this.switchStep('complete')();
     } catch (err) {
       console.log('error saving', err);
       this.setState({ error: 'There was a problem saving your recovery file. Please try again.' });
@@ -229,48 +139,32 @@ class CrossChainRecoveryForm extends Component {
     return (
       <div>
         <h1 className='content-header'>Wrong Chain Recoveries</h1>
-        {this.getSubtitleForStep()}
+        <p className='subtitle'>This tool will help you construct a transaction to recover coins sent to addresses on the wrong chain.</p>
         <hr />
-        {this.getFormForStep()}
+        {this.state.recoveryTx === null &&
+        <RecoveryTxForm formState={this.state}
+                        updateRecoveryInfo={this.updateRecoveryInfo}
+                        updateSelect={this.updateSelect}
+                        performRecovery={this.performRecovery}
+                        resetRecovery={this.resetRecovery} />
+        }
+        {this.state.recoveryTx !== null &&
+        <ConfirmTx txDetails={this.state.recoveryTx}
+                   error={this.state.error}
+                   saveTransaction={this.saveTransaction}
+                   resetRecovery={this.resetRecovery} />
+        }
       </div>
     );
   }
 }
 
-class BuildTxForm extends Component {
-  state = { unspentStrategy: 'wallet' };
-
-  updateUnspentStratgies = (strategy) => {
-    this.setState({ unspentStrategy: strategy.value });
-  }
-
-  async doFindUnspents() {
-    this.setState({ searching: true });
-    await this.props.findUnspents();
-    this.setState({ searching: false, done: true });
-  }
-
+class RecoveryTxForm extends Component {
   render() {
-    const { formState, updateRecoveryInfo, updateSelect } = this.props;
+    const { formState, updateRecoveryInfo, updateSelect, performRecovery, resetRecovery } = this.props;
     const { sourceCoin, recoveryCoin, logging, error } = formState;
-    const { unspentStrategy, searching, done } = this.state;
     const allCoins = coinConfig.supportedRecoveries.crossChain;
     const recoveryCoins = coinConfig.allCoins[sourceCoin].supportedRecoveries;
-
-    const unspentStrategies = [
-      {
-        label: 'Wallet ID & Transaction ID',
-        value: 'wallet'
-      },
-      {
-        label: 'Address',
-        value: 'address'
-      },
-      {
-        label: 'Unspent ID',
-        value: 'unspents'
-      },
-    ];
 
     return (
       <Form>
@@ -296,141 +190,53 @@ class BuildTxForm extends Component {
             />
           </Col>
         </Row>
-        {/*<Row>
-          <Col xs={6}>
-            <FormGroup>
-              <Label className='input-label'>
-                How would you like to recover your coin?
-              </Label>
-              <Select
-                className='bitgo-select'
-                type='select'
-                options={unspentStrategies}
-                onChange={this.updateUnspentStratgies}
-                name={'unspentStrategy'}
-                value={unspentStrategy}
-                clearable={false}
-                searchable={false}
-              />
-            </FormGroup>
-          </Col>
-        </Row>*/}
-        {unspentStrategy === 'wallet' &&
-          <Fragment>
-            <InputField
-              label='Wallet ID'
-              name='wallet'
-              onChange={updateRecoveryInfo('wallet')}
-              value={formState.wallet}
-              tooltipText={formTooltips.wallet(formState.recoveryCoin)}
-            />
-            <InputField
-              label='Transaction ID'
-              name='txid'
-              onChange={updateRecoveryInfo('txid')}
-              value={formState.txid}
-              tooltipText={formTooltips.txid(formState.sourceCoin)}
-            />
-          </Fragment>
-        }
-        {unspentStrategy === 'address' &&
+        <Fragment>
           <InputField
-            label='Address'
-            name='address'
-            onChange={updateRecoveryInfo('address')}
-            value={formState.address}
-            tooltipText={formTooltips.address(formState.recoveryCoin)}
+            label='Wallet ID'
+            name='wallet'
+            onChange={updateRecoveryInfo('wallet')}
+            value={formState.wallet}
+            tooltipText={formTooltips.wallet(formState.recoveryCoin)}
           />
-        }
-        {unspentStrategy === 'unspents' &&
           <InputField
-            label='Unspent ID'
-            name='unspent'
-            onChange={updateRecoveryInfo('unspent')}
-            value={formState.unspent}
-            tooltipText={formTooltips.unspent(formState.sourceCoin)}
+            label='Transaction ID'
+            name='txid'
+            onChange={updateRecoveryInfo('txid')}
+            value={formState.txid}
+            tooltipText={formTooltips.txid(formState.sourceCoin)}
           />
-        }
-        {error && <ErrorMessage>{error}</ErrorMessage>}
-        {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
-        <Row>
-            <Col xs={12}>
-              {!error && done &&
-                <Button onClick={this.props.goToNextStep} disabled={!!searching} className='bitgo-button'>
-                  Next
-                </Button>
-              }
-              {(error || !done) &&
-                <Button onClick={this.doFindUnspents.bind(this)} disabled={!!searching} className='bitgo-button'>
-                  {searching ? 'Searching...' : 'Find Lost Coin'}
-                </Button>
-              }
-              {done &&
-                <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
-                  Cancel
-                </Button>
-              }
-            </Col>
-        </Row>
-      </Form>
-    );
-  }
-}
-
-class SignTxForm extends Component {
-  state = {}
-
-  async doSignTransaction() {
-    this.setState({ signing: true });
-    await this.props.completeTx();
-    this.setState({ signing: false, done: true });
-  }
-
-  render() {
-    const { formState, updateRecoveryInfo } = this.props;
-    const { logging, error } = formState;
-    const { signing, done } = this.state;
-
-    return (
-      <Form>
-        <InputField
-          label='Destination Address'
-          name='recoveryAddress'
-          onChange={updateRecoveryInfo('recoveryAddress')}
-          value={formState.recoveryAddress}
-          tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
-        />
-        <InputField
-          label='Wallet Passphrase'
-          name='passphrase'
-          onChange={updateRecoveryInfo('passphrase')}
-          value={formState.passphrase}
-          tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
-          isPassword={true}
-        />
-        <InputField
-          label='Private Key'
-          name='prv'
-          onChange={updateRecoveryInfo('prv')}
-          value={formState.prv}
-          tooltipText={formTooltips.prv(formState.recoveryCoin)}
-          isPassword={true}
-        />
+          <InputField
+            label='Destination Address'
+            name='recoveryAddress'
+            onChange={updateRecoveryInfo('recoveryAddress')}
+            value={formState.recoveryAddress}
+            tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
+          />
+          <InputField
+            label='Wallet Passphrase'
+            name='passphrase'
+            onChange={updateRecoveryInfo('passphrase')}
+            value={formState.passphrase}
+            tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
+            isPassword={true}
+          />
+          <InputField
+            label='Private Key'
+            name='prv'
+            onChange={updateRecoveryInfo('prv')}
+            value={formState.prv}
+            tooltipText={formTooltips.prv(formState.recoveryCoin)}
+            isPassword={true}
+          />
+        </Fragment>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
         <Row>
           <Col xs={12}>
-            {!error && done &&
-              <Button onClick={this.props.goToNextStep} disabled={!!signing} className='bitgo-button'>
-                Next
-              </Button>
-            }
-            {(error || !done) &&
-              <Button onClick={this.doSignTransaction.bind(this)} disabled={!!signing} className='bitgo-button'>
-                {signing ? 'Signing...' : 'Sign Transaction'}
-              </Button>
-            }
-            <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
+            <Button onClick={performRecovery} className={'bitgo-button'}>
+              Recover Funds
+            </Button>
+            <Button onClick={resetRecovery} className={'bitgo-button other'}>
               Cancel
             </Button>
           </Col>
@@ -456,7 +262,7 @@ class ConfirmTx extends Component {
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
-          <Col xs={5}>{txDetails.wallet}</Col>
+          <Col xs={5}>{txDetails.walletId}</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
