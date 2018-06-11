@@ -11,6 +11,8 @@ import {
   Form,
   Row,
   Col,
+  Label,
+  Input,
   Button
 } from 'reactstrap';
 
@@ -31,6 +33,7 @@ class CrossChainRecoveryForm extends Component {
     txid: '',
     unspent: '',
     address: '',
+    signed: true,
     recoveryAddress: '',
     passphrase: '',
     prv: '',
@@ -40,6 +43,10 @@ class CrossChainRecoveryForm extends Component {
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+  }
+
+  updateCheckbox = (fieldName) => (option) => {
+    this.setState({ [fieldName]: option.target.checked });
   }
 
   updateSelect = (fieldName) => (option) => {
@@ -63,6 +70,7 @@ class CrossChainRecoveryForm extends Component {
       unspent: '',
       address: '',
       recoveryAddress: '',
+      signed: true,
       passphrase: '',
       prv: '',
       recoveryTx: null,
@@ -79,6 +87,7 @@ class CrossChainRecoveryForm extends Component {
       wallet,
       txid,
       recoveryAddress,
+      signed,
       passphrase,
       prv
     } = this.state;
@@ -91,6 +100,7 @@ class CrossChainRecoveryForm extends Component {
         recoveryAddress: recoveryAddress,
         wallet: wallet,
         coin: recoveryCoin,
+        signed: signed,
         walletPassphrase: passphrase,
         xprv: prv
       });
@@ -144,6 +154,7 @@ class CrossChainRecoveryForm extends Component {
         {this.state.recoveryTx === null &&
         <RecoveryTxForm formState={this.state}
                         updateRecoveryInfo={this.updateRecoveryInfo}
+                        updateCheckbox={this.updateCheckbox}
                         updateSelect={this.updateSelect}
                         performRecovery={this.performRecovery}
                         resetRecovery={this.resetRecovery} />
@@ -161,7 +172,7 @@ class CrossChainRecoveryForm extends Component {
 
 class RecoveryTxForm extends Component {
   render() {
-    const { formState, updateRecoveryInfo, updateSelect, performRecovery, resetRecovery } = this.props;
+    const { formState, updateRecoveryInfo, updateCheckbox, updateSelect, performRecovery, resetRecovery } = this.props;
     const { sourceCoin, recoveryCoin, logging, error } = formState;
     const allCoins = coinConfig.supportedRecoveries.crossChain;
     const recoveryCoins = coinConfig.allCoins[sourceCoin].supportedRecoveries;
@@ -189,6 +200,12 @@ class RecoveryTxForm extends Component {
               tooltipText={formTooltips.destinationCoin()}
             />
           </Col>
+          <Col xs={3} style={{display: 'flex', alignItems: 'center'}}>
+            <Label check>
+              <br/>
+              <Input type='checkbox' onChange={updateCheckbox('signed')} checked={formState.signed} /> Sign Transaction
+            </Label>
+          </Col>
         </Row>
         <Fragment>
           <InputField
@@ -212,6 +229,7 @@ class RecoveryTxForm extends Component {
             value={formState.recoveryAddress}
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
           />
+          {formState.signed &&
           <InputField
             label='Wallet Passphrase'
             name='passphrase'
@@ -220,6 +238,8 @@ class RecoveryTxForm extends Component {
             tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
             isPassword={true}
           />
+          }
+          {formState.signed &&
           <InputField
             label='Private Key'
             name='prv'
@@ -227,7 +247,8 @@ class RecoveryTxForm extends Component {
             value={formState.prv}
             tooltipText={formTooltips.prv(formState.recoveryCoin)}
             isPassword={true}
-          />
+            />
+          }
         </Fragment>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
