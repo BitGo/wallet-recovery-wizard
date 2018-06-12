@@ -94,10 +94,19 @@ export default {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet (Kovan)', value: 'test' }
       ]
+    },
+    token: {
+      fullName: 'ERC20 Token',
+      supportedRecoveries: [],
+      icon: ethIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet (Kovan)', value: 'test' }
+      ]
     }
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
-    nonBitGo: ['eth', 'btc', 'ltc', 'bch', 'btg']
+    nonBitGo: ['eth', 'btc', 'ltc', 'bch', 'btg', 'token']
   }
 }

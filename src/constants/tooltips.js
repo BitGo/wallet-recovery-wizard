@@ -18,6 +18,7 @@ export default {
     walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,
     walletPassphrase: `The passphrase of the wallet.`,
     recoveryDestination: `The address your recovery transaction will send to.`,
-    scan: 'The amount of addresses without transactions to scan before stopping the tool.'
+    scan: 'The amount of addresses without transactions to scan before stopping the tool.',
+    tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.'
   }
 }

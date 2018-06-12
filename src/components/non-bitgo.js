@@ -18,6 +18,7 @@ class NonBitGoRecoveryForm extends Component {
     bitgoKey: '',
     rootAddress: '',
     walletContractAddress: '',
+    tokenAddress: '',
     walletPassphrase: '',
     recoveryDestination: '',
     scan: 20,
@@ -39,10 +40,19 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    const coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+    let coin;
+    let baseCoin;
+
+    if (this.state.coin === 'token') {
+      coin = this.state.tokenAddress;
+      baseCoin = await this.props.bitgo.token(coin);
+    } else {
+      coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      baseCoin = this.props.bitgo.coin(coin);
+    }
+
     this.props.bitgo.env = this.state.env;
 
-    const baseCoin = this.props.bitgo.coin(coin);
     const recoveryTool = baseCoin.recover;
 
     if (!recoveryTool) {
@@ -54,7 +64,7 @@ class NonBitGoRecoveryForm extends Component {
       // This is like _.pick
       const recoveryParams = [
         'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
-        'walletContractAddress', 'walletPassphrase',
+        'walletContractAddress', 'tokenAddress', 'walletPassphrase',
         'recoveryDestination', 'scan'
       ].reduce((obj, param) => {
         if (!!this.state[param]) {
@@ -89,6 +99,7 @@ class NonBitGoRecoveryForm extends Component {
       userKey: '',
       backupKey: '',
       walletContractAddress: '',
+      tokenAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
       env: 'test',
@@ -149,7 +160,7 @@ class NonBitGoRecoveryForm extends Component {
             value={this.state.backupKey}
             tooltipText={formTooltips.backupKey}
           />
-          {!['xrp', 'eth'].includes(this.state.coin) &&
+          {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Box C Value'
               name='bitgoKey'
@@ -167,7 +178,7 @@ class NonBitGoRecoveryForm extends Component {
               tooltipText={formTooltips.rootAddress}
             />
           }
-          {this.state.coin === 'eth' &&
+          {['eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Wallet Contract Address'
               name='walletContractAddress'
@@ -175,6 +186,15 @@ class NonBitGoRecoveryForm extends Component {
               value={this.state.walletContractAddress}
               tooltipText={formTooltips.walletContractAddress}
             />
+          }
+          {this.state.coin === 'token' &&
+          <InputField
+            label='Token Contract Address'
+            name='tokenAddress'
+            onChange={this.updateRecoveryInfo('tokenAddress')}
+            value={this.state.tokenAddress}
+            tooltipText={formTooltips.tokenAddress}
+          />
           }
           <InputField
             label='Wallet Passphrase'
@@ -191,7 +211,7 @@ class NonBitGoRecoveryForm extends Component {
             value={this.state.recoveryDestination}
             tooltipText={formTooltips.recoveryDestination}
           />
-          {!['xrp', 'eth'].includes(this.state.coin) &&
+          {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Address Scanning Factor'
               name='scan'
