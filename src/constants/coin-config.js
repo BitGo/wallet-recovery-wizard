@@ -27,7 +27,7 @@ export default {
     },
     ltc: {
       fullName: 'Litecoin',
-      supportedRecoveries: ['btc'],
+      supportedRecoveries: ['btc', 'bch'],
       icon: ltcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
