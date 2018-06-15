@@ -276,77 +276,103 @@ class RecoveryTxForm extends Component {
 
 class ConfirmTx extends Component {
   render() {
-    const { txDetails, signed, error } = this.props;
+    const { signed, txDetails, error, saveTransaction, resetRecovery } = this.props;
 
     if (signed) {
       return (
-        <div>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-            <Col xs={5}>{coinConfig.allCoins[txDetails.sourceCoin].fullName} ({txDetails.sourceCoin.toUpperCase()})</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Recovery Coin:</Col>
-            <Col xs={5}>{coinConfig.allCoins[txDetails.recoveryCoin].fullName} ({txDetails.recoveryCoin.toUpperCase()})</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
-            <Col xs={5}>{txDetails.walletId}</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
-            <Col xs={5}>{txDetails.recoveryAmount * 1e-8} {txDetails.sourceCoin.toUpperCase()}</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
-            <Col xs={5}>{txDetails.recoveryAddress}</Col>
-          </Row>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Row>
-            <Col xs={12}>
-              <Button onClick={this.props.saveTransaction} className='bitgo-button'>
-                Save Recovery Transaction
-              </Button>
-              <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
-                Cancel
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        <SignedConfirmTx txDetails={txDetails}
+                   error={error}
+                   saveTransaction={saveTransaction}
+                   resetRecovery={resetRecovery} />
       )
     } else {
       return (
-        <div>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-            <Col xs={5}>{coinConfig.allCoins[txDetails.coin].fullName} ({txDetails.coin.toUpperCase()})</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
-            <Col xs={5}>{txDetails.walletId}</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
-            <Col xs={5}>{txDetails.amount * 1e-8} {txDetails.coin.toUpperCase()}</Col>
-          </Row>
-          <Row>
-            <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
-            <Col xs={5}>{txDetails.address}</Col>
-          </Row>
-          {error && <ErrorMessage>{error}</ErrorMessage>}
-          <Row>
-            <Col xs={12}>
-              <Button onClick={this.props.saveTransaction} className='bitgo-button'>
-                Save Recovery Transaction
-              </Button>
-              <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
-                Cancel
-              </Button>
-            </Col>
-          </Row>
-        </div>
+        <UnsignedConfirmTx txDetails={txDetails}
+                           error={error}
+                           saveTransaction={saveTransaction}
+                           resetRecovery={resetRecovery} />
       )
     }
+  }
+}
+
+class SignedConfirmTx extends Component {
+  render() {
+    const { txDetails, error } = this.props;
+
+    return (
+      <div>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.sourceCoin].fullName} ({txDetails.sourceCoin.toUpperCase()})</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Recovery Coin:</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.recoveryCoin].fullName} ({txDetails.recoveryCoin.toUpperCase()})</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
+          <Col xs={5}>{txDetails.walletId}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
+          <Col xs={5}>{txDetails.recoveryAmount * 1e-8} {txDetails.sourceCoin.toUpperCase()}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
+          <Col xs={5}>{txDetails.recoveryAddress}</Col>
+        </Row>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Row>
+          <Col xs={12}>
+            <Button onClick={this.props.saveTransaction} className='bitgo-button'>
+              Save Recovery Transaction
+            </Button>
+            <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
+              Cancel
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    )
+  }
+}
+
+class UnsignedConfirmTx extends Component {
+  render() {
+    const { txDetails, error } = this.props;
+
+    return (
+      <div>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.coin].fullName} ({txDetails.coin.toUpperCase()})</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
+          <Col xs={5}>{txDetails.walletId}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
+          <Col xs={5}>{txDetails.amount * 1e-8} {txDetails.coin.toUpperCase()}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
+          <Col xs={5}>{txDetails.address}</Col>
+        </Row>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Row>
+          <Col xs={12}>
+            <Button onClick={this.props.saveTransaction} className='bitgo-button'>
+              Save Recovery Transaction
+            </Button>
+            <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
+              Cancel
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    )
   }
 }
 
