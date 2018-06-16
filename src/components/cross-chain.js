@@ -165,12 +165,17 @@ class CrossChainRecoveryForm extends Component {
                         performRecovery={this.performRecovery}
                         resetRecovery={this.resetRecovery} />
         }
-        {this.state.recoveryTx !== null &&
-        <ConfirmTx txDetails={this.state.recoveryTx}
-                   signed={this.state.signed}
-                   error={this.state.error}
-                   saveTransaction={this.saveTransaction}
-                   resetRecovery={this.resetRecovery} />
+        {(this.state.recoveryTx !== null && this.state.signed) &&
+        <ConfirmTxSigned txDetails={this.state.recoveryTx}
+                         error={this.state.error}
+                         saveTransaction={this.saveTransaction}
+                         resetRecovery={this.resetRecovery} />
+        }
+        {(this.state.recoveryTx !== null && !this.state.signed) &&
+        <ConfirmTxUnsigned txDetails={this.state.recoveryTx}
+                           error={this.state.error}
+                           saveTransaction={this.saveTransaction}
+                           resetRecovery={this.resetRecovery}/>
         }
       </div>
     );
@@ -274,29 +279,7 @@ class RecoveryTxForm extends Component {
   }
 }
 
-class ConfirmTx extends Component {
-  render() {
-    const { signed, txDetails, error, saveTransaction, resetRecovery } = this.props;
-
-    if (signed) {
-      return (
-        <SignedConfirmTx txDetails={txDetails}
-                   error={error}
-                   saveTransaction={saveTransaction}
-                   resetRecovery={resetRecovery} />
-      )
-    } else {
-      return (
-        <UnsignedConfirmTx txDetails={txDetails}
-                           error={error}
-                           saveTransaction={saveTransaction}
-                           resetRecovery={resetRecovery} />
-      )
-    }
-  }
-}
-
-class SignedConfirmTx extends Component {
+class ConfirmTxSigned extends Component {
   render() {
     const { txDetails, error } = this.props;
 
@@ -338,7 +321,7 @@ class SignedConfirmTx extends Component {
   }
 }
 
-class UnsignedConfirmTx extends Component {
+class ConfirmTxUnsigned extends Component {
   render() {
     const { txDetails, error } = this.props;
 
