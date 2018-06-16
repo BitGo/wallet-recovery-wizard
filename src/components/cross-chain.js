@@ -279,7 +279,7 @@ class RecoveryTxForm extends Component {
   }
 }
 
-class ConfirmTxSigned extends Component {
+class SignedConfirmTx extends Component {
   render() {
     const { txDetails, error } = this.props;
 
