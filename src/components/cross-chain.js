@@ -82,8 +82,6 @@ class CrossChainRecoveryForm extends Component {
   performRecovery = async () => {
     const { bitgo } = this.props;
     const {
-      sourceCoin,
-      recoveryCoin,
       wallet,
       txid,
       recoveryAddress,
@@ -92,6 +90,9 @@ class CrossChainRecoveryForm extends Component {
       prv
     } = this.state;
 
+    const sourceCoin = bitgo.env === 'prod' ? this.state.sourceCoin : 't' + this.state.sourceCoin;
+    const recoveryCoin = bitgo.env === 'prod' ? this.state.recoveryCoin : 't' + this.state.recoveryCoin;
+
     this.setState({ error: '' });
 
     try {
@@ -99,7 +100,7 @@ class CrossChainRecoveryForm extends Component {
         txid: txid,
         recoveryAddress: recoveryAddress,
         wallet: wallet,
-        coin: recoveryCoin,
+        coin: bitgo.coin(recoveryCoin),
         signed: signed,
         walletPassphrase: passphrase,
         xprv: prv
@@ -279,7 +280,7 @@ class RecoveryTxForm extends Component {
   }
 }
 
-class SignedConfirmTx extends Component {
+class ConfirmTxSigned extends Component {
   render() {
     const { txDetails, error } = this.props;
 
