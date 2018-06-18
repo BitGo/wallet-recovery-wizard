@@ -11,6 +11,8 @@ import {
   Form,
   Row,
   Col,
+  Label,
+  Input,
   Button
 } from 'reactstrap';
 
@@ -31,6 +33,7 @@ class CrossChainRecoveryForm extends Component {
     txid: '',
     unspent: '',
     address: '',
+    signed: true,
     recoveryAddress: '',
     passphrase: '',
     prv: '',
@@ -40,6 +43,10 @@ class CrossChainRecoveryForm extends Component {
 
   updateRecoveryInfo = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
+  }
+
+  updateCheckbox = (fieldName) => (option) => {
+    this.setState({ [fieldName]: option.target.checked });
   }
 
   updateSelect = (fieldName) => (option) => {
@@ -63,6 +70,7 @@ class CrossChainRecoveryForm extends Component {
       unspent: '',
       address: '',
       recoveryAddress: '',
+      signed: true,
       passphrase: '',
       prv: '',
       recoveryTx: null,
@@ -79,6 +87,7 @@ class CrossChainRecoveryForm extends Component {
       wallet,
       txid,
       recoveryAddress,
+      signed,
       passphrase,
       prv
     } = this.state;
@@ -91,6 +100,7 @@ class CrossChainRecoveryForm extends Component {
         recoveryAddress: recoveryAddress,
         wallet: wallet,
         coin: recoveryCoin,
+        signed: signed,
         walletPassphrase: passphrase,
         xprv: prv
       });
@@ -104,7 +114,13 @@ class CrossChainRecoveryForm extends Component {
 
   saveTransaction = () => {
     const fileData = this.state.recoveryTx;
-    const fileName = `${fileData.sourceCoin}r-${this.state.txid.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
+    let fileName;
+
+    if (this.state.signed) {
+      fileName = `${fileData.sourceCoin}r-${this.state.txid.slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
+    } else {
+      fileName = `${fileData.coin}r-${this.state.txid.slice(0, 6)}-${moment().format('YYYYMMDD')}.unsigned.json`;
+    }
 
     const dialogParams = {
       filters: [{
@@ -144,15 +160,22 @@ class CrossChainRecoveryForm extends Component {
         {this.state.recoveryTx === null &&
         <RecoveryTxForm formState={this.state}
                         updateRecoveryInfo={this.updateRecoveryInfo}
+                        updateCheckbox={this.updateCheckbox}
                         updateSelect={this.updateSelect}
                         performRecovery={this.performRecovery}
                         resetRecovery={this.resetRecovery} />
         }
-        {this.state.recoveryTx !== null &&
-        <ConfirmTx txDetails={this.state.recoveryTx}
-                   error={this.state.error}
-                   saveTransaction={this.saveTransaction}
-                   resetRecovery={this.resetRecovery} />
+        {(this.state.recoveryTx !== null && this.state.signed) &&
+        <ConfirmTxSigned txDetails={this.state.recoveryTx}
+                         error={this.state.error}
+                         saveTransaction={this.saveTransaction}
+                         resetRecovery={this.resetRecovery} />
+        }
+        {(this.state.recoveryTx !== null && !this.state.signed) &&
+        <ConfirmTxUnsigned txDetails={this.state.recoveryTx}
+                           error={this.state.error}
+                           saveTransaction={this.saveTransaction}
+                           resetRecovery={this.resetRecovery}/>
         }
       </div>
     );
@@ -161,7 +184,7 @@ class CrossChainRecoveryForm extends Component {
 
 class RecoveryTxForm extends Component {
   render() {
-    const { formState, updateRecoveryInfo, updateSelect, performRecovery, resetRecovery } = this.props;
+    const { formState, updateRecoveryInfo, updateCheckbox, updateSelect, performRecovery, resetRecovery } = this.props;
     const { sourceCoin, recoveryCoin, logging, error } = formState;
     const allCoins = coinConfig.supportedRecoveries.crossChain;
     const recoveryCoins = coinConfig.allCoins[sourceCoin].supportedRecoveries;
@@ -189,6 +212,12 @@ class RecoveryTxForm extends Component {
               tooltipText={formTooltips.destinationCoin()}
             />
           </Col>
+          <Col xs={3} style={{display: 'flex', alignItems: 'center'}}>
+            <Label check>
+              <br/>
+              <Input type='checkbox' onChange={updateCheckbox('signed')} checked={formState.signed} /> Sign Transaction
+            </Label>
+          </Col>
         </Row>
         <Fragment>
           <InputField
@@ -212,6 +241,7 @@ class RecoveryTxForm extends Component {
             value={formState.recoveryAddress}
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
           />
+          {formState.signed &&
           <InputField
             label='Wallet Passphrase'
             name='passphrase'
@@ -220,6 +250,8 @@ class RecoveryTxForm extends Component {
             tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
             isPassword={true}
           />
+          }
+          {formState.signed &&
           <InputField
             label='Private Key'
             name='prv'
@@ -227,7 +259,8 @@ class RecoveryTxForm extends Component {
             value={formState.prv}
             tooltipText={formTooltips.prv(formState.recoveryCoin)}
             isPassword={true}
-          />
+            />
+          }
         </Fragment>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         {!error && logging.map((logLine, index) => <p className='recovery-logging' key={index}>{logLine}</p>)}
@@ -246,7 +279,7 @@ class RecoveryTxForm extends Component {
   }
 }
 
-class ConfirmTx extends Component {
+class SignedConfirmTx extends Component {
   render() {
     const { txDetails, error } = this.props;
 
@@ -271,6 +304,44 @@ class ConfirmTx extends Component {
         <Row>
           <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
           <Col xs={5}>{txDetails.recoveryAddress}</Col>
+        </Row>
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+        <Row>
+          <Col xs={12}>
+            <Button onClick={this.props.saveTransaction} className='bitgo-button'>
+              Save Recovery Transaction
+            </Button>
+            <Button onClick={this.props.resetRecovery} className='bitgo-button other'>
+              Cancel
+            </Button>
+          </Col>
+        </Row>
+      </div>
+    )
+  }
+}
+
+class ConfirmTxUnsigned extends Component {
+  render() {
+    const { txDetails, error } = this.props;
+
+    return (
+      <div>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
+          <Col xs={5}>{coinConfig.allCoins[txDetails.coin].fullName} ({txDetails.coin.toUpperCase()})</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
+          <Col xs={5}>{txDetails.walletId}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
+          <Col xs={5}>{txDetails.amount * 1e-8} {txDetails.coin.toUpperCase()}</Col>
+        </Row>
+        <Row>
+          <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
+          <Col xs={5}>{txDetails.address}</Col>
         </Row>
         {error && <ErrorMessage>{error}</ErrorMessage>}
         <Row>
