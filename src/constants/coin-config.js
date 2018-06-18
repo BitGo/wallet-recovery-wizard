@@ -61,7 +61,7 @@ export default {
     },
     tbtc: {
       fullName: 'Testnet Bitcoin',
-      supportedRecoveries: ['bch', 'ltc'],
+      supportedRecoveries: ['tbch', 'tltc'],
       icon: btcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -70,7 +70,7 @@ export default {
     },
     tbch: {
       fullName: 'Testnet Bitcoin Cash',
-      supportedRecoveries: ['btc', 'ltc'],
+      supportedRecoveries: ['tbtc', 'tltc'],
       icon: bchIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -79,7 +79,7 @@ export default {
     },
     tltc: {
       fullName: 'Testnet Litecoin',
-      supportedRecoveries: ['btc'],
+      supportedRecoveries: ['tbtc', 'tbch'],
       icon: ltcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -88,7 +88,7 @@ export default {
     },
     teth: {
       fullName: 'Testnet Ethereum',
-      supportedRecoveries: ['btc'],
+      supportedRecoveries: ['tbtc'],
       icon: ethIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },

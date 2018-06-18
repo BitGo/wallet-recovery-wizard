@@ -44,8 +44,13 @@ class NonBitGoRecoveryForm extends Component {
     let baseCoin;
 
     if (this.state.coin === 'token') {
-      coin = this.state.tokenAddress;
-      baseCoin = await this.props.bitgo.token(coin);
+      try {
+        coin = this.state.tokenAddress;
+        baseCoin = await this.props.bitgo.token(coin);
+      } catch (e) {
+        this.setState({ error: e.message, recovering: false });
+        return;
+      }
     } else {
       coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
       baseCoin = this.props.bitgo.coin(coin);
