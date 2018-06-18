@@ -90,8 +90,8 @@ class CrossChainRecoveryForm extends Component {
       prv
     } = this.state;
 
-    const sourceCoin = (bitgo.env === 'test') ? 't' + this.state.sourceCoin : this.state.sourceCoin;
-    const recoveryCoin = (bitgo.env === 'test') ? 't' + this.state.recoveryCoin : this.state.recoveryCoin;
+    const sourceCoin = bitgo.env === 'prod' ? this.state.sourceCoin : 't' + this.state.sourceCoin;
+    const recoveryCoin = bitgo.env === 'prod' ? this.state.recoveryCoin : 't' + this.state.recoveryCoin;
 
     this.setState({ error: '' });
 
