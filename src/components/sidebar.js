@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup  from 'react-transition-group/CSSTransitionGroup';
 import classNames from 'classnames';
 import nav from 'constants/nav';
 
@@ -12,7 +12,7 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
   const showSidebar = location.pathname !== '/' && !location.pathname.match(/index\.html$/) && isLoggedIn;
 
   return (
-    <ReactCSSTransitionGroup
+    <CSSTransitionGroup
       transitionName='slide'
       transitionEnterTimeout={500}
       transitionLeaveTimeout={300}
@@ -26,7 +26,7 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
           )}
         </div>
       }
-    </ReactCSSTransitionGroup>
+    </CSSTransitionGroup>
   );
 });
 
