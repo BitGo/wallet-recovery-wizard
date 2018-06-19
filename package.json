@@ -7,9 +7,10 @@
   "main": "src/main.js",
   "homepage": "./",
   "scripts": {
-    "start": "NODE_ENV=development electron-forge start",
-    "dev": "NODE_ENV=development electron-forge start",
+    "start": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
+    "dev": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
     "build-clean": "rm -rf ./build/*",
+    "electron": "electron .",
     "make": "NODE_ENV=production node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32'"
   },
   "dependencies": {
