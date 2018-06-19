@@ -15,6 +15,8 @@ Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/r
 ```shell
 git clone git@github.com:BitGo/wallet-recovery-wizard.git # install the application
 cd wallet-recovery-wizard
-yarn install --ignore-engines # can also use npm
-yarn run dev # run a development server and start the app
+brew install openssl # required to compile native libraries
+ln -s /usr/local/opt/openssl/include/openssl /usr/local/include # required to compile native libraries
+npm install
+npm run start # run a development server and start the app
 ```
