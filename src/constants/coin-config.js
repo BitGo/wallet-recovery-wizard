@@ -1,6 +1,7 @@
 import bchIcon from 'images/BCH_icon.png';
 import btcIcon from 'images/BTC_icon.png';
 import ltcIcon from 'images/LTC_icon.png';
+import zecIcon from 'images/ZEC_icon.png';
 import ethIcon from 'images/ETH_icon.png';
 import btgIcon from 'images/BTG_icon.png';
 import xrpIcon from 'images/XRP_icon.png';
@@ -40,6 +41,15 @@ export default {
       icon: btgIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
+      ]
+    },
+    zec: {
+      fullName: 'Zcash',
+      supportedRecoveries: [],
+      icon: zecIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' }
       ]
     },
     xrp: {
@@ -87,6 +97,15 @@ export default {
         { label: 'Testnet', value: 'test' },
       ]
     },
+    tzec: {
+      fullName: 'Testnet Zcash',
+      supportedRecovieres: [],
+      icon: zecIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' }
+      ]
+    },
     teth: {
       fullName: 'Testnet Ethereum',
       supportedRecoveries: ['tbtc'],
@@ -108,6 +127,6 @@ export default {
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
-    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'ltc', 'btg', 'token']
+    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'ltc', 'zec', 'btg', 'token']
   }
 }
