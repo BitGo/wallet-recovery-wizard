@@ -48,6 +48,7 @@ export default {
       icon: xrpIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' }
       ]
     },
     eth: {
@@ -107,6 +108,6 @@ export default {
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
-    nonBitGo: ['eth', 'btc', 'ltc', 'bch', 'btg', 'token']
+    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'ltc', 'btg', 'token']
   }
 }

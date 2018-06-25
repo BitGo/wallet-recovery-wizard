@@ -12,7 +12,7 @@ const formTooltips = tooltips.recovery;
 
 class NonBitGoRecoveryForm extends Component {
   state = {
-    coin: 'eth',
+    coin: 'btc',
     userKey: '',
     backupKey: '',
     bitgoKey: '',
@@ -104,6 +104,7 @@ class NonBitGoRecoveryForm extends Component {
       userKey: '',
       backupKey: '',
       walletContractAddress: '',
+      rootAddress: '',
       tokenAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
