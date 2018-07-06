@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import CSSTransitionGroup  from 'react-transition-group/CSSTransitionGroup';
+import { TransitionGroup, CSSTransition }  from 'react-transition-group';
 import classNames from 'classnames';
 import nav from 'constants/nav';
 
@@ -12,21 +12,22 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
   const showSidebar = location.pathname !== '/' && !location.pathname.match(/index\.html$/) && isLoggedIn;
 
   return (
-    <CSSTransitionGroup
-      transitionName='slide'
-      transitionEnterTimeout={500}
-      transitionLeaveTimeout={300}
-    >
+    <TransitionGroup>
       {showSidebar &&
-        <div className={classNames('leftNavBar', 'slideLeft')} key='sidebar' >
-          {navElements.map((section, index) =>
-            <div className={classNames('leftNav', getCurrentRoute(section))} key={`nav-${index}`}>
-              <Link to={section.url}><div className='navigation'>{section.title}</div></Link>
-            </div>
-          )}
-        </div>
+        <CSSTransition
+          classNames='slide'
+          timeout={{ enter: 500, exit: 300}}
+        >
+          <div className={classNames('leftNavBar', 'slideLeft')} key='sidebar' >
+            {navElements.map((section, index) =>
+              <div className={classNames('leftNav', getCurrentRoute(section))} key={`nav-${index}`}>
+                <Link to={section.url}><div className='navigation'>{section.title}</div></Link>
+              </div>
+            )}
+          </div>
+        </CSSTransition>
       }
-    </CSSTransitionGroup>
+    </TransitionGroup>
   );
 });
 

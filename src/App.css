@@ -121,11 +121,11 @@ a {
 	transition: all 500ms ease-in-out;
 }
 
-.slide-leave {
+.slide-exit {
 	transform: translateX(0);
 }
 
-.slide-leave-active {
+.slide-exit-active {
 	transform: translateX(-270px);
 	transition: all 300ms ease-in-out;
 }
