@@ -28,6 +28,7 @@
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
+    "jszip": "^3.1.5",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "^3.3.1",
     "postcss-loader": "^2.1.5",
