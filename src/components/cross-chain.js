@@ -41,8 +41,8 @@ class CrossChainRecoveryForm extends Component {
     logging: ['']
   }
 
-  updateRecoveryInfo = (fieldName) => (event) => {
-    this.setState({ [fieldName]: event.target.value });
+  updateRecoveryInfo = (field) => (value) => {
+    this.setState({ [field]: value });
   }
 
   updateCheckbox = (fieldName) => (option) => {
@@ -224,30 +224,33 @@ class RecoveryTxForm extends Component {
           <InputField
             label='Wallet ID'
             name='wallet'
-            onChange={updateRecoveryInfo('wallet')}
             value={formState.wallet}
+            onChange={updateRecoveryInfo}
             tooltipText={formTooltips.wallet(formState.recoveryCoin)}
+            disallowWhiteSpace={true}
           />
           <InputField
             label='Transaction ID'
             name='txid'
-            onChange={updateRecoveryInfo('txid')}
             value={formState.txid}
+            onChange={updateRecoveryInfo}
             tooltipText={formTooltips.txid(formState.sourceCoin)}
+            disallowWhiteSpace={true}
           />
           <InputField
             label='Destination Address'
             name='recoveryAddress'
-            onChange={updateRecoveryInfo('recoveryAddress')}
             value={formState.recoveryAddress}
+            onChange={updateRecoveryInfo}
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
+            disallowWhiteSpace={true}
           />
           {formState.signed &&
           <InputField
             label='Wallet Passphrase'
             name='passphrase'
-            onChange={updateRecoveryInfo('passphrase')}
             value={formState.passphrase}
+            onChange={updateRecoveryInfo}
             tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
             isPassword={true}
           />
@@ -256,10 +259,11 @@ class RecoveryTxForm extends Component {
           <InputField
             label='Private Key'
             name='prv'
-            onChange={updateRecoveryInfo('prv')}
             value={formState.prv}
+            onChange={updateRecoveryInfo}
             tooltipText={formTooltips.prv(formState.recoveryCoin)}
             isPassword={true}
+            disallowWhiteSpace={true}
             />
           }
         </Fragment>

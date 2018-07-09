@@ -7,6 +7,7 @@ import {
   Input,
   UncontrolledTooltip,
   FormGroup,
+  FormFeedback,
   Label
 } from 'reactstrap';
 
@@ -69,38 +70,120 @@ const CoinDropdownValue = ({ value }) => (
   </span>
 );
 
-export const InputField = ({ label, name, value, onChange, tooltipText, isPassword }) => (
-  <FormGroup>
-    {label &&
-      <Label className='input-label'>
-        {label}
-        {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
-      </Label>
-    }
-    <Input
-      type={isPassword ? 'password' : 'text'}
-      onChange={onChange}
-      value={value}
-    />
-  </FormGroup>
-);
+export class InputField extends Component {
+  state = {
+    error: null
+  };
 
-export const InputTextarea = ({ label, name, value, onChange, tooltipText }) => (
-  <FormGroup>
-    {label &&
-      <Label className='input-label'>
-        {label}
-        {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
-      </Label>
+  trim = (event) => {
+    const { name, onChange, disallowWhiteSpace } = this.props;
+    let input = event.target.value;
+
+    if (disallowWhiteSpace) {
+      input = input.replace(/\s/g, '');
     }
-    <Input
-      type='textarea'
-      onChange={onChange}
-      value={value}
-      rows={4}
-    />
-  </FormGroup>
-);
+
+    onChange(name)(input);
+  }
+
+  validate = () => {
+    const { value, format } = this.props;
+    if (format === 'json') {
+      try {
+        JSON.parse(value);
+        this.setState({ error: null });
+      } catch (e) {
+        this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }' });
+      }
+    }
+  }
+
+  render() {
+    const { label, name, value, tooltipText, isPassword, format } = this.props;
+
+    let type = 'text';
+
+    if (isPassword) {
+      type = 'password';
+    } else if (format === 'number') {
+      type = 'number';
+    }
+
+    return (
+      <FormGroup>
+        {label &&
+        <Label className='input-label'>
+          {label}
+          {tooltipText && <FieldTooltip name={name} text={tooltipText}/>}
+        </Label>
+        }
+        <Input
+          type={type}
+          onChange={this.trim}
+          onBlur={this.validate}
+          value={value}
+          invalid={this.state.error !== null}
+        />
+        <FormFeedback>{this.state.error}</FormFeedback>
+      </FormGroup>
+    )
+  }
+}
+
+export class InputTextarea extends Component {
+  state = {
+    error: null
+  };
+
+  trim = (event) => {
+    const { name, disallowWhiteSpace, onChange } = this.props;
+    let input = event.target.value;
+
+    if (disallowWhiteSpace) {
+      input = input.replace(/\s/g, '');
+    }
+
+    onChange(name)(input);
+  }
+
+  validate = () => {
+    const { value, format } = this.props;
+
+    if (format === 'json') {
+      try {
+        JSON.parse(value);
+        this.setState({ error: null });
+      } catch (e) {
+        console.log(`${value} failed`)
+        this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }'});
+      }
+    }
+  }
+
+  render() {
+    const { label, name, value, tooltipText } = this.props;
+
+    return (
+      <FormGroup>
+        {label &&
+        <Label className='input-label'>
+          {label}
+          {tooltipText && <FieldTooltip name={name} text={tooltipText}/>}
+        </Label>
+        }
+        <Input
+          type='textarea'
+          onChange={this.trim}
+          onBlur={this.validate}
+          value={value}
+          rows={4}
+          invalid={this.state.error !== null}
+        />
+        <FormFeedback>{this.state.error}</FormFeedback>
+      </FormGroup>
+    );
+  }
+}
 
 const FieldTooltip = ({ name, text }) => (
   <span>
