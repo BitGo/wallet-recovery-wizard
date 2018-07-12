@@ -89,7 +89,7 @@ export class InputField extends Component {
   }
 
   validate = () => {
-    const { value, format } = this.props;
+    const { value, format, coin } = this.props;
 
     if (value === '') {
       return;
@@ -113,6 +113,16 @@ export class InputField extends Component {
         this.setState({ error: null });
       } else {
         this.setState({ error: 'This field cannot be negative.' });
+      }
+    } else if (format === 'address') {
+      if (!coin) {
+        return;
+      }
+
+      if (coin.isValidAddress(value)) {
+        this.setState({ error: null });
+      } else {
+        this.setState({ error: `This should be a valid ${coin.getFamily().toUpperCase()} address.`});
       }
     }
   }

@@ -25,6 +25,24 @@ class NonBitGoRecoveryForm extends Component {
     env: 'test'
   };
 
+  getCoinObject = () => {
+    let coin;
+    if (this.state.coin === 'token') {
+      try {
+        coin = this.props.bitgo.coin(this.state.tokenAddress);
+      } catch (e) {
+        // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
+        let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        coin = this.props.bitgo.coin(coinTicker);
+      }
+    } else {
+      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      coin = this.props.bitgo.coin(coinTicker);
+    }
+
+    return coin;
+  }
+
   updateRecoveryInfo = (field) => (value) => {
     this.setState({ [field]: value });
   }
@@ -40,28 +58,14 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    let coin;
-    let baseCoin;
-
-    if (this.state.coin === 'token') {
-      try {
-        coin = this.state.tokenAddress;
-        baseCoin = await this.props.bitgo.token(coin);
-      } catch (e) {
-        this.setState({ error: e.message, recovering: false });
-        return;
-      }
-    } else {
-      coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
-      baseCoin = this.props.bitgo.coin(coin);
-    }
+    let baseCoin = await this.getCoinObject();
 
     this.props.bitgo.env = this.state.env;
 
     const recoveryTool = baseCoin.recover;
 
     if (!recoveryTool) {
-      this.setState({ error: `Recovery tool not found for ${coin}`, recovering: false });
+      this.setState({ error: `Recovery tool not found for ${this.state.coin}`, recovering: false });
       return;
     }
 
@@ -86,7 +90,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      const recovery = await this.props.bitgo.coin(coin).recover(recoveryParams);
+      const recovery = await baseCoin.recover(recoveryParams);
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
       if (!recoveryTx) {
@@ -189,6 +193,8 @@ class NonBitGoRecoveryForm extends Component {
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.rootAddress}
               disallowWhiteSpace={true}
+              format='address'
+              coin={this.getCoinObject()}
             />
           }
           {['eth', 'token'].includes(this.state.coin) &&
@@ -199,6 +205,8 @@ class NonBitGoRecoveryForm extends Component {
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.walletContractAddress}
               disallowWhiteSpace={true}
+              format='address'
+              coin={this.getCoinObject()}
             />
           }
           {this.state.coin === 'token' &&
@@ -209,6 +217,8 @@ class NonBitGoRecoveryForm extends Component {
             onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.tokenAddress}
             disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
           />
           }
           <InputField
@@ -226,6 +236,8 @@ class NonBitGoRecoveryForm extends Component {
             onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.recoveryDestination}
             disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
           />
           {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField

@@ -160,6 +160,7 @@ class CrossChainRecoveryForm extends Component {
         <hr />
         {this.state.recoveryTx === null &&
         <RecoveryTxForm formState={this.state}
+                        bitgo={this.props.bitgo}
                         updateRecoveryInfo={this.updateRecoveryInfo}
                         updateCheckbox={this.updateCheckbox}
                         updateSelect={this.updateSelect}
@@ -185,7 +186,7 @@ class CrossChainRecoveryForm extends Component {
 
 class RecoveryTxForm extends Component {
   render() {
-    const { formState, updateRecoveryInfo, updateCheckbox, updateSelect, performRecovery, resetRecovery } = this.props;
+    const { formState, bitgo, updateRecoveryInfo, updateCheckbox, updateSelect, performRecovery, resetRecovery } = this.props;
     const { sourceCoin, recoveryCoin, logging, error } = formState;
     const allCoins = coinConfig.supportedRecoveries.crossChain;
     const recoveryCoins = coinConfig.allCoins[sourceCoin].supportedRecoveries;
@@ -244,6 +245,8 @@ class RecoveryTxForm extends Component {
             onChange={updateRecoveryInfo}
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
             disallowWhiteSpace={true}
+            format='address'
+            coin={bitgo.coin(formState.sourceCoin)}
           />
           {formState.signed &&
           <InputField
