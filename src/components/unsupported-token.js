@@ -86,6 +86,9 @@ class UnsupportedTokenRecoveryForm extends Component {
 
       this.setState({ recoveryTx });
     } catch (e) {
+      if (e.message === 'insufficient balance') { // this is terribly unhelpful
+        e.message = 'token recovery requires a balance of ETH in the wallet - please send any amount of ETH to the wallet and retry'
+      }
       this.collectLog(e.message);
       this.setState({ error: e.message, recovering: false });
     }
