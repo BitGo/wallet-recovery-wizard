@@ -178,6 +178,7 @@ class NonBitGoRecoveryForm extends Component {
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.bitgoKey}
               disallowWhiteSpace={true}
+              format='xpub'
             />
           }
           {this.state.coin === 'xrp' &&

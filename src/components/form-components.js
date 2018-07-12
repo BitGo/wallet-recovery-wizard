@@ -13,6 +13,8 @@ import {
 
 import questionMarkIcon from 'images/question_mark.png';
 
+const XPUB_LENGTH = 111; // string length of a base58-encoded xpub
+
 export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, tooltipText }) => {
   const options = allowedCoins.map((coin) => ({
     value: coin,
@@ -100,6 +102,12 @@ export class InputField extends Component {
       } catch (e) {
         this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }' });
       }
+    } else if (format === 'xpub') {
+      if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
+        this.setState({ error: null });
+      } else {
+        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
+      }
     }
   }
 
@@ -165,6 +173,12 @@ export class InputTextarea extends Component {
       } catch (e) {
         console.log(`${value} failed`)
         this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }'});
+      }
+    } else if (format === 'xpub') {
+      if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
+        this.setState({ error: null });
+      } else {
+        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
       }
     }
   }
