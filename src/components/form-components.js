@@ -108,6 +108,12 @@ export class InputField extends Component {
       } else {
         this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
       }
+    } else if (format === 'number') {
+      if (value >= 0) {
+        this.setState({ error: null });
+      } else {
+        this.setState({ error: 'This field cannot be negative.' });
+      }
     }
   }
 
