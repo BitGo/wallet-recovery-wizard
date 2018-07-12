@@ -88,6 +88,11 @@ export class InputField extends Component {
 
   validate = () => {
     const { value, format } = this.props;
+
+    if (value === '') {
+      return;
+    }
+
     if (format === 'json') {
       try {
         JSON.parse(value);
@@ -148,6 +153,10 @@ export class InputTextarea extends Component {
 
   validate = () => {
     const { value, format } = this.props;
+
+    if (value === '') {
+      return;
+    }
 
     if (format === 'json') {
       try {
