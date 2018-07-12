@@ -10,9 +10,10 @@
     "start": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
     "dev": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
     "build-clean": "rm -rf ./build/*",
+    "out-clean": "rm -rf ./out/*",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "make": "NODE_ENV=production node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32'"
+    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32'"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
@@ -120,20 +121,20 @@
           "squirrel"
         ],
         "darwin": [
-          "zip",
           "dmg"
-        ],
-        "linux": [
-          "deb",
-          "rpm"
         ]
       },
       "electronPackagerConfig": {
         "packageManager": "npm",
-        "asar": true
+        "asar": true,
+        "icon": "./src/images/appicon"
       },
       "electronWinstallerConfig": {
-        "name": "BitGoWalletRecoveryWizard"
+        "name": "BitGoWalletRecoveryWizard",
+        "setupIcon": "./src/images/appicon.ico"
+      },
+      "electronInstallerDMG": {
+        "icon": "./src/images/appicon.icns"
       },
       "electronInstallerDebian": {},
       "electronInstallerRedhat": {},
