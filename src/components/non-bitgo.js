@@ -25,8 +25,26 @@ class NonBitGoRecoveryForm extends Component {
     env: 'test'
   };
 
-  updateRecoveryInfo = (fieldName) => (event) => {
-    this.setState({ [fieldName]: event.target.value });
+  getCoinObject = () => {
+    let coin;
+    if (this.state.coin === 'token') {
+      try {
+        coin = this.props.bitgo.coin(this.state.tokenAddress);
+      } catch (e) {
+        // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
+        let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        coin = this.props.bitgo.coin(coinTicker);
+      }
+    } else {
+      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      coin = this.props.bitgo.coin(coinTicker);
+    }
+
+    return coin;
+  }
+
+  updateRecoveryInfo = (field) => (value) => {
+    this.setState({ [field]: value });
   }
 
   updateEnv = (option) => {
@@ -40,28 +58,14 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    let coin;
-    let baseCoin;
-
-    if (this.state.coin === 'token') {
-      try {
-        coin = this.state.tokenAddress;
-        baseCoin = await this.props.bitgo.token(coin);
-      } catch (e) {
-        this.setState({ error: e.message, recovering: false });
-        return;
-      }
-    } else {
-      coin = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
-      baseCoin = this.props.bitgo.coin(coin);
-    }
+    let baseCoin = await this.getCoinObject();
 
     this.props.bitgo.env = this.state.env;
 
     const recoveryTool = baseCoin.recover;
 
     if (!recoveryTool) {
-      this.setState({ error: `Recovery tool not found for ${coin}`, recovering: false });
+      this.setState({ error: `Recovery tool not found for ${this.state.coin}`, recovering: false });
       return;
     }
 
@@ -86,7 +90,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      const recovery = await this.props.bitgo.coin(coin).recover(recoveryParams);
+      const recovery = await baseCoin.recover(recoveryParams);
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
       if (!recoveryTx) {
@@ -155,75 +159,95 @@ class NonBitGoRecoveryForm extends Component {
           <InputTextarea
             label='Box A Value'
             name='userKey'
-            onChange={this.updateRecoveryInfo('userKey')}
             value={this.state.userKey}
+            onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.userKey}
+            disallowWhiteSpace={true}
+            format='json'
           />
           <InputTextarea
             label='Box B Value'
             name='backupKey'
-            onChange={this.updateRecoveryInfo('backupKey')}
             value={this.state.backupKey}
+            onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.backupKey}
+            disallowWhiteSpace={true}
+            format='json'
           />
           {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Box C Value'
               name='bitgoKey'
-              onChange={this.updateRecoveryInfo('bitgoKey')}
               value={this.state.bitgoKey}
+              onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.bitgoKey}
+              disallowWhiteSpace={true}
+              format='xpub'
             />
           }
           {this.state.coin === 'xrp' &&
             <InputField
               label='Root Address'
               name='rootAddress'
-              onChange={this.updateRecoveryInfo('rootAddress')}
               value={this.state.rootAddress}
+              onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.rootAddress}
+              disallowWhiteSpace={true}
+              format='address'
+              coin={this.getCoinObject()}
             />
           }
           {['eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Wallet Contract Address'
               name='walletContractAddress'
-              onChange={this.updateRecoveryInfo('walletContractAddress')}
               value={this.state.walletContractAddress}
+              onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.walletContractAddress}
+              disallowWhiteSpace={true}
+              format='address'
+              coin={this.getCoinObject()}
             />
           }
           {this.state.coin === 'token' &&
           <InputField
             label='Token Contract Address'
             name='tokenAddress'
-            onChange={this.updateRecoveryInfo('tokenAddress')}
             value={this.state.tokenAddress}
+            onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.tokenAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
           />
           }
           <InputField
             label='Wallet Passphrase'
             name='walletPassphrase'
-            onChange={this.updateRecoveryInfo('walletPassphrase')}
             value={this.state.walletPassphrase}
-            isPassword={true}
+            onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.walletPassphrase}
+            isPassword={true}
           />
           <InputField
             label='Destination Address'
             name='recoveryDestination'
-            onChange={this.updateRecoveryInfo('recoveryDestination')}
             value={this.state.recoveryDestination}
+            onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.recoveryDestination}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
           />
           {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Address Scanning Factor'
               name='scan'
-              onChange={this.updateRecoveryInfo('scan')}
               value={this.state.scan}
+              onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.scan}
+              disallowWhiteSpace={true}
+              format='number'
             />
           }
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
