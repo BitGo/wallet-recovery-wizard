@@ -100,6 +100,14 @@ class CrossChainRecoveryForm extends Component {
     });
   }
 
+  getFileName = (index) => {
+    if (this.state.signed) {
+      return `${this.state.recoveryTxs[index].sourceCoin}r-${this.state.txids[index].slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
+    } else {
+      return `${this.state.recoveryTxs[index].coin}r-${this.state.txids[index].slice(0, 6)}-${moment().format('YYYYMMDD')}.unsigned.json`;
+    }
+  }
+
   performRecovery = async () => {
     const { bitgo } = this.props;
     const {
@@ -149,13 +157,7 @@ class CrossChainRecoveryForm extends Component {
   saveSingleTransaction = async () => {
     const transaction = this.state.recoveryTxs[0];
 
-    let fileName;
-
-    if (this.state.signed) {
-      fileName = `${transaction.sourceCoin}r-${this.state.txids[0].slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
-    } else {
-      fileName = `${transaction.coin}r-${this.state.txids[0].slice(0, 6)}-${moment().format('YYYYMMDD')}.unsigned.json`;
-    }
+    let fileName = this.getFileName(0);
 
     const dialogParams = {
       filters: [{
@@ -185,13 +187,7 @@ class CrossChainRecoveryForm extends Component {
     const zip = new jszip();
 
     _.forEach(transactions, (transaction, index) => {
-      let fileName;
-
-      if (this.state.signed) {
-        fileName = `${transaction.sourceCoin}r-${this.state.txids[index].slice(0, 6)}-${moment().format('YYYYMMDD')}.signed.json`;
-      } else {
-        fileName = `${transaction.coin}r-${this.state.txids[index].slice(0, 6)}-${moment().format('YYYYMMDD')}.unsigned.json`;
-      }
+      let fileName = this.getFileName(index);
 
       zip.file(fileName, JSON.stringify(transaction, null, 4));
     })
@@ -255,12 +251,14 @@ class CrossChainRecoveryForm extends Component {
         {(this.state.recoveryTxs.length > 0 && this.state.signed) &&
         <ConfirmTxSigned txDetails={this.state.recoveryTxs}
                          error={this.state.error}
+                         bitgo={this.props.bitgo}
                          saveTransactions={this.saveTransactions}
                          resetRecovery={this.resetRecovery} />
         }
         {(this.state.recoveryTxs.length > 0 && !this.state.signed) &&
         <ConfirmTxUnsigned txDetails={this.state.recoveryTxs}
                            error={this.state.error}
+                           bitgo={this.props.bitgo}
                            saveTransactions={this.saveTransactions}
                            resetRecovery={this.resetRecovery}/>
         }
@@ -376,11 +374,10 @@ class RecoveryTxForm extends Component {
 
 class ConfirmTxSigned extends Component {
   render() {
-    const { txDetails, error } = this.props;
+    const { txDetails, error, bitgo } = this.props;
     let recoveryAmount = 0;
 
     for (const tx of txDetails) {
-      console.log(tx.recoveryAmount);
       recoveryAmount += tx.recoveryAmount;
     }
 
@@ -388,11 +385,11 @@ class ConfirmTxSigned extends Component {
       <div>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-          <Col xs={5}>{coinConfig.allCoins[txDetails[0].sourceCoin].fullName} ({txDetails[0].sourceCoin.toUpperCase()})</Col>
+          <Col xs={5}>{bitgo.coin(txDetails[0].sourceCoin).getFullName()} ({txDetails[0].sourceCoin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Recovery Coin:</Col>
-          <Col xs={5}>{coinConfig.allCoins[txDetails[0].recoveryCoin].fullName} ({txDetails[0].recoveryCoin.toUpperCase()})</Col>
+          <Col xs={5}>{bitgo.coin(txDetails[0].recoveryCoin).getFullName()} ({txDetails[0].recoveryCoin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
@@ -424,7 +421,7 @@ class ConfirmTxSigned extends Component {
 
 class ConfirmTxUnsigned extends Component {
   render() {
-    const { txDetails, error } = this.props;
+    const { txDetails, error, bitgo } = this.props;
     let recoveryAmount = 0;
 
     for (const tx of txDetails) {
@@ -435,7 +432,7 @@ class ConfirmTxUnsigned extends Component {
       <div>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-          <Col xs={5}>{coinConfig.allCoins[txDetails[0].coin].fullName} ({txDetails.coin.toUpperCase()})</Col>
+          <Col xs={5}>{bitgo.coin(txDetails[0].coin).getFullName()} ({txDetails.coin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
