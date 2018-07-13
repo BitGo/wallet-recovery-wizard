@@ -31,8 +31,8 @@ class UnsupportedTokenRecoveryForm extends Component {
     this.setState({ logging: newLogging });
   }
 
-  updateRecoveryInfo = (fieldName) => (event) => {
-    this.setState({ [fieldName]: event.target.value });
+  updateRecoveryInfo = (field) => (value) => {
+    this.setState({ [field]: value });
   }
 
   updateCheckbox = (fieldName) => (option) => {
@@ -125,6 +125,8 @@ class UnsupportedTokenRecoveryForm extends Component {
   }
 
   render() {
+    const coin = this.props.bitgo.env === 'prod' ? 'eth' : 'teth';
+
     return (
       <div>
         <h1 className='content-header'>Unsupported Token Recoveries</h1>
@@ -137,28 +139,35 @@ class UnsupportedTokenRecoveryForm extends Component {
           <InputField
             label='Wallet ID'
             name='walletId'
-            onChange={this.updateRecoveryInfo('walletId')}
+            onChange={this.updateRecoveryInfo}
             value={this.state.walletId}
             tooltipText={formTooltips.walletId}
+            disallowWhiteSpace={true}
           />
           <InputField
             label='Token Contract Address'
             name='tokenAddress'
-            onChange={this.updateRecoveryInfo('tokenAddress')}
+            onChange={this.updateRecoveryInfo}
             value={this.state.tokenAddress}
             tooltipText={formTooltips.tokenAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.props.bitgo.coin(coin)}
           />
           <InputField
             label='Destination Address'
             name='recoveryAddress'
-            onChange={this.updateRecoveryInfo('recoveryAddress')}
+            onChange={this.updateRecoveryInfo}
             value={this.state.recoveryAddress}
             tooltipText={formTooltips.recoveryAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.props.bitgo.coin(coin)}
           />
           <InputField
             label='Wallet Passphrase'
             name='passphrase'
-            onChange={this.updateRecoveryInfo('passphrase')}
+            onChange={this.updateRecoveryInfo}
             value={this.state.passphrase}
             tooltipText={formTooltips.passphrase}
             isPassword={true}
@@ -166,10 +175,11 @@ class UnsupportedTokenRecoveryForm extends Component {
           <InputField
             label='Private Key'
             name='prv'
-            onChange={this.updateRecoveryInfo('prv')}
+            onChange={this.updateRecoveryInfo}
             value={this.state.prv}
             tooltipText={formTooltips.prv}
             isPassword={true}
+            disallowWhiteSpace={true}
           />
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           {this.state.recoveryTx && <p className='recovery-logging'>Success! Token recovery transaction has been signed.</p>}
