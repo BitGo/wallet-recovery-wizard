@@ -81,11 +81,15 @@ export class InputField extends Component {
   };
 
   trim = (event) => {
-    const { name, onChange, disallowWhiteSpace } = this.props;
+    const { name, onChange, disallowWhiteSpace, format } = this.props;
     let input = event.target.value;
 
     if (disallowWhiteSpace) {
       input = input.replace(/\s/g, '');
+    }
+
+    if (format === 'number' && input !== '') {
+      input = Number(input);
     }
 
     onChange(name)(input);
