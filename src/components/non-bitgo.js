@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
