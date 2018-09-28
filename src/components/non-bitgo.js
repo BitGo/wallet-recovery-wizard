@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
@@ -7,6 +7,7 @@ import ErrorMessage from './error-message';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
+import krsProviders from 'constants/krs-providers';
 
 const formTooltips = tooltips.recovery;
 
@@ -22,6 +23,7 @@ class NonBitGoRecoveryForm extends Component {
     walletPassphrase: '',
     recoveryDestination: '',
     scan: 20,
+    krsProvider: null,
     env: 'test'
   };
 
@@ -55,6 +57,14 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ coin: option.value });
   }
 
+  updateKrs = (option) => {
+    if (option === null) {
+      this.setState({ krsProvider: null });
+    } else {
+      this.setState({ krsProvider: option.value });
+    }
+  }
+
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
@@ -74,15 +84,10 @@ class NonBitGoRecoveryForm extends Component {
       const recoveryParams = [
         'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
         'walletContractAddress', 'tokenAddress', 'walletPassphrase',
-        'recoveryDestination', 'scan'
+        'recoveryDestination', 'scan', 'krsProvider'
       ].reduce((obj, param) => {
-        if (!!this.state[param]) {
+        if (this.state[param]) {
           let value = this.state[param];
-
-          if (param === 'userKey' || param === 'backupKey') {
-            // remove whitespace
-            value = value.replace(/\\/g, '');
-          }
 
           return Object.assign(obj, { [param]: value })
         }
@@ -129,7 +134,7 @@ class NonBitGoRecoveryForm extends Component {
         <hr />
         <Form>
           <Row>
-            <Col xs={6}>
+            <Col xs={5}>
               <CoinDropdown
                 label='Wallet Type'
                 name='coin'
@@ -138,7 +143,25 @@ class NonBitGoRecoveryForm extends Component {
                 value={this.state.coin}
               />
             </Col>
-            <Col xs={6}>
+            <Col xs={4}>
+              <FormGroup>
+                <Label className='input-label'>
+                  Key Recovery Service
+                </Label>
+                <Select
+                  type='select'
+                  className='bitgo-select'
+                  options={krsProviders}
+                  onChange={this.updateKrs}
+                  name='krsProvider'
+                  value={this.state.krsProvider}
+                  clearable={true}
+                  searchable={false}
+                  placeholder='None'
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={3}>
               <FormGroup>
                 <Label className='input-label'>
                   Environment
@@ -165,15 +188,28 @@ class NonBitGoRecoveryForm extends Component {
             disallowWhiteSpace={true}
             format='json'
           />
-          <InputTextarea
-            label='Box B Value'
-            name='backupKey'
-            value={this.state.backupKey}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.backupKey}
-            disallowWhiteSpace={true}
-            format='json'
-          />
+          {this.state.krsProvider === null ?
+            <InputTextarea
+              label='Box B Value'
+              name='backupKey'
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupKey}
+              disallowWhiteSpace={true}
+              format='json'
+            />
+            :
+            <InputField
+              label='Box B Value'
+              name='backupKey'
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupKey}
+              disallowWhiteSpace={true}
+              format='xpub'
+            />
+          }
+
           {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
             <InputField
               label='Box C Value'
