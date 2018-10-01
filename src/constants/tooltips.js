@@ -19,13 +19,15 @@ export default {
   },
   recovery: {
     userKey: `Your encrypted user key, as found on your recovery KeyCard.`,
-    backupKey: `Your encrypted backup key, as found on your recovery KeyCard.`,
+    backupPrivateKey: `Your encrypted backup key, as found on your recovery KeyCard.`,
+    backupPublicKey: `The backup public key for the wallet, as found on your recovery KeyCard.`,
     bitgoKey: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,
     rootAddress: 'The root address of the XRP wallet.',
     walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,
     walletPassphrase: `The passphrase of the wallet.`,
     recoveryDestination: `The address your recovery transaction will send to.`,
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
-    tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.'
+    tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
+    krsProvider: 'The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank.'
   }
 }

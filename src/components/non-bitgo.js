@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, InputTextarea, CoinDropdown } from './form-components';
+import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
@@ -148,6 +148,7 @@ class NonBitGoRecoveryForm extends Component {
                 <Label className='input-label'>
                   Key Recovery Service
                 </Label>
+                <FieldTooltip name='krs' text={formTooltips.krsProvider}/>
                 <Select
                   type='select'
                   className='bitgo-select'
@@ -194,7 +195,7 @@ class NonBitGoRecoveryForm extends Component {
               name='backupKey'
               value={this.state.backupKey}
               onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.backupKey}
+              tooltipText={formTooltips.backupPrivateKey}
               disallowWhiteSpace={true}
               format='json'
             />
@@ -204,7 +205,7 @@ class NonBitGoRecoveryForm extends Component {
               name='backupKey'
               value={this.state.backupKey}
               onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.backupKey}
+              tooltipText={formTooltips.backupPublicKey}
               disallowWhiteSpace={true}
               format='xpub'
             />
