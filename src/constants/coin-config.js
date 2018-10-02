@@ -5,6 +5,8 @@ import zecIcon from 'images/ZEC_icon.png';
 import ethIcon from 'images/ETH_icon.png';
 import btgIcon from 'images/BTG_icon.png';
 import xrpIcon from 'images/XRP_icon.png';
+import dashIcon from 'images/DASH_icon.png';
+import xlmIcon from 'images/XLM_icon.png';
 
 export default {
   allCoins: {
@@ -61,6 +63,24 @@ export default {
         { label: 'Testnet', value: 'test' }
       ]
     },
+    dash: {
+      fullName: 'Dash',
+      supportedRecoveries: [],
+      icon: dashIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' }
+      ]
+    },
+    xlm: {
+      fullName: 'Stellar',
+      supportedRecoveries: [],
+      icon: xlmIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' }
+      ]
+    },
     eth: {
       fullName: 'Ethereum',
       supportedRecoveries: ['btc'],
@@ -82,6 +102,6 @@ export default {
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
-    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'ltc', 'zec', 'btg', 'token']
+    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token']
   }
 }
