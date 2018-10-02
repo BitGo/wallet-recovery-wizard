@@ -22,7 +22,7 @@ export default {
     backupPrivateKey: `Your encrypted backup key, as found on your recovery KeyCard.`,
     backupPublicKey: `The backup public key for the wallet, as found on your recovery KeyCard.`,
     bitgoKey: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,
-    rootAddress: 'The root address of the XRP wallet.',
+    rootAddress: 'The root address of the wallet.',
     walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,
     walletPassphrase: `The passphrase of the wallet.`,
     recoveryDestination: `The address your recovery transaction will send to.`,

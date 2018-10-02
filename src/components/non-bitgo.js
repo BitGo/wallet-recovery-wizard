@@ -27,6 +27,19 @@ class NonBitGoRecoveryForm extends Component {
     env: 'test'
   };
 
+  requiredParams = {
+    btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination'],
+    xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
+    xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
+    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination']
+  };
+
   getCoinObject = () => {
     let coin;
     if (this.state.coin === 'token') {
@@ -180,6 +193,7 @@ class NonBitGoRecoveryForm extends Component {
               </FormGroup>
             </Col>
           </Row>
+          {this.requiredParams[this.state.coin].includes('userKey') &&
           <InputTextarea
             label='Box A Value'
             name='userKey'
@@ -189,64 +203,71 @@ class NonBitGoRecoveryForm extends Component {
             disallowWhiteSpace={true}
             format='json'
           />
-          {this.state.krsProvider === null ?
-            <InputTextarea
-              label='Box B Value'
-              name='backupKey'
-              value={this.state.backupKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.backupPrivateKey}
-              disallowWhiteSpace={true}
-              format='json'
-            />
-            :
-            <InputField
-              label='Box B Value'
-              name='backupKey'
-              value={this.state.backupKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.backupPublicKey}
-              disallowWhiteSpace={true}
-              format='xpub'
-            />
           }
 
-          {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
-            <InputField
-              label='Box C Value'
-              name='bitgoKey'
-              value={this.state.bitgoKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.bitgoKey}
-              disallowWhiteSpace={true}
-              format='xpub'
-            />
+          {this.requiredParams[this.state.coin].includes('backupKey') &&
+          [(this.state.krsProvider === null ?
+              <InputTextarea
+                label='Box B Value'
+                name='backupKey'
+                value={this.state.backupKey}
+                onChange={this.updateRecoveryInfo}
+                tooltipText={formTooltips.backupPrivateKey}
+                disallowWhiteSpace={true}
+                format='json'
+              />
+              :
+              <InputField
+                label='Box B Value'
+                name='backupKey'
+                value={this.state.backupKey}
+                onChange={this.updateRecoveryInfo}
+                tooltipText={formTooltips.backupPublicKey}
+                disallowWhiteSpace={true}
+                format='xpub'
+              />
+          )]
           }
-          {this.state.coin === 'xrp' &&
-            <InputField
-              label='Root Address'
-              name='rootAddress'
-              value={this.state.rootAddress}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.rootAddress}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+
+          {this.requiredParams[this.state.coin].includes('bitgoKey') &&
+          <InputField
+            label='Box C Value'
+            name='bitgoKey'
+            value={this.state.bitgoKey}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.bitgoKey}
+            disallowWhiteSpace={true}
+            format='xpub'
+          />
           }
-          {['eth', 'token'].includes(this.state.coin) &&
-            <InputField
-              label='Wallet Contract Address'
-              name='walletContractAddress'
-              value={this.state.walletContractAddress}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.walletContractAddress}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+
+          {this.requiredParams[this.state.coin].includes('rootAddress') &&
+          <InputField
+            label='Root Address'
+            name='rootAddress'
+            value={this.state.rootAddress}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.rootAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
           }
-          {this.state.coin === 'token' &&
+
+          {this.requiredParams[this.state.coin].includes('walletContractAddress') &&
+          <InputField
+            label='Wallet Contract Address'
+            name='walletContractAddress'
+            value={this.state.walletContractAddress}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.walletContractAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
+          }
+
+          {this.requiredParams[this.state.coin].includes('tokenContractAddress') &&
           <InputField
             label='Token Contract Address'
             name='tokenAddress'
@@ -258,6 +279,8 @@ class NonBitGoRecoveryForm extends Component {
             coin={this.getCoinObject()}
           />
           }
+
+          {this.requiredParams[this.state.coin].includes('walletPassphrase') &&
           <InputField
             label='Wallet Passphrase'
             name='walletPassphrase'
@@ -266,6 +289,9 @@ class NonBitGoRecoveryForm extends Component {
             tooltipText={formTooltips.walletPassphrase}
             isPassword={true}
           />
+          }
+
+          {this.requiredParams[this.state.coin].includes('recoveryDestination') &&
           <InputField
             label='Destination Address'
             name='recoveryDestination'
@@ -276,28 +302,31 @@ class NonBitGoRecoveryForm extends Component {
             format='address'
             coin={this.getCoinObject()}
           />
-          {!['xrp', 'eth', 'token'].includes(this.state.coin) &&
-            <InputField
-              label='Address Scanning Factor'
-              name='scan'
-              value={this.state.scan}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.scan}
-              disallowWhiteSpace={true}
-              format='number'
-            />
           }
+
+          {this.requiredParams[this.state.coin].includes('scan') &&
+          <InputField
+            label='Address Scanning Factor'
+            name='scan'
+            value={this.state.scan}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.scan}
+            disallowWhiteSpace={true}
+            format='number'
+          />
+          }
+
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Transaction Hex: <span className='tx-hex'>{this.state.finalTx}</span></p>}
           {!this.state.done &&
-            <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
-              {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
-            </Button>
+          <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
+            {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
+          </Button>
           }
           {this.state.done &&
-            <Button onClick={this.resetRecovery} className='bitgo-button'>
-              Perform Another Recovery
-            </Button>
+          <Button onClick={this.resetRecovery} className='bitgo-button'>
+            Perform Another Recovery
+          </Button>
           }
         </Form>
       </div>
