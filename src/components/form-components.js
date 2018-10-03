@@ -286,7 +286,7 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
   );
 }
 
-const FieldTooltip = ({ name, text }) => (
+export const FieldTooltip = ({ name, text }) => (
   <span>
     <a id={`tooltip-${name}`}>
       <img id={`tooltip-${name}`} src={questionMarkIcon} alt='' border='0' className='tooltip-icon'/>

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, InputTextarea, CoinDropdown } from './form-components';
+import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
+import krsProviders from 'constants/krs-providers';
 
 const formTooltips = tooltips.recovery;
 
@@ -22,6 +23,7 @@ class NonBitGoRecoveryForm extends Component {
     walletPassphrase: '',
     recoveryDestination: '',
     scan: 20,
+    krsProvider: null,
     env: 'test'
   };
 
@@ -68,6 +70,14 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ coin: option.value });
   }
 
+  updateKrs = (option) => {
+    if (option === null) {
+      this.setState({ krsProvider: null });
+    } else {
+      this.setState({ krsProvider: option.value });
+    }
+  }
+
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
@@ -87,15 +97,10 @@ class NonBitGoRecoveryForm extends Component {
       const recoveryParams = [
         'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
         'walletContractAddress', 'tokenAddress', 'walletPassphrase',
-        'recoveryDestination', 'scan'
+        'recoveryDestination', 'scan', 'krsProvider'
       ].reduce((obj, param) => {
-        if (!!this.state[param]) {
+        if (this.state[param]) {
           let value = this.state[param];
-
-          if (param === 'userKey' || param === 'backupKey') {
-            // remove whitespace
-            value = value.replace(/\\/g, '');
-          }
 
           return Object.assign(obj, { [param]: value })
         }
@@ -142,7 +147,7 @@ class NonBitGoRecoveryForm extends Component {
         <hr />
         <Form>
           <Row>
-            <Col xs={6}>
+            <Col xs={5}>
               <CoinDropdown
                 label='Wallet Type'
                 name='coin'
@@ -151,7 +156,26 @@ class NonBitGoRecoveryForm extends Component {
                 value={this.state.coin}
               />
             </Col>
-            <Col xs={6}>
+            <Col xs={4}>
+              <FormGroup>
+                <Label className='input-label'>
+                  Key Recovery Service
+                </Label>
+                <FieldTooltip name='krs' text={formTooltips.krsProvider}/>
+                <Select
+                  type='select'
+                  className='bitgo-select'
+                  options={krsProviders}
+                  onChange={this.updateKrs}
+                  name='krsProvider'
+                  value={this.state.krsProvider}
+                  clearable={true}
+                  searchable={false}
+                  placeholder='None'
+                />
+              </FormGroup>
+            </Col>
+            <Col xs={3}>
               <FormGroup>
                 <Label className='input-label'>
                   Environment
@@ -170,127 +194,139 @@ class NonBitGoRecoveryForm extends Component {
             </Col>
           </Row>
           {this.requiredParams[this.state.coin].includes('userKey') &&
-            <InputTextarea
-              label='Box A Value'
-              name='userKey'
-              value={this.state.userKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.userKey}
-              disallowWhiteSpace={true}
-              format='json'
-            />
+          <InputTextarea
+            label='Box A Value'
+            name='userKey'
+            value={this.state.userKey}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.userKey}
+            disallowWhiteSpace={true}
+            format='json'
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('backupKey') &&
-            <InputTextarea
-              label='Box B Value'
-              name='backupKey'
-              value={this.state.backupKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.backupKey}
-              disallowWhiteSpace={true}
-              format='json'
-            />
+          [(this.state.krsProvider === null ?
+              <InputTextarea
+                label='Box B Value'
+                name='backupKey'
+                value={this.state.backupKey}
+                onChange={this.updateRecoveryInfo}
+                tooltipText={formTooltips.backupPrivateKey}
+                disallowWhiteSpace={true}
+                format='json'
+              />
+              :
+              <InputField
+                label='Box B Value'
+                name='backupKey'
+                value={this.state.backupKey}
+                onChange={this.updateRecoveryInfo}
+                tooltipText={formTooltips.backupPublicKey}
+                disallowWhiteSpace={true}
+                format='xpub'
+              />
+          )]
           }
 
           {this.requiredParams[this.state.coin].includes('bitgoKey') &&
-            <InputField
-              label='Box C Value'
-              name='bitgoKey'
-              value={this.state.bitgoKey}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.bitgoKey}
-              disallowWhiteSpace={true}
-              format='xpub'
-            />
+          <InputField
+            label='Box C Value'
+            name='bitgoKey'
+            value={this.state.bitgoKey}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.bitgoKey}
+            disallowWhiteSpace={true}
+            format='xpub'
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('rootAddress') &&
-            <InputField
-              label='Root Address'
-              name='rootAddress'
-              value={this.state.rootAddress}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.rootAddress}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+          <InputField
+            label='Root Address'
+            name='rootAddress'
+            value={this.state.rootAddress}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.rootAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('walletContractAddress') &&
-            <InputField
-              label='Wallet Contract Address'
-              name='walletContractAddress'
-              value={this.state.walletContractAddress}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.walletContractAddress}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+          <InputField
+            label='Wallet Contract Address'
+            name='walletContractAddress'
+            value={this.state.walletContractAddress}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.walletContractAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('tokenContractAddress') &&
-            <InputField
-              label='Token Contract Address'
-              name='tokenAddress'
-              value={this.state.tokenAddress}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.tokenAddress}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+          <InputField
+            label='Token Contract Address'
+            name='tokenAddress'
+            value={this.state.tokenAddress}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.tokenAddress}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('walletPassphrase') &&
-            <InputField
-              label='Wallet Passphrase'
-              name='walletPassphrase'
-              value={this.state.walletPassphrase}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.walletPassphrase}
-              isPassword={true}
-            />
+          <InputField
+            label='Wallet Passphrase'
+            name='walletPassphrase'
+            value={this.state.walletPassphrase}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.walletPassphrase}
+            isPassword={true}
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('recoveryDestination') &&
-            <InputField
-              label='Destination Address'
-              name='recoveryDestination'
-              value={this.state.recoveryDestination}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.recoveryDestination}
-              disallowWhiteSpace={true}
-              format='address'
-              coin={this.getCoinObject()}
-            />
+          <InputField
+            label='Destination Address'
+            name='recoveryDestination'
+            value={this.state.recoveryDestination}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.recoveryDestination}
+            disallowWhiteSpace={true}
+            format='address'
+            coin={this.getCoinObject()}
+          />
           }
 
           {this.requiredParams[this.state.coin].includes('scan') &&
-            <InputField
-              label='Address Scanning Factor'
-              name='scan'
-              value={this.state.scan}
-              onChange={this.updateRecoveryInfo}
-              tooltipText={formTooltips.scan}
-              disallowWhiteSpace={true}
-              format='number'
-            />
+          <InputField
+            label='Address Scanning Factor'
+            name='scan'
+            value={this.state.scan}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.scan}
+            disallowWhiteSpace={true}
+            format='number'
+          />
           }
 
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
           {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Transaction Hex: <span className='tx-hex'>{this.state.finalTx}</span></p>}
           {!this.state.done &&
-            <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
-              {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
-            </Button>
+          <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
+            {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
+          </Button>
           }
           {this.state.done &&
-            <Button onClick={this.resetRecovery} className='bitgo-button'>
-              Perform Another Recovery
-            </Button>
+          <Button onClick={this.resetRecovery} className='bitgo-button'>
+            Perform Another Recovery
+          </Button>
           }
         </Form>
       </div>
