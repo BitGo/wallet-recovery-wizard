@@ -205,7 +205,7 @@ class MigratedBchRecoveryForm extends Component {
     if (needsUnlock) {
       try {
         await bitgo.unlock({ otp: this.state.twofa });
-        await migratedWallet.submitTransaction({
+        recoveryTx = await migratedWallet.submitTransaction({
           txHex: recoveryTx.hex
         });
       } catch (e) {
