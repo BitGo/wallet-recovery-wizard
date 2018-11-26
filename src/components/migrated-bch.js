@@ -167,7 +167,7 @@ class MigratedBchRecoveryForm extends Component {
       throw new Error('could not find a bch wallet which was migrated from ' + this.state.walletId);
     }
 
-    console.log('found bch wallet: ', migratedWallet.id());
+    console.info('found bch wallet: ', migratedWallet.id());
 
     let recoveryTx;
     try {
@@ -184,9 +184,6 @@ class MigratedBchRecoveryForm extends Component {
       console.error('Failed to create half-signed recovery transaction');
       return;
     }
-
-    console.log('recovery tx');
-    console.log(recoveryTx.hex);
 
     let needsUnlock = false;
     try {
