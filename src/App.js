@@ -12,10 +12,12 @@ import './App.css';
 class App extends Component {
   state = { isLoggedIn: false, loginBypass: false, bitgo: null };
 
-  updateLoginState = (isLoggedIn) => (bitgoInstance) => {
+  updateLoginState = (isLoggedIn) => (bitgoInstance, utxoLibInstance) => {
     if (isLoggedIn && !bitgoInstance) {
       throw new Error('If logging in, please pass in an authenticated BitGoJS instance.');
     }
+
+    bitgoInstance.utxoLib = utxoLibInstance;
 
     this.setState({ isLoggedIn, bitgo: bitgoInstance, loginBypass: false });
   }
