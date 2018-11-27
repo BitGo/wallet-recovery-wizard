@@ -195,6 +195,7 @@ class MigratedBchRecoveryForm extends Component {
         // try again after unlocking
         needsUnlock = true;
       } else {
+        this.setState({ error: e.message, recovering: false });
         throw e;
       }
     }
@@ -202,47 +203,21 @@ class MigratedBchRecoveryForm extends Component {
     if (needsUnlock) {
       try {
         await bitgo.unlock({ otp: this.state.twofa });
-        recoveryTx = await migratedWallet.submitTransaction({
+        await migratedWallet.submitTransaction({
           txHex: recoveryTx.hex
         });
+        console.info(`successfully submitted transaction ${recoveryTx.id} to bitgo`);
       } catch (e) {
         // failed even after unlock - this is fatal
         console.log('got error on submit after unlock');
         console.error(e);
+        this.setState({ error: e.message, recovering: false });
         throw e;
       }
     }
+
+    // recovery tx was successfully submitted
     this.setState({ recoveryTx, recovering: false });
-  };
-
-  saveTransaction = () => {
-    const fileData = this.state.recoveryTx;
-    let fileName;
-    const filePrefix = this.props.bitgo.env === 'prod' ? 'bch' : 'tbch';
-
-    fileName = `${filePrefix}r-${moment().format('YYYYMMDD')}.signed.json`;
-
-    const dialogParams = {
-      filters: [{
-        name: 'Custom File Type',
-        extensions: ['json']
-      }],
-      defaultPath: '~/' + fileName
-    };
-
-    // Retrieve the desired file path and file name
-    const filePath = dialog.showSaveDialog(dialogParams);
-    if (!filePath) {
-      // TODO: The user exited the file creation process. What do we do?
-      return;
-    }
-
-    try {
-      fs.writeFileSync(filePath, JSON.stringify(fileData, null, 4), 'utf8');
-    } catch (err) {
-      console.log('error saving', err);
-      this.setState({ error: 'There was a problem saving your recovery file. Please try again.' });
-    }
   };
 
   render() {
@@ -253,7 +228,14 @@ class MigratedBchRecoveryForm extends Component {
         <h1 className='content-header'>Migrated Bitcoin Cash Recoveries</h1>
         <p className='subtitle'>This tool will help you recover Bitcoin Cash from migrated wallets which are no longer officially supported by BitGo.</p>
         <Alert color='warning'>
-          Do we need a warning here?
+          <p>
+            Transactions submitted using this tool are irreversable. Please double check your destination address to ensure it is correct.
+          </p>
+          <br />
+          <p>
+            Additionally, we recommend creating a policy on your migrated BCH wallet which whitelists only the destination address,
+            and removing all other policies on the wallet. This will ensure that accidental sends to addresses other than the destination address will not be processed immediately, and will instead result in a pending approval, which you may then cancel.
+          </p>
         </Alert>
         <hr />
         <Form>
@@ -305,14 +287,11 @@ class MigratedBchRecoveryForm extends Component {
                   Recovering...
                 </Button>
               }
-              {this.state.recoveryTx &&
-                <Button onClick={this.saveTransaction} className='bitgo-button'>
-                  Save Transaction
+              {this.state.recoveryTx && !this.state.recovering && !this.state.error &&
+                <Button disabled={true} className='bitgo-button'>
+                  Recovery Successful
                 </Button>
               }
-              <Button onClick={this.resetRecovery} className='bitgo-button other'>
-                Cancel
-              </Button>
             </Col>
           </Row>
         </Form>

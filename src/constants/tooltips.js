@@ -31,7 +31,7 @@ export default {
     krsProvider: 'The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank.'
   },
   migratedBch: {
-    walletId: 'The ID (base address) of the v1 BTC wallet which this BCH wallet was migrated from.',
+    walletId: 'The ID (base address) of the v1 BTC wallet which this BCH wallet was migrated from. If you are having trouble locating this ID, please contact support@bitgo.com.',
     recoveryAddress: 'The address of the new wallet where you would like your recovered funds to be sent.',
     passphrase: 'The wallet passphrase of the migrated wallet.',
     twofa: 'Second factor authentication (2FA) code',
