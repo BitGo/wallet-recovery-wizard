@@ -229,7 +229,7 @@ class MigratedBchRecoveryForm extends Component {
         <p className='subtitle'>This tool will help you recover Bitcoin Cash from migrated wallets which are no longer officially supported by BitGo.</p>
         <Alert color='warning'>
           <p>
-            Transactions submitted using this tool are irreversable. Please double check your destination address to ensure it is correct.
+            Transactions submitted using this tool are irreversible. Please double check your destination address to ensure it is correct.
           </p>
           <br />
           <p>
