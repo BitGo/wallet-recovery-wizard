@@ -1,6 +1,7 @@
 import CrossChainRecoveryForm from 'components/cross-chain';
 import NonBitGoRecoveryForm from 'components/non-bitgo';
 import UnsupportedTokenRecoveryForm from 'components/unsupported-token';
+import MigratedBchRecoveryForm from 'components/migrated-bch';
 
 export default {
   main: [
@@ -24,6 +25,13 @@ export default {
       description: 'Recover wallets using the user and backup key (sign a transaction without BitGo).',
       needsLogin: false,
       NavComponent: NonBitGoRecoveryForm
+    },
+    {
+      title: 'Migrated Bitcoin Cash Recoveries',
+      url: '/migratedbch',
+      description: 'Recover unsupported migrated Bitcoin Cash wallets',
+      needsLogin: true,
+      NavComponent: MigratedBchRecoveryForm
     }
   ]
 };
