@@ -31,8 +31,8 @@ class Login extends Component {
       const authResponse = await bitgo.authenticate({ username, password, otp });
       bitgo.sessionInfo = authResponse;
 
-      // Successfully logged in, so update the app (and give it bitgo instance)
-      this.props.finishLogin(bitgo);
+      // Successfully logged in, so update the app (and give it bitgo and utxo lib instances)
+      this.props.finishLogin(bitgo, BitGoJS.bitcoin);
     } catch (e) {
       this.setState({ loginInProgress: false, error: 'There was an error logging in. Please check your username, password and OTP, and try again. '});
     }
