@@ -4,7 +4,11 @@ export default [
     value: 'keyternal'
   },
   {
-    label: 'BitGoKRS',
+    label: 'BitGo KRS',
     value: 'bitgoKRSv2'
+  },
+  {
+    label: 'DAI',
+    value: 'dai'
   }
 ];
