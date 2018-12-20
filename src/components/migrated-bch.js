@@ -7,12 +7,8 @@ import * as _ from 'lodash';
 
 import ErrorMessage from './error-message';
 
-import tooltips from 'constants/tooltips';
+import tooltips from '../constants/tooltips';
 
-import moment from 'moment';
-
-const fs = window.require('fs');
-const { dialog } = window.require('electron').remote;
 const formTooltips = tooltips.migratedBch;
 
 class MigratedBchRecoveryForm extends Component {
