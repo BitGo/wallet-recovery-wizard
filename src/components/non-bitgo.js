@@ -225,6 +225,7 @@ class NonBitGoRecoveryForm extends Component {
                 tooltipText={formTooltips.backupPublicKey}
                 disallowWhiteSpace={true}
                 format='xpub'
+                coin={this.getCoinObject()}
               />
           )]
           }

@@ -110,10 +110,21 @@ export class InputField extends Component {
         this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }' });
       }
     } else if (format === 'xpub') {
-      if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
-        this.setState({ error: null });
+      if (!coin) {
+        return;
+      }
+      if (coin.getFamily() !== 'xlm') {
+        if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
+          this.setState({error: null});
+        } else {
+          this.setState({error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
+        }
       } else {
-        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
+        if (coin.isValidAddress(value)) {
+          this.setState({error: null});
+        } else {
+          this.setState({error: `This field should be a ${coin.getFamily().toUpperCase()} address. Addresses begin with the letter G`});
+        }
       }
     } else if (format === 'number') {
       if (value >= 0) {
