@@ -2,6 +2,7 @@ import CrossChainRecoveryForm from 'components/cross-chain';
 import NonBitGoRecoveryForm from 'components/non-bitgo';
 import UnsupportedTokenRecoveryForm from 'components/unsupported-token';
 import MigratedBchRecoveryForm from 'components/migrated-bch';
+import UnsignedSweep from 'components/unsigned-sweep'
 
 export default {
   main: [
@@ -32,6 +33,13 @@ export default {
       description: 'Recover unsupported migrated Bitcoin Cash wallets',
       needsLogin: true,
       NavComponent: MigratedBchRecoveryForm
+    },
+    {
+      title: 'Build Unsigned Sweep',
+      url: '/unsignedsweep',
+      description: 'Build an unsigned transaction to sweep a wallet without using BitGo.',
+      needsLogin: false,
+      NavComponent: UnsignedSweep
     }
   ]
 };
