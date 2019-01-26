@@ -432,7 +432,7 @@ class ConfirmTxUnsigned extends Component {
       <div>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Source Coin:</Col>
-          <Col xs={5}>{bitgo.coin(txDetails[0].coin).getFullName()} ({txDetails.coin.toUpperCase()})</Col>
+          <Col xs={5}>{bitgo.coin(txDetails[0].coin).getFullName()} ({txDetails[0].coin.toUpperCase()})</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Wallet:</Col>
