@@ -45,5 +45,10 @@ export default {
     recoveryDestination: `The address your recovery transaction will send to.`,
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
-  }
+  },
+  ledger: {
+    walletId: 'The ID (base address) of the v1 BTC wallet which is backed by a ledger device. If you are having trouble locating this ID, please contact support@bitgo.com.',
+    recoveryAddress: 'The address where you would like your recovered funds to be sent.',
+    twofa: 'Second factor authentication (2FA) code',
+  },
 }

@@ -4,9 +4,13 @@ const Menu = electron.Menu;
 const app = electron.app;
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow;
+const ipcMain = electron.ipcMain;
 
 const path = require('path');
 const url = require('url');
+const debug = require('debug')('bitgo:wrw:main');
+
+const { LedgerService } = require('./services/ledger');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -32,6 +36,7 @@ const template = [{
 ];
 
 function createWindow() {
+    debug('creating window');
     // Create the browser window.
     mainWindow = new BrowserWindow({ width: 1500, height: 768, resizable: true, minWidth: 1366, minHeight: 768 });
 
@@ -44,7 +49,7 @@ function createWindow() {
 
     mainWindow.loadURL(startUrl);
     // Open the DevTools.
-    // mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 
@@ -56,6 +61,18 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null
+    });
+
+    mainWindow.webContents.on('did-finish-load', () => {
+        if (mainWindow.services) {
+            // services already initialized on a previous load
+            return;
+        }
+
+        debug('starting services');
+        mainWindow.services = {
+            ledger: LedgerService.start(ipcMain, mainWindow.webContents)
+        }
     });
 }
 

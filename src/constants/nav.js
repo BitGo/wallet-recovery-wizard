@@ -3,6 +3,7 @@ import NonBitGoRecoveryForm from 'components/non-bitgo';
 import UnsupportedTokenRecoveryForm from 'components/unsupported-token';
 import MigratedBchRecoveryForm from 'components/migrated-bch';
 import UnsignedSweep from 'components/unsigned-sweep'
+import LedgerRecoveryForm from 'components/ledger';
 
 export default {
   main: [
@@ -40,6 +41,13 @@ export default {
       description: 'Build an unsigned transaction to sweep a wallet without using BitGo.',
       needsLogin: false,
       NavComponent: UnsignedSweep
+    },
+    {
+      title: 'Ledger Segwit Recoveries',
+      url: '/ledger',
+      description: 'Recover Segwit funds from legacy Ledger-based wallets.',
+      needsLogin: true,
+      NavComponent: LedgerRecoveryForm
     }
   ]
 };
