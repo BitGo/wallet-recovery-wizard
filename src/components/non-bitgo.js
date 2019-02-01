@@ -10,6 +10,8 @@ import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
 
 const formTooltips = tooltips.recovery;
+const { dialog } = window.require('electron').remote;
+const fs = window.require('fs');
 
 class NonBitGoRecoveryForm extends Component {
   state = {
@@ -109,13 +111,32 @@ class NonBitGoRecoveryForm extends Component {
       }, {});
 
       const recovery = await baseCoin.recover(recoveryParams);
+
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
       if (!recoveryTx) {
         throw new Error('Fully-signed recovery transaction not detected.');
       }
 
-      this.setState({ recovering: false, done: true, finalTx: recoveryTx });
+      const fileName = baseCoin.getChain() + "-recovery-" + Date.now().toString() + ".json";
+      const dialogParams = {
+        filters: [{
+          name: 'Custom File Type',
+          extensions: ['json']
+        }],
+        defaultPath: '~/' + fileName
+      };
+
+      // Retrieve the desired file path and file name
+      const filePath = dialog.showSaveDialog(dialogParams);
+      if (!filePath) {
+        // TODO: The user exited the file creation process. What do we do?
+        return;
+      }
+
+      fs.writeFileSync(filePath, JSON.stringify(recovery, null, 4), 'utf8');
+
+      this.setState({ recovering: false, done: true, finalFilename: filePath });
     } catch (e) {
       this.setState({ error: e.message, recovering: false });
     }
@@ -318,7 +339,7 @@ class NonBitGoRecoveryForm extends Component {
           }
 
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Transaction Hex: <span className='tx-hex'>{this.state.finalTx}</span></p>}
+          {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}</p>}
           {!this.state.done &&
           <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
             {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
