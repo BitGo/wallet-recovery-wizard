@@ -35,5 +35,15 @@ export default {
     recoveryAddress: 'The address of the new wallet where you would like your recovered funds to be sent.',
     passphrase: 'The wallet passphrase of the migrated wallet.',
     twofa: 'Second factor authentication (2FA) code',
+  },
+  unsignedSweep: {
+    userKey: `Your user public key, as found on your recovery KeyCard`,
+    backupPublicKey: `The backup public key for the wallet, as found on your recovery KeyCard.`,
+    bitgoKey: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,
+    rootAddress: 'The root address of the wallet.',
+    walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,
+    recoveryDestination: `The address your recovery transaction will send to.`,
+    scan: 'The amount of addresses without transactions to scan before stopping the tool.',
+    tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
   }
 }

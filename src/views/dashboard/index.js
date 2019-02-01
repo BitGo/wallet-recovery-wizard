@@ -14,11 +14,6 @@ import nav from 'constants/nav';
 class Dashboard extends Component {
   componentWillMount() {
     const { isLoggedIn, history } = this.props;
-
-    // Go striaght to non-BitGo if not logged in
-    if (!isLoggedIn) {
-      history.push('/nonbitgo');
-    }
   }
 
   _getRoute = ({ url, NavComponent, needsLogin }) => {
