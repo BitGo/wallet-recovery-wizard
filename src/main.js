@@ -20,6 +20,7 @@ const template = [{
     label: 'Application',
     submenu: [
         { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
+        { label: 'Open Developer Tools', accelerator: 'Command+D', click: () => mainWindow.webContents.openDevTools() },
         { type: 'separator' },
         { label: 'Quit', accelerator: 'Command+Q', click: function() { app.quit(); }}
     ]}, {
@@ -48,8 +49,6 @@ function createWindow() {
     });
 
     mainWindow.loadURL(startUrl);
-    // Open the DevTools.
-    mainWindow.webContents.openDevTools();
 
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 

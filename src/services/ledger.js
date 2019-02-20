@@ -88,7 +88,6 @@ class LedgerService {
    */
   handleCommand({ command, nonce, args, device, sender }) {
     debug(`handling ledger command ${command}:${nonce}`);
-    console.dir(args, { depth: null });
 
     // all responses should include the command and the nonce
     const response = { command, nonce };
@@ -129,8 +128,7 @@ class LedgerService {
           return;
         }
 
-        console.log('signing tx with args:');
-        console.dir(args, { depth: null });
+        debug('signing tx with args:', args);
 
         // TODO: validate arguments before passing to ledger transport
         this.devices[device].signP2SHTransaction(

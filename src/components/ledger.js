@@ -226,7 +226,7 @@ class LedgerRecoveryForm extends Component {
       unspentsFetchParams: {
         allowLedgerSegwit: true
       },
-      feeTxConfirmTarget: 6
+      feeTxConfirmTarget: 10
     };
 
     let feeRate;
@@ -264,6 +264,8 @@ class LedgerRecoveryForm extends Component {
     const fee = _.round(feeRate * txSize / 1000);
     const sendAmount = totalUnspentValue - fee;
 
+    debug(`creating final tx. sendAmount: ${sendAmount}, fee: ${fee}`);
+
     if (sendAmount < 0) {
       throw new Error(`insufficient funds available for recovery. Fees are ${fee}, but the total value of wallet unspents is ${totalUnspentValue}`);
     }
@@ -272,8 +274,15 @@ class LedgerRecoveryForm extends Component {
     // this should result in a single output tx, which does not spend change back to the ledger
     txCreationParams.recipients[recoveryAddress] = sendAmount;
     txCreationParams.unspents = prunedUnspents;
-    const { transactionHex } = await wallet.createTransaction(txCreationParams);
-    return { transactionHex, unspents: prunedUnspents };
+    txCreationParams.fee = fee; // we already got the fee once, no need to recompute again
+    delete txCreationParams.feeTxConfirmTarget;
+    try {
+      const { transactionHex } = await wallet.createTransaction(txCreationParams);
+      return { transactionHex, unspents: prunedUnspents };
+    } catch (e) {
+      this.setState({ error: e.message, recovering: false });
+      return {};
+    }
   };
 
   splitInputTransactions = async (tx) => {
@@ -335,6 +344,11 @@ class LedgerRecoveryForm extends Component {
 
     // create the tx
     const { transactionHex, unspents } = await this.createRecoveryTransaction(wallet, recoveryAddress);
+
+    if (!transactionHex || !unspents) {
+      // recovery transaction creation failed, and an error message was already set
+      return;
+    }
 
     const tx = Transaction.fromHex(transactionHex, network);
     const builder = TransactionBuilder.fromTransaction(tx, network);
@@ -465,7 +479,7 @@ class LedgerRecoveryForm extends Component {
     }
 
     const recoveryAmount = _.round(_.sumBy(unspents, 'value') / 1e8, 6);
-    const recoveryInfo = `Wallet ${wallet.label()} has ${unspents.length} SegWit unspent(s) with a total value of ${recoveryAmount} BTC available to recover.`;
+    const recoveryInfo = `Wallet "${wallet.label()}" has ${unspents.length} SegWit unspent(s) with a total value of ${recoveryAmount} BTC available to recover.`;
     this.setState({ recoveryInfo });
   };
 
@@ -500,11 +514,13 @@ class LedgerRecoveryForm extends Component {
     return (
       <div>
         <div hidden={this.state.ledgerState === states.CONNECTED}>
-          <p className='content-centered'>Please connect and unlock your ledger device, then open the Bitcoin app.</p>
+          <p className='content-centered' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '250px' }}>
+            <span>Please connect and unlock your Ledger device, then open the Bitcoin app.</span>
+          </p>
         </div>
         <div hidden={this.state.ledgerState === states.NOT_CONNECTED}>
           <h1 className='content-header'>SegWit Ledger Wallet Recovery</h1>
-          <p className='subtitle'>This tool allows recovery of Segregated Witness (SegWit) unspents which are contained in ledger wallets.</p>
+          <p className='subtitle'>This tool allows recovery of Segregated Witness (SegWit) unspents which are contained in Ledger wallets.</p>
           <hr />
           <Form>
             <InputField
@@ -537,7 +553,7 @@ class LedgerRecoveryForm extends Component {
             />
             {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
             {this.state.recoveryInfo && <p className='recovery-logging'>{this.state.recoveryInfo}</p>}
-            {this.state.recoveryTxId && <p className='recovery-logging'>Success! Recovery transaction has been submitted. Transaction ID: {this.state.recoveryTxId}</p>}
+            {this.state.recoveryTxId && <p className='recovery-logging'>Success! Recovery transaction has been submitted. Transaction ID: <b>{this.state.recoveryTxId}</b></p>}
             <Row>
               <Col xs={12}>
                 {!this.state.recovering && !this.state.recoveryTxId &&
