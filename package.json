@@ -2,7 +2,7 @@
   "name": "BitGoWalletRecoveryWizard",
   "author": "BitGo, Inc.",
   "description": "A UI-based desktop app for BitGo Recoveries",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "private": true,
   "main": "src/main.js",
   "homepage": "./",
@@ -16,6 +16,9 @@
     "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32'"
   },
   "dependencies": {
+    "@babel/polyfill": "7.2.5",
+    "@ledgerhq/hw-app-btc": "4.39.0",
+    "@ledgerhq/hw-transport-node-hid": "4.40.0",
     "autoprefixer": "8.6.5",
     "bitgo-utxo-lib": "1.2.1",
     "bootstrap": "4.1.1",

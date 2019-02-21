@@ -17,7 +17,9 @@ class App extends Component {
       throw new Error('If logging in, please pass in an authenticated BitGoJS instance.');
     }
 
-    bitgoInstance.utxoLib = utxoLibInstance;
+    if (bitgoInstance) {
+      bitgoInstance.utxoLib = utxoLibInstance;
+    }
 
     this.setState({ isLoggedIn, bitgo: bitgoInstance, loginBypass: false });
   }
