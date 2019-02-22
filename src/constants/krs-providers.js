@@ -8,7 +8,7 @@ export default [
     value: 'bitgoKRSv2'
   },
   {
-    label: 'DAI',
+    label: 'DAS',
     value: 'dai'
   }
 ];
