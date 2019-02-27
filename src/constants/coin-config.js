@@ -1,5 +1,6 @@
 import bchIcon from 'images/BCH_icon.png';
 import btcIcon from 'images/BTC_icon.png';
+import bsvIcon from 'images/BSV_icon.png';
 import ltcIcon from 'images/LTC_icon.png';
 import zecIcon from 'images/ZEC_icon.png';
 import ethIcon from 'images/ETH_icon.png';
@@ -12,7 +13,7 @@ export default {
   allCoins: {
     btc: {
       fullName: 'Bitcoin',
-      supportedRecoveries: ['bch', 'ltc'],
+      supportedRecoveries: ['bch', 'ltc', 'bsv'],
       icon: btcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -21,8 +22,17 @@ export default {
     },
     bch: {
       fullName: 'Bitcoin Cash',
-      supportedRecoveries: ['btc', 'ltc'],
+      supportedRecoveries: ['btc', 'ltc', 'bsv'],
       icon: bchIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' },
+      ]
+    },
+    bsv: {
+      fullName: 'Bitcoin SV',
+      supportedRecoveries: ['btc', 'ltc', 'bch'],
+      icon: bsvIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
@@ -30,7 +40,7 @@ export default {
     },
     ltc: {
       fullName: 'Litecoin',
-      supportedRecoveries: ['btc', 'bch'],
+      supportedRecoveries: ['btc', 'bch', 'bsv'],
       icon: ltcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -101,7 +111,7 @@ export default {
     }
   },
   supportedRecoveries: {
-    crossChain: ['btc', 'bch', 'ltc'],
+    crossChain: ['btc', 'bch', 'ltc', 'bsv'],
     nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token'],
     unsignedSweep: ['btc', 'bch', 'ltc', 'dash', 'zec', 'btg', 'eth', 'token']
   }
