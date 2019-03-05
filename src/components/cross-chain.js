@@ -331,7 +331,7 @@ class RecoveryTxForm extends Component {
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
             disallowWhiteSpace={true}
             format='address'
-            coin={bitgo.coin(formState.sourceCoin)}
+            coin={bitgo.coin(bitgo.env === 'prod' ? formState.sourceCoin : 't' + formState.sourceCoin)}
           />
           {formState.signed &&
           <InputField
