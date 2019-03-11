@@ -38,7 +38,9 @@ export default {
   },
   unsignedSweep: {
     userKey: `Your user public key, as found on your recovery KeyCard`,
+    userKeyID: `Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank.`,
     backupPublicKey: `The backup public key for the wallet, as found on your recovery KeyCard.`,
+    backupKeyID: `Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank.`,
     bitgoKey: `The BitGo public key for the wallet, as found on your recovery KeyCard.`,
     rootAddress: 'The root address of the wallet.',
     walletContractAddress: `The ETH address of the wallet contract. This is also the wallet's base address.`,

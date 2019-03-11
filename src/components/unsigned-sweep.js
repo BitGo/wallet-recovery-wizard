@@ -12,12 +12,15 @@ import krsProviders from 'constants/krs-providers';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
+const utxoLib = require('bitgo-utxo-lib');
 
 class UnsignedSweep extends Component {
   state = {
     coin: 'btc',
     userKey: '',
+    userKeyID: '',
     backupKey: '',
+    backupKeyID: '',
     bitgoKey: '',
     rootAddress: '',
     walletContractAddress: '',
@@ -29,15 +32,15 @@ class UnsignedSweep extends Component {
     env: 'test'
   };
 
-  requiredParams = {
-    btc: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    bch: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    ltc: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    btg: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    zec: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    dash: ['userKey', 'backupKey', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'backupKey', 'walletContractAddress', 'recoveryDestination'],
-    xrp: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
+  displayedParams = {
+    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination'],
+    xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
     token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination']
   };
@@ -72,6 +75,62 @@ class UnsignedSweep extends Component {
     this.setState({ coin: option.value });
   }
 
+  isDerivationPath = (derivationId, keyName) => {
+    const derivationPathMessage = 'Is the provided value a Derivation Path or a Seed?\n' + keyName + ': ' + derivationId + '\n';
+
+    if (derivationId.length > 2 && derivationId.indexOf('m/') === 0) {
+      const response = dialog.showMessageBox({
+        type: 'question',
+        buttons: ['Derivation Path', 'Seed'],
+        title: 'Derivation Path?',
+        message: derivationPathMessage
+      });
+
+      return response === 0;
+    }
+
+    return false;
+  };
+
+  deriveKeyByPath = (key, path, ) => {
+    try {
+      const node = utxoLib.HDNode.fromBase58(key);
+      const derivedNode = node.derivePath(path);
+      return derivedNode.toBase58();
+    } catch(err) {
+      console.dir(err);
+      throw err;
+    }
+  }
+
+  // If the user and/or backup keys are derived with a KeyID, we need to derive the proper key from that
+  updateKeysFromIDs = (basecoin, recoveryParams) => {
+    const keyInfo = [{
+      id: recoveryParams.userKeyID,
+      key: recoveryParams.userKey,
+      description: 'User Key ID',
+      name: 'userKey'
+    }, {
+      id: recoveryParams.backupKeyID,
+      key: recoveryParams.backupKey,
+      description: 'Backup Key ID',
+      name: 'backupKey'
+    }];
+
+    keyInfo.forEach((keyObj) => {
+      if (keyObj.id && keyObj.id !== '') {
+        if (this.isDerivationPath(keyObj.id, keyObj.description)) {
+          recoveryParams[keyObj.name] = this.deriveKeyByPath(keyObj.key, keyObj.id);
+        } else {
+          const response = basecoin.deriveKeyWithSeed({ key: keyObj.key, seed: keyObj.id });
+          recoveryParams[keyObj.name] = response.key;
+        }
+        // once we've derived the key, then delete the keyID so we don't pass it through to the SDK
+        delete recoveryParams[keyObj.name + 'ID'];
+      }
+    });
+  }
+
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
@@ -89,7 +148,7 @@ class UnsignedSweep extends Component {
     try {
       // This is like _.pick
       const recoveryParams = [
-        'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
+        'userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'rootAddress',
         'walletContractAddress', 'tokenAddress',
         'recoveryDestination', 'scan'
       ].reduce((obj, param) => {
@@ -101,6 +160,8 @@ class UnsignedSweep extends Component {
 
         return obj;
       }, {});
+
+      this.updateKeysFromIDs(baseCoin, recoveryParams);
 
       const recoveryPrebuild = await baseCoin.recover(recoveryParams);
 
@@ -180,7 +241,7 @@ class UnsignedSweep extends Component {
               </FormGroup>
             </Col>
           </Row>
-          {this.requiredParams[this.state.coin].includes('userKey') &&
+          {this.displayedParams[this.state.coin].includes('userKey') &&
           <InputField
             label='User Public Key'
             name='userKey'
@@ -192,7 +253,18 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('backupKey') &&
+          {this.displayedParams[this.state.coin].includes('userKeyID') &&
+          <InputField
+            label='User Key ID (optional)'
+            name='userKeyID'
+            value={this.state.userKeyID}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.userKeyID}
+            disallowWhiteSpace={false}
+          />
+          }
+
+          {this.displayedParams[this.state.coin].includes('backupKey') &&
             <InputField
               label='Backup Public Key'
               name='backupKey'
@@ -204,7 +276,18 @@ class UnsignedSweep extends Component {
             />
           }
 
-          {this.requiredParams[this.state.coin].includes('bitgoKey') &&
+          {this.displayedParams[this.state.coin].includes('backupKeyID') &&
+          <InputField
+            label='Backup Key ID (optional)'
+            name='backupKeyID'
+            value={this.state.backupKeyID}
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.backupKeyID}
+            disallowWhiteSpace={false}
+          />
+          }
+
+          {this.displayedParams[this.state.coin].includes('bitgoKey') &&
           <InputField
             label='BitGo Public Key'
             name='bitgoKey'
@@ -216,7 +299,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('rootAddress') &&
+          {this.displayedParams[this.state.coin].includes('rootAddress') &&
           <InputField
             label='Root Address'
             name='rootAddress'
@@ -229,7 +312,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('walletContractAddress') &&
+          {this.displayedParams[this.state.coin].includes('walletContractAddress') &&
           <InputField
             label='Wallet Contract Address'
             name='walletContractAddress'
@@ -242,7 +325,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('tokenContractAddress') &&
+          {this.displayedParams[this.state.coin].includes('tokenContractAddress') &&
           <InputField
             label='Token Contract Address'
             name='tokenAddress'
@@ -255,7 +338,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('walletPassphrase') &&
+          {this.displayedParams[this.state.coin].includes('walletPassphrase') &&
           <InputField
             label='Wallet Passphrase'
             name='walletPassphrase'
@@ -266,7 +349,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('recoveryDestination') &&
+          {this.displayedParams[this.state.coin].includes('recoveryDestination') &&
           <InputField
             label='Destination Address'
             name='recoveryDestination'
@@ -279,7 +362,7 @@ class UnsignedSweep extends Component {
           />
           }
 
-          {this.requiredParams[this.state.coin].includes('scan') &&
+          {this.displayedParams[this.state.coin].includes('scan') &&
           <InputField
             label='Address Scanning Factor'
             name='scan'
