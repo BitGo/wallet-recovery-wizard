@@ -15,7 +15,8 @@ export default {
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
     recoveryAddress: 'The address your recovered tokens will be sent to. This address should belong to a non-BitGo wallet that supports the token.',
     passphrase: 'The wallet passphrase of the wallet that received the unsupported token. You can leave this blank if you know the private key.',
-    prv: 'The private key (xprv) of the wallet that received the unsupported token. You can leave this blank if you know the wallet passphrase.'
+    prv: 'The private key (xprv) of the wallet that received the unsupported token. You can leave this blank if you know the wallet passphrase.',
+    twofa: 'Second factor authentication (2FA) code'
   },
   recovery: {
     userKey: `Your encrypted user key, as found on your recovery KeyCard.`,

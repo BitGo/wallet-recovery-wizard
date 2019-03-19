@@ -7,6 +7,10 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 
 import moment from 'moment';
+import  {
+  Input,
+  Label
+} from 'reactstrap';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -22,7 +26,9 @@ class UnsupportedTokenRecoveryForm extends Component {
     recoveryTx: null,
     logging: [''],
     error: '',
-    recovering: false
+    recovering: false,
+    submitted: null,
+    twofa: ''
   }
 
   collectLog = (...args) => {
@@ -49,7 +55,9 @@ class UnsupportedTokenRecoveryForm extends Component {
       recoveryTx: null,
       logging: [''],
       error: '',
-      recovering: false
+      submitted: null,
+      recovering: false,
+      twofa: ''
     });
   }
 
@@ -60,34 +68,34 @@ class UnsupportedTokenRecoveryForm extends Component {
       tokenAddress,
       recoveryAddress,
       passphrase,
-      prv
+      prv,
+      twofa
     } = this.state;
 
     this.setState({ error: '', recovering: true });
 
     const coin = bitgo.env === 'prod' ? 'eth' : 'teth';
-
+    await bitgo.unlock({ otp: twofa });
     try {
       const wallet = await bitgo.coin(coin).wallets().get({ id: walletId });
-      const recoveryTx = await wallet.recoverToken({
+      const response = await wallet.recoverToken({
         tokenContractAddress: tokenAddress,
         recipient: recoveryAddress,
         walletPassphrase: passphrase,
-        prv: prv
+        prv,
+        broadcast: true
       });
 
-      if (!recoveryTx) {
-        throw new Error('Half-signed recovery not found.');
+      if (response) {
+        this.setState({ submitted: true });
+        return;
       }
 
-      if (recoveryTx.halfSigned.recipient.amount === '0') {
-        throw new Error('Specified wallet\'s token balance on the base address is zero. Contact support@bitgo.com to forward tokens from a wallet\'s receive address.')
-      }
-
-      this.setState({ recoveryTx });
     } catch (e) {
       if (e.message === 'insufficient balance') { // this is terribly unhelpful
         e.message = 'token recovery requires a balance of ETH in the wallet - please send any amount of ETH to the wallet and retry'
+      } else if (e.message.includes('denied by policy')) {
+        e.message = 'Recovery denied by policy. Unsupported token recoveries require approval from a second admin on you wallet. Please use the BitGo website to add another admin to your wallet, then try again. If you have any questions, contact support@bitgo.com'
       }
       this.collectLog(e.message);
       this.setState({ error: e.message, recovering: false });
@@ -181,23 +189,26 @@ class UnsupportedTokenRecoveryForm extends Component {
             isPassword={true}
             disallowWhiteSpace={true}
           />
+          <InputField
+            label='2FA Code'
+            name='twofa'
+            onChange={this.updateRecoveryInfo}
+            value={this.state.twofa}
+            tooltipText={formTooltips.twofa}
+            isPassword={false}
+          />
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          {this.state.recoveryTx && <p className='recovery-logging'>Success! Token recovery transaction has been signed.</p>}
+          {this.state.submitted && <p className='recovery-logging'>Success! Token recovery transaction has been signed and sent to BitGo. The transaction now requires approval from another admin on your wallet. Please have another admin login to the website and approve the transaction. Since the token is unsupported, the transaction will appear to have a value of 0 ETH.</p>}
           <Row>
             <Col xs={12}>
-              {!this.state.recoveryTx && !this.state.recovering &&
+              {!this.state.submitted && !this.state.recovering &&
                 <Button onClick={this.performRecovery} className='bitgo-button'>
                   Recover Tokens
                 </Button>
               }
-              {!this.state.recoveryTx && this.state.recovering &&
+              {!this.state.submitted && this.state.recovering &&
                 <Button disabled={true} className='bitgo-button'>
                   Recovering...
-                </Button>
-              }
-              {this.state.recoveryTx &&
-                <Button onClick={this.saveTransaction} className='bitgo-button'>
-                  Save Transaction
                 </Button>
               }
               <Button onClick={this.resetRecovery} className='bitgo-button other'>
