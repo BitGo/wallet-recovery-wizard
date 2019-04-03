@@ -13,7 +13,9 @@
     "out-clean": "rm -rf ./out/*",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32'"
+    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin'",
+    "make-windows": ".\\node_modules\\.bin\\electron-rebuild.cmd && set NODE_ENV=production&& node scripts/build.js && electron-forge make -p win32",
+    "make-linux": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'linux'"
   },
   "dependencies": {
     "@babel/polyfill": "7.2.5",
@@ -126,6 +128,9 @@
         ],
         "darwin": [
           "dmg"
+        ],
+        "linux": [
+          "deb"
         ]
       },
       "electronPackagerConfig": {
