@@ -43,9 +43,9 @@ export default {
       NavComponent: UnsignedSweep
     },
     {
-      title: 'Ledger Segwit Recoveries',
+      title: 'Ledger Recoveries',
       url: '/ledger',
-      description: 'Recover Segwit funds from legacy Ledger-based wallets.',
+      description: 'Recover funds from legacy Ledger-based wallets.',
       needsLogin: true,
       NavComponent: LedgerRecoveryForm
     }
