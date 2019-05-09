@@ -10,6 +10,10 @@ import ErrorMessage from './error-message';
 import tooltips from '../constants/tooltips';
 
 import { states, channels, events, commands, paths } from '../constants/ledger';
+import {
+  Label,
+  Input
+} from "reactstrap";
 
 const { ipcRenderer } = window.require('electron');
 const formTooltips = tooltips.ledger;
@@ -36,7 +40,8 @@ class LedgerRecoveryForm extends Component {
     activeDevice: null,
     pendingCommands: {},
     coin: null,
-    recoveryInfo: null
+    recoveryInfo: null,
+    recoverSegwit: true
   };
 
   /**
@@ -161,6 +166,7 @@ class LedgerRecoveryForm extends Component {
       error: '',
       recovering: false,
       twofa: '',
+      recoverSegwit: true
     });
   };
 
@@ -208,9 +214,9 @@ class LedgerRecoveryForm extends Component {
 
   collectRecoverableUnspents = async (wallet) => {
     return await wallet.unspents({
-      segwit: true,
-      segwitOnly: true,
-      allowLedgerSegwit: true
+      segwit: this.state.recoverSegwit,
+      segwitOnly: this.state.recoverSegwit,
+      allowLedgerSegwit: this.state.recoverSegwit
     });
   };
 
@@ -401,7 +407,7 @@ class LedgerRecoveryForm extends Component {
       associatedKeysets: unspentPaths,
       outputScriptHex: outputScript.toString('hex'),
       sigHashType: Transaction.SIGHASH_ALL,
-      segwit: true // TODO: handle non-segwit txs correctly
+      segwit: this.state.recoverSegwit
     };
 
     // device is correct, let's sign
@@ -412,7 +418,9 @@ class LedgerRecoveryForm extends Component {
     // build complete transaction with signatures from ledger device
     builder.inputs.forEach((input, index) => {
       const isSegwit = !!unspents[index].witnessScript;
-
+      if (!isSegwit) {
+        signatures[index] += "01"; // add SIGHASH_ALL flag to non-segwit signatures
+      }
       input.signatures = [Buffer.from(signatures[index], 'hex')];
       input.prevOutType = 'scripthash';
       input.redeemScriptType = isSegwit ? 'witnessscripthash' : 'multisig';
@@ -479,7 +487,7 @@ class LedgerRecoveryForm extends Component {
     }
 
     const recoveryAmount = _.round(_.sumBy(unspents, 'value') / 1e8, 6);
-    const recoveryInfo = `Wallet "${wallet.label()}" has ${unspents.length} SegWit unspent(s) with a total value of ${recoveryAmount} BTC available to recover.`;
+    const recoveryInfo = `Wallet "${wallet.label()}" has ${unspents.length} ${this.state.recoverSegwit ? '' : 'Non-'}Segwit unspent(s) with a total value of ${recoveryAmount} BTC available to recover.`;
     this.setState({ recoveryInfo });
   };
 
@@ -509,6 +517,15 @@ class LedgerRecoveryForm extends Component {
     });
   };
 
+  updateCheckbox = (option) => {
+    this.setState({
+      recoverSegwit: option.currentTarget.checked,
+      recovering: false,
+      recoveryTxId: null
+    });
+    this.updateWalletId(this.state.walletId);
+  };
+
   render() {
 
     return (
@@ -519,8 +536,8 @@ class LedgerRecoveryForm extends Component {
           </p>
         </div>
         <div hidden={this.state.ledgerState === states.NOT_CONNECTED}>
-          <h1 className='content-header'>SegWit Ledger Wallet Recovery</h1>
-          <p className='subtitle'>This tool allows recovery of Segregated Witness (SegWit) unspents which are contained in Ledger wallets.</p>
+          <h1 className='content-header'>Ledger Wallet Recovery</h1>
+          <p className='subtitle'>This tool allows recovery of funds from legacy BitGo Ledger wallets.</p>
           <hr />
           <Form>
             <InputField
@@ -551,6 +568,13 @@ class LedgerRecoveryForm extends Component {
               tooltipText={formTooltips.twofa}
               isPassword={true}
             />
+            <Label check>
+              <Input
+                type='checkbox'
+                onChange={this.updateCheckbox}
+                checked={this.state.recoverSegwit}
+              /> Recover Segwit Unspents
+            </Label>
             {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
             {this.state.recoveryInfo && <p className='recovery-logging'>{this.state.recoveryInfo}</p>}
             {this.state.recoveryTxId && <p className='recovery-logging'>Success! Recovery transaction has been submitted. Transaction ID: <b>{this.state.recoveryTxId}</b></p>}
