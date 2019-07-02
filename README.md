@@ -18,5 +18,6 @@ cd wallet-recovery-wizard
 brew install openssl # required to compile native libraries
 ln -s /usr/local/opt/openssl/include/openssl /usr/local/include # required to compile native libraries
 npm install
+./node_modules/.bin/electron-rebuild
 npm run start # run a development server and start the app
 ```
