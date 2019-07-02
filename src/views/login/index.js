@@ -3,8 +3,7 @@ import ErrorMessage from 'components/error-message';
 import HeaderLogo from 'images/header_logo.png';
 import Select from 'react-select';
 import classNames from 'classnames';
-
-const BitGoJS = window.BitGoJS;
+import * as BitGoJS from 'bitgo';
 
 class Login extends Component {
   state = { username: '', password: '', otp: '', env: '' };
