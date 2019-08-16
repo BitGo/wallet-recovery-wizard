@@ -132,7 +132,7 @@ class MigratedRecoveryForm extends Component {
     const txb = TransactionBuilder.fromTransaction(transaction, coin.network);
     txb.setVersion(2);
 
-    const sigHashType = coin.defaultSigHashType;
+
     for (let inputIndex = 0; inputIndex < transaction.ins.length; ++inputIndex) {
       // get the current unspent
       const currentUnspent = txPrebuild.txInfo.unspents[inputIndex];
@@ -149,8 +149,15 @@ class MigratedRecoveryForm extends Component {
 
       // do the signature flow
       const subscript = new Buffer(currentUnspent.redeemScript, 'hex');
+      const sigHashType = coin.defaultSigHashType;
       try {
-        txb.sign(inputIndex, privKey, subscript, sigHashType, value);
+        // BTG only needs to worry about P2SH-P2WSH
+        if (currentUnspent.witnessScript) {
+          const witnessScript = Buffer.from(currentUnspent.witnessScript, 'hex');
+          txb.sign(inputIndex, privKey, subscript, sigHashType, value, witnessScript);
+        } else {
+          txb.sign(inputIndex, privKey, subscript, sigHashType, value);
+        }
       } catch (e) {
         console.log(`got exception while signing unspent ${JSON.stringify(currentUnspent)}`);
         console.trace(e);
