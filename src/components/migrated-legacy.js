@@ -75,7 +75,16 @@ class MigratedRecoveryForm extends Component {
     const maximumSpendable = await migratedWallet.maximumSpendable({ feeRate });
     const spendableAmount = parseInt(maximumSpendable.maximumSpendable, 10);
 
-    const v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId});
+    let v1Wallet;
+    try {
+      v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId});
+    } catch (err) {
+      if (err.message === 'not found') {
+        throw new Error ('v1 BTC Wallet not found. Make sure you are a user on that wallet.');
+      } else {
+        throw err;
+      }
+    }
 
     // Account for paygo fee plus fee for paygo output
     const payGoDeduction = Math.floor(spendableAmount * 0.01) + (OUTPUT_SIZE * (feeRate / 1000));
@@ -102,7 +111,12 @@ class MigratedRecoveryForm extends Component {
       throw new Error('could not get utxo lib reference from bitgo object');
     }
 
-    const signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
+    let signingKeychain
+    try {
+      signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
+    } catch (err) {
+      throw Error('Failed to get signing keychain. Only the original owner of the v1 btc wallet can perform this recovery');
+    }
 
     const rootExtKey = HDNode.fromBase58(signingKeychain.xprv);
     rootExtKey.keyPair.network = coin.network;
