@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { InputField } from './form-components';
+import {CoinDropdown, InputField} from './form-components';
 import { Form, Button, Row, Col, Alert } from 'reactstrap';
 import { address, HDNode, Transaction, TransactionBuilder } from 'bitgo-utxo-lib';
 
@@ -8,11 +8,13 @@ import * as _ from 'lodash';
 import ErrorMessage from './error-message';
 
 import tooltips from '../constants/tooltips';
+import coinConfig from 'constants/coin-config';
 
-const formTooltips = tooltips.migratedBch;
+const formTooltips = tooltips.migratedLegacy;
 
-class MigratedBchRecoveryForm extends Component {
+class MigratedRecoveryForm extends Component {
   state = {
+    coin: 'bch',
     walletId: '',
     recoveryAddress: '',
     passphrase: '',
@@ -34,6 +36,10 @@ class MigratedBchRecoveryForm extends Component {
     this.setState({ [field]: value });
   };
 
+  updateCoin = (option) => {
+    this.setState({ coin: option.value });
+  }
+
   resetRecovery = () => {
     this.setState({
       walletId: '',
@@ -49,13 +55,12 @@ class MigratedBchRecoveryForm extends Component {
     });
   };
 
-  createRecoveryTx = async (bch, migratedWallet) => {
+  createRecoveryTx = async (coin, migratedWallet, v1BtcWalletId) => {
 
     const OUTPUT_SIZE = 34;
 
     const { bitgo } = this.props;
     const {
-      walletId,
       recoveryAddress,
       passphrase,
       feeRate = 5000,
@@ -70,7 +75,16 @@ class MigratedBchRecoveryForm extends Component {
     const maximumSpendable = await migratedWallet.maximumSpendable({ feeRate });
     const spendableAmount = parseInt(maximumSpendable.maximumSpendable, 10);
 
-    const v1Wallet = await bitgo.wallets().get({ id: walletId });
+    let v1Wallet;
+    try {
+      v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId});
+    } catch (err) {
+      if (err.message === 'not found') {
+        throw new Error ('v1 BTC Wallet not found. Make sure you are a user on that wallet.');
+      } else {
+        throw err;
+      }
+    }
 
     // Account for paygo fee plus fee for paygo output
     const payGoDeduction = Math.floor(spendableAmount * 0.01) + (OUTPUT_SIZE * (feeRate / 1000));
@@ -97,21 +111,28 @@ class MigratedBchRecoveryForm extends Component {
       throw new Error('could not get utxo lib reference from bitgo object');
     }
 
-    const signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
-    const rootExtKey = HDNode.fromBase58(signingKeychain.xprv, bch.network);
+    let signingKeychain
+    try {
+      signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
+    } catch (err) {
+      throw Error('Failed to get signing keychain. Only the original owner of the v1 btc wallet can perform this recovery');
+    }
+
+    const rootExtKey = HDNode.fromBase58(signingKeychain.xprv);
+    rootExtKey.keyPair.network = coin.network;
     const hdPath = utxoLib.hdPath(rootExtKey);
 
     // sign the transaction
-    let transaction = Transaction.fromHex(txPrebuild.txHex, bch.network);
+    let transaction = Transaction.fromHex(txPrebuild.txHex, coin.network);
 
     if (transaction.ins.length !== txPrebuild.txInfo.unspents.length) {
       throw new Error('length of unspents array should equal to the number of transaction inputs');
     }
 
-    const txb = TransactionBuilder.fromTransaction(transaction, bch.network);
+    const txb = TransactionBuilder.fromTransaction(transaction, coin.network);
     txb.setVersion(2);
 
-    const sigHashType = Transaction.SIGHASH_ALL | Transaction.SIGHASH_BITCOINCASHBIP143;
+
     for (let inputIndex = 0; inputIndex < transaction.ins.length; ++inputIndex) {
       // get the current unspent
       const currentUnspent = txPrebuild.txInfo.unspents[inputIndex];
@@ -128,8 +149,15 @@ class MigratedBchRecoveryForm extends Component {
 
       // do the signature flow
       const subscript = new Buffer(currentUnspent.redeemScript, 'hex');
+      const sigHashType = coin.defaultSigHashType;
       try {
-        txb.sign(inputIndex, privKey, subscript, sigHashType, value);
+        // BTG only needs to worry about P2SH-P2WSH
+        if (currentUnspent.witnessScript) {
+          const witnessScript = Buffer.from(currentUnspent.witnessScript, 'hex');
+          txb.sign(inputIndex, privKey, subscript, sigHashType, value, witnessScript);
+        } else {
+          txb.sign(inputIndex, privKey, subscript, sigHashType, value);
+        }
       } catch (e) {
         console.log(`got exception while signing unspent ${JSON.stringify(currentUnspent)}`);
         console.trace(e);
@@ -138,7 +166,7 @@ class MigratedBchRecoveryForm extends Component {
 
       // now, let's verify the signature
       transaction = txb.buildIncomplete();
-      const isSignatureVerified = bch.verifySignature(transaction, inputIndex, value);
+      const isSignatureVerified = coin.verifySignature(transaction, inputIndex, value);
       if (!isSignatureVerified) {
         throw new Error(`Could not verify signature on input #${inputIndex}`);
       }
@@ -155,19 +183,38 @@ class MigratedBchRecoveryForm extends Component {
     const { bitgo } = this.props;
     this.setState({ error: '', recovering: true });
 
-    const bch = bitgo.coin('bch');
-    const bchWallets = await bch.wallets().list();
-    const migratedWallet = _.find(bchWallets.wallets, w => w._wallet.migratedFrom === this.state.walletId);
+    const coinName = this.props.bitgo.env === 'prod' ? this.state.coin : `t${this.state.coin}`
+    const coin = bitgo.coin(coinName);
+    const wallets = await coin.wallets().list();
+
+    let v1BtcWalletId;
+
+    // There is a bug that some BTG wallets have the private migrated object ID instead of public, hence the substring addition below
+    let migratedWallet = _.find(wallets.wallets, w => w._wallet.migratedFrom === this.state.walletId || w._wallet.migratedFrom === this.state.walletId.substring(0, 24));
 
     if (!migratedWallet) {
-      throw new Error('could not find a bch wallet which was migrated from ' + this.state.walletId);
+      throw new Error(`could not find a ${this.state.coin} wallet which was migrated from ${this.state.walletId}`);
     }
 
-    console.info('found bch wallet: ', migratedWallet.id());
+    console.info('found wallet: ', migratedWallet.id());
+
+    // If we are recovering BSV, then the code above finds a BCH wallet (migratedWallet)
+    // If that is the case, then we need to dig deeper and get the original v1 BTC wallet, and reset migratedWallet to this v1 BTC wallet
+    if (coin.getFamily() === 'bsv') {
+      const bch = bitgo.coin(this.props.bitgo.env === 'prod' ? 'bch' : `tbch`);
+      const bchWallet = await bch.wallets().getWallet({ id: this.state.walletId });
+      if (!bchWallet) {
+        throw new Error(`could not find the original v1 btc wallet corresponding to the bch wallet with ID ${this.state.walletId}`);
+      }
+      // reset the state to this wallet id
+      v1BtcWalletId = bchWallet._wallet.migratedFrom;
+    } else {
+      v1BtcWalletId = this.state.walletId;
+    }
 
     let recoveryTx;
     try {
-      recoveryTx = await this.createRecoveryTx(bch, migratedWallet);
+      recoveryTx = await this.createRecoveryTx(coin, migratedWallet, v1BtcWalletId);
     } catch (e) {
       if (e.message === 'insufficient balance') { // this is terribly unhelpful
         e.message = 'Insufficient balance to recover';
@@ -217,26 +264,35 @@ class MigratedBchRecoveryForm extends Component {
   };
 
   render() {
-    const coin = this.props.bitgo.env === 'prod' ? 'bch' : 'tbch';
-
+    const mainnetCoin = this.state.coin;
+    const coin = this.props.bitgo.env === 'prod' ? mainnetCoin : `t${mainnetCoin}`;
+    const migratedCoins = coinConfig.supportedRecoveries.migrated[this.props.bitgo.env];
     return (
       <div>
-        <h1 className='content-header'>Migrated Bitcoin Cash Recoveries</h1>
-        <p className='subtitle'>This tool will help you recover Bitcoin Cash from migrated wallets which are no longer officially supported by BitGo.</p>
+        <h1 className='content-header'>Migrated Legacy Wallet Recoveries</h1>
+        <p className='subtitle'>This tool will help you recover funds from migrated wallets which are no longer officially supported by BitGo.</p>
         <Alert color='warning'>
           <p>
             Transactions submitted using this tool are irreversible. Please double check your destination address to ensure it is correct.
           </p>
           <br />
           <p>
-            Additionally, we recommend creating a policy on your migrated BCH wallet which whitelists only the destination address,
+            Additionally, we recommend creating a policy on your migrated wallet which whitelists only the destination address,
             and removing all other policies on the wallet. This will ensure that accidental sends to addresses other than the destination address will not be processed immediately, and will instead result in a pending approval, which you may then cancel.
           </p>
         </Alert>
         <hr />
         <Form>
+          <CoinDropdown
+            label='Coin'
+            name='coin'
+            allowedCoins={migratedCoins}
+            onChange={this.updateCoin}
+            value={this.state.coin}
+            tooltipText={formTooltips.coin}
+          />
           <InputField
-            label='Original Bitcoin Wallet ID'
+            label='Original Wallet ID'
             name='walletId'
             onChange={this.updateRecoveryInfo}
             value={this.state.walletId}
@@ -275,7 +331,7 @@ class MigratedBchRecoveryForm extends Component {
             <Col xs={12}>
               {!this.state.recoveryTx && !this.state.recovering &&
                 <Button onClick={this.performRecovery} className='bitgo-button'>
-                  Recover Bitcoin Cash
+                  Recover Wallet
                 </Button>
               }
               {!this.state.recoveryTx && this.state.recovering &&
@@ -296,4 +352,4 @@ class MigratedBchRecoveryForm extends Component {
   }
 }
 
-export default MigratedBchRecoveryForm;
+export default MigratedRecoveryForm;

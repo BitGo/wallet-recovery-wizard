@@ -1,7 +1,7 @@
 import CrossChainRecoveryForm from 'components/cross-chain';
 import NonBitGoRecoveryForm from 'components/non-bitgo';
 import UnsupportedTokenRecoveryForm from 'components/unsupported-token';
-import MigratedBchRecoveryForm from 'components/migrated-bch';
+import MigratedRecoveryForm from 'components/migrated-legacy';
 import UnsignedSweep from 'components/unsigned-sweep'
 import LedgerRecoveryForm from 'components/ledger';
 
@@ -29,11 +29,11 @@ export default {
       NavComponent: NonBitGoRecoveryForm
     },
     {
-      title: 'Migrated Bitcoin Cash Recoveries',
-      url: '/migratedbch',
-      description: 'Recover unsupported migrated Bitcoin Cash wallets',
+      title: 'Migrated Legacy Wallet Recoveries',
+      url: '/migratedlegacy',
+      description: 'Recover unsupported migrated BCH, BSV, and BTG wallets',
       needsLogin: true,
-      NavComponent: MigratedBchRecoveryForm
+      NavComponent: MigratedRecoveryForm
     },
     {
       title: 'Build Unsigned Sweep',
