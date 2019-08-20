@@ -136,6 +136,10 @@ class MigratedRecoveryForm extends Component {
     for (let inputIndex = 0; inputIndex < transaction.ins.length; ++inputIndex) {
       // get the current unspent
       const currentUnspent = txPrebuild.txInfo.unspents[inputIndex];
+      if (coin.isBitGoTaintedUnspent(currentUnspent)) {
+        console.log(`Skipping taint input ${inputIndex} - only BitGo will sign this one`);
+        continue;
+      }
       if (currentUnspent.chain === undefined || currentUnspent.index === undefined) {
         console.warn(`missing chain or index for unspent: ${currentUnspent.id}. skipping...`);
         continue;
