@@ -2,7 +2,7 @@
   "name": "BitGoWalletRecoveryWizard",
   "author": "BitGo, Inc.",
   "description": "A UI-based desktop app for BitGo Recoveries",
-  "version": "1.9.2",
+  "version": "2.0.0",
   "private": true,
   "main": "src/main.js",
   "homepage": "./",
@@ -13,15 +13,9 @@
     "out-clean": "rm -rf ./out/*",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin'",
-    "make-windows": ".\\node_modules\\.bin\\electron-rebuild.cmd && set NODE_ENV=production&& node scripts/build.js && electron-forge make -p win32",
-    "make-linux": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'linux'",
-    "postinstall": "cd node_modules/bitgo && jq '.main=\"./dist/browser/BitGoJS.min.js\"' ./package.json > tmp.json && mv tmp.json ./package.json && cd ../.."
+    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32' && electron-forge make -p 'linux'"
   },
   "dependencies": {
-    "@babel/polyfill": "7.2.5",
-    "@ledgerhq/hw-app-btc": "4.39.0",
-    "@ledgerhq/hw-transport-node-hid": "4.40.0",
     "autoprefixer": "8.6.5",
     "bitgo": "6.2.0",
     "bitgo-utxo-lib": "1.3.0",
