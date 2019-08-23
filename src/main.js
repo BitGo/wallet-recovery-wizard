@@ -10,8 +10,6 @@ const path = require('path');
 const url = require('url');
 const debug = require('debug')('bitgo:wrw:main');
 
-const { LedgerService } = require('./services/ledger');
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
@@ -60,18 +58,6 @@ function createWindow() {
         // in an array if your app supports multi windows, this is the time
         // when you should delete the corresponding element.
         mainWindow = null
-    });
-
-    mainWindow.webContents.on('did-finish-load', () => {
-        if (mainWindow.services) {
-            // services already initialized on a previous load
-            return;
-        }
-
-        debug('starting services');
-        mainWindow.services = {
-            ledger: LedgerService.start(ipcMain, mainWindow.webContents)
-        }
     });
 }
 
