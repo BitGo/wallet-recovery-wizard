@@ -39,6 +39,7 @@ class NonBitGoRecoveryForm extends Component {
     eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination'],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
+    trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
     token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination']
   };
 
