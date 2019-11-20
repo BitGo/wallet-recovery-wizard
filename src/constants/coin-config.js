@@ -116,7 +116,7 @@ export default {
       icon: trxIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' }
+        { label: 'Testnet (Tronex)', value: 'test' }
       ]
     },
   },
