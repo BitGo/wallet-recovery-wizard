@@ -8,6 +8,7 @@ import btgIcon from 'images/BTG_icon.png';
 import xrpIcon from 'images/XRP_icon.png';
 import dashIcon from 'images/DASH_icon.png';
 import xlmIcon from 'images/XLM_icon.png';
+import trxIcon from 'images/TRX_icon.png';
 
 export default {
   allCoins: {
@@ -108,12 +109,21 @@ export default {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet (Kovan)', value: 'test' }
       ]
-    }
+    },
+    trx: {
+      fullName: 'Tron',
+      supportedRecoveries: [],
+      icon: trxIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet (Tronex)', value: 'test' }
+      ]
+    },
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc', 'bsv'],
-    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token'],
-    unsignedSweep: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token'],
+    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
+    unsignedSweep: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
     migrated: {
       test: ['bch', 'bsv'],
       prod: ['bch', 'btg', 'bsv']
