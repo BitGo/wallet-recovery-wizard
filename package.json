@@ -13,7 +13,7 @@
     "out-clean": "rm -rf ./out/*",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32' && electron-forge make -p 'linux'"
+    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32' --arch ia32 && electron-forge make -p 'linux'"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
