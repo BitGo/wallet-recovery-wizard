@@ -16,6 +16,7 @@ export default {
       fullName: 'Bitcoin',
       supportedRecoveries: ['bch', 'ltc', 'bsv'],
       icon: btcIcon,
+      recoverP2wsh: true,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },

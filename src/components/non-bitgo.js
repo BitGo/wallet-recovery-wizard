@@ -111,6 +111,10 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
+      if (!coinConfig.allCoins[this.state.coin].recoverP2wsh) {
+        recoveryParams.ignoreAddressTypes = ['p2wsh'];
+      }
+
       const recovery = await baseCoin.recover(recoveryParams);
 
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
