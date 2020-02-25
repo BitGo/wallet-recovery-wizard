@@ -187,7 +187,7 @@ class MigratedRecoveryForm extends Component {
     const { bitgo } = this.props;
     this.setState({ error: '', recovering: true });
 
-    const coinName = this.props.bitgo.env === 'prod' ? this.state.coin : `t${this.state.coin}`
+    const coinName = this.props.bitgo.getEnv() === 'prod' ? this.state.coin : `t${this.state.coin}`
     const coin = bitgo.coin(coinName);
     const wallets = await coin.wallets().list();
 
@@ -205,7 +205,7 @@ class MigratedRecoveryForm extends Component {
     // If we are recovering BSV, then the code above finds a BCH wallet (migratedWallet)
     // If that is the case, then we need to dig deeper and get the original v1 BTC wallet, and reset migratedWallet to this v1 BTC wallet
     if (coin.getFamily() === 'bsv') {
-      const bch = bitgo.coin(this.props.bitgo.env === 'prod' ? 'bch' : `tbch`);
+      const bch = bitgo.coin(this.props.bitgo.getEnv() === 'prod' ? 'bch' : `tbch`);
       const bchWallet = await bch.wallets().getWallet({ id: this.state.walletId });
       if (!bchWallet) {
         throw new Error(`could not find the original v1 btc wallet corresponding to the bch wallet with ID ${this.state.walletId}`);
@@ -269,8 +269,8 @@ class MigratedRecoveryForm extends Component {
 
   render() {
     const mainnetCoin = this.state.coin;
-    const coin = this.props.bitgo.env === 'prod' ? mainnetCoin : `t${mainnetCoin}`;
-    const migratedCoins = coinConfig.supportedRecoveries.migrated[this.props.bitgo.env];
+    const coin = this.props.bitgo.getEnv() === 'prod' ? mainnetCoin : `t${mainnetCoin}`;
+    const migratedCoins = coinConfig.supportedRecoveries.migrated[this.props.bitgo.getEnv()];
     return (
       <div>
         <h1 className='content-header'>Migrated Legacy Wallet Recoveries</h1>

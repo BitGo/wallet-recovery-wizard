@@ -119,8 +119,8 @@ class CrossChainRecoveryForm extends Component {
       prv
     } = this.state;
 
-    const sourceCoin = bitgo.env === 'prod' ? this.state.sourceCoin : 't' + this.state.sourceCoin;
-    const recoveryCoin = bitgo.env === 'prod' ? this.state.recoveryCoin : 't' + this.state.recoveryCoin;
+    const sourceCoin = bitgo.getEnv() === 'prod' ? this.state.sourceCoin : 't' + this.state.sourceCoin;
+    const recoveryCoin = bitgo.getEnv() === 'prod' ? this.state.recoveryCoin : 't' + this.state.recoveryCoin;
 
     this.setState({ error: '' });
 
@@ -331,7 +331,7 @@ class RecoveryTxForm extends Component {
             tooltipText={formTooltips.recoveryAddress(formState.sourceCoin)}
             disallowWhiteSpace={true}
             format='address'
-            coin={bitgo.coin(bitgo.env === 'prod' ? formState.sourceCoin : 't' + formState.sourceCoin)}
+            coin={bitgo.coin(bitgo.getEnv() === 'prod' ? formState.sourceCoin : 't' + formState.sourceCoin)}
           />
           {formState.signed &&
           <InputField
