@@ -74,7 +74,7 @@ class UnsupportedTokenRecoveryForm extends Component {
 
     this.setState({ error: '', recovering: true });
 
-    const coin = bitgo.env === 'prod' ? 'eth' : 'teth';
+    const coin = bitgo.getEnv() === 'prod' ? 'eth' : 'teth';
     await bitgo.unlock({ otp: twofa });
     try {
       const wallet = await bitgo.coin(coin).wallets().get({ id: walletId });
@@ -105,7 +105,7 @@ class UnsupportedTokenRecoveryForm extends Component {
   saveTransaction = () => {
     const fileData = this.state.recoveryTx;
     let fileName;
-    const filePrefix = this.props.bitgo.env === 'prod' ? 'erc20' : 'terc20';
+    const filePrefix = this.props.bitgo.getEnv() === 'prod' ? 'erc20' : 'terc20';
 
     fileName = `${filePrefix}r-${fileData.halfSigned.operationHash.slice(2,8)}-${moment().format('YYYYMMDD')}.signed.json`;
 
@@ -133,7 +133,7 @@ class UnsupportedTokenRecoveryForm extends Component {
   }
 
   render() {
-    const coin = this.props.bitgo.env === 'prod' ? 'eth' : 'teth';
+    const coin = this.props.bitgo.getEnv() === 'prod' ? 'eth' : 'teth';
 
     return (
       <div>

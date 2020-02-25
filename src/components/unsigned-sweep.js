@@ -137,7 +137,7 @@ class UnsignedSweep extends Component {
 
     let baseCoin = await this.getCoinObject();
 
-    this.props.bitgo.env = this.state.env;
+    this.props.bitgo._env = this.state.env;
 
     const recoveryTool = baseCoin.recover;
 
