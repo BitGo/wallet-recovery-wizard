@@ -21,3 +21,27 @@ npm install
 ./node_modules/.bin/electron-rebuild
 npm run start # run a development server and start the app
 ```
+## Releasing
+First, bump the version in package.json, then:
+```shell
+npm run make
+```
+Three files will be created:
+```shell
+./out/make/bitgowalletrecoverywizard_VERSION_amd64.deb
+./out/make/BitGoWalletRecoveryWizard-VERSION.dmg
+./out/make/squirrel.windows/ia32/BitGoWalletRecoveryWizard-VERSION Setup.exe
+```
+For each of these, do:
+```shell
+shasum -a 256 <filename>
+```
+And copy the hash.
+
+then:
+
+- Go back to the Releases list and click "Draft a new release"
+- Set the title and tag to "vx.y.z"
+- Paste the template into the description and update the SHA-256 hashes at the bottom
+- Upload the binaries in the file picker at the bottom
+- Publish the release!
