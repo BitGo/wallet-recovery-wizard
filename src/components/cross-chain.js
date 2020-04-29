@@ -128,6 +128,8 @@ class CrossChainRecoveryForm extends Component {
 
     for (const txid of txids) {
       try {
+        // Do not pass the default empty string to the SDK or it will try to use it as a valid xprv
+        const xprv = _.isEmpty(prv) ? undefined : prv;
         const recoveryTx = await basecoin.recoverFromWrongChain({
           txid: txid,
           recoveryAddress: recoveryAddress,
@@ -135,7 +137,7 @@ class CrossChainRecoveryForm extends Component {
           coin: bitgo.coin(recoveryCoin),
           signed: signed,
           walletPassphrase: passphrase,
-          xprv: prv
+          xprv
         });
 
         let recoveryTxs = this.state.recoveryTxs;
