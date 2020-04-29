@@ -9,6 +9,8 @@ The application currently offers the following recoveries:
 
 ## Installing and Downloading
 
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
+
 Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/releases).
 
 ## Pre-requisites

@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
-    "bitgo": "^9.6.0-rc",
+    "bitgo": "^11.0.3",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
