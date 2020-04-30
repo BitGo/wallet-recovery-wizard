@@ -18,71 +18,44 @@ Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/r
 1) Build or Release Platform: MacOS 10.12 or higher
 
 2) Node Version: 10.17.0 or higher
-
-```shell
-Example: $ node --version; npm --version
+```bash
+node --version; npm --version
 v10.17.0
 6.11.3
 ```
 
-3) Required dependencies for installations
-Run the following commands on your MacOS to install the required 3rd-party dependencies. Not all are
-required for Development but are for generating release packages. Only install ONCE.
-
-```shell
-# Required for generating a win32 release package.
-$ brew install mono
-```
-
-```shell
-# Required for generating a linux debian release package.
-$ brew install dpkg
-$ brew install fakeroot
-```
-
-```shell
-# Install xquartz (X server) and wine
-$ brew cask install xquartz
-$ brew cask install wine-stable
-$ brew install openssl 	# required to compile native libraries
-$ ln -s /usr/local/opt/openssl/include/openssl /usr/local/include 	# required to compile native libraries
-```
-
-Note: The installations of win32 or linux dependent packages may screw up your existing installed tools (i.e. openssl, python, etc.).
-If so, please re-install them via "brew" package manager or other means.
-
+3) Docker - https://docs.docker.com/get-docker/
 
 ## Development Setup
-```shell
-$ git clone git@github.com:BitGo/wallet-recovery-wizard.git # install the application
-$ cd wallet-recovery-wizard
-$ brew install openssl # required to compile native libraries
-$ ln -s /usr/local/opt/openssl/include/openssl /usr/local/include # required to compile native libraries
-$ npm install
-$ ./node_modules/.bin/electron-rebuild
-$ npm run start # run a development server and start the app
+```bash
+git clone git@github.com:BitGo/wallet-recovery-wizard.git
+cd wallet-recovery-wizard
+npm install
+npm start
 ```
+
+## Build and Test
+You can test out a release on MacOS by running `npm run pack`. This will give you a packaged target in `/dist/mac`.
 
 ## Build and Release
 First, bump the version in package.json, then:
-```shell
-$ npm install
-$ npm run make
+```bash
+./scripts/package.sh
 ```
-Three files will be created:
-```shell
-./out/make/bitgowalletrecoverywizard_VERSION_amd64.deb
-./out/make/BitGoWalletRecoveryWizard-VERSION.dmg
-./out/make/squirrel.windows/ia32/BitGoWalletRecoveryWizard-VERSION Setup.exe
+
+Package files will be created in `/dist`:
+```bash
+BitGoWalletRecoveryWizard_VERSION_amd64.deb
+BitGoWalletRecoveryWizard-VERSION.dmg
+BitGoWalletRecoveryWizard Setup VERSION.exe
 ```
+
 For each of these, do:
-```shell
-$ shasum -a 256 <filename>
+```bash
+shasum -a 256 <filename>
 ```
-And copy the hash.
 
-then:
-
+- Copy the hash
 - Go back to the Releases list and click "Draft a new release"
 - Set the title and tag to "vx.y.z"
 - Paste the template into the description and update the SHA-256 hashes at the bottom

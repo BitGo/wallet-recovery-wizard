@@ -2,18 +2,16 @@
   "name": "BitGoWalletRecoveryWizard",
   "author": "BitGo, Inc.",
   "description": "A UI-based desktop app for BitGo Recoveries",
-  "version": "2.1.2",
+  "version": "2.2.2",
   "private": true,
-  "main": "src/main.js",
+  "main": "resources/electron.js",
   "homepage": "./",
   "scripts": {
     "start": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
     "dev": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
-    "build-clean": "rm -rf ./build/*",
-    "out-clean": "rm -rf ./out/*",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "make": "export NODE_ENV=production && node scripts/build.js && electron-forge make -p 'darwin' && electron-forge make -p 'win32' --arch ia32 && electron-forge make -p 'linux'"
+    "pack": "npm run build && ./node_modules/.bin/electron-builder --dir"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
@@ -25,7 +23,6 @@
     "classnames": "2.2.6",
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
-    "electron-compile": "6.4.4",
     "file-loader": "1.1.11",
     "jquery": "^3.4.1",
     "jszip": "3.1.5",
@@ -49,15 +46,14 @@
   "devDependencies": {
     "ajv": "6.9.1",
     "asar": "0.14.6",
+    "babel-core": "^6.26.3",
     "babel-eslint": "8.2.6",
     "babel-loader": "7.1.5",
     "babel-preset-react-app": "3.1.2",
     "concurrently": "3.6.1",
     "css-loader": "1.0.1",
-    "electron-forge": "5.2.4",
-    "electron-prebuilt-compile": "4.0.0",
-    "electron-squirrel-startup": "1.0.0",
-    "electron-wix-msi": "1.3.0",
+    "electron": "4.2.12",
+    "electron-builder": "^22.5.1",
     "eslint": "4.10.0",
     "eslint-config-react-app": "2.1.0",
     "eslint-loader": "1.9.0",
@@ -116,41 +112,29 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "config": {
-    "forge": {
-      "make_targets": {
-        "win32": [
-          "squirrel"
-        ],
-        "darwin": [
-          "dmg"
-        ],
-        "linux": [
-          "deb"
-        ]
-      },
-      "electronPackagerConfig": {
-        "packageManager": "npm",
-        "asar": true,
-        "icon": "./src/images/appicon"
-      },
-      "electronWinstallerConfig": {
-        "name": "BitGoWalletRecoveryWizard",
-        "setupIcon": "./src/images/appicon.ico"
-      },
-      "electronInstallerDMG": {
-        "icon": "./src/images/appicon.icns"
-      },
-      "electronInstallerDebian": {},
-      "electronInstallerRedhat": {},
-      "github_repository": {
-        "owner": "",
-        "name": ""
-      },
-      "windowsStoreConfig": {
-        "packageName": "",
-        "name": "BitGoWalletRecoveryWizard"
-      }
+  "build": {
+    "appId": "com.bitgo.WalletRecoveryWizard",
+    "directories": {
+      "buildResources": "resources",
+      "app": "app"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "target": "dmg",
+      "icon": "icons/mac/appicon.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icons/win/appicon.ico"
+    },
+    "linux": {
+      "target": "deb",
+      "maintainer": "support@bitgo.com",
+      "icon": "icons/png"
     }
+  },
+  "engines": {
+    "node": ">=10.17.0",
+    "npm": ">=6.11.3"
   }
 }
