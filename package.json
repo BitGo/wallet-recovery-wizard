@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
+    "bignumber.js": "^9.0.0",
     "bitgo": "^11.0.3",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
