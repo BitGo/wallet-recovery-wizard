@@ -23,6 +23,7 @@ import coinConfig from 'constants/coin-config';
 import moment from 'moment';
 import jszip from 'jszip';
 import * as _ from 'lodash';
+import BigNumber from 'bignumber.js';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -399,7 +400,7 @@ class ConfirmTxSigned extends Component {
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
-          <Col xs={5}>{recoveryAmount * 1e-8} {txDetails[0].sourceCoin.toUpperCase()}</Col>
+          <Col xs={5}>{new BigNumber(recoveryAmount).times(1e-8).toFixed(8)} {txDetails[0].sourceCoin.toUpperCase()}</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
@@ -442,7 +443,7 @@ class ConfirmTxUnsigned extends Component {
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Amount to Recover:</Col>
-          <Col xs={5}>{recoveryAmount * 1e-8} {txDetails[0].coin.toUpperCase()}</Col>
+          <Col xs={5}>{new BigNumber(recoveryAmount).times(1e-8).toFixed(8)} {txDetails[0].coin.toUpperCase()}</Col>
         </Row>
         <Row>
           <Col xs={3} className='confirm-tx-field'>Destination Address:</Col>
