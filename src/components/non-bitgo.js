@@ -4,6 +4,7 @@ import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-co
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
+import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
@@ -24,6 +25,7 @@ class NonBitGoRecoveryForm extends Component {
     tokenAddress: '',
     walletPassphrase: '',
     recoveryDestination: '',
+    apiKey: '',
     scan: 20,
     krsProvider: null,
     env: 'test'
@@ -36,26 +38,32 @@ class NonBitGoRecoveryForm extends Component {
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination'],
+    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey'],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
-    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination']
+    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey']
   };
 
   getCoinObject = () => {
+    let bitgo = this.props.bitgo;
     let coin;
+
+    if (this.state.apiKey && this.state.apiKey === '') {
+      bitgo = new BitGoJS.BitGo({ etherscanApiToken: this.state.apiKey });
+    }
+
     if (this.state.coin === 'token') {
       try {
-        coin = this.props.bitgo.coin(this.state.tokenAddress);
+        coin = bitgo.coin(this.state.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
         let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
-        coin = this.props.bitgo.coin(coinTicker);
+        coin = bitgo.coin(coinTicker);
       }
     } else {
       let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
-      coin = this.props.bitgo.coin(coinTicker);
+      coin = bitgo.coin(coinTicker);
     }
 
     return coin;
@@ -107,7 +115,6 @@ class NonBitGoRecoveryForm extends Component {
 
           return Object.assign(obj, { [param]: value })
         }
-
         return obj;
       }, {});
 
@@ -340,6 +347,17 @@ class NonBitGoRecoveryForm extends Component {
             tooltipText={formTooltips.scan}
             disallowWhiteSpace={true}
             format='number'
+          />
+          }
+
+          {this.requiredParams[this.state.coin].includes('apiKey') &&
+          <InputField
+            label='API Key'
+            name='apiKey'
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.apiKey}
+            disallowWhiteSpace={true}
+            placeholder='etherscan API key'
           />
           }
 
