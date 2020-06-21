@@ -46,11 +46,12 @@ class NonBitGoRecoveryForm extends Component {
   };
 
   getCoinObject = () => {
+    this.props.bitgo._env = this.state.env;
     let bitgo = this.props.bitgo;
     let coin;
 
-    if (this.state.apiKey && this.state.apiKey === '') {
-      bitgo = new BitGoJS.BitGo({ etherscanApiToken: this.state.apiKey });
+    if (this.state.apiKey && this.state.apiKey !== '') {
+      bitgo = new BitGoJS.BitGo({ env: this.state.env, etherscanApiToken: this.state.apiKey });
     }
 
     if (this.state.coin === 'token') {
@@ -93,8 +94,6 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ recovering: true, error: '' });
 
     let baseCoin = await this.getCoinObject();
-
-    this.props.bitgo._env = this.state.env;
 
     const recoveryTool = baseCoin.recover;
 
@@ -357,7 +356,7 @@ class NonBitGoRecoveryForm extends Component {
             onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.apiKey}
             disallowWhiteSpace={true}
-            placeholder='etherscan API key'
+            placeholder='None'
           />
           }
 
