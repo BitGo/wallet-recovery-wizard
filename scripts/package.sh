@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+if [[ -n $1 ]]; then
+  cd ./resources
+  npm version -git-tag-version=false --allow-same-version $1
+  cd ..
+  npm version -git-tag-version=false --allow-same-version $1
+fi
+
+npm run build
+
 ./node_modules/.bin/electron-builder -m
 
 docker run --rm -ti \

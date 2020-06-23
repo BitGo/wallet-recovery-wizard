@@ -38,9 +38,9 @@ npm start
 You can test out a release on MacOS by running `npm run pack`. This will give you a packaged target in `/dist/mac`.
 
 ## Build and Release
-First, bump the version in package.json, then:
+Run the `package.sh` script and pass it the updated version:
 ```bash
-./scripts/package.sh
+./scripts/package.sh 2.2.3
 ```
 
 Package files will be created in `/dist`:
