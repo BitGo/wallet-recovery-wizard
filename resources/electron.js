@@ -35,7 +35,16 @@ const template = [{
 
 function createWindow() {
     // Create the browser window.
-    mainWindow = new BrowserWindow({ width: 1500, height: 768, resizable: true, minWidth: 1366, minHeight: 768, webPreferences: { webSecurity: process.env.NODE_ENV !== 'development' } });
+    mainWindow = new BrowserWindow({ 
+        width: 1500, 
+        height: 768, 
+        resizable: true, 
+        minWidth: 1366, 
+        minHeight: 768, 
+        webPreferences: 
+        { webSecurity: process.env.NODE_ENV !== 'development',
+        nodeIntegration: true }
+    });
 
     // and load the index.html of the app.
     const startUrl = process.env.ELECTRON_START_URL || url.format({
