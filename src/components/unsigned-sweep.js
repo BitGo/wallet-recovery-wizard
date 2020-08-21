@@ -33,7 +33,7 @@ class UnsignedSweep extends Component {
   };
 
   displayedParams = {
-    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
@@ -162,6 +162,10 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
+      if(this.state.coin === 'btc'&& this.state.apiKey) {
+        recoveryParams.apiKey = this.state.apiKey
+      }
+
       this.updateKeysFromIDs(baseCoin, recoveryParams);
 
       const recoveryPrebuild = await baseCoin.recover(recoveryParams);
@@ -176,15 +180,16 @@ class UnsignedSweep extends Component {
       };
 
       // Retrieve the desired file path and file name
-      const filePath = dialog.showSaveDialog(dialogParams);
+      const filePath = await dialog.showSaveDialog(dialogParams);
       if (!filePath) {
         // TODO: The user exited the file creation process. What do we do?
         return;
       }
 
-      fs.writeFileSync(filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
-      this.setState({ recovering: false, done: true, finalFilename: filePath });
+      fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
+      this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
     } catch (e) {
+      console.dir(e);
       this.setState({ error: e.message, recovering: false });
     }
   }
@@ -372,6 +377,17 @@ class UnsignedSweep extends Component {
             tooltipText={formTooltips.scan}
             disallowWhiteSpace={true}
             format='number'
+          />
+          }
+
+          {this.displayedParams[this.state.coin].includes('apiKey') &&
+          <InputField
+            label='API Key'
+            name='apiKey'
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.apiKey(this.state.coin)}
+            disallowWhiteSpace={true}
+            placeholder='None'
           />
           }
 

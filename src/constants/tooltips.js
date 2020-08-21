@@ -57,5 +57,10 @@ export default {
     recoveryDestination: `The address your recovery transaction will send to.`,
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
+    apiKey: (coin) => {
+      if( coin === 'btc') {
+        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries'
+      }
+    },
   },
 }
