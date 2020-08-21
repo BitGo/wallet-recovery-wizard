@@ -188,6 +188,7 @@ class UnsignedSweep extends Component {
 
       fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
       this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
+      alert('We recommend that you use a third-party API to decode your txHex and verify its accuracy before broadcasting.');
     } catch (e) {
       console.dir(e);
       this.setState({ error: e.message, recovering: false });
