@@ -162,7 +162,7 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'btc'&& this.state.apiKey) {
+      if (this.state.coin === 'btc' && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
