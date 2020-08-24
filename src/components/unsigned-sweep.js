@@ -8,7 +8,7 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-
+import { logToConsole } from 'utils.js';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -33,7 +33,7 @@ class UnsignedSweep extends Component {
   };
 
   displayedParams = {
-    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
@@ -99,7 +99,7 @@ class UnsignedSweep extends Component {
       const derivedNode = node.derivePath(path);
       return derivedNode.toBase58();
     } catch(err) {
-      console.dir(err);
+      logToConsole(err);
       throw err;
     }
   }
@@ -162,6 +162,10 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
+      if (this.state.coin === 'btc' && this.state.apiKey) {
+        recoveryParams.apiKey = this.state.apiKey;
+      }
+
       this.updateKeysFromIDs(baseCoin, recoveryParams);
 
       const recoveryPrebuild = await baseCoin.recover(recoveryParams);
@@ -176,15 +180,18 @@ class UnsignedSweep extends Component {
       };
 
       // Retrieve the desired file path and file name
-      const filePath = dialog.showSaveDialog(dialogParams);
+      const filePath = await dialog.showSaveDialog(dialogParams);
       if (!filePath) {
         // TODO: The user exited the file creation process. What do we do?
         return;
       }
 
-      fs.writeFileSync(filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
-      this.setState({ recovering: false, done: true, finalFilename: filePath });
+      fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
+      this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
+      alert('We recommend that you use a third-party API to decode your txHex' + 
+            'and verify its accuracy before broadcasting.');
     } catch (e) {
+      logToConsole(e);
       this.setState({ error: e.message, recovering: false });
     }
   }
@@ -372,6 +379,17 @@ class UnsignedSweep extends Component {
             tooltipText={formTooltips.scan}
             disallowWhiteSpace={true}
             format='number'
+          />
+          }
+
+          {this.displayedParams[this.state.coin].includes('apiKey') &&
+          <InputField
+            label='API Key'
+            name='apiKey'
+            onChange={this.updateRecoveryInfo}
+            tooltipText={formTooltips.apiKey(this.state.coin)}
+            disallowWhiteSpace={true}
+            placeholder='None'
           />
           }
 

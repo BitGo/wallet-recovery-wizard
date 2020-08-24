@@ -28,7 +28,15 @@ export default {
     walletPassphrase: `The passphrase of the wallet.`,
     recoveryDestination: `The address your recovery transaction will send to.`,
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
-    apiKey: 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries',
+    apiKey: (coin) => {
+      if (coin === 'eth' || coin === 'token') {
+        return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries';
+      } else if (coin === 'btc') {
+        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries';
+      } else {
+        return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
+      }
+    },
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
     krsProvider: 'The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank.'
   },
@@ -50,5 +58,10 @@ export default {
     recoveryDestination: `The address your recovery transaction will send to.`,
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
+    apiKey: (coin) => {
+      if (coin === 'btc') {
+        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries';
+      }
+    },
   },
 }
