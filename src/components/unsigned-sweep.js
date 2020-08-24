@@ -8,7 +8,7 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-
+import { logToConsole } from 'utils.js';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -99,7 +99,7 @@ class UnsignedSweep extends Component {
       const derivedNode = node.derivePath(path);
       return derivedNode.toBase58();
     } catch(err) {
-      console.dir(err);
+      logToConsole(err);
       throw err;
     }
   }
@@ -162,8 +162,8 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
-      if(this.state.coin === 'btc'&& this.state.apiKey) {
-        recoveryParams.apiKey = this.state.apiKey
+      if (this.state.coin === 'btc'&& this.state.apiKey) {
+        recoveryParams.apiKey = this.state.apiKey;
       }
 
       this.updateKeysFromIDs(baseCoin, recoveryParams);
@@ -188,9 +188,10 @@ class UnsignedSweep extends Component {
 
       fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
       this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
-      alert('We recommend that you use a third-party API to decode your txHex and verify its accuracy before broadcasting.');
+      alert('We recommend that you use a third-party API to decode your txHex' + 
+            'and verify its accuracy before broadcasting.');
     } catch (e) {
-      console.dir(e);
+      logToConsole(e);
       this.setState({ error: e.message, recovering: false });
     }
   }

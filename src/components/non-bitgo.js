@@ -9,7 +9,7 @@ import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-
+import { logToConsole } from 'utils.js';
 const formTooltips = tooltips.recovery;
 const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
@@ -117,8 +117,8 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      if(this.state.coin === 'btc'&& this.state.apiKey) {
-        recoveryParams.apiKey = this.state.apiKey
+      if (this.state.coin === 'btc' && this.state.apiKey) {
+        recoveryParams.apiKey = this.state.apiKey;
       }
 
       if (!coinConfig.allCoins[this.state.coin].recoverP2wsh) {
@@ -152,9 +152,10 @@ class NonBitGoRecoveryForm extends Component {
       fs.writeFileSync(filePath.filePath, JSON.stringify(recovery, null, 4), 'utf8');
 
       this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
-      alert('We recommend that you use a third-party API to decode your txHex and verify its accuracy before broadcasting.');
+      alert('We recommend that you use a third-party API to decode your txHex' + 
+            'and verify its accuracy before broadcasting.');
     } catch (e) {
-      console.dir(e)
+      logToConsole(e);
       this.setState({ error: e.message, recovering: false });
     }
   }

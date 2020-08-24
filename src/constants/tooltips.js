@@ -30,10 +30,10 @@ export default {
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     apiKey: (coin) => {
       if (coin === 'eth' || coin === 'token') {
-        return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries'
+        return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries';
       }
-      if( coin=== 'btc') {
-        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries'
+      if (coin === 'btc') {
+        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries';
       }
     },
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
@@ -58,8 +58,8 @@ export default {
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
     apiKey: (coin) => {
-      if( coin === 'btc') {
-        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries'
+      if (coin === 'btc') {
+        return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries';
       }
     },
   },
