@@ -31,9 +31,10 @@ export default {
     apiKey: (coin) => {
       if (coin === 'eth' || coin === 'token') {
         return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries';
-      }
-      if (coin === 'btc') {
+      } else if (coin === 'btc') {
         return 'An Api-Key Token from blockchair.com required for Bitcoin Mainnet and Testnet recoveries';
+      } else {
+        return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
       }
     },
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
