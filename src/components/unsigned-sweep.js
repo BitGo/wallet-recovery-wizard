@@ -4,6 +4,7 @@ import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-co
 import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
+import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
@@ -27,6 +28,7 @@ class UnsignedSweep extends Component {
     tokenAddress: '',
     walletPassphrase: '',
     recoveryDestination: '',
+    apiKey: '',
     scan: 20,
     krsProvider: null,
     env: 'test'
@@ -39,26 +41,30 @@ class UnsignedSweep extends Component {
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination'],
+    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey'],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
-    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination'],
+    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
     trx: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
   };
 
   getCoinObject = () => {
     let coin;
+    let bitgo = this.props.bitgo;
+    if (this.state.apiKey && this.state.apiKey !== '') {
+      bitgo = new BitGoJS.BitGo({ env: this.state.env, etherscanApiToken: this.state.apiKey });
+    }
     if (this.state.coin === 'token') {
       try {
-        coin = this.props.bitgo.coin(this.state.tokenAddress);
+        coin = bitgo.coin(this.state.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
         let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
-        coin = this.props.bitgo.coin(coinTicker);
+        coin = bitgo.coin(coinTicker);
       }
     } else {
       let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
-      coin = this.props.bitgo.coin(coinTicker);
+      coin = bitgo.coin(coinTicker);
     }
 
     return coin;
@@ -136,8 +142,6 @@ class UnsignedSweep extends Component {
     this.setState({ recovering: true, error: '' });
 
     let baseCoin = await this.getCoinObject();
-
-    this.props.bitgo._env = this.state.env;
 
     const recoveryTool = baseCoin.recover;
 
