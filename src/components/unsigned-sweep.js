@@ -49,6 +49,7 @@ class UnsignedSweep extends Component {
   };
 
   getCoinObject = () => {
+    this.props.bitgo._env = this.state.env;
     let coin;
     let bitgo = this.props.bitgo;
     if (this.state.apiKey && this.state.apiKey !== '') {
