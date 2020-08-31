@@ -68,4 +68,8 @@ export default {
       }
     },
   },
+  errorMessages: {
+    auth: 'There was an error logging in. Please check your username, password, OTP. ' 
+    + 'If you used an unverified IP address, please check your email for IP verification',
+  }
 }

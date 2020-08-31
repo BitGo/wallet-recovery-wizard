@@ -4,7 +4,7 @@ import HeaderLogo from 'images/header_logo.png';
 import Select from 'react-select';
 import classNames from 'classnames';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
-
+import tooltips from '../../constants/tooltips';
 class Login extends Component {
   state = { username: '', password: '', otp: '', env: '' };
 
@@ -33,7 +33,7 @@ class Login extends Component {
       // Successfully logged in, so update the app (and give it bitgo and utxo lib instances)
       this.props.finishLogin(bitgo, BitGoJS.bitcoin);
     } catch (e) {
-      this.setState({ loginInProgress: false, error: 'There was an error logging in. Please check your username, password and OTP, and try again. '});
+      this.setState({ loginInProgress: false, error: tooltips.errorMessages.auth });
     }
   }
 
