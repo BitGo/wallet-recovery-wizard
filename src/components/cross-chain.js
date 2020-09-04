@@ -170,14 +170,14 @@ class CrossChainRecoveryForm extends Component {
       defaultPath: '~/' + fileName
     };
 
-    const filePath = dialog.showSaveDialog(dialogParams);
+    const filePath = await dialog.showSaveDialog(dialogParams);
     if (!filePath) {
       // TODO: The user exited the file creation process. What do we do?
       return;
     }
 
     try {
-      fs.writeFileSync(filePath, JSON.stringify(transaction, null, 4), 'utf8');
+      fs.writeFileSync(filePath.filePath, JSON.stringify(transaction, null, 4), 'utf8');
     } catch (err) {
       console.log('error saving', err);
       this.setState({ error: 'There was a problem saving your recovery file. Please try again.' });
@@ -212,7 +212,7 @@ class CrossChainRecoveryForm extends Component {
     }
 
     try {
-      await zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true }).pipe(fs.createWriteStream(filePath));
+      await zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true }).pipe(fs.createWriteStream(filePath.filePath));
     } catch (err) {
       console.log('error saving', err);
       this.setState({ error: 'There was a problem saving your recovery file. Please try again.' });
