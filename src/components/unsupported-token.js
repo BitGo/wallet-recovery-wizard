@@ -125,7 +125,7 @@ class UnsupportedTokenRecoveryForm extends Component {
     }
 
     try {
-      fs.writeFileSync(filePath, JSON.stringify(fileData, null, 4), 'utf8');
+      fs.writeFileSync(filePath.filePath, JSON.stringify(fileData, null, 4), 'utf8');
     } catch (err) {
       console.log('error saving', err);
       this.setState({ error: 'There was a problem saving your recovery file. Please try again.' });
