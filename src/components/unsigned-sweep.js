@@ -36,6 +36,7 @@ class UnsignedSweep extends Component {
 
   displayedParams = {
     btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    bsv: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
@@ -167,7 +168,7 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'btc' && this.state.apiKey) {
+      if (this.state.coin === 'bsv' && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -217,7 +218,7 @@ class UnsignedSweep extends Component {
   }
 
   render() {
-    const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep;
+    const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep[this.state.env];
     const { isLoggedIn } = this.props;
 
     return (

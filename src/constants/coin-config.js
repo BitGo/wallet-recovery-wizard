@@ -123,8 +123,14 @@ export default {
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc', 'bsv'],
-    nonBitGo: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
-    unsignedSweep: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
+    nonBitGo: {
+      test: ['btc', 'eth', 'xrp', 'bch', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv']
+    },
+    unsignedSweep: {
+      test:['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv']
+    },
     migrated: {
       test: ['bch', 'bsv'],
       prod: ['bch', 'btg', 'bsv']

@@ -33,6 +33,7 @@ class NonBitGoRecoveryForm extends Component {
 
   requiredParams = {
     btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
@@ -117,7 +118,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'btc' && this.state.apiKey) {
+      if (this.state.coin === 'bsv' && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -176,7 +177,7 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   render() {
-    const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo;
+    const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo[this.state.env];
     const { isLoggedIn } = this.props;
 
     return (
