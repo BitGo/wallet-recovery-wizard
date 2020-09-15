@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
-import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
@@ -179,11 +179,24 @@ class NonBitGoRecoveryForm extends Component {
   render() {
     const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo[this.state.env];
     const { isLoggedIn } = this.props;
-
+    let warning;
+    if (this.state.coin === 'bsv') {
+      warning = 
+      <Alert color='danger'>
+        <p>
+          Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
+        </p> 
+        <p>
+          Please make sure you are the owner of the Destination Address to avoid
+          accidentally sending your BCH to an address you don't own.
+        </p>
+      </Alert>
+    }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
         <h1 className='content-header'>Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
+        {warning}
         <hr />
         <Form>
           <Row>
