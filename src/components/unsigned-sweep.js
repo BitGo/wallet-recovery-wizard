@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
-import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
@@ -35,7 +35,8 @@ class UnsignedSweep extends Component {
   };
 
   displayedParams = {
-    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    bsv: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
@@ -167,7 +168,7 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'btc' && this.state.apiKey) {
+      if (this.state.coin === 'bsv' && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -217,13 +218,26 @@ class UnsignedSweep extends Component {
   }
 
   render() {
-    const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep;
+    const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep[this.state.env];
     const { isLoggedIn } = this.props;
-
+    let warning;
+    if (this.state.coin === 'bsv') {
+      warning =
+      <Alert color='danger'>
+        <p>
+          Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
+        </p>
+        <p>
+          Please make sure you are the owner of the Destination Address to avoid
+          accidentally sending your BCH to an address you don't own.
+        </p>
+      </Alert>
+    }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
         <h1 className='content-header'>Build Unsigned Sweep</h1>
         <p className='subtitle'>This tool will construct an unsigned sweep transaction on the wallet you specify without using BitGo.</p>
+        {warning}
         <hr />
         <Form>
           <Row>

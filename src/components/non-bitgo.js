@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
-import { Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
@@ -32,7 +32,8 @@ class NonBitGoRecoveryForm extends Component {
   };
 
   requiredParams = {
-    btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
@@ -117,7 +118,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'btc' && this.state.apiKey) {
+      if (this.state.coin === 'bsv' && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -176,13 +177,26 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   render() {
-    const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo;
+    const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo[this.state.env];
     const { isLoggedIn } = this.props;
-
+    let warning;
+    if (this.state.coin === 'bsv') {
+      warning = 
+      <Alert color='danger'>
+        <p>
+          Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
+        </p> 
+        <p>
+          Please make sure you are the owner of the Destination Address to avoid
+          accidentally sending your BCH to an address you don't own.
+        </p>
+      </Alert>
+    }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
         <h1 className='content-header'>Non-BitGo Recovery</h1>
         <p className='subtitle'>This tool will help you use your recovery KeyCard to build and send a transaction that does not rely on BitGo APIs.</p>
+        {warning}
         <hr />
         <Form>
           <Row>
