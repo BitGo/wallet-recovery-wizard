@@ -34,7 +34,7 @@ class NonBitGoRecoveryForm extends Component {
   requiredParams = {
     btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-    bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
@@ -118,7 +118,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      if (this.state.coin === 'bsv' && this.state.apiKey) {
+      if ((this.state.coin === 'bsv' || this.state.coin === 'bch') && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
