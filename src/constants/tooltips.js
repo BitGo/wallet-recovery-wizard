@@ -31,8 +31,8 @@ export default {
     apiKey: (coin) => {
       if (coin === 'eth' || coin === 'token') {
         return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries';
-      } else if (coin === 'bsv') {
-        return 'An Api-Key Token from blockchair.com required for Bitcoin SV Mainnet recoveries';
+      } else if (coin === 'bsv' || coin === 'bch') {
+        return 'An Api-Key Token from blockchair.com required for mainnet recovery of this coin';
       } else {
         return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
       }
@@ -61,8 +61,8 @@ export default {
     apiKey: (coin) => {
       if (coin === 'eth' || coin === 'token') {
         return 'An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries';
-      } else if (coin === 'bsv') {
-        return 'An Api-Key Token from blockchair.com required for Bitcoin SV Mainnet recoveries';
+      } else if (coin === 'bsv' || coin === 'bch') {
+        return 'An Api-Key Token from blockchair.com required for mainnet recoveries of this coin';
       } else {
         return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
       }
