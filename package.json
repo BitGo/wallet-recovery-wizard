@@ -16,7 +16,7 @@
   "dependencies": {
     "autoprefixer": "8.6.5",
     "bignumber.js": "^9.0.0",
-    "bitgo": "^11.5.1-rc.2",
+    "bitgo": "^11.7.1-rc.1",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
