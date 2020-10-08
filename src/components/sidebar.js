@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { TransitionGroup, CSSTransition }  from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
 import nav from 'constants/nav';
 
@@ -16,7 +16,7 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
       {showSidebar &&
         <CSSTransition
           classNames='slide'
-          timeout={{ enter: 500, exit: 300}}
+          timeout={{ enter: 500, exit: 300 }}
         >
           <div className={classNames('leftNavBar', 'slideLeft')} key='sidebar' >
             {navElements.map((section, index) =>

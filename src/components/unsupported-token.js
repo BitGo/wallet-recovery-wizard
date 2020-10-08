@@ -7,10 +7,6 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 
 import moment from 'moment';
-import  {
-  Input,
-  Label
-} from 'reactstrap';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -28,7 +24,7 @@ class UnsupportedTokenRecoveryForm extends Component {
     error: '',
     recovering: false,
     submitted: null,
-    twofa: ''
+    twofa: '',
   }
 
   collectLog = (...args) => {
@@ -57,7 +53,7 @@ class UnsupportedTokenRecoveryForm extends Component {
       error: '',
       submitted: null,
       recovering: false,
-      twofa: ''
+      twofa: '',
     });
   }
 
@@ -69,7 +65,7 @@ class UnsupportedTokenRecoveryForm extends Component {
       recoveryAddress,
       passphrase,
       prv,
-      twofa
+      twofa,
     } = this.state;
 
     this.setState({ error: '', recovering: true });
@@ -83,7 +79,7 @@ class UnsupportedTokenRecoveryForm extends Component {
         recipient: recoveryAddress,
         walletPassphrase: passphrase,
         prv,
-        broadcast: true
+        broadcast: true,
       });
 
       if (response) {
@@ -93,9 +89,9 @@ class UnsupportedTokenRecoveryForm extends Component {
 
     } catch (e) {
       if (e.message === 'insufficient balance') { // this is terribly unhelpful
-        e.message = 'token recovery requires a balance of ETH in the wallet - please send any amount of ETH to the wallet and retry'
+        e.message = 'token recovery requires a balance of ETH in the wallet - please send any amount of ETH to the wallet and retry';
       } else if (e.message.includes('denied by policy')) {
-        e.message = 'Recovery denied by policy. Unsupported token recoveries require approval from a second admin on you wallet. Please use the BitGo website to add another admin to your wallet, then try again. If you have any questions, contact support@bitgo.com'
+        e.message = 'Recovery denied by policy. Unsupported token recoveries require approval from a second admin on you wallet. Please use the BitGo website to add another admin to your wallet, then try again. If you have any questions, contact support@bitgo.com';
       }
       this.collectLog(e.message);
       this.setState({ error: e.message, recovering: false });
@@ -104,17 +100,15 @@ class UnsupportedTokenRecoveryForm extends Component {
 
   saveTransaction = () => {
     const fileData = this.state.recoveryTx;
-    let fileName;
     const filePrefix = this.props.bitgo.getEnv() === 'prod' ? 'erc20' : 'terc20';
-
-    fileName = `${filePrefix}r-${fileData.halfSigned.operationHash.slice(2,8)}-${moment().format('YYYYMMDD')}.signed.json`;
+    const fileName = `${filePrefix}r-${fileData.halfSigned.operationHash.slice(2, 8)}-${moment().format('YYYYMMDD')}.signed.json`;
 
     const dialogParams = {
       filters: [{
         name: 'Custom File Type',
-        extensions: ['json']
+        extensions: ['json'],
       }],
-      defaultPath: '~/' + fileName
+      defaultPath: '~/' + fileName,
     };
 
     // Retrieve the desired file path and file name
@@ -140,7 +134,7 @@ class UnsupportedTokenRecoveryForm extends Component {
         <h1 className='content-header'>Unsupported Token Recoveries</h1>
         <p className='subtitle'>This tool will help you recover ERC20 tokens that are not officially supported by BitGo.</p>
         <Alert color='warning'>
-          Unsupported tokens may only be recovered from a wallet's base address. Please contact <a href='mailto:support@bitgo.com'>support@bitgo.com</a> to send tokens from a wallet's receive address to its base address.
+          Unsupported tokens may only be recovered from a wallet&apos;s base address. Please contact <a href='mailto:support@bitgo.com'>support@bitgo.com</a> to send tokens from a wallet&apos;s receive address to its base address.
         </Alert>
         <hr />
         <Form>
@@ -218,7 +212,7 @@ class UnsupportedTokenRecoveryForm extends Component {
           </Row>
         </Form>
       </div>
-    )
+    );
   }
 }
 

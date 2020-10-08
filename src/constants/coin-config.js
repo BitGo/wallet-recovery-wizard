@@ -20,7 +20,7 @@ export default {
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
-      ]
+      ],
     },
     bch: {
       fullName: 'Bitcoin Cash',
@@ -29,7 +29,7 @@ export default {
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
-      ]
+      ],
     },
     bsv: {
       fullName: 'Bitcoin SV',
@@ -38,7 +38,7 @@ export default {
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
-      ]
+      ],
     },
     ltc: {
       fullName: 'Litecoin',
@@ -47,7 +47,7 @@ export default {
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
-      ]
+      ],
     },
     btg: {
       fullName: 'Bitcoin Gold',
@@ -55,7 +55,7 @@ export default {
       icon: btgIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-      ]
+      ],
     },
     zec: {
       fullName: 'Zcash',
@@ -63,8 +63,8 @@ export default {
       icon: zecIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' }
-      ]
+        { label: 'Testnet', value: 'test' },
+      ],
     },
     xrp: {
       fullName: 'Ripple',
@@ -72,8 +72,8 @@ export default {
       icon: xrpIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' }
-      ]
+        { label: 'Testnet', value: 'test' },
+      ],
     },
     dash: {
       fullName: 'Dash',
@@ -81,8 +81,8 @@ export default {
       icon: dashIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' }
-      ]
+        { label: 'Testnet', value: 'test' },
+      ],
     },
     xlm: {
       fullName: 'Stellar',
@@ -90,8 +90,8 @@ export default {
       icon: xlmIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' }
-      ]
+        { label: 'Testnet', value: 'test' },
+      ],
     },
     eth: {
       fullName: 'Ethereum',
@@ -99,8 +99,8 @@ export default {
       icon: ethIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet (Kovan)', value: 'test' }
-      ]
+        { label: 'Testnet (Kovan)', value: 'test' },
+      ],
     },
     token: {
       fullName: 'ERC20 Token',
@@ -108,8 +108,8 @@ export default {
       icon: ethIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet (Kovan)', value: 'test' }
-      ]
+        { label: 'Testnet (Kovan)', value: 'test' },
+      ],
     },
     trx: {
       fullName: 'Tron',
@@ -117,23 +117,23 @@ export default {
       icon: trxIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet (Tronex)', value: 'test' }
-      ]
+        { label: 'Testnet (Tronex)', value: 'test' },
+      ],
     },
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc', 'bsv'],
     nonBitGo: {
       test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv']
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv'],
     },
     unsignedSweep: {
-      test:['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv']
+      test: ['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv'],
     },
     migrated: {
       test: ['bch', 'bsv'],
-      prod: ['bch', 'btg', 'bsv']
-    }
-  }
-}
+      prod: ['bch', 'btg', 'bsv'],
+    },
+  },
+};

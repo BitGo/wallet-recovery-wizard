@@ -54,20 +54,20 @@ class Login extends Component {
       {
         label: '- Select Environment -',
         value: '',
-        disabled: true
+        disabled: true,
       },
       {
         label: 'Testnet',
-        value: 'test'
+        value: 'test',
       },
       {
         label: 'Mainnet',
-        value: 'prod'
+        value: 'prod',
       },
       {
         label: 'Non-BitGo Recoveries',
-        value: 'none'
-      }
+        value: 'none',
+      },
     ];
 
     return (
@@ -115,7 +115,7 @@ class Login extends Component {
             </button>
           }
         </div>
-		  </div>
+      </div>
     );
   }
 }

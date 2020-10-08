@@ -3,7 +3,7 @@ import React, { Component, Fragment } from 'react';
 import {
   CoinDropdown,
   InputField,
-  MultiInputField
+  MultiInputField,
 } from './form-components';
 
 import ErrorMessage from './error-message';
@@ -14,7 +14,7 @@ import {
   Col,
   Label,
   Input,
-  Button
+  Button,
 } from 'reactstrap';
 
 import tooltips from 'constants/tooltips';
@@ -42,7 +42,7 @@ class CrossChainRecoveryForm extends Component {
     passphrase: '',
     prv: '',
     recoveryTxs: [],
-    logging: ['']
+    logging: [''],
   }
 
   updateRecoveryInfo = (field) => (value) => {
@@ -97,7 +97,7 @@ class CrossChainRecoveryForm extends Component {
       prv: '',
       recoveryTxs: [],
       logging: [''],
-      error: ''
+      error: '',
     });
   }
 
@@ -117,7 +117,7 @@ class CrossChainRecoveryForm extends Component {
       recoveryAddress,
       signed,
       passphrase,
-      prv
+      prv,
     } = this.state;
 
     const sourceCoin = bitgo.getEnv() === 'prod' ? this.state.sourceCoin : 't' + this.state.sourceCoin;
@@ -138,7 +138,7 @@ class CrossChainRecoveryForm extends Component {
           coin: bitgo.coin(recoveryCoin),
           signed: signed,
           walletPassphrase: passphrase,
-          xprv
+          xprv,
         });
 
         let recoveryTxs = this.state.recoveryTxs;
@@ -152,7 +152,7 @@ class CrossChainRecoveryForm extends Component {
       } catch (e) {
         const err = `${e.message}`;
         this.collectLog(err);
-        this.setState({ error: err })
+        this.setState({ error: err });
       }
     }
   }
@@ -160,14 +160,14 @@ class CrossChainRecoveryForm extends Component {
   saveSingleTransaction = async () => {
     const transaction = this.state.recoveryTxs[0];
 
-    let fileName = this.getFileName(0);
+    const fileName = this.getFileName(0);
 
     const dialogParams = {
       filters: [{
         name: 'Custom File Type',
-        extensions: ['json']
+        extensions: ['json'],
       }],
-      defaultPath: '~/' + fileName
+      defaultPath: '~/' + fileName,
     };
 
     const filePath = await dialog.showSaveDialog(dialogParams);
@@ -190,19 +190,19 @@ class CrossChainRecoveryForm extends Component {
     const zip = new jszip();
 
     _.forEach(transactions, (transaction, index) => {
-      let fileName = this.getFileName(index);
+      const fileName = this.getFileName(index);
 
       zip.file(fileName, JSON.stringify(transaction, null, 4));
-    })
+    });
 
-    const zipName = `${this.state.sourceCoin}-recoveries-${this.state.wallet.slice(0,6)}`;
+    const zipName = `${this.state.sourceCoin}-recoveries-${this.state.wallet.slice(0, 6)}`;
 
     const dialogParams = {
       filters: [{
         name: 'Custom File Type',
-        extensions: ['zip']
+        extensions: ['zip'],
       }],
-      defaultPath: '~/' + zipName
+      defaultPath: '~/' + zipName,
     };
 
     const filePath = dialog.showSaveDialog(dialogParams);
@@ -240,30 +240,33 @@ class CrossChainRecoveryForm extends Component {
         <p className='subtitle'>This tool will help you construct a transaction to recover coins sent to addresses on the wrong chain.</p>
         <hr />
         {this.state.recoveryTxs.length === 0 &&
-        <RecoveryTxForm formState={this.state}
-                        bitgo={this.props.bitgo}
-                        updateRecoveryInfo={this.updateRecoveryInfo}
-                        updateCheckbox={this.updateCheckbox}
-                        updateSelect={this.updateSelect}
-                        updateTxids={this.updateTxids}
-                        addBlankTxid={this.addBlankTxid}
-                        removeTxid={this.removeTxid}
-                        performRecovery={this.performRecovery}
-                        resetRecovery={this.resetRecovery} />
+          <RecoveryTxForm formState={this.state}
+            bitgo={this.props.bitgo}
+            updateRecoveryInfo={this.updateRecoveryInfo}
+            updateCheckbox={this.updateCheckbox}
+            updateSelect={this.updateSelect}
+            updateTxids={this.updateTxids}
+            addBlankTxid={this.addBlankTxid}
+            removeTxid={this.removeTxid}
+            performRecovery={this.performRecovery}
+            resetRecovery={this.resetRecovery}
+          />
         }
         {(this.state.recoveryTxs.length > 0 && this.state.signed) &&
-        <ConfirmTxSigned txDetails={this.state.recoveryTxs}
-                         error={this.state.error}
-                         bitgo={this.props.bitgo}
-                         saveTransactions={this.saveTransactions}
-                         resetRecovery={this.resetRecovery} />
+          <ConfirmTxSigned txDetails={this.state.recoveryTxs}
+            error={this.state.error}
+            bitgo={this.props.bitgo}
+            saveTransactions={this.saveTransactions}
+            resetRecovery={this.resetRecovery}
+          />
         }
         {(this.state.recoveryTxs.length > 0 && !this.state.signed) &&
-        <ConfirmTxUnsigned txDetails={this.state.recoveryTxs}
-                           error={this.state.error}
-                           bitgo={this.props.bitgo}
-                           saveTransactions={this.saveTransactions}
-                           resetRecovery={this.resetRecovery}/>
+          <ConfirmTxUnsigned txDetails={this.state.recoveryTxs}
+            error={this.state.error}
+            bitgo={this.props.bitgo}
+            saveTransactions={this.saveTransactions}
+            resetRecovery={this.resetRecovery}
+          />
         }
       </div>
     );
@@ -300,7 +303,7 @@ class RecoveryTxForm extends Component {
               tooltipText={formTooltips.destinationCoin()}
             />
           </Col>
-          <Col xs={3} style={{display: 'flex', alignItems: 'center'}}>
+          <Col xs={3} style={{ display: 'flex', alignItems: 'center' }}>
             <Label check>
               <br/>
               <Input type='checkbox' onChange={updateCheckbox('signed')} checked={formState.signed} /> Sign Transaction
@@ -337,24 +340,24 @@ class RecoveryTxForm extends Component {
             coin={bitgo.coin(bitgo.getEnv() === 'prod' ? formState.sourceCoin : 't' + formState.sourceCoin)}
           />
           {formState.signed &&
-          <InputField
-            label='Wallet Passphrase'
-            name='passphrase'
-            value={formState.passphrase}
-            onChange={updateRecoveryInfo}
-            tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
-            isPassword={true}
-          />
+            <InputField
+              label='Wallet Passphrase'
+              name='passphrase'
+              value={formState.passphrase}
+              onChange={updateRecoveryInfo}
+              tooltipText={formTooltips.passphrase(formState.recoveryCoin)}
+              isPassword={true}
+            />
           }
           {formState.signed &&
-          <InputField
-            label='Private Key'
-            name='prv'
-            value={formState.prv}
-            onChange={updateRecoveryInfo}
-            tooltipText={formTooltips.prv(formState.recoveryCoin)}
-            isPassword={true}
-            disallowWhiteSpace={true}
+            <InputField
+              label='Private Key'
+              name='prv'
+              value={formState.prv}
+              onChange={updateRecoveryInfo}
+              tooltipText={formTooltips.prv(formState.recoveryCoin)}
+              isPassword={true}
+              disallowWhiteSpace={true}
             />
           }
         </Fragment>
@@ -418,7 +421,7 @@ class ConfirmTxSigned extends Component {
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 
@@ -461,7 +464,7 @@ class ConfirmTxUnsigned extends Component {
           </Col>
         </Row>
       </div>
-    )
+    );
   }
 }
 
