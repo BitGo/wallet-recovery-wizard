@@ -11,7 +11,8 @@
     "dev": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
-    "pack": "npm run build && ./node_modules/.bin/electron-builder --dir"
+    "pack": "npm run build && ./node_modules/.bin/electron-builder --dir",
+    "lint": "eslint --ext .js src"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
