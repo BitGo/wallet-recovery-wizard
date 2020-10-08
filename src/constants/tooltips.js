@@ -8,7 +8,7 @@ export default {
     unspent: (coin) => `The unspent ID of the lost ${coin.toUpperCase()}, in the form [PREVIOUS_TX_ID]:[N_OUTPUT].`,
     recoveryAddress: (coin) => `The address your recovery transaction will send to. This should be a ${coin.toUpperCase()} address.`,
     passphrase: (coin) => `The wallet passphrase of the ${coin.toUpperCase()} wallet that received the source coin. You can leave this blank if you know the private key.`,
-    prv: (coin) => `The private key (xprv) for the ${coin.toUpperCase()} wallet that received the source coin. If you have your wallet passphrase, you don't need this.`
+    prv: (coin) => `The private key (xprv) for the ${coin.toUpperCase()} wallet that received the source coin. If you have your wallet passphrase, you don't need this.`,
   },
   unsupportedToken: {
     walletId: 'The ID of the wallet that received the unsupported token.',
@@ -16,7 +16,7 @@ export default {
     recoveryAddress: 'The address your recovered tokens will be sent to. This address should belong to a non-BitGo wallet that supports the token.',
     passphrase: 'The wallet passphrase of the wallet that received the unsupported token. You can leave this blank if you know the private key.',
     prv: 'The private key (xprv) of the wallet that received the unsupported token. You can leave this blank if you know the wallet passphrase.',
-    twofa: 'Second factor authentication (2FA) code'
+    twofa: 'Second factor authentication (2FA) code',
   },
   recovery: {
     userKey: `Your encrypted user key, as found on your recovery KeyCard.`,
@@ -38,14 +38,14 @@ export default {
       }
     },
     tokenAddress: 'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
-    krsProvider: 'The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank.'
+    krsProvider: 'The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank.',
   },
   migratedLegacy: {
     walletId: 'The ID of the wallet which this wallet was migrated from. If you are recovering BCH or BTG, this will be a v1 BTC wallet ID (base address). If you are recovering BSV, this will be a BCH wallet ID. If you are having trouble locating this ID, please contact support@bitgo.com.',
     recoveryAddress: 'The address of the new wallet where you would like your recovered funds to be sent.',
     passphrase: 'The wallet passphrase of the migrated wallet.',
     twofa: 'Second factor authentication (2FA) code',
-    coin: 'The coin type of the wallet you wish to recover'
+    coin: 'The coin type of the wallet you wish to recover',
   },
   unsignedSweep: {
     userKey: `Your user public key, as found on your recovery KeyCard`,
@@ -71,5 +71,5 @@ export default {
   errorMessages: {
     auth: 'There was an error logging in. Please check your username, password, OTP. '
     + 'If you used an unverified IP address, please check your email for IP verification',
-  }
-}
+  },
+};

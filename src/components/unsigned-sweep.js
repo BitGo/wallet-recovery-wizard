@@ -30,7 +30,7 @@ class UnsignedSweep extends Component {
     apiKey: '',
     scan: 20,
     krsProvider: null,
-    env: 'test'
+    env: 'test',
   };
 
   displayedParams = {
@@ -60,11 +60,11 @@ class UnsignedSweep extends Component {
         coin = bitgo.coin(this.state.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
-        let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        const coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
         coin = bitgo.coin(coinTicker);
       }
     } else {
-      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      const coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
       coin = bitgo.coin(coinTicker);
     }
 
@@ -91,7 +91,7 @@ class UnsignedSweep extends Component {
         type: 'question',
         buttons: ['Derivation Path', 'Seed'],
         title: 'Derivation Path?',
-        message: derivationPathMessage
+        message: derivationPathMessage,
       });
 
       return response === 0;
@@ -105,7 +105,7 @@ class UnsignedSweep extends Component {
       const node = utxoLib.HDNode.fromBase58(key);
       const derivedNode = node.derivePath(path);
       return derivedNode.toBase58();
-    } catch(err) {
+    } catch (err) {
       logToConsole(err);
       throw err;
     }
@@ -117,12 +117,12 @@ class UnsignedSweep extends Component {
       id: recoveryParams.userKeyID,
       key: recoveryParams.userKey,
       description: 'User Key ID',
-      name: 'userKey'
+      name: 'userKey',
     }, {
       id: recoveryParams.backupKeyID,
       key: recoveryParams.backupKey,
       description: 'Backup Key ID',
-      name: 'backupKey'
+      name: 'backupKey',
     }];
 
     keyInfo.forEach((keyObj) => {
@@ -142,7 +142,7 @@ class UnsignedSweep extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    let baseCoin = await this.getCoinObject();
+    const baseCoin = await this.getCoinObject();
 
     const recoveryTool = baseCoin.recover;
 
@@ -156,12 +156,12 @@ class UnsignedSweep extends Component {
       const recoveryParams = [
         'userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'rootAddress',
         'walletContractAddress', 'tokenAddress',
-        'recoveryDestination', 'scan'
+        'recoveryDestination', 'scan',
       ].reduce((obj, param) => {
         if (this.state[param]) {
-          let value = this.state[param];
+          const value = this.state[param];
 
-          return Object.assign(obj, { [param]: value })
+          return Object.assign(obj, { [param]: value });
         }
 
         return obj;
@@ -175,13 +175,13 @@ class UnsignedSweep extends Component {
 
       const recoveryPrebuild = await baseCoin.recover(recoveryParams);
 
-      const fileName = baseCoin.getChain() + "-unsigned-sweep-" + Date.now().toString() + ".json";
+      const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';
       const dialogParams = {
         filters: [{
           name: 'Custom File Type',
-          extensions: ['json']
+          extensions: ['json'],
         }],
-        defaultPath: '~/' + fileName
+        defaultPath: '~/' + fileName,
       };
 
       // Retrieve the desired file path and file name
@@ -193,7 +193,7 @@ class UnsignedSweep extends Component {
 
       fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
       this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
-      alert('We recommend that you use a third-party API to decode your txHex' + 
+      alert('We recommend that you use a third-party API to decode your txHex' +
             'and verify its accuracy before broadcasting.');
     } catch (e) {
       logToConsole(e);
@@ -212,8 +212,8 @@ class UnsignedSweep extends Component {
       recoveryDestination: '',
       env: 'test',
       done: false,
-      error: ''
-    })
+      error: '',
+    });
   }
 
   render() {
@@ -230,7 +230,7 @@ class UnsignedSweep extends Component {
           Please make sure you are the owner of the Destination Address to avoid
           accidentally sending your BCH to an address you do not own.
         </p>
-      </Alert>
+      </Alert>;
     }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
@@ -425,7 +425,7 @@ class UnsignedSweep extends Component {
           }
         </Form>
       </div>
-    )
+    );
   }
 }
 

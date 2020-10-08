@@ -11,7 +11,7 @@ import {
   FormFeedback,
   InputGroup,
   InputGroupAddon,
-  Label
+  Label,
 } from 'reactstrap';
 
 import questionMarkIcon from 'images/question_mark.png';
@@ -22,7 +22,7 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
   const options = allowedCoins.map((coin) => ({
     value: coin,
     label: coinConfig.allCoins[coin].fullName,
-    icon: coinConfig.allCoins[coin].icon
+    icon: coinConfig.allCoins[coin].icon,
   }));
 
   return (
@@ -47,7 +47,7 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
       />
     </FormGroup>
   );
-}
+};
 
 class CoinDropdownOption extends Component {
   handleMouseDown = (event) => {
@@ -60,7 +60,7 @@ class CoinDropdownOption extends Component {
   render() {
     const { option } = this.props;
     return (
-      <div className='coin-dropdown-option'  onMouseDown={this.handleMouseDown}>
+      <div className='coin-dropdown-option' onMouseDown={this.handleMouseDown}>
         <img src={option.icon} alt='' border='0' className='coin-icon' />
         {option.label}
       </div>
@@ -77,7 +77,7 @@ const CoinDropdownValue = ({ value }) => (
 
 export class InputField extends Component {
   state = {
-    error: null
+    error: null,
   };
 
   trim = (event) => {
@@ -114,12 +114,12 @@ export class InputField extends Component {
         return;
       }
       if (coin.isValidPub(value)) {
-        this.setState({error: null});
+        this.setState({ error: null });
       } else {
         if (coin.getFamily() === 'xlm') {
           this.setState({ error: `This field should be a Stellar public key. Stellar public keys begin with a G.` });
         } else {
-          this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
+          this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.` });
         }
       }
     } else if (format === 'number') {
@@ -136,7 +136,7 @@ export class InputField extends Component {
       if (coin.isValidAddress(value)) {
         this.setState({ error: null });
       } else {
-        this.setState({ error: `This should be a valid ${coin.getFamily().toUpperCase()} address.`});
+        this.setState({ error: `This should be a valid ${coin.getFamily().toUpperCase()} address.` });
       }
     }
   }
@@ -169,13 +169,13 @@ export class InputField extends Component {
         />
         <FormFeedback>{this.state.error}</FormFeedback>
       </FormGroup>
-    )
+    );
   }
 }
 
 export class InputTextarea extends Component {
   state = {
-    error: null
+    error: null,
   };
 
   trim = (event) => {
@@ -201,14 +201,14 @@ export class InputTextarea extends Component {
         JSON.parse(value);
         this.setState({ error: null });
       } catch (e) {
-        console.log(`${value} failed`)
-        this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }'});
+        console.log(`${value} failed`);
+        this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }' });
       }
     } else if (format === 'pub') {
       if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
         this.setState({ error: null });
       } else {
-        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
+        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.` });
       }
     }
   }
@@ -243,12 +243,12 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
     marginTop: 0,
     padding: '0 12 0 12',
     height: 38,
-    width: 38
+    width: 38,
   };
 
   const buttonPadding = {
-    marginTop: 4
-  }
+    marginTop: 4,
+  };
 
   const trim = (index) => (event) => {
     let input = event.target.value;
@@ -258,7 +258,7 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
     }
 
     onChange(index)(input);
-  }
+  };
 
   const inputFields = values.map((value, index) =>
     <InputGroup key={index.toString()} style={index !== 0 ? buttonPadding : null}>
@@ -291,7 +291,7 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
       {inputFields}
     </FormGroup>
   );
-}
+};
 
 export const FieldTooltip = ({ name, text }) => (
   <span>

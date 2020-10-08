@@ -41,12 +41,12 @@ class App extends Component {
   render() {
     return (
       <Router>
-          <Switch>
-            <Route path='/' render={this.renderMain} />
-            <Redirect to='/' />
-          </Switch>
+        <Switch>
+          <Route path='/' render={this.renderMain} />
+          <Redirect to='/' />
+        </Switch>
       </Router>
-    )
+    );
   }
 }
 

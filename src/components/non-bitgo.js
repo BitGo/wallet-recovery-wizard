@@ -28,7 +28,7 @@ class NonBitGoRecoveryForm extends Component {
     apiKey: '',
     scan: 20,
     krsProvider: null,
-    env: 'test'
+    env: 'test',
   };
 
   requiredParams = {
@@ -43,7 +43,7 @@ class NonBitGoRecoveryForm extends Component {
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
-    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey']
+    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey'],
   };
 
   getCoinObject = () => {
@@ -60,11 +60,11 @@ class NonBitGoRecoveryForm extends Component {
         coin = bitgo.coin(this.state.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
-        let coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        const coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
         coin = bitgo.coin(coinTicker);
       }
     } else {
-      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      const coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
       coin = bitgo.coin(coinTicker);
     }
 
@@ -94,7 +94,7 @@ class NonBitGoRecoveryForm extends Component {
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
 
-    let baseCoin = await this.getCoinObject();
+    const baseCoin = await this.getCoinObject();
 
     const recoveryTool = baseCoin.recover;
 
@@ -108,12 +108,12 @@ class NonBitGoRecoveryForm extends Component {
       const recoveryParams = [
         'userKey', 'backupKey', 'bitgoKey', 'rootAddress',
         'walletContractAddress', 'tokenAddress', 'walletPassphrase',
-        'recoveryDestination', 'scan', 'krsProvider'
+        'recoveryDestination', 'scan', 'krsProvider',
       ].reduce((obj, param) => {
         if (this.state[param]) {
-          let value = this.state[param];
+          const value = this.state[param];
 
-          return Object.assign(obj, { [param]: value })
+          return Object.assign(obj, { [param]: value });
         }
         return obj;
       }, {});
@@ -134,13 +134,13 @@ class NonBitGoRecoveryForm extends Component {
         throw new Error('Fully-signed recovery transaction not detected.');
       }
 
-      const fileName = baseCoin.getChain() + "-recovery-" + Date.now().toString() + ".json";
+      const fileName = baseCoin.getChain() + '-recovery-' + Date.now().toString() + '.json';
       const dialogParams = {
         filters: [{
           name: 'Custom File Type',
-          extensions: ['json']
+          extensions: ['json'],
         }],
-        defaultPath: '~/' + fileName
+        defaultPath: '~/' + fileName,
       };
 
       // Retrieve the desired file path and file name
@@ -153,7 +153,7 @@ class NonBitGoRecoveryForm extends Component {
       fs.writeFileSync(filePath.filePath, JSON.stringify(recovery, null, 4), 'utf8');
 
       this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
-      alert('We recommend that you use a third-party API to decode your txHex' + 
+      alert('We recommend that you use a third-party API to decode your txHex' +
             'and verify its accuracy before broadcasting.');
     } catch (e) {
       logToConsole(e);
@@ -172,8 +172,8 @@ class NonBitGoRecoveryForm extends Component {
       recoveryDestination: '',
       env: 'test',
       done: false,
-      error: ''
-    })
+      error: '',
+    });
   }
 
   render() {
@@ -181,16 +181,16 @@ class NonBitGoRecoveryForm extends Component {
     const { isLoggedIn } = this.props;
     let warning;
     if (this.state.coin === 'bsv') {
-      warning = 
+      warning =
       <Alert color='danger'>
         <p>
           Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
-        </p> 
+        </p>
         <p>
           Please make sure you are the owner of the Destination Address to avoid
           accidentally sending your BCH to an address you do not own.
         </p>
-      </Alert>
+      </Alert>;
     }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
@@ -260,26 +260,26 @@ class NonBitGoRecoveryForm extends Component {
 
           {this.requiredParams[this.state.coin].includes('backupKey') &&
           [(this.state.krsProvider === null ?
-              <InputTextarea
-                label='Box B Value'
-                name='backupKey'
-                value={this.state.backupKey}
-                onChange={this.updateRecoveryInfo}
-                tooltipText={formTooltips.backupPrivateKey}
-                disallowWhiteSpace={true}
-                format='json'
-              />
-              :
-              <InputField
-                label='Box B Value'
-                name='backupKey'
-                value={this.state.backupKey}
-                onChange={this.updateRecoveryInfo}
-                tooltipText={formTooltips.backupPublicKey}
-                disallowWhiteSpace={true}
-                format='pub'
-                coin={this.getCoinObject()}
-              />
+            <InputTextarea
+              label='Box B Value'
+              name='backupKey'
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupPrivateKey}
+              disallowWhiteSpace={true}
+              format='json'
+            />
+            :
+            <InputField
+              label='Box B Value'
+              name='backupKey'
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupPublicKey}
+              disallowWhiteSpace={true}
+              format='pub'
+              coin={this.getCoinObject()}
+            />
           )]
           }
 
@@ -395,7 +395,7 @@ class NonBitGoRecoveryForm extends Component {
           }
         </Form>
       </div>
-    )
+    );
   }
 }
 

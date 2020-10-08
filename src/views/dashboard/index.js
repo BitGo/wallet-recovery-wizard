@@ -16,7 +16,7 @@ class Dashboard extends Component {
     const { isLoggedIn, bitgo } = this.props;
 
     if (needsLogin && !isLoggedIn) {
-      return <Redirect from={url} to='/' key={url} />
+      return <Redirect from={url} to='/' key={url} />;
     }
 
     // Push all components to the right if logged in (to make room for sidebar)
@@ -24,7 +24,7 @@ class Dashboard extends Component {
     const contentStyle = {
       marginLeft: isLoggedIn ? '330px' : 'auto',
       marginRight: isLoggedIn ? '100px' : 'auto',
-      flexGrow: isLoggedIn ? 1 : undefined
+      flexGrow: isLoggedIn ? 1 : undefined,
     };
 
     return <Route path={url} key={url} render={(props) =>
@@ -40,15 +40,15 @@ class Dashboard extends Component {
       <Router>
         <div className="wrapper">
 
-            <Header resetLogin={resetLogin} bitgo={bitgo} isLoggedIn={isLoggedIn} />
+          <Header resetLogin={resetLogin} bitgo={bitgo} isLoggedIn={isLoggedIn} />
 
-            <div className='content'>
-              <Sidebar isLoggedIn={isLoggedIn} />
-              <Switch>
-                {navElements.map(this._getRoute)}
-                <Route path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
-              </Switch>
-            </div>
+          <div className='content'>
+            <Sidebar isLoggedIn={isLoggedIn} />
+            <Switch>
+              {navElements.map(this._getRoute)}
+              <Route path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
+            </Switch>
+          </div>
         </div>
       </Router>
     );

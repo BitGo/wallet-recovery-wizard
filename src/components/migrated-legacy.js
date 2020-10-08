@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {CoinDropdown, InputField} from './form-components';
+import { CoinDropdown, InputField } from './form-components';
 import { Form, Button, Row, Col, Alert } from 'reactstrap';
 import { address, HDNode, Transaction, TransactionBuilder } from 'bitgo-utxo-lib';
 
@@ -77,10 +77,10 @@ class MigratedRecoveryForm extends Component {
 
     let v1Wallet;
     try {
-      v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId});
+      v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId });
     } catch (err) {
       if (err.message === 'not found') {
-        throw new Error ('v1 BTC Wallet not found. Make sure you are a user on that wallet.');
+        throw new Error('v1 BTC Wallet not found. Make sure you are a user on that wallet.');
       } else {
         throw err;
       }
@@ -95,10 +95,10 @@ class MigratedRecoveryForm extends Component {
       txPrebuild = await migratedWallet.prebuildTransaction({
         recipients: [{
           address: recoveryAddress,
-          amount: txAmount
+          amount: txAmount,
         }],
         feeRate,
-        noSplitChange: true
+        noSplitChange: true,
       });
     } catch (e) {
       console.error('Got error building tx:');
@@ -111,7 +111,7 @@ class MigratedRecoveryForm extends Component {
       throw new Error('could not get utxo lib reference from bitgo object');
     }
 
-    let signingKeychain
+    let signingKeychain;
     try {
       signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
     } catch (err) {
@@ -179,22 +179,22 @@ class MigratedRecoveryForm extends Component {
     const tx = txb.buildIncomplete();
     return {
       hex: tx.toHex(),
-      id: tx.getId()
-    }
+      id: tx.getId(),
+    };
   };
 
   performRecovery = async () => {
     const { bitgo } = this.props;
     this.setState({ error: '', recovering: true });
 
-    const coinName = this.props.bitgo.getEnv() === 'prod' ? this.state.coin : `t${this.state.coin}`
+    const coinName = this.props.bitgo.getEnv() === 'prod' ? this.state.coin : `t${this.state.coin}`;
     const coin = bitgo.coin(coinName);
     const wallets = await coin.wallets().list();
 
     let v1BtcWalletId;
 
     // There is a bug that some BTG wallets have the private migrated object ID instead of public, hence the substring addition below
-    let migratedWallet = _.find(wallets.wallets, w => w._wallet.migratedFrom === this.state.walletId || w._wallet.migratedFrom === this.state.walletId.substring(0, 24));
+    const migratedWallet = _.find(wallets.wallets, w => w._wallet.migratedFrom === this.state.walletId || w._wallet.migratedFrom === this.state.walletId.substring(0, 24));
 
     if (!migratedWallet) {
       throw new Error(`could not find a ${this.state.coin} wallet which was migrated from ${this.state.walletId}`);
@@ -235,7 +235,7 @@ class MigratedRecoveryForm extends Component {
     let needsUnlock = false;
     try {
       await migratedWallet.submitTransaction({
-        txHex: recoveryTx.hex
+        txHex: recoveryTx.hex,
       });
     } catch (e) {
       if (e.message === 'needs unlock') {
@@ -251,7 +251,7 @@ class MigratedRecoveryForm extends Component {
       try {
         await bitgo.unlock({ otp: this.state.twofa });
         await migratedWallet.submitTransaction({
-          txHex: recoveryTx.hex
+          txHex: recoveryTx.hex,
         });
         console.info(`successfully submitted transaction ${recoveryTx.id} to bitgo`);
       } catch (e) {
@@ -352,7 +352,7 @@ class MigratedRecoveryForm extends Component {
           </Row>
         </Form>
       </div>
-    )
+    );
   }
 }
 
