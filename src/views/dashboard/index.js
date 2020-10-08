@@ -12,10 +12,6 @@ import MainNav from 'components/main-nav';
 import nav from 'constants/nav';
 
 class Dashboard extends Component {
-  componentWillMount() {
-    const { isLoggedIn, history } = this.props;
-  }
-
   _getRoute = ({ url, NavComponent, needsLogin }) => {
     const { isLoggedIn, bitgo } = this.props;
 

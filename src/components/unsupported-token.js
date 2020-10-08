@@ -7,10 +7,6 @@ import ErrorMessage from './error-message';
 import tooltips from 'constants/tooltips';
 
 import moment from 'moment';
-import  {
-  Input,
-  Label
-} from 'reactstrap';
 
 const fs = window.require('fs');
 const { dialog } = window.require('electron').remote;
@@ -140,7 +136,7 @@ class UnsupportedTokenRecoveryForm extends Component {
         <h1 className='content-header'>Unsupported Token Recoveries</h1>
         <p className='subtitle'>This tool will help you recover ERC20 tokens that are not officially supported by BitGo.</p>
         <Alert color='warning'>
-          Unsupported tokens may only be recovered from a wallet's base address. Please contact <a href='mailto:support@bitgo.com'>support@bitgo.com</a> to send tokens from a wallet's receive address to its base address.
+          Unsupported tokens may only be recovered from a wallet&apos;s base address. Please contact <a href='mailto:support@bitgo.com'>support@bitgo.com</a> to send tokens from a wallet&apos;s receive address to its base address.
         </Alert>
         <hr />
         <Form>

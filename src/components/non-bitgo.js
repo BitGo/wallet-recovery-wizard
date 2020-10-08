@@ -188,7 +188,7 @@ class NonBitGoRecoveryForm extends Component {
         </p> 
         <p>
           Please make sure you are the owner of the Destination Address to avoid
-          accidentally sending your BCH to an address you don't own.
+          accidentally sending your BCH to an address you do not own.
         </p>
       </Alert>
     }

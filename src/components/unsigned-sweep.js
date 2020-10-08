@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
+import { InputField, CoinDropdown } from './form-components';
 import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
@@ -8,7 +8,6 @@ import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import krsProviders from 'constants/krs-providers';
 import { logToConsole } from 'utils.js';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
@@ -229,7 +228,7 @@ class UnsignedSweep extends Component {
         </p>
         <p>
           Please make sure you are the owner of the Destination Address to avoid
-          accidentally sending your BCH to an address you don't own.
+          accidentally sending your BCH to an address you do not own.
         </p>
       </Alert>
     }
