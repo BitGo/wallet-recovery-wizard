@@ -5,10 +5,11 @@ import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
+import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { logToConsole } from 'utils.js';
+import { logToConsole, recoverWithKeyPath } from 'utils.js';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -172,30 +173,11 @@ class UnsignedSweep extends Component {
       }
 
       this.updateKeysFromIDs(baseCoin, recoveryParams);
-      
-      const userKeyPaths = ['/0/0', '/0'];
-      const noInputErrMsg = 'No input to recover - aborting!';      
-      let recoveryPrebuild;
-      for (const path of userKeyPaths) {
-        recoveryParams['userKeyPath'] = path;
-        try {
-          recoveryPrebuild = await baseCoin.recover(recoveryParams);
-        } catch (e) {
-          // if this current path we try yields us no inputs to recover, we catch the 
-          // error and continue trying the next path
-          if (e.message !== noInputErrMsg) {
-            throw new Error(e.message);
-          }
-          // if we already have a recovery result, then it means the current path we try
-          // is the valid user path, and we can exit the forloop
-          if (recoveryPrebuild) {
-            break;
-          }
-        }
-      }
+
+      const recoveryPrebuild = await recoverWithKeyPath(baseCoin, recoveryParams);
 
       if (!recoveryPrebuild) {
-        throw new Error(noInputErrMsg);
+        throw new Errors.ErrorNoInputToRecover();
       }
 
       const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';

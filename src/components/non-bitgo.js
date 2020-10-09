@@ -9,7 +9,7 @@ import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-import { logToConsole } from 'utils.js';
+import { logToConsole, recoverWithKeyPath } from 'utils.js';
 const formTooltips = tooltips.recovery;
 const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
@@ -126,7 +126,7 @@ class NonBitGoRecoveryForm extends Component {
         recoveryParams.ignoreAddressTypes = ['p2wsh'];
       }
 
-      const recovery = await baseCoin.recover(recoveryParams);
+      const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
       const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
 
