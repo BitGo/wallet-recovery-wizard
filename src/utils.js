@@ -29,16 +29,16 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
 
     try {
       recoveryPrebuild = await baseCoin.recover(recoveryParams);
+      // if we already have a recovery result, then it means the current path we try
+      // is the valid user path, and we can return and exit the iteration loop
+      if (recoveryPrebuild) {
+        return recoveryPrebuild;
+      }
     } catch (e) {
       // if this current path we try yields us no inputs to recover, we catch the
-      // error and continue trying the next path
+      // error and move on to the next iteration and continue trying the remaining paths
       if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) {
         throw new Error(e.message);
-      }
-      // if we already have a recovery result, then it means the current path we try
-      // is the valid user path, and we can exit the forloop
-      if (recoveryPrebuild) {
-        break;
       }
     }
   }
