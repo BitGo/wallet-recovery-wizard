@@ -1,7 +1,47 @@
+import * as Errors from 'bitgo/dist/src/errors';
 /**
  * A logger we use to log debugging information to the console
- * @param {String} e 
+ * @param {String} e
  */
 export function logToConsole(e) {
   console.dir(e);
 }
+
+/**
+ * Call the recover() function with recoveryParams, and try multiple key paths for the user key
+ * @param {Object} baseCoin 
+ * @param {Object} recoveryParams 
+ * - backupKey: [encrypted] xprv, or xpub if the xprv is held by a KRS provider
+ * - walletPassphrase: necessary if one of the xprvs is encrypted
+ * - bitgoKey: xpub
+ * - krsProvider: necessary if backup key is held by KRS
+ * - recoveryDestination: target address to send recovered funds to
+ * - scan: the amount of consecutive addresses without unspents to scan through before stopping
+ * - ignoreAddressTypes: (optional) array of AddressTypes to ignore, these are strings defined in Codes.UnspentTypeTcomb
+ *        for example: ['p2shP2wsh', 'p2wsh'] will prevent code from checking for wrapped-segwit and native-segwit chains on the public block explorers 
+ */
+export async function recoverWithKeyPath(baseCoin, recoveryParams) {
+  const userKeyPaths = ['/0/0', '/0'];
+  let recoveryPrebuild;
+
+  for (const path of userKeyPaths) {
+    recoveryParams['userKeyPath'] = path;
+
+    try {
+      recoveryPrebuild = await baseCoin.recover(recoveryParams);
+      // if we already have a recovery result, then it means the current path we try
+      // is the valid user path, and we can return and exit the iteration loop
+      if (recoveryPrebuild) {
+        return recoveryPrebuild;
+      }
+    } catch (e) {
+      // if this current path we try yields us no inputs to recover, we catch the
+      // error and move on to the next iteration and continue trying the remaining paths
+      if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) {
+        throw new Error(e.message);
+      }
+    }
+  }
+  return recoveryPrebuild;
+}
+

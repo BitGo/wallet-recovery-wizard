@@ -5,10 +5,11 @@ import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
+import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { logToConsole } from 'utils.js';
+import { logToConsole, recoverWithKeyPath } from 'utils.js';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -173,7 +174,11 @@ class UnsignedSweep extends Component {
 
       this.updateKeysFromIDs(baseCoin, recoveryParams);
 
-      const recoveryPrebuild = await baseCoin.recover(recoveryParams);
+      const recoveryPrebuild = await recoverWithKeyPath(baseCoin, recoveryParams);
+
+      if (!recoveryPrebuild) {
+        throw new Errors.ErrorNoInputToRecover();
+      }
 
       const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';
       const dialogParams = {
