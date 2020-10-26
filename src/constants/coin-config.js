@@ -14,7 +14,7 @@ export default {
   allCoins: {
     btc: {
       fullName: 'Bitcoin',
-      supportedRecoveries: ['bch', 'ltc', 'bsv'],
+      supportedRecoveries: ['bch', 'ltc'],
       icon: btcIcon,
       recoverP2wsh: true,
       envOptions: [
@@ -24,7 +24,7 @@ export default {
     },
     bch: {
       fullName: 'Bitcoin Cash',
-      supportedRecoveries: ['btc', 'ltc', 'bsv'],
+      supportedRecoveries: ['btc', 'ltc'],
       icon: bchIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -33,7 +33,7 @@ export default {
     },
     bsv: {
       fullName: 'Bitcoin SV',
-      supportedRecoveries: ['btc', 'ltc', 'bch'],
+      supportedRecoveries: [],
       icon: bsvIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -42,7 +42,7 @@ export default {
     },
     ltc: {
       fullName: 'Litecoin',
-      supportedRecoveries: ['btc', 'bch', 'bsv'],
+      supportedRecoveries: ['btc', 'bch'],
       icon: ltcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
@@ -122,7 +122,7 @@ export default {
     },
   },
   supportedRecoveries: {
-    crossChain: ['btc', 'bch', 'ltc', 'bsv'],
+    crossChain: ['btc', 'bch', 'ltc'],
     nonBitGo: {
       test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
       prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv'],
