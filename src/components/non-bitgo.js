@@ -35,6 +35,7 @@ class NonBitGoRecoveryForm extends Component {
     btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    bcha: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
@@ -118,7 +119,7 @@ class NonBitGoRecoveryForm extends Component {
         return obj;
       }, {});
 
-      if ((this.state.coin === 'bsv' || this.state.coin === 'bch') && this.state.apiKey) {
+      if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -180,15 +181,12 @@ class NonBitGoRecoveryForm extends Component {
     const recoveryCoins = coinConfig.supportedRecoveries.nonBitGo[this.state.env];
     const { isLoggedIn } = this.props;
     let warning;
-    if (this.state.coin === 'bsv') {
+    if (coinConfig.allCoins[this.state.coin].replayableNetworks) {
+      const replayWarning = tooltips.replayTxWarning(this.state.coin);
       warning =
       <Alert color='danger'>
         <p>
-          Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
-        </p>
-        <p>
-          Please make sure you are the owner of the Destination Address to avoid
-          accidentally sending your BCH to an address you do not own.
+          {replayWarning}
         </p>
       </Alert>;
     }
@@ -202,7 +200,7 @@ class NonBitGoRecoveryForm extends Component {
           <Row>
             <Col xs={5}>
               <CoinDropdown
-                label='Wallet Type'
+                label='Coin Name'
                 name='coin'
                 allowedCoins={recoveryCoins}
                 onChange={this.updateCoin}

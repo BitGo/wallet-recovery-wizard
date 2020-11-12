@@ -1,4 +1,5 @@
 import bchIcon from 'images/BCH_icon.png';
+import bchaIcon from 'images/BCHA_icon.png';
 import btcIcon from 'images/BTC_icon.png';
 import bsvIcon from 'images/BSV_icon.png';
 import ltcIcon from 'images/LTC_icon.png';
@@ -30,6 +31,15 @@ export default {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
       ],
+      replayableNetworks: ['bsv', 'bcha'],
+    },
+    bcha: {
+      fullName: 'Bitcoin ABC',
+      icon: bchaIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+      ],
+      replayableNetworks: ['bch', 'bsv'],
     },
     bsv: {
       fullName: 'Bitcoin SV',
@@ -39,6 +49,7 @@ export default {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
       ],
+      replayableNetworks: ['bch', 'bcha'],
     },
     ltc: {
       fullName: 'Litecoin',
@@ -125,11 +136,11 @@ export default {
     crossChain: ['btc', 'bch', 'ltc'],
     nonBitGo: {
       test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha'],
     },
     unsignedSweep: {
       test: ['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha'],
     },
     migrated: {
       test: ['bch', 'bsv'],

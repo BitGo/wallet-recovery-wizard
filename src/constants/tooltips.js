@@ -1,3 +1,4 @@
+import coinConfig from './coin-config';
 export default {
   crossChain: {
     sourceCoin: () => 'This is the coin that was sent to the wrong address. For instance, if you sent BTC to an LTC address, the source coin would be BTC.',
@@ -71,5 +72,15 @@ export default {
   errorMessages: {
     auth: 'There was an error logging in. Please check your username, password, OTP. '
     + 'If you used an unverified IP address, please check your email for IP verification',
+  },
+
+  replayTxWarning: (coin) => {
+    const replayableNetworks = coinConfig.allCoins[coin].replayableNetworks;
+    const replayNetworkFullNames = replayableNetworks.map(network => coinConfig.allCoins[network].fullName).join(' and ');
+    const coinFullName = coinConfig.allCoins[coin].fullName;
+    const warning = ` ${coinFullName} transactions are replayable on ${replayNetworkFullNames}.
+        Please make sure you are the owner of the Destination Address to avoid
+        accidentally sending your ${coinFullName} to an address you do not own.`;
+    return warning;
   },
 };

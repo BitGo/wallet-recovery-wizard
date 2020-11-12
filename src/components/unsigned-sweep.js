@@ -37,6 +37,7 @@ class UnsignedSweep extends Component {
   displayedParams = {
     btc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     bsv: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    bcha: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
@@ -168,7 +169,7 @@ class UnsignedSweep extends Component {
         return obj;
       }, {});
 
-      if ((this.state.coin === 'bsv' || this.state.coin === 'bch') && this.state.apiKey) {
+      if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
@@ -225,15 +226,12 @@ class UnsignedSweep extends Component {
     const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep[this.state.env];
     const { isLoggedIn } = this.props;
     let warning;
-    if (this.state.coin === 'bsv') {
+    if (coinConfig.allCoins[this.state.coin].replayableNetworks) {
+      const replayWarningText = tooltips.replayTxWarning(this.state.coin);
       warning =
       <Alert color='danger'>
         <p>
-          Bitcoin SV Transactions are replayable on the Bitcoin Cash Network.
-        </p>
-        <p>
-          Please make sure you are the owner of the Destination Address to avoid
-          accidentally sending your BCH to an address you do not own.
+          {replayWarningText}
         </p>
       </Alert>;
     }
@@ -247,7 +245,7 @@ class UnsignedSweep extends Component {
           <Row>
             <Col xs={5}>
               <CoinDropdown
-                label='Wallet Type'
+                label='Coin Name'
                 name='coin'
                 allowedCoins={recoveryCoins}
                 onChange={this.updateCoin}

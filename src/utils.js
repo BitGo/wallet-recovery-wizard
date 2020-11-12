@@ -42,6 +42,12 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
       }
     }
   }
+  // if we couldn't build a tx here, it must have been the case that there were no inputs available
+  // to recover. All the other errors would have been caught and thrown already by the line:
+  // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);} 
+  if (!recoveryPrebuild) {
+    throw new Errors.ErrorNoInputToRecover();
+  }
   return recoveryPrebuild;
 }
 
