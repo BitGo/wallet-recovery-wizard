@@ -9,8 +9,8 @@ export function logToConsole(e) {
 
 /**
  * Call the recover() function with recoveryParams, and try multiple key paths for the user key
- * @param {Object} baseCoin 
- * @param {Object} recoveryParams 
+ * @param {Object} baseCoin
+ * @param {Object} recoveryParams
  * - backupKey: [encrypted] xprv, or xpub if the xprv is held by a KRS provider
  * - walletPassphrase: necessary if one of the xprvs is encrypted
  * - bitgoKey: xpub
@@ -18,7 +18,7 @@ export function logToConsole(e) {
  * - recoveryDestination: target address to send recovered funds to
  * - scan: the amount of consecutive addresses without unspents to scan through before stopping
  * - ignoreAddressTypes: (optional) array of AddressTypes to ignore, these are strings defined in Codes.UnspentTypeTcomb
- *        for example: ['p2shP2wsh', 'p2wsh'] will prevent code from checking for wrapped-segwit and native-segwit chains on the public block explorers 
+ *        for example: ['p2shP2wsh', 'p2wsh'] will prevent code from checking for wrapped-segwit and native-segwit chains on the public block explorers
  */
 export async function recoverWithKeyPath(baseCoin, recoveryParams) {
   const userKeyPaths = ['/0/0', '/0'];
@@ -44,10 +44,9 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
   }
   // if we couldn't build a tx here, it must have been the case that there were no inputs available
   // to recover. All the other errors would have been caught and thrown already by the line:
-  // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);} 
+  // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);}
   if (!recoveryPrebuild) {
     throw new Errors.ErrorNoInputToRecover();
   }
   return recoveryPrebuild;
 }
-

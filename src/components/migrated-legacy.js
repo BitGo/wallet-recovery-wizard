@@ -38,7 +38,7 @@ class MigratedRecoveryForm extends Component {
 
   updateCoin = (option) => {
     this.setState({ coin: option.value });
-  }
+  };
 
   resetRecovery = () => {
     this.setState({
@@ -56,15 +56,10 @@ class MigratedRecoveryForm extends Component {
   };
 
   createRecoveryTx = async (coin, migratedWallet, v1BtcWalletId) => {
-
     const OUTPUT_SIZE = 34;
 
     const { bitgo } = this.props;
-    const {
-      recoveryAddress,
-      passphrase,
-      feeRate = 5000,
-    } = this.state;
+    const { recoveryAddress, passphrase, feeRate = 5000 } = this.state;
 
     try {
       address.fromBase58Check(recoveryAddress);
@@ -87,16 +82,18 @@ class MigratedRecoveryForm extends Component {
     }
 
     // Account for paygo fee plus fee for paygo output
-    const payGoDeduction = Math.floor(spendableAmount * 0.01) + (OUTPUT_SIZE * (feeRate / 1000));
+    const payGoDeduction = Math.floor(spendableAmount * 0.01) + OUTPUT_SIZE * (feeRate / 1000);
     const txAmount = spendableAmount - payGoDeduction;
 
     let txPrebuild;
     try {
       txPrebuild = await migratedWallet.prebuildTransaction({
-        recipients: [{
-          address: recoveryAddress,
-          amount: txAmount,
-        }],
+        recipients: [
+          {
+            address: recoveryAddress,
+            amount: txAmount,
+          },
+        ],
         feeRate,
         noSplitChange: true,
       });
@@ -115,7 +112,9 @@ class MigratedRecoveryForm extends Component {
     try {
       signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
     } catch (err) {
-      throw Error('Failed to get signing keychain. Only the original owner of the v1 btc wallet can perform this recovery');
+      throw Error(
+        'Failed to get signing keychain. Only the original owner of the v1 btc wallet can perform this recovery'
+      );
     }
 
     const rootExtKey = HDNode.fromBase58(signingKeychain.xprv);
@@ -131,7 +130,6 @@ class MigratedRecoveryForm extends Component {
 
     const txb = TransactionBuilder.fromTransaction(transaction, coin.network);
     txb.setVersion(2);
-
 
     for (let inputIndex = 0; inputIndex < transaction.ins.length; ++inputIndex) {
       // get the current unspent
@@ -194,7 +192,12 @@ class MigratedRecoveryForm extends Component {
     let v1BtcWalletId;
 
     // There is a bug that some BTG wallets have the private migrated object ID instead of public, hence the substring addition below
-    const migratedWallet = _.find(wallets.wallets, w => w._wallet.migratedFrom === this.state.walletId || w._wallet.migratedFrom === this.state.walletId.substring(0, 24));
+    const migratedWallet = _.find(
+      wallets.wallets,
+      (w) =>
+        w._wallet.migratedFrom === this.state.walletId ||
+        w._wallet.migratedFrom === this.state.walletId.substring(0, 24)
+    );
 
     if (!migratedWallet) {
       throw new Error(`could not find a ${this.state.coin} wallet which was migrated from ${this.state.walletId}`);
@@ -208,7 +211,9 @@ class MigratedRecoveryForm extends Component {
       const bch = bitgo.coin(this.props.bitgo.getEnv() === 'prod' ? 'bch' : `tbch`);
       const bchWallet = await bch.wallets().getWallet({ id: this.state.walletId });
       if (!bchWallet) {
-        throw new Error(`could not find the original v1 btc wallet corresponding to the bch wallet with ID ${this.state.walletId}`);
+        throw new Error(
+          `could not find the original v1 btc wallet corresponding to the bch wallet with ID ${this.state.walletId}`
+        );
       }
       // reset the state to this wallet id
       v1BtcWalletId = bchWallet._wallet.migratedFrom;
@@ -220,7 +225,8 @@ class MigratedRecoveryForm extends Component {
     try {
       recoveryTx = await this.createRecoveryTx(coin, migratedWallet, v1BtcWalletId);
     } catch (e) {
-      if (e.message === 'insufficient balance') { // this is terribly unhelpful
+      if (e.message === 'insufficient balance') {
+        // this is terribly unhelpful
         e.message = 'Insufficient balance to recover';
       }
       this.collectLog(e.message);
@@ -273,81 +279,90 @@ class MigratedRecoveryForm extends Component {
     const migratedCoins = coinConfig.supportedRecoveries.migrated[this.props.bitgo.getEnv()];
     return (
       <div>
-        <h1 className='content-header'>Migrated Legacy Wallet Recoveries</h1>
-        <p className='subtitle'>This tool will help you recover funds from migrated wallets which are no longer officially supported by BitGo.</p>
-        <Alert color='warning'>
+        <h1 className="content-header">Migrated Legacy Wallet Recoveries</h1>
+        <p className="subtitle">
+          This tool will help you recover funds from migrated wallets which are no longer officially supported by BitGo.
+        </p>
+        <Alert color="warning">
           <p>
-            Transactions submitted using this tool are irreversible. Please double check your destination address to ensure it is correct.
+            Transactions submitted using this tool are irreversible. Please double check your destination address to
+            ensure it is correct.
           </p>
           <br />
           <p>
-            Additionally, we recommend creating a policy on your migrated wallet which whitelists only the destination address,
-            and removing all other policies on the wallet. This will ensure that accidental sends to addresses other than the destination address will not be processed immediately, and will instead result in a pending approval, which you may then cancel.
+            Additionally, we recommend creating a policy on your migrated wallet which whitelists only the destination
+            address, and removing all other policies on the wallet. This will ensure that accidental sends to addresses
+            other than the destination address will not be processed immediately, and will instead result in a pending
+            approval, which you may then cancel.
           </p>
         </Alert>
         <hr />
         <Form>
           <CoinDropdown
-            label='Coin'
-            name='coin'
+            label="Coin"
+            name="coin"
             allowedCoins={migratedCoins}
             onChange={this.updateCoin}
             value={this.state.coin}
             tooltipText={formTooltips.coin}
           />
           <InputField
-            label='Original Wallet ID'
-            name='walletId'
+            label="Original Wallet ID"
+            name="walletId"
             onChange={this.updateRecoveryInfo}
             value={this.state.walletId}
             tooltipText={formTooltips.walletId}
             disallowWhiteSpace={true}
           />
           <InputField
-            label='Destination Address'
-            name='recoveryAddress'
+            label="Destination Address"
+            name="recoveryAddress"
             onChange={this.updateRecoveryInfo}
             value={this.state.recoveryAddress}
             tooltipText={formTooltips.recoveryAddress}
             disallowWhiteSpace={true}
-            format='address'
+            format="address"
             coin={this.props.bitgo.coin(coin)}
           />
           <InputField
-            label='Wallet Passphrase'
-            name='passphrase'
+            label="Wallet Passphrase"
+            name="passphrase"
             onChange={this.updateRecoveryInfo}
             value={this.state.passphrase}
             tooltipText={formTooltips.passphrase}
             isPassword={true}
           />
           <InputField
-            label='2FA Code'
-            name='twofa'
+            label="2FA Code"
+            name="twofa"
             onChange={this.updateRecoveryInfo}
             value={this.state.twofa}
             tooltipText={formTooltips.twofa}
             isPassword={true}
           />
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          {this.state.recoveryTx && <p className='recovery-logging'>Success! Recovery transaction has been submitted. Transaction ID: {this.state.recoveryTx.id}</p>}
+          {this.state.recoveryTx && (
+            <p className="recovery-logging">
+              Success! Recovery transaction has been submitted. Transaction ID: {this.state.recoveryTx.id}
+            </p>
+          )}
           <Row>
             <Col xs={12}>
-              {!this.state.recoveryTx && !this.state.recovering &&
-                <Button onClick={this.performRecovery} className='bitgo-button'>
+              {!this.state.recoveryTx && !this.state.recovering && (
+                <Button onClick={this.performRecovery} className="bitgo-button">
                   Recover Wallet
                 </Button>
-              }
-              {!this.state.recoveryTx && this.state.recovering &&
-                <Button disabled={true} className='bitgo-button'>
+              )}
+              {!this.state.recoveryTx && this.state.recovering && (
+                <Button disabled={true} className="bitgo-button">
                   Recovering...
                 </Button>
-              }
-              {this.state.recoveryTx && !this.state.recovering && !this.state.error &&
-                <Button disabled={true} className='bitgo-button'>
+              )}
+              {this.state.recoveryTx && !this.state.recovering && !this.state.error && (
+                <Button disabled={true} className="bitgo-button">
                   Recovery Successful
                 </Button>
-              }
+              )}
             </Col>
           </Row>
         </Form>

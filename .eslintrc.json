@@ -13,11 +13,7 @@
       "jsx": true
     }
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "prettier"
-  ],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
   "settings": {
     "react": {
       "version": "detect"
@@ -32,8 +28,8 @@
     "eqeqeq": ["warn", "always"],
     "curly": ["error", "multi-line"],
     "no-extra-boolean-cast": "off",
-    "no-unused-vars": ["error", {"vars": "all", "args": "none"}],
-    "object-curly-spacing": ["error", "always", {"objectsInObjects": true, "arraysInObjects": true}],
+    "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
+    "object-curly-spacing": ["error", "always", { "objectsInObjects": true, "arraysInObjects": true }],
     "array-bracket-spacing": ["error", "never"],
     "require-yield": "off",
     "func-call-spacing": ["error", "never"],
@@ -45,8 +41,8 @@
     "no-inner-declarations": "off",
     "no-useless-escape": "off",
     "func-names": "off",
-    "yield-star-spacing": ["error", {"before": true, "after": false}],
-    "no-duplicate-imports": "error",  // whilst imports are not being used, if we start to use them, we do not want duplicates
+    "yield-star-spacing": ["error", { "before": true, "after": false }],
+    "no-duplicate-imports": "error", // whilst imports are not being used, if we start to use them, we do not want duplicates
     "no-unreachable": "error",
     "no-path-concat": "off",
     "no-process-env": "off",
@@ -55,7 +51,7 @@
     "eol-last": "error",
     "no-trailing-spaces": ["warn", { "skipBlankLines": true, "ignoreComments": true }],
     "no-unneeded-ternary": "error",
-    "switch-colon-spacing": ["error", {"before": false, "after": true}],
+    "switch-colon-spacing": ["error", { "before": false, "after": true }],
     "arrow-spacing": ["error", { "before": true, "after": true }],
     "no-dupe-args": "error",
     "no-undef": "error",
@@ -66,7 +62,7 @@
     "radix": "error",
     "comma-spacing": ["error", { "before": false, "after": true }],
     "comma-dangle": ["warn", "always-multiline"],
-    "no-multi-spaces": ["error", {"ignoreEOLComments": true}],
+    "no-multi-spaces": ["error", { "ignoreEOLComments": true }],
     "keyword-spacing": ["error"],
     "space-before-blocks": ["error"],
     "space-infix-ops": ["error"],
@@ -80,4 +76,3 @@
     "no-redeclare": ["error", { "builtinGlobals": true }]
   }
 }
-

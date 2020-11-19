@@ -5,13 +5,13 @@ import Select from 'react-select';
 
 import {
   Button,
-  Input,
-  UncontrolledTooltip,
-  FormGroup,
   FormFeedback,
+  FormGroup,
+  Input,
   InputGroup,
   InputGroupAddon,
   Label,
+  UncontrolledTooltip,
 } from 'reactstrap';
 
 import questionMarkIcon from 'images/question_mark.png';
@@ -27,15 +27,15 @@ export const CoinDropdown = ({ label, name, value, allowedCoins, onChange, toolt
 
   return (
     <FormGroup>
-      {label &&
-        <Label className='input-label'>
+      {label && (
+        <Label className="input-label">
           {label}
           {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
         </Label>
-      }
+      )}
       <Select
-        type='select'
-        className='bitgo-select'
+        type="select"
+        className="bitgo-select"
         options={options}
         optionComponent={CoinDropdownOption}
         onChange={onChange}
@@ -55,13 +55,13 @@ class CoinDropdownOption extends Component {
     event.stopPropagation();
 
     this.props.onSelect(this.props.option, event);
-  }
+  };
 
   render() {
     const { option } = this.props;
     return (
-      <div className='coin-dropdown-option' onMouseDown={this.handleMouseDown}>
-        <img src={option.icon} alt='' border='0' className='coin-icon' />
+      <div className="coin-dropdown-option" onMouseDown={this.handleMouseDown}>
+        <img src={option.icon} alt="" border="0" className="coin-icon" />
         {option.label}
       </div>
     );
@@ -69,8 +69,8 @@ class CoinDropdownOption extends Component {
 }
 
 const CoinDropdownValue = ({ value }) => (
-  <span className='coin-dropdown-value'>
-    <img src={value.icon} alt='' border='0' className='coin-icon' />
+  <span className="coin-dropdown-value">
+    <img src={value.icon} alt="" border="0" className="coin-icon" />
     {value.label}
   </span>
 );
@@ -93,7 +93,7 @@ export class InputField extends Component {
     }
 
     onChange(name)(input);
-  }
+  };
 
   validate = () => {
     const { value, format, coin } = this.props;
@@ -119,7 +119,9 @@ export class InputField extends Component {
         if (coin.getFamily() === 'xlm') {
           this.setState({ error: `This field should be a Stellar public key. Stellar public keys begin with a G.` });
         } else {
-          this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.` });
+          this.setState({
+            error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`,
+          });
         }
       }
     } else if (format === 'number') {
@@ -139,7 +141,7 @@ export class InputField extends Component {
         this.setState({ error: `This should be a valid ${coin.getFamily().toUpperCase()} address.` });
       }
     }
-  }
+  };
 
   render() {
     const { label, name, value, tooltipText, isPassword, format } = this.props;
@@ -154,12 +156,12 @@ export class InputField extends Component {
 
     return (
       <FormGroup>
-        {label &&
-        <Label className='input-label'>
-          {label}
-          {tooltipText && <FieldTooltip name={name} text={tooltipText}/>}
-        </Label>
-        }
+        {label && (
+          <Label className="input-label">
+            {label}
+            {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
+          </Label>
+        )}
         <Input
           type={type}
           onChange={this.trim}
@@ -187,7 +189,7 @@ export class InputTextarea extends Component {
     }
 
     onChange(name)(input);
-  }
+  };
 
   validate = () => {
     const { value, format } = this.props;
@@ -208,24 +210,26 @@ export class InputTextarea extends Component {
       if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
         this.setState({ error: null });
       } else {
-        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.` });
+        this.setState({
+          error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`,
+        });
       }
     }
-  }
+  };
 
   render() {
     const { label, name, value, tooltipText } = this.props;
 
     return (
       <FormGroup>
-        {label &&
-        <Label className='input-label'>
-          {label}
-          {tooltipText && <FieldTooltip name={name} text={tooltipText}/>}
-        </Label>
-        }
+        {label && (
+          <Label className="input-label">
+            {label}
+            {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
+          </Label>
+        )}
         <Input
-          type='textarea'
+          type="textarea"
           onChange={this.trim}
           onBlur={this.validate}
           value={value}
@@ -238,7 +242,16 @@ export class InputTextarea extends Component {
   }
 }
 
-export const MultiInputField = ({ label, name, values, onChange, addField, removeField, tooltipText, disallowWhiteSpace }) => {
+export const MultiInputField = ({
+  label,
+  name,
+  values,
+  onChange,
+  addField,
+  removeField,
+  tooltipText,
+  disallowWhiteSpace,
+}) => {
   const buttonCssFix = {
     marginTop: 0,
     padding: '0 12 0 12',
@@ -260,34 +273,34 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
     onChange(index)(input);
   };
 
-  const inputFields = values.map((value, index) =>
+  const inputFields = values.map((value, index) => (
     <InputGroup key={index.toString()} style={index !== 0 ? buttonPadding : null}>
-      <Input
-        type='text'
-        onChange={trim(index)}
-        value={values[index]}
-      />
-      {index === 0 &&
-        <InputGroupAddon addonType='append'>
-          <Button onClick={addField} style={buttonCssFix}><b>+</b></Button>
+      <Input type="text" onChange={trim(index)} value={values[index]} />
+      {index === 0 && (
+        <InputGroupAddon addonType="append">
+          <Button onClick={addField} style={buttonCssFix}>
+            <b>+</b>
+          </Button>
         </InputGroupAddon>
-      }
-      {index > 0 &&
-        <InputGroupAddon addonType='append'>
-          <Button onClick={removeField(index)} style={buttonCssFix}>{'\u2715'}</Button>
+      )}
+      {index > 0 && (
+        <InputGroupAddon addonType="append">
+          <Button onClick={removeField(index)} style={buttonCssFix}>
+            {'\u2715'}
+          </Button>
         </InputGroupAddon>
-      }
+      )}
     </InputGroup>
-  );
+  ));
 
   return (
     <FormGroup>
-      {label &&
-        <Label className='input-label'>
+      {label && (
+        <Label className="input-label">
           {label}
-          {tooltipText && <FieldTooltip name={name} text={tooltipText}/>}
+          {tooltipText && <FieldTooltip name={name} text={tooltipText} />}
         </Label>
-      }
+      )}
       {inputFields}
     </FormGroup>
   );
@@ -296,8 +309,10 @@ export const MultiInputField = ({ label, name, values, onChange, addField, remov
 export const FieldTooltip = ({ name, text }) => (
   <span>
     <a id={`tooltip-${name}`}>
-      <img id={`tooltip-${name}`} src={questionMarkIcon} alt='' border='0' className='tooltip-icon'/>
+      <img id={`tooltip-${name}`} src={questionMarkIcon} alt="" border="0" className="tooltip-icon" />
     </a>
-    <UncontrolledTooltip placement='right' target={`tooltip-${name}`}>{text}</UncontrolledTooltip>
+    <UncontrolledTooltip placement="right" target={`tooltip-${name}`}>
+      {text}
+    </UncontrolledTooltip>
   </span>
 );

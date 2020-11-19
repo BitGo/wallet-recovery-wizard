@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
 import './App.css';
 
-
 class App extends Component {
   state = { isLoggedIn: false, loginBypass: false, bitgo: null };
 
@@ -22,11 +21,11 @@ class App extends Component {
     }
 
     this.setState({ isLoggedIn, bitgo: bitgoInstance, loginBypass: false });
-  }
+  };
 
   updateLoginBypass = (bitgoInstance) => {
     this.setState({ loginBypass: true, bitgo: bitgoInstance });
-  }
+  };
 
   renderMain = (props) => {
     const { isLoggedIn, loginBypass, bitgo } = this.state;
@@ -36,14 +35,14 @@ class App extends Component {
     } else {
       return <Login finishLogin={this.updateLoginState(true)} bypassLogin={this.updateLoginBypass} {...props} />;
     }
-  }
+  };
 
   render() {
     return (
       <Router>
         <Switch>
-          <Route path='/' render={this.renderMain} />
-          <Redirect to='/' />
+          <Route path="/" render={this.renderMain} />
+          <Redirect to="/" />
         </Switch>
       </Router>
     );

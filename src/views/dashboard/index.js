@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 import Sidebar from 'components/sidebar';
 import Header from 'components/header';
@@ -16,7 +11,7 @@ class Dashboard extends Component {
     const { isLoggedIn, bitgo } = this.props;
 
     if (needsLogin && !isLoggedIn) {
-      return <Redirect from={url} to='/' key={url} />;
+      return <Redirect from={url} to="/" key={url} />;
     }
 
     // Push all components to the right if logged in (to make room for sidebar)
@@ -27,10 +22,18 @@ class Dashboard extends Component {
       flexGrow: isLoggedIn ? 1 : undefined,
     };
 
-    return <Route path={url} key={url} render={(props) =>
-      <div style={contentStyle}><NavComponent bitgo={bitgo} isLoggedIn={isLoggedIn} {...props} /></div>
-    } />;
-  }
+    return (
+      <Route
+        path={url}
+        key={url}
+        render={(props) => (
+          <div style={contentStyle}>
+            <NavComponent bitgo={bitgo} isLoggedIn={isLoggedIn} {...props} />
+          </div>
+        )}
+      />
+    );
+  };
 
   render() {
     const { isLoggedIn, resetLogin, bitgo } = this.props;
@@ -39,14 +42,13 @@ class Dashboard extends Component {
     return (
       <Router>
         <div className="wrapper">
-
           <Header resetLogin={resetLogin} bitgo={bitgo} isLoggedIn={isLoggedIn} />
 
-          <div className='content'>
+          <div className="content">
             <Sidebar isLoggedIn={isLoggedIn} />
             <Switch>
               {navElements.map(this._getRoute)}
-              <Route path='/' render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
+              <Route path="/" render={(props) => <MainNav {...props} isLoggedIn={isLoggedIn} />} />
             </Switch>
           </div>
         </div>

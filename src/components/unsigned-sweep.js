@@ -71,22 +71,23 @@ class UnsignedSweep extends Component {
     }
 
     return coin;
-  }
+  };
 
   updateRecoveryInfo = (field) => (value) => {
     this.setState({ [field]: value });
-  }
+  };
 
   updateEnv = (option) => {
     this.setState({ env: option.value });
-  }
+  };
 
   updateCoin = (option) => {
     this.setState({ coin: option.value });
-  }
+  };
 
   isDerivationPath = (derivationId, keyName) => {
-    const derivationPathMessage = 'Is the provided value a Derivation Path or a Seed?\n' + keyName + ': ' + derivationId + '\n';
+    const derivationPathMessage =
+      'Is the provided value a Derivation Path or a Seed?\n' + keyName + ': ' + derivationId + '\n';
 
     if (derivationId.length > 2 && derivationId.indexOf('m/') === 0) {
       const response = dialog.showMessageBox({
@@ -102,7 +103,7 @@ class UnsignedSweep extends Component {
     return false;
   };
 
-  deriveKeyByPath = (key, path, ) => {
+  deriveKeyByPath = (key, path) => {
     try {
       const node = utxoLib.HDNode.fromBase58(key);
       const derivedNode = node.derivePath(path);
@@ -111,21 +112,24 @@ class UnsignedSweep extends Component {
       logToConsole(err);
       throw err;
     }
-  }
+  };
 
   // If the user and/or backup keys are derived with a KeyID, we need to derive the proper key from that
   updateKeysFromIDs = (basecoin, recoveryParams) => {
-    const keyInfo = [{
-      id: recoveryParams.userKeyID,
-      key: recoveryParams.userKey,
-      description: 'User Key ID',
-      name: 'userKey',
-    }, {
-      id: recoveryParams.backupKeyID,
-      key: recoveryParams.backupKey,
-      description: 'Backup Key ID',
-      name: 'backupKey',
-    }];
+    const keyInfo = [
+      {
+        id: recoveryParams.userKeyID,
+        key: recoveryParams.userKey,
+        description: 'User Key ID',
+        name: 'userKey',
+      },
+      {
+        id: recoveryParams.backupKeyID,
+        key: recoveryParams.backupKey,
+        description: 'Backup Key ID',
+        name: 'backupKey',
+      },
+    ];
 
     keyInfo.forEach((keyObj) => {
       if (keyObj.id && keyObj.id !== '') {
@@ -139,7 +143,7 @@ class UnsignedSweep extends Component {
         delete recoveryParams[keyObj.name + 'ID'];
       }
     });
-  }
+  };
 
   async performRecovery() {
     this.setState({ recovering: true, error: '' });
@@ -156,9 +160,16 @@ class UnsignedSweep extends Component {
     try {
       // This is like _.pick
       const recoveryParams = [
-        'userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'rootAddress',
-        'walletContractAddress', 'tokenAddress',
-        'recoveryDestination', 'scan',
+        'userKey',
+        'userKeyID',
+        'backupKey',
+        'backupKeyID',
+        'bitgoKey',
+        'rootAddress',
+        'walletContractAddress',
+        'tokenAddress',
+        'recoveryDestination',
+        'scan',
       ].reduce((obj, param) => {
         if (this.state[param]) {
           const value = this.state[param];
@@ -183,10 +194,12 @@ class UnsignedSweep extends Component {
 
       const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';
       const dialogParams = {
-        filters: [{
-          name: 'Custom File Type',
-          extensions: ['json'],
-        }],
+        filters: [
+          {
+            name: 'Custom File Type',
+            extensions: ['json'],
+          },
+        ],
         defaultPath: '~/' + fileName,
       };
 
@@ -199,8 +212,10 @@ class UnsignedSweep extends Component {
 
       fs.writeFileSync(filePath.filePath, JSON.stringify(recoveryPrebuild, null, 4), 'utf8');
       this.setState({ recovering: false, done: true, finalFilename: filePath.filePath });
-      alert('We recommend that you use a third-party API to decode your txHex' +
-            'and verify its accuracy before broadcasting.');
+      alert(
+        'We recommend that you use a third-party API to decode your txHex' +
+          'and verify its accuracy before broadcasting.'
+      );
     } catch (e) {
       logToConsole(e);
       this.setState({ error: e.message, recovering: false });
@@ -220,7 +235,7 @@ class UnsignedSweep extends Component {
       done: false,
       error: '',
     });
-  }
+  };
 
   render() {
     const recoveryCoins = coinConfig.supportedRecoveries.unsignedSweep[this.state.env];
@@ -228,25 +243,26 @@ class UnsignedSweep extends Component {
     let warning;
     if (coinConfig.allCoins[this.state.coin].replayableNetworks) {
       const replayWarningText = tooltips.replayTxWarning(this.state.coin);
-      warning =
-      <Alert color='danger'>
-        <p>
-          {replayWarningText}
-        </p>
-      </Alert>;
+      warning = (
+        <Alert color="danger">
+          <p>{replayWarningText}</p>
+        </Alert>
+      );
     }
     return (
       <div className={classNames(isLoggedIn || 'content-centered')}>
-        <h1 className='content-header'>Build Unsigned Sweep</h1>
-        <p className='subtitle'>This tool will construct an unsigned sweep transaction on the wallet you specify without using BitGo.</p>
+        <h1 className="content-header">Build Unsigned Sweep</h1>
+        <p className="subtitle">
+          This tool will construct an unsigned sweep transaction on the wallet you specify without using BitGo.
+        </p>
         {warning}
         <hr />
         <Form>
           <Row>
             <Col xs={5}>
               <CoinDropdown
-                label='Coin Name'
-                name='coin'
+                label="Coin Name"
+                name="coin"
                 allowedCoins={recoveryCoins}
                 onChange={this.updateCoin}
                 value={this.state.coin}
@@ -254,12 +270,10 @@ class UnsignedSweep extends Component {
             </Col>
             <Col xs={3}>
               <FormGroup>
-                <Label className='input-label'>
-                  Environment
-                </Label>
+                <Label className="input-label">Environment</Label>
                 <Select
-                  type='select'
-                  className='bitgo-select'
+                  type="select"
+                  className="bitgo-select"
                   options={coinConfig.allCoins[this.state.coin].envOptions}
                   onChange={this.updateEnv}
                   name={'env'}
@@ -270,162 +284,166 @@ class UnsignedSweep extends Component {
               </FormGroup>
             </Col>
           </Row>
-          {this.displayedParams[this.state.coin].includes('userKey') &&
-          <InputField
-            label='User Public Key'
-            name='userKey'
-            value={this.state.userKey}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.userKey}
-            disallowWhiteSpace={true}
-            format='pub'
-          />
-          }
-
-          {this.displayedParams[this.state.coin].includes('userKeyID') &&
-          <InputField
-            label='User Key ID (optional)'
-            name='userKeyID'
-            value={this.state.userKeyID}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.userKeyID}
-            disallowWhiteSpace={false}
-          />
-          }
-
-          {this.displayedParams[this.state.coin].includes('backupKey') &&
+          {this.displayedParams[this.state.coin].includes('userKey') && (
             <InputField
-              label='Backup Public Key'
-              name='backupKey'
+              label="User Public Key"
+              name="userKey"
+              value={this.state.userKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.userKey}
+              disallowWhiteSpace={true}
+              format="pub"
+            />
+          )}
+
+          {this.displayedParams[this.state.coin].includes('userKeyID') && (
+            <InputField
+              label="User Key ID (optional)"
+              name="userKeyID"
+              value={this.state.userKeyID}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.userKeyID}
+              disallowWhiteSpace={false}
+            />
+          )}
+
+          {this.displayedParams[this.state.coin].includes('backupKey') && (
+            <InputField
+              label="Backup Public Key"
+              name="backupKey"
               value={this.state.backupKey}
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.backupPublicKey}
               disallowWhiteSpace={true}
-              format='pub'
+              format="pub"
             />
-          }
+          )}
 
-          {this.displayedParams[this.state.coin].includes('backupKeyID') &&
-          <InputField
-            label='Backup Key ID (optional)'
-            name='backupKeyID'
-            value={this.state.backupKeyID}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.backupKeyID}
-            disallowWhiteSpace={false}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('backupKeyID') && (
+            <InputField
+              label="Backup Key ID (optional)"
+              name="backupKeyID"
+              value={this.state.backupKeyID}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupKeyID}
+              disallowWhiteSpace={false}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('bitgoKey') &&
-          <InputField
-            label='BitGo Public Key'
-            name='bitgoKey'
-            value={this.state.bitgoKey}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.bitgoKey}
-            disallowWhiteSpace={true}
-            format='pub'
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('bitgoKey') && (
+            <InputField
+              label="BitGo Public Key"
+              name="bitgoKey"
+              value={this.state.bitgoKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.bitgoKey}
+              disallowWhiteSpace={true}
+              format="pub"
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('rootAddress') &&
-          <InputField
-            label='Root Address'
-            name='rootAddress'
-            value={this.state.rootAddress}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.rootAddress}
-            disallowWhiteSpace={true}
-            format='address'
-            coin={this.getCoinObject()}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('rootAddress') && (
+            <InputField
+              label="Root Address"
+              name="rootAddress"
+              value={this.state.rootAddress}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.rootAddress}
+              disallowWhiteSpace={true}
+              format="address"
+              coin={this.getCoinObject()}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('walletContractAddress') &&
-          <InputField
-            label='Wallet Contract Address'
-            name='walletContractAddress'
-            value={this.state.walletContractAddress}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.walletContractAddress}
-            disallowWhiteSpace={true}
-            format='address'
-            coin={this.getCoinObject()}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('walletContractAddress') && (
+            <InputField
+              label="Wallet Contract Address"
+              name="walletContractAddress"
+              value={this.state.walletContractAddress}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.walletContractAddress}
+              disallowWhiteSpace={true}
+              format="address"
+              coin={this.getCoinObject()}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('tokenContractAddress') &&
-          <InputField
-            label='Token Contract Address'
-            name='tokenAddress'
-            value={this.state.tokenAddress}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.tokenAddress}
-            disallowWhiteSpace={true}
-            format='address'
-            coin={this.getCoinObject()}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('tokenContractAddress') && (
+            <InputField
+              label="Token Contract Address"
+              name="tokenAddress"
+              value={this.state.tokenAddress}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.tokenAddress}
+              disallowWhiteSpace={true}
+              format="address"
+              coin={this.getCoinObject()}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('walletPassphrase') &&
-          <InputField
-            label='Wallet Passphrase'
-            name='walletPassphrase'
-            value={this.state.walletPassphrase}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.walletPassphrase}
-            isPassword={true}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('walletPassphrase') && (
+            <InputField
+              label="Wallet Passphrase"
+              name="walletPassphrase"
+              value={this.state.walletPassphrase}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.walletPassphrase}
+              isPassword={true}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('recoveryDestination') &&
-          <InputField
-            label='Destination Address'
-            name='recoveryDestination'
-            value={this.state.recoveryDestination}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.recoveryDestination}
-            disallowWhiteSpace={true}
-            format='address'
-            coin={this.getCoinObject()}
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('recoveryDestination') && (
+            <InputField
+              label="Destination Address"
+              name="recoveryDestination"
+              value={this.state.recoveryDestination}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.recoveryDestination}
+              disallowWhiteSpace={true}
+              format="address"
+              coin={this.getCoinObject()}
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('scan') &&
-          <InputField
-            label='Address Scanning Factor'
-            name='scan'
-            value={this.state.scan}
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.scan}
-            disallowWhiteSpace={true}
-            format='number'
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('scan') && (
+            <InputField
+              label="Address Scanning Factor"
+              name="scan"
+              value={this.state.scan}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.scan}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
 
-          {this.displayedParams[this.state.coin].includes('apiKey') &&
-          <InputField
-            label='API Key'
-            name='apiKey'
-            onChange={this.updateRecoveryInfo}
-            tooltipText={formTooltips.apiKey(this.state.coin)}
-            disallowWhiteSpace={true}
-            placeholder='None'
-          />
-          }
+          {this.displayedParams[this.state.coin].includes('apiKey') && (
+            <InputField
+              label="API Key"
+              name="apiKey"
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.apiKey(this.state.coin)}
+              disallowWhiteSpace={true}
+              placeholder="None"
+            />
+          )}
 
           {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
-          {this.state.done && <p className='recovery-logging'>Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}</p>}
-          {!this.state.done &&
-          <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className='bitgo-button'>
-            {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
-          </Button>
-          }
-          {this.state.done &&
-          <Button onClick={this.resetRecovery} className='bitgo-button'>
-            Perform Another Recovery
-          </Button>
-          }
+          {this.state.done && (
+            <p className="recovery-logging">
+              Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}
+            </p>
+          )}
+          {!this.state.done && (
+            <Button onClick={this.performRecovery.bind(this)} disabled={this.state.recovering} className="bitgo-button">
+              {this.state.recovering ? 'Recovering...' : 'Recover Funds'}
+            </Button>
+          )}
+          {this.state.done && (
+            <Button onClick={this.resetRecovery} className="bitgo-button">
+              Perform Another Recovery
+            </Button>
+          )}
         </Form>
       </div>
     );

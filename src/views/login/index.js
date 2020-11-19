@@ -10,11 +10,11 @@ class Login extends Component {
 
   updateField = (fieldName) => (event) => {
     this.setState({ [fieldName]: event.target.value });
-  }
+  };
 
   updateEnv = (env) => {
     this.setState({ env: env.value });
-  }
+  };
 
   async doLogin() {
     // Tell app we're making a login request (disable login button)
@@ -72,13 +72,13 @@ class Login extends Component {
 
     return (
       <div className="login" align="center">
-        <img src={HeaderLogo} alt='' border="0" align="center" />
-        <h1 className='dubberdub-title'>Wallet Recovery Wizard</h1>
+        <img src={HeaderLogo} alt="" border="0" align="center" />
+        <h1 className="dubberdub-title">Wallet Recovery Wizard</h1>
         <div className="loginBox">
           <form>
             <Select
-              type='select'
-              className='loginBox-select bitgo-select'
+              type="select"
+              className="loginBox-select bitgo-select"
               options={loginOptions}
               onChange={this.updateEnv}
               name={'env'}
@@ -86,18 +86,29 @@ class Login extends Component {
               clearable={false}
               searchable={false}
             />
-            {needsLogin &&
+            {needsLogin && (
               <Fragment>
-                <input type="text" placeholder="Email" onChange={this.updateField('username')} value={username} autoFocus />
-                <input type="password" placeholder="Password" onChange={this.updateField('password')} value={password} />
+                <input
+                  type="text"
+                  placeholder="Email"
+                  onChange={this.updateField('username')}
+                  value={username}
+                  autoFocus
+                />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  onChange={this.updateField('password')}
+                  value={password}
+                />
                 <input type="text" placeholder="2FA Code" name="otp" onChange={this.updateField('otp')} value={otp} />
               </Fragment>
-            }
+            )}
           </form>
 
           {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          {needsLogin &&
+          {needsLogin && (
             <button
               onClick={this.doLogin.bind(this)}
               disabled={loginDisabled}
@@ -105,15 +116,12 @@ class Login extends Component {
             >
               {loginInProgress ? 'LOGGING IN...' : 'LOGIN'}
             </button>
-          }
-          {env === 'none' &&
-            <button
-              className='bitgo-button'
-              onClick={this.goToNonBitGo.bind(this)}
-            >
+          )}
+          {env === 'none' && (
+            <button className="bitgo-button" onClick={this.goToNonBitGo.bind(this)}>
               CONTINUE
             </button>
-          }
+          )}
         </div>
       </div>
     );

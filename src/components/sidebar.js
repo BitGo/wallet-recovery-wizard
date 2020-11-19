@@ -13,20 +13,19 @@ const Sidebar = withRouter(({ isLoggedIn, location }) => {
 
   return (
     <TransitionGroup>
-      {showSidebar &&
-        <CSSTransition
-          classNames='slide'
-          timeout={{ enter: 500, exit: 300 }}
-        >
-          <div className={classNames('leftNavBar', 'slideLeft')} key='sidebar' >
-            {navElements.map((section, index) =>
+      {showSidebar && (
+        <CSSTransition classNames="slide" timeout={{ enter: 500, exit: 300 }}>
+          <div className={classNames('leftNavBar', 'slideLeft')} key="sidebar">
+            {navElements.map((section, index) => (
               <div className={classNames('leftNav', getCurrentRoute(section))} key={`nav-${index}`}>
-                <Link to={section.url}><div className='navigation'>{section.title}</div></Link>
+                <Link to={section.url}>
+                  <div className="navigation">{section.title}</div>
+                </Link>
               </div>
-            )}
+            ))}
           </div>
         </CSSTransition>
-      }
+      )}
     </TransitionGroup>
   );
 });

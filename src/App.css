@@ -1,257 +1,255 @@
 @charset "UTF-8";
 /* CSS Document */
 
-
 body {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#414042;font-size: 14px;
-	font-weight:400;
-	margin:0;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #414042;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
 }
 p {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#414042;font-size: 14px;
-	font-weight:400;
-	margin:0;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #414042;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
 }
 h1 {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#282828;
-	font-size: 30px;
-	font-weight:400;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #282828;
+  font-size: 30px;
+  font-weight: 400;
 }
 h2 {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#00AEEF;
-	font-size: 20px;
-	font-weight:400;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #00aeef;
+  font-size: 20px;
+  font-weight: 400;
 }
 a:hover {
-	text-decoration:none;
+  text-decoration: none;
 }
 a {
-	text-decoration:none;
+  text-decoration: none;
 }
 .wrapper {
-	width:1366px;
-	height:800px;
-	margin: 0;
-	box-sizing: initial;
-	position: relative;
-	margin: auto;
+  width: 1366px;
+  height: 800px;
+  margin: 0;
+  box-sizing: initial;
+  position: relative;
+  margin: auto;
 }
 .header {
-	position:fixed;
-	top:0; left:0;
-	background-color:#282828;
-	width:100%;
-	height:80px;
-	box-sizing: initial;
-	z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #282828;
+  width: 100%;
+  height: 80px;
+  box-sizing: initial;
+  z-index: 100;
 }
 .toolTitle {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#ffffff;
-	font-size: 20px;
-	font-weight:400;
-	position: fixed;
-	top: 27px;
-	left:220px;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 400;
+  position: fixed;
+  top: 27px;
+  left: 220px;
 }
 .toolTitle a {
-	color:#ffffff;
+  color: #ffffff;
 }
 
 .user a {
-	color:#ffffff;
+  color: #ffffff;
 }
 
 .logo {
-	position:fixed;
-	top:25px;
-	left:30px;
-	width:110px;
-	height:27px;
+  position: fixed;
+  top: 25px;
+  left: 30px;
+  width: 110px;
+  height: 27px;
 }
 .user {
-	float: right;
-	margin: 34px 35px 0 0;
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#ffffff;
-	font-size: 14px;
-	font-weight:400;
+  float: right;
+  margin: 34px 35px 0 0;
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
 }
 .userIcon {
-	float: right;
-	margin: 27px 15px 0 0;
-
+  float: right;
+  margin: 27px 15px 0 0;
 }
 .leftNavBar {
-	position:fixed;
-	top:80px;
-	left:0;
-	height:100%;
-	width:270px;
-	/* left: -270px; */
-	background-color:#00AEEF;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  height: 100%;
+  width: 270px;
+  /* left: -270px; */
+  background-color: #00aeef;
 }
 .leftNavBar :hover {
-	background-color:#1ba5de;
+  background-color: #1ba5de;
 }
 
 .leftNav {
-	width:270px;
-	background-color:#00AEEF;
-	border-bottom: 1px solid #4abff0;
-	box-sizing: initial;
-
+  width: 270px;
+  background-color: #00aeef;
+  border-bottom: 1px solid #4abff0;
+  box-sizing: initial;
 }
 .leftNav.selected {
-	width:270px;
-	background-color:#1ba5de;
-	border-bottom: 1px solid #4abff0;
+  width: 270px;
+  background-color: #1ba5de;
+  border-bottom: 1px solid #4abff0;
 }
 
 .slide-enter {
-	transform: translateX(-270px);
+  transform: translateX(-270px);
 }
 
 .slide-enter.slide-enter-active {
-	transform: translateX(0);
-	transition: all 500ms ease-in-out;
+  transform: translateX(0);
+  transition: all 500ms ease-in-out;
 }
 
 .slide-exit {
-	transform: translateX(0);
+  transform: translateX(0);
 }
 
 .slide-exit-active {
-	transform: translateX(-270px);
-	transition: all 300ms ease-in-out;
+  transform: translateX(-270px);
+  transition: all 300ms ease-in-out;
 }
 
 .navigation {
-	font-family: 'Helvetica Neue', sans-serif;
-	color:#ffffff;
-	font-size: 14px;
-	font-weight:400;
-	margin:0px 0 0 30px;
-	padding:30px 0 30px 0
+  font-family: 'Helvetica Neue', sans-serif;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0px 0 0 30px;
+  padding: 30px 0 30px 0;
 }
 .content {
-	position:absolute;
-	top:100px;
-	/* left: 330px; */
-	width: 100%;
-	margin: 0px 40px 40px 0;
-	box-sizing: initial;
-	display: flex;
+  position: absolute;
+  top: 100px;
+  /* left: 330px; */
+  width: 100%;
+  margin: 0px 40px 40px 0;
+  box-sizing: initial;
+  display: flex;
 }
 
 .option-box-container {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .optionBox {
-	display: inline-grid;
-	height:100px;
-	width:250px;
-	border: 1px solid #c4c4c4;
-	border-radius: 4px;
-	text-align: center;
-	padding: 25px;
-	/* float:left; */
-	margin:20px 20px 0 0;
-	background-color:#ffffff;
-	box-sizing: initial;
+  display: inline-grid;
+  height: 100px;
+  width: 250px;
+  border: 1px solid #c4c4c4;
+  border-radius: 4px;
+  text-align: center;
+  padding: 25px;
+  /* float:left; */
+  margin: 20px 20px 0 0;
+  background-color: #ffffff;
+  box-sizing: initial;
 }
 
 .optionBox:hover {
-	background-color:#f5f5f5;
+  background-color: #f5f5f5;
 }
 
 .optionBox.optionBox.disabled {
-	background-color: #F5F5F5;
-	border-color: #F5F5F5;
-	color:#C4C4C4;
+  background-color: #f5f5f5;
+  border-color: #f5f5f5;
+  color: #c4c4c4;
 }
 
-.optionBox.disabled .optionBox-title, .optionBox.disabled p  {
-	color:#C4C4C4;
+.optionBox.disabled .optionBox-title,
+.optionBox.disabled p {
+  color: #c4c4c4;
 }
-
 
 .optionBox.disabled:hover {
-	background-color:#F5F5F5;
+  background-color: #f5f5f5;
 }
 
-
 .loginBox input {
-	padding: 0px 0px 0px 15px;
-	height:42px;
-	width:300px;
-	border: 1px solid #d5d5d5;
-	border-radius: 4px;
-	margin-top: 20px;
-	font-family: 'Helvetica Neue', sans-serif;
-	font-size:14px;
-	color:#8e9091;
-	box-sizing: initial;
+  padding: 0px 0px 0px 15px;
+  height: 42px;
+  width: 300px;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  margin-top: 20px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  color: #8e9091;
+  box-sizing: initial;
 }
 
 .loginBox .bitgo-select {
-	width: 318px;
-	box-sizing: initial;
-	text-align: left;
-	height: 44px;
-	line-height: 34px;
-	/* border: 1px solid #d5d5d5; */
-	border-radius: 4px;
-	margin-top: 20px;
-	font-family: 'Helvetica Neue', sans-serif;
-	font-size:14px;
-	color:#8e9091;
+  width: 318px;
+  box-sizing: initial;
+  text-align: left;
+  height: 44px;
+  line-height: 34px;
+  /* border: 1px solid #d5d5d5; */
+  border-radius: 4px;
+  margin-top: 20px;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  color: #8e9091;
 }
 
 .bitgo-select.is-focused {
-	outline: none;
+  outline: none;
 }
 
 .loginBox .bitgo-select .Select-control {
-	height: 42px;
-	box-sizing: initial;
-	width: 99.7%;
+  height: 42px;
+  box-sizing: initial;
+  width: 99.7%;
 }
 
 .loginBox .bitgo-select.is-focused .Select-control {
-	height: 42px;
+  height: 42px;
 }
 
 .bitgo-select.is-focused .Select-control {
-	border: 1px solid #00AEEF !important;
-	outline: none;
-	box-shadow: none;
+  border: 1px solid #00aeef !important;
+  outline: none;
+  box-shadow: none;
 }
 
-.loginBox .bitgo-select.is-focused .Select-menu-outer  {
-	width: 320px;
+.loginBox .bitgo-select.is-focused .Select-menu-outer {
+  width: 320px;
 }
-
 
 .bitgo-select.is-focused .Select-menu-outer {
-	/* height: 42px; */
-	border-color: #00AEEF;
-	border-top: 0;
+  /* height: 42px; */
+  border-color: #00aeef;
+  border-top: 0;
 }
 
 .bitgo-select.is-focused .Select-arrow {
-	border-color: #00AEEF transparent transparent;
+  border-color: #00aeef transparent transparent;
 }
 
 .bitgo-select.is-focused.is-open .Select-arrow {
-	border-color: transparent transparent #00AEEF;
+  border-color: transparent transparent #00aeef;
 }
 /*
 .bitgo-select.is-focused {
@@ -259,35 +257,35 @@ a {
 } */
 
 .loginBox .bitgo-select .Select-value {
-	display: inline-flex;
-	align-items: center;
-	padding-left: 15px !important;
-	height: 44px !important;
+  display: inline-flex;
+  align-items: center;
+  padding-left: 15px !important;
+  height: 44px !important;
 }
 
 .loginBox .bitgo-select .Select-value-label {
-	color:#8e9091 !important;
+  color: #8e9091 !important;
 }
 
 .loginBox .bitgo-select .Select-menu-outer .Select-option {
-	color:#8e9091 !important;
-	padding-left: 15px !important;
+  color: #8e9091 !important;
+  padding-left: 15px !important;
 }
 
 .bitgo-select .Select-menu-outer .coin-dropdown-option:nth-child(odd) {
-	background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .bitgo-select .Select-menu-outer .Select-option:nth-child(odd) {
-	background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
 .bitgo-select .Select-menu-outer .coin-dropdown-option:nth-child(odd):hover {
-	background-color: #CDE9F7;
+  background-color: #cde9f7;
 }
 
 .bitgo-select .Select-menu-outer .Select-option:nth-child(odd):hover {
-	background-color: #CDE9F7;
+  background-color: #cde9f7;
 }
 
 /* .bitgo-select .Select-menu-outer .Select-option:hover {
@@ -295,214 +293,217 @@ a {
 } */
 
 .bitgo-select .Select-menu-outer .Select-option.is-focused {
-	background-color: #CDE9F7 !important;
+  background-color: #cde9f7 !important;
 }
 
 .loginBox button {
-	width: 318px;
+  width: 318px;
 }
 
 button {
-	border-radius: 10px;
-	background: #00AEEF;
-	padding: 20px;
-	/* width: 320px; */
-	height: 60px;
-	border:0px;
-	color:#ffffff;
-	font-size:18px;
-	margin-top:20px;
+  border-radius: 10px;
+  background: #00aeef;
+  padding: 20px;
+  /* width: 320px; */
+  height: 60px;
+  border: 0px;
+  color: #ffffff;
+  font-size: 18px;
+  margin-top: 20px;
 }
 
 button:hover {
-	background: #0684ac;
-
+  background: #0684ac;
 }
 
 button.disabled {
-	background: #C4C4C4;
+  background: #c4c4c4;
 }
 
 button.disabled:hover {
-	background: #8E9091;
+  background: #8e9091;
 }
 
 .login {
-	margin-top: 100px;
-
+  margin-top: 100px;
 }
 .loginBox {
-	width:350px;
-	box-shadow: 1px 1px 30px 1px #c4c4c4;
-	padding:25px 25px 40px 25px;
-	box-sizing: initial;
+  width: 350px;
+  box-shadow: 1px 1px 30px 1px #c4c4c4;
+  padding: 25px 25px 40px 25px;
+  box-sizing: initial;
 }
 
 .logoutLink:hover {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 .errorMessage {
-	margin-top: 10px;
-	color: #C51112;
+  margin-top: 10px;
+  color: #c51112;
 }
 
 .subtitle {
-	margin-bottom: 14px;
+  margin-bottom: 14px;
 }
 
 .tooltip-icon {
-	margin-left: 3px;
-	margin-bottom: 10px;
-	width: 12px;
-	height: 12px;
-	opacity: 0.6;
+  margin-left: 3px;
+  margin-bottom: 10px;
+  width: 12px;
+  height: 12px;
+  opacity: 0.6;
 }
 
 .coin-icon {
-	margin-right: 5px;
-	width: 20px;
-	height: 20px;
+  margin-right: 5px;
+  width: 20px;
+  height: 20px;
 }
 
-.coin-dropdown-option, .coin-dropdown-value {
-	padding: 5px;
+.coin-dropdown-option,
+.coin-dropdown-value {
+  padding: 5px;
 }
 
 .coin-dropdown-option:nth-child(even) {
-	background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 .coin-dropdown-option:hover {
-	background: #CDE9F7;
+  background: #cde9f7;
 }
 
 button.bitgo-button {
-	color: #FFFFFF;
-	border: 1px solid #00AEEF;
-	background-color: #00AEEF;
+  color: #ffffff;
+  border: 1px solid #00aeef;
+  background-color: #00aeef;
 
-	font-size: 16px;
-	font-weight: bold;
+  font-size: 16px;
+  font-weight: bold;
 
-	text-transform: uppercase;
-	height: 32px;
-	min-width: 64px;
-	padding: 0px 32px;
-	border-radius: 24px;
+  text-transform: uppercase;
+  height: 32px;
+  min-width: 64px;
+  padding: 0px 32px;
+  border-radius: 24px;
 }
 
 .bitgo-button + .bitgo-button {
-	margin-left: 12px;
+  margin-left: 12px;
 }
 
 .bitgo-button:focus {
-	color: #FFFFFF;
+  color: #ffffff;
 }
 
 .bitgo-button:active {
-	box-shadow: none;
+  box-shadow: none;
 }
 
 .bitgo-button:hover {
-	color: #FFFFFF;
-	border-color: #0684AC;
-	background-color: #0684AC;
+  color: #ffffff;
+  border-color: #0684ac;
+  background-color: #0684ac;
 }
 
-.bitgo-button.disabled, .bitgo-button:disabled {
-	color: #C4C4C4;
-	background-color: #FFFFFF;
-	border-color: #C4C4C4;
+.bitgo-button.disabled,
+.bitgo-button:disabled {
+  color: #c4c4c4;
+  background-color: #ffffff;
+  border-color: #c4c4c4;
 }
 
 /* Large button */
 .bitgo-button.large {
-	width: 100%;
+  width: 100%;
 }
 
 /* Secondary button */
 .bitgo-button.secondary {
-	color: #00AEEF;
-	border-color: #00AEEF;
-	background-color: #FFFFFF;
+  color: #00aeef;
+  border-color: #00aeef;
+  background-color: #ffffff;
 }
 
 .bitgo-button.secondary:hover {
-	color: #00AEEF !important;
-	background-color: #C6EAFA;
+  color: #00aeef !important;
+  background-color: #c6eafa;
 }
 
-.bitgo-button.secondary.disabled, .bitgo-button.secondary:disabled {
-	color: #FFFFFF !important;
-	background-color: #C4C4C4;
-	border-color: #8E9091;
+.bitgo-button.secondary.disabled,
+.bitgo-button.secondary:disabled {
+  color: #ffffff !important;
+  background-color: #c4c4c4;
+  border-color: #8e9091;
 }
 
 /* Other button*/
 .bitgo-button.other {
-	color: #8E9091;
-	border-color: #8E9091;
-	background-color: #FFFFFF;
+  color: #8e9091;
+  border-color: #8e9091;
+  background-color: #ffffff;
 }
 
 .bitgo-button.other:hover {
-	background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 
-.bitgo-button.other.disabled, .bitgo-button.other:disabled {
-	color: #FFFFFF;
-	background-color: #C4C4C4;
-	border-color: #8E9091;
+.bitgo-button.other.disabled,
+.bitgo-button.other:disabled {
+  color: #ffffff;
+  background-color: #c4c4c4;
+  border-color: #8e9091;
 }
 
 .bitgo-button.negative {
-	color: #C51112;
-	background-color: #FFFFFF;
-	border-color: #C51112;
+  color: #c51112;
+  background-color: #ffffff;
+  border-color: #c51112;
 }
 
 .bitgo-button.negative:hover {
-	background-color: #EDB9BF;
+  background-color: #edb9bf;
 }
 
-.bitgo-button.negative.disabled, .bitgo-button.negative:disabled {
-	display: none;
+.bitgo-button.negative.disabled,
+.bitgo-button.negative:disabled {
+  display: none;
 }
 
 .recovery-logging {
-	color: #37AD4F;
+  color: #37ad4f;
 }
 
 .confirm-tx-field {
-	font-weight: 700;
+  font-weight: 700;
 }
 
 .profile-pic {
-	border-radius: 100%;
+  border-radius: 100%;
 }
 
 .dubberdub-title {
-	margin-top: 50px;
-	margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 .content-header {
-	margin-top: 35px;
+  margin-top: 35px;
 }
 
 .content-header.nav-title {
-	text-align: center;
+  text-align: center;
 }
 
 .content-centered {
-	margin: auto;
+  margin: auto;
 }
 
 .tx-hex {
-	word-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .recovery-logging {
-	max-width: 948px;
+  max-width: 948px;
 }
