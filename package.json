@@ -12,7 +12,8 @@
     "electron": "electron .",
     "build": "NODE_ENV=production node scripts/build.js",
     "pack": "npm run build && ./node_modules/.bin/electron-builder --dir",
-    "lint": "eslint --ext .js src"
+    "lint": "eslint --ext .js src",
+    "check-fmt": "prettier --check src"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
@@ -58,6 +59,7 @@
     "electron": "9.2.1",
     "electron-builder": "^22.5.1",
     "eslint": "4.10.0",
+    "eslint-config-prettier": "^6.15.0",
     "eslint-config-react-app": "2.1.0",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.39.1",
@@ -68,6 +70,7 @@
     "fs-extra": "6.0.1",
     "html-webpack-plugin": "3.2.0",
     "jest": "^24.8.0",
+    "prettier": "2.1.2",
     "react-dev-utils": "5.0.3",
     "webpack": "3.12.0",
     "webpack-dev-server": "2.11.3",
