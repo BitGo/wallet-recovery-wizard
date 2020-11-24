@@ -1,11 +1,4 @@
 import * as Errors from 'bitgo/dist/src/errors';
-/**
- * A logger we use to log debugging information to the console
- * @param {String} e
- */
-export function logToConsole(e) {
-  console.dir(e);
-}
 
 /**
  * Call the recover() function with recoveryParams, and try multiple key paths for the user key

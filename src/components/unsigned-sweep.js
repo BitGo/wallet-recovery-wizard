@@ -9,7 +9,7 @@ import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { logToConsole, recoverWithKeyPath } from 'utils.js';
+import { recoverWithKeyPath } from '../utils';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -109,7 +109,7 @@ class UnsignedSweep extends Component {
       const derivedNode = node.derivePath(path);
       return derivedNode.toBase58();
     } catch (err) {
-      logToConsole(err);
+      console.error(err);
       throw err;
     }
   };
@@ -217,7 +217,7 @@ class UnsignedSweep extends Component {
           'and verify its accuracy before broadcasting.'
       );
     } catch (e) {
-      logToConsole(e);
+      console.error(e);
       this.setState({ error: e.message, recovering: false });
     }
   }
