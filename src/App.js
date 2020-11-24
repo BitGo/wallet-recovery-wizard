@@ -7,9 +7,25 @@ import Login from 'views/login';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
 import './App.css';
+import { BitGo } from 'bitgo';
+
+function getBitgoInstanceFromEnv() {
+  const env = process.env['REACT_APP_BITGO_ENV'];
+  const token = process.env['REACT_APP_BITGO_TOKEN'];
+  if (!token || !env) {
+    return undefined;
+  }
+  return new BitGo({ env, accessToken: token });
+}
 
 class App extends Component {
-  state = { isLoggedIn: false, loginBypass: false, bitgo: null };
+  constructor() {
+    super();
+    const bitgo = getBitgoInstanceFromEnv();
+    this.state = bitgo
+      ? { isLoggedIn: false, loginBypass: true, bitgo }
+      : { isLoggedIn: false, loginBypass: false, bitgo: null };
+  }
 
   updateLoginState = (isLoggedIn) => (bitgoInstance, utxoLibInstance) => {
     if (isLoggedIn && !bitgoInstance) {
