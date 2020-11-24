@@ -1,9 +1,29 @@
 import * as Errors from 'bitgo/dist/src/errors';
 
-const userKeyPaths = ['/0/0', '/0'];
+import * as utxolib from '@bitgo/utxo-lib';
 
-function withCustomKeyPath(params, userKeyPath) {
-  return Object.assign({}, params, { userKeyPath });
+import { AbstractUtxoCoin } from 'bitgo/dist/src/v2/coins';
+
+function sanitizeKeys(keys) {
+  return keys.map((k) => {
+    if (!(k instanceof utxolib.HDNode)) {
+      throw new Error(`unexpected key`);
+    }
+
+    return k.neutered().toBase58();
+  });
+}
+
+export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
+  if (!(baseCoin instanceof AbstractUtxoCoin)) {
+    // TODO support more coins
+    throw new Error('unsupported coin');
+  }
+
+  return {
+    // TODO include derive pubkeys
+    publicKeys: sanitizeKeys(await baseCoin.initiateRecovery(recoveryParams)),
+  };
 }
 
 /**
@@ -26,7 +46,7 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
     try {
       // if we already have a recovery result, then it means the current path we try
       // is the valid user path, and we can return and exit the iteration loop
-      return await baseCoin.recover(withCustomKeyPath(recoveryParams, path));
+      return await baseCoin.recover(Object.assign({}, recoveryParams, path));
     } catch (e) {
       // if this current path we try yields us no inputs to recover, we catch the
       // error and move on to the next iteration and continue trying the remaining paths
