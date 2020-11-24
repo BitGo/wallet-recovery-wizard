@@ -9,7 +9,9 @@ import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-import { logToConsole, recoverWithKeyPath } from 'utils.js';
+import { getRecoveryDebugInfo, recoverWithKeyPath } from '../utils';
+
+const { clipboard } = window.require('electron');
 
 const formTooltips = tooltips.recovery;
 const { dialog } = window.require('electron').remote;
@@ -60,6 +62,15 @@ class NonBitGoRecoveryForm extends Component {
     ],
   };
 
+  copyErrorInfo() {
+    const errorInfo = {
+      errorMessage: this.state.error.message,
+      errorStack: this.state.error.stack,
+      recoveryDebugInfo: this.state.recoveryDebugInfo,
+    };
+    clipboard.writeText(JSON.stringify(errorInfo, null, 2));
+  }
+
   getCoinObject = () => {
     this.props.bitgo._env = this.state.env;
     let bitgo = this.props.bitgo;
@@ -105,84 +116,108 @@ class NonBitGoRecoveryForm extends Component {
     }
   };
 
+  getRecoveryParams() {
+    // This is like _.pick
+    return [
+      'userKey',
+      'backupKey',
+      'bitgoKey',
+      'rootAddress',
+      'walletContractAddress',
+      'tokenAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'scan',
+      'krsProvider',
+    ].reduce((obj, param) => {
+      if (this.state[param]) {
+        const value = this.state[param];
+
+        return Object.assign(obj, { [param]: value });
+      }
+      return obj;
+    }, {});
+  }
+
+  async performRecoveryWithParams(baseCoin, recoveryParams) {
+    if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
+      recoveryParams.apiKey = this.state.apiKey;
+    }
+
+    if (!coinConfig.allCoins[this.state.coin].recoverP2wsh) {
+      recoveryParams.ignoreAddressTypes = ['p2wsh'];
+    }
+
+    const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
+
+    const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
+
+    if (!recoveryTx) {
+      throw new Error('Fully-signed recovery transaction not detected.');
+    }
+
+    const fileName = baseCoin.getChain() + '-recovery-' + Date.now().toString() + '.json';
+    const dialogParams = {
+      filters: [
+        {
+          name: 'Custom File Type',
+          extensions: ['json'],
+        },
+      ],
+      defaultPath: '~/' + fileName,
+    };
+
+    // Retrieve the desired file path and file name
+    const filePath = await dialog.showSaveDialog(dialogParams);
+    if (!filePath) {
+      // TODO: The user exited the file creation process. What do we do?
+      return;
+    }
+
+    fs.writeFileSync(filePath.filePath, JSON.stringify(recovery, null, 4), 'utf8');
+
+    this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
+    alert(
+      'We recommend that you use a third-party API to decode your txHex' +
+        'and verify its accuracy before broadcasting.'
+    );
+  }
+
   async performRecovery() {
-    this.setState({ recovering: true, error: '' });
+    this.setState({ recovering: true, error: null });
 
     const baseCoin = await this.getCoinObject();
 
     const recoveryTool = baseCoin.recover;
 
     if (!recoveryTool) {
-      this.setState({ error: `Recovery tool not found for ${this.state.coin}`, recovering: false });
+      this.setState({
+        error: new Error(`Recovery tool not found for ${this.state.coin}`),
+        recovering: false,
+      });
       return;
     }
 
+    const recoveryParams = this.getRecoveryParams();
+
+    let recoveryDebugInfo;
+
     try {
-      // This is like _.pick
-      const recoveryParams = [
-        'userKey',
-        'backupKey',
-        'bitgoKey',
-        'rootAddress',
-        'walletContractAddress',
-        'tokenAddress',
-        'walletPassphrase',
-        'recoveryDestination',
-        'scan',
-        'krsProvider',
-      ].reduce((obj, param) => {
-        if (this.state[param]) {
-          const value = this.state[param];
-
-          return Object.assign(obj, { [param]: value });
-        }
-        return obj;
-      }, {});
-
-      if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
-        recoveryParams.apiKey = this.state.apiKey;
-      }
-
-      if (!coinConfig.allCoins[this.state.coin].recoverP2wsh) {
-        recoveryParams.ignoreAddressTypes = ['p2wsh'];
-      }
-
-      const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
-
-      const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
-
-      if (!recoveryTx) {
-        throw new Error('Fully-signed recovery transaction not detected.');
-      }
-
-      const fileName = baseCoin.getChain() + '-recovery-' + Date.now().toString() + '.json';
-      const dialogParams = {
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: '~/' + fileName,
-      };
-
-      // Retrieve the desired file path and file name
-      const filePath = await dialog.showSaveDialog(dialogParams);
-      if (!filePath) {
-        // TODO: The user exited the file creation process. What do we do?
-        return;
-      }
-
-      fs.writeFileSync(filePath.filePath, JSON.stringify(recovery, null, 4), 'utf8');
-
-      this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
-      alert(
-        'We recommend that you use a third-party API to decode your txHex' +
-          'and verify its accuracy before broadcasting.'
-      );
+      recoveryDebugInfo = await getRecoveryDebugInfo(baseCoin, recoveryParams);
     } catch (e) {
-      logToConsole(e);
-      this.setState({ error: e.message, recovering: false });
+      recoveryDebugInfo = e;
+    }
+
+    try {
+      await this.performRecoveryWithParams(baseCoin, recoveryParams);
+    } catch (e) {
+      if (recoveryDebugInfo instanceof Error) {
+        console.error(recoveryDebugInfo);
+      } else {
+        console.log({ recoveryDebugInfo });
+      }
+      console.error(e);
+      this.setState({ error: e, recoveryDebugInfo, recovering: false });
     }
   }
 
@@ -390,7 +425,16 @@ class NonBitGoRecoveryForm extends Component {
             />
           )}
 
-          {this.state.error && <ErrorMessage>{this.state.error}</ErrorMessage>}
+          {this.state.error && <ErrorMessage>{this.state.error.message}</ErrorMessage>}
+
+          {this.state.error && (
+            <p>
+              <Button onClick={this.copyErrorInfo.bind(this)} className="bitgo-button">
+                Copy error info
+              </Button>
+            </p>
+          )}
+
           {this.state.done && (
             <p className="recovery-logging">
               Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}
