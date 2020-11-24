@@ -10,26 +10,31 @@ import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
 import { logToConsole, recoverWithKeyPath } from 'utils.js';
+
 const formTooltips = tooltips.recovery;
 const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
 
-class NonBitGoRecoveryForm extends Component {
-  state = {
-    coin: 'btc',
+function getEmptyState() {
+  return {
     userKey: '',
     backupKey: '',
     bitgoKey: '',
-    rootAddress: '',
+    coin: 'btc',
     walletContractAddress: '',
+    rootAddress: '',
     tokenAddress: '',
     walletPassphrase: '',
     recoveryDestination: '',
-    apiKey: '',
-    scan: 20,
-    krsProvider: null,
     env: 'test',
+    done: false,
+    error: '',
+    krsProvider: undefined,
   };
+}
+
+class NonBitGoRecoveryForm extends Component {
+  state = getEmptyState();
 
   requiredParams = {
     btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
@@ -182,18 +187,7 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   resetRecovery = () => {
-    this.setState({
-      userKey: '',
-      backupKey: '',
-      walletContractAddress: '',
-      rootAddress: '',
-      tokenAddress: '',
-      walletPassphrase: '',
-      recoveryDestination: '',
-      env: 'test',
-      done: false,
-      error: '',
-    });
+    this.setState(getEmptyState());
   };
 
   render() {
