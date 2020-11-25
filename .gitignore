@@ -20,3 +20,5 @@ yarn-error.log*
 app/
 dist/
 .idea/
+*.iml
+

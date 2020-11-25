@@ -36,9 +36,7 @@ export default {
     bcha: {
       fullName: 'Bitcoin ABC',
       icon: bchaIcon,
-      envOptions: [
-        { label: 'Mainnet', value: 'prod' },
-      ],
+      envOptions: [{ label: 'Mainnet', value: 'prod' }],
       replayableNetworks: ['bch', 'bsv'],
     },
     bsv: {
@@ -64,9 +62,7 @@ export default {
       fullName: 'Bitcoin Gold',
       supportedRecoveries: [],
       icon: btgIcon,
-      envOptions: [
-        { label: 'Mainnet', value: 'prod' },
-      ],
+      envOptions: [{ label: 'Mainnet', value: 'prod' }],
     },
     zec: {
       fullName: 'Zcash',
