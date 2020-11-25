@@ -13,7 +13,8 @@
     "build": "NODE_ENV=production node scripts/build.js",
     "pack": "npm run build && ./node_modules/.bin/electron-builder --dir",
     "lint": "eslint --ext .js src",
-    "check-fmt": "prettier --check src"
+    "check-fmt": "prettier --check .",
+    "apply-fmt": "prettier --write ."
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
