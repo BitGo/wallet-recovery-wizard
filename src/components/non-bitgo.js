@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, InputTextarea, CoinDropdown, FieldTooltip } from './form-components';
-import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import { CoinDropdown, FieldTooltip, InputField, InputTextarea } from './form-components';
+import { Alert, Button, Col, Form, FormGroup, Label, Row } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
