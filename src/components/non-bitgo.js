@@ -62,11 +62,12 @@ class NonBitGoRecoveryForm extends Component {
     ],
   };
 
-  copyErrorInfo() {
+  copyDebugInfo() {
+    const { error, recoveryDebugInfo } = this.state;
     const errorInfo = {
-      errorMessage: this.state.error.message,
-      errorStack: this.state.error.stack,
-      recoveryDebugInfo: this.state.recoveryDebugInfo,
+      errorMessage: error && error.message,
+      errorStack: error && error.stack,
+      recoveryDebugInfo,
     };
     clipboard.writeText(JSON.stringify(errorInfo, null, 2));
   }
@@ -424,17 +425,14 @@ class NonBitGoRecoveryForm extends Component {
               placeholder="None"
             />
           )}
-
           {this.state.error && <ErrorMessage>{this.state.error.message}</ErrorMessage>}
-
           {this.state.error && (
             <p>
-              <Button onClick={this.copyErrorInfo.bind(this)} className="bitgo-button">
+              <Button onClick={this.copyDebugInfo.bind(this)} className="bitgo-button">
                 Copy error info
               </Button>
             </p>
           )}
-
           {this.state.done && (
             <p className="recovery-logging">
               Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}
