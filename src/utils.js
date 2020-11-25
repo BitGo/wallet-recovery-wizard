@@ -4,6 +4,10 @@ import * as utxolib from '@bitgo/utxo-lib';
 
 import { AbstractUtxoCoin } from 'bitgo/dist/src/v2/coins';
 
+export function isDev() {
+  return process.env.NODE_ENV === 'development';
+}
+
 function sanitizeKeys(keys) {
   return keys.map((k) => {
     if (!(k instanceof utxolib.HDNode)) {

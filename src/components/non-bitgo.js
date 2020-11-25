@@ -9,7 +9,7 @@ import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-import { getRecoveryDebugInfo, recoverWithKeyPath } from '../utils';
+import { getRecoveryDebugInfo, isDev, recoverWithKeyPath } from '../utils';
 
 const { clipboard } = window.require('electron');
 
@@ -62,14 +62,29 @@ class NonBitGoRecoveryForm extends Component {
     ],
   };
 
-  copyDebugInfo() {
-    const { error, recoveryDebugInfo } = this.state;
+  async copyDebugInfo() {
+    const { error } = this.state;
+
+    let recoveryDebugInfo;
+
+    try {
+      recoveryDebugInfo = await getRecoveryDebugInfo(await this.getCoinObject(), this.getRecoveryParams());
+    } catch (e) {
+      console.error(`error gathering recovery debug info`, e);
+      recoveryDebugInfo = e;
+    }
+
     const errorInfo = {
       errorMessage: error && error.message,
       errorStack: error && error.stack,
       recoveryDebugInfo,
     };
+
     clipboard.writeText(JSON.stringify(errorInfo, null, 2));
+
+    if (isDev()) {
+      console.log('copied to clipboard:', errorInfo);
+    }
   }
 
   getCoinObject = () => {
@@ -199,26 +214,10 @@ class NonBitGoRecoveryForm extends Component {
       return;
     }
 
-    const recoveryParams = this.getRecoveryParams();
-
-    let recoveryDebugInfo;
-
     try {
-      recoveryDebugInfo = await getRecoveryDebugInfo(baseCoin, recoveryParams);
+      await this.performRecoveryWithParams(baseCoin, this.getRecoveryParams());
     } catch (e) {
-      recoveryDebugInfo = e;
-    }
-
-    try {
-      await this.performRecoveryWithParams(baseCoin, recoveryParams);
-    } catch (e) {
-      if (recoveryDebugInfo instanceof Error) {
-        console.error(recoveryDebugInfo);
-      } else {
-        console.log({ recoveryDebugInfo });
-      }
-      console.error(e);
-      this.setState({ error: e, recoveryDebugInfo, recovering: false });
+      this.setState({ error: e, recovering: false });
     }
   }
 
@@ -426,13 +425,6 @@ class NonBitGoRecoveryForm extends Component {
             />
           )}
           {this.state.error && <ErrorMessage>{this.state.error.message}</ErrorMessage>}
-          {this.state.error && (
-            <p>
-              <Button onClick={this.copyDebugInfo.bind(this)} className="bitgo-button">
-                Copy error info
-              </Button>
-            </p>
-          )}
           {this.state.done && (
             <p className="recovery-logging">
               Completed constructing recovery transaction. Saved recovery file: {this.state.finalFilename}
@@ -448,6 +440,10 @@ class NonBitGoRecoveryForm extends Component {
               Perform Another Recovery
             </Button>
           )}
+
+          <Button onClick={this.copyDebugInfo.bind(this)} className="bitgo-button other">
+            Copy Debug Information
+          </Button>
         </Form>
       </div>
     );
