@@ -6,11 +6,13 @@ import badgeLogo from 'images/badge_logo.png';
 class Header extends Component {
   state = { username: '' };
 
-  async componentWillMount() {
-    if (this.props.isLoggedIn) {
-      const { bitgo } = this.props;
+  constructor(props) {
+    super(props);
+
+    if (props.isLoggedIn) {
+      const { bitgo } = props;
       const { username } = bitgo.sessionInfo.user;
-      this.setState({ username });
+      this.state = { username };
     }
   }
 
