@@ -32,6 +32,8 @@ function getEmptyState() {
     done: false,
     error: '',
     krsProvider: undefined,
+    apiKey: '',
+    scan: 20,
   };
 }
 
