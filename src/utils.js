@@ -1,8 +1,7 @@
 import * as Errors from 'bitgo/dist/src/errors';
 
 import * as utxolib from '@bitgo/utxo-lib';
-
-import { AbstractUtxoCoin } from 'bitgo/dist/src/v2/coins';
+import coinConfig from './constants/coin-config';
 
 export function isDev() {
   return process.env.NODE_ENV === 'development';
@@ -10,19 +9,17 @@ export function isDev() {
 
 function sanitizeKeys(keys) {
   return keys.map((k) => {
-    if (!(k instanceof utxolib.HDNode)) {
+    if (k.constructor.name !== utxolib.HDNode.name) {
       throw new Error(`unexpected key`);
     }
-
     return k.neutered().toBase58();
   });
 }
 
 export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
-  if (!(baseCoin instanceof AbstractUtxoCoin)) {
-    // TODO support more coins
-    throw new Error('unsupported coin');
-  }
+   if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
+     return new Error('unsupported coin');
+   }
 
   return {
     // TODO include derive pubkeys
