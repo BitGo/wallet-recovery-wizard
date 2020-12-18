@@ -143,4 +143,5 @@ export default {
       prod: ['bch', 'btg', 'bsv'],
     },
   },
+  supportKeyDerivationForDebugging: ['btc', 'bch', 'ltc', 'dash', 'zec', 'btg', 'bsv', 'bcha'],
 };
