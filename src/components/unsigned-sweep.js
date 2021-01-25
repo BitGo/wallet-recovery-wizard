@@ -32,6 +32,8 @@ class UnsignedSweep extends Component {
     scan: 20,
     krsProvider: null,
     env: 'test',
+    gasPrice: 500000,
+    gasLimit: 20000000000,
   };
 
   displayedParams = {
@@ -43,7 +45,7 @@ class UnsignedSweep extends Component {
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey'],
+    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
     token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
@@ -170,6 +172,8 @@ class UnsignedSweep extends Component {
         'tokenAddress',
         'recoveryDestination',
         'scan',
+        'gasLimit',
+        'gasPrice',
       ].reduce((obj, param) => {
         if (this.state[param]) {
           const value = this.state[param];
@@ -179,6 +183,18 @@ class UnsignedSweep extends Component {
 
         return obj;
       }, {});
+
+      if (recoveryParams.gasLimit) {
+        if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+          throw new Error('Gas limit must be a positive integer');
+        }
+      }
+
+      if (recoveryParams.gasPrice) {
+        if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+          throw new Error('Gas price must be a positive integer');
+        }
+      }
 
       if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
@@ -412,6 +428,30 @@ class UnsignedSweep extends Component {
               value={this.state.scan}
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.scan}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.displayedParams[this.state.coin].includes('gasPrice') && (
+            <InputField
+              label="Gas Price (wei)"
+              name="gasPrice"
+              value={this.state.gasPrice}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.gasPrice}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.displayedParams[this.state.coin].includes('gasLimit') && (
+            <InputField
+              label="Gas Limit"
+              name="gasLimit"
+              value={this.state.gasLimit}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.gasLimit}
               disallowWhiteSpace={true}
               format="number"
             />
