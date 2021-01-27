@@ -49,7 +49,7 @@ class NonBitGoRecoveryForm extends Component {
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey'],
+    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
@@ -147,6 +147,8 @@ class NonBitGoRecoveryForm extends Component {
       'recoveryDestination',
       'scan',
       'krsProvider',
+      'gasLimit',
+      'gasPrice',
     ].reduce((obj, param) => {
       if (this.state[param]) {
         const value = this.state[param];
@@ -166,6 +168,18 @@ class NonBitGoRecoveryForm extends Component {
       recoveryParams.ignoreAddressTypes = ['p2wsh'];
     }
 
+    if (recoveryParams.gasLimit) {
+      if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+        throw new Error('Gas limit must be a positive integer');
+      }
+    }
+
+    if (recoveryParams.gasPrice) {
+      if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+        throw new Error('Gas price must be a positive integer');
+      }
+    }
+    
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
     const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
@@ -426,6 +440,32 @@ class NonBitGoRecoveryForm extends Component {
               placeholder="None"
             />
           )}
+
+
+          {this.requiredParams[this.state.coin].includes('gasLimit') && (
+            <InputField
+              label="Gas Limit"
+              name="gasLimit"
+              value={this.state.gasLimit}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.gasLimit}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.requiredParams[this.state.coin].includes('gasPrice') && (
+            <InputField
+              label="Gas Price (wei)"
+              name="gasPrice"
+              value={this.state.gasPrice}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.gasPrice}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
           {this.state.error && <ErrorMessage>{this.state.error.message}</ErrorMessage>}
           {this.state.done && (
             <p className="recovery-logging">
