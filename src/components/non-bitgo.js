@@ -34,6 +34,8 @@ function getEmptyState() {
     krsProvider: undefined,
     apiKey: '',
     scan: 20,
+    gasPrice: 20000000000,
+    gasLimit: 500000,
   };
 }
 
