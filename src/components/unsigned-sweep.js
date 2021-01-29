@@ -32,8 +32,8 @@ class UnsignedSweep extends Component {
     scan: 20,
     krsProvider: null,
     env: 'test',
-    gasPrice: 500000,
-    gasLimit: 20000000000,
+    gasPrice: 20000000000,
+    gasLimit: 500000,
   };
 
   displayedParams = {
