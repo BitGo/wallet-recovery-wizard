@@ -64,6 +64,7 @@ class NonBitGoRecoveryForm extends Component {
       'recoveryDestination',
       'apiKey',
     ],
+    eos: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
   };
 
   async copyDebugInfo() {
