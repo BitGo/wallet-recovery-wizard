@@ -185,7 +185,7 @@ class NonBitGoRecoveryForm extends Component {
     
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
-    const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx;
+    const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx || recovery.transaction;
 
     if (!recoveryTx) {
       throw new Error('Fully-signed recovery transaction not detected.');
@@ -212,10 +212,19 @@ class NonBitGoRecoveryForm extends Component {
     fs.writeFileSync(filePath.filePath, JSON.stringify(recovery, null, 4), 'utf8');
 
     this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
-    alert(
-      'We recommend that you use a third-party API to decode your txHex' +
-        'and verify its accuracy before broadcasting.'
-    );
+    if (this.state.coin === 'eos') {
+      const now = new Date();
+      const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
+      const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
+      alert(
+       `In seven hours, you will have an one-hour window to broadcast your EOS transaction: from ${sevenHoursFromNow} to ${eightHoursFromNow}.` + 
+        `For more information, please visit https://github.com/BitGo/wallet-recovery-wizard/blob/master/EOS.md.`);
+    } else {
+      alert(
+        'We recommend that you use a third-party API to decode your txHex' +
+          'and verify its accuracy before broadcasting.'
+      );
+    }
   }
 
   async performRecovery() {
