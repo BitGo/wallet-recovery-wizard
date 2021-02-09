@@ -10,6 +10,7 @@ import xrpIcon from 'images/XRP_icon.png';
 import dashIcon from 'images/DASH_icon.png';
 import xlmIcon from 'images/XLM_icon.png';
 import trxIcon from 'images/TRX_icon.png';
+import eosIcon from 'images/EOS_icon.png';
 
 export default {
   allCoins: {
@@ -127,16 +128,25 @@ export default {
         { label: 'Testnet (Tronex)', value: 'test' },
       ],
     },
+    eos: {
+      fullName: 'EOS',
+      supportedRecoveries: [],
+      icon: eosIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+        { label: 'Testnet', value: 'test' },
+      ],
+    },
   },
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
     nonBitGo: {
-      test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha'],
+      test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx', 'eos'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     unsignedSweep: {
-      test: ['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha'],
+      test: ['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'eos'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     migrated: {
       test: ['bch', 'bsv'],
