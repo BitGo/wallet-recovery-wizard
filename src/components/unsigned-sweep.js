@@ -32,7 +32,7 @@ class UnsignedSweep extends Component {
     scan: 20,
     krsProvider: null,
     env: 'test',
-    gasPrice: 20000000000,
+    gasPrice: 20,
     gasLimit: 500000,
   };
 
@@ -195,6 +195,7 @@ class UnsignedSweep extends Component {
         if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
           throw new Error('Gas price must be a positive integer');
         }
+        recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
       }
 
       if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
@@ -436,7 +437,7 @@ class UnsignedSweep extends Component {
 
           {this.displayedParams[this.state.coin].includes('gasPrice') && (
             <InputField
-              label="Gas Price (wei)"
+              label="Gas Price (Gwei)"
               name="gasPrice"
               value={this.state.gasPrice}
               onChange={this.updateRecoveryInfo}
