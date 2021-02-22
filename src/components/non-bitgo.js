@@ -34,7 +34,7 @@ function getEmptyState() {
     krsProvider: undefined,
     apiKey: '',
     scan: 20,
-    gasPrice: 20000000000,
+    gasPrice: 20,
     gasLimit: 500000,
   };
 }
@@ -184,7 +184,6 @@ class NonBitGoRecoveryForm extends Component {
       // convert the units back to wei, since that is the unit that backend uses
       recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
     }
-    
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
     const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx || recovery.transaction;
