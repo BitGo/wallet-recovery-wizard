@@ -34,7 +34,7 @@ function getEmptyState() {
     krsProvider: undefined,
     apiKey: '',
     scan: 20,
-    gasPrice: 20,
+    gasPrice: 20, // this is in gwei, and only a default value if users do not override
     gasLimit: 500000,
   };
 }

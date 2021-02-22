@@ -32,7 +32,7 @@ class UnsignedSweep extends Component {
     scan: 20,
     krsProvider: null,
     env: 'test',
-    gasPrice: 20,
+    gasPrice: 20, // this is in gwei, and only a default value if users do not override
     gasLimit: 500000,
   };
 
