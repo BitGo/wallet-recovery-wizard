@@ -34,7 +34,7 @@ function getEmptyState() {
     krsProvider: undefined,
     apiKey: '',
     scan: 20,
-    gasPrice: 20000000000,
+    gasPrice: 20, // this is in gwei, and only a default value if users do not override
     gasLimit: 500000,
   };
 }
@@ -181,8 +181,9 @@ class NonBitGoRecoveryForm extends Component {
       if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
         throw new Error('Gas price must be a positive integer');
       }
+      // convert the units back to wei, since that is the unit that backend uses
+      recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
     }
-    
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
     const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx || recovery.transaction;
@@ -331,17 +332,8 @@ class NonBitGoRecoveryForm extends Component {
           )}
 
           {this.requiredParams[this.state.coin].includes('backupKey') && [
-            this.state.krsProvider === null ? (
-              <InputTextarea
-                label="Box B Value"
-                name="backupKey"
-                value={this.state.backupKey}
-                onChange={this.updateRecoveryInfo}
-                tooltipText={formTooltips.backupPrivateKey}
-                disallowWhiteSpace={true}
-                format="json"
-              />
-            ) : (
+            this.state.krsProvider ?
+            (
               <InputField
                 label="Box B Value"
                 name="backupKey"
@@ -352,7 +344,18 @@ class NonBitGoRecoveryForm extends Component {
                 format="pub"
                 coin={this.getCoinObject()}
               />
-            ),
+            )
+            : (
+              <InputTextarea
+                label="Box B Value"
+                name="backupKey"
+                value={this.state.backupKey}
+                onChange={this.updateRecoveryInfo}
+                tooltipText={formTooltips.backupPrivateKey}
+                disallowWhiteSpace={true}
+                format="json"
+              />
+            )
           ]}
 
           {this.requiredParams[this.state.coin].includes('bitgoKey') && (
@@ -468,7 +471,7 @@ class NonBitGoRecoveryForm extends Component {
 
           {this.requiredParams[this.state.coin].includes('gasPrice') && (
             <InputField
-              label="Gas Price (wei)"
+              label="Gas Price (Gwei)"
               name="gasPrice"
               value={this.state.gasPrice}
               onChange={this.updateRecoveryInfo}
