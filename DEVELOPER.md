@@ -3,11 +3,11 @@
 
 1) Build or Release Platform: MacOS 10.12 or higher
 
-2) Node Version: 10.17.0 or higher
+2) Node Version: 14.0.0 or higher
 ```bash
 node --version; npm --version
-v10.17.0
-6.11.3
+v14.16.0
+6.14.11
 ```
 
 3) Docker - https://docs.docker.com/get-docker/
