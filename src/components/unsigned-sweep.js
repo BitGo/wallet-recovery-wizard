@@ -4,7 +4,7 @@ import { InputField, CoinDropdown } from './form-components';
 import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
-import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
+import * as BitGoJS from 'bitgo';
 import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';

@@ -52,7 +52,7 @@ module.exports = {
       // We include the app code last so that if there is a runtime error during
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
-    ]
+    ],
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
@@ -141,13 +141,17 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: [paths.appSrc, `${paths.appNodeModules}/@hashgraph`],
             loader: require.resolve('babel-loader'),
             options: {
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
+              presets: [
+                '@babel/react',
+                '@babel/preset-env',
+              ],
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.

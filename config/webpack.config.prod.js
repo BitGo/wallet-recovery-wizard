@@ -146,11 +146,14 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
+            include: [paths.appSrc, `${paths.appNodeModules}/@hashgraph`],
             loader: require.resolve('babel-loader'),
             options: {
-
               compact: true,
+              presets: [
+                '@babel/react',
+                '@babel/preset-env',
+              ],
             },
           },
           // The notation here is somewhat confusing.

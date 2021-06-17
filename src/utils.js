@@ -17,9 +17,9 @@ function sanitizeKeys(keys) {
 }
 
 export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
-   if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
-     return new Error('unsupported coin');
-   }
+  if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
+    return new Error('unsupported coin');
+  }
 
   return {
     // TODO include derive pubkeys
