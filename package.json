@@ -14,12 +14,13 @@
     "pack": "npm run build && ./node_modules/.bin/electron-builder --dir",
     "lint": "eslint --ext .js src",
     "check-fmt": "prettier --check .",
-    "apply-fmt": "prettier --write ."
+    "apply-fmt": "prettier --write .",
+    "postinstall": "./node_modules/.bin/electron-builder install-app-deps"
   },
   "dependencies": {
     "autoprefixer": "8.6.5",
     "bignumber.js": "^9.0.0",
-    "bitgo": "^11.10.0-rc.5",
+    "bitgo": "^11.16.0",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
@@ -58,7 +59,8 @@
     "concurrently": "3.6.1",
     "css-loader": "1.0.1",
     "electron": "9.2.1",
-    "electron-builder": "^22.5.1",
+    "electron-builder": "^22.11.7",
+    "esbuild-loader": "^2.13.1",
     "eslint": "4.10.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-config-react-app": "2.1.0",

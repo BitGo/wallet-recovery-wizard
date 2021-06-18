@@ -26,6 +26,7 @@ const env = getClientEnvironment(publicUrl);
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
 module.exports = {
+  target: 'electron',
   // You may want 'eval' instead if you prefer to see the compiled output in DevTools.
   // See the discussion in https://github.com/facebookincubator/create-react-app/issues/343.
   devtool: 'cheap-module-source-map',
@@ -52,7 +53,7 @@ module.exports = {
       // We include the app code last so that if there is a runtime error during
       // initialization, it doesn't blow up the WebpackDevServer client, and
       // changing JS code would still trigger a refresh.
-    ]
+    ],
   },
   output: {
     // Add /* filename */ comments to generated require()s in the output.
@@ -138,16 +139,15 @@ module.exports = {
               name: 'images/[name].[ext]',
             },
           },
-          // Process JS with Babel.
+          // Process JS with Esbuild.
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
+            loader: require.resolve('esbuild-loader'),
             options: {
-              // This is a feature of `babel-loader` for webpack (not Babel itself).
-              // It enables caching results in ./node_modules/.cache/babel-loader/
-              // directory for faster rebuilds.
-              cacheDirectory: true,
+              minify: false,
+              loader: 'jsx',
+              target: 'es2015',
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.
@@ -186,6 +186,17 @@ module.exports = {
                 },
               },
             ],
+          },
+          // Process any JS outside of the app with esbuild.
+          // Unlike the application JS, we only compile the standard ES features.
+          // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L474
+          {
+            test: /\.(js|mjs)$/,
+            loader: require.resolve('esbuild-loader'),
+            options: {
+              minify: false,
+              target: 'es2015',
+            },
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.

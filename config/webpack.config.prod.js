@@ -42,20 +42,21 @@ const cssFilename = '[name].css';
 // To have this structure working with relative paths, we have to use custom options.
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
   ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
+  { publicPath: Array(cssFilename.split('/').length).join('../') }
   : {};
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
 // The development configuration is different and lives in a separate file.
 module.exports = {
+  target: 'electron',
   // Don't attempt to continue if there are any errors.
   bail: true,
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   entry: {
-    main: [require.resolve('./polyfills'), paths.appIndexJs]
+    main: [require.resolve('./polyfills'), paths.appIndexJs],
   },
   output: {
     // The build folder.
@@ -143,14 +144,15 @@ module.exports = {
               name: 'images/[name].[ext]',
             },
           },
-          // Process JS with Babel.
+          // Process JS with Esbuild.
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
+            loader: require.resolve('esbuild-loader'),
             options: {
-
-              compact: true,
+              minify: true,
+              loader: 'jsx',
+              target: 'es2015',
             },
           },
           // The notation here is somewhat confusing.
@@ -211,6 +213,17 @@ module.exports = {
               )
             ),
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          // Process any JS outside of the app with esbuild.
+          // Unlike the application JS, we only compile the standard ES features.
+          // https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/config/webpack.config.js#L474
+          {
+            test: /\.(js|mjs)$/,
+            loader: require.resolve('esbuild-loader'),
+            options: {
+              minify: false,
+              target: 'es2015',
+            },
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
