@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import Select from 'react-select';
 import classNames from 'classnames';
-import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
+import * as BitGoJS from 'bitgo';
 
 import ErrorMessage from '@src/components/error-message';
 import tooltips from '@src/constants/tooltips';

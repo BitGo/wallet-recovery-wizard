@@ -3,10 +3,10 @@
 
 1) Build or Release Platform: MacOS 10.12 or higher
 
-2) Node Version: 10.17.0 or higher
+2) Node Version: 14.15.3 or higher
 ```bash
 node --version; npm --version
-v10.17.0
+v14.15.3
 6.11.3
 ```
 

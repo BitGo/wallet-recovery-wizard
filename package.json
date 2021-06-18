@@ -49,6 +49,8 @@
     "whatwg-fetch": "2.0.4"
   },
   "devDependencies": {
+    "bitgo": "^11.16.0",
+    "lodash": "^4.17.15",
     "@babel/core": "7.12.3",
     "@pmmmwh/react-refresh-webpack-plugin": "0.4.3",
     "@svgr/webpack": "5.5.0",
@@ -214,7 +216,7 @@
     ]
   },
   "engines": {
-    "node": ">=10.17.0",
+    "node": ">=14.15.3",
     "npm": ">=6.11.3"
   }
 }

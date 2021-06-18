@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
 import '@src/App.css';
 
-const { BitGo } = window.require('bitgo');
+import { BitGo } from 'bitgo';
 
 function getBitgoInstanceFromEnv() {
   const env = process.env['REACT_APP_BITGO_ENV'];
