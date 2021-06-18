@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import userImage from 'images/User.png';
-import badgeLogo from 'images/badge_logo.png';
+import userImage from '@src/images/User.png';
+import badgeLogo from '@src/images/badge_logo.png';
 
 class Header extends Component {
   state = { username: '' };

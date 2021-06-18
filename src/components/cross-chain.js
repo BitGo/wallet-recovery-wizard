@@ -1,13 +1,13 @@
 import React, { Component, Fragment } from 'react';
 
-import { CoinDropdown, InputField, MultiInputField } from './form-components';
+import { CoinDropdown, InputField, MultiInputField } from '@src/components/form-components';
 
-import ErrorMessage from './error-message';
+import ErrorMessage from '@src/components/error-message';
 
 import { Form, Row, Col, Label, Input, Button } from 'reactstrap';
 
-import tooltips from 'constants/tooltips';
-import coinConfig from 'constants/coin-config';
+import tooltips from '@src/constants/tooltips';
+import coinConfig from '@src/constants/coin-config';
 
 import moment from 'moment';
 import jszip from 'jszip';

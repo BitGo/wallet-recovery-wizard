@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 
-import nav from 'constants/nav';
+import nav from '@src/constants/nav';
 
 const MainNav = ({ isLoggedIn }) => {
   const isDisabled = (section) => section.needsLogin && !isLoggedIn;

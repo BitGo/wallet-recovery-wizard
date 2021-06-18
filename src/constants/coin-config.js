@@ -1,16 +1,16 @@
-import bchIcon from 'images/BCH_icon.png';
-import bchaIcon from 'images/BCHA_icon.png';
-import btcIcon from 'images/BTC_icon.png';
-import bsvIcon from 'images/BSV_icon.png';
-import ltcIcon from 'images/LTC_icon.png';
-import zecIcon from 'images/ZEC_icon.png';
-import ethIcon from 'images/ETH_icon.png';
-import btgIcon from 'images/BTG_icon.png';
-import xrpIcon from 'images/XRP_icon.png';
-import dashIcon from 'images/DASH_icon.png';
-import xlmIcon from 'images/XLM_icon.png';
-import trxIcon from 'images/TRX_icon.png';
-import eosIcon from 'images/EOS_icon.png';
+import bchIcon from '@src/images/BCH_icon.png';
+import bchaIcon from '@src/images/BCHA_icon.png';
+import btcIcon from '@src/images/BTC_icon.png';
+import bsvIcon from '@src/images/BSV_icon.png';
+import ltcIcon from '@src/images/LTC_icon.png';
+import zecIcon from '@src/images/ZEC_icon.png';
+import ethIcon from '@src/images/ETH_icon.png';
+import btgIcon from '@src/images/BTG_icon.png';
+import xrpIcon from '@src/images/XRP_icon.png';
+import dashIcon from '@src/images/DASH_icon.png';
+import xlmIcon from '@src/images/XLM_icon.png';
+import trxIcon from '@src/images/TRX_icon.png';
+import eosIcon from '@src/images/EOS_icon.png';
 
 export default {
   allCoins: {

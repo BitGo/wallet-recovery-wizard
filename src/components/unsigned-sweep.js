@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { InputField, CoinDropdown } from './form-components';
+import { InputField, CoinDropdown } from '@src/components/form-components';
 import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
 import classNames from 'classnames';
-import ErrorMessage from './error-message';
+import ErrorMessage from '@src/components/error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 import * as Errors from 'bitgo/dist/src/errors';
 
-import tooltips from 'constants/tooltips';
-import coinConfig from 'constants/coin-config';
-import { recoverWithKeyPath } from '../utils';
+import tooltips from '@src/constants/tooltips';
+import coinConfig from '@src/constants/coin-config';
+import { recoverWithKeyPath } from '@src/utils';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -45,7 +45,17 @@ class UnsignedSweep extends Component {
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
+    eth: [
+      'userKey',
+      'userKeyID',
+      'backupKey',
+      'backupKeyID',
+      'walletContractAddress',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'gasPrice',
+    ],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
     token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
@@ -186,16 +196,16 @@ class UnsignedSweep extends Component {
       }, {});
 
       if (recoveryParams.gasLimit) {
-        if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+        if (recoveryParams.gasLimit <= 0 || recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10)) {
           throw new Error('Gas limit must be a positive integer');
         }
       }
 
       if (recoveryParams.gasPrice) {
-        if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+        if (recoveryParams.gasPrice <= 0 || recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10)) {
           throw new Error('Gas price must be a positive integer');
         }
-        recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
+        recoveryParams.gasPrice = recoveryParams.gasPrice * 10 ** 9;
       }
 
       if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {

@@ -1,7 +1,7 @@
 import * as Errors from 'bitgo/dist/src/errors';
 
 import * as utxolib from '@bitgo/utxo-lib';
-import coinConfig from './constants/coin-config';
+import coinConfig from '@src/constants/coin-config';
 
 export function isDev() {
   return process.env.NODE_ENV === 'development';
@@ -17,9 +17,9 @@ function sanitizeKeys(keys) {
 }
 
 export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
-   if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
-     return new Error('unsupported coin');
-   }
+  if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
+    return new Error('unsupported coin');
+  }
 
   return {
     // TODO include derive pubkeys

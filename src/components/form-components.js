@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import coinConfig from '../constants/coin-config';
+import coinConfig from '@src/constants/coin-config';
 
 import Select from 'react-select';
 
@@ -14,7 +14,7 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 
-import questionMarkIcon from 'images/question_mark.png';
+import questionMarkIcon from '@src/images/question_mark.png';
 
 const XPUB_LENGTH = 111; // string length of a base58-encoded xpub
 

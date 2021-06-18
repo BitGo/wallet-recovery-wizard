@@ -13,14 +13,13 @@
       "jsx": true
     }
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier", "prettier/react"],
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
   "settings": {
     "react": {
       "version": "detect"
     }
   },
   "rules": {
-    "no-console": "off",
     "react/prop-types": "off",
     "indent": ["warn", 2],
     "linebreak-style": ["error", "unix"],
@@ -73,6 +72,12 @@
     "space-before-function-paren": ["error", { "named": "never", "anonymous": "never", "asyncArrow": "always" }],
     "no-mixed-spaces-and-tabs": "error",
     "no-dupe-keys": "error",
-    "no-redeclare": ["error", { "builtinGlobals": true }]
+    "no-redeclare": ["error", { "builtinGlobals": true }],
+    "no-async-promise-executor": "error",
+    "no-dupe-else-if": "warn",
+    "no-import-assign": "error",
+    "no-misleading-character-class": "error",
+    "no-setter-return": "error",
+    "no-useless-catch": "error"
   }
 }

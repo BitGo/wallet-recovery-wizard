@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import Select from 'react-select';
-import { CoinDropdown, FieldTooltip, InputField, InputTextarea } from './form-components';
+import { CoinDropdown, FieldTooltip, InputField, InputTextarea } from '@src/components/form-components';
 import { Alert, Button, Col, Form, FormGroup, Label, Row } from 'reactstrap';
 import classNames from 'classnames';
-import ErrorMessage from './error-message';
+import ErrorMessage from '@src/components/error-message';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
 
-import tooltips from 'constants/tooltips';
-import coinConfig from 'constants/coin-config';
-import krsProviders from 'constants/krs-providers';
+import tooltips from '@src/constants/tooltips';
+import coinConfig from '@src/constants/coin-config';
+import krsProviders from '@src/constants/krs-providers';
 import { getRecoveryDebugInfo, isDev, recoverWithKeyPath } from '../utils';
 
 const { clipboard } = window.require('electron');
@@ -51,7 +51,16 @@ class NonBitGoRecoveryForm extends Component {
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
+    eth: [
+      'userKey',
+      'backupKey',
+      'walletContractAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'gasPrice',
+    ],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
@@ -172,17 +181,17 @@ class NonBitGoRecoveryForm extends Component {
     }
 
     if (recoveryParams.gasLimit) {
-      if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+      if (recoveryParams.gasLimit <= 0 || recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10)) {
         throw new Error('Gas limit must be a positive integer');
       }
     }
 
     if (recoveryParams.gasPrice) {
-      if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+      if (recoveryParams.gasPrice <= 0 || recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10)) {
         throw new Error('Gas price must be a positive integer');
       }
       // convert the units back to wei, since that is the unit that backend uses
-      recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
+      recoveryParams.gasPrice = recoveryParams.gasPrice * 10 ** 9;
     }
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
@@ -215,11 +224,18 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
     if (this.state.coin === 'eos') {
       const now = new Date();
-      const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
-      const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
+      const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString({
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString({
+        hour: '2-digit',
+        minute: '2-digit',
+      });
       alert(
-       `In seven hours, you will have an one-hour window to broadcast your EOS transaction: from ${sevenHoursFromNow} to ${eightHoursFromNow}.` + 
-        `For more information, please visit https://github.com/BitGo/wallet-recovery-wizard/blob/master/EOS.md.`);
+        `In seven hours, you will have an one-hour window to broadcast your EOS transaction: from ${sevenHoursFromNow} to ${eightHoursFromNow}.` +
+          `For more information, please visit https://github.com/BitGo/wallet-recovery-wizard/blob/master/EOS.md.`
+      );
     } else {
       alert(
         'We recommend that you use a third-party API to decode your txHex' +
@@ -332,8 +348,7 @@ class NonBitGoRecoveryForm extends Component {
           )}
 
           {this.requiredParams[this.state.coin].includes('backupKey') && [
-            this.state.krsProvider ?
-            (
+            this.state.krsProvider ? (
               <InputField
                 label="Box B Value"
                 name="backupKey"
@@ -344,8 +359,7 @@ class NonBitGoRecoveryForm extends Component {
                 format="pub"
                 coin={this.getCoinObject()}
               />
-            )
-            : (
+            ) : (
               <InputTextarea
                 label="Box B Value"
                 name="backupKey"
@@ -355,7 +369,7 @@ class NonBitGoRecoveryForm extends Component {
                 disallowWhiteSpace={true}
                 format="json"
               />
-            )
+            ),
           ]}
 
           {this.requiredParams[this.state.coin].includes('bitgoKey') && (
@@ -455,7 +469,6 @@ class NonBitGoRecoveryForm extends Component {
               placeholder="None"
             />
           )}
-
 
           {this.requiredParams[this.state.coin].includes('gasLimit') && (
             <InputField

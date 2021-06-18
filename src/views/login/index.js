@@ -1,10 +1,12 @@
 import React, { Component, Fragment } from 'react';
-import ErrorMessage from 'components/error-message';
-import HeaderLogo from 'images/header_logo.png';
 import Select from 'react-select';
 import classNames from 'classnames';
 import * as BitGoJS from 'bitgo/dist/browser/BitGoJS.min';
-import tooltips from '../../constants/tooltips';
+
+import ErrorMessage from '@src/components/error-message';
+import tooltips from '@src/constants/tooltips';
+
+import HeaderLogo from '@src/images/header_logo.png';
 class Login extends Component {
   state = { username: '', password: '', otp: '', env: '' };
 

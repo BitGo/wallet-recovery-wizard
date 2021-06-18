@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { CoinDropdown, InputField } from './form-components';
+import { CoinDropdown, InputField } from '@src/components/form-components';
 import { Form, Button, Row, Col, Alert } from 'reactstrap';
 import { address, HDNode, Transaction, TransactionBuilder } from 'bitgo-utxo-lib';
 
 import * as _ from 'lodash';
 
-import ErrorMessage from './error-message';
+import ErrorMessage from '@src/components/error-message';
 
-import tooltips from '../constants/tooltips';
-import coinConfig from 'constants/coin-config';
+import tooltips from '@src/constants/tooltips';
+import coinConfig from '@src/constants/coin-config';
 
 const formTooltips = tooltips.migratedLegacy;
 

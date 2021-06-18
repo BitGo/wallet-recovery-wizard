@@ -1,8 +1,8 @@
-import CrossChainRecoveryForm from 'components/cross-chain';
-import NonBitGoRecoveryForm from 'components/non-bitgo';
-import UnsupportedTokenRecoveryForm from 'components/unsupported-token';
-import MigratedRecoveryForm from 'components/migrated-legacy';
-import UnsignedSweep from 'components/unsigned-sweep';
+import CrossChainRecoveryForm from '@src/components/cross-chain';
+import NonBitGoRecoveryForm from '@src/components/non-bitgo';
+import UnsupportedTokenRecoveryForm from '@src/components/unsupported-token';
+import MigratedRecoveryForm from '@src/components/migrated-legacy';
+import UnsignedSweep from '@src/components/unsigned-sweep';
 
 export default {
   main: [

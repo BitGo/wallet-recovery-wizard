@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 
-import Dashboard from 'views/dashboard';
-import Login from 'views/login';
+import Dashboard from '@src/views/dashboard';
+import Login from '@src/views/login';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'react-select/dist/react-select.css';
-import './App.css';
+import '@src/App.css';
 
 const { BitGo } = window.require('bitgo');
 

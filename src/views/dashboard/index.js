@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import Sidebar from 'components/sidebar';
-import Header from 'components/header';
-import MainNav from 'components/main-nav';
-import nav from 'constants/nav';
+import Sidebar from '@src/components/sidebar';
+import Header from '@src/components/header';
+import MainNav from '@src/components/main-nav';
+import nav from '@src/constants/nav';
 
 class Dashboard extends Component {
   _getRoute = ({ url, NavComponent, needsLogin }) => {

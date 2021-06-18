@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { InputField } from './form-components';
+import { InputField } from '@src/components/form-components';
 import { Form, Button, Row, Col, Alert } from 'reactstrap';
 
-import ErrorMessage from './error-message';
+import ErrorMessage from '@src/components/error-message';
 
-import tooltips from 'constants/tooltips';
+import tooltips from '@src/constants/tooltips';
 
 import moment from 'moment';
 

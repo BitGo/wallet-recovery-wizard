@@ -1,4 +1,4 @@
-import coinConfig from './coin-config';
+import coinConfig from '@src/constants/coin-config';
 export default {
   crossChain: {
     sourceCoin: () =>
@@ -49,8 +49,10 @@ export default {
         return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
       }
     },
-    gasPrice: 'Gas price for the ETH transaction. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei',
-    gasLimit: 'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
+    gasPrice:
+      'Gas price for the ETH transaction. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei',
+    gasLimit:
+      'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
     tokenAddress:
       'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
     krsProvider:
@@ -85,8 +87,10 @@ export default {
         return 'An Api-Key Token required to fetch information from the external service and perform recoveries';
       }
     },
-    gasPrice: 'Gas price for the ETH transaction. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei',
-    gasLimit: 'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
+    gasPrice:
+      'Gas price for the ETH transaction. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei',
+    gasLimit:
+      'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
   },
   errorMessages: {
     auth:

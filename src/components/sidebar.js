@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import classNames from 'classnames';
-import nav from 'constants/nav';
+import nav from '@src/constants/nav';
 
 // give sidebar the router so we can know which route to highlight
 const Sidebar = withRouter(({ isLoggedIn, location }) => {
