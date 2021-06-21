@@ -141,6 +141,7 @@ module.exports = {
           // Process JS with Babel.
           {
             test: /\.(js|jsx|mjs)$/,
+            // ensure that node package @hashgraph gets transpiled as well by babel
             include: [paths.appSrc, `${paths.appNodeModules}/@hashgraph`],
             loader: require.resolve('babel-loader'),
             options: {
@@ -148,6 +149,8 @@ module.exports = {
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
+              // presets to be used when transpiling .js files. In particular, preset-env allows transpiling
+              // ES2019 syntax that browser JS cannot parse.
               presets: [
                 '@babel/react',
                 '@babel/preset-env',
