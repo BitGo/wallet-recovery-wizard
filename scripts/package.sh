@@ -19,5 +19,5 @@ docker run --rm -ti \
  -v "${PWD##*/}"-node-modules:/project/node_modules \
  -v ~/.cache/electron:/root/.cache/electron \
  -v ~/.cache/electron-builder:/root/.cache/electron-builder \
- electronuserland/builder:wine-05.18 \
+ electronuserland/builder:wine@sha256:b44981dcdc60192ba3f898042fc2a21f2bd7bb626dc66382e7dcdb2e3add38af \
  /bin/bash -c "npm install && ./node_modules/.bin/electron-builder -wl"
