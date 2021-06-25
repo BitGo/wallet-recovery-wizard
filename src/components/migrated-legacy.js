@@ -112,8 +112,9 @@ class MigratedRecoveryForm extends Component {
     try {
       signingKeychain = await v1Wallet.getAndPrepareSigningKeychain({ walletPassphrase: passphrase });
     } catch (err) {
+      console.error(`error while getting or decrypting signing keychain: ${err.message}`);
       throw Error(
-        'Failed to get signing keychain. Only the original owner of the v1 btc wallet can perform this recovery'
+        `Failed to get signing keychain (${err.message}). Only the original owner of the v1 btc wallet can perform this recovery`
       );
     }
 
