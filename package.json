@@ -50,7 +50,7 @@
     "whatwg-fetch": "2.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
+    "@babel/core": "^7.14.6",
     "@babel/plugin-transform-runtime": "^7.14.5",
     "@babel/preset-env": "^7.0.0",
     "@babel/preset-react": "^7.14.5",
@@ -58,7 +58,7 @@
     "asar": "0.14.6",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.4.2",
-    "babel-loader": "^8.0.0",
+    "babel-loader": "^8.2.2",
     "babel-preset-react-app": "3.1.2",
     "concurrently": "3.6.1",
     "css-loader": "1.0.1",
@@ -72,12 +72,13 @@
     "eslint-plugin-import": "2.8.0",
     "eslint-plugin-jsx-a11y": "6.2.1",
     "eslint-plugin-react": "7.4.0",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "fs-extra": "6.0.1",
     "html-webpack-plugin": "3.2.0",
     "jest": "^24.8.0",
+    "mini-css-extract-plugin": "^1.6.2",
     "prettier": "2.1.2",
     "react-dev-utils": "^6.0.0-next",
+    "terser-webpack-plugin": "^4.2.3",
     "webpack": "4.46.0",
     "webpack-dev-server": "2.11.3",
     "webpack-manifest-plugin": "2.0.4"
