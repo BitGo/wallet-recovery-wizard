@@ -193,7 +193,7 @@ module.exports = {
           {
             test: /\.(js|jsx|mjs)$/,
             loader: require.resolve('babel-loader'),
-            exclude: [path.resolve(__dirname, '../node_modules/')],
+            exclude: [path.resolve(__dirname, '../node_modules')],
             options: {
               compact: true,
               // presets to be used when transpiling .js files. In particular, preset-env allows transpiling
