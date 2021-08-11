@@ -50,7 +50,7 @@ class UnsignedSweep extends Component {
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
     token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
     trx: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eos: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
+    eos: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
   };
 
   getCoinObject = () => {
