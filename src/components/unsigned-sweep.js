@@ -48,7 +48,7 @@ class UnsignedSweep extends Component {
     eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
-    token: ['userKey', 'backupKey', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
+    token: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
     trx: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     eos: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
   };
