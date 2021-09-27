@@ -9,6 +9,7 @@ If you found that these URLs are no longer valid, you can likely find newly host
 
 
 1) Find a fullnode URL. Below are a few known 3-party API endpoints for your reference:
+   
     Testnet Endpoints: https://monitor.jungletestnet.io/#apiendpoints
     
     Mainnet Endpoints: https://eos-api-list.herokuapp.com
@@ -17,8 +18,14 @@ If you found that these URLs are no longer valid, you can likely find newly host
 
     EOS Nation Endpoints: https://validate.eosnation.io/eos/reports/endpoints.html
 
+2) Ensure that your account is powered up to broadcast transaction on the network. Refer this link to know more about EOS Power Up Model.
+   https://eos.io/eos-public-blockchain/powerup-model/
 
-2) Construct your API request to the full node:
+   Testnet Endpoint: https://monitor.jungletestnet.io/#powerup
+
+   Mainnet Endpoint: https://bloks.io/wallet/powerup
+
+3) Construct your API request to the full node:
       
     API Endpoint: /v1/chain/push_transaction
 
