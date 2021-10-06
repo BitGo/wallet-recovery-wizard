@@ -61,3 +61,14 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
   // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);}
   throw new Errors.ErrorNoInputToRecover();
 }
+
+const GWEI = 10 ** 9;
+
+/**
+ * Convert Gas in Gwei unit to wei.
+ * @param {number} gas in Gwei
+ * @returns {number} converted to wei gas
+ */
+export function toWei(gas) {
+  return gas * GWEI;
+}
