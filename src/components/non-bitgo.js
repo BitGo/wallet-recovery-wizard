@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { CoinDropdown, FieldTooltip, InputField, InputTextarea } from './form-components';
 import { Alert, Button, Col, Form, FormGroup, Label, Row } from 'reactstrap';
+import { Chain, Hardfork } from '@ethereumjs/common';
+import { omit } from 'lodash';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo';
@@ -9,7 +11,7 @@ import * as BitGoJS from 'bitgo';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-import { getRecoveryDebugInfo, isDev, recoverWithKeyPath } from '../utils';
+import { getRecoveryDebugInfo, isDev, recoverWithKeyPath, toWei } from '../utils';
 
 const { clipboard } = window.require('electron');
 
@@ -17,7 +19,7 @@ const formTooltips = tooltips.recovery;
 const { dialog } = window.require('electron').remote;
 const fs = window.require('fs');
 
-function getEmptyState() {
+const getEmptyState = () => {
   return {
     userKey: '',
     backupKey: '',
@@ -34,10 +36,13 @@ function getEmptyState() {
     krsProvider: undefined,
     apiKey: '',
     scan: 20,
-    gasPrice: 20, // this is in gwei, and only a default value if users do not override
     gasLimit: 500000,
+    // Below values is in gwei, and only a default value if users do not override
+    gasPrice: 20,
+    maxFeePerGas: 20,
+    maxPriorityFeePerGas: 10,
   };
-}
+};
 
 class NonBitGoRecoveryForm extends Component {
   state = getEmptyState();
@@ -51,7 +56,17 @@ class NonBitGoRecoveryForm extends Component {
     btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'backupKey', 'walletContractAddress', 'walletPassphrase', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
+    eth: [
+      'userKey',
+      'backupKey',
+      'walletContractAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
+    ],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
@@ -152,6 +167,8 @@ class NonBitGoRecoveryForm extends Component {
       'krsProvider',
       'gasLimit',
       'gasPrice',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
     ].reduce((obj, param) => {
       if (this.state[param]) {
         const value = this.state[param];
@@ -172,17 +189,30 @@ class NonBitGoRecoveryForm extends Component {
     }
 
     if (recoveryParams.gasLimit) {
-      if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+      if (recoveryParams.gasLimit <= 0 || recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10)) {
         throw new Error('Gas limit must be a positive integer');
       }
     }
 
-    if (recoveryParams.gasPrice) {
-      if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+    if (this.state.coin === 'eth') {
+      recoveryParams = {
+        ...recoveryParams,
+        eip1559: {
+          maxFeePerGas: toWei(recoveryParams.maxFeePerGas),
+          maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
+        },
+        replayProtectionOptions: {
+          chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Kovan,
+          hardfork: Hardfork.London,
+        },
+      };
+      recoveryParams = omit(recoveryParams, ['gasPrice', 'maxFeePerGas', 'maxPriorityFeePerGas']);
+    } else if (recoveryParams.gasPrice) {
+      if (recoveryParams.gasPrice <= 0 || recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10)) {
         throw new Error('Gas price must be a positive integer');
       }
-      // convert the units back to wei, since that is the unit that backend uses
-      recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
+      // Convert the units back to wei, since that is the unit that backend uses.
+      recoveryParams.gasPrice = toWei(recoveryParams.gasPrice);
     }
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
@@ -215,11 +245,18 @@ class NonBitGoRecoveryForm extends Component {
     this.setState({ recovering: false, done: true, finalFilename: [filePath.filePath] });
     if (this.state.coin === 'eos') {
       const now = new Date();
-      const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
-      const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString({ hour: '2-digit', minute: '2-digit' });
+      const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString({
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString({
+        hour: '2-digit',
+        minute: '2-digit',
+      });
       alert(
-       `In seven hours, you will have an one-hour window to broadcast your EOS transaction: from ${sevenHoursFromNow} to ${eightHoursFromNow}.` + 
-        `For more information, please visit https://github.com/BitGo/wallet-recovery-wizard/blob/master/EOS.md.`);
+        `In seven hours, you will have an one-hour window to broadcast your EOS transaction: from ${sevenHoursFromNow} to ${eightHoursFromNow}.` +
+          `For more information, please visit https://github.com/BitGo/wallet-recovery-wizard/blob/master/EOS.md.`
+      );
     } else {
       alert(
         'We recommend that you use a third-party API to decode your txHex' +
@@ -331,32 +368,28 @@ class NonBitGoRecoveryForm extends Component {
             />
           )}
 
-          {this.requiredParams[this.state.coin].includes('backupKey') && [
-            this.state.krsProvider ?
-            (
-              <InputField
-                label="Box B Value"
-                name="backupKey"
-                value={this.state.backupKey}
-                onChange={this.updateRecoveryInfo}
-                tooltipText={formTooltips.backupPublicKey}
-                disallowWhiteSpace={true}
-                format="pub"
-                coin={this.getCoinObject()}
-              />
-            )
-            : (
-              <InputTextarea
-                label="Box B Value"
-                name="backupKey"
-                value={this.state.backupKey}
-                onChange={this.updateRecoveryInfo}
-                tooltipText={formTooltips.backupPrivateKey}
-                disallowWhiteSpace={true}
-                format="json"
-              />
-            )
-          ]}
+          {this.requiredParams[this.state.coin].includes('backupKey') && this.state.krsProvider ? (
+            <InputField
+              label="Box B Value"
+              name="backupKey"
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupPublicKey}
+              disallowWhiteSpace={true}
+              format="pub"
+              coin={this.getCoinObject()}
+            />
+          ) : (
+            <InputTextarea
+              label="Box B Value"
+              name="backupKey"
+              value={this.state.backupKey}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.backupPrivateKey}
+              disallowWhiteSpace={true}
+              format="json"
+            />
+          )}
 
           {this.requiredParams[this.state.coin].includes('bitgoKey') && (
             <InputField
@@ -449,13 +482,13 @@ class NonBitGoRecoveryForm extends Component {
             <InputField
               label="API Key"
               name="apiKey"
+              value={this.state.apiKey}
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.apiKey(this.state.coin)}
               disallowWhiteSpace={true}
               placeholder="None"
             />
           )}
-
 
           {this.requiredParams[this.state.coin].includes('gasLimit') && (
             <InputField
@@ -476,6 +509,30 @@ class NonBitGoRecoveryForm extends Component {
               value={this.state.gasPrice}
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.gasPrice}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.requiredParams[this.state.coin].includes('maxFeePerGas') && (
+            <InputField
+              label="Max Fee Per Gas (Gwei)"
+              name="maxFeePerGas"
+              value={this.state.maxFeePerGas}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.maxFeePerGas}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.requiredParams[this.state.coin].includes('maxPriorityFeePerGas') && (
+            <InputField
+              label="Max Priority Fee Per Gas (Gwei)"
+              name="maxPriorityFeePerGas"
+              value={this.state.maxPriorityFeePerGas}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.maxPriorityFeePerGas}
               disallowWhiteSpace={true}
               format="number"
             />

@@ -19,7 +19,7 @@
   "dependencies": {
     "autoprefixer": "8.6.5",
     "bignumber.js": "^9.0.0",
-    "bitgo": "^12.1.0-rc.11",
+    "bitgo": "13.0.2-rc.1",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",

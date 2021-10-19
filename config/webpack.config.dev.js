@@ -264,4 +264,7 @@ module.exports = {
   performance: {
     hints: false,
   },
+  externals: {
+    "vm2": "require('vm2')"
+  },
 };

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Select from 'react-select';
 import { InputField, CoinDropdown } from './form-components';
 import { Alert, Form, Button, Row, Col, FormGroup, Label } from 'reactstrap';
+import { Chain, Hardfork } from '@ethereumjs/common';
+import { omit } from 'lodash';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo';
@@ -9,7 +11,7 @@ import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { recoverWithKeyPath } from '../utils';
+import { recoverWithKeyPath, toWei } from '../utils';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -32,8 +34,10 @@ class UnsignedSweep extends Component {
     scan: 20,
     krsProvider: null,
     env: 'test',
-    gasPrice: 20, // this is in gwei, and only a default value if users do not override
     gasLimit: 500000,
+    // Below values is in gwei, and only a default value if users do not override
+    gasPrice: 20,
+    maxFeePerGas: 20,
   };
 
   displayedParams = {
@@ -45,10 +49,31 @@ class UnsignedSweep extends Component {
     btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    eth: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'recoveryDestination', 'apiKey', 'gasLimit', 'gasPrice'],
+    eth: [
+      'userKey',
+      'userKeyID',
+      'backupKey',
+      'backupKeyID',
+      'walletContractAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
+    ],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
-    token: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'walletContractAddress', 'tokenContractAddress', 'recoveryDestination', 'apiKey'],
+    token: [
+      'userKey',
+      'userKeyID',
+      'backupKey',
+      'backupKeyID',
+      'walletContractAddress',
+      'tokenContractAddress',
+      'recoveryDestination',
+      'apiKey',
+    ],
     trx: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     eos: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
   };
@@ -162,7 +187,7 @@ class UnsignedSweep extends Component {
 
     try {
       // This is like _.pick
-      const recoveryParams = [
+      let recoveryParams = [
         'userKey',
         'userKeyID',
         'backupKey',
@@ -170,11 +195,14 @@ class UnsignedSweep extends Component {
         'bitgoKey',
         'rootAddress',
         'walletContractAddress',
+        'walletPassphrase',
         'tokenAddress',
         'recoveryDestination',
         'scan',
         'gasLimit',
         'gasPrice',
+        'maxFeePerGas',
+        'maxPriorityFeePerGas',
       ].reduce((obj, param) => {
         if (this.state[param]) {
           const value = this.state[param];
@@ -186,16 +214,29 @@ class UnsignedSweep extends Component {
       }, {});
 
       if (recoveryParams.gasLimit) {
-        if (recoveryParams.gasLimit <= 0 || (recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10))) {
+        if (recoveryParams.gasLimit <= 0 || recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10)) {
           throw new Error('Gas limit must be a positive integer');
         }
       }
 
-      if (recoveryParams.gasPrice) {
-        if (recoveryParams.gasPrice <= 0 || (recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10))) {
+      if (this.state.coin === 'eth') {
+        recoveryParams = {
+          ...recoveryParams,
+          eip1559: {
+            maxFeePerGas: toWei(recoveryParams.maxFeePerGas),
+            maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
+          },
+          replayProtectionOptions: {
+            chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Kovan,
+            hardfork: Hardfork.London,
+          },
+        };
+        recoveryParams = omit(recoveryParams, ['gasPrice', 'maxFeePerGas', 'maxPriorityFeePerGas']);
+      } else if (recoveryParams.gasPrice) {
+        if (recoveryParams.gasPrice <= 0 || recoveryParams.gasPrice !== parseInt(recoveryParams.gasPrice, 10)) {
           throw new Error('Gas price must be a positive integer');
         }
-        recoveryParams.gasPrice = recoveryParams.gasPrice * (10 ** 9);
+        recoveryParams.gasPrice = toWei(recoveryParams.gasPrice);
       }
 
       if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
@@ -459,10 +500,35 @@ class UnsignedSweep extends Component {
             />
           )}
 
+          {this.displayedParams[this.state.coin].includes('maxFeePerGas') && (
+            <InputField
+              label="Max Fee Per Gas (Gwei)"
+              name="maxFeePerGas"
+              value={this.state.maxFeePerGas}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.maxFeePerGas}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
+          {this.displayedParams[this.state.coin].includes('maxPriorityFeePerGas') && (
+            <InputField
+              label="Max Priority Fee Per Gas (Gwei)"
+              name="maxPriorityFeePerGas"
+              value={this.state.maxPriorityFeePerGas}
+              onChange={this.updateRecoveryInfo}
+              tooltipText={formTooltips.maxPriorityFeePerGas}
+              disallowWhiteSpace={true}
+              format="number"
+            />
+          )}
+
           {this.displayedParams[this.state.coin].includes('apiKey') && (
             <InputField
               label="API Key"
               name="apiKey"
+              value={this.state.apiKey}
               onChange={this.updateRecoveryInfo}
               tooltipText={formTooltips.apiKey(this.state.coin)}
               disallowWhiteSpace={true}
