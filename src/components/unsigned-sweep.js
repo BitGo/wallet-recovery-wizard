@@ -38,6 +38,7 @@ class UnsignedSweep extends Component {
     // Below values is in gwei, and only a default value if users do not override
     gasPrice: 20,
     maxFeePerGas: 20,
+    maxPriorityFeePerGas: 10,
   };
 
   displayedParams = {
@@ -73,6 +74,9 @@ class UnsignedSweep extends Component {
       'tokenContractAddress',
       'recoveryDestination',
       'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
     ],
     trx: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
     eos: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
@@ -219,7 +223,7 @@ class UnsignedSweep extends Component {
         }
       }
 
-      if (this.state.coin === 'eth') {
+      if (this.state.coin === 'eth' || this.state.coin === 'token') {
         recoveryParams = {
           ...recoveryParams,
           eip1559: {
