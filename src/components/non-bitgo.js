@@ -78,6 +78,9 @@ class NonBitGoRecoveryForm extends Component {
       'walletPassphrase',
       'recoveryDestination',
       'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
     ],
     eos: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
   };
@@ -194,7 +197,7 @@ class NonBitGoRecoveryForm extends Component {
       }
     }
 
-    if (this.state.coin === 'eth') {
+    if (this.state.coin === 'eth' || this.state.coin === 'token') {
       recoveryParams = {
         ...recoveryParams,
         eip1559: {
@@ -214,6 +217,7 @@ class NonBitGoRecoveryForm extends Component {
       // Convert the units back to wei, since that is the unit that backend uses.
       recoveryParams.gasPrice = toWei(recoveryParams.gasPrice);
     }
+
     const recovery = await recoverWithKeyPath(baseCoin, recoveryParams);
 
     const recoveryTx = recovery.transactionHex || recovery.txHex || recovery.tx || recovery.transaction;

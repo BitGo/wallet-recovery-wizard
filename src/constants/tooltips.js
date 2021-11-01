@@ -54,7 +54,7 @@ export default {
     gasLimit:
       'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
     maxFeePerGas: 'Max fee per gas for the ETH transaction. The default is 20 Gwei',
-    maxPriorityFeePerGas: '"Tip" to the ETH miner. This is by default 10000',
+    maxPriorityFeePerGas: '"Tip" to the ETH miner. This is by default 10 Gwei',
     tokenAddress:
       'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
     krsProvider:
@@ -94,7 +94,7 @@ export default {
     gasLimit:
       'Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas',
     maxFeePerGas: 'Max fee per gas for the ETH transaction. The default is 20 Gwei',
-    maxPriorityFeePerGas: '"Tip" to the ETH miner. This is by default 10000',
+    maxPriorityFeePerGas: '"Tip" to the ETH miner. This is by default 10 Gwei',
   },
   errorMessages: {
     auth:
