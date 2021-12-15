@@ -30,7 +30,7 @@
     "dotenv-expand": "4.2.0",
     "file-loader": "1.1.11",
     "jquery": "^3.6.0",
-    "jszip": "3.1.5",
+    "jszip": "3.7.0",
     "lodash": "4.17.15",
     "moment": "2.24.0",
     "object-assign": "4.1.1",
