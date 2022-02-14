@@ -224,7 +224,8 @@ class NonBitGoRecoveryForm extends Component {
                 onChange={this.updateRecoveryInfo}
                 tooltipText={formTooltips.backupPublicKey}
                 disallowWhiteSpace={true}
-                format='xpub'
+                format='pub'
+                coin={this.getCoinObject()}
               />
           )]
           }
@@ -237,7 +238,7 @@ class NonBitGoRecoveryForm extends Component {
             onChange={this.updateRecoveryInfo}
             tooltipText={formTooltips.bitgoKey}
             disallowWhiteSpace={true}
-            format='xpub'
+            format='pub'
           />
           }
 
