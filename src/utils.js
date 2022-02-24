@@ -16,6 +16,27 @@ function sanitizeKeys(keys) {
   });
 }
 
+/**
+ * Function to check whether BlockChair API Key is needed
+ * for a coin or not for recovery
+ * @param {String} coin
+ * @returns {Boolean}
+ */
+export function isBlockChairKeyNeeded(coin) {
+  if (
+    coin === 'bsv' ||
+    coin === 'bch' ||
+    coin === 'bcha' ||
+    coin === 'ltc' ||
+    coin === 'btg' ||
+    coin === 'zec' ||
+    coin === 'dash'
+  ) {
+    return true;
+  }
+  return false;
+}
+
 export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
   if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
     return new Error('unsupported coin');

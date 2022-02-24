@@ -124,6 +124,20 @@ module.exports = {
         include: paths.appSrc,
       },
       {
+        test: /\.js$/,
+        use: [
+          require.resolve('@open-wc/webpack-import-meta-loader'),
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/env'],
+            },
+          },
+        ],
+      
+        include: [path.resolve(__dirname, '../node_modules/@polkadot/')],
+      },
+      {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
         // back to the "file" loader at the end of the loader list.

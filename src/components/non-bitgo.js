@@ -11,7 +11,7 @@ import * as BitGoJS from 'bitgo';
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
 import krsProviders from 'constants/krs-providers';
-import { getRecoveryDebugInfo, isDev, recoverWithKeyPath, toWei } from '../utils';
+import { getRecoveryDebugInfo, isBlockChairKeyNeeded, isDev, recoverWithKeyPath, toWei } from '../utils';
 
 const { clipboard } = window.require('electron');
 
@@ -52,10 +52,10 @@ class NonBitGoRecoveryForm extends Component {
     bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     bcha: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-    ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-    dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
+    ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
+    dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
     eth: [
       'userKey',
       'backupKey',
@@ -183,7 +183,7 @@ class NonBitGoRecoveryForm extends Component {
   }
 
   async performRecoveryWithParams(baseCoin, recoveryParams) {
-    if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
+    if (isBlockChairKeyNeeded(this.state.coin) && this.state.apiKey) {
       recoveryParams.apiKey = this.state.apiKey;
     }
 
