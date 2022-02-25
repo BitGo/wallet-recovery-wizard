@@ -109,18 +109,11 @@ export class InputField extends Component {
       } catch (e) {
         this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }' });
       }
-    } else if (format === 'pub') {
-      if (!coin) {
-        return;
-      }
-      if (coin.isValidPub(value)) {
-        this.setState({error: null});
+    } else if (format === 'xpub') {
+      if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
+        this.setState({ error: null });
       } else {
-        if (coin.getFamily() === 'xlm') {
-          this.setState({ error: `This field should be a Stellar public key. Stellar public keys begin with a G.` });
-        } else {
-          this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
-        }
+        this.setState({ error: `This field should be a public key. Public keys begin with the word 'xpub' and have a total length of ${XPUB_LENGTH} characters.`});
       }
     } else if (format === 'number') {
       if (value >= 0) {
@@ -204,7 +197,7 @@ export class InputTextarea extends Component {
         console.log(`${value} failed`)
         this.setState({ error: 'This field should be a JSON object. JSON objects begin with a { and end with a }'});
       }
-    } else if (format === 'pub') {
+    } else if (format === 'xpub') {
       if (value.startsWith('xpub') && value.length === XPUB_LENGTH) {
         this.setState({ error: null });
       } else {
