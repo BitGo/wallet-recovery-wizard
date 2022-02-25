@@ -11,7 +11,7 @@ import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { recoverWithKeyPath, toWei } from '../utils';
+import { isBlockChairKeyNeeded, recoverWithKeyPath, toWei } from '../utils';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -46,10 +46,10 @@ class UnsignedSweep extends Component {
     bsv: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bcha: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     bch: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
-    ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
-    dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan'],
+    ltc: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    btg: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    zec: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
+    dash: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'bitgoKey', 'recoveryDestination', 'scan', 'apiKey'],
     eth: [
       'userKey',
       'userKeyID',
@@ -243,13 +243,21 @@ class UnsignedSweep extends Component {
         recoveryParams.gasPrice = toWei(recoveryParams.gasPrice);
       }
 
-      if ((this.state.coin === 'bsv' || this.state.coin === 'bch' || this.state.coin === 'bcha') && this.state.apiKey) {
+      if (
+        isBlockChairKeyNeeded(this.state.coin)
+        && this.state.apiKey) {
         recoveryParams.apiKey = this.state.apiKey;
       }
 
       this.updateKeysFromIDs(baseCoin, recoveryParams);
 
       const recoveryPrebuild = await recoverWithKeyPath(baseCoin, recoveryParams);
+      
+      recoveryPrebuild.pubs = [
+        this.state['userKey'],
+        this.state['backupKey'],
+        this.state['bitgoKey'],
+      ];
 
       if (!recoveryPrebuild) {
         throw new Errors.ErrorNoInputToRecover();

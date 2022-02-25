@@ -30,7 +30,6 @@ export default {
       icon: bchIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' },
       ],
       replayableNetworks: ['bsv', 'bcha'],
     },
@@ -46,7 +45,6 @@ export default {
       icon: bsvIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' },
       ],
       replayableNetworks: ['bch', 'bcha'],
     },
@@ -56,7 +54,6 @@ export default {
       icon: ltcIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' },
       ],
     },
     btg: {
@@ -71,7 +68,6 @@ export default {
       icon: zecIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' },
       ],
     },
     xrp: {
@@ -89,7 +85,6 @@ export default {
       icon: dashIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet', value: 'test' },
       ],
     },
     xlm: {
@@ -141,11 +136,11 @@ export default {
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
     nonBitGo: {
-      test: ['btc', 'eth', 'xrp', 'xlm', 'ltc', 'dash', 'zec', 'btg', 'token', 'trx', 'eos'],
+      test: ['btc', 'eth', 'xrp', 'xlm', 'token', 'trx', 'eos'],
       prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     unsignedSweep: {
-      test: ['btc', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'eos'],
+      test: ['btc', 'xrp', 'xlm', 'eth', 'token', 'trx', 'eos'],
       prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     migrated: {
