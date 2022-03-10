@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
 const InterpolateHtmlPlugin = require('react-dev-utils/InterpolateHtmlPlugin');
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const getClientEnvironment = require('./env');
@@ -207,7 +208,7 @@ module.exports = {
                 },
               },
             ],
-          },
+          },   
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
           // In production, they would get copied to the `build` folder.
@@ -262,6 +263,22 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new FileManagerPlugin({
+      runOnceInWatchMode: true,
+      events: {
+        onStart: {
+          // Hack to make sure we use the node opengpg version, for some reason
+          // the bitgojs bundle is referencing the browser version
+          delete: ['./node_modules/openpgp/dist/openpgp.min.mjs'],
+          copy: [
+            {
+              source: './node_modules/openpgp/dist/node/openpgp.min.mjs',
+              destination: `./node_modules/openpgp/dist/openpgp.min.mjs`,
+            },
+          ],
+        },
+      },
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
