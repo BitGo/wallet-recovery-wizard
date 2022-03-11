@@ -296,6 +296,7 @@ module.exports = {
     hints: false,
   },
   externals: {
-    "vm2": "require('vm2')"
+    "vm2": "require('vm2')",
+    "crypto": "require('crypto')"
   },
 };
