@@ -19,7 +19,7 @@
   "dependencies": {
     "autoprefixer": "8.6.5",
     "bignumber.js": "^9.0.0",
-    "bitgo": "14.0.0",
+    "bitgo": "14.1.0-rc.13",
     "bitgo-utxo-lib": "^1.8.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
@@ -29,6 +29,7 @@
     "dotenv": "6.0.0",
     "dotenv-expand": "4.2.0",
     "file-loader": "1.1.11",
+    "filemanager-webpack-plugin": "^6.1.7",
     "jquery": "^3.6.0",
     "jszip": "3.7.1",
     "lodash": "4.17.21",

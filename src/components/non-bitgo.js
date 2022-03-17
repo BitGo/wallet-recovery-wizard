@@ -124,7 +124,7 @@ class NonBitGoRecoveryForm extends Component {
         coin = bitgo.coin(this.state.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
-        const coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        const coinTicker = this.state.env === 'test' ? 'gteth' : 'eth';
         coin = bitgo.coin(coinTicker);
       }
     } else {
@@ -205,7 +205,7 @@ class NonBitGoRecoveryForm extends Component {
           maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
         },
         replayProtectionOptions: {
-          chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Kovan,
+          chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
           hardfork: Hardfork.London,
         },
       };

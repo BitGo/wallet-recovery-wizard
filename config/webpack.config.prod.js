@@ -3,6 +3,7 @@
 const autoprefixer = require('autoprefixer');
 const path = require('path');
 const webpack = require('webpack');
+const FileManagerPlugin = require('filemanager-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -388,6 +389,22 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new FileManagerPlugin({
+      runOnceInWatchMode: true,
+      events: {
+        onStart: {
+          // Hack to make sure we use the node opengpg version, for some reason
+          // the bitgojs bundle is referencing the browser version
+          delete: ['./node_modules/openpgp/dist/openpgp.min.mjs'],
+          copy: [
+            {
+              source: './node_modules/openpgp/dist/node/openpgp.min.mjs',
+              destination: `./node_modules/openpgp/dist/openpgp.min.mjs`,
+            },
+          ],
+        },
+      },
+    }),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -399,6 +416,7 @@ module.exports = {
     child_process: 'empty',
   },
   externals: {
-    "vm2": "require('vm2')"
+    "vm2": "require('vm2')",
+    "crypto": "require('crypto')"
   },
 };
