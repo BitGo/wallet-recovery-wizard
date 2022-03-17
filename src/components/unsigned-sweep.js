@@ -91,14 +91,18 @@ class UnsignedSweep extends Component {
     }
     if (this.state.coin === 'token') {
       try {
-        coin = bitgo.coin(this.state.tokenAddress);
+        // Token addresses are lowercase in bitgo statics
+        coin = bitgo.coin(this.state.tokenAddress.toLowerCase());
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
-        const coinTicker = this.state.env === 'test' ? 'teth' : 'eth';
+        const coinTicker = this.state.env === 'test' ? 'gteth' : 'eth';
         coin = bitgo.coin(coinTicker);
       }
     } else {
-      const coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      // Goerli testnet is denoted by gteth which is different from our normal convention of denoting
+      // test coins
+      coinTicker = this.state.coin === 'eth' && this.state.env === 'test' ? `g${coinTicker}` : coinTicker;
       coin = bitgo.coin(coinTicker);
     }
 
@@ -231,7 +235,7 @@ class UnsignedSweep extends Component {
             maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
           },
           replayProtectionOptions: {
-            chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Kovan,
+            chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
             hardfork: Hardfork.London,
           },
         };

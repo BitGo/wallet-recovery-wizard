@@ -102,7 +102,7 @@ export default {
       icon: ethIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet (Kovan)', value: 'test' },
+        { label: 'Testnet (Goerli)', value: 'test' },
       ],
     },
     token: {
@@ -111,7 +111,7 @@ export default {
       icon: ethIcon,
       envOptions: [
         { label: 'Mainnet', value: 'prod' },
-        { label: 'Testnet (Kovan)', value: 'test' },
+        { label: 'Testnet (Goerli)', value: 'test' },
       ],
     },
     trx: {

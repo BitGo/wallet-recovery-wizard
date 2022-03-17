@@ -63,7 +63,7 @@ class UnsupportedTokenRecoveryForm extends Component {
 
     this.setState({ error: '', recovering: true });
 
-    const coin = bitgo.getEnv() === 'prod' ? 'eth' : 'teth';
+    const coin = bitgo.getEnv() === 'prod' ? 'eth' : 'gteth';
     await bitgo.unlock({ otp: twofa });
     try {
       const wallet = await bitgo.coin(coin).wallets().get({ id: walletId });
@@ -126,7 +126,7 @@ class UnsupportedTokenRecoveryForm extends Component {
   };
 
   render() {
-    const coin = this.props.bitgo.getEnv() === 'prod' ? 'eth' : 'teth';
+    const coin = this.props.bitgo.getEnv() === 'prod' ? 'eth' : 'gteth';
 
     return (
       <div>
