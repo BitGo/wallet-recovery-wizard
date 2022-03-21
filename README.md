@@ -15,11 +15,11 @@ The application currently offers the following recoveries:
         |  BCH  | Yes  | No  |
         |  BSV  | Yes  | No  |
         |  BCH-ABC  | Yes  | No  |
-        |  DASH | Yes  | Yes  |
+        |  DASH | Yes  | No  |
         |  ETH  | Yes  | Yes  |
         |  EOS  | Yes  | Yes  |
         |  ERC20  | Yes  | Yes  |
-        |  LTC  | Yes  | Yes  |
+        |  LTC  | Yes  | No  |
         |  TRX  | Yes  | Yes  |
         |  XLM  | Yes  | Yes  |
         |  XRP  | Yes  | Yes  |
