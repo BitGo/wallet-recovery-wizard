@@ -37,6 +37,16 @@ export function isBlockChairKeyNeeded(coin) {
   return false;
 }
 
+/**
+ * Converts a master xpub to the corresponding derived xpub
+ * @param {BitGo} baseCoin 
+ * @param {string} masterXpub 
+ * @param {string} seed 
+ */
+export function getDerivedXpub(baseCoin, masterXpub, seed) {
+  return baseCoin.deriveKeyWithSeed({ key: masterXpub, seed });
+}
+
 export async function getRecoveryDebugInfo(baseCoin, recoveryParams) {
   if (!coinConfig.supportKeyDerivationForDebugging.includes(baseCoin.getFamily())) {
     return new Error('unsupported coin');

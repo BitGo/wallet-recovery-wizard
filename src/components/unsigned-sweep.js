@@ -11,7 +11,7 @@ import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
-import { isBlockChairKeyNeeded, recoverWithKeyPath, toWei } from '../utils';
+import { isBlockChairKeyNeeded, recoverWithKeyPath, toWei, getDerivedXpub } from '../utils';
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
@@ -256,10 +256,23 @@ class UnsignedSweep extends Component {
       this.updateKeysFromIDs(baseCoin, recoveryParams);
 
       const recoveryPrebuild = await recoverWithKeyPath(baseCoin, recoveryParams);
+
+      // If key derivation path is defined, we will use that to give the derivated xpubs instead of the master xpubs
+      const userXpub = this.state['userKeyID'] ? getDerivedXpub(baseCoin, this.state['userKey'], this.state['userKeyID'])?.key : this.state['userKey'];
+      const backupXpub = this.state['backupKeyID'] ? getDerivedXpub(baseCoin, this.state['backupKey'], this.state['backupKeyID'])?.key : this.state['backupKey'];
       
+      recoveryPrebuild.keys = {
+        user: { xpub: userXpub, derivedFromParentWithSeed: this.state['userKeyID'] },
+        backup: { xpub: backupXpub, derivedFromParentWithSeed: this.state['backupKeyID'] },
+        bitgo: { xpub: this.state['bitgoKey'] },
+      };
+
+      // Keeping the pubs key intact to ensure people who use old 
+      // OVC < v4.2.1 won't be blocked. This will be deprecated
+      // in future 
       recoveryPrebuild.pubs = [
-        this.state['userKey'],
-        this.state['backupKey'],
+        userXpub,
+        backupXpub,
         this.state['bitgoKey'],
       ];
 
