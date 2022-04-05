@@ -261,7 +261,7 @@ class UnsignedSweep extends Component {
       const userXpub = this.state['userKeyID'] ? getDerivedXpub(baseCoin, this.state['userKey'], this.state['userKeyID'])?.key : this.state['userKey'];
       const backupXpub = this.state['backupKeyID'] ? getDerivedXpub(baseCoin, this.state['backupKey'], this.state['backupKeyID'])?.key : this.state['backupKey'];
       
-      recoveryPrebuild.keys = {
+      recoveryPrebuild.xpubsWithDerivationPath = {
         user: { xpub: userXpub, derivedFromParentWithSeed: this.state['userKeyID'] },
         backup: { xpub: backupXpub, derivedFromParentWithSeed: this.state['backupKeyID'] },
         bitgo: { xpub: this.state['bitgoKey'] },
