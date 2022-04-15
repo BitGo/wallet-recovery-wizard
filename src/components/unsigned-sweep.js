@@ -16,6 +16,7 @@ const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
 const utxoLib = require('bitgo-utxo-lib');
+import { alchemyApiKey } from '../../config/env';
 
 class UnsignedSweep extends Component {
   state = {
@@ -225,6 +226,27 @@ class UnsignedSweep extends Component {
         if (recoveryParams.gasLimit <= 0 || recoveryParams.gasLimit !== parseInt(recoveryParams.gasLimit, 10)) {
           throw new Error('Gas limit must be a positive integer');
         }
+      } else {
+        const network = recoveryParams.env === 'test' ? 'goerli' : 'mainnet';
+        const url = `https://eth-${network}.alchemyapi.io/v2/${alchemyApiKey}`;
+        const data = { jsonrpc: '2.0', method: 'eth_estimateGas', params: [{ from: recoveryParams.rootAddress, to: recoveryParams.recoveryDestination }], id: 1 };
+        fetch(url, {
+          body: JSON.stringify(data),
+          headers: {
+            'content-type': 'application/json',
+          },
+          method: 'POST',
+        })
+          .then(response => {
+            if (response.status === 200) {
+              recoveryParams.gasLimit = response.result;
+            } else {
+              throw new Error('Error fetching gas estimate from Alchemy');
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
 
       if (this.state.coin === 'eth' || this.state.coin === 'token') {
@@ -260,16 +282,15 @@ class UnsignedSweep extends Component {
       // If key derivation path is defined, we will use that to give the derivated xpubs instead of the master xpubs
       const userXpub = this.state['userKeyID'] ? getDerivedXpub(baseCoin, this.state['userKey'], this.state['userKeyID'])?.key : this.state['userKey'];
       const backupXpub = this.state['backupKeyID'] ? getDerivedXpub(baseCoin, this.state['backupKey'], this.state['backupKeyID'])?.key : this.state['backupKey'];
-      
       recoveryPrebuild.xpubsWithDerivationPath = {
         user: { xpub: userXpub, derivedFromParentWithSeed: this.state['userKeyID'] },
         backup: { xpub: backupXpub, derivedFromParentWithSeed: this.state['backupKeyID'] },
         bitgo: { xpub: this.state['bitgoKey'] },
       };
 
-      // Keeping the pubs key intact to ensure people who use old 
+      // Keeping the pubs key intact to ensure people who use old
       // OVC < v4.2.1 won't be blocked. This will be deprecated
-      // in future 
+      // in future
       recoveryPrebuild.pubs = [
         userXpub,
         backupXpub,
