@@ -16,7 +16,6 @@ const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
 const utxoLib = require('bitgo-utxo-lib');
-import { alchemyApiKey } from '../../config/env';
 
 class UnsignedSweep extends Component {
   state = {
@@ -227,26 +226,10 @@ class UnsignedSweep extends Component {
           throw new Error('Gas limit must be a positive integer');
         }
       } else {
-        const network = recoveryParams.env === 'test' ? 'goerli' : 'mainnet';
-        const url = `https://eth-${network}.alchemyapi.io/v2/${alchemyApiKey}`;
-        const data = { jsonrpc: '2.0', method: 'eth_estimateGas', params: [{ from: recoveryParams.rootAddress, to: recoveryParams.recoveryDestination }], id: 1 };
-        fetch(url, {
-          body: JSON.stringify(data),
-          headers: {
-            'content-type': 'application/json',
-          },
-          method: 'POST',
-        })
-          .then(response => {
-            if (response.status === 200) {
-              recoveryParams.gasLimit = response.result;
-            } else {
-              throw new Error('Error fetching gas estimate from Alchemy');
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
+        // setting a default gas limit for the transaction as any excess funds which is not utilized for
+        // gas fees will be refunded for the sender. We cannot estimate the actual gas without the data 
+        // part of the transaction which should be signed which we cannot get in WRW.
+        recoveryParams.gasLimit = 500000;
       }
 
       if (this.state.coin === 'eth' || this.state.coin === 'token') {
