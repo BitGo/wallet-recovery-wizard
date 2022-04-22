@@ -81,9 +81,15 @@ class MigratedRecoveryForm extends Component {
       }
     }
 
-    // Account for paygo fee plus fee for paygo output
-    const payGoDeduction = Math.floor(spendableAmount * 0.01) + OUTPUT_SIZE * (feeRate / 1000);
-    const txAmount = spendableAmount - payGoDeduction;
+    let txAmount;
+    if (coin.getFamily() === 'bsv') {
+      // BSV does not support paygo fees anymore
+      txAmount = spendableAmount;
+    } else {
+      // Account for paygo fee plus fee for paygo output
+      const payGoDeduction = Math.floor(spendableAmount * 0.01) + OUTPUT_SIZE * (feeRate / 1000);
+      txAmount = spendableAmount - payGoDeduction;
+    }
 
     let txPrebuild;
     try {
