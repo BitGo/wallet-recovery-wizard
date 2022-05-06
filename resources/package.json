@@ -2,7 +2,7 @@
   "name": "BitGoWalletRecoveryWizard",
   "author": "BitGo, Inc.",
   "description": "A UI-based desktop app for BitGo Recoveries",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "private": true,
   "main": "electron.js",
   "homepage": "./",
