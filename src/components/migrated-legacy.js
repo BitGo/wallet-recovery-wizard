@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { CoinDropdown, InputField } from './form-components';
 import { Form, Button, Row, Col, Alert } from 'reactstrap';
-import { address, HDNode, Transaction, TransactionBuilder } from 'bitgo-utxo-lib';
+import { address, HDNode, Transaction, TransactionBuilder } from '@bitgo/utxo-lib';
 
 import * as _ from 'lodash';
 

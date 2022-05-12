@@ -15,7 +15,7 @@ import { isBlockChairKeyNeeded, recoverWithKeyPath, toWei, getDerivedXpub } from
 const fs = window.require('fs');
 const formTooltips = tooltips.unsignedSweep;
 const { dialog } = window.require('electron').remote;
-const utxoLib = require('bitgo-utxo-lib');
+const utxoLib = require('@bitgo/utxo-lib');
 
 class UnsignedSweep extends Component {
   state = {
@@ -227,7 +227,7 @@ class UnsignedSweep extends Component {
         }
       } else {
         // setting a default gas limit for the transaction as any excess funds which is not utilized for
-        // gas fees will be refunded for the sender. We cannot estimate the actual gas without the data 
+        // gas fees will be refunded for the sender. We cannot estimate the actual gas without the data
         // part of the transaction which should be signed which we cannot get in WRW.
         recoveryParams.gasLimit = 500000;
       }
