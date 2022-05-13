@@ -47,6 +47,10 @@ Run the `package.sh` script and pass it the updated version, e.g. for version 2.
 ./scripts/package.sh 2.2.3
 ```
 
+#### Build troubleshooting
+- Note that in order to run the build script, you'll either need python available at `/usr/bin/python`, or you can set an environment variable `PYTHON_PATH`. You can set the variable by running `export PYTHON_PATH=$(which python)`.
+- If you encounter the error `libtool is required, but wasn't found on this system`, you'll need to install `sodium` using [these instructions](https://github.com/paixaop/node-sodium).
+
 Package files will be created in `/dist`:
 ```bash
 BitGoWalletRecoveryWizard_VERSION_amd64.deb
