@@ -6,7 +6,7 @@
 2) Node Version: 14.0.0 or higher
 ```bash
 node --version; npm --version
-v14.16.0
+v14.17.5
 6.14.11
 ```
 
@@ -16,7 +16,7 @@ v14.16.0
 ```bash
 git clone git@github.com:BitGo/wallet-recovery-wizard.git
 cd wallet-recovery-wizard
-npm install
+npm ci
 npm start
 ```
 ## Adding Coin Support for Non-BitGo Recovery & Unsigned Sweep
@@ -42,7 +42,7 @@ your own explorer. Note that UTXO-coin recovery tends to generate many calls to 
 You can test out a release on MacOS by running `npm run pack`. This will give you a packaged target in `/dist/mac`.
 
 ## Build and Release
-Run the `package.sh` script and pass it the updated version:
+Run the `package.sh` script and pass it the updated version, e.g. for version 2.2.3 you would run:
 ```bash
 ./scripts/package.sh 2.2.3
 ```
