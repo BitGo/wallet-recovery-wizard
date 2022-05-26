@@ -1,0 +1,43 @@
+{
+  "transform": {
+    "\\.(js|jsx|ts|tsx)$": "ts-jest"
+  },
+  "testURL": "http://localhost",
+  "testRegex": "(-spec)\\.(ts|tsx)$",
+  "resetMocks": true,
+  "bail": true,
+  "resetModules": true,
+  "snapshotSerializers": [
+    "enzyme-to-json/serializer"
+  ],
+  "setupFilesAfterEnv": [
+    "<rootDir>/src/tests/setup.js"
+  ],
+  "moduleFileExtensions": [
+    "js",
+    "jsx",
+    "json",
+    "ts",
+    "tsx"
+  ],
+  "testPathIgnorePatterns": [
+    "/.tmp/"
+  ],
+  "coverageReporters": [
+    "json",
+    "html",
+    "lcov"
+  ],
+  "collectCoverageFrom": [
+    "src/**/*.{ts,tsx}",
+    "!**/*.d.ts",
+    "!**/*constants.ts"
+  ],
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "/tests/.*\\.(ts|js)$"
+  ],
+  "moduleNameMapper": {
+    ".*releases.json$": "<rootDir>/static/releases.json"
+  }
+}

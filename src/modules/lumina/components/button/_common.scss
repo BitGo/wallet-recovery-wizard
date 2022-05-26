@@ -1,0 +1,105 @@
+//
+// Button Common
+// =============================================================================
+
+// Imports
+// -------
+
+@import '../../styles/variables/_variables';
+
+// Lumina
+// ------
+
+$l-button-height-small:                 15px;
+$l-button-height:                       $pt-input-height; // $pt-input-height
+$l-button-height-large:                 40px;
+
+$l-button-fontFamily:                   $l-fontFamily-buttons;
+
+$l-button-fontSize:                     13px;
+$l-button-fontSize-large:               14px;
+
+$l-button-fontWeight:                   600;
+// $l-button-textTransform:                uppercase;
+// $l-button-textTransform:                capitalize;
+// Screws up selects
+$l-button-textTransform:                none;
+$l-button-lineHeight:                   14px;
+// $l-button-letterSpacing:                $l-letterSpacing-halfPixel;
+$l-button-letterSpacing:                0;
+
+$l-button-default-bg:                   $white;
+$l-button-default-border:               $l-gray4;
+
+$l-button-borderRadius:                 3px;
+
+
+// Blueprint
+// ---------
+
+$pt-button-height: $l-button-height;
+$pt-button-height-large: $l-button-height-large;
+
+$button-border-width: 1px;
+$button-padding: ($pt-grid-size / 2) $pt-grid-size;
+$button-padding-small: 0 $spacing-small;
+$button-padding-large: ($pt-grid-size / 2) $spacing-large;
+
+$button-box-shadow:
+  inset 0 0 0 $button-border-width rgba($black, 0.2),
+  inset 0 (-$button-border-width) 0 rgba($black, 0.05);
+$button-box-shadow-disabled:
+  inset 0 0 0 $button-border-width rgba($black, 0.1),
+  inset 0 (-$button-border-width) 0 rgba($black, 0.05);
+
+$button-color-disabled: $pt-text-color-disabled;
+$button-background-color: $l-button-default-bg;
+$button-background-color-hover: darken($l-button-default-bg, 7%);
+$button-background-color-active: $l-gray1; // darken($l-button-default-bg, 11%);
+$button-background-color-disabled: transparent;
+$button-background-color-active-disabled: transparent;
+
+$minimal-button-divider-width: 1px;
+$minimal-button-background-color: none;
+$minimal-button-background-color-hover: rgba($gray4, 0.3);
+$minimal-button-background-color-active: rgba($gray2, 0.3);
+$dark-minimal-button-background-color: none;
+$dark-minimal-button-background-color-hover: rgba($gray3, 0.15);
+$dark-minimal-button-background-color-active: rgba($gray3, 0.3);
+
+$button-intents: (
+  "primary": ($pt-intent-primary, darken($pt-intent-primary, 7%), darken($pt-intent-primary, 11%)),
+  "success": ($pt-intent-success, darken($pt-intent-success, 7%), darken($pt-intent-success, 11%)),
+  "warning": ($pt-intent-warning, $orange2, $orange1),
+  "danger": ($pt-intent-danger, $red2, $red1)
+);
+
+$button-box-shadow-overlay:
+  0 0 0 $button-border-width rgba($black, 0.2),
+  0 1px 1px rgba($black, 0.2);
+$button-box-shadow-overlay-active:
+  0 0 0 $button-border-width rgba($black, 0.2),
+  inset 0 1px 1px rgba($black, 0.1);
+
+// Remove gradients from button
+$button-gradient: none;
+$button-intent-gradient: none;
+$dark-button-gradient: none;
+
+$button-intent-box-shadow:
+  inset 0 0 0 $button-border-width rgba($black, 0.075),
+  inset 0 (-$button-border-width) 0 rgba($black, 0.04);
+$button-intent-box-shadow-active:
+  inset 0 0 0 $button-border-width rgba($black, 0.2),
+  inset 0 1px 2px rgba($black, 0.1);
+
+@mixin l-button-base() {
+  font-family: $l-button-fontFamily;
+  text-transform: $l-button-textTransform;
+  font-weight: $l-button-fontWeight;
+  font-size: $l-button-fontSize;
+  letter-spacing: $l-button-letterSpacing;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: $l-button-borderRadius;
+}

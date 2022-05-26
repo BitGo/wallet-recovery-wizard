@@ -1,0 +1,182 @@
+//
+// Input
+// =============================================================================
+
+@import './_common';
+@import '../label/common';
+@import '~@blueprintjs/core/src/components/forms/_common';
+
+// TODO(louis): Offline vault is getting overriden, not sure why, specifically
+// the borders.
+.l-input-group .bp3-input,
+.bp3-input {
+  // Note: we intentionally do not add z-index because otherwise it clashes
+  // very quickly with the implied z-index Blueprint has.
+  box-shadow: none;
+  border: $l-input-borderSize solid $l-input-borderColor;
+  width: 100%;
+  border-radius: $l-input-borderRadius;
+  transition: border-color 0.2s $l-transition-ease-in, box-shadow 0.2s $l-transition-ease-in;
+
+  // Override Blueprint
+  min-height: $height-2;
+
+  &:focus {
+    border-color: $l-input-borderColor-focus;
+    box-shadow: none;
+  }
+}
+
+// Override Blueprint
+.bp3-input,
+.bp3-input-group.bp3-large .bp3-input {
+  line-height: 1.5;
+}
+
+// Override Blueprint
+textarea.bp3-input {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 20px;
+}
+
+.l-input-group,
+// Need to add this general one because of the date-input
+.bp3-input-group {
+  &.l-input-group--error .bp3-input {
+    border-color: $l-color-error;
+  }
+
+  &.l-input-group--horizontal {
+    width: 100%;
+
+    .bp3-input-group,
+    .bp3-input {
+      // Hide all borders on input, let the form content editable take care of it
+      border: 0;
+      border-radius: 0;
+    }
+  }
+}
+
+// Exception for horizontal mode, shouldn't shrink width because it's being
+// wrapped in a popover target
+.bp3-popover-target .bp3-input-group.l-input-group--horizontal {
+  width: 100%;
+}
+
+.bp3-control-group .l-input-group--br0--left,
+.l-input-group--br0--left {
+  .bp3-input,
+  .bp3-input:focus {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+}
+
+.bp3-control-group .l-input-group--br0--right,
+.l-input-group--br0--right {
+  .bp3-input,
+  .bp3-input:focus {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
+
+.bp3-control-group .l-input-group--br0--bottomLeft,
+.l-input-group--br0--bottomLeft {
+  .bp3-input,
+  .bp3-input:focus {
+    border-bottom-left-radius: 0;
+  }
+}
+
+.bp3-control-group .l-input-group--br0--bottomLeft,
+.l-input-group--br0--bottomLeft {
+  .bp3-input,
+  .bp3-input:focus {
+    border-bottom-left-radius: 0;
+  }
+}
+
+.bp3-control-group .l-input-group--br0--bottomRight,
+.l-input-group--br0--bottomRight {
+  .bp3-input,
+  .bp3-input:focus {
+    border-bottom-right-radius: 0;
+  }
+}
+
+// Table Cell Input
+// ----------------
+
+.l-input-group--cell {
+  width: 100%;
+
+  .bp3-input {
+    border: 0;
+    border-radius: 0;
+
+    &:focus {
+      box-shadow: 0 1px 0 0 $l-input-borderColor-focus;
+      // Needed to override blueprint
+      border-radius: 0;
+    }
+  }
+
+  &.l-input-group--error .bp3-input {
+    background-color: $washed-red;
+  }
+}
+
+// Alight Right
+// ------------
+
+// Because Blueprint doesn't allow classes on input
+.l-input-group--tr input {
+  text-align: right;
+}
+
+.l-input-group--tc input {
+  text-align: center;
+}
+
+// Vertical error
+// --------------
+// Login Form
+
+.l-input--verticalError .bp3-input,
+.l-input--error.bp3-input {
+  border-color: $l-color-error;
+  background-color: $washed-red;
+}
+
+// Util
+// ----
+
+.l-u-inputMinHeight {
+  min-height: $pt-input-height;
+}
+
+.bp3-input {
+  background-color: $white;
+}
+
+.bp3-input:disabled,
+.bp3-input.bp3-disabled,
+.bg-disabled {
+  background-color: $white;
+  background-clip: padding-box;
+  background-image: url('./assets/disabled-pattern.svg');
+  background-repeat: repeat;
+}
+
+.bp3-tag-input.l-entityMultiSelect-input--horizontal {
+  // TODO(louis): hacky hacky
+  min-height: 31px;
+}
+
+.bp3-input-group.br--top > .bp3-input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

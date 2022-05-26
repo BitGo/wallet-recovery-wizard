@@ -1,0 +1,77 @@
+//
+// HTML select
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../label/common';
+@import '~@blueprintjs/core/src/components/html-select/html-select';
+
+.l-htmlSelect {
+  position: relative;
+  z-index: $l-zIndex--input;
+  width: 100%;
+
+  > select {
+    // Need to override poor default where 1.15 cuts of the lowercase 'g'
+    line-height: 1.5;
+    border-radius: $l-borderRadius-inputElements--vertical;
+
+    &:disabled {
+      color: $l-color-base;
+    }
+  }
+
+  > select.l-htmlSelect-placeholder {
+    color: blue;
+  }
+}
+
+.l-htmlSelect--horizontal {
+  > select {
+    background-image: none;
+    background-color: transparent;
+    color: $blue;
+    border: 0;
+    border-radius: $l-borderRadius-inputElements;
+    box-shadow: none;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+      box-shadow: none;
+    }
+  }
+}
+
+.l-htmlSelect--vertical {
+  &.l-htmlSelect--error select {
+    box-shadow: inset 0 0 0 $button-border-width $l-color-error,
+                inset 0 (-$button-border-width) 0 $l-color-error;
+  }
+}
+
+.l-htmlSelect--cell {
+  width: 100%;
+
+  > select {
+    box-shadow: none;
+    border-radius: 0;
+
+    &:focus {
+      // box-shadow: 0 1px 0 0 $l-input-borderColor-focus;
+    }
+
+    &:hover {
+      box-shadow: none;
+    }
+  }
+
+  &.l-htmlSelect--error > select {
+    background-color: $washed-red;
+  }
+}

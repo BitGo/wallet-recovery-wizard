@@ -1,0 +1,563 @@
+//
+// Variables
+// =============================================================================
+
+// Directory
+// ---------
+// Imports
+// Tachyons
+// Typography
+// Sizes
+// Form Elements
+// Components
+// Vendor Variables
+// Pages
+
+//
+// Imports
+// -----------------------------------------------------------------------------
+
+@import '~@blueprintjs/core/src/common/variables';
+@import '~@blueprintjs/core/src/common/colors';
+@import '../typography/_common';
+@import './_z-index';
+
+//
+// Colors
+// =============================================================================
+// Note: we use unconventional variable naming because we want to share the
+// the variables names with typescript.
+// https://palx.jxnblk.com/189DDF
+
+$l-colorPrimary: #62abf4; // Works on black and white. #00AFF0; // Bitgo color
+$l-colorPrimaryRgba: rgba(98, 171, 244, 1);
+
+// TODO(louis): comment out all and unlock only those needed, but have them
+// available for further use.
+
+$l-black: #364045;
+$l-gray0: #f8f9f9;
+$l-gray1: #ebedef;
+$l-gray2: #dce1e3;
+$l-gray3: #ccd4d7;
+$l-gray4: #bbc5c9;
+$l-gray5: #a8b4ba;
+$l-gray6: #92a2a9;
+$l-gray7: #788c95;
+$l-gray8: #5c6e77;
+$l-gray9: #364045;
+$l-blue0: #e4f4fb;
+$l-blue1: #c7e8f7;
+$l-blue2: #a7daf2;
+$l-blue3: #81cbed;
+$l-blue4: #53b8e7;
+$l-blue5: #18a0df;
+$l-blue6: #1590c9;
+$l-blue7: #137eb0;
+$l-blue8: #0f6892;
+$l-blue9: #0b4b68;
+// $l-indigo0: #e9ecfb;
+// $l-indigo1: #d1d8f8;
+// $l-indigo2: #b5c0f4;
+// $l-indigo3: #93a4f0;
+// $l-indigo4: #677ee9;
+// $l-indigo5: #183cdf;
+// $l-indigo6: #1535c8;
+// $l-indigo7: #122eae;
+// $l-indigo8: #0f268e;
+// $l-indigo9: #0a1a63;
+// $l-violet0: #f0eafc;
+// $l-violet1: #dfd3f8;
+// $l-violet2: #cbb8f5;
+// $l-violet3: #b498f0;
+// $l-violet4: #946dea;
+// $l-violet5: #5718df;
+// $l-violet6: #4e15c8;
+// $l-violet7: #4412af;
+// $l-violet8: #380f8f;
+// $l-violet9: #270a64;
+// $l-fuschia0: #f8eafc;
+// $l-fuschia1: #f1d2f8;
+// $l-fuschia2: #eab7f5;
+// $l-fuschia3: #e096f0;
+// $l-fuschia4: #d36bea;
+// $l-fuschia5: #bb18df;
+// $l-fuschia6: #a815c9;
+// $l-fuschia7: #9413b0;
+// $l-fuschia8: #7a0f92;
+// $l-fuschia9: #570b68;
+// $l-pink0: #fceaf6;
+// $l-pink1: #f8d3ed;
+// $l-pink2: #f5b8e2;
+// $l-pink3: #f098d4;
+// $l-pink4: #ea6cc2;
+// $l-pink5: #df18a0;
+// $l-pink6: #c91590;
+// $l-pink7: #b0137e;
+// $l-pink8: #920f69;
+// $l-pink9: #690b4b;
+$l-red0: #fceaed;
+$l-red1: #f9d3da;
+$l-red2: #f5b9c4;
+$l-red3: #f099a9;
+$l-red4: #ea6e84;
+$l-red5: #df183c;
+$l-red6: #c91536;
+$l-red7: #b0132f;
+$l-red8: #920f27;
+$l-red9: #680b1c;
+$l-orange0: #fbede6;
+$l-orange1: #f7d9cb;
+$l-orange2: #f3c3ac;
+$l-orange3: #eea888;
+$l-orange4: #e8875a;
+$l-orange5: #df5718;
+$l-orange6: #c94e15;
+$l-orange7: #b04412;
+$l-orange8: #91380f;
+$l-orange9: #67280b;
+$l-yellow0: #faf6e0;
+$l-yellow1: #f6ecc0;
+$l-yellow2: #f1e29c;
+$l-yellow3: #ebd675;
+$l-yellow4: #e5c949;
+$l-yellow5: #dfbb18;
+$l-yellow6: #c9a915;
+$l-yellow7: #b19413;
+$l-yellow8: #937b0f;
+$l-yellow9: #6a590b;
+// $l-lime0: #f2fae1;
+// $l-lime1: #e5f6c1;
+// $l-lime2: #d7f19d;
+// $l-lime3: #c7ec76;
+// $l-lime4: #b4e64a;
+// $l-lime5: #a0df18;
+// $l-lime6: #90c915;
+// $l-lime7: #7fb113;
+// $l-lime8: #69930f;
+// $l-lime9: #4c6a0b;
+$l-green0: #e9fbe5;
+$l-green1: #d1f7c8;
+$l-green2: #b5f3a8;
+$l-green3: #96ed83;
+$l-green4: #6fe755;
+$l-green5: #3cdf18;
+$l-green6: #36c915;
+$l-green7: #2fb113;
+$l-green8: #27930f;
+$l-green9: #1c6a0b;
+$l-teal0: #e6fbec;
+$l-teal1: #caf7d8;
+$l-teal2: #aaf3c1;
+$l-teal3: #85eea6;
+$l-teal4: #57e785;
+$l-teal5: #18df57;
+$l-teal6: #15c94e;
+$l-teal7: #13b145;
+$l-teal8: #0f9339;
+$l-teal9: #0b6a29;
+// $l-cyan0: #e5fbf7;
+// $l-cyan1: #c9f7ef;
+// $l-cyan2: #a8f3e5;
+// $l-cyan3: #83edda;
+// $l-cyan4: #55e7cd;
+// $l-cyan5: #18dfbb;
+// $l-cyan6: #15c9a9;
+// $l-cyan7: #13b194;
+// $l-cyan8: #0f937b;
+// $l-cyan9: #0b6a59;
+
+// Secondary Sand Color Library
+// ----------------------------
+// https://palx.jxnblk.com/F5F1EC
+
+$l-base-2: #f5f1ec;
+$l-black-2: #3f3f3e;
+$l-gray0-2: #f9f9f8;
+$l-gray1-2: #eeedeb;
+$l-gray2-2: #e1e0de;
+$l-gray3-2: #d3d2d0;
+$l-gray4-2: #c4c3c2;
+$l-gray5-2: #b3b2b1;
+$l-gray6-2: #a09f9e;
+$l-gray7-2: #898887;
+$l-gray8-2: #6c6b6b;
+$l-gray9-2: #3f3f3e;
+$l-gray20-2: #fdfbfb;
+$l-gray21-2: #fbf8f8;
+$l-gray22-2: #faf5f5;
+$l-gray23-2: #f8f2f2;
+$l-gray24-2: #f6efef;
+$l-gray25-2: #f5ecec;
+$l-gray26-2: #ddd5d5;
+$l-gray27-2: #c3bcbc;
+$l-gray28-2: #a29c9c;
+$l-gray29-2: #767171;
+
+//
+// Tachyons Variables
+// -----------------------------------------------------------------------------
+
+$sans-serif: $l-fontFamily-base;
+$serif: georgia, serif;
+$code: consolas, monaco, monospace;
+$font-size-headline: 6rem;
+$font-size-subheadline: 5rem;
+
+$font-size-1: 3rem;
+$font-size-2: 2.25rem;
+$font-size-3: 1.5rem;
+$font-size-4: 1.25rem;
+$font-size-5: 1rem;
+$font-size-6: 0.875rem;
+$font-size-7: 0.75rem;
+$font-size-8: 0.65rem;
+$font-size-9: 0.55rem;
+
+$letter-spacing-tight: -0.05em;
+$letter-spacing-1: 0.1em;
+$letter-spacing-2: 0.25em;
+
+$line-height-solid: 1;
+$line-height-title: 1.25;
+$line-height-copy: 1.5;
+
+$measure: 30em;
+$measure-narrow: 26em;
+$measure-wide: 34em;
+
+$spacing-none: 0;
+$spacing-extra-extra-small: 0.15rem;
+$spacing-extra-small: 0.25rem;
+$spacing-small: 0.5rem;
+$spacing-medium: 1rem;
+$spacing-large: 2rem;
+$spacing-extra-large: 4rem;
+$spacing-extra-extra-large: 8rem;
+$spacing-extra-extra-extra-large: 16rem;
+$spacing-copy-separator: 1.5em;
+
+$height-1: 1rem;
+$height-2: 2rem;
+$height-3: 4rem;
+$height-4: 8rem;
+$height-5: 16rem;
+$width-1: 1rem;
+$width-2: 2rem;
+$width-3: 4rem;
+$width-4: 8rem;
+$width-5: 16rem;
+
+$max-width-1: 1rem;
+$max-width-2: 2rem;
+$max-width-3: 4rem;
+$max-width-4: 8rem;
+$max-width-5: 16rem;
+$max-width-6: 32rem;
+$max-width-7: 48rem;
+$max-width-8: 64rem;
+$max-width-9: 96rem;
+
+$border-radius-none: 0;
+$border-radius-1: 0.125rem;
+$border-radius-2: 0.25rem;
+$border-radius-3: 0.5rem;
+$border-radius-4: 1rem;
+$border-radius-circle: 100%;
+$border-radius-pill: 9999px;
+
+$border-width-none: 0;
+$border-width-1: 0.125rem;
+$border-width-2: 0.25rem;
+$border-width-3: 0.5rem;
+$border-width-4: 1rem;
+$border-width-5: 2rem;
+
+$box-shadow-1: 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+$box-shadow-2: 0 6px 12px 0 rgba(98, 99, 105, 0.1);
+$box-shadow-3: 0 6px 12px 0 rgba(98, 99, 105, 0.1), 0 3px 6px 0 rgba(0, 0, 0, 0.07);
+$box-shadow-4: 2px 2px 8px 0px rgba(0, 0, 0, 0.2);
+$box-shadow-5: 4px 4px 8px 0px rgba(0, 0, 0, 0.2);
+
+$black: #000;
+$near-black: #111;
+$dark-gray: #333;
+$mid-gray: #555;
+$gray: #777;
+$silver: #999;
+$light-silver: #aaa;
+$moon-gray: #ccc;
+$light-gray: #eee;
+$near-white: #f4f4f4;
+$white: #fff;
+$transparent: transparent;
+$black-90: rgba(0, 0, 0, 0.9);
+$black-80: rgba(0, 0, 0, 0.8);
+$black-70: rgba(0, 0, 0, 0.7);
+$black-60: rgba(0, 0, 0, 0.6);
+$black-50: rgba(0, 0, 0, 0.5);
+$black-40: rgba(0, 0, 0, 0.4);
+$black-30: rgba(0, 0, 0, 0.3);
+$black-20: rgba(0, 0, 0, 0.2);
+$black-10: rgba(0, 0, 0, 0.1);
+$black-05: rgba(0, 0, 0, 0.05);
+$black-025: rgba(0, 0, 0, 0.025);
+$black-0125: rgba(0, 0, 0, 0.0125);
+$white-90: rgba(255, 255, 255, 0.9);
+$white-80: rgba(255, 255, 255, 0.8);
+$white-70: rgba(255, 255, 255, 0.7);
+$white-60: rgba(255, 255, 255, 0.6);
+$white-50: rgba(255, 255, 255, 0.5);
+$white-40: rgba(255, 255, 255, 0.4);
+$white-30: rgba(255, 255, 255, 0.3);
+$white-20: rgba(255, 255, 255, 0.2);
+$white-10: rgba(255, 255, 255, 0.1);
+$white-05: rgba(255, 255, 255, 0.05);
+$white-025: rgba(255, 255, 255, 0.025);
+$white-0125: rgba(255, 255, 255, 0.0125);
+
+$dark-red: #e7040f;
+$red: #ff4136;
+$light-red: #ff725c;
+$orange: #ff6300;
+$gold: #ffb700;
+$yellow: #ffd700;
+$light-yellow: #fbf1a9;
+$purple: #5e2ca5;
+$light-purple: #a463f2;
+$dark-pink: #d5008f;
+$hot-pink: #ff41b4;
+$pink: #ff80cc;
+$light-pink: #ffa3d7;
+$dark-green: #137752;
+$green: #19a974;
+$light-green: #9eebcf;
+$navy: #001b44;
+$dark-blue: #00449e;
+$blue: $l-colorPrimary;
+$light-blue: #96ccff;
+$lightest-blue: #cdecff;
+$washed-blue: #f6fffe;
+$washed-green: #e8fdf5;
+$washed-yellow: #fffceb;
+$washed-red: #ffdfdf;
+
+// Lumina Colors
+// -------------
+
+$l-colorNegative: #ff6565; // $l-red5; Too bright
+$l-colorPositive: $l-green7; // #19a974; // #79D981; too bright
+
+$l-color-guide: $l-green7; // #2DB100; // $green;
+
+$l-color-highlight-1: #e2f2fb;
+$l-colorPrimary-light: #e5e9ec;
+
+$border-gray: #e0e0e0; // between $moon-gray: #ccc; and $light-gray: #eee;
+
+$washed-red: #fef4f3;
+
+$cream-1: #f8f4ef; // #f7f6f3;
+$cream-2: #f1f0ef;
+
+$almost-white: #f8f8f8;
+$subtle-white: #fbfbfb;
+
+// Custom Media Query Variables
+// ----------------------------
+
+$breakpoint-small: 'screen and (min-width: 0) and (max-width: 30em)';
+$breakpoint-not-small: 'screen and (min-width: 30em)';
+$breakpoint-medium: 'screen and (min-width: 30em) and (max-width: 60em)';
+// Intentionally do not do this because otherwise so many things need to be
+// extended in tachyons
+// $breakpoint-large:            'screen and (min-width: 60em) and (max-width: 90em)';
+$breakpoint-large: 'screen and (min-width: 60em)';
+$breakpoint-extra-large: 'screen and (min-width: 90em)';
+
+// Tachyons Custom Extentions
+// --------------------------
+
+$spacing-near-extra-large: 3rem;
+$spacing-extra-extra-small: 0.125rem;
+
+// Backgrounds
+// -----------
+
+$l-backgroundColor-app: $white; // #f5f6fa; // #f2f2f2; //$light-gray;
+$l-backgroundColor-hoverState: $l-color-highlight-1; //$almost-white;
+$l-backgroundColor-error: $red;
+
+// Borders
+// -------
+
+$semi-light-gray: #ddd;
+
+// $semi-light-gray; too dark for tables
+// $light-gray; seemed too light on older monitors
+// $border-gray is between $moon-gray: #ccc; and $light-gray: #eee;
+$l-borderColor-base: $border-gray;
+// Note needs to match up with the input border
+$l-borderColor-baseDark: $moon-gray;
+$l-borderColor-error: $red;
+
+// Text
+// ----
+
+$l-color-base: #333; //rgba(0, 0, 0, .7) on white
+$l-color-title: #181818; // $l-color-grey-900 feels too dark
+$l-color-secondary: $silver;
+$l-color-disabled: $light-silver;
+$l-color-error: $red;
+$l-color-success: $green;
+
+// Exports
+// -------
+
+:export {
+  colorPrimary: $l-colorPrimary;
+  colorPrimaryRgba: $l-colorPrimaryRgba;
+
+  colorPositive: $l-colorPositive;
+  colorNegative: $l-colorNegative;
+
+  colorGuide: $l-color-guide;
+}
+
+// Variables
+// ---------
+
+$l-borderRadius-inputElements: 0;
+$l-borderRadius-inputElements--vertical: 3px;
+$l-borderRadius-buttonElements: 3px;
+
+// Paper
+// -----
+
+// Original shadow was too harsh
+// box-shadow: 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24);
+$l-paper--zDepth-1: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.07);
+// 0 2px 8px rgba($l-color-black, .2)
+$l-paper--zDepth-2: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+$l-paper--zDepth-3: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+$l-paper--zDepth-4: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+$l-paper--zDepth-5: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+
+//
+// Transitions
+// -----------------------------------------------------------------------------
+
+// Timing Functions
+// ----------------
+
+// Ease
+// This is the default timing function in CSS3 Transition and in cubic-bezier format it can be translated as follows:
+$ease-function: cubic-bezier(0.25, 0.1, 0.25, 1);
+
+// Linear
+// Using linear timing function, the speed will be steady from start to end
+// and in cubic-bezier format it is translated, as follows:
+$linear-function: cubic-bezier(0, 0, 1, 1);
+
+// Ease-in
+// Using this timing function, the animation will start slowly and then gain
+// more acceleration and get steady until the end of the duration. In
+// cubic-bezier format it can be translated into:
+$ease-in-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+
+// Ease-out
+// This timing function simply does the opposite to ease-in. The speed will
+// start steady and fast, then just about the end of duration it will slow down.
+// In the cubic-bezier format, this can be translated into:
+$ease-out-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+
+// Ease-in-out
+// This timing function is simply a combination between ease-in and ease-out,
+// the animation starts slow, accelerate in the middle, then ends slow. In
+// cubic-bezier this can be translated, as follows.
+$ease-in-out-function: cubic-bezier(0.42, 0, 0.58, 1);
+
+// Transitions
+// -----------
+
+$l-transition-ease: $ease-function;
+$l-transition-linear: $linear-function;
+$l-transition-ease-in: $ease-in-function;
+$l-transition-ease-out: $ease-out-function;
+$l-transition-ease-in-out: $ease-in-out-function;
+
+//
+// Components
+// -----------------------------------------------------------------------------
+
+// Height of an input
+$l-toolHeaderRightSide-height: 32px;
+// With deposit and withdraw buttons
+$l-toolHeaderRightSide-width: 430px;
+// Without deposit and withdraw buttons
+// $l-toolHeaderRightSide-width:            230px;
+$l-toolHeaderRightSide-borderSize: 0;
+$l-toolHeaderRightSide-backgroundColor: $l-black; // $white;
+
+//
+// Vendor Variables
+// -----------------------------------------------------------------------------
+
+// Blueprint
+// ---------
+
+// Namespace appended to the beginning of each CSS class: `.#{$ns}-button`.
+// $ns: 'bp3-';
+
+$pt-intent-primary: $l-colorPrimary;
+$pt-intent-success: $l-color-guide;
+$pt-intent-warning: #ff9933; // $orange3
+$pt-intent-danger: $red3;
+
+$pt-intent-colors: (
+  'primary': $pt-intent-primary,
+  'success': $pt-intent-success,
+  'warning': $pt-intent-warning,
+  'danger': $pt-intent-danger,
+);
+
+$pt-intent-text-colors: (
+  'primary': $blue2,
+  'success': $l-green7,
+  'warning': $orange2,
+  'danger': $red2,
+);
+
+$pt-dark-intent-text-colors: (
+  'primary': $blue5,
+  'success': $green5,
+  'warning': $orange5,
+  'danger': $red5,
+);
+
+$icon-font-path: '~@blueprintjs/icons/resources/icons';
+
+$table-background-color: $white;
+$pt-icon-color: $l-color-base;
+// Set it to 3px for the buttons
+$pt-border-radius: $l-borderRadius-buttonElements; // Used to be 0
+$table-border-color: $black-10;
+
+$progress-track-color: $black-10;
+$progress-head-color: $black-30;
+
+$dark-progress-track-color: rgba($black, 0.5) !default;
+$dark-progress-head-color: $gray3 !default;
+
+$pt-font-size: $l-fontSize-root;
+$pt-font-family: $l-fontFamily-base, 'Icons16',
+  // support inline Palantir icons
+  sans-serif;
+$pt-text-color: $l-color-base;
+
+// Used in the date-picker
+$blue3: $l-colorPrimary;
+
+$select-popover-max-width: 500px;
+
+$tag-input-padding: 4px;

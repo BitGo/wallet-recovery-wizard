@@ -5,7 +5,7 @@ Our tool can help you build a transaction to recover EOS, but you have to broadc
 
 Unfortunately, we could not find any block explorers that can assist you with broadcasting, but we have found a list of full node endpoints which you can call.
 
-If you found that these URLs are no longer valid, you can likely find newly hosted endpoints via google search. Please also let us know so we can update these URLs.
+If you found that these URLs are no longer valid, you can likely find newly hosted endpoints via Google search. Please also let us know so we can update these URLs.
 
 
 1) Find a fullnode URL. Below are a few known 3-party API endpoints for your reference:

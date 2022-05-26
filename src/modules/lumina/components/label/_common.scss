@@ -1,0 +1,65 @@
+//
+// Label Common
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+
+
+// Variables
+// ---------
+
+$l-label-width--horizontal-narrow:      134px;
+$l-label-width--horizontal:             170px;
+$l-label-width--horizontal-wide:        260px;
+$l-label-backgroundColor--horizontal:   $light-gray;
+$l-label-weight:                        600;
+
+
+// Mixins
+// ------
+
+// Note: Do not add margin here. Add in label react component, and will
+// therefore allows override.
+@mixin l-label() {
+  font-weight: $l-label-weight;
+  color: $dark-gray;
+  // TODO(louis): Need to add this otherwise double line labels look bad. Make
+  // sure doesn't break anything
+  line-height: 1.5;
+}
+
+@mixin l-label--horizontal() {
+  // Labels should add up to 32px because that's the height of the buttons.
+  padding-top: 6px; // too big: $spacing-small;
+  padding-bottom: 6px; // too big: $spacing-small;
+
+  padding-left: $pt-grid-size;
+  padding-right: $pt-grid-size;
+  min-height: $height-2; // about 32px;
+
+  // Override blueprint
+  margin-bottom: 0;
+  background-color: $l-label-backgroundColor--horizontal;
+
+  border-bottom: 1px solid $l-input-borderColor;
+
+  // Need to add the border here instead of letting form content take care of
+  // everything because its own background covers the box shadows. And can't
+  // put behind because otherwise can't select text in label.
+  // Bottom, Left shadow
+  // box-shadow: inset  0 -1px 0 0 $l-input-borderColor,
+              // inset 1px 0 0 $l-input-borderColor;
+}
+
+@mixin l-label--s() {
+  font-size: $font-size-7;
+  font-weight: 500;
+  color: $silver;
+}
+
+@mixin l-label--xs() {
+  font-size: $font-size-8;
+  font-weight: 500;
+  color: $silver;
+}

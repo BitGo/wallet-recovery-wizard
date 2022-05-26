@@ -1,0 +1,81 @@
+// Typography
+// =============================================================================
+
+@import '../variables/_variables';
+
+@import './_reset';
+@import './_common';
+
+// Base
+// ----
+
+html {
+  // Changes the default tap highlight to be completely transparent in iOS.
+  -webkit-tap-highlight-color: rgba($black, 0);
+  font-family: $l-fontFamily-base;
+}
+
+// Need to create a stronger selector because somewhere downstream something
+// is adding font-family: sans-serif;
+.l-bitGoHtmlRoot {
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: $l-fontFamily-base;
+  }
+}
+
+// @supports (font-variation-settings: normal) {
+//   html {
+//     font-family: 'Inter var', $l-fontFamily-base;
+//   }
+// }
+
+body {
+  // TODO(louis): make sure autorpefixer is doing -webkit-text-size-adjust
+  text-size-adjust: 100%;
+  // Tachyons sets this
+  line-height: 1.15;
+
+  // https://blog.superhuman.com/how-to-hack-beautiful-flourishes-into-your-font-dc630bc52c3f
+  // font-feature-settings: "kern" 1, "dlig" 1;
+
+  // Blueprint does this:
+  // body {
+  //  @include base-typography();
+  //   color: $pt-text-color;
+  // }
+
+  // Foundation puts this into the app, we'll use it on the marketing site
+  font-feature-settings: 'liga', 'kern';
+  // Slash through zero
+  // font-feature-settings: 'zero' 1
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  // TODO(Louis): Figure out if this is worth it
+  // -webkit-font-smoothing: subpixel-antialiased;
+  // font-smoothing: subpixel-antialiased;
+  // font-smoothing: antialiased;
+}
+
+// Pretty Underline
+// ----------------
+
+.pretty-underline {
+  display: inline;
+  font-size: 1.25rem;
+  // Needs to be the same as background color
+  text-shadow: 1px 1px 0 #fff, -1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff;
+  background-image: linear-gradient(90deg, currentColor 100%, transparent 100%);
+  background-position: 0 1.04em;
+  background-repeat: repeat-x;
+  background-size: 1px 1px;
+}
+
+.pretty-underline::selection {
+  background-color: rgba(0, 150, 255, 0.3);
+  text-shadow: none;
+}

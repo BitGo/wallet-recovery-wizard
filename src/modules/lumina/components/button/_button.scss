@@ -1,0 +1,154 @@
+//
+// Button
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import './_common';
+@import '../input/_common';
+@import '~@blueprintjs/icons/src/_icons';
+@import '~@blueprintjs/core/src/components/button/_button';
+@import '~@blueprintjs/core/src/components/button/_button-group';
+
+// Button
+// ------
+
+.bp3-button {
+  // Needed here to override the bp3-button base from the import above.
+  @include l-button-base();
+  &:focus {
+    outline: none;
+  }
+}
+
+// Need to override the box shadow because there's no Blueprint variable for it
+// in disabled mode.
+.bp3-button:not([class*='bp3-intent-']):disabled,
+.bp3-button:not([class*='bp3-intent-']).bp3-disabled {
+  box-shadow: $button-box-shadow-disabled;
+}
+
+.bp3-button.bp3-minimal:not([class*='bp3-intent-']):disabled,
+.bp3-button.bp3-minimal:not([class*='bp3-intent-']).bp3-disabled {
+  box-shadow: none;
+}
+
+// Sizes
+// ------
+
+.bp3-button.bp3-small {
+  // For IE11
+  // https://github.com/philipwalton/flexbugs/issues/231
+  height: $l-button-height-small;
+  // font-size: 11px;
+}
+
+// .bp3-button {
+//   @include l-button-base();
+//   For IE11
+//   https://github.com/philipwalton/flexbugs/issues/231
+
+//   Note: this messes up the button when it is inside of an InputGroup
+//   height: $l-button-height;
+// }
+
+.bp3-button.bp3-large {
+  font-weight: 600;
+  font-size: $l-button-fontSize-large;
+  // For IE11
+  // https://github.com/philipwalton/flexbugs/issues/231
+  height: $l-button-height-large;
+}
+
+// Misc
+// ----
+
+.bp3-button--square {
+  min-width: 30px;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.bp3-minimal--horizontalCollapse {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.bp3-button.l-button--secondary {
+  background-color: transparent;
+  // TODO(louis): need to figure out how to make an intent
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.1) !important;
+}
+
+.bp3-button.l-button--tertiary {
+  background-color: transparent;
+  padding-left: 0;
+  padding-right: 0;
+
+  &:hover {
+    background-color: transparent;
+    text-decoration: underline;
+  }
+}
+
+// Used in marketing heros
+.bp3-button.l-button--whiteBorder {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.6), inset 0 -2px 0 rgba(255, 255, 255, 0.6) !important;
+  color: $white;
+
+  .bp3-icon > svg:not([fill]) {
+    color: $white;
+  }
+
+  &:hover {
+    background-color: transparent;
+    color: $white;
+  }
+}
+
+// Misc
+// ----
+
+.bp3-button.truncate.w-100 > .bp3-button-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+
+.l-button--xl {
+  padding-top: $spacing-medium;
+  padding-right: $spacing-large;
+  padding-bottom: $spacing-medium;
+  padding-left: $spacing-large;
+  // font-size: $font-size-5;
+  font-size: $font-size-6;
+  font-weight: 700;
+}
+
+.l-htmlTable-warningButton {
+  position: absolute;
+  top: 0;
+  left: -26px;
+  min-width: 26px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.l-htmlTable-removeButton {
+  position: absolute;
+  top: 0;
+  right: -20px;
+  min-width: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.bp3-button.l-button--br0--bottomRight,
+.bp3-control-group > .bp3-button.l-button--br0--bottomRight {
+  border-bottom-right-radius: 0;
+}
+
+.bp3-button.l-button--br0--bottomLeft,
+.bp3-control-group > .bp3-button.l-button--br0--bottomLeft {
+  border-bottom-left-radius: 0;
+}

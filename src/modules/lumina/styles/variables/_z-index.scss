@@ -1,0 +1,41 @@
+//
+// Z-Index for shared components
+// =============================================================================
+
+// Z-Index Scale (private vars)
+// ----------------------------
+
+$l-zIndex-0: 0;
+$l-zIndex-1: 1;
+$l-zIndex-2: 2;
+$l-zIndex-3: 3;
+$l-zIndex-4: 4;
+$l-zIndex-5: 5;
+$l-zIndex-6: 6;
+$l-zIndex-7: 7;
+$l-zIndex-8: 8;
+$l-zIndex-9: 9;
+$l-zIndex-10: 10;
+
+// Z-Index Components
+// ------------------
+
+$l-zIndex--formContentBlock: $l-zIndex-0;
+$l-zIndex--formContent: $l-zIndex-0 + 1;
+
+$l-zIndex--input: $l-zIndex-1;
+$l-zIndex--label: $l-zIndex-1;
+$l-zIndex--toolHeaderLeftSideElement: $l-zIndex-1;
+$l-zIndex--tradeLiquidityPanel-overlayButton: $l-zIndex-1;
+
+$l-zIndex--inputFocused: $l-zIndex-2;
+$l-zIndex--toolHeaderRightSideElement: $l-zIndex-2;
+
+$l-zIndex--formContentBlock-topBorder: $l-zIndex-3;
+
+$l-zIndex--internalContainer-expanderButton: $l-zIndex-4;
+$l-zIndex--validationBanner: $l-zIndex-4;
+
+$l-zIndex--printFrame: $l-zIndex-7;
+
+$l-zIndex--updateCover: $l-zIndex-9;

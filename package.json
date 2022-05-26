@@ -1,156 +1,165 @@
 {
-  "name": "BitGoWalletRecoveryWizard",
-  "author": "BitGo, Inc.",
+  "name": "bitgo-wallet-recovery-wizard",
+  "version": "4.0.0",
   "description": "A UI-based desktop app for BitGo Recoveries",
-  "version": "3.1.3",
-  "private": true,
-  "main": "resources/electron.js",
-  "homepage": "./",
+  "main": "./.webpack/main",
   "scripts": {
-    "start": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
-    "dev": "NODE_ENV=development concurrently 'node scripts/start.js' 'node scripts/electron-wait-react'",
-    "electron": "electron .",
-    "build": "NODE_ENV=production node scripts/build.js",
-    "pack": "npm run build && ./node_modules/.bin/electron-builder --dir",
-    "lint": "eslint --ext .js src",
-    "check-fmt": "prettier --check .",
-    "apply-fmt": "prettier --write ."
+    "start": "IS_DEVELOPMENT=true electron-forge start",
+    "package": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" NODE_ENV=production electron-forge package",
+    "make": "cross-env NODE_OPTIONS=\"--max-old-space-size=8192\" NODE_ENV=production electron-forge make",
+    "extract-messages": "extract-messages -l=en,ja -o lang/ -d en --flat true 'src/**/messages.ts'",
+    "lint": "eslint '*/**/*.{js,ts,tsx}'",
+    "lint:fix": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
+    "test": "mocha",
+    "test:debug": "mocha --inspect-brk"
   },
-  "dependencies": {
-    "@bitgo/utxo-lib": "2.2.2-rc.2",
-    "autoprefixer": "8.6.5",
-    "bignumber.js": "^9.0.0",
-    "bitgo": "14.1.0-wrw-hotfix.2",
-    "bootstrap": "^4.3.1",
-    "case-sensitive-paths-webpack-plugin": "2.1.2",
-    "chalk": "2.4.1",
-    "classnames": "2.2.6",
-    "dns": "file:./src/mock/dns",
-    "dotenv": "6.0.0",
-    "dotenv-expand": "4.2.0",
-    "file-loader": "1.1.11",
-    "filemanager-webpack-plugin": "^6.1.7",
-    "jquery": "^3.6.0",
-    "jszip": "3.7.1",
-    "lodash": "4.17.21",
-    "moment": "2.24.0",
-    "object-assign": "4.1.1",
-    "postcss-flexbugs-fixes": "3.3.1",
-    "postcss-loader": "2.1.6",
-    "promise": "8.0.2",
-    "raf": "3.4.0",
-    "react": "16.7.0",
-    "react-dom": "16.7.0",
-    "react-router-dom": "4.3.1",
-    "react-select": "1.3.0",
-    "react-transition-group": "2.5.3",
-    "reactstrap": "6.5.0",
-    "regenerator-runtime": "^0.13.7",
-    "sodium": "^3.0.2",
-    "style-loader": "0.21.0",
-    "url-loader": "1.0.1",
-    "whatwg-fetch": "2.0.4"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.14.6",
-    "@babel/plugin-transform-runtime": "^7.14.5",
-    "@open-wc/webpack-import-meta-loader": "^0.4.7",
-    "@babel/preset-env": "^7.0.0",
-    "@babel/preset-react": "^7.14.5",
-    "ajv": "6.9.1",
-    "asar": "0.14.6",
-    "babel-eslint": "^9.0.0",
-    "babel-jest": "^23.4.2",
-    "babel-loader": "^8.2.2",
-    "babel-preset-react-app": "3.1.2",
-    "concurrently": "3.6.1",
-    "css-loader": "1.0.1",
-    "electron": "9.2.1",
-    "electron-builder": "^22.5.1",
-    "eslint": "4.10.0",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-config-react-app": "2.1.0",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-flowtype": "2.39.1",
-    "eslint-plugin-import": "2.8.0",
-    "eslint-plugin-jsx-a11y": "6.2.1",
-    "eslint-plugin-react": "7.4.0",
-    "fs-extra": "6.0.1",
-    "html-webpack-plugin": "4.5.2",
-    "jest": "^24.8.0",
-    "mini-css-extract-plugin": "^1.6.2",
-    "prettier": "2.1.2",
-    "react-dev-utils": "^6.0.0-next",
-    "terser-webpack-plugin": "^4.2.3",
-    "webpack": "4.46.0",
-    "webpack-dev-server": "2.11.3",
-    "webpack-manifest-plugin": "2.0.4"
-  },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{js,jsx,mjs}"
-    ],
-    "setupFiles": [
-      "<rootDir>/config/polyfills.js"
-    ],
-    "testMatch": [
-      "<rootDir>/src/**/__tests__/**/*.{js,jsx,mjs}",
-      "<rootDir>/src/**/?(*.)(spec|test).{js,jsx,mjs}"
-    ],
-    "testEnvironment": "node",
-    "testURL": "http://localhost",
-    "transform": {
-      "^.+\\.(js|jsx|mjs)$": "<rootDir>/node_modules/babel-jest",
-      "^.+\\.css$": "<rootDir>/config/jest/cssTransform.js",
-      "^(?!.*\\.(js|jsx|mjs|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
-    },
-    "transformIgnorePatterns": [
-      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs)$"
-    ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
-    "moduleFileExtensions": [
-      "web.js",
-      "mjs",
-      "js",
-      "json",
-      "web.jsx",
-      "jsx",
-      "node"
-    ]
-  },
-  "babel": {
-    "plugins": [
-      "@babel/plugin-transform-runtime"
-    ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "build": {
-    "appId": "com.bitgo.WalletRecoveryWizard",
-    "directories": {
-      "buildResources": "resources",
-      "app": "app"
-    },
-    "mac": {
-      "category": "public.app-category.developer-tools",
-      "target": "dmg",
-      "icon": "icons/mac/appicon.icns"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "icons/win/appicon.ico"
-    },
-    "linux": {
-      "target": "deb",
-      "maintainer": "support@bitgo.com",
-      "icon": "icons/png"
+  "keywords": [],
+  "author": "BitGo, Inc.",
+  "license": "BitGo",
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "./src/assets/icon/mac/icon.icns"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "bitgo-wallet-recovery-wizard"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        }
+      ],
+      "plugins": [
+        [
+          "@electron-forge/plugin-webpack",
+          {
+            "mainConfig": "./webpack.main.config.js",
+            "devContentSecurityPolicy": "connect-src 'self' * 'unsafe-eval'",
+            "renderer": {
+              "config": "./webpack.renderer.config.js",
+              "nodeIntegration": true,
+              "entryPoints": [
+                {
+                  "html": "./src/index.html",
+                  "js": "./src/renderer.ts",
+                  "name": "main_window"
+                }
+              ]
+            },
+            "port": 3002,
+            "loggerPort": 9002
+          }
+        ]
+      ]
     }
   },
-  "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=6.11.3"
+  "dependencies": {
+    "@bitgo/statics": "6.18.0-rc.17",
+    "@bitgo/sdk-core": "1.1.0-rc.15",
+    "@bitgo/utxo-lib": "2.3.0-rc.10",
+    "@blueprintjs/core": "3.38.1",
+    "@blueprintjs/icons": "3.24.0",
+    "@blueprintjs/select": "3.15.3",
+    "@lottiefiles/react-lottie-player": "^3.0.5",
+    "bignumber.js": "9.0.0",
+    "bitgo": "14.2.0-rc.27",
+    "classnames": "^2.2",
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#85fe13d3767decc245bd808a3134e6822c6ab3db",
+    "d3": "5.15.0",
+    "d3-format": "2.0.0",
+    "date-fns": "2.25.0",
+    "electron-rebuild": "3.2.3",
+    "electron-squirrel-startup": "^1.0.0",
+    "eslint-config-airbnb-typescript": "^14.0.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.21.5",
+    "filesize": "6.0.1",
+    "formik": "2.2.6",
+    "jspdf": "2.1.1",
+    "jszip": "3.10.0",
+    "lodash": "4.17.20",
+    "pluralize": "8.0.0",
+    "qrcode": "^1.4.4",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-dropzone": "6.0.3",
+    "react-intl": "^5.13.2",
+    "react-motion": "0.5.2",
+    "react-router-dom": "^5.2.0",
+    "react-textarea-autosize": "7.1.2",
+    "react-webcam": "^5.2.3",
+    "sanitize.css": "12.0.1",
+    "secrets.js-grempe": "2.0.0",
+    "secure-json-parse": "^2.4.0",
+    "tachyons-sass": "4.9.5",
+    "theme-ui": "0.9.1",
+    "uuid": "^8.3.2",
+    "yup": "0.32.8",
+    "zxcvbn": "4.4.2"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-typescript": "^7.13.0",
+    "@electron-forge/cli": "v6.0.0-beta.60",
+    "@electron-forge/maker-deb": "v6.0.0-beta.60",
+    "@electron-forge/maker-rpm": "v6.0.0-beta.60",
+    "@electron-forge/maker-squirrel": "v6.0.0-beta.60",
+    "@electron-forge/maker-zip": "v6.0.0-beta.60",
+    "@electron-forge/plugin-webpack": "v6.0.0-beta.60",
+    "@svgr/webpack": "5.5.0",
+    "@types/classnames": "2.2.9",
+    "@types/lodash": "4.14.161",
+    "@types/mocha": "8.2.1",
+    "@types/pluralize": "0.0.29",
+    "@types/qrcode": "1.4.1",
+    "@types/react": "16.9.34",
+    "@types/react-dom": "16.9.6",
+    "@types/react-textarea-autosize": "4.3.5",
+    "@types/react-router-dom": "^5.1.7",
+    "@types/styled-components": "5.1.0",
+    "@types/theme-ui": "0.3.7",
+    "@types/yup": "0.29.9",
+    "@types/zxcvbn": "4.4.1",
+    "@typescript-eslint/eslint-plugin": "^4.29.3",
+    "@typescript-eslint/parser": "^4.29.3",
+    "@vercel/webpack-asset-relocator-loader": "1.7.0",
+    "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
+    "coffee-script": "1.12.7",
+    "copy-webpack-plugin": "6.4.1",
+    "cross-env": "7.0.3",
+    "css-loader": "^4.3.0",
+    "electron": "11.3.0",
+    "esbuild-loader": "^2.16.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "18.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "extract-react-intl-messages": "^4.1.1",
+    "filemanager-webpack-plugin": "6.1.6",
+    "fork-ts-checker-webpack-plugin": "^5.2.1",
+    "mocha": "8.3.2",
+    "node-loader": "^1.0.2",
+    "node-sass": "4.14.1",
+    "prettier": "^2.4.1",
+    "sass-loader": "10.0.2",
+    "spectron": "^13.0.0",
+    "style-loader": "^1.3.0",
+    "svg-url-loader": " 6.0.0",
+    "typescript": "^4.1.5"
+  },
+  "resolutions": {
+    "keccak": "^3.0.2"
   }
 }

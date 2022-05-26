@@ -1,0 +1,51 @@
+//
+// Hover Arrow
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+
+.b-hoverArrow {
+  --arrowSpacing: 8px;
+  --arrowHoverTransition: 150ms cubic-bezier(0.215,0.61,0.355,1);
+  --arrowHoverOffset: translateX(4px);
+  position: relative;
+  top: 0;
+  margin-left: var(--arrowSpacing);
+  stroke-width: 2px;
+  // Override sanitize.css
+  fill: none !important;
+  stroke: currentColor;
+}
+
+.b-hoverArrow-linePath {
+  opacity: 0;
+  transition: opacity var(--hoverTransition,var(--arrowHoverTransition));
+}
+
+.b-hoverArrow-tipPath {
+  transition: transform var(--hoverTransition,var(--arrowHoverTransition));
+}
+
+@media (pointer: fine) {
+  a:hover .b-hoverArrow-linePath, button:hover .b-hoverArrow-linePath {
+    opacity: 1;
+  }
+}
+
+@media (pointer: coarse) {
+  a:active .b-hoverArrow-linePath, button:active .b-hoverArrow-linePath {
+    opacity: 1;
+  }
+}
+
+@media (pointer: coarse) {
+  a:active .b-hoverArrow-tipPath, button:active .b-hoverArrow-tipPath {
+    transform: var(--arrowHoverOffset);
+  }
+}
+
+@media (pointer: fine) {
+  a:hover .b-hoverArrow-tipPath, button:hover .b-hoverArrow-tipPath {
+    transform: var(--arrowHoverOffset);
+  }
+}

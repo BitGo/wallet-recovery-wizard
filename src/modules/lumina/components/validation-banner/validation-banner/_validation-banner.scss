@@ -1,0 +1,42 @@
+//
+// Validation Banner
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+
+.l-validationBanner--dialogHeader {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+}
+
+.l-validationBanner .l-validationBanner-icon {
+  color: $white;
+}
+
+.l-validationBanner-message {
+  z-index: $l-zIndex--validationBanner;
+}
+
+@media #{$breakpoint-not-small} {
+  .l-validationBanner-message--large {
+    // pv3 wasn't enough to align the banner to the topRightToolHeader icons
+    padding-top: 21px;
+    padding-bottom: 21px;
+  }
+}
+
+@media #{$breakpoint-not-small} {
+  .l-validationBanner-message--medium {
+    padding-top: 13px;
+    padding-bottom: 13px;
+  }
+}
+
+.l-validationBanner-message.l-validationBanner-message--absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}

@@ -1,0 +1,25 @@
+.l-logInForm-email .bp3-input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &:focus {
+    z-index: 1,
+  }
+}
+
+.l-logInForm-password .bp3-input {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: -1px;
+}
+
+.l-validationBanner.l-validationBanner--dialogHeader {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  right: 0;
+}
+
+.bp3-dialog-header .l-validationBanner .l-validationBanner-icon {
+  color: #fff;
+}

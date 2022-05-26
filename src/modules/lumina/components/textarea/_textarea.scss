@@ -1,0 +1,14 @@
+//
+// Textarea
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../../components/input/_common';
+
+.l-input-group.bp3-large {
+  textarea.bp3-input {
+    min-height: 40px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+}
