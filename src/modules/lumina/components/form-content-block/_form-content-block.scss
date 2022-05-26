@@ -1,0 +1,42 @@
+//
+// Form Content Block
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+
+.l-formContentBlock {
+  position: relative;
+  background-color: $white;
+  border: 1px solid $l-input-borderColor;
+  border-width: 1px 1px 0;
+
+
+  // &:before,
+  // &:after {
+  //   content: '';
+  //   display: block;
+  //   position: absolute;
+  //   top: 0;
+  //   width: 100%;
+  // }
+
+  // &:before {
+  //   // Left, Right shadow
+  //   box-shadow: inset 1px 0 0 $l-input-borderColor,
+  //               inset -1px 0 0 0 $l-input-borderColor;
+  //   height: 100%;
+  //   z-index: $l-zIndex--formContentBlock;
+  // }
+
+  // &:after {
+  //   // Top shadow
+  //   box-shadow: inset 0 1px 0 $l-input-borderColor;
+  //   height: 1px;
+  //   z-index: $l-zIndex--formContentBlock-topBorder;
+  // }
+
+  &:empty {
+    display: none;
+  }
+}

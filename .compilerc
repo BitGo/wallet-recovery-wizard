@@ -1,7 +1,0 @@
-{
-  "application/javascript": {
-    "presets": [
-      "react-app"
-    ]
-  }
-}

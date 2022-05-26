@@ -1,0 +1,33 @@
+//
+// Form Content Editable
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+@import '../label/common';
+
+.l-formContentEditable {
+
+}
+
+.l-formContentEditable--horizontal {
+  width: calc(100% - #{$l-label-width--horizontal});
+  border-bottom: 1px solid $l-input-borderColor;
+  transition: border-color .2s cubic-bezier(.4, 1, .75, .9);
+}
+
+.l-label--narrow + .l-formContentEditable--horizontal {
+  width: calc(100% - #{$l-label-width--horizontal-narrow});
+}
+
+.l-formContentEditable--horizontal:only-child {
+  width: 100%;
+}
+
+.l-formContentEditable--focused {
+  border-color: $l-input-borderColor-focus;
+}
+
+.l-formContentEditable--error {
+  border-color: $l-color-error;
+}

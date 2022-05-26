@@ -1,0 +1,42 @@
+//
+// Input Common
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+
+// Lumina Variables
+// ----------------
+
+$l-input-borderColor:           $semi-light-gray; // $l-borderColor-base too light
+$l-input-borderColor-focus:     $l-colorPrimary;
+$l-input-borderSize:            1px;
+$l-input-borderRadius:          3px;
+
+
+// blueprint/packages/core/src/common/_variables.scss
+// --------------------------------------------------
+
+// Don't want the 3d effect
+$pt-input-box-shadow:       none;
+// Don't want the font size to increase in large inputs
+$pt-font-size-large:        $pt-font-size;
+
+// $pt-input-height:           $pt-grid-size * 3;
+$pt-input-height:           32px;
+$pt-input-height-large:     $pt-grid-size * 4;
+
+
+// blueprint/packages/core/src/components/forms/_common.scss
+// ---------------------------------------------------------
+
+$input-padding-horizontal:          $pt-grid-size;
+$input-font-weight:                 400;
+$input-transition:                  box-shadow $pt-transition-duration $pt-transition-ease;
+
+$input-color:                       $l-color-base;
+$input-color-disabled:              $l-color-base;
+$input-placeholder-color:           $light-silver;
+$input-background-color:            transparent;
+$input-background-color-disabled:   transparent;
+
+$input-shadow-color-focus:          $l-colorPrimary;

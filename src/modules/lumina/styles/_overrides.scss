@@ -1,0 +1,617 @@
+//
+// Overrides
+// =============================================================================
+
+// TODO(louis): need to dive deeper into intents in blueprint
+.l-bitGoHtmlRoot {
+  .bp3-icon.bp3-intent-primary,
+  .bp3-icon-standard.bp3-intent-primary,
+  .bp3-icon-large.bp3-intent-primary {
+    color: $l-colorPrimary;
+  }
+}
+
+// Border Extensions
+// -----------------
+
+.b--dark {
+  border-color: #adb1b5;
+}
+
+.b--light {
+  border-color: #d6d9dc;
+}
+
+.bt--dashed {
+  // border-top: 1px dashed $light-gray;
+  border-top: 1px dashed $border-gray;
+}
+
+// Note: Do not have a user bb--dashed because we usually don't want a border
+// on the last row.
+.bb--dashed {
+  border-bottom: 1px dashed $border-gray;
+}
+
+.bg-highlight {
+  background-color: lighten($l-blue0, 4%);
+  border: 1px solid lighten(#d6d9dc, 7%);
+}
+
+.bg-highlight--error {
+  background-color: lighten($red, 38%);
+  border: 1px solid lighten($red, 22%);
+}
+
+// Card Tabs
+// ---------
+// Secondary tabs after tool tabs, used in trade screen primarily
+
+.l-cardTabs {
+  // Assume child has to deal with flexbox
+  display: flex;
+  flex-direction: column;
+
+  &.bp3-vertical {
+    flex-direction: row;
+  }
+
+  .bp3-tab:focus {
+    outline: none;
+  }
+
+  .bp3-tab-list {
+    border-bottom: 2px solid $l-borderColor-base;
+  }
+
+  .bp3-tab-panel {
+    // Override base tabs
+    margin-top: 0;
+    // Fill the space
+    flex-grow: 1;
+    display: flex;
+    // Propogate the scroll down
+    overflow: auto;
+  }
+
+  .bp3-tab-indicator {
+    background-color: $blue;
+    height: 2px;
+    margin-bottom: -2px;
+  }
+
+  .bp3-tab[aria-selected='true'] > div,
+  .bp3-tab[aria-selected='true'] > a > div,
+  .bp3-tab:not([aria-disabled='true']):hover > div,
+  .bp3-tab:not([aria-disabled='true']):hover > a > div {
+    color: $blue;
+  }
+}
+
+.l-cardTabs--block {
+  display: block;
+
+  .bp3-tab-panel {
+    display: block;
+  }
+}
+
+.bp3-tab[aria-disabled='true'] {
+  opacity: 0.8;
+}
+
+// Card Tabs H6 and H7 Level
+// -------------------------
+
+.l-cardTabs--h6,
+.l-cardTabs--h7 {
+  .bp3-tab-list {
+    background-color: $white;
+    border-bottom: 1px solid $l-borderColor-base;
+  }
+
+  .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+    background-color: $blue;
+    height: 2px;
+    margin-bottom: -1px;
+  }
+
+  .bp3-tab {
+    // Line it up with neighboring H7
+    // line-height: 30px;
+    // padding-top: 1px;
+
+    // Should be the the same as a card header renderHeader
+    // padding-top: $spacing-medium;
+    // This is too big because we have the border below it
+    // padding-top: $spacing-small;
+    // Do not add padding to top, that goes on the container holding the tabs
+    padding-top: 0;
+    padding-bottom: $spacing-small;
+    // padding-bottom: 8px;
+    line-height: $line-height-title;
+  }
+}
+
+.l-cardTabs--whiteBorder .bp3-tab-list {
+  border-bottom: 1px solid $white;
+}
+
+// TODO(louis): quick hack for the custody in react demo
+.l-cardTabs--pullDown {
+  margin-bottom: -5px;
+}
+
+// If the card tabs have siblings, the tab buttons need to be indented
+.l-cardTabs--ph3 .bp3-tab-list {
+  padding-left: $spacing-medium;
+  padding-right: $spacing-medium;
+}
+
+.l-cardTabs--pr3 .bp3-tab-list {
+  padding-right: $spacing-medium;
+}
+
+.l-cardTabs--ml3 .bp3-tab-list {
+  margin-left: $spacing-medium;
+}
+
+.l-cardTabs--ml4 .bp3-tab-list {
+  margin-left: $spacing-large;
+}
+
+// TODO(louis): this is rather hacky, but for some reason blueprint puts a width
+// 100% on their wrapper.
+.bp3-popover-wrapper.bp3-popover-wrapper-auto {
+  width: auto;
+}
+
+// TODO(louis): we need to make sure the "Create" option is visible in the
+// onboarding flow. This is a little hacky and should be cleaned up.
+// .bp3-multi-select-popover .bp3-menu {
+//   max-height: 470px;
+// }
+
+.l-popoverNoMaxWidth.bp3-multi-select-popover .bp3-menu {
+  // Override Blueprint
+  max-width: none;
+}
+
+// Tags
+// ----
+
+.bp3-tag {
+  border-radius: $l-borderRadius-buttonElements;
+  // border-radius: 12px;
+  font-weight: 600;
+  padding-left: 10px; // $spacing-small just a tad too little
+  padding-right: 10px; // $spacing-small just a tad too little
+}
+
+// Tool Tabs & Subtool Tabs
+// ------------------------
+
+// Very similar to .l-toolHeaderRightSide-link, maybe should refactor one day
+.l-toolTabs {
+  // Make sure it is not squished
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+
+  .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+    height: 2px;
+    background-color: $l-colorPrimary;
+  }
+
+  .bp3-tab-list {
+    min-height: $spacing-medium;
+    border-bottom: 1px solid $l-borderColor-base;
+    padding-left: $spacing-large;
+  }
+
+  .bp3-tab-panel {
+    margin-top: 0;
+    display: flex;
+    flex-grow: 1;
+  }
+
+  .bp3-tab {
+    min-height: 35px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.l-toolTabs-tabLabel {
+  color: $l-color-base;
+}
+
+.l-toolTabs-tabLabel.silver {
+  color: $silver;
+}
+
+.bp3-tab[aria-selected='true'],
+.bp3-tab:not([aria-disabled='true']):hover,
+.l-toolTabs .active .l-toolTabs-tabLabel {
+  .l-toolTabs-tabLabel {
+    color: $blue;
+  }
+}
+
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab,
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+  border-radius: $l-borderRadius-buttonElements;
+}
+
+.bp3-tab[aria-selected='true'],
+.bp3-tab:not([aria-disabled='true']):hover,
+.l-toolTabs .active .l-toolTabs-tabLabel {
+  color: $l-colorPrimary;
+}
+
+.l-subtoolTab {
+  min-width: 120px;
+  max-width: 180px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// Helpers
+// -------
+
+// TODO(louis): need to figure out how to access input className
+.u-tr .bp3-input {
+  text-align: right;
+}
+
+// Menus
+// -----
+
+.l-bitGoHtmlRoot .bp3-menu-item {
+  // Override such that the height of a menu item is 32px, which is the height
+  // of a button.
+  min-height: 32px;
+  // Override 7px
+  padding-top: 4px;
+  // Override 7px
+  padding-bottom: 4px;
+  // Align center
+  align-items: center;
+}
+
+// Tooltip
+// -------
+
+.l-bitGoHtmlRoot .bp3-tooltip {
+  .bp3-popover-content {
+    background-color: $white;
+    color: $l-color-base;
+
+    // Do not do this, apply mw to content of tooltip
+    // max-width: $measure-narrow;
+
+    // .bp3-popover-content has a overflow auto
+    overflow: visible;
+  }
+
+  .bp3-popover-arrow-fill {
+    fill: $white;
+  }
+}
+
+// Ordered Lists
+// -------------
+
+.l-orderedList {
+  counter-reset: li 0;
+  padding-left: 20px;
+  list-style: none;
+
+  > li {
+    vertical-align: top;
+    counter-increment: li 1;
+  }
+
+  > li::before {
+    content: counter(li);
+    color: $light-silver;
+    display: inline-block;
+    width: 20px;
+    margin-left: -20px;
+    text-align: left;
+    line-height: 1.5;
+  }
+}
+
+// Checkbox Icon
+// -------------
+// https://github.com/palantir/blueprint/pull/2742
+
+.bp3-control.bp3-checkbox input:checked ~ .bp3-control-indicator::before {
+  // Need to override background-image, see link above why
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M12 5c-.28 0-.53.11-.71.29L7 9.59l-2.29-2.3a1.003 1.003 0 0 0-1.42 1.42l3 3c.18.18.43.29.71.29s.53-.11.71-.29l5-5A1.003 1.003 0 0 0 12 5z' fill='rgba(255,255,255,1)'/%3E%3C/svg%3E");
+}
+
+.bp3-control.bp3-checkbox input:indeterminate ~ .bp3-control-indicator::before {
+  // Need to override background-image, see link above why
+  background-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill-rule='evenodd' clip-rule='evenodd' d='M11 7H5c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1z' fill='%23fff'/></svg>");
+}
+
+// Bug in the Blueprint library where the checkbox and radio field go white when disabled
+.l-bitGoHtmlRoot .bp3-control {
+  &.bp3-checkbox input:disabled ~ .bp3-control-indicator,
+  input:disabled ~ .bp3-control-indicator {
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+    background-color: $near-white;
+  }
+
+  &.bp3-checkbox.bp3-disabled input:disabled:checked ~ .bp3-control-indicator {
+    background: rgba(19, 124, 189, 0.5);
+    box-shadow: none;
+  }
+}
+
+.l-bitGoHtmlRoot {
+  .bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab[aria-selected="true"],
+    .bp3-tab a:hover,
+    // TODO(louis): investigate general theme colors of Blueprint with the rebrand
+    .bp3-icon.bp3-intent-primary,
+    .bp3-icon-standard.bp3-intent-primary,
+    .bp3-icon-large.bp3-intent-primary {
+    color: $l-colorPrimary;
+  }
+}
+
+// Small visual bug on retina where half pixel causes things to look misaligned
+// But this creates an issue on a 4k monitor...
+// .bp3-control.bp3-checkbox .bp3-control-indicator {
+//   margin-top: 1px;
+// }
+
+// Blueprint Dialog
+// ----------------
+
+.l-bitGoHtmlRoot {
+  // Note: we don't add the z-index here, we let Blueprint take care of the
+  // z-index
+  // .bp3-overlay-scroll-container.bp3-overlay-open
+  // .bp3-overlay-backdrop
+  // .bp3-overlay-content
+  // .bp3-dialog-container.bp3-overlay-content
+
+  .bp3-overlay:focus,
+  .bp3-dialog-container:focus {
+    outline: none;
+  }
+
+  .l-dialog--topAligned {
+    .bp3-dialog-container {
+      align-items: flex-start;
+    }
+
+    .bp3-dialog {
+      margin: 60px 0;
+    }
+  }
+
+  .bp3-dialog-header {
+    // For validation banner
+    position: relative;
+    padding: $spacing-medium + $spacing-small $spacing-large 0;
+    box-shadow: none;
+  }
+
+  h4.bp3-heading,
+  .bp3-running-text h4 {
+    font-weight: 600;
+    font-size: $font-size-5;
+    // Height of the close button
+    min-height: 32px;
+    line-height: 32px;
+  }
+
+  .bp3-dialog-close-button {
+    margin-right: -7px;
+  }
+
+  .bp3-dialog-body {
+    margin: $spacing-medium $spacing-large;
+    position: relative;
+  }
+
+  .bp3-dialog-body--flush {
+    margin: 0;
+  }
+
+  .bp3-dialog--w0 {
+    width: $max-width-6;
+  }
+
+  .bp3-dialog--w1 {
+    width: $width-5 + $width-4;
+  }
+
+  .bp3-dialog--w2 {
+    width: 600px;
+  }
+
+  .bp3-dialog--w3 {
+    width: 800px;
+  }
+
+  .bp3-dialog--w4 {
+    width: 1200px;
+  }
+
+  .bp3-dialog-footer {
+    margin-bottom: $spacing-medium;
+  }
+
+  .l-dialogCloseButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .bp3-dialog {
+    background-color: $white;
+    padding-bottom: 0;
+    border-radius: 0;
+  }
+
+  .bp3-dialog {
+    background-color: $white;
+  }
+
+  .bp3-dialog--cover {
+    min-height: 100vh;
+    width: 100vw;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .bp3-dialog--large {
+    width: 950px;
+  }
+}
+
+// Blueprint Drawer
+// ----------------
+
+.l-bitGoHtmlRoot {
+  .bp3-drawer-header {
+    // Remove shadow
+    // box-shadow: none;
+    padding: $spacing-medium $spacing-large;
+    // Need to set z-index otherwise the images lap over it
+    z-index: 1;
+  }
+}
+
+// Popover
+// -------
+
+.l-bitGoHtmlRoot .bp3-popover {
+  border-radius: 0;
+  box-shadow: $l-paper--zDepth-1;
+
+  // Breaks arrows
+  // overflow-y: auto;
+  // overflow-x: hidden;
+
+  .bp3-popover-content,
+  .bp3-menu {
+    border-radius: 0;
+  }
+
+  // We set a max height on this in app-container
+  .bp3-popover-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+
+// Blueprint Checkbox
+// ------------------
+
+.l-checkbox-leftOffset {
+  // .bp3-control:not(.bp3-align-right) padding offset
+  padding-left: 26px;
+}
+
+// Blueprint Switch
+// ----------------
+
+.l-switch-leftOffset {
+  padding-left: 38px;
+}
+
+// Added .l-bitGoHtmlRoot  to increase specificity
+.l-bitGoHtmlRoot {
+  .bp3-control {
+    // Otherwise colors in a muted blue. Needed for switches
+    color: inherit;
+
+    // Weird issue with blueprint
+    &.bp3-switch input:disabled ~ .bp3-control-indicator {
+      background-color: rgba(167, 182, 194, 0.25);
+    }
+  }
+}
+
+// Blueprint Input
+// ---------------
+
+.l-bitGoHtmlRoot {
+  .bp3-control-group:not(.bp3-vertical) > *:not(.bp3-divider) {
+    // Need to override blueprint because we don't use box shadows.
+    margin-right: 0;
+  }
+
+  .bp3-html-select select,
+  .bp3-select select {
+    // the lower case "g" is getting cut off, needs further investigation why
+    // this is needed.
+    line-height: 20px;
+  }
+}
+
+// Radio Group
+// -----------
+
+.l-radioGroup {
+  label.bp3-label {
+    margin-bottom: $spacing-small;
+  }
+}
+
+.l-radioGroup--error label.bp3-label {
+  color: $l-color-error;
+}
+
+.l-radioGroup .bp3-control .bp3-control-indicator {
+  margin-top: 1px;
+  vertical-align: top;
+}
+
+.l-radioGroup .bp3-control input:disabled ~ .bp3-control-indicator {
+  background: rgba(206, 217, 224, 0.5);
+}
+
+// Toaster
+// -------
+
+.l-toaster {
+  .bp3-toast {
+    font-weight: 500;
+    background-color: $black;
+    color: $white;
+  }
+
+  .bp3-toast.bp3-intent-danger {
+    background-color: #db3737;
+    color: $white;
+  }
+
+  .bp3-spinner .bp3-spinner-track {
+    stroke: rgba(255, 255, 255, 0.1);
+  }
+
+  .bp3-spinner .bp3-spinner-head {
+    stroke: rgba(255, 255, 255, 0.4);
+  }
+
+  .bp3-icon > svg:not([fill]) {
+    fill: $white;
+  }
+
+  .bp3-toast-message {
+    // TODO(louis): should fix this
+    font-weight: 500;
+  }
+
+  .bp3-button-text {
+    color: $white;
+  }
+}

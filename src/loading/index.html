@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class="l-bitGoHtmlRoot">
+
+<head>
+  <meta charset="UTF-8">
+  <title>BitGo Wallet Recovery Wizard</title>
+</head>
+
+<body>
+  <div id="l-rootLoading" style="display: flex">
+    <div class="bp3-spinner l-spinner">
+      <div class="bp3-spinner-animation"><svg width="50" height="50" stroke-width="8.00" viewBox="1.00 1.00 98.00 98.00">
+          <path class="bp3-spinner-track" d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90"></path>
+          <path class="bp3-spinner-head" d="M 50,50 m 0,-45 a 45,45 0 1 1 0,90 a 45,45 0 1 1 0,-90" pathLength="280"
+            stroke-dasharray="280 280" stroke-dashoffset="210"></path>
+        </svg></div>
+    </div>
+    <div class="l-loadingText">
+      Loading BitGo Wallet Recovery Wizard
+    </div>
+  </div>
+  <style>
+    #l-rootLoading {
+      z-index: -1;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    @keyframes pt-spinner-animation {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .bp3-spinner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: visible;
+      vertical-align: middle;
+    }
+
+    .bp3-spinner svg {
+      display: block;
+    }
+
+    .bp3-spinner path {
+      fill-opacity: 0;
+    }
+
+    .bp3-spinner .bp3-spinner-head {
+      transform-origin: center;
+      transition: stroke-dashoffset 200ms cubic-bezier(0.4, 1, 0.75, 0.9);
+      stroke: rgba(0, 0, 0, 0.3);
+      stroke-linecap: round;
+    }
+
+    .bp3-spinner .bp3-spinner-track {
+      stroke: rgba(0, 0, 0, 0.1);
+    }
+
+    .bp3-spinner-animation {
+      animation: pt-spinner-animation 500ms linear infinite;
+    }
+
+    .bp3-no-spin>.bp3-spinner-animation {
+      animation: none;
+    }
+
+    .l-loadingText {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: 12px;
+      margin-top: 20px;
+      color: #999;
+    }
+  </style>
+</body>
+
+</html>

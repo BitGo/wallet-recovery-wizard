@@ -1,0 +1,102 @@
+//
+// Section Header
+// =============================================================================
+// Helps break up content of panels, cards, and modals
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+
+// Note that we don't put a background color on this because otherwise it can
+// bleed out of the header with rounded corners.
+// Note that we don't add margin here. We add it on the sectionBody
+.l-sectionHeader {
+  display: flex;
+  // Use padding instead of margin because otherwise scrollspy gets screwed up
+  // padding: $l-spacingRem-unit--xs 0;
+  justify-content: space-between;
+  align-items: center;
+  // Height of a sm button
+  min-height: 28px;
+  border-bottom: 1px solid $l-borderColor-base;
+}
+
+.l-sectionHeader--noBorderBottom {
+  border-bottom: 0
+}
+
+.l-sectionHeader--nonSeparating {
+  margin-right: $spacing-large;
+  margin-left: $spacing-large;
+}
+
+.l-sectionHeader--collapse {
+  margin-bottom: 0;
+}
+
+.l-sectionHeader--paddedHorizontal {
+  padding-left: $spacing-large;
+  padding-right: $spacing-large;
+}
+
+.l-sectionHeader--h7Tabs {
+  // Make the H7 section header a sibling to the tabs in h7
+  min-height: 24px;
+  align-items: start;
+}
+
+
+// Section Header Group
+// --------------------
+
+.l-sectionHeaderGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.l-sectionHeaderGroup:first-child {
+  flex-grow: 0;
+}
+
+.l-sectionHeaderGroup:last-child {
+  justify-content: flex-end;
+}
+
+
+// Section Header Tab
+// ------------------
+
+// Extends .l-sectionHeader
+.l-sectionHeader--tabs {
+  padding: 0;
+  background-color: $light-gray;
+  justify-content: flex-start;
+}
+
+.l-sectionHeaderTab {
+  padding: $spacing-small $spacing-large;
+  // Need to override the h6 typography spacing
+  margin: 0;
+  // Height of a button
+  line-height: 30px;
+  color: $blue;
+  cursor: pointer;
+  border-right: 1px solid $light-gray;
+  border-left: 1px solid $light-gray;
+}
+
+.l-sectionHeaderTab:first-child {
+  border-left: 0;
+}
+
+.l-sectionHeaderTab--active {
+  // Make up for the negative margin
+  // padding-bottom: $spacing-small + 1px;
+  padding-bottom: $spacing-small;
+  // Pull it down by one pixel to cover up the border
+  margin-bottom: -1px;
+  color: $l-color-base;
+  background-color: $white;
+  border-right: 1px solid $moon-gray;
+  border-left: 1px solid $moon-gray;
+}

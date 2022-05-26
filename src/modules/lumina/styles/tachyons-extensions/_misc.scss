@@ -1,0 +1,377 @@
+//
+// Misc Tachyons
+// =============================================================================
+
+@import '../variables/variables';
+
+// Utils
+// -----
+
+// Sometimes need to override blueprint crappy selectors
+.u-flex {
+  display: flex !important;
+}
+
+// Financial Colors
+// ----------------
+
+.positive {
+  color: $l-colorPositive;
+}
+
+.negative {
+  color: $l-colorNegative;
+}
+
+// BGs
+// ---
+
+.bg-positive {
+  background-color: $l-colorPositive;
+}
+
+.bg-negative {
+  background-color: $l-colorNegative;
+}
+
+.bg-almost-white {
+  background-color: $almost-white;
+}
+
+@media #{$breakpoint-large} {
+  .bg-almost-white-l {
+    background-color: $almost-white;
+  }
+}
+
+.bg-subtle-white {
+  background-color: $subtle-white;
+}
+
+.bg-cream1 {
+  background-color: $cream-1;
+}
+
+.bg-cream2 {
+  background-color: $cream-2;
+}
+
+.bg-highlight {
+  background-color: lighten($l-blue0, 4%);
+  border: 1px solid lighten(#d6d9dc, 7%);
+}
+
+.bg-highlight--error {
+  background-color: lighten($red, 38%);
+  border: 1px solid lighten($red, 22%);
+}
+
+.hover-bg-highlight:hover {
+  background-color: $l-color-highlight-1;
+}
+
+// Borders
+// -------
+
+.bt--dashed {
+  // border-top: 1px dashed $light-gray;
+  border-top: 1px dashed $border-gray;
+}
+
+// Note: Do not have a user bb--dashed because we usually don't want a border
+// on the last row.
+.bb--dashed {
+  border-bottom: 1px dashed $border-gray;
+}
+
+.ba--dashed {
+  border: 1px dashed $border-gray;
+}
+
+.b--error {
+  border-color: $l-color-error;
+}
+
+// Clickable surface
+// -----------------
+
+.bg-almost-white-hover {
+  color: $l-color-base;
+  background-color: $white;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    color: $l-color-base;
+    background-color: $almost-white;
+  }
+}
+
+.hover-color-blue:hover {
+  color: $l-colorPrimary;
+}
+
+// Note: this is defined in _input.scss because there's some weird import
+// issue where we can't import svgs in this file.
+// .bg-disabled {
+//   background-clip: padding-box;
+//   background-image: url('./assets/disabled-pattern.svg');
+//   background-repeat: repeat;
+// }
+
+// Borders
+// -------
+
+.b--border {
+  border-color: $border-gray;
+}
+
+.b--input {
+  border-color: $l-input-borderColor;
+}
+
+.b--semi-light-gray {
+  border-color: $semi-light-gray;
+}
+
+.bw-tabs {
+  border-top-width: 2px;
+}
+
+.b--positive {
+  border-color: $l-colorPositive;
+}
+
+.b--negative,
+.b--error {
+  border-color: $l-colorNegative;
+}
+
+// Font
+// ----
+
+.fs-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+
+.ff-cond {
+  font-family: 'aktiv-grotesk-condensed', sans-serif;
+}
+
+.ff-mono {
+  // font-family: 'LabGrotesqueMono', Courier, monospace;
+  // font-family: Courier, monospace;
+  // font-family: "source-code-pro", monospace;
+  // font-family: Inconsolata, serif;
+  font-family: Menlo, Consolas, monospace;
+}
+
+.lh-title-tight {
+  line-height: 1.16667;
+}
+
+.plantin {
+  font-family: 'plantin', sans-serif;
+}
+
+.caslon {
+  font-family: 'adobe-caslon-pro', sans-serif;
+}
+
+.f8 {
+  font-size: $font-size-8;
+}
+
+@media #{$breakpoint-large} {
+  .f8-l {
+    font-size: $font-size-8;
+  }
+}
+
+.f9 {
+  font-size: $font-size-9;
+}
+
+.tracked-condensed {
+  // letter-spacing: -$l-letterSpacing-halfPixel;
+  letter-spacing: -0.01em;
+}
+
+.tracked-slight {
+  // letter-spacing: -$l-letterSpacing-halfPixel;
+  letter-spacing: 0.075em;
+}
+
+// Measure
+// -------
+// Need an increased size for the marketing
+
+.measure-narrow2 {
+  max-width: 16em;
+}
+
+.measure-wide2 {
+  max-width: 40em;
+}
+
+.measure-none {
+  max-width: none;
+}
+
+@media #{$breakpoint-not-small} {
+  .measure-wide2-ns {
+    max-width: 40em;
+  }
+
+  .measure-none-ns {
+    max-width: none;
+  }
+}
+
+@media #{$breakpoint-medium} {
+  .measure-wide2-m {
+    max-width: 40em;
+  }
+
+  .measure-none-m {
+    max-width: none;
+  }
+}
+
+@media #{$breakpoint-large} {
+  .measure-wide2-l {
+    max-width: 40em;
+  }
+
+  .measure-none-l {
+    max-width: none;
+  }
+}
+
+@media #{$breakpoint-extra-large} {
+  .measure-wide2-xl {
+    max-width: 40em;
+  }
+
+  .measure-none-xl {
+    max-width: none;
+  }
+}
+
+// Spacing
+// -------
+
+.mw8-5 {
+  // max-width: 64rem;
+  // max-width: 96rem;
+  max-width: 80rem;
+}
+
+.mb05 {
+  margin-bottom: $spacing-extra-extra-small;
+}
+
+.mt05 {
+  margin-top: $spacing-extra-extra-small;
+}
+
+.pt05 {
+  padding-top: $spacing-extra-extra-small;
+}
+
+.pb05 {
+  padding-bottom: $spacing-extra-extra-small;
+}
+
+.flex-grow-2 {
+  flex-grow: 2;
+}
+
+.flex-hide {
+  display: none;
+}
+
+@media #{$breakpoint-not-small} {
+  .flex-hide-ns {
+    display: none;
+  }
+}
+
+@media #{$breakpoint-small} {
+  .center-s {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media #{$breakpoint-medium} {
+  .flex-hide-m {
+    display: none;
+  }
+
+  .flex-grow-2-m {
+    flex-grow: 2;
+  }
+
+  .center-m {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media #{$breakpoint-large} {
+  .flex-hide-l {
+    display: none;
+  }
+}
+
+@media #{$breakpoint-extra-large} {
+  .flex-hide-xl {
+    display: none;
+  }
+
+  .flex-xl {
+    display: flex;
+  }
+
+  .w-third-xl {
+    width: 33.33333%;
+  }
+}
+
+.link-disabled {
+  color: currentColor;
+  cursor: not-allowed;
+  text-decoration: none;
+  pointer-events: none;
+}
+
+// Pointer events
+// --------------
+
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+.unselectable {
+  user-select: none;
+}
+
+// Spacing
+// -------
+
+@media #{$breakpoint-extra-large} {
+  .pv7-xl {
+    // padding-top: $spacing-extra-extra-extra-large;
+    // padding-bottom: $spacing-extra-extra-extra-large;
+    padding-top: 12rem;
+    padding-bottom: 12rem;
+    // $spacing-extra-extra-large: 8rem;
+    // $spacing-extra-extra-extra-large: 16rem;
+  }
+}

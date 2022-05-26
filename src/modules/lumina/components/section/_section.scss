@@ -1,0 +1,15 @@
+//
+// Section
+// =============================================================================
+// Helps break up content of panels, cards, and modals
+
+@import '../../styles/variables/_variables';
+
+
+// Section Body
+// ------------
+
+.l-sectionBody.is-collapsed {
+  max-height: 0;
+  overflow: hidden;
+}

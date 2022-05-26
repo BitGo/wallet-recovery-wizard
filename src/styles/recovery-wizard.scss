@@ -1,0 +1,57 @@
+//
+// Recovery Wizard
+// =============================================================================
+
+// Shared
+// ------
+
+@import '../modules/lumina/styles/variables/_variables';
+@import '../modules/lumina/styles/shared';
+
+// Local Variables
+// ---------------
+
+@import './variables/_recovery-wizard-variables';
+
+// Imports
+// -------
+// Depend on variables
+
+// Defaults from Blueprint, need to be imported after the variables are defined.
+// Debug only
+// @import '~@blueprintjs/core/src/blueprint';
+
+// Only import what you need
+@import '~@blueprintjs/icons/src/blueprint-icons';
+@import '~@blueprintjs/core/src/common/variables';
+@import '~@blueprintjs/core/src/common/mixins';
+@import '~@blueprintjs/core/src/common/colors';
+@import '~@blueprintjs/core/src/reset';
+// '~@blueprintjs/core/src/typography' depends on this
+@import '~@blueprintjs/core/src/components/html-table/_html-table';
+@import '~@blueprintjs/core/src/typography';
+
+// Components
+@import '~@blueprintjs/core/src/components/icon/icon';
+@import '~@blueprintjs/core/src/components/popover/_popover';
+@import '~@blueprintjs/core/src/components/dialog/_dialog';
+@import '~@blueprintjs/core/src/components/drawer/_drawer';
+@import '~@blueprintjs/core/src/components/overlay/_overlay';
+@import '~@blueprintjs/core/src/components/breadcrumbs/_breadcrumbs';
+@import '~@blueprintjs/core/src/components/tabs/_tabs';
+@import '~@blueprintjs/core/src/components/menu/_menu';
+@import '~@blueprintjs/core/src/components/tooltip/_tooltip';
+@import '~@blueprintjs/core/src/components/panel-stack/_panel-stack';
+@import '~@blueprintjs/core/src/components/forms/_index';
+@import '~@blueprintjs/core/src/components/skeleton/_skeleton';
+@import '~@blueprintjs/core/src/components/tag/_tag';
+@import '~@blueprintjs/core/src/components/spinner/_spinner';
+@import '~@blueprintjs/core/src/components/portal/_portal';
+@import '~@blueprintjs/core/src/components/toast/_toast';
+@import '~@blueprintjs/core/src/components/collapse/_collapse';
+@import '~@blueprintjs/select/src/blueprint-select';
+
+// Overrides
+// ---------
+
+@import './_overrides';

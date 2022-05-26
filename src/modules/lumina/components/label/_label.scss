@@ -1,0 +1,83 @@
+//
+// Label
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+@import '../label/_common';
+
+.l-label,
+// Blueprint has this odd strong selector that we need to override
+label.bp3-label {
+  display: block;
+  position: relative;
+  z-index: $l-zIndex--label;
+  transition: background-color .2s cubic-bezier(.4, 1, .75, .9),
+              border-color .2s cubic-bezier(.4, 1, .75, .9),
+              color .2s cubic-bezier(.4, 1, .75, .9),
+              box-shadow .2s cubic-bezier(.4, 1, .75, .9);
+
+  @include l-label();
+}
+
+.l-label--horizontal {
+  min-width: $l-label-width--horizontal;
+
+  @include l-label--horizontal();
+
+  &.l-label--focused:not(.l-label--error) {
+    background-color: $lightest-blue;
+    border-color: $l-input-borderColor-focus;
+
+    // Left shadow, bottom shadow blue line
+    // TODO(louis): the left shadow causes issues with the transition, try
+    // and put the left shadow in the before or after element.
+    // box-shadow: inset 1px 0 0 $l-input-borderColor,
+    //             inset  0 -1px 0 0 $l-input-borderColor-focus;
+  }
+
+  &.l-label--error {
+    background-color: rgba($red, .2);
+    border-color: $l-color-error;
+  }
+}
+
+.l-label--error {
+  color: $l-color-error;
+}
+
+.l-label--wide {
+  min-width: $l-label-width--horizontal-wide;
+  max-width: $l-label-width--horizontal-wide;
+}
+
+.l-label--narrow {
+  min-width: $l-label-width--horizontal-narrow;
+  max-width: $l-label-width--horizontal-narrow;
+}
+
+.l-label--s {
+  @include l-label--s();
+}
+
+.l-label--xs {
+  @include l-label--xs();
+}
+
+// Need to add the extra selector strength
+.l-label.lh-solid {
+  line-height: 1;
+}
+
+// Need to add the extra selector strength
+.l-label.lh-title {
+  line-height: 1.25;
+}
+
+.l-labelHelper-horizontalOffset {
+  margin-left: $l-label-width--horizontal;
+}
+
+.l-labelHelperWidth {
+  width: $l-label-width--horizontal;
+}

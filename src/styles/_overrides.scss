@@ -1,0 +1,138 @@
+//
+// Overrides
+// =============================================================================
+
+@import '../modules/lumina/styles/variables/_variables';
+
+// Core
+// ----
+
+html,
+body,
+#root {
+  height: 100vh;
+  // No bounce on scroll
+  overflow: hidden;
+  display: flex;
+  flex-grow: 1;
+}
+
+// Components
+// ----------
+
+.bp3-control {
+  margin-bottom: 0;
+}
+
+.bp3-popover-backdrop {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+// Global - padding | margin - left | right | horizontal
+// -----------------------------------------------------
+// Temporary solution until we settle on spacing. We need a global className
+// that handles the spacing between elements on a page. It's hard to find a good
+// number because pages like trade are dense and others less so.
+
+// Things to consider
+// - Trade density
+// - Less dense pages like home, column separation
+// - "x" remove sign in tables
+
+.l-gpl {
+  padding-left: $spacing-large;
+}
+
+.l-gpr {
+  padding-right: $spacing-large;
+}
+
+.l-gph {
+  padding-left: $spacing-large;
+  padding-right: $spacing-large;
+}
+
+.l-gml {
+  margin-left: $spacing-large;
+}
+
+.l-gmr {
+  margin-right: $spacing-large;
+}
+
+.l-gmh {
+  margin-left: $spacing-large;
+  margin-right: $spacing-large;
+}
+
+// Vertical Tabs
+// -------------
+
+.l-verticalTabs {
+  // l-verticalTabs is display: flex
+  .bp3-tab-list,
+  .bp3-tab-panel {
+    flex-grow: 1;
+  }
+
+  // Override Blueprint
+  .bp3-tab,
+  .bp3-tab-list > *:not(:last-child) {
+    margin-right: 0;
+  }
+
+  a:focus,
+  .bp3-tab:focus {
+    outline: none;
+  }
+}
+
+.bp3-tabs.l-verticalTabs > .bp3-tab-list .bp3-tab {
+  // Equivalent of .l-gpl
+  padding-left: $spacing-large;
+}
+
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab-indicator-wrapper .bp3-tab-indicator,
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab[aria-selected='true'] {
+  background-color: $l-color-highlight-1;
+}
+
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab,
+.bp3-tabs.bp3-vertical > .bp3-tab-list .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+  border-radius: 0;
+}
+
+// Border radius right
+.bp3-tabs.bp3-vertical.l-verticalTabs--br--right > .bp3-tab-list .bp3-tab,
+.bp3-tabs.bp3-vertical.l-verticalTabs--br--right > .bp3-tab-list .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+// Border radius left
+.bp3-tabs.bp3-vertical.l-verticalTabs--br--left > .bp3-tab-list .bp3-tab,
+.bp3-tabs.bp3-vertical.l-verticalTabs--br--left > .bp3-tab-list .bp3-tab-indicator-wrapper .bp3-tab-indicator {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+// Usually we measure the max height of the window, however, because
+// we don't want another dependency, we just hardcode to max 400
+// .bp3-popover-content {
+//   max-height: 400px
+// }
+
+pre {
+  white-space: pre-wrap; /* css-3 */
+  white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+  white-space: -pre-wrap; /* Opera 4-6 */
+  white-space: -o-pre-wrap; /* Opera 7 */
+  word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
+
+canvas {
+  outline: 1px solid #000;
+  background-color: white;
+}

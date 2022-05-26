@@ -1,0 +1,34 @@
+//
+// Form Content
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+
+.l-formContent {
+  position: relative;
+}
+
+.l-formContent--horizontal {
+  display: flex;
+
+  // &:after {
+  //   // Bottom shadow
+  //   box-shadow: inset  0 -1px 0 0 $l-input-borderColor;
+  //   content: '';
+  //   display: block;
+  //   height: 100%;
+  //   position: absolute;
+  //   bottom: 0;
+  //   width: 100%;
+  //   z-index: $l-zIndex--formContent;
+  //   transition: box-shadow .2s cubic-bezier(.4, 1, .75, .9);
+  // }
+}
+
+.l-formContent--focused {
+  &:after {
+    // Bottom shadow blue line
+    // box-shadow: inset  0 -1px 0 0 $l-input-borderColor-focus;
+  }
+}

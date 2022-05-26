@@ -1,0 +1,25 @@
+//
+// Typography Common
+// =============================================================================
+
+// We choose system fonts because they are the most performance friendly.
+// see https://bitsofco.de/the-new-system-font-stack/
+$l-fontFamily-backup: 'SF UI Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+
+// Also update packages/shared/src/styles/theme.ts
+$l-fontFamily-primary: $l-fontFamily-backup;
+// $l-fontFamily-primary:        'GT-America', serif;
+$l-fontFamily-secondary: $l-fontFamily-primary;
+$l-fontFamily-heading: $l-fontFamily-primary;
+$l-fontFamily-base: $l-fontFamily-primary;
+$l-fontFamily-serif: 'plantin', $l-fontFamily-primary;
+
+$l-fontFamily-buttons: $l-fontFamily-secondary;
+$l-fontFamily-avatars: $l-fontFamily-secondary;
+
+// $l-fontSize-root: 14px;
+$l-fontSize-root: 13px;
+
+// .5 / $l-fontSize-root = .03571428571
+$l-letterSpacing-halfPixel: 0.03571428571em;

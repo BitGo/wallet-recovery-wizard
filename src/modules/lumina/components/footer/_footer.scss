@@ -1,0 +1,79 @@
+//
+// Footer
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+
+$l-footer-horizontalPadding:  $spacing-large;
+$l-footer-verticalPadding:    $spacing-medium;
+$l-backgroundColor-footer:    $cream-1;
+
+.l-footer {
+  display: flex;
+  flex-grow: 0;
+  flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  // TODO(louis): might be a little weird...
+  // margin-top: $spacing-small;
+  // Needed to hide
+  overflow: hidden;
+}
+
+.l-footer--noBorderTop {
+  border-top: 0;
+}
+
+.l-footer--transparent {
+  background-color: transparent;
+}
+
+.l-footer--horizontalPadding {
+  margin-left: $l-footer-horizontalPadding;
+  margin-right: $l-footer-horizontalPadding;
+
+  .l-footer-group {
+    &:first-child,
+    &:first-child:last-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+}
+
+.l-footer--center {
+  justify-content: center;
+}
+
+.l-footer-group {
+  display: flex;
+  align-items: center;
+  padding-top: $l-footer-verticalPadding;
+  padding-bottom: $l-footer-verticalPadding;
+
+  &:first-child:not(.l-footer-group--flush),
+  &:first-child:last-child:not(.l-footer-group--flush) {
+    padding-left: $l-footer-horizontalPadding;
+  }
+
+  &:last-child:not(.l-footer-group--flush) {
+    padding-right: $l-footer-horizontalPadding;
+  }
+}
+
+.l-footer-item {
+  margin-right: $spacing-medium;
+}
+
+.l-footer-group:last-child:not(:first-child) .l-footer-item {
+  margin-right: 0;
+  margin-left: $spacing-medium;
+}
+
+.l-footer-actionIcon {
+  // TODO(louis): Come up with font sizes for icons in headers
+  font-size: 18px;
+}

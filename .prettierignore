@@ -1,6 +1,4 @@
 *.md
-config/
-scripts/
-resources/
-dist/
-app/
+out/
+node_modules/
+.webpack/

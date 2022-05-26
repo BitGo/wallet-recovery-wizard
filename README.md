@@ -1,8 +1,6 @@
 # BitGo Wallet Recovery Wizard
 
-This tool is built for assisting customers with recovering coins from BitGo wallets.
-
-The application currently offers the following recoveries:
+This tool is built for assisting customers with recovering coins from BitGo wallets. The application currently offers the following recoveries:
 
 * Withdraw Funds without BitGo: 
 
@@ -30,12 +28,61 @@ The application currently offers the following recoveries:
     * Supported coins: BTG, BCH, and BSV
 * Unsupported Token Recovery: Unsupported tokens may only be recovered from a wallet's base address, but not from receive addresses
 
-## Installing and Downloading
-
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
-
 Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/releases).
 
-## Important Documentation
+### Important Documentation
 
 Instructions to broadcast EOS transactions: [EOS.md](EOS.md)
+
+### Development
+
+1. Double check that you are using node version `14.18.1`. Recommend using `nvm`.
+2. Run the following command and make sure you're in the root directory:
+```bash
+yarn install
+yarn run start
+```
+
+### Deployment
+
+To create a `.app` on OSX or `.deb` on Linux run the `yarn run package` command. The `yarn run package` command will create an `out/` folder and add the app in there once compiled. Run `yarn run make` to zip up the app to more easily share with others. Note that `yarn run make` commands use the `package` command.
+
+If making for testing purposes run:
+```bash
+yarn run make
+```
+
+### Testing
+
+To run the tests:
+```bash
+yarn run test
+```
+Make sure you've run `yarn run make` beforehand.
+
+### Debugging Tests
+
+- Open your chrome app at `chrome://inspect/#devices`.
+- Start the app with the following
+  ```bash
+  yarn run test:debug
+  ```
+- On `chrome://inspect/#devices` you'll then see a Remote Target to connect to.
+
+### Code Formatting
+
+With the Prettier extension installed you should already have editor.formatOnSave and editor.formatOnPaste working for your JS/TS code.
+
+Make sure you are using the right formatter on VSCode, with a .js(x) or .ts(x) file open, you can press Cmd+Shift+P and look for Format Document With... and make sure Prettier is your default formatter.
+
+For viewing all lint warnings/errors, run:
+
+```
+yarn run lint
+```
+
+For running the linter to fix auto fixable issues with ESLint, you can run this command:
+
+```
+yarn run lint:fix
+```

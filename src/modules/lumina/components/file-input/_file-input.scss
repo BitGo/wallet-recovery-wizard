@@ -1,0 +1,94 @@
+//
+// File Input
+// =============================================================================
+
+@import '../../styles/variables/_variables';
+@import '../input/_common';
+
+.l-fileInput {
+  position: relative;
+  display: flex;
+  border-top-color: transparent;
+  box-shadow: none;
+  transition: box-shadow .1s cubic-bezier(.4, 1, .75, .9), border-color .1s cubic-bezier(.4, 1, .75, .9);
+
+  &.l-fileInput--isHorizontalLayout.is-active {
+    border-color: $l-input-borderColor-focus;
+    outline: none;
+    box-shadow: inset 0 0 0 1px $l-input-borderColor-focus;
+  }
+}
+
+.l-fileInput--borderTop {
+  border-top: $l-input-borderSize solid $l-input-borderColor;
+}
+
+.l-fileInputItems {
+  flex-grow: 1,
+}
+
+.l-fileInput--isHorizontalLayout {
+  // So that we can use the truncate class on long file names
+  width: 100%;
+}
+
+.l-fileInput.l-fileInput--isHorizontalLayout:not(:focus) {
+  border-left-color: transparent;
+  border-top: 0;
+  border-right: 0;
+}
+
+.l-fileInput.l-fileInput--singleFile {
+  align-items: center;
+  justify-content: center;
+}
+
+.l-fileInput--error {
+  border-color: $l-color-error;
+}
+
+.l-fileInput-empty {
+  padding: 10px;
+  text-align: center;
+}
+
+
+// File Input Overlay
+// ------------------
+
+.l-fileInputOverlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: $white-90;
+}
+
+
+// File Input Item
+// ---------------
+
+// Holds everything together and defines the width
+.l-fileInputItem-container {
+  display: flex;
+  flex-direction: row;
+}
+
+// Wraps the preview and centers it
+.l-fileInputItemPreview-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.l-fileInput-container {
+  position: relative;
+  z-index: $l-zIndex--input;
+
+  input {
+    // Weird overflow issues otherwise
+    width: 100%;
+  }
+}
+
