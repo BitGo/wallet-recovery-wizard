@@ -98,6 +98,8 @@ module.exports = {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name(module) {
+            console.log(`module: ${module}`);
+            console.log(module.context);
             const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
             return `npm.${packageName.replace('@', '')}`;
           },
@@ -250,41 +252,58 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
-            use: [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: miniCssExtractPluginOptions,
-              },
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                  minimize: true,
-                  sourceMap: shouldUseSourceMap,
-                },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-            ],
+            test: /\.css$/i,
+            use: [MiniCssExtractPlugin.loader, "css-loader"],
+            // test: /\.css$/,
+            // use: [
+            //   {
+            //     loader: MiniCssExtractPlugin.loader,
+            //     options: miniCssExtractPluginOptions,
+            //   },
+            //   {
+            //     loader: require.resolve('css-loader'),
+            //     options: {
+            //       importLoaders: 1,
+            //       sourceMap: shouldUseSourceMap,
+            //     },
+            //   },
+            //   {
+            //     loader: require.resolve('postcss-loader'),
+            //     options: {
+            //       // Necessary for external CSS imports to work
+            //       // https://github.com/facebookincubator/create-react-app/issues/2677
+            //     // plugins: () => [
+            //       //   require('postcss-flexbugs-fixes'),
+            //       //   autoprefixer({
+            //       //     browsers: [
+            //       //       '>1%',
+            //       //       'last 4 versions',
+            //       //       'Firefox ESR',
+            //       //       'not ie < 9', // React doesn't support IE8 anyway
+            //       //     ],
+            //       //     flexbox: 'no-2009',
+            //       //   }),
+            //       // ],
+            //       // https://webpack.js.org/loaders/postcss-loader/
+            //       postcssOptions: {
+            //         plugins: [
+            //           [
+            //             'postcss-flexbugs-fixes',
+            //             autoprefixer({
+            //               browsers: [
+            //                 '>1%',
+            //                 'last 4 versions',
+            //                 'Firefox ESR',
+            //                 'not ie < 9', // React doesn't support IE8 anyway
+            //               ],
+            //               flexbox: 'no-2009',
+            //             }),
+            //           ]
+            //         ],
+            //       },
+            //     },
+            //   },
+            // ],
           },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
