@@ -203,9 +203,7 @@ function NonBitgoRecoveriesForm() {
 
   const { errors, values, setFieldValue, submitForm, isSubmitting, submitCount, handleChange, touched } = formik;
 
-  const selectedCoinFamily: keyof typeof displayedParams = values.selectedCoin?.name
-    ? bitgo.coin(values.selectedCoin.name).getFamily()
-    : undefined;
+  const selectedCoinFamily = values.selectedCoin?.name ? bitgo.coin(values.selectedCoin.name).getFamily() : undefined;
   const now = new Date();
   const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString();
   const eightHoursFromNow = new Date(now.getTime() + 8 * 60 * 60 * 1000).toLocaleTimeString();
