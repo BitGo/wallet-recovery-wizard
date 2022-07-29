@@ -1,52 +1,39 @@
 /** @jsx jsx */
-import { coins } from '@bitgo/statics';
+import React, { useMemo, useState } from 'react';
+import cn from 'classnames';
+import { jsx } from 'theme-ui';
+
+import { BaseCoin, coins } from '@bitgo/statics';
 import { Icon, MenuItem } from '@blueprintjs/core';
 import { ISelectProps, ItemPredicate, Select } from '@blueprintjs/select';
-import cn from 'classnames';
-import React, { useMemo, useState } from 'react';
-import { jsx } from 'theme-ui';
-import { BitgoInstrument } from '../../modules/lumina/api/bitgo-instruments';
+
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { IBaseProps } from '../../modules/lumina/components/base-props';
 import InstrumentIcon from '../../modules/lumina/components/instrument-icon/instrument-icon';
-import { useApplicationContext } from '../contexts/application-context';
-
-interface IInstrumentItem {
-  bitgoInstrument: BitgoInstrument;
-}
 
 interface ICurrencySelectProps extends IBaseProps {
   allowedCoins?: string[];
-  activeItem?: IInstrumentItem;
+  activeItem?: BaseCoin;
   error?: string;
-  onItemSelect: (instrumentSymbol: BitgoInstrument) => void;
-  selectProps?: Partial<ISelectProps<IInstrumentItem>>;
+  onItemSelect: (coin: BaseCoin) => void;
+  selectProps?: Partial<ISelectProps<BaseCoin>>;
 }
 
-const CurrencySelectComponent = Select.ofType<IInstrumentItem>();
-
-// BitGo has a separate currency to denote offchain, we want to hide that
-// from the user though
-const stripOfcAndFormat = (instrumentSymbol: string, skipUpperCase?: boolean): string => {
-  const formattedInstrumentSymbol = instrumentSymbol?.replace('ofc', '').replace('OFC', '') || '';
-  if (skipUpperCase) return formattedInstrumentSymbol.toLowerCase();
-  return formattedInstrumentSymbol.toUpperCase();
-};
+const CurrencySelectComponent = Select.ofType<BaseCoin>();
 
 function CurrencySelect(props: ICurrencySelectProps) {
   const {
     allowedCoins = [],
     onItemSelect,
-    activeItem: initialActiveItem,
+    activeItem,
     className,
     error,
     selectProps,
-    "data-testid": dataTestID = "currency-select",
-  } = props
-  const { bitgoSDKOfflineWrapper, network } = useApplicationContext();
+    'data-testid': dataTestID = 'currency-select',
+  } = props;
+  const { network } = useBitGoEnvironment();
 
-  const [activeItem, setActiveItem] = useState<IInstrumentItem>(initialActiveItem);
-
-  const availableCoins: IInstrumentItem[] = useMemo(() => {
+  const availableCoins: BaseCoin[] = useMemo(() => {
     return coins
       .filter((coin) => {
         if (network !== coin.network.type) {
@@ -54,47 +41,37 @@ function CurrencySelect(props: ICurrencySelectProps) {
         }
         return allowedCoins.includes(coin.name);
       })
-      .map((coin) => {
-        return {
-          bitgoInstrument: bitgoSDKOfflineWrapper.getBitgoInstrument(coin.name),
-        };
-      })
-      .filter((instrumentItem) => instrumentItem.bitgoInstrument !== undefined);
-  }, [bitgoSDKOfflineWrapper, network, allowedCoins]);
+      .map((coin) => coin) as BaseCoin[];
+  }, [network, allowedCoins]);
 
   const itemPredicate: ItemPredicate<any> = (query, coin) => {
     return (
-      `${coin.bitgoInstrument.getSymbol().toLowerCase()}`.indexOf(query.toLowerCase()) >= 0 ||
-      `${coin.bitgoInstrument.getFullName().toLowerCase()}`.indexOf(query.toLowerCase()) >= 0
+      `${coin.name.toLowerCase()}`.indexOf(query.toLowerCase()) >= 0 ||
+      `${coin.fullName.toLowerCase()}`.indexOf(query.toLowerCase()) >= 0
     );
   };
 
-  const itemRenderer = (item: IInstrumentItem, { handleClick, modifiers }) => {
+  const itemRenderer = (item: BaseCoin, { handleClick, modifiers }) => {
     if (!modifiers.matchesPredicate) {
       return null;
     }
-    const symbol = item.bitgoInstrument.getStandardSymbol();
+    const symbol = item.name;
     return (
       <MenuItem
         active={modifiers.active}
-        // icon={_.get(activeItem, 'name') === item.name ? 'tick' : 'blank'}
-        disabled={!allowedCoins.includes(item.bitgoInstrument.getSymbol().toLowerCase())}
+        disabled={!allowedCoins.includes(item.name.toLowerCase())}
         data-testid={`${dataTestID}--${symbol.toLocaleLowerCase()}-item`}
-        key={item.bitgoInstrument.getSymbol()}
+        key={item.name}
         onClick={handleClick}
         shouldDismissPopover={false}
         text={
           <div className="flex w-100 overflow-hidden lh-copy">
             <div className="mr2 pr1 flex items-center justify-center flex-shrink-0">
-              <InstrumentIcon
-                instrumentSymbol={item.bitgoInstrument.getStandardSymbol(true)}
-                viewBox="0 0 37 37"
-                height="37"
-              />
+              <InstrumentIcon instrumentSymbol={item.name.toLowerCase()} viewBox="0 0 37 37" height="37" />
             </div>
             <div className="flex-grow-1 flex-shrink-1 overflow-hidden">
-              <div className="fw6 truncate">{item.bitgoInstrument.getStandardSymbol()}</div>
-              <div className="o-70 f7 truncate">{item.bitgoInstrument.getFullName()}</div>
+              <div className="fw6 truncate">{item.name.toUpperCase()}</div>
+              <div className="o-70 f7 truncate">{item.fullName}</div>
             </div>
           </div>
         }
@@ -106,13 +83,12 @@ function CurrencySelect(props: ICurrencySelectProps) {
     <CurrencySelectComponent
       {...selectProps}
       activeItem={activeItem}
-      items={availableCoins}
+      items={availableCoins as unknown as BaseCoin[]}
       itemPredicate={itemPredicate}
       itemRenderer={itemRenderer}
       noResults={<MenuItem disabled text="No currency matches your query..." />}
-      onItemSelect={(item: IInstrumentItem, event?: React.SyntheticEvent<HTMLElement>) => {
-        setActiveItem(item);
-        onItemSelect(item.bitgoInstrument);
+      onItemSelect={(item, event?: React.SyntheticEvent<HTMLElement>) => {
+        onItemSelect(item);
       }}
       inputProps={{
         placeholder: 'Search currencies...',
@@ -135,7 +111,7 @@ function CurrencySelect(props: ICurrencySelectProps) {
           height: 56,
         }}
       >
-        {!activeItem?.bitgoInstrument && (
+        {!activeItem && (
           <React.Fragment>
             {/* TODO(louis): add Empty coin icon */}
             <div data-testid={dataTestID} className="flex-grow-1 silver">
@@ -143,19 +119,15 @@ function CurrencySelect(props: ICurrencySelectProps) {
             </div>
           </React.Fragment>
         )}
-        {activeItem?.bitgoInstrument && (
+        {activeItem && (
           <React.Fragment>
             <div className="flex w-100 overflow-hidden lh-copy pr2">
               <div className="mr2 flex items-center justify-center flex-shrink-0">
-                <InstrumentIcon
-                  instrumentSymbol={activeItem?.bitgoInstrument?.getStandardSymbol(true)}
-                  viewBox="0 0 37 37"
-                  height="37"
-                />
+                <InstrumentIcon instrumentSymbol={activeItem.name.toLowerCase()} viewBox="0 0 37 37" height="37" />
               </div>
               <div className="flex-grow-1 flex-shrink-1 overflow-hidden">
-                <div className="fw6 truncate ttu">{stripOfcAndFormat(activeItem?.bitgoInstrument?.getSymbol())}</div>
-                <div className="o-70 f7 truncate">{activeItem?.bitgoInstrument?.getFullName()}</div>
+                <div className="fw6 truncate ttu">{activeItem.name}</div>
+                <div className="o-70 f7 truncate">{activeItem.fullName}</div>
               </div>
             </div>
           </React.Fragment>

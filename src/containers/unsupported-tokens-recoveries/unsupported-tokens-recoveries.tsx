@@ -1,12 +1,14 @@
-import { Icon } from '@blueprintjs/core';
 import React from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import { useApplicationContext } from '../../components/contexts/application-context';
+
+import { Icon } from '@blueprintjs/core';
+
 import UnsupportedTokensRecoveriesForm from '../../components/unsupported-tokens-recoveries-form/unsupported-tokens-recoveries-form';
+import { useSession } from '../../contexts/session';
 import { H4 } from '../../modules/lumina/components/H4/h4';
 
 function UnsupportedTokensRecoveries() {
-  const { session } = useApplicationContext();
+  const { session } = useSession();
   const history = useHistory();
   if (!session) {
     history.push('/');

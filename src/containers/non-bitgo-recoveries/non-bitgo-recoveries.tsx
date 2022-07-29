@@ -1,8 +1,10 @@
-import { Icon } from "@blueprintjs/core";
-import React from "react";
-import { NavLink } from "react-router-dom";
-import NonBitgoRecoveriesForm from "../../components/non-bitgo-recoveries-form/non-bitgo-recoveries-form";
-import { H4 } from "../../modules/lumina/components/H4/h4";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+
+import { Icon } from '@blueprintjs/core';
+
+import NonBitgoRecoveriesForm from '../../components/non-bitgo-recoveries-form/non-bitgo-recoveries-form';
+import { H4 } from '../../modules/lumina/components/H4/h4';
 
 function NonBitgoRecoveries() {
   return (
@@ -12,10 +14,7 @@ function NonBitgoRecoveries() {
           Non-BitGo Recovery
         </H4>
 
-        <NavLink
-          className="fw5 l-appSideNavigation-link bp3-button bp3-minimal bp3-button--square"
-          to="/"
-        >
+        <NavLink className="fw5 l-appSideNavigation-link bp3-button bp3-minimal bp3-button--square" to="/">
           <Icon icon="cross" />
         </NavLink>
       </div>

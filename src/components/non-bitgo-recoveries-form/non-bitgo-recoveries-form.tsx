@@ -1,96 +1,36 @@
-import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { BaseCoin } from '@bitgo/sdk-core';
-import { BaseCoin as BitgoStaticBaseCoin, NetworkType } from '@bitgo/statics';
-import { Collapse, Icon } from '@blueprintjs/core';
-import { Chain, Hardfork } from '@ethereumjs/common';
-import * as BitGoJS from 'bitgo';
+import { BitGo } from 'bitgo';
 import { useFormik } from 'formik';
 import { omit } from 'lodash';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { IBaseProps } from '../../modules/lumina/components/base-props';
-import { Footer } from '../../modules/lumina/components/footer/footer';
-import { HelpBlock } from '../../modules/lumina/components/help-block/help-block';
-import { HtmlSelect } from '../../modules/lumina/components/html-select/html-select';
-import { InputField } from '../../modules/lumina/components/input-field/input-field';
-import { Label } from '../../modules/lumina/components/label/label';
-import Lead2 from '../../modules/lumina/components/lead2/lead2';
-import { Section } from '../../modules/lumina/components/section/section';
-import { TextareaField } from '../../modules/lumina/components/textarea-field/textarea-field';
-import { ValidationBanner } from '../../modules/lumina/components/validation-banner/validation-banner';
-import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend-errors';
-import { IValidationError } from '../../modules/lumina/errors/types';
-import { saveFile } from '../../pkg/electron/utils';
-import { useApplicationContext } from '../contexts/application-context';
-import CurrencySelect from '../currency-select/currency-select';
-import { SuccessAnimation } from '../success-animation/success-animation';
-import tooltips from '../tooltips';
-import { coinConfig, isBlockChairKeyNeeded, recoverWithKeyPath, toWei } from '../utils';
 
-const krsProviders = [
-  {
-    label: 'None',
-    value: undefined,
-  },
-  {
-    label: 'Keyternal',
-    value: 'keyternal',
-  },
-  {
-    label: 'BitGo KRS',
-    value: 'bitgoKRSv2',
-  },
-  {
-    label: 'Coincover',
-    value: 'dai', // Coincover used to be called 'DAI' and so on the backend, BitGo still refers to them as 'dai'
-  },
-];
+import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
+import { BaseCoin } from '@bitgo/sdk-core';
+import { BaseCoin as BitgoStaticBaseCoin, NetworkType } from '@bitgo/statics';
+import { Collapse, Icon } from '@blueprintjs/core';
+import { Chain, Hardfork } from '@ethereumjs/common';
 
-const displayedParams = {
-  btc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-  bsv: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  bch: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  bcha: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  ltc: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  btg: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  zec: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  dash: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan', 'apiKey'],
-  eth: [
-    'userKey',
-    'backupKey',
-    'walletContractAddress',
-    'walletPassphrase',
-    'recoveryDestination',
-    'apiKey',
-    'gasLimit',
-    'maxFeePerGas',
-    'maxPriorityFeePerGas',
-  ],
-  xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
-  xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
-  trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
-  token: [
-    'userKey',
-    'backupKey',
-    'walletContractAddress',
-    'tokenContractAddress',
-    'walletPassphrase',
-    'recoveryDestination',
-    'apiKey',
-    'gasLimit',
-    'maxFeePerGas',
-    'maxPriorityFeePerGas',
-  ],
-  eos: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
-  near: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-  dot: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-  sol: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination', 'scan'],
-};
+import { useBitGoEnvironment } from '~/contexts/bitgo-environment';
+import { Footer } from '~/modules/lumina/components/footer/footer';
+import { HelpBlock } from '~/modules/lumina/components/help-block/help-block';
+import { HtmlSelect } from '~/modules/lumina/components/html-select/html-select';
+import { InputField } from '~/modules/lumina/components/input-field/input-field';
+import { Label } from '~/modules/lumina/components/label/label';
+import Lead2 from '~/modules/lumina/components/lead2/lead2';
+import { Section } from '~/modules/lumina/components/section/section';
+import { TextareaField } from '~/modules/lumina/components/textarea-field/textarea-field';
+import { ValidationBanner } from '~/modules/lumina/components/validation-banner/validation-banner';
+import { BitgoBackendErrorCode } from '~/modules/lumina/errors/bitgo-backend-errors';
+import { IValidationError } from '~/modules/lumina/errors/types';
+import { saveFile } from '~/pkg/electron/utils';
+import CurrencySelect from '~/components/currency-select/currency-select';
+import { SuccessAnimation } from '~/components/success-animation/success-animation';
+import tooltips from '~/components/tooltips';
+import { coinConfig, isBlockChairKeyNeeded, recoverWithKeyPath, toWei } from '~/components/utils';
+import { displayedParams, getRecoveryParams, krsProviders } from './utils';
 
-interface INonBitgoRecoveriesFormProps extends IBaseProps {}
-
-interface INonBitgoRecoveriesFormValues {
+export interface INonBitgoRecoveriesFormValues {
   selectedCoin?: BitgoStaticBaseCoin;
   userKey: string;
   backupKey: string;
@@ -110,8 +50,8 @@ interface INonBitgoRecoveriesFormValues {
   maxPriorityFeePerGas: number;
 }
 
-function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
-  const { bitgoSDKOfflineWrapper, network } = useApplicationContext();
+function NonBitgoRecoveriesForm() {
+  const { bitgo, network } = useBitGoEnvironment();
   const [validationErrors, setValidationErrors] = useState<IValidationError[]>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -132,10 +72,10 @@ function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
   // TODO(louis): need to look at this, token doesn't make sense, gteth
   const getCoinObject = () => {
     let coin: BaseCoin;
-    let bitgo = bitgoSDKOfflineWrapper.bitgoSDK;
+    let bitgoSdk = bitgo;
 
     if (values.apiKey && values.apiKey !== '') {
-      bitgo = new BitGoJS.BitGo({
+      bitgoSdk = new BitGo({
         env: network === NetworkType.MAINNET ? 'prod' : 'test',
         etherscanApiToken: values.apiKey,
       });
@@ -143,48 +83,17 @@ function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
 
     if (values.selectedCoin?.isToken) {
       try {
-        coin = bitgo.coin(values.tokenAddress);
+        coin = bitgoSdk.coin(values.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
         const coinTicker = network === NetworkType.MAINNET ? 'eth' : 'gteth';
-        coin = bitgo.coin(coinTicker);
+        coin = bitgoSdk.coin(coinTicker);
       }
     } else {
-      coin = bitgo.coin(values.selectedCoin?.name);
+      coin = bitgoSdk.coin(values.selectedCoin?.name);
     }
 
     return coin;
-  };
-
-  const getRecoveryParams = () => {
-    // This is like _.pick
-    return [
-      'userKey',
-      'backupKey',
-      'bitgoKey',
-      'rootAddress',
-      'walletContractAddress',
-      'tokenAddress',
-      'walletPassphrase',
-      'recoveryDestination',
-      'scan',
-      'krsProvider',
-      'gasLimit',
-      'gasPrice',
-      'maxFeePerGas',
-      'maxPriorityFeePerGas',
-    ].reduce((obj, param) => {
-      let value = values[param];
-      const type = typeof value;
-      if (value) {
-        // Strip all whitespace, could be problematic
-        if (type === 'string') {
-          value = value.replace(/\s/g, '');
-        }
-        return Object.assign(obj, { [param]: value });
-      }
-      return obj;
-    }, {});
   };
 
   const handleSubmit = async (values: INonBitgoRecoveriesFormValues) => {
@@ -203,7 +112,7 @@ function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
         return;
       }
 
-      let recoveryParams = getRecoveryParams() as any;
+      let recoveryParams = getRecoveryParams(values) as any;
 
       if (isBlockChairKeyNeeded(selectedCoinFamily) && values.apiKey) {
         recoveryParams.apiKey = values.apiKey;
@@ -294,8 +203,8 @@ function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
 
   const { errors, values, setFieldValue, submitForm, isSubmitting, submitCount, handleChange, touched } = formik;
 
-  const selectedCoinFamily = values.selectedCoin?.name
-    ? bitgoSDKOfflineWrapper.bitgoSDK.coin(values.selectedCoin.name).getFamily()
+  const selectedCoinFamily: keyof typeof displayedParams = values.selectedCoin?.name
+    ? bitgo.coin(values.selectedCoin.name).getFamily()
     : undefined;
   const now = new Date();
   const sevenHoursFromNow = new Date(now.getTime() + 7 * 60 * 60 * 1000).toLocaleTimeString();
@@ -326,13 +235,14 @@ function NonBitgoRecoveriesForm({}: INonBitgoRecoveriesFormProps) {
                   <div className="mb4 ph4">
                     <Label>Currency</Label>
                     <CurrencySelect
+                      activeItem={values.selectedCoin}
                       allowedCoins={
                         coinConfig.supportedRecoveries.nonBitGo[network === NetworkType.MAINNET ? 'prod' : 'test']
                       }
                       error={touched.selectedCoin ? errors.selectedCoin?.name : undefined}
                       className="mb1"
                       onItemSelect={(item) => {
-                        setFieldValue('selectedCoin', item.bitgoStaticBaseCoin);
+                        setFieldValue('selectedCoin', item);
                       }}
                     />
                     <HelpBlock>

@@ -1,6 +1,3 @@
-import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { NetworkType } from '@bitgo/statics';
-import { Checkbox, Collapse, Icon, Radio, RadioGroup } from '@blueprintjs/core';
 import BigNumber from 'bignumber.js';
 import { remote } from 'electron';
 import { FieldArray, FormikProvider, useFormik } from 'formik';
@@ -10,6 +7,12 @@ import _ from 'lodash';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
+
+import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
+import { BaseCoin, NetworkType } from '@bitgo/statics';
+import { Checkbox, Collapse, Icon, Radio, RadioGroup } from '@blueprintjs/core';
+
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { BitgoInstrument } from '../../modules/lumina/api/bitgo-instruments';
 import { IBaseProps } from '../../modules/lumina/components/base-props';
 import { Button } from '../../modules/lumina/components/button/button';
@@ -28,7 +31,6 @@ import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend
 import { IValidationError } from '../../modules/lumina/errors/types';
 import { BitgoError } from '../../pkg/bitgo/bitgo-sdk-offline-wrapper';
 import { saveFile } from '../../pkg/electron/utils';
-import { useApplicationContext } from '../contexts/application-context';
 import CurrencySelect from '../currency-select/currency-select';
 import { SuccessAnimation } from '../success-animation/success-animation';
 import tooltips from '../tooltips';
@@ -36,11 +38,9 @@ import { coinConfig } from '../utils';
 
 const { dialog } = remote;
 
-interface IWrongChainRecoveriesFormProps extends IBaseProps {}
-
 interface IWrongChainRecoveriesFormValues {
-  sourceCoin?: BitgoInstrument;
-  recoveryCoin?: BitgoInstrument;
+  sourceCoin?: BaseCoin;
+  recoveryCoin?: BaseCoin;
   wallet: string;
   txids: string[];
   recoveryAddress: string;
@@ -50,8 +50,8 @@ interface IWrongChainRecoveriesFormValues {
   prv?: string;
 }
 
-function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
-  const { bitgoSDKOfflineWrapper, network } = useApplicationContext();
+function WrongChainRecoveriesForm() {
+  const { bitgo, network } = useBitGoEnvironment();
   const [validationErrors, setValidationErrors] = useState<IValidationError[]>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [recoveryTxs, setRecoveryTxs] = useState([]);
@@ -68,9 +68,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
 
   const handleSubmit = async (values: IWrongChainRecoveriesFormValues) => {
     try {
-      const sourceCoin = bitgoSDKOfflineWrapper.bitgoSDK.coin(
-        values.sourceCoin.bitgoStaticBaseCoin.name
-      ) as AbstractUtxoCoin;
+      const sourceCoin = bitgo.coin(values.sourceCoin.name) as AbstractUtxoCoin;
       const promises = values.txids.map(async (txid) => {
         try {
           // Do not pass the default empty string to the SDK or it will try to use it as a valid xprv
@@ -80,9 +78,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
             txid: txid,
             recoveryAddress: values.recoveryAddress,
             wallet: values.wallet,
-            coin: bitgoSDKOfflineWrapper.bitgoSDK.coin(
-              values.recoveryCoin.bitgoStaticBaseCoin.name
-            ) as AbstractUtxoCoin,
+            coin: bitgo.coin(values.recoveryCoin.name) as AbstractUtxoCoin,
             signed: values.signed,
             walletPassphrase: values.passphrase,
             xprv,
@@ -147,7 +143,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
 
   const saveMultipleTransactions = async () => {
     try {
-      const zipName = `${values.sourceCoin.bitgoStaticBaseCoin.name}-recoveries-${values.wallet.slice(0, 6)}`;
+      const zipName = `${values.sourceCoin.name}-recoveries-${values.wallet.slice(0, 6)}`;
       const zip = new jszip();
 
       _.forEach(recoveryTxs, (transaction, index) => {
@@ -258,10 +254,8 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
     formik;
 
   let destinationCurrencyAllowedCoins = [];
-  if (values.sourceCoin?.bitgoStaticBaseCoin?.name) {
-    const selectedCoinName = values.sourceCoin?.bitgoStaticBaseCoin?.name
-      ? bitgoSDKOfflineWrapper.bitgoSDK.coin(values.sourceCoin?.bitgoStaticBaseCoin?.name).getFamily()
-      : undefined;
+  if (values.sourceCoin?.name) {
+    const selectedCoinName = values.sourceCoin?.name ? bitgo.coin(values.sourceCoin?.name).getFamily() : undefined;
     destinationCurrencyAllowedCoins =
       coinConfig.allCoins[selectedCoinName].supportedRecoveries[network === NetworkType.MAINNET ? 'prod' : 'test'];
   }
@@ -316,9 +310,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                               }
                               error={touched.sourceCoin ? errors.sourceCoin?.toString() : undefined}
                               className="mb1"
-                              activeItem={{
-                                bitgoInstrument: values?.sourceCoin || initialValues.sourceCoin,
-                              }}
+                              activeItem={values?.sourceCoin || initialValues.sourceCoin}
                               onItemSelect={(item) => {
                                 setFieldValue('sourceCoin', item);
                               }}
@@ -335,9 +327,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                               }}
                               allowedCoins={destinationCurrencyAllowedCoins}
                               className="mb1"
-                              activeItem={{
-                                bitgoInstrument: values?.recoveryCoin || initialValues.recoveryCoin,
-                              }}
+                              activeItem={values?.recoveryCoin || initialValues.recoveryCoin}
                               error={touched.recoveryCoin ? errors.recoveryCoin?.toString() : undefined}
                               onItemSelect={(item) => {
                                 setFieldValue('recoveryCoin', item);
@@ -362,12 +352,12 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                             }}
                           />
                           <HelpBlock className="mb3">
-                            {tooltips.crossChain.wallet(values.recoveryCoin?.bitgoStaticBaseCoin?.name || '')}
+                            {tooltips.crossChain.wallet(values.recoveryCoin?.name || '')}
                           </HelpBlock>
 
                           <Label>Transaction IDs</Label>
                           <HelpBlock className="mb2">
-                            {tooltips.crossChain.txid(values.sourceCoin?.bitgoStaticBaseCoin?.name || '')}
+                            {tooltips.crossChain.txid(values.sourceCoin?.name || '')}
                           </HelpBlock>
                           <div className="mb3">
                             <FieldArray
@@ -437,7 +427,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                             }}
                           />
                           <HelpBlock className="mb3">
-                            {tooltips.crossChain.recoveryAddress(values.sourceCoin?.bitgoStaticBaseCoin?.name || '')}
+                            {tooltips.crossChain.recoveryAddress(values.sourceCoin?.name || '')}
                           </HelpBlock>
 
                           <div className="mb3">
@@ -474,9 +464,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                                 <Radio className="pb1" label="Wallet Passphrase" value="passphrase" />
                                 <div className="l-checkbox-leftOffset mb2">
                                   <HelpBlock>
-                                    {tooltips.crossChain.passphrase(
-                                      values.recoveryCoin?.bitgoStaticBaseCoin?.name || ''
-                                    )}
+                                    {tooltips.crossChain.passphrase(values.recoveryCoin?.name || '')}
                                   </HelpBlock>
                                   <Collapse isOpen={values.credentialsType === 'passphrase'}>
                                     <div className="overflow-hidden pt2">
@@ -498,9 +486,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                                 </div>
                                 <Radio className="pb1" label="Private Key" value="prv" />
                                 <div className="l-checkbox-leftOffset mb2">
-                                  <HelpBlock>
-                                    {tooltips.crossChain.prv(values.recoveryCoin?.bitgoStaticBaseCoin?.name || '')}
-                                  </HelpBlock>
+                                  <HelpBlock>{tooltips.crossChain.prv(values.recoveryCoin?.name || '')}</HelpBlock>
                                   <Collapse isOpen={values.credentialsType === 'prv'}>
                                     <div className="overflow-hidden pt2">
                                       <TextareaField
@@ -555,15 +541,13 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                           <DefinitionList className="mb2">
                             <DefinitionListItem
                               label="Source Coin"
-                              value={`${bitgoSDKOfflineWrapper.bitgoSDK
+                              value={`${bitgo
                                 .coin(recoveryTxs[0].sourceCoin)
                                 .getFullName()} (${recoveryTxs[0].sourceCoin.toUpperCase()})`}
                             />
                             <DefinitionListItem
                               label="Recovery Coin"
-                              value={`${bitgoSDKOfflineWrapper.bitgoSDK
-                                .coin(recoveryTxs[0].recoveryCoin)
-                                .getFullName()} (
+                              value={`${bitgo.coin(recoveryTxs[0].recoveryCoin).getFullName()} (
                               ${recoveryTxs[0].recoveryCoin.toUpperCase()})`}
                             />
                             <DefinitionListItem label="Wallet" value={recoveryTxs[0].walletId} />
@@ -587,7 +571,7 @@ function WrongChainRecoveriesForm(props: IWrongChainRecoveriesFormProps) {
                           <DefinitionList className="mb2">
                             <DefinitionListItem
                               label="Source Coin"
-                              value={`${bitgoSDKOfflineWrapper.bitgoSDK
+                              value={`${bitgo
                                 .coin(recoveryTxs[0].coin)
                                 .getFullName()} (${recoveryTxs[0].coin.toUpperCase()})`}
                             />

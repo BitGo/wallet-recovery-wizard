@@ -1,17 +1,18 @@
+import React, { useState } from 'react';
+import { fromBase58 } from 'bip32';
+import { BitGo, ErrorNoInputToRecover } from 'bitgo';
+import { useFormik } from 'formik';
+import { omit } from 'lodash';
+import { NavLink, useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BaseCoin } from '@bitgo/sdk-core';
 import { BaseCoin as BitgoStaticBaseCoin, NetworkType } from '@bitgo/statics';
 import { Collapse, Icon } from '@blueprintjs/core';
 import { Chain, Hardfork } from '@ethereumjs/common';
-import { fromBase58 } from 'bip32';
-import * as BitGoJS from 'bitgo';
-import * as Errors from 'bitgo/dist/src/errors';
-import { useFormik } from 'formik';
-import { omit } from 'lodash';
-import React, { useState } from 'react';
-import { NavLink, useHistory } from 'react-router-dom';
-import * as Yup from 'yup';
-import { IBaseProps } from '../../modules/lumina/components/base-props';
+
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { Footer } from '../../modules/lumina/components/footer/footer';
 import { HelpBlock } from '../../modules/lumina/components/help-block/help-block';
 import { InputField } from '../../modules/lumina/components/input-field/input-field';
@@ -23,7 +24,6 @@ import { ValidationBanner } from '../../modules/lumina/components/validation-ban
 import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend-errors';
 import { IValidationError } from '../../modules/lumina/errors/types';
 import { saveFile } from '../../pkg/electron/utils';
-import { useApplicationContext } from '../contexts/application-context';
 import CurrencySelect from '../currency-select/currency-select';
 import { SuccessAnimation } from '../success-animation/success-animation';
 import tooltips from '../tooltips';
@@ -75,8 +75,6 @@ const displayedParams = {
   sol: ['commonKeyChain', 'recoveryDestination', 'scan'],
 };
 
-interface IBuildUnsignedSweepFormProps extends IBaseProps {}
-
 interface IBuildUnsignedSweepFormValues {
   selectedCoin?: BitgoStaticBaseCoin;
   commonKeyChain?: string;
@@ -99,8 +97,8 @@ interface IBuildUnsignedSweepFormValues {
   maxPriorityFeePerGas: number;
 }
 
-function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
-  const { bitgoSDKOfflineWrapper, network } = useApplicationContext();
+function BuildUnsignedSweepForm() {
+  const { bitgo, environment, network } = useBitGoEnvironment();
   const [validationErrors, setValidationErrors] = useState<IValidationError[]>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -127,25 +125,25 @@ function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
   // TODO(louis): need to look at this, token doesn't make sense, gteth
   const getCoinObject = () => {
     let coin: BaseCoin;
-    let bitgo = bitgoSDKOfflineWrapper.bitgoSDK;
+    let bitgoSdk = bitgo;
 
     if (values.apiKey && values.apiKey !== '') {
-      bitgo = new BitGoJS.BitGo({
-        env: network === NetworkType.MAINNET ? 'prod' : 'test',
+      bitgoSdk = new BitGo({
+        env: environment,
         etherscanApiToken: values.apiKey,
       });
     }
 
     if (values.selectedCoin.isToken) {
       try {
-        coin = bitgo.coin(values.tokenAddress);
+        coin = bitgoSdk.coin(values.tokenAddress);
       } catch (e) {
         // if we're here, the token address is malformed. let's set the coin to ETH so we can still validate addresses
         const coinTicker = network === NetworkType.MAINNET ? 'eth' : 'gteth';
-        coin = bitgo.coin(coinTicker);
+        coin = bitgoSdk.coin(coinTicker);
       }
     } else {
-      coin = bitgo.coin(values.selectedCoin.name);
+      coin = bitgoSdk.coin(values.selectedCoin.name);
     }
 
     return coin;
@@ -321,7 +319,7 @@ function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
       recoveryPrebuild.pubs = [userXpub, backupXpub, values['bitgoKey']];
 
       if (!recoveryPrebuild) {
-        throw new Errors.ErrorNoInputToRecover();
+        throw new ErrorNoInputToRecover();
       }
       const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';
       await saveFile(fileName, JSON.stringify(recoveryPrebuild, null, 4));
@@ -367,9 +365,7 @@ function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
 
   const { errors, values, setFieldValue, submitForm, isSubmitting, submitCount, handleChange, touched } = formik;
 
-  const selectedCoinName = values.selectedCoin?.name
-    ? bitgoSDKOfflineWrapper.bitgoSDK.coin(values.selectedCoin.name).getFamily()
-    : undefined;
+  const selectedCoinName = values.selectedCoin?.name ? bitgo.coin(values.selectedCoin.name).getFamily() : undefined;
 
   return (
     <div className="relative flex flex-grow-1 overflow-auto">
@@ -395,13 +391,14 @@ function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
                   <div className="mb4 ph4">
                     <Label>Currency</Label>
                     <CurrencySelect
+                      activeItem={values.selectedCoin}
                       allowedCoins={
                         coinConfig.supportedRecoveries.unsignedSweep[network === NetworkType.MAINNET ? 'prod' : 'test']
                       }
                       error={touched.selectedCoin ? errors.selectedCoin?.name : undefined}
                       className="mb1"
                       onItemSelect={(item) => {
-                        setFieldValue('selectedCoin', item.bitgoStaticBaseCoin);
+                        setFieldValue('selectedCoin', item);
                       }}
                     />
                     <HelpBlock>
@@ -773,7 +770,10 @@ function BuildUnsignedSweepForm(props: IBuildUnsignedSweepFormProps) {
               <div className="pa5 ba b--border br2 flex flex-column items-center justify-center">
                 <div className="w-100 flex flex-column items-center justify-center mb2 ph4">
                   <SuccessAnimation className="mb3" />
-                  <Lead2 className="tc">We recommend that you use a third-party API to decode your txHex and verify its accuracy before broadcasting.</Lead2>
+                  <Lead2 className="tc">
+                    We recommend that you use a third-party API to decode your txHex and verify its accuracy before
+                    broadcasting.
+                  </Lead2>
                 </div>
                 <NavLink className="bp3-button bp3-minimal" to="/" data-testid="back-to-home-link">
                   Back to Home &rarr;

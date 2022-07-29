@@ -1,11 +1,13 @@
-import { NetworkType } from '@bitgo/statics';
-import { Dialog, Tab, Tabs } from '@blueprintjs/core';
+import React, { useState } from 'react';
 import { shell } from 'electron';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
 import * as Yup from 'yup';
-import { accessTokenStorageName, sessionStorageName, userStorageName } from '../../app';
-import { useApplicationContext } from '../../components/contexts/application-context';
+
+import { NetworkType } from '@bitgo/statics';
+import { Dialog, Tab, Tabs } from '@blueprintjs/core';
+
+import { accessTokenStorageName, useBitGoEnvironment } from '../../contexts/bitgo-environment';
+import { sessionStorageName, userStorageName, useSession } from '../../contexts/session';
 import { Button, IButtonProps } from '../../modules/lumina/components/button/button';
 import ConfirmationDialog from '../../modules/lumina/components/confirmation-dialog/confirmation-dialog';
 import { Footer } from '../../modules/lumina/components/footer/footer';
@@ -15,8 +17,8 @@ import { ValidationBanner } from '../../modules/lumina/components/validation-ban
 import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend-errors';
 import { IValidationError } from '../../modules/lumina/errors/types';
 import { BitgoError } from '../../pkg/bitgo/bitgo-sdk-offline-wrapper';
-import './_log-in-button.scss';
 
+import './_log-in-button.scss';
 interface LogInFormValues {
   email: string;
   accessToken?: string;
@@ -29,7 +31,8 @@ interface LogInButton {
 }
 
 function LogInButton({ buttonProps = {} }: LogInButton) {
-  const { bitgoSDKOfflineWrapper, setSession, session, network, setUser } = useApplicationContext();
+  const { setSession, session, endSession, setUser } = useSession();
+  const { bitgo, network } = useBitGoEnvironment();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [useAccessToken, setUseAccessToken] = useState(false);
@@ -45,22 +48,22 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
 
   const handleSubmit = async (values: LogInFormValues) => {
     try {
-      bitgoSDKOfflineWrapper.bitgoSDK.clear();
-      let accessToken = values.accessToken
+      bitgo.clear();
+      let accessToken = values.accessToken;
       if (useAccessToken) {
-        bitgoSDKOfflineWrapper.bitgoSDK.authenticateWithAccessToken({
+        bitgo.authenticateWithAccessToken({
           accessToken: values.accessToken,
         });
       } else {
-        const authResponse = await bitgoSDKOfflineWrapper.bitgoSDK.authenticate({
+        const authResponse = await bitgo.authenticate({
           username: values.email,
           password: values.password,
           otp: values.otp,
         });
         accessToken = authResponse.access_token;
       }
-      const session = await bitgoSDKOfflineWrapper.bitgoSDK.session();
-      const me = await bitgoSDKOfflineWrapper.bitgoSDK.me();
+      const session = await bitgo.session();
+      const me = await bitgo.me();
 
       window.sessionStorage.setItem(sessionStorageName, JSON.stringify(session));
       window.sessionStorage.setItem(userStorageName, JSON.stringify(me));
@@ -89,10 +92,13 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
   };
 
   const handleLogOut = async () => {
-    bitgoSDKOfflineWrapper.endUserSession(() => {
+    try {
+      await endSession();
       setSession(null);
       setUser(null);
-    })
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   const formik = useFormik<LogInFormValues>({
@@ -132,7 +138,7 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
         <>
           <a
             {...buttonProps}
-            data-testid='log-out'
+            data-testid="log-out"
             onClick={() => {
               handleToggleIsConfirmationDialogOpen();
             }}
@@ -144,7 +150,7 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
         <>
           <Button
             {...buttonProps}
-            data-testid='log-in'
+            data-testid="log-in"
             intent="primary"
             onClick={() => {
               setIsDialogOpen(!isDialogOpen);
@@ -184,7 +190,7 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
           >
             <Tab
               id="credentials"
-              data-testid='credentials'
+              data-testid="credentials"
               title={<H7 mbx="">BitGo Credentials</H7>}
               panel={
                 <div className="w-100 flex-grow-1 pt3">
@@ -241,7 +247,7 @@ function LogInButton({ buttonProps = {} }: LogInButton) {
             />
             <Tab
               id="access-token"
-              data-testid='access-token'
+              data-testid="access-token"
               title={<H7 mbx="">Access Token</H7>}
               panel={
                 <div className="w-100 flex-grow-1 pt3">

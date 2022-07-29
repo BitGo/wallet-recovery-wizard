@@ -1,15 +1,16 @@
-import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { NetworkType } from '@bitgo/statics';
-import * as utxolib from '@bitgo/utxo-lib';
-import { address, Transaction, TransactionBuilder } from '@bitgo/utxo-lib';
-import { Icon } from '@blueprintjs/core';
 import { fromBase58 } from 'bip32';
 import { useFormik } from 'formik';
 import { find } from 'lodash';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { BitgoInstrument } from '../../modules/lumina/api/bitgo-instruments';
+
+import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
+import { BaseCoin, NetworkType } from '@bitgo/statics';
+import * as utxolib from '@bitgo/utxo-lib';
+import { Icon } from '@blueprintjs/core';
+
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { IBaseProps } from '../../modules/lumina/components/base-props';
 import { Footer } from '../../modules/lumina/components/footer/footer';
 import { HelpBlock } from '../../modules/lumina/components/help-block/help-block';
@@ -20,7 +21,6 @@ import { Section } from '../../modules/lumina/components/section/section';
 import { ValidationBanner } from '../../modules/lumina/components/validation-banner/validation-banner';
 import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend-errors';
 import { IValidationError } from '../../modules/lumina/errors/types';
-import { useApplicationContext } from '../contexts/application-context';
 import CurrencySelect from '../currency-select/currency-select';
 import { SuccessAnimation } from '../success-animation/success-animation';
 import tooltips from '../tooltips';
@@ -29,7 +29,7 @@ import { coinConfig } from '../utils';
 interface IMigratedLegacyWalletRecoveriesFormProps extends IBaseProps {}
 
 interface IMigratedLegacyWalletRecoveriesFormValues {
-  selectedInstrument?: BitgoInstrument;
+  selectedCoin?: BaseCoin;
   walletId: string;
   recoveryAddress: string;
   passphrase: string;
@@ -37,7 +37,7 @@ interface IMigratedLegacyWalletRecoveriesFormValues {
 }
 
 function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveriesFormProps) {
-  const { bitgoSDKOfflineWrapper, network } = useApplicationContext();
+  const { bitgo, network } = useBitGoEnvironment();
   const [validationErrors, setValidationErrors] = useState<IValidationError[]>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [recoveryTxID, setRecoveryTxID] = useState('');
@@ -58,7 +58,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
     let feeRate = 5000;
 
     try {
-      address.fromBase58Check(values.recoveryAddress, coin.network);
+      utxolib.address.fromBase58Check(values.recoveryAddress, coin.network);
     } catch (e) {
       throw new Error('Invalid destination address, only base 58 is supported');
     }
@@ -68,7 +68,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
     let v1Wallet;
     try {
-      v1Wallet = await bitgoSDKOfflineWrapper.bitgoSDK.wallets().get({ id: v1BtcWalletId });
+      v1Wallet = await bitgo.wallets().get({ id: v1BtcWalletId });
     } catch (err) {
       if (err.message === 'not found') {
         throw new Error('v1 BTC Wallet not found. Make sure you are a user on that wallet.');
@@ -128,13 +128,13 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
     // sign the transaction
 
-    let transaction = Transaction.fromHex(txPrebuild.txHex);
+    let transaction = utxolib.Transaction.fromHex(txPrebuild.txHex);
 
     if (transaction.ins.length !== txPrebuild.txInfo.unspents.length) {
       throw new Error('length of unspents array should equal to the number of transaction inputs');
     }
 
-    const txb = TransactionBuilder.fromTransaction(transaction);
+    const txb = utxolib.TransactionBuilder.fromTransaction(transaction);
     txb.setVersion(2);
 
     for (let inputIndex = 0; inputIndex < transaction.ins.length; ++inputIndex) {
@@ -192,9 +192,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
   const handleSubmit = async (values: IMigratedLegacyWalletRecoveriesFormValues) => {
     try {
-      const coin = bitgoSDKOfflineWrapper.bitgoSDK.coin(
-        values.selectedInstrument?.bitgoStaticBaseCoin?.name
-      ) as AbstractUtxoCoin;
+      const coin = bitgo.coin(values.selectedCoin?.name) as AbstractUtxoCoin;
       const wallets = await coin.wallets().list();
 
       console.log('coin.getFullName(): ', coin.getFullName());
@@ -210,7 +208,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
       if (!migratedWallet) {
         throw new Error(
-          `Unable to find a ${values.selectedInstrument?.bitgoStaticBaseCoin?.name} wallet that was migrated from wallet with ID ${values.walletId}.`
+          `Unable to find a ${values.selectedCoin?.name} wallet that was migrated from wallet with ID ${values.walletId}.`
         );
       }
 
@@ -219,9 +217,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
       // If we are recovering BSV, then the code above finds a BCH wallet (migratedWallet)
       // If that is the case, then we need to dig deeper and get the original v1 BTC wallet, and reset migratedWallet to this v1 BTC wallet
       if (coin.getFamily() === 'bsv') {
-        const bch = bitgoSDKOfflineWrapper.bitgoSDK.coin(
-          bitgoSDKOfflineWrapper.bitgoSDK.getEnv() === 'prod' ? 'bch' : `tbch`
-        );
+        const bch = bitgo.coin(bitgo.getEnv() === 'prod' ? 'bch' : `tbch`);
         const bchWallet = await bch.wallets().getWallet({ id: values.walletId });
         if (!bchWallet) {
           throw new Error(
@@ -267,7 +263,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
       if (needsUnlock) {
         try {
-          await bitgoSDKOfflineWrapper.bitgoSDK.unlock({ otp: values.twofa });
+          await bitgo.unlock({ otp: values.twofa });
           await migratedWallet.submitTransaction({
             txHex: recoveryTx.hex,
           });
@@ -291,7 +287,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
 
   const formik = useFormik<IMigratedLegacyWalletRecoveriesFormValues>({
     initialValues: {
-      selectedInstrument: undefined,
+      selectedCoin: undefined,
       walletId: undefined,
       recoveryAddress: undefined,
       passphrase: undefined,
@@ -358,13 +354,11 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
                       allowedCoins={
                         coinConfig.supportedRecoveries.migrated[network === NetworkType.MAINNET ? 'prod' : 'test']
                       }
-                      error={touched.selectedInstrument ? errors.selectedInstrument?.toString() : undefined}
+                      error={touched.selectedCoin ? errors.selectedCoin?.toString() : undefined}
                       className="mb1"
-                      activeItem={{
-                        bitgoInstrument: initialValues?.selectedInstrument,
-                      }}
+                      activeItem={initialValues?.selectedCoin}
                       onItemSelect={(item) => {
-                        setFieldValue('selectedInstrument', item);
+                        setFieldValue('selectedCoin', item);
                       }}
                     />
                     <HelpBlock className="mb3">
@@ -402,7 +396,7 @@ function MigratedLegacyWalletRecoveriesForm(props: IMigratedLegacyWalletRecoveri
                         error: touched.recoveryAddress ? errors.recoveryAddress : undefined,
                         className: 'mb1',
                         value: values.recoveryAddress,
-                        placeholder: "Enter destination address..."
+                        placeholder: 'Enter destination address...',
                       }}
                     />
                     <HelpBlock className="mb3">{tooltips.migratedLegacy.recoveryAddress}</HelpBlock>

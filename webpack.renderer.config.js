@@ -1,6 +1,6 @@
-const path = require('path')
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
-const webpack = require('webpack')
+const path = require('path');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const webpack = require('webpack');
 const relocateLoader = require('@vercel/webpack-asset-relocator-loader');
 const FileManagerPlugin = require('filemanager-webpack-plugin');
 
@@ -8,11 +8,11 @@ function getOptimization() {
   if (process.env.NODE_ENV !== 'production') {
     return {
       runtimeChunk: true,
-    }
+    };
   }
   return {
     minimize: false,
-  }
+  };
 }
 
 module.exports = {
@@ -85,10 +85,10 @@ module.exports = {
     }),
     {
       apply(compiler) {
-        compiler.hooks.compilation.tap("@vercel/webpack-asset-relocator-loader", compilation => {
+        compiler.hooks.compilation.tap('@vercel/webpack-asset-relocator-loader', (compilation) => {
           relocateLoader.initAssetCache(compilation, 'native_modules');
         });
-      }
+      },
     },
     new FileManagerPlugin({
       runOnceInWatchMode: true,
@@ -118,7 +118,8 @@ module.exports = {
       'theme-ui': path.resolve(process.cwd(), 'node_modules/theme-ui'),
       formik: path.resolve(process.cwd(), 'node_modules/formik'),
       vm2: path.resolve(process.cwd(), 'node_modules/vm2'),
+      '~': path.resolve(process.cwd(), 'src'),
     },
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css'],
   },
-}
+};

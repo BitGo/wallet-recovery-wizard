@@ -1,20 +1,25 @@
-import { NetworkType } from '@bitgo/statics';
-import { Collapse } from '@blueprintjs/core';
 import React from 'react';
+import { Collapse } from '@blueprintjs/core';
+
+import { useSession } from '../../contexts/session';
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { IBaseProps } from '../../modules/lumina/components/base-props';
 import { AppToaster } from '../../modules/lumina/components/toaster/toaster';
-import { useApplicationContext } from '../contexts/application-context';
 import LogInButton from '../log-in-button/log-in-button';
 
 export function AppContainer({ children }: IBaseProps) {
-  const { network, session, user, bitgoSDKOfflineWrapper } = useApplicationContext();
+  const { session, user, endSession } = useSession();
+  const { environment } = useBitGoEnvironment();
 
   const clearUserSession = async () => {
-    await bitgoSDKOfflineWrapper.endUserSession(() => {
+    try {
+      await endSession();
       AppToaster.show({
         message: 'Your session expired. Please log in again.',
       });
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   if (session?.expires) {
@@ -29,7 +34,7 @@ export function AppContainer({ children }: IBaseProps) {
         <div className="l-gpl l-gpr pv2 bb b--border silver bg-almost-white l-logged-in-banner">
           <div className="mw8 center w-100 fw5 f7 tc">
             Logged in as <span className="grey-900">{user?.username}</span> on{' '}
-            {`bitgo${network === NetworkType.TESTNET ? '-test' : ''}.com`} &middot;{' '}
+            {`bitgo${environment === 'test' ? '-test' : ''}.com`} &middot;{' '}
             <LogInButton buttonProps={{ className: 'pointer blue' }} />
           </div>
         </div>

@@ -1,7 +1,6 @@
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BaseCoin } from '@bitgo/sdk-core';
-import { NetworkType } from '@bitgo/statics';
-import * as Errors from 'bitgo/dist/src/errors';
+import { ErrorNoInputToRecover } from 'bitgo';
 
 export const coinConfig = {
   allCoins: {
@@ -16,6 +15,7 @@ export const coinConfig = {
         { label: 'Mainnet', value: 'prod' },
         { label: 'Testnet', value: 'test' },
       ],
+      replayableNetworks: [],
     },
     bch: {
       fullName: 'Bitcoin Cash',
@@ -131,11 +131,47 @@ export const coinConfig = {
     },
     nonBitGo: {
       test: ['tbtc', 'teth', 'txrp', 'txlm', 'token', 'ttrx', 'teos', 'gteth', 'tnear', 'tdot', 'tsol'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos', 'near', 'dot', 'sol'],
+      prod: [
+        'btc',
+        'bch',
+        'ltc',
+        'xrp',
+        'xlm',
+        'dash',
+        'zec',
+        'btg',
+        'eth',
+        'token',
+        'trx',
+        'bsv',
+        'bcha',
+        'eos',
+        'near',
+        'dot',
+        'sol',
+      ],
     },
     unsignedSweep: {
       test: ['tbtc', 'txrp', 'txlm', 'teth', 'ttoken', 'ttrx', 'teos', 'gteth', 'tnear', 'tdot', 'tsol'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos', 'near', 'dot', 'sol'],
+      prod: [
+        'btc',
+        'bch',
+        'ltc',
+        'xrp',
+        'xlm',
+        'dash',
+        'zec',
+        'btg',
+        'eth',
+        'token',
+        'trx',
+        'bsv',
+        'bcha',
+        'eos',
+        'near',
+        'dot',
+        'sol',
+      ],
     },
     migrated: {
       test: ['tbch', 'tbsv'],
@@ -176,7 +212,7 @@ export function isBlockChairKeyNeeded(coin: string): boolean {
  * @param {string} masterXpub
  * @param {string} seed
  */
-export function getDerivedXpub(baseCoin: BaseCoin, masterXpub, seed) {
+export function getDerivedXpub(baseCoin: BaseCoin, masterXpub: string, seed: string) {
   return baseCoin.deriveKeyWithSeed({ key: masterXpub, seed });
 }
 
@@ -201,18 +237,19 @@ export async function recoverWithKeyPath(baseCoin: AbstractUtxoCoin, recoveryPar
       // if we already have a recovery result, then it means the current path we try
       // is the valid user path, and we can return and exit the iteration loop
       return await baseCoin.recover(Object.assign({}, recoveryParams, path));
-    } catch (e) {
+    } catch (e: unknown) {
+      const err = e as Error;
       // if this current path we try yields us no inputs to recover, we catch the
       // error and move on to the next iteration and continue trying the remaining paths
-      if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) {
-        throw new Error(e.message);
+      if (err.constructor.name !== ErrorNoInputToRecover.name) {
+        throw new Error(err.message);
       }
     }
   }
   // if we couldn't build a tx here, it must have been the case that there were no inputs available
   // to recover. All the other errors would have been caught and thrown already by the line:
   // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);}
-  throw new Errors.ErrorNoInputToRecover();
+  throw new ErrorNoInputToRecover();
 }
 
 const GWEI = 10 ** 9;

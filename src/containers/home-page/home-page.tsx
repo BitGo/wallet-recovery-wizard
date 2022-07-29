@@ -1,12 +1,17 @@
-import { NetworkType } from '@bitgo/statics';
-import { Collapse } from '@blueprintjs/core';
-import { EnvironmentName } from 'bitgo';
-import cn from 'classnames';
+// import { EnvironmentName } from 'bitgo';
+// import cn from 'classnames';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { NavLink } from 'react-router-dom';
-import { useApplicationContext } from '../../components/contexts/application-context';
-import LogInButton from '../../components/log-in-button/log-in-button';
+
+import { NetworkType } from '@bitgo/statics';
+// import { Collapse } from '@blueprintjs/core';
+
+import packageJson from '../../../package.json';
+// import LogInButton from '../../components/log-in-button/log-in-button';
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
+import { isLocale, useLocale } from '../../contexts/locale';
+import { useSession } from '../../contexts/session';
 import { GridColumn } from '../../modules/lumina/components/grid-column/grid-column';
 import { GridRow } from '../../modules/lumina/components/grid-row/grid-row';
 import { H4 } from '../../modules/lumina/components/H4/h4';
@@ -17,18 +22,13 @@ import { HoverArrow } from '../../modules/lumina/components/hover-arrow/hover-ar
 import { HtmlSelect } from '../../modules/lumina/components/html-select/html-select';
 import { Label } from '../../modules/lumina/components/label/label';
 import Logo from '../../modules/lumina/components/logo/logo';
-import { BitgoSDKOfflineWrapper } from '../../pkg/bitgo/bitgo-sdk-offline-wrapper';
 import messages from './messages';
-import './_home-page.scss';
 
-const { version } = require('/package.json');
+import './_home-page.scss';
 
 const isDevelopment = process.env.IS_DEVELOPMENT === 'true';
 
 function HomePage() {
-  const { locale, setLocale, network, setNetwork, bitgoSDKOfflineWrapper, setBitgoSDKOfflineWrapper, session, setSession, setUser } =
-    useApplicationContext();
-
   return (
     <div className="flex flex-grow-1 items-center justify-center pv4 l-gpl l-gpr" data-testid="home-page">
       <div className="mw8 w-100">
@@ -38,7 +38,7 @@ function HomePage() {
           BitGo Wallet Recovery Wizard
         </H4>
         <Label className="silver" size="s" mbx="mb3">
-          Version: {version} {isDevelopment && ' · Dev Build'}
+          Version: {packageJson.version} {isDevelopment && ' · Dev Build'}
         </Label>
 
         <GridRow nmhx="nmh4">
@@ -51,57 +51,11 @@ function HomePage() {
             </div>
 
             <div className="mb3">
-              <Label>Environment</Label>
-              <HtmlSelect
-                onChange={(event) => {
-                  const networkValue = event.target.value as NetworkType;
-                  const envName: EnvironmentName = networkValue === NetworkType.MAINNET ? 'prod' : 'test';
-
-                  // End the current session if there is one
-                  bitgoSDKOfflineWrapper.endUserSession(() => {
-                    setSession(null);
-                    setUser(null);
-
-                    const bitgoInstance = new BitgoSDKOfflineWrapper({
-                      env: envName,
-                    });
-                    setBitgoSDKOfflineWrapper(bitgoInstance);
-                    setNetwork(networkValue);
-                  });
-                }}
-                value={network}
-                options={[
-                  {
-                    label: 'Testnet',
-                    value: NetworkType.TESTNET,
-                  },
-                  {
-                    label: 'Mainnet',
-                    value: NetworkType.MAINNET,
-                  },
-                ]}
-              />
+              <EnvironmentSelect />
             </div>
 
             {/* TODO(louis): Comment out language selector until all copy finalized */}
-            <Label>Language</Label>
-            <HtmlSelect
-              className="mb4"
-              onChange={(event) => {
-                setLocale(event.target.value);
-              }}
-              value={locale}
-              options={[
-                {
-                  label: 'English',
-                  value: 'en',
-                },
-                {
-                  label: '日本語',
-                  value: 'ja',
-                },
-              ]}
-            />
+            <LanguageSelect />
           </GridColumn>
 
           <GridColumn className="w-two-thirds-l" phx="ph4">
@@ -132,7 +86,7 @@ function HomePage() {
               </NavLink>
             </div>
 
-            <div className="mb4">
+            {/* <div className="mb4">
               <H5>Requires BitGo Credentials</H5>
               <Collapse isOpen={!session}>
                 <div className="pb3">
@@ -201,11 +155,73 @@ function HomePage() {
                 </H6>
                 <HelpBlock>Recover unsupported migrated BCH, BSV, and BTG wallets.</HelpBlock>
               </NavLink>
-            </div>
+            </div> */}
           </GridColumn>
         </GridRow>
       </div>
     </div>
+  );
+}
+
+function EnvironmentSelect() {
+  const { network, setNetwork } = useBitGoEnvironment();
+  const { endSession, setSession, setUser } = useSession();
+  return (
+    <>
+      <Label>Environment</Label>
+      <HtmlSelect
+        onChange={async (event) => {
+          const networkValue = event.target.value as NetworkType;
+          setNetwork(networkValue);
+          try {
+            // End the current session if there is one
+            await endSession();
+            setSession(null);
+            setUser(null);
+          } catch (err) {
+            console.error(err.message);
+          }
+        }}
+        value={network}
+        options={[
+          {
+            label: 'Testnet',
+            value: NetworkType.TESTNET,
+          },
+          {
+            label: 'Mainnet',
+            value: NetworkType.MAINNET,
+          },
+        ]}
+      />
+    </>
+  );
+}
+
+function LanguageSelect() {
+  const { locale, setLocale } = useLocale();
+  return (
+    <>
+      <Label>Language</Label>
+      <HtmlSelect
+        className="mb4"
+        onChange={(event) => {
+          const newLocale = isLocale(event.target.value) ? event.target.value : 'en';
+          setLocale(newLocale);
+        }}
+        value={locale}
+        options={[
+          {
+            label: 'English',
+            value: 'en',
+          },
+          {
+            label: '日本語',
+            value: 'ja',
+          },
+        ]}
+      />
+    </>
   );
 }
 

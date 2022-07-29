@@ -1,9 +1,11 @@
-import { Collapse, Icon, Radio, RadioGroup } from '@blueprintjs/core';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
-import { IBaseProps } from '../../modules/lumina/components/base-props';
+
+import { Collapse, Icon, Radio, RadioGroup } from '@blueprintjs/core';
+
+import { useBitGoEnvironment } from '../../contexts/bitgo-environment';
 import { Footer } from '../../modules/lumina/components/footer/footer';
 import { HelpBlock } from '../../modules/lumina/components/help-block/help-block';
 import { InputField } from '../../modules/lumina/components/input-field/input-field';
@@ -13,11 +15,8 @@ import { TextareaField } from '../../modules/lumina/components/textarea-field';
 import { ValidationBanner } from '../../modules/lumina/components/validation-banner/validation-banner';
 import { BitgoBackendErrorCode } from '../../modules/lumina/errors/bitgo-backend-errors';
 import { IValidationError } from '../../modules/lumina/errors/types';
-import { useApplicationContext } from '../contexts/application-context';
 import { SuccessAnimation } from '../success-animation/success-animation';
 import tooltips from '../tooltips';
-
-interface IUnsupportedTokensRecoveriesFormProps extends IBaseProps {}
 
 interface IUnsupportedTokensRecoveriesFormValues {
   walletId: string;
@@ -29,13 +28,13 @@ interface IUnsupportedTokensRecoveriesFormValues {
   twofa: string;
 }
 
-function UnsupportedTokensRecoveriesForm(props: IUnsupportedTokensRecoveriesFormProps) {
-  const { bitgoSDKOfflineWrapper } = useApplicationContext();
+function UnsupportedTokensRecoveriesForm() {
+  const { bitgo } = useBitGoEnvironment();
   const [validationErrors, setValidationErrors] = useState<IValidationError[]>(null);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const history = useHistory();
-  const coin = bitgoSDKOfflineWrapper.bitgoSDK.getEnv() === 'prod' ? 'eth' : 'gteth';
+  const coin = bitgo.getEnv() === 'prod' ? 'eth' : 'gteth';
 
   const UnsupportedTokensRecoveriesFormSchema = Yup.object().shape({
     walletId: Yup.string().required('Please enter a wallet ID'),
@@ -49,8 +48,8 @@ function UnsupportedTokensRecoveriesForm(props: IUnsupportedTokensRecoveriesForm
 
   const handleSubmit = async (values: IUnsupportedTokensRecoveriesFormValues) => {
     try {
-      await bitgoSDKOfflineWrapper.bitgoSDK.unlock({ otp: values.twofa });
-      const wallet = await bitgoSDKOfflineWrapper.bitgoSDK.coin(coin).wallets().get({ id: values.walletId });
+      await bitgo.unlock({ otp: values.twofa });
+      const wallet = await bitgo.coin(coin).wallets().get({ id: values.walletId });
       await wallet.recoverToken({
         tokenContractAddress: values.tokenAddress,
         recipient: values.recoveryAddress,
@@ -178,7 +177,7 @@ function UnsupportedTokensRecoveriesForm(props: IUnsupportedTokensRecoveriesForm
                         onChange: handleChange,
                         className: 'mb1',
                         value: values.recoveryAddress,
-                        placeholder: "Enter destination address..."
+                        placeholder: 'Enter destination address...',
                       }}
                     />
                     <HelpBlock className="mb3">{tooltips.unsupportedToken.recoveryAddress}</HelpBlock>

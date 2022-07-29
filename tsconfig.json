@@ -12,11 +12,14 @@
     "strict": false,
     "baseUrl": ".",
     "paths": {
-      "*": ["node_modules/*"]
+      "~/*": ["./src/*"]
     }
   },
   "include": [
-    "src/**/*",
+    "./src/**/*",
     ".eslintrc.js"
+  ],
+  "exclude": [
+    "./node_modules/*"
   ]
 }

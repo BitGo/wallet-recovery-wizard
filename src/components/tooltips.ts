@@ -6,17 +6,19 @@ export default {
       'This is the coin that was sent to the wrong address. For instance, if you sent BTC to an LTC address, the source coin would be BTC.',
     destinationCoin: () =>
       'This is the coin type of the wallet that received the source coin. For instance, if you sent BTC to an LTC address, the destination coin would be LTC.',
-    wallet: (coin) =>
+    wallet: (coin: string) =>
       `This is the wallet ID of the wallet that received the source coin. This should be a ${coin.toUpperCase()} wallet.`,
-    txid: (coin) => `The transaction IDs of the transactions that sent ${coin.toUpperCase()} to the wrong address.`,
-    address: (coin) =>
+    txid: (coin: string) =>
+      `The transaction IDs of the transactions that sent ${coin.toUpperCase()} to the wrong address.`,
+    address: (coin: string) =>
       `The address the source coin was mistakenly sent to. This should be a ${coin.toUpperCase()} address.`,
-    unspent: (coin) => `The unspent ID of the lost ${coin.toUpperCase()}, in the form [PREVIOUS_TX_ID]:[N_OUTPUT].`,
-    recoveryAddress: (coin) =>
+    unspent: (coin: string) =>
+      `The unspent ID of the lost ${coin.toUpperCase()}, in the form [PREVIOUS_TX_ID]:[N_OUTPUT].`,
+    recoveryAddress: (coin: string) =>
       `The address your recovery transaction will send to. This should be a ${coin.toUpperCase()} address.`,
-    passphrase: (coin) =>
+    passphrase: (coin: string) =>
       `The wallet passphrase of the ${coin.toUpperCase()} wallet that received the source coin. You can leave this blank if you know the private key.`,
-    prv: (coin) =>
+    prv: (coin: string) =>
       `The private key (xprv) for the ${coin.toUpperCase()} wallet that received the source coin. If you have your wallet passphrase, you don't need this.`,
   },
   unsupportedToken: {
@@ -39,7 +41,7 @@ export default {
     walletPassphrase: 'The passphrase of the wallet.',
     recoveryDestination: 'The address your recovery transaction will send to.',
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
-    apiKey: (coin) => {
+    apiKey: (coin: string) => {
       if (coin === 'eth' || coin === 'token') {
         return 'An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries.';
       } else if (isBlockChairKeyNeeded(coin)) {
@@ -67,18 +69,20 @@ export default {
     coin: 'The coin type of the wallet you wish to recover.',
   },
   unsignedSweep: {
-    userKey: "Your user public key, as found on your BitGo recovery keycard.",
-    userKeyID: "Your user Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank.",
-    backupPublicKey: "The backup public key for the wallet, as found on your BitGo recovery keycard.",
-    backupKeyID: "Your backup Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank.",
-    bitgoKey: "The BitGo public key for the wallet, as found on your BitGo recovery keycard.",
+    userKey: 'Your user public key, as found on your BitGo recovery keycard.',
+    userKeyID:
+      'Your user Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank.',
+    backupPublicKey: 'The backup public key for the wallet, as found on your BitGo recovery keycard.',
+    backupKeyID:
+      'Your backup Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank.',
+    bitgoKey: 'The BitGo public key for the wallet, as found on your BitGo recovery keycard.',
     rootAddress: 'The root address of the wallet.',
     walletContractAddress: "The ETH address of the wallet contract. This is also the wallet's base address.",
-    recoveryDestination: "The address your recovery transaction will send to.",
+    recoveryDestination: 'The address your recovery transaction will send to.',
     scan: 'The amount of addresses without transactions to scan before stopping the tool.',
     tokenAddress:
       'The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address.',
-    apiKey: (coin) => {
+    apiKey: (coin: string) => {
       if (coin === 'eth' || coin === 'token') {
         return 'An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries.';
       } else if (isBlockChairKeyNeeded(coin)) {
@@ -101,7 +105,7 @@ export default {
       'If you used an unverified IP address, please check your email for IP verification.',
   },
 
-  replayTxWarning: (coin) => {
+  replayTxWarning: (coin: string) => {
     const replayableNetworks = coinConfig.allCoins[coin].replayableNetworks;
     const replayNetworkFullNames = replayableNetworks
       .map((network) => coinConfig.allCoins[network].fullName)
