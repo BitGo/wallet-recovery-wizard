@@ -1,3 +1,4 @@
+import { NetworkType } from '@bitgo/statics';
 import { coinConfig, isBlockChairKeyNeeded } from './utils';
 
 export default {
@@ -108,7 +109,7 @@ export default {
   replayTxWarning: (coin: string) => {
     const replayableNetworks = coinConfig.allCoins[coin].replayableNetworks;
     const replayNetworkFullNames = replayableNetworks
-      .map((network) => coinConfig.allCoins[network].fullName)
+      .map((network: string) => coinConfig.allCoins[network].fullName)
       .join(' and ');
     const coinFullName = coinConfig.allCoins[coin].fullName;
     const warning = ` ${coinFullName} transactions are replayable on ${replayNetworkFullNames}.
