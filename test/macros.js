@@ -2,7 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const sjson = require('secure-json-parse')
 const chai = require('chai')
-const useHistory = require('react-router-dom')
 
 const macros = {}
 
@@ -13,11 +12,6 @@ macros.setSpectronEnv = function () {
   const spectronSaveDir = __dirname + '/'
   process.env.SPECTRON_IS_RUNNING = true
   process.env.SPECTRON_SAVE_DIR = spectronSaveDir
-}
-
-macros.toHomeScreen = function () {
-  history = useHistory.useHistory()
-  history.pushState('/')
 }
 
 macros.sleep = function (time) {
