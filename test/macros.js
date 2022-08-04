@@ -1,8 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 const sjson = require('secure-json-parse')
+const chai = require('chai')
+const useHistory = require('react-router-dom')
 
 const macros = {}
+
+macros.testDir = 'test/'
 
 macros.setSpectronEnv = function () {
   // env variable used in  electronUtility.js
@@ -11,7 +15,12 @@ macros.setSpectronEnv = function () {
   process.env.SPECTRON_SAVE_DIR = spectronSaveDir
 }
 
-macros.sleep = async function (time) {
+macros.toHomeScreen = function () {
+  history = useHistory.useHistory()
+  history.pushState('/')
+}
+
+macros.sleep = function (time) {
   return new Promise((resolve) => setTimeout(resolve, time))
 }
 
@@ -209,6 +218,12 @@ macros._testFilter = function (fileName) {
     macros._halfSignedTxFilter(fileName)
   )
 }
+/**
+ * 
+ * @param {*} callback 
+ * @param {*} directory 
+ * @returns {string[]} 
+ */
 
 macros.getFiles = function (callback, directory) {
   dirContents = macros.getDirContents(directory)
@@ -216,8 +231,13 @@ macros.getFiles = function (callback, directory) {
   return files.map((file) => path.join(directory, file))
 }
 
-macros.removeTestFiles = function (testDir) {
-  const files = macros.getFiles(macros._testFilter, testDir)
+macros.isOneFile = function () {
+  const files = macros.getFiles(macros._testFilter, macros.testDir)
+  return files.length.should.equal(1)
+}
+
+macros.removeTestFiles = function () {
+  const files = macros.getFiles(macros._testFilter, macros.testDir)
   for (let i = 0; i < files.length; i++) {
     fs.unlinkSync(files[i])
   }

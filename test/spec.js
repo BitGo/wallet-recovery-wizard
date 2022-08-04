@@ -2,14 +2,14 @@ const Application = require('spectron').Application
 const path = require('path')
 const chai = require('chai')
 const chaiAsPromised = require('chai-as-promised')
+const nonbitgo = require('./non-bitgo-tests/nonbitgo')
 const macros = require('./macros.js')
-const testDir = 'test/'
 const expect = require('chai').expect
 const _ = require('lodash')
 
 // TODO(louis): needs clean up, test token
+const testDir = macros.testDir
 const accessToken = 'TBD'
-const walletPassword = 'TBD'
 
 chai.should()
 chai.use(chaiAsPromised)
@@ -33,41 +33,23 @@ describe('Application launch', function () {
       // chromeDriverLogPath: 'test/chromedriverlog.txt',
     })
     // remove test files in case previous run did not teardown cleanly
-    macros.removeTestFiles(testDir)
+    macros.removeTestFiles()
     return this.app.start()
   })
 
-  describe('Non-BitGo Recoveries: ', async function () {
-    before(async function () {
-      this.timeout(36000)
-      const userKey = '{"iv":"jH09XkCZxt4GpCC3XSt5mA==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"ADKC8Ua6oNk=","ct":"2tvJlDmwwa2k8vFRVtzwer/zejlTbdXlI12caYockwBfzocBKtYMWhYFoqQ+7ASiZTYE52aRRVV3sIwMMSyfaEAfZGJNHXG2sYrAYH2OVdeEXiu4802mImcjwx8HftFaLpeBCFHgqaeBJKM/GE59V9LVEgNEbpQ="}'
-      const backupKey = '{"iv":"/6pEB9FtD5IT1vAjV/r73g==","v":1,"iter":10000,"ks":256,"ts":64,"mode":"ccm","adata":"","cipher":"aes","salt":"pJxQoVDXJKY=","ct":"QQmfZjSG5C4rzwwWelW5fU9ES/nCcIC9EUuVe/eNNfC7VHOdBcZ22G0fyh2v0bD2QInJTK4yn/7FRuQ4O4jkibkoHVJWkJVD1M6/RKOMpNe2lcGCXiiUO/Rq0VlzmR0ZYl1G8EFVEBSfxvcvndUOHymEsIRoERg="}'
-      const bitgoKey = 'xpub661MyMwAqRbcEiYh5rn4J2u8cVwbBdame8smyXadUthDZKffBf231N5bTWPNYM8bLLsf8GxdMub4vkbyN9PJsaMrWxvv2APa9o7reK6vTjo'
-      const recoveryDestination = '2N7LFAeS8mHN2igHZtgDhQbHEngBnf5TwjD'
-
-      await macros.waitForWindow(this)
-      await macros.selectNonBitGoRecoveries(this)
-      
-      await macros.selectCurrency(this, 'tbtc')
-      await macros.setInputValueWithDataTestId(this, 'userKey', userKey)
-      await macros.setInputValueWithDataTestId(this, 'backupKey', backupKey)
-      await macros.setInputValueWithDataTestId(this, 'bitgoKey', bitgoKey)
-      await macros.setInputValueWithDataTestId(this, 'walletPassphrase', walletPassword)
-      await macros.setInputValueWithDataTestId(this, 'recoveryDestination', recoveryDestination)
-
-      await macros.clickFooterContinueButton(this)
-      await macros.clickBackToHomeLink(this)
-      await macros.sleep(500)
-    })
-    
-    after(function () {
-      macros.removeTestFiles(testDir)
+  describe('Non-BitGo Recoveries: ', function () {
+    afterEach(function () {
+      macros.removeTestFiles()
     })
 
-    it('should have created a json file', function () {
-      const numFiles = 1
-      const files = macros.getFiles(macros._jsonFilter, testDir)
-      return files.length.should.equal(numFiles)
+    describe('#recoverBTC()', function () {
+      before(async function () {await nonbitgo.recoverBTC(this)})
+      it('created a json file', macros.isOneFile)
+    })
+
+    describe('#recoverETH()', function () {
+      before(async function () {await nonbitgo.recoverETH(this)})
+      it('created a json file', macros.isOneFile)
     })
   })
 
@@ -95,7 +77,7 @@ describe('Application launch', function () {
     })
 
     after(function () {
-      macros.removeTestFiles(testDir)
+      macros.removeTestFiles()
     })
 
     it('should have created a json file', function () {
@@ -105,7 +87,7 @@ describe('Application launch', function () {
     })
   })
 
-  describe('Wrong Chain Recoveries: ', async function () {
+  describe('Wrong Chain Recoveries: ', function () {
     before(async function () {
       this.timeout(30000)
 
@@ -114,7 +96,7 @@ describe('Application launch', function () {
       const destinationAddress = '2NEWFNQ9JoRuxJoTgm2FsYaACJ65cQRuMFK'
 
       await macros.waitForWindow(this)
-      
+
       await macros.clickLogInButton(this)
       await macros.selectAccessToken(this)
       await macros.enterAccessToken(this, accessToken)
@@ -139,7 +121,7 @@ describe('Application launch', function () {
     })
 
     after(function () {
-      macros.removeTestFiles(testDir)
+      macros.removeTestFiles()
     })
 
     it('should have created a json file', function () {
@@ -203,12 +185,12 @@ describe('Application launch', function () {
       await macros.setInputValueWithDataTestId(this, 'twofa', '000000')
 
       await macros.clickFooterContinueButton(this)
-      await macros.clickBackToHomeLink(this)      
+      await macros.clickBackToHomeLink(this)
       await macros.sleep(500)
     })
 
     after(function () {
-      macros.removeTestFiles(testDir)
+      macros.removeTestFiles()
     })
 
     it('should have created a json file', function () {
@@ -220,7 +202,7 @@ describe('Application launch', function () {
 
   after(function () {
     if (this.app && this.app.isRunning()) {
-      macros.removeTestFiles(testDir)
+      macros.removeTestFiles()
       return this.app.stop()
     }
   })

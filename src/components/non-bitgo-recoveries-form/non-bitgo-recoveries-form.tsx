@@ -296,6 +296,7 @@ function NonBitgoRecoveriesForm() {
                                 labelText: 'API Key',
                               }}
                               inputProps={{
+                                'data-testid': 'apiKey',
                                 className: 'mb1',
                                 value: values.apiKey,
                                 onChange: handleChange,
