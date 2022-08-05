@@ -31,34 +31,48 @@ module.exports = {
   packagerConfig: {
     executableName: 'wallet-recovery-wizard',
     name: 'Wallet Recovery Wizard',
-    icon: './assets/icon',
-    extraResource: ['assets'],
+    icon: './src/assets/icon.icns',
+    appCategoryType: 'public.app-category.utilities',
   },
   makers: [
     {
       name: '@electron-forge/maker-squirrel',
       config: {
         name: 'Wallet Recovery Wizard',
+        setupIcon: './src/assets/icon.ico',
       },
     },
     {
       name: '@electron-forge/maker-dmg',
       config: {
         format: 'ULFO',
+        icon: './src/assets/icon.icns',
+        name: 'Wallet Recovery Wizard',
       },
     },
     {
       name: '@electron-forge/maker-deb',
       config: {
         options: {
+          icon: './src/assets/icon.png',
+          categories: ['Utility'],
+          maintainer: 'BitGo Inc.',
+          productName: 'Wallet Recovery Wizard',
+          section: 'utils',
           lintianOverrides: ['changelog-file-missing-in-native-package'],
+          homepage: 'https://bitgo.com',
         },
       },
     },
     {
       name: '@electron-forge/maker-rpm',
       config: {
-        options: {},
+        options: {
+          icon: './src/assets/icon.png',
+          categories: ['Utility'],
+          productName: 'Wallet Recovery Wizard',
+          homepage: 'https://bitgo.com',
+        },
       },
     },
   ],

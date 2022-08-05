@@ -1,4 +1,8 @@
 /* eslint-env node */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 module.exports = {
   /**
@@ -10,6 +14,16 @@ module.exports = {
   module: {
     rules: require('./webpack.rules'),
   },
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src', 'assets'),
+          to: path.resolve(__dirname, '.webpack', 'assets'),
+        },
+      ],
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },
