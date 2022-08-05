@@ -2,14 +2,14 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge } from 'electron';
 
 type IPCAPI = {
-  setTitle(title: string): void;
+  // setTitle(title: string): void;
 };
 
 const API: IPCAPI = {
-  setTitle: (title: string) => ipcRenderer.send('setTitle', title),
+  // setTitle: (title: string) => ipcRenderer.send('setTitle', title),
 };
 
 contextBridge.exposeInMainWorld('ipc', API);
