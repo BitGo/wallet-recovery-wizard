@@ -1,9 +1,9 @@
 name: Playwright Tests
 on:
   push:
-    branches: [main, master]
+    branches: [master]
   pull_request:
-    branches: [main, master]
+    branches: [master]
 jobs:
   test:
     timeout-minutes: 60
@@ -18,7 +18,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
       - name: Run Playwright tests
-        run: npx playwright test
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x960x24" -- npx playwright test
       - uses: actions/upload-artifact@v2
         if: always()
         with:
