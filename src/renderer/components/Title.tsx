@@ -6,8 +6,8 @@ export function Title({
 }: {
   children: React.ReactNode;
 }): JSX.Element {
-  window.ipc.setTitle(
-    ReactDOMServer.renderToStaticMarkup(children as React.ReactElement)
+  document.title = ReactDOMServer.renderToString(
+    children as React.ReactElement
   );
 
   return null;

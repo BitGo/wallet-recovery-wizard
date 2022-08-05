@@ -17,7 +17,9 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint:fix": "eslint --ignore-path .gitignore --fix .",
-    "format:write": "prettier --ignore-path .gitignore --write ."
+    "format:write": "prettier --ignore-path .gitignore --write .",
+    "playwright:test": "playwright test",
+    "playwright:show-report": "playwright show-report"
   },
   "keywords": [],
   "private": true,
@@ -31,6 +33,7 @@
     "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.65",
     "@electron-forge/publisher-github": "^6.0.0-beta.65",
+    "@playwright/test": "^1.24.2",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
@@ -46,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "node-loader": "^2.0.0",
+    "playwright": "^1.24.2",
     "prettier": "^2.7.1",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
