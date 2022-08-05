@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "module": "commonjs",
+    "module": "ESNext",
     "jsx": "react-jsx",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "noImplicitAny": true,
     "sourceMap": true,
+    "checkJs": true,
     "baseUrl": ".",
     "outDir": "dist",
+    "target": "ESNext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "paths": {

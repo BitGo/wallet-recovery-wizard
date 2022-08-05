@@ -26,7 +26,23 @@
  * ```
  */
 
-import './index.css';
-import './client';
+import "./index.css";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { HashRouter, Routes, Route } from "react-router-dom";
+import App from "./containers/App";
+import Home from "./containers/Home";
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+const root = document.getElementById("root");
+
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <HashRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Home />} />
+        </Route>
+      </Routes>
+    </HashRouter>
+  </React.StrictMode>
+);

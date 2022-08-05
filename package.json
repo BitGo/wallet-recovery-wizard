@@ -1,8 +1,15 @@
 {
-  "name": "bitgo-wallet-recovery-wizard",
-  "productName": "bitgo-wallet-recovery-wizard",
+  "name": "wallet-recovery-wizard",
+  "productName": "wallet-recovery-wizard",
   "version": "4.0.0",
   "description": "A UI-based desktop app for BitGo Recoveries",
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
+  },
+  "author": {
+    "name": "BitGo, Inc."
+  },
   "main": ".webpack/main",
   "scripts": {
     "start": "electron-forge start",
@@ -14,58 +21,15 @@
   "keywords": [],
   "private": true,
   "license": "Apache-2.0",
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "wallet_recovery_wizard"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ],
-      "plugins": [
-        [
-          "@electron-forge/plugin-webpack",
-          {
-            "mainConfig": "./webpack.main.config.js",
-            "renderer": {
-              "config": "./webpack.renderer.config.js",
-              "entryPoints": [
-                {
-                  "html": "./src/index.html",
-                  "js": "./src/renderer.ts",
-                  "name": "main_window"
-                }
-              ]
-            }
-          }
-        ]
-      ]
-    }
-  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.65",
     "@electron-forge/maker-deb": "^6.0.0-beta.65",
+    "@electron-forge/maker-dmg": "^6.0.0-beta.65",
     "@electron-forge/maker-rpm": "^6.0.0-beta.65",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
     "@electron-forge/maker-zip": "^6.0.0-beta.65",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.65",
+    "@electron-forge/publisher-github": "^6.0.0-beta.65",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
@@ -79,6 +43,7 @@
     "node-loader": "^2.0.0",
     "style-loader": "^3.3.1",
     "ts-loader": "^9.3.1",
+    "ts-node": "^10.9.1",
     "typescript": "~4.5.4"
   },
   "dependencies": {

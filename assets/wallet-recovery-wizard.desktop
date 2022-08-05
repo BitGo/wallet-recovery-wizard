@@ -1,0 +1,9 @@
+Name=WalletRecoveryWizard
+Comment=A UI-based desktop app for BitGo Recoveries
+GenericName=WalletRecoveryWizard
+Exec=wallet-recovery-wizard %U
+Icon=wallet-recovery-wizard
+Type=Application
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+X-GNOME-UsesNotifications=true
