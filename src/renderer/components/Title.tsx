@@ -1,5 +1,5 @@
-import React from "react";
-import * as ReactDOMServer from "react-dom/server";
+import React from 'react';
+import * as ReactDOMServer from 'react-dom/server';
 
 export function Title({
   children,

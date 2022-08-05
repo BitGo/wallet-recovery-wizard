@@ -26,14 +26,14 @@
  * ```
  */
 
-import "./index.css";
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { HashRouter, Routes, Route } from "react-router-dom";
-import App from "./containers/App";
-import Home from "./containers/Home";
+import './index.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { HashRouter, Routes, Route } from 'react-router-dom';
+import App from './containers/App';
+import Home from './containers/Home';
 
-const root = document.getElementById("root");
+const root = document.getElementById('root');
 
 ReactDOM.createRoot(root).render(
   <React.StrictMode>

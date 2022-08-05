@@ -2,17 +2,17 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import { contextBridge, ipcRenderer } from "electron";
+import { contextBridge, ipcRenderer } from 'electron';
 
 type IPCAPI = {
   setTitle(title: string): void;
 };
 
 const API: IPCAPI = {
-  setTitle: (title: string) => ipcRenderer.send("setTitle", title),
+  setTitle: (title: string) => ipcRenderer.send('setTitle', title),
 };
 
-contextBridge.exposeInMainWorld("ipc", API);
+contextBridge.exposeInMainWorld('ipc', API);
 
 // This is needed due to collisions of Electron.Parameters in the Electron namespace
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

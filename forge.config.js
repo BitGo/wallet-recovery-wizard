@@ -17,10 +17,10 @@
  *    name: '@electron-forge/maker-rpm',
  *    config: import('@electron-forge/maker-rpm').MakerRpmConfig
  *  })[]
- *  plugins: ({
- *    name: '@electron-forge/plugin-webpack',
- *    config: import('@electron-forge/plugin-webpack').PluginWebpackConfig
- *  })[]
+ *  plugins: [
+ *    '@electron-forge/plugin-webpack',
+ *    import('@electron-forge/plugin-webpack').WebpackPluginConfig
+ *  ][]
  *  publishers: ({
  *    name: '@electron-forge/publisher-github',
  *    config: import('@electron-forge/publisher-github').PublisherGithubConfig
@@ -29,34 +29,34 @@
  */
 module.exports = {
   packagerConfig: {
-    executableName: "wallet-recovery-wizard",
-    name: "Wallet Recovery Wizard",
-    icon: "./assets/icon",
-    extraResource: ["assets"],
+    executableName: 'wallet-recovery-wizard',
+    name: 'Wallet Recovery Wizard',
+    icon: './assets/icon',
+    extraResource: ['assets'],
   },
   makers: [
     {
-      name: "@electron-forge/maker-squirrel",
+      name: '@electron-forge/maker-squirrel',
       config: {
-        name: "Wallet Recovery Wizard",
+        name: 'Wallet Recovery Wizard',
       },
     },
     {
-      name: "@electron-forge/maker-dmg",
+      name: '@electron-forge/maker-dmg',
       config: {
-        format: "ULFO",
+        format: 'ULFO',
       },
     },
     {
-      name: "@electron-forge/maker-deb",
+      name: '@electron-forge/maker-deb',
       config: {
         options: {
-          desktopTemplate: "./assets/wallet-recovery-wizard.desktop",
+          lintianOverrides: ['changelog-file-missing-in-native-package'],
         },
       },
     },
     {
-      name: "@electron-forge/maker-rpm",
+      name: '@electron-forge/maker-rpm',
       config: {
         options: {},
       },
@@ -64,19 +64,18 @@ module.exports = {
   ],
   plugins: [
     [
-      "@electron-forge/plugin-webpack",
+      '@electron-forge/plugin-webpack',
       {
-        mainConfig: "./webpack.main.config.js",
-        devContentSecurityPolicy: "connect-src 'self' * 'unsafe-eval'",
+        mainConfig: './webpack.main.config.js',
         renderer: {
-          config: "./webpack.renderer.config.js",
+          config: './webpack.renderer.config.js',
           entryPoints: [
             {
-              html: "./src/renderer/index.html",
-              js: "./src/renderer/index.tsx",
-              name: "main_window",
+              html: './src/renderer/index.html',
+              js: './src/renderer/index.tsx',
+              name: 'main_window',
               preload: {
-                js: "./src/renderer/preload.ts",
+                js: './src/renderer/preload.ts',
               },
             },
           ],
@@ -86,11 +85,11 @@ module.exports = {
   ],
   publishers: [
     {
-      name: "@electron-forge/publisher-github",
+      name: '@electron-forge/publisher-github',
       config: {
         repository: {
-          owner: "BitGo",
-          name: "wallet-recovery-wizard",
+          owner: 'BitGo',
+          name: 'wallet-recovery-wizard',
         },
         draft: false,
       },
