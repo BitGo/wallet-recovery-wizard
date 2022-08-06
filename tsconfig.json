@@ -9,6 +9,7 @@
     "sourceMap": true,
     "checkJs": true,
     "baseUrl": ".",
+    "strict": true,
     "outDir": "dist",
     "target": "ESNext",
     "moduleResolution": "node",

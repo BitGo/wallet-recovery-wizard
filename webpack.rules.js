@@ -22,9 +22,24 @@ module.exports = [
     test: /\.tsx?$/,
     exclude: /(node_modules|\.webpack)/,
     use: {
-      loader: 'ts-loader',
+      loader: require.resolve('swc-loader'),
       options: {
-        transpileOnly: true,
+        env: {
+          coreJs: '3.22',
+        },
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            tsx: true,
+            dynamicImport: true,
+          },
+          target: 'es2019',
+          transform: {
+            react: {
+              runtime: 'automatic',
+            },
+          },
+        },
       },
     },
   },
