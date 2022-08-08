@@ -4,14 +4,12 @@
 
 import { contextBridge, ipcRenderer } from 'electron';
 
-const environments = ['prod', 'test'] as const;
-
 type Commands = {
-  setBitGoEnvironment(environment: typeof environments[number]): void;
+  setBitGoEnvironment(environment: 'prod' | 'test'): Promise<void>;
 };
 
 type Queries = {
-  getBitGoEnvironments(): Promise<typeof environments>;
+  getBitGoEnvironments(): Promise<['prod', 'test']>;
 };
 
 const queries: Queries = {
@@ -21,8 +19,8 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
-  setBitGoEnvironment(environment: typeof environments[number]) {
-    ipcRenderer.send('setBitgoEnvironment', environment);
+  setBitGoEnvironment(environment) {
+    return ipcRenderer.invoke('setBitgoEnvironment', environment);
   },
 };
 
@@ -36,20 +34,23 @@ type TParameters<T extends (...args: any) => any> = Parameters<T>;
 declare global {
   namespace Electron {
     export interface IpcRenderer {
-      send<TChannel extends keyof Commands>(
+      invoke<TChannel extends keyof Commands>(
         channel: TChannel,
         ...args: TParameters<Commands[TChannel]>
-      ): void;
+      ): ReturnType<Commands[TChannel]>;
       invoke<TChannel extends keyof Queries>(
         channel: TChannel,
         ...args: TParameters<Queries[TChannel]>
       ): ReturnType<Queries[TChannel]>;
     }
     export interface IpcMain {
-      on<TChannel extends keyof Commands>(
+      handle<TChannel extends keyof Commands>(
         channel: TChannel,
-        listener: (...args: TParameters<Commands[TChannel]>) => void
-      ): this;
+        listener: (
+          event: IpcMainEvent,
+          ...args: TParameters<Commands[TChannel]>
+        ) => void
+      ): void;
       handle<TChannel extends keyof Queries>(
         channel: TChannel,
         listener: (

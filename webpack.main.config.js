@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -14,6 +15,7 @@ module.exports = {
   module: {
     rules: require('./webpack.rules'),
   },
+  target: 'electron-main',
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
@@ -26,5 +28,30 @@ module.exports = {
   ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+  },
+  optimization: {
+    minimize: process.env.NODE_ENV === 'production',
+    minimizer:
+      process.env.NODE_ENV === 'production'
+        ? [
+            new TerserPlugin({
+              terserOptions: {
+                warnings: false,
+                compress: {
+                  comparisons: false,
+                },
+                parse: {},
+                mangle: {
+                  reserved: ['BigInteger', 'ECPair', 'Point', 'BIP32'],
+                },
+                output: {
+                  comments: false,
+                  ascii_only: true,
+                },
+              },
+              parallel: true,
+            }),
+          ]
+        : [],
   },
 };

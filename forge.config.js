@@ -29,6 +29,8 @@
  */
 module.exports = {
   packagerConfig: {
+    asar: true,
+    packageManager: 'yarn',
     executableName: 'wallet-recovery-wizard',
     name: 'Wallet Recovery Wizard',
     icon: './src/assets/icon.icns',
@@ -96,6 +98,7 @@ module.exports = {
         },
       },
     ],
+    ['@electron-forge/plugin-auto-unpack-natives'],
   ],
   publishers: [
     {
