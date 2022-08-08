@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Title } from '../components';
 import { Selectfield } from '../elements';
 import { useElectronQuery, useElectronCommand } from '../hooks';
@@ -25,6 +26,8 @@ export default function Home() {
           ))}
         </Selectfield>
       )}
+      <Link to="/non-bitgo-recovery">Non-BitGo Recovery</Link>
+      <Link to="/build-unsigned-sweep">Build Unsigned Sweep</Link>
     </>
   );
 }

@@ -32,6 +32,8 @@ import * as ReactDOM from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './containers/App';
 import Home from './containers/Home';
+import NonBitGoRecovery from './containers/NonBitGoRecovery';
+import BuildUnsignedSweep from './containers/BuildUnsignedSweep';
 
 const root = document.getElementById('root');
 
@@ -44,7 +46,13 @@ ReactDOM.createRoot(root).render(
     <HashRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route index element={<Home />} />
+          <Route element={<Home />} index />
+
+          <Route path="/non-bitgo-recovery" element={<NonBitGoRecovery />} />
+          <Route
+            path="/build-unsigned-sweep"
+            element={<BuildUnsignedSweep />}
+          />
         </Route>
       </Routes>
     </HashRouter>

@@ -4,5 +4,8 @@
   },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": true,
-  "tailwindCSS.experimental.configFile": "./tailwind.config.js"
+  "tailwindCSS.experimental.configFile": "./tailwind.config.js",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }
