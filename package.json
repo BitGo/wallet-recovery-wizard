@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "@bitgo/sdk-api": "^1.1.1",
+    "@blueprintjs/core": "^4.8.0",
     "clsx": "^1.2.1",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^18.2.0",
