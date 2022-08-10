@@ -22,7 +22,8 @@
     "playwright:test": "playwright test",
     "playwright:show-report": "playwright show-report",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "test-storybook": "test-storybook"
   },
   "keywords": [],
   "private": true,
@@ -51,10 +52,10 @@
     "@storybook/jest": "0.0.10",
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/react": "^6.5.9",
-    "@storybook/test-runner": "^0.3.0",
+    "@storybook/test-runner": "^0.5.0",
     "@storybook/testing-library": "0.0.13",
-    "@tailwindcss/postcss7-compat": "^2.2.17",
     "@swc/core": "^1.2.223",
+    "@tailwindcss/postcss7-compat": "^2.2.17",
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.6",
     "@types/react": "^18.0.15",

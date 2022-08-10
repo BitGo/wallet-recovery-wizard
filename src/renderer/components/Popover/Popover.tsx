@@ -2,9 +2,9 @@ import clsx from 'clsx';
 import * as React from 'react';
 
 export type PopoverProps = {
-  children: React.ReactNode;
+  children: React.ReactElement;
   Target: React.ReactElement;
-  Width?: 'hug' | 'fill';
+  Width: 'hug' | 'fill';
 };
 
 export const Popover = React.forwardRef<
@@ -35,7 +35,7 @@ export const Popover = React.forwardRef<
       <summary className="marker:tw-hidden marker:tw-content-none">
         {Target}
       </summary>
-      <div className="[&_>_*]:tw-shadow-1dp">{children}</div>
+      {children}
     </details>
   );
 });
