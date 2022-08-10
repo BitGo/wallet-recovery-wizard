@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { Icon } from '../Icon';
 
-type SearchfieldProps = {
+export type SearchfieldProps = {
   Disabled?: boolean;
   Width?: 'fill' | 'hug';
 };

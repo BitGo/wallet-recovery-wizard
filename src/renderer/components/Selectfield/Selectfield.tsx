@@ -19,7 +19,6 @@ export function Selectfield({
   Label,
   Width,
   HelperText,
-  id,
   ...hostProps
 }: SelectfieldProps & JSX.IntrinsicElements['select']) {
   return (
@@ -32,7 +31,7 @@ export function Selectfield({
     >
       <label
         className="tw-text-label-1 tw-text-slate-900 tw-font-semibold tw-mb-1"
-        htmlFor={id}
+        htmlFor={hostProps.id}
       >
         {Label}
       </label>
@@ -47,7 +46,6 @@ export function Selectfield({
             'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-pl-4 tw-pr-8 tw-bg-transparent',
             'focus:tw-outline-none'
           )}
-          id={id}
           {...hostProps}
         >
           {children}
