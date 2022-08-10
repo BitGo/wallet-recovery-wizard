@@ -1,7 +1,4 @@
 {
-  "[properties]": {
-    "editor.defaultFormatter": "foxundermoon.shell-format"
-  },
   "editor.defaultFormatter": "dbaeumer.vscode-eslint",
   "editor.formatOnSave": true,
   "tailwindCSS.experimental.configFile": "./tailwind.config.js"
