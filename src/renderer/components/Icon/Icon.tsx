@@ -9,8 +9,9 @@ export type IconProps = JSX.IntrinsicElements['svg'] &
   };
 
 export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   { className: _, style: __, Size, Name, ...hostProps },
-  ref,
+  ref
 ) {
   return (
     <svg

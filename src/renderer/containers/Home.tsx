@@ -1,5 +1,4 @@
-import { Title } from '../components';
-import { Selectfield } from '../elements';
+import { Selectfield, Title } from '../components';
 import { useElectronQuery, useElectronCommand } from '../hooks';
 
 export default function Home() {
@@ -15,12 +14,12 @@ export default function Home() {
       <p>{setBitGoEnvironmentState}</p>
       {state === 'success' && (
         <Selectfield
-          Disabled
+          Label="BitGo Environment"
           onChange={event => {
             setBitGoEnvironment(event.currentTarget.value as 'prod' | 'test');
           }}
         >
-          {data!.map(value => (
+          {data.map(value => (
             <option key={value}>{value}</option>
           ))}
         </Selectfield>

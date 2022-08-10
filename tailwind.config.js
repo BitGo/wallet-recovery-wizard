@@ -397,8 +397,8 @@ module.exports = {
         { fontStyle: 'normal', letterSpacing: rem(-0.5), lineHeight: rem(28) },
       ],
       'label-1': [
-        rem(12),
-        { fontStyle: 'normal', letterSpacing: '0', lineHeight: rem(16) },
+        rem(14),
+        { fontStyle: 'normal', letterSpacing: '0', lineHeight: rem(18) },
       ],
       'label-2': [
         rem(12),
@@ -606,21 +606,21 @@ module.exports = {
       prose: '65ch',
       screen: '100vw',
     }),
-    minHeight: {
-      0: '0',
+    minHeight: ({ theme }) => ({
+      ...theme('spacing'),
       fit: 'fit-content',
       full: '100%',
       max: 'max-content',
       min: 'min-content',
       screen: '100vh',
-    },
-    minWidth: {
-      0: '0',
+    }),
+    minWidth: ({ theme }) => ({
+      ...theme('spacing'),
       fit: 'fit-content',
       full: '100%',
       max: 'max-content',
       min: 'min-content',
-    },
+    }),
     objectPosition: {
       bottom: 'bottom',
       center: 'center',

@@ -21,7 +21,9 @@ export const Button = Polymorphic.forwardRef<
   ButtonTag
 >(function Button(
   {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     className: _,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     style: __,
     Disabled,
     Width,
