@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
 export type AlertBannerProps = {
-  Variant: 'destructive';
+  Variant: 'destructive'
   IconLeft?: React.ReactNode;
   IconRight?: React.ReactNode;
   children: React.ReactNode;
