@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import * as React from 'react';
-import { Icon, IconGlyph } from '../Icon';
+import { Icon } from '../Icon';
 import * as Polymorphic from '../Polymorphic';
 
 export type LinkCardItemProps = {
@@ -19,11 +19,6 @@ export const LinkCardItem = Polymorphic.forwardRef<
   LinkCardItemTag
 >(function LinkCardItem({ Title, Description, Tag, ...hostProps }, ref) {
   const Component = Tag ?? LinkCardItemDefaultTag;
-  const icon1 = <IconGlyph Name="chevron-right" />;
-  const icon2 = <IconGlyph Name="arrow-right" />;
-  const icon1Path = icon1.props;
-  const icon2Path = icon2.props;
-  console.log(icon1, icon2);
   return (
     <Component
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,17 +34,7 @@ export const LinkCardItem = Polymorphic.forwardRef<
           {Title}
         </span>
         <span>
-          <svg viewBox="0 0 16 16">
-            <path fill="#000">
-              <animate
-                attributeName="d"
-                dur="1000ms"
-                repeatCount="indefinite"
-                //values={`${icon1Path.props.d};${icon2Path.props.d}`}
-              />
-            </path>
-          </svg>
-          <Icon Name="arrow-right" Size="small" />
+          <Icon Name="chevron-right" Size="small" />
         </span>
       </div>
       <span className="tw-text-gray-700 tw-text-label-2 tw-mt-1">
