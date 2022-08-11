@@ -21,7 +21,7 @@ export const IconRight: ComponentStoryObj<typeof AlertBanner> = {
   },
 };
 
-export const Icon_Left: ComponentStoryObj<typeof AlertBanner> = {
+export const IconLeft: ComponentStoryObj<typeof AlertBanner> = {
   args: {
     IconLeft: <Icon Name="warning-sign" Size="small" />,
   },
