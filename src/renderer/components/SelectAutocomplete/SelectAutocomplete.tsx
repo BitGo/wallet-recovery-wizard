@@ -126,7 +126,11 @@ export function SelectAutocomplete({
           <div className="tw-min-h-14 tw-flex tw-items-center tw-justify-center tw-relative">
             <select
               {...hostProps}
-              className="tw-border tw-border-gray-700 tw-rounded focus:tw-border-blue-500 placeholder:tw-text-transparent focus:tw-outline-none tw-text-transparent tw-appearance-none tw-inset-0 tw-absolute tw-bg-transparent"
+              className={clsx(
+                'tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-text-transparent tw-appearance-none tw-inset-0 tw-absolute tw-bg-transparent',
+                'placeholder:tw-text-transparent',
+                'focus:tw-outline-none focus:tw-border-blue-500'
+              )}
               ref={selectRef}
               onKeyDown={event => {
                 if (event.key === 'Enter' || event.key === ' ') {

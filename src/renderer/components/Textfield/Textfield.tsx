@@ -5,7 +5,6 @@ type TextfieldProps = {
   HelperText?: React.ReactNode;
   Label: string;
   Width?: 'fill' | 'hug';
-  type: 'text';
 };
 
 export function Textfield({
@@ -17,9 +16,8 @@ export function Textfield({
   Label,
   Width,
   HelperText,
-  id,
   ...hostProps
-}: TextfieldProps & Omit<JSX.IntrinsicElements['input'], 'type'>) {
+}: TextfieldProps & JSX.IntrinsicElements['input']) {
   return (
     <div
       className={clsx('tw-flex-col', {
@@ -30,18 +28,18 @@ export function Textfield({
     >
       <label
         className="tw-text-label-1 tw-text-slate-900 tw-font-semibold tw-mb-1"
-        htmlFor={id}
+        htmlFor={hostProps.id}
       >
         {Label}
       </label>
       <input
-        className={clsx(
-          'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-px-4 tw-bg-transparent tw-box-border tw-border-0 tw-ring-1 tw-ring-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
-          'placeholder:tw-text-gray-700',
-          'focus:tw-outline-none focus:tw-ring-blue-500'
-        )}
-        id={id}
         {...hostProps}
+        type="text"
+        className={clsx(
+          'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-px-4 tw-bg-transparent tw-box-border tw-border tw-border-solid tw-border-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
+          'placeholder:tw-text-gray-700',
+          'focus:tw-outline-none focus:tw-border-blue-500'
+        )}
       />
       {HelperText && (
         <div className="tw-mt-1 tw-text-gray-700 tw-text-label-2">

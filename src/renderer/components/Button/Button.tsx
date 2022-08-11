@@ -40,6 +40,7 @@ export const Button = Polymorphic.forwardRef<
 
   return (
     <Component
+      {...hostProps}
       ref={ref}
       className={clsx(
         'tw-border tw-border-solid tw-border-transparent tw-flex-row tw-py-2 tw-px-4 tw-text-button-2 tw-font-semibold tw-text-center tw-items-center tw-justify-center tw-rounded',
@@ -66,7 +67,6 @@ export const Button = Polymorphic.forwardRef<
           'tw-opacity-50': Disabled,
         }
       )}
-      {...hostProps}
     >
       {IconLeft && <span className="tw-flex tw-mr-1">{IconLeft}</span>}
       {children && <span className="tw-flex tw-text-base">{children}</span>}

@@ -55,13 +55,13 @@ export const MenuItem = Polymorphic.forwardRef<
           {Title}
         </div>
         {Description && (
-          <div className="tw-pointer-events-none tw-text-gray-700 tw-text-label-1">
+          <div className="tw-pointer-events-none tw-text-gray-700 [[data-current]_&]:tw-text-gray-100 tw-text-label-1">
             {Description}
           </div>
         )}
       </div>
       {Meta && (
-        <div className="tw-pointer-events-none tw-text-gray-700 tw-text-label-2">
+        <div className="tw-pointer-events-none tw-text-gray-700 [[data-current]_&]:tw-text-gray-100 tw-text-label-2">
           {Meta}
         </div>
       )}

@@ -40,6 +40,7 @@ export const Searchfield = React.forwardRef<
           <Icon Name="search" Size="small" />
         </span>
         <input
+          {...hostProps}
           ref={ref}
           className={clsx(
             'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-pr-4 tw-pl-8 tw-bg-transparent',
@@ -47,7 +48,6 @@ export const Searchfield = React.forwardRef<
             'focus:tw-outline-none'
           )}
           type="search"
-          {...hostProps}
         />
       </div>
     </div>

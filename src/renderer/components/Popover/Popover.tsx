@@ -25,12 +25,12 @@ export const Popover = React.forwardRef<
 ) {
   return (
     <details
+      {...hostProps}
       ref={ref}
       className={clsx({
         'tw-inline-flex': Width === 'hug',
         'tw-flex tw-w-full': Width === 'fill',
       })}
-      {...hostProps}
     >
       <summary className="marker:tw-hidden marker:tw-content-none">
         {Target}

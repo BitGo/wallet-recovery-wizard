@@ -37,16 +37,16 @@ export function Selectfield({
       </label>
       <div
         className={clsx(
-          'tw-box-border tw-border-0 tw-ring-1 tw-ring-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
-          'focus-within:tw-ring-blue-500'
+          'tw-box-border tw-border tw-border-solid tw-border-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
+          'focus-within:tw-border-blue-500'
         )}
       >
         <select
+          {...hostProps}
           className={clsx(
             'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-pl-4 tw-pr-8 tw-bg-transparent',
             'focus:tw-outline-none'
           )}
-          {...hostProps}
         >
           {children}
         </select>
