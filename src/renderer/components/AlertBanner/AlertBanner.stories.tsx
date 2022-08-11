@@ -13,7 +13,7 @@ const meta: ComponentMeta<typeof AlertBanner> = {
 
 export default meta;
 
-export const No_Icon: ComponentStoryObj<typeof AlertBanner> = {};
+export const NoIcon: ComponentStoryObj<typeof AlertBanner> = {};
 
 export const Icon_Right: ComponentStoryObj<typeof AlertBanner> = {
   args: {
