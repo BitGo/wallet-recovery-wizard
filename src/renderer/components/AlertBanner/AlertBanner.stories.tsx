@@ -15,7 +15,7 @@ export default meta;
 
 export const NoIcon: ComponentStoryObj<typeof AlertBanner> = {};
 
-export const Icon_Right: ComponentStoryObj<typeof AlertBanner> = {
+export const IconRight: ComponentStoryObj<typeof AlertBanner> = {
   args: {
     IconRight: <Icon Name="warning-sign" Size="small" />,
   },
