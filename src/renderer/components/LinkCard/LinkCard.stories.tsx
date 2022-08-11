@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
-import { Icon } from '../Icon';
 import { LinkCard } from './LinkCard';
 import { LinkCardItem } from './LinkCardItem';
 
@@ -17,7 +16,6 @@ const meta: ComponentMeta<typeof LinkCard> = {
         target="_blank"
         Title="Non-BitGo Recovery"
         Description="Recover wallets using the user and backup key (sign a transaction without BitGo)."
-        IconRight={<Icon Name="arrow-right" Size="small" />}
       />,
       <LinkCardItem
         key="2"
@@ -25,7 +23,6 @@ const meta: ComponentMeta<typeof LinkCard> = {
         target="_blank"
         Title="Build Unsigned Sweep"
         Description="Build an unsigned transaction to sweep a wallet without using BitGo."
-        IconRight={<Icon Name="arrow-right" Size="small" />}
       />,
     ],
   },
