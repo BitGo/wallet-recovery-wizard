@@ -51,7 +51,7 @@ export function Selectfield({
           {children}
         </select>
         <span className="tw-flex tw-absolute tw-top-1/2 tw-right-3 -tw-translate-y-1/2">
-          <Icon Name="arrow-down" Size="small" />
+          <Icon Name="chevron-down" Size="small" />
         </span>
       </div>
       {HelperText && (

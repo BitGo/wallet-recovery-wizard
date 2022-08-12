@@ -2295,13 +2295,13 @@
   dependencies:
     "@octokit/openapi-types" "^12.11.0"
 
-"@playwright/test@^1.24.2":
-  version "1.24.2"
-  resolved "https://registry.npmjs.org/@playwright/test/-/test-1.24.2.tgz"
-  integrity sha512-Q4X224pRHw4Dtkk5PoNJplZCokLNvVbXD9wDQEMrHcEuvWpJWEQDeJ9gEwkZ3iCWSFSWBshIX177B231XW4wOQ==
+"@playwright/test@^1.25.0":
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.25.0.tgz#e0de134651e78e45e986c5f16578188dd5937331"
+  integrity sha512-j4EZhTTQI3dBeWblE21EV//swwmBtOpIrLdOIJIRv4uqsLdHgBg1z+JtTg+AeC5o2bAXIE26kDNW5A0TimG8Bg==
   dependencies:
     "@types/node" "*"
-    playwright-core "1.24.2"
+    playwright-core "1.25.0"
 
 "@pmmmwh/react-refresh-webpack-plugin@^0.5.3":
   version "0.5.7"
@@ -7493,10 +7493,10 @@ electron-winstaller@^5.0.0:
     lodash.template "^4.2.2"
     temp "^0.9.0"
 
-electron@20.0.1:
-  version "20.0.1"
-  resolved "https://registry.npmjs.org/electron/-/electron-20.0.1.tgz"
-  integrity sha512-5c7zr8oy1JsCV86BaoIPVLo4yevDfvPEsMQcGlgfJ5PS7ouAVvR1aHt0tjF65bL1vYdoQ1olvpextg2T8FyICA==
+electron@20.0.2:
+  version "20.0.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-20.0.2.tgz#5a610b07192a03979f83a35b9b9d1568a7f08c93"
+  integrity sha512-Op4nxSyXH0tXjhvWC+WDn9EI0gep5etPccainxu1A4wes+ZFQBMCBXxibotanJfG+WNW4RaOv88NArwHIsSmPw==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
@@ -13081,7 +13081,12 @@ playwright-core@1.24.2, playwright-core@>=1.2.0:
   resolved "https://registry.npmjs.org/playwright-core/-/playwright-core-1.24.2.tgz"
   integrity sha512-zfAoDoPY/0sDLsgSgLZwWmSCevIg1ym7CppBwllguVBNiHeixZkc1AdMuYUPZC6AdEYc4CxWEyLMBTw2YcmRrA==
 
-playwright@^1.14.0, playwright@^1.24.2:
+playwright-core@1.25.0:
+  version "1.25.0"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.25.0.tgz#54dc867c6c2cc5e4233905e249206a02914d14f1"
+  integrity sha512-kZ3Jwaf3wlu0GgU0nB8UMQ+mXFTqBIFz9h1svTlNduNKjnbPXFxw7mJanLVjqxHJRn62uBfmgBj93YHidk2N5Q==
+
+playwright@^1.14.0:
   version "1.24.2"
   resolved "https://registry.yarnpkg.com/playwright/-/playwright-1.24.2.tgz#51e60f128b386023e5ee83deca23453aaf73ba6d"
   integrity sha512-iMWDLgaFRT+7dXsNeYwgl8nhLHsUrzFyaRVC+ftr++P1dVs70mPrFKBZrGp1fOKigHV9d1syC03IpPbqLKlPsg==

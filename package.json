@@ -1,33 +1,17 @@
 {
-  "name": "wallet-recovery-wizard",
-  "productName": "wallet-recovery-wizard",
-  "version": "4.0.0",
-  "description": "A UI-based desktop app for BitGo Recoveries",
-  "engines": {
-    "node": "16.15.0",
-    "npm": "8.5.5"
-  },
   "author": {
     "name": "BitGo, Inc."
   },
-  "main": ".webpack/main",
-  "scripts": {
-    "start": "electron-forge start",
-    "package": "electron-forge package",
-    "make": "electron-forge make",
-    "test": "jest",
-    "publish": "electron-forge publish",
-    "lint:fix": "eslint --ignore-path .gitignore --fix .",
-    "format:write": "prettier --ignore-path .gitignore --write .",
-    "playwright:test": "playwright test",
-    "playwright:show-report": "playwright show-report",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "test-storybook": "test-storybook"
+  "dependencies": {
+    "@bitgo/sdk-api": "^1.1.1",
+    "clsx": "^1.2.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.3.0",
+    "vm2": "3.9.10"
   },
-  "keywords": [],
-  "private": true,
-  "license": "Apache-2.0",
+  "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
@@ -42,7 +26,7 @@
     "@electron-forge/plugin-auto-unpack-natives": "^6.0.0-beta.65",
     "@electron-forge/plugin-webpack": "^6.0.0-beta.65",
     "@electron-forge/publisher-github": "^6.0.0-beta.65",
-    "@playwright/test": "^1.24.2",
+    "@playwright/test": "^1.25.0",
     "@storybook/addon-actions": "^6.5.9",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
@@ -68,7 +52,7 @@
     "babel-loader": "^8.2.5",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.1",
-    "electron": "20.0.1",
+    "electron": "20.0.2",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
@@ -79,7 +63,6 @@
     "jest": "^27.5.1",
     "jest-environment-jsdom": "^27.5.1",
     "node-loader": "^2.0.0",
-    "playwright": "^1.24.2",
     "postcss": "^8.4.14",
     "postcss-loader": "^7.0.1",
     "prettier": "^2.7.1",
@@ -90,16 +73,33 @@
     "ts-node": "^10.9.1",
     "typescript": "~4.7.4"
   },
-  "dependencies": {
-    "@bitgo/sdk-api": "^1.1.1",
-    "clsx": "^1.2.1",
-    "electron-squirrel-startup": "^1.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0",
-    "vm2": "3.9.10"
+  "engines": {
+    "node": "16.15.0",
+    "npm": "8.5.5"
   },
+  "keywords": [],
+  "license": "Apache-2.0",
+  "main": ".webpack/main",
+  "name": "wallet-recovery-wizard",
+  "private": true,
+  "productName": "wallet-recovery-wizard",
   "resolutions": {
     "secp256k1": "^4.0.2"
-  }
+  },
+  "scripts": {
+    "format:write": "prettier --ignore-path .gitignore --write .",
+    "lint": "eslint --ignore-path .gitignore .",
+    "lint:fix": "eslint --ignore-path .gitignore --fix .",
+    "make": "electron-forge make",
+    "package": "electron-forge package",
+    "playwright:show-report": "playwright show-report",
+    "playwright:test": "playwright test",
+    "publish": "electron-forge publish",
+    "start": "electron-forge start",
+    "storybook": "start-storybook -p 6006",
+    "storybook:build": "build-storybook",
+    "storybook:test": "test-storybook",
+    "test": "jest"
+  },
+  "version": "4.0.0"
 }
