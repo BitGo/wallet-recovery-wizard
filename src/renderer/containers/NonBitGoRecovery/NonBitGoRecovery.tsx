@@ -1,12 +1,15 @@
+import { Outlet, useNavigate } from 'react-router-dom';
 import {
-  Icon,
   MenuItem,
   SelectAutocomplete,
   BackToHomeHeader,
   Button,
+  CryptocurrencyIcon,
 } from '../../components';
 
 export default function NonBitGoRecovery() {
+  const navigate = useNavigate();
+
   return (
     <div className="tw-min-h-screen">
       <BackToHomeHeader Title="Non-BitGo Recovery" />
@@ -22,23 +25,34 @@ export default function NonBitGoRecovery() {
                 Label="Currency"
                 HelperText="Temp helper text"
                 Width="fill"
+                onChange={event => {
+                  navigate(`/non-bitgo-recovery/${event.currentTarget.value}`)
+                }}
               >
                 <MenuItem
-                  Title="Menu Item 1"
-                  Description="Testnet Bitcoin"
-                  IconLeft={<Icon Name="download" Size="large" />}
+                  Title="BTC"
+                  Description="Bitcoin"
+                  IconLeft={<CryptocurrencyIcon Name="btc" Size="large" />}
                   Tag="button"
-                  value="1"
+                  value="btc"
                 />
-                <MenuItem Title="Ethereum" />
+                <MenuItem
+                  Title="ETH"
+                  Description="Ethereum"
+                  IconLeft={<CryptocurrencyIcon Name="eth" Size="large" />}
+                  Tag="button"
+                  value="eth"
+                />
+                <MenuItem
+                  Title="XRP"
+                  Description="Ripple"
+                  IconLeft={<CryptocurrencyIcon Name="xrp" Size="large" />}
+                  Tag="button"
+                  value="xrp"
+                />
               </SelectAutocomplete>
             </div>
-            <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
-              Self-managed hot wallet details
-            </h4>
-            <p className="tw-text-center tw-text-label-2 tw-font-medium tw-py-8 tw-border tw-border-dashed tw-my-4 tw-rounded tw-text-gray-700 tw-border-gray-700">
-              Please select a currency above.
-            </p>
+            <Outlet />
           </div>
           <div className="tw-flex tw-justify-between">
             <div className="tw-my-4">

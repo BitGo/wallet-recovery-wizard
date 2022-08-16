@@ -46,7 +46,7 @@ export default function Home() {
               <LinkCard Width="fill" Title="Available Offline">
                 <LinkCardItem
                   Tag={Link}
-                  to="/"
+                  to="non-bitgo-recovery/"
                   Title="Non-BitGo Recovery"
                   Description="Recover wallets using the user and backup key (sign a transaction without BitGo)."
                 />
