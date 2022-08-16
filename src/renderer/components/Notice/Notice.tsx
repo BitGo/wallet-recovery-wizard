@@ -1,17 +1,17 @@
-import clsx from "clsx";
+import clsx from 'clsx';
 
 export type NoticeProps = {
   Variant: 'Secondary';
   IconLeft?: React.ReactNode;
   IconRight?: React.ReactNode;
   children: React.ReactNode;
-}
+};
 
 export function Notice({
   Variant,
   IconLeft,
   IconRight,
-  children
+  children,
 }: NoticeProps) {
   return (
     <div
@@ -22,15 +22,9 @@ export function Notice({
         }
       )}
     >
-      {IconLeft && (
-        <span>{IconLeft}</span>
-      )}
-      <div className="tw-text-label-1">
-        {children}
-      </div>
-      {IconRight && (
-        <span>{IconRight}</span>
-      )}
+      {IconLeft && <span>{IconLeft}</span>}
+      <div className="tw-text-label-1">{children}</div>
+      {IconRight && <span>{IconRight}</span>}
     </div>
   );
 }
