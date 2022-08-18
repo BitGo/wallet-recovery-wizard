@@ -144,6 +144,7 @@ export function RecoveryCoinsSelectAutocomplete({
   BitGoEnvironment,
 }: RecoveryCoinsSelectAutocompleteProps) {
   const navigate = useNavigate();
+  const BitGoEnvironmentTitle = BitGoEnvironment === 'prod' ? 'Mainnet' : "Testnet";
   const data = BitGoEnvironment === 'prod' ? prod : test;
   const children = data.map(coin => (
     <SelectAutocompleteItem
@@ -162,11 +163,11 @@ export function RecoveryCoinsSelectAutocomplete({
       HelperText={
         <div>
           <span className="tw-text-gray-700">
-            {'Current environment: '}
+            Current environment: &nbsp;
             <span className="tw-font-semibold">
-              {BitGoEnvironment === 'prod' ? 'Mainnet' : 'Testnet'}
+              {BitGoEnvironmentTitle}
             </span>
-            {'. '}
+            . &nbsp;
           </span>
           <Link
             to="/"
