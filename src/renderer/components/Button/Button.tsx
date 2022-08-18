@@ -43,7 +43,7 @@ export const Button = Polymorphic.forwardRef<
       {...hostProps}
       ref={ref}
       className={clsx(
-        'tw-border tw-border-solid tw-border-transparent tw-flex-row tw-py-2 tw-px-4 tw-text-button-2 tw-font-semibold tw-text-center tw-items-center tw-justify-center tw-rounded',
+        'tw-border tw-border-solid tw-border-transparent tw-flex-row tw-py-2 tw-px-4 tw-text-button tw-font-semibold tw-text-center tw-items-center tw-justify-center tw-rounded',
         'focus:tw-outline-none focus:tw-ring-4 tw-ring-sky-400 tw-ring-opacity-50 focus:tw-ring-offset-1 tw-ring-offset-blue-500',
         {
           'tw-flex tw-w-full': Width === 'fill',

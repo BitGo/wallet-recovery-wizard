@@ -373,11 +373,7 @@ module.exports = {
         rem(16),
         { fontStyle: 'normal', letterSpacing: '0', lineHeight: rem(24) },
       ],
-      'button-1': [
-        rem(16),
-        { fontStyle: 'normal', letterSpacing: '0', lineHeight: rem(24) },
-      ],
-      'button-2': [
+      button: [
         rem(14),
         { fontStyle: 'normal', letterSpacing: '0', lineHeight: rem(24) },
       ],
