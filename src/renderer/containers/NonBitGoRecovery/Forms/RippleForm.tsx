@@ -12,10 +12,10 @@ export default function RippleForm() {
           Label="Key Recovery Service"
           HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
         >
-          <option value="none">None</option>
+           <option value="">None</option>
           <option value="keyternal">Keyternal</option>
-          <option value="bitGoKRS">BitGo KRS</option>
-          <option value="coincover">Coincover</option>
+          <option value="bitgoKRSv2">BitGo KRS</option>
+          <option value="dai">Coincover</option>
         </Selectfield>
       </div>
       <div className="tw-mb-4">

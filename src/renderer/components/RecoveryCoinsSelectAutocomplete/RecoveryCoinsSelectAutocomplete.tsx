@@ -182,7 +182,7 @@ export function RecoveryCoinsSelectAutocomplete({
       }
       Width="fill"
       onChange={event => {
-        navigate(`/non-bitgo-recovery/${event.currentTarget.value}`);
+        navigate(`/non-bitgo-recovery/${BitGoEnvironment}/${event.currentTarget.value}`);
       }}
     >
       {children}

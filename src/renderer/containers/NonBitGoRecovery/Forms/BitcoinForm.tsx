@@ -1,3 +1,5 @@
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import {
   Icon,
   Notice,
@@ -6,9 +8,34 @@ import {
   Textfield,
 } from '../../../components';
 
+const validationSchema = Yup.object({
+  krsProvider: Yup.string(),
+  userKey: Yup.string().required(),
+  backupKey: Yup.string().required(),
+  bitgoKey: Yup.string().required(),
+  walletPassphrase: Yup.string().required(),
+  recoveryDestination: Yup.string().required(),
+  scan: Yup.string().required(),
+});
+
 export default function BitcoinForm() {
+  const { handleSubmit } = useFormik({
+    initialValues: {
+      krsProvider: '',
+      userKey: '',
+      backupKey: '',
+      bitgoKey: '',
+      walletPassphrase: '',
+      recoveryDestination: '',
+      scan: '20',
+    },
+    async onSubmit() {
+      //TODO
+    },
+  });
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div className="tw-mb-8">
         <Notice
           Variant="Secondary"
@@ -26,10 +53,10 @@ export default function BitcoinForm() {
           Label="Key Recovery Service"
           HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
         >
-          <option value="none">None</option>
+          <option value="">None</option>
           <option value="keyternal">Keyternal</option>
-          <option value="bitGoKRS">BitGo KRS</option>
-          <option value="coincover">Coincover</option>
+          <option value="bitgoKRSv2">BitGo KRS</option>
+          <option value="dai">Coincover</option>
         </Selectfield>
       </div>
       <div className="tw-mb-4">
@@ -82,9 +109,8 @@ export default function BitcoinForm() {
           Label="Address Scanning Factor"
           HelperText="The amount of addresses without transactions to scan before stopping the tool."
           Width="fill"
-          defaultValue={20}
         />
       </div>
-    </>
+    </form>
   );
 }
