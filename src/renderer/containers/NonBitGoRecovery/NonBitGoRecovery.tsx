@@ -29,17 +29,13 @@ export default function NonBitGoRecovery({
             </div>
             <Outlet />
           </div>
-          <div className="tw-flex tw-justify-between">
-            <div className="tw-my-4">
-              <Button Variant="secondary" Width="hug">
-                Cancel
-              </Button>
-            </div>
-            <div className="tw-my-4">
-              <Button Variant="primary" Width="hug">
-                Recover Funds
-              </Button>
-            </div>
+          <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
+            <Button Variant="secondary" Width="hug">
+              Cancel
+            </Button>
+            <Button Variant="primary" Width="hug">
+              Recover Funds
+            </Button>
           </div>
         </div>
       </div>
