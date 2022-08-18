@@ -2,15 +2,16 @@ import { Outlet } from 'react-router-dom';
 import {
   BackToHomeHeader,
   Button,
-  RecoveryCoinsSelectAutocomplete
+  RecoveryCoinsSelectAutocomplete,
 } from '../../components';
 
 export type NonBitGoRecoveryProps = {
-  BitGoEnvironment: "prod" | "test"
+  BitGoEnvironment: 'prod' | 'test';
 };
 
-export default function NonBitGoRecovery({BitGoEnvironment} : NonBitGoRecoveryProps) {
-
+export default function NonBitGoRecovery({
+  BitGoEnvironment,
+}: NonBitGoRecoveryProps) {
   return (
     <div className="tw-min-h-screen">
       <BackToHomeHeader Title="Non-BitGo Recovery" />
@@ -22,7 +23,9 @@ export default function NonBitGoRecovery({BitGoEnvironment} : NonBitGoRecoveryPr
           </div>
           <div className="tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-pt-8 tw-pb-4 tw-px-8">
             <div className="tw-mb-8">
-              <RecoveryCoinsSelectAutocomplete BitGoEnvironment={BitGoEnvironment} />
+              <RecoveryCoinsSelectAutocomplete
+                BitGoEnvironment={BitGoEnvironment}
+              />
             </div>
             <Outlet />
           </div>

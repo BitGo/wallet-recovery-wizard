@@ -17,10 +17,10 @@ const meta: ComponentMeta<typeof NonBitGoRecovery> = {
   subcomponents: { BitcoinForm, EthereumForm, NoCoinSelected, RippleForm },
   decorators: [RouterDecorator],
   args: {
-    BitGoEnvironment: "test",
+    BitGoEnvironment: 'test',
   },
   parameters: {
-    layout: "fullscreen",
+    layout: 'fullscreen',
   },
 };
 

@@ -263,9 +263,7 @@ export function SelectAutocomplete({
         </div>
       </Popover>
       {HelperText && (
-        <div className="tw-mt-1 tw-text-label-2">
-          {HelperText}
-        </div>
+        <div className="tw-mt-1 tw-text-label-2">{HelperText}</div>
       )}
     </div>
   );

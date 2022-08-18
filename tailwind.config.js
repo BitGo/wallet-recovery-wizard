@@ -236,7 +236,7 @@ module.exports = {
     borderSpacing: ({ theme }) => theme('spacing'),
     borderWidth: {
       0: '0',
-      '0.5': '0.5px',
+      0.5: '0.5px',
       DEFAULT: '1px',
     },
     boxShadow: {

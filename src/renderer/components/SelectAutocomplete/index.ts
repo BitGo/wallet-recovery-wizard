@@ -1,1 +1,1 @@
-export * from './SelectAutocomplete'
+export * from './SelectAutocomplete';

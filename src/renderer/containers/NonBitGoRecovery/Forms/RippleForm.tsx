@@ -1,8 +1,4 @@
-import {
-  Selectfield,
-  Textarea,
-  Textfield,
-} from '../../../components';
+import { Selectfield, Textarea, Textfield } from '../../../components';
 
 export default function RippleForm() {
   return (
