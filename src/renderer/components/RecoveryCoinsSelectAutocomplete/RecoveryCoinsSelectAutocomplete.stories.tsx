@@ -7,7 +7,7 @@ const RouterDecorator: DecoratorFn = (StoryFn, context) => {
 };
 
 const meta: ComponentMeta<typeof RecoveryCoinsSelectAutocomplete> = {
-  title: 'Components/RecoveryCoinSelectAutocomplete',
+  title: 'Components/RecoveryCoinsSelectAutocomplete',
   component: RecoveryCoinsSelectAutocomplete,
   decorators: [RouterDecorator],
   args: {
