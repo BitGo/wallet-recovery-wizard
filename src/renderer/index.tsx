@@ -50,7 +50,7 @@ ReactDOM.createRoot(root).render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
-          <Route path="non-bitgo-recovery/*" element={<NonBitGoRecovery />}>
+          <Route path="non-bitgo-recovery/*" element={<NonBitGoRecovery BitGoEnvironment="test"/>}>
             <Route index element={<NoCoinSelected />} />
             <Route path="btc" element={<BitCoinForm />} />
             <Route path="eth" element={<EthereumForm />} />

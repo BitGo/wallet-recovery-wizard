@@ -6,10 +6,12 @@
     "@bitgo/sdk-api": "^1.1.1",
     "clsx": "^1.2.1",
     "electron-squirrel-startup": "^1.0.0",
+    "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
-    "vm2": "3.9.10"
+    "vm2": "3.9.10",
+    "yup": "^0.32.11"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
