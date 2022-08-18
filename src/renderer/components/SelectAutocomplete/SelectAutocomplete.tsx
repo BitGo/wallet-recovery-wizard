@@ -8,7 +8,7 @@ import { Searchfield } from '../Searchfield';
 export type SelectAutocompleteProps = {
   children: React.ReactElement<React.ComponentProps<typeof MenuItem>>[];
   Disabled?: boolean;
-  HelperText?: string;
+  HelperText?: React.ReactNode;
   Label?: string;
   Width: 'hug' | 'fill';
 };
@@ -263,7 +263,7 @@ export function SelectAutocomplete({
         </div>
       </Popover>
       {HelperText && (
-        <div className="tw-mt-1 tw-text-gray-700 tw-text-label-2">
+        <div className="tw-mt-1 tw-text-label-2">
           {HelperText}
         </div>
       )}

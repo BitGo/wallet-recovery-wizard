@@ -6,7 +6,7 @@ import {
   Textfield,
 } from '../../../components';
 
-export default function BitCoinForm() {
+export default function BitcoinForm() {
   return (
     <>
       <div className="tw-mb-8">
