@@ -32,6 +32,11 @@ import * as ReactDOM from 'react-dom/client';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './containers/App';
 import Home from './containers/Home';
+import NonBitGoRecovery from './containers/NonBitGoRecovery/NonBitGoRecovery';
+import NoCoinSelected from './containers/NonBitGoRecovery/Forms/NoCoinSelected';
+import BitCoinForm from './containers/NonBitGoRecovery/Forms/BitcoinForm';
+import EthereumForm from './containers/NonBitGoRecovery/Forms/EthereumForm';
+import RippleForm from './containers/NonBitGoRecovery/Forms/RippleForm';
 
 const root = document.getElementById('root');
 
@@ -45,6 +50,12 @@ ReactDOM.createRoot(root).render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
+          <Route path="non-bitgo-recovery/*" element={<NonBitGoRecovery />}>
+            <Route index element={<NoCoinSelected />} />
+            <Route path="btc" element={<BitCoinForm />} />
+            <Route path="eth" element={<EthereumForm />} />
+            <Route path="xrp" element={<RippleForm />} />
+          </Route>
         </Route>
       </Routes>
     </HashRouter>
