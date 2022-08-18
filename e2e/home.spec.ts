@@ -1,6 +1,6 @@
 import { test, expect, _electron as electron } from '@playwright/test';
 
-test('title should be home', async () => {
+test('title should be BitGo Wallet Recovery Wizard', async () => {
   const app = await electron.launch({
     args: ['main/index.js'],
     cwd: '.webpack',
@@ -12,6 +12,6 @@ test('title should be home', async () => {
     fullPage: true,
   });
   const title = await window.title();
-  expect(title).toBe('Home');
+  expect(title).toBe('BitGo Wallet Recovery Wizard');
   await app.close();
 });
