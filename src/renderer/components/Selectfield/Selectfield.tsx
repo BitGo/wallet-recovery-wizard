@@ -5,20 +5,22 @@ type SelectfieldProps = {
   children: React.ReactNode;
   Disabled?: boolean;
   HelperText?: React.ReactNode;
+  Invalid?: boolean;
   Label: string;
   Width?: 'fill' | 'hug';
 };
 
 export function Selectfield({
+  children,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   className: _,
+  Disabled = false,
+  HelperText,
+  Invalid = false,
+  Label,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   style: __,
-  children,
-  Disabled = false,
-  Label,
   Width,
-  HelperText,
   ...hostProps
 }: SelectfieldProps & JSX.IntrinsicElements['select']) {
   return (
@@ -30,7 +32,10 @@ export function Selectfield({
       })}
     >
       <label
-        className="tw-text-label-1 tw-text-slate-900 tw-font-semibold tw-mb-1"
+        className={clsx('tw-text-label-1 tw-font-semibold tw-mb-1', {
+          'tw-text-slate-900': !Invalid,
+          'tw-text-red-500': Invalid,
+        })}
         htmlFor={hostProps.id}
       >
         {Label}
@@ -38,7 +43,10 @@ export function Selectfield({
       <div
         className={clsx(
           'tw-box-border tw-border tw-border-solid tw-border-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
-          'focus-within:tw-border-blue-500'
+          {
+            'focus-within:tw-border-blue-500': !Invalid,
+            'tw-border-red-500': Invalid,
+          }
         )}
       >
         <select

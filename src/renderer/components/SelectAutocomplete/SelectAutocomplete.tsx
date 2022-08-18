@@ -1,14 +1,18 @@
 import clsx from 'clsx';
 import React from 'react';
 import { Icon } from '../Icon';
-import { Menu, MenuItem } from '../Menu';
+import { Menu } from '../Menu';
 import { Popover } from '../Popover/Popover';
 import { Searchfield } from '../Searchfield';
+import { SelectAutocompleteItem } from './SelectAutocompleteItem';
 
 export type SelectAutocompleteProps = {
-  children: React.ReactElement<React.ComponentProps<typeof MenuItem>>[];
+  children: React.ReactElement<
+    React.ComponentProps<typeof SelectAutocompleteItem>
+  >[];
   Disabled?: boolean;
   HelperText?: React.ReactNode;
+  Invalid?: boolean;
   Label?: string;
   Width: 'hug' | 'fill';
 };
@@ -20,9 +24,10 @@ export const toString = (value?: unknown) => {
 export function SelectAutocomplete({
   children,
   Disabled = false,
+  HelperText,
+  Invalid = false,
   Label,
   Width,
-  HelperText,
   ...hostProps
 }: SelectAutocompleteProps & JSX.IntrinsicElements['select']) {
   const popoverRef = React.useRef<HTMLDetailsElement | null>(null);
@@ -45,7 +50,7 @@ export function SelectAutocomplete({
   );
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement<
-    React.ComponentProps<typeof MenuItem>
+    React.ComponentProps<typeof SelectAutocompleteItem>
   >[];
 
   const filteredChildren = childrenArray.filter(node => {
@@ -100,7 +105,10 @@ export function SelectAutocomplete({
       })}
     >
       <label
-        className="tw-text-label-1 tw-text-slate-900 tw-font-semibold tw-mb-1"
+        className={clsx('tw-text-label-1 tw-font-semibold tw-mb-1', {
+          'tw-text-red-500': Invalid,
+          'tw-text-slate-900': !Invalid,
+        })}
         htmlFor={hostProps.id}
       >
         {Label}
@@ -129,7 +137,11 @@ export function SelectAutocomplete({
               className={clsx(
                 'tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-text-transparent tw-appearance-none tw-inset-0 tw-absolute tw-bg-transparent',
                 'placeholder:tw-text-transparent',
-                'focus:tw-outline-none focus:tw-border-blue-500'
+                'focus:tw-outline-none',
+                {
+                  'focus:tw-border-blue-500': !Invalid,
+                  'tw-border-red-500': Invalid,
+                }
               )}
               ref={selectRef}
               onKeyDown={event => {

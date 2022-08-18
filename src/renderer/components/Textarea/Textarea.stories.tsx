@@ -5,8 +5,10 @@ const meta: ComponentMeta<typeof Textarea> = {
   title: 'Components/Textarea',
   component: Textarea,
   args: {
-    Label: 'Label',
+    Disabled: false,
     HelperText: 'This is helper text',
+    Invalid: false,
+    Label: 'Label',
     placeholder: 'Placeholder',
   },
 };

@@ -7,7 +7,6 @@ const meta: ComponentMeta<typeof SelectAutocomplete> = {
   title: 'Components/SelectAutocomplete',
   component: SelectAutocomplete,
   args: {
-    placeholder: 'Placeholder',
     children: [
       <SelectAutocompleteItem
         key="1"
@@ -46,8 +45,11 @@ const meta: ComponentMeta<typeof SelectAutocomplete> = {
         value="4"
       />,
     ],
-    Label: 'Label',
+    Disabled: false,
     HelperText: 'This is helper text',
+    Invalid: false,
+    Label: 'Label',
+    placeholder: 'Placeholder',
   },
   argTypes: {
     onChange: { action: 'onChange' },

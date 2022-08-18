@@ -5,10 +5,12 @@ const meta: ComponentMeta<typeof Textfield> = {
   title: 'Components/Textfield',
   component: Textfield,
   args: {
-    Label: 'Label',
+    Disabled: false,
     HelperText: 'This is helper text',
-    type: 'text',
+    Invalid: false,
+    Label: 'Label',
     placeholder: 'Placeholder',
+    type: 'text',
   },
 };
 

@@ -10,8 +10,10 @@ const meta: ComponentMeta<typeof Selectfield> = {
       <option key="apple">Apple</option>,
       <option key="orange">Orange</option>,
     ],
-    Label: 'Label',
+    Disabled: false,
     HelperText: 'This is helper text',
+    Invalid: false,
+    Label: 'Label',
   },
 };
 
