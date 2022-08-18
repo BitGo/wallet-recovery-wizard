@@ -1,16 +1,18 @@
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { Selectfield, Title } from '../components';
 import { LinkCard, LinkCardItem } from '../components/LinkCard';
 // import { useElectronQuery, useElectronCommand } from '../hooks';
 
 export default function Home() {
+  const [BitGoEnvironment, setBitGoEnvironment] = React.useState('test');
   // const { data, state } = useElectronQuery('getBitGoEnvironments');
   // const [setBitGoEnvironment, { state: setBitGoEnvironmentState }] =
   //   useElectronCommand('setBitGoEnvironment');
 
   return (
     <>
-      <Title>Home</Title>
+      <Title>BitGo Wallet Recovery Wizard</Title>
       <div className="tw-flex tw-items-center tw-container tw-mx-auto tw-px-8 tw-min-h-screen">
         <div>
           <div className="tw-mb-4">
@@ -33,9 +35,15 @@ export default function Home() {
                 coins from BitGo wallets.
               </p>
               <div className="tw-flex tw-flex-col tw-gap-2">
-                <Selectfield Label="Environment">
+                <Selectfield
+                  Label="Environment"
+                  value={BitGoEnvironment}
+                  onChange={event =>
+                    setBitGoEnvironment(event.currentTarget.value)
+                  }
+                >
                   <option value="test">Testnet</option>
-                  <option value="prod">Prod</option>
+                  <option value="prod">Mainnet</option>
                 </Selectfield>
                 <Selectfield Label="Language" value="en" disabled Disabled>
                   <option value="en">English</option>
@@ -46,7 +54,7 @@ export default function Home() {
               <LinkCard Width="fill" Title="Available Offline">
                 <LinkCardItem
                   Tag={Link}
-                  to="/non-bitgo-recovery"
+                  to={`/non-bitgo-recovery/${BitGoEnvironment}`}
                   Title="Non-BitGo Recovery"
                   Description="Recover wallets using the user and backup key (sign a transaction without BitGo)."
                 />

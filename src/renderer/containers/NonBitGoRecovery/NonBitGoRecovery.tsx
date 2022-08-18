@@ -1,17 +1,17 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import {
   BackToHomeHeader,
   Button,
   RecoveryCoinsSelectAutocomplete,
 } from '../../components';
 
-export type NonBitGoRecoveryProps = {
-  BitGoEnvironment: 'prod' | 'test';
-};
+export default function NonBitGoRecovery() {
+  const params = useParams<"BitGoEnvironment">()
+  const BitGoEnvironment = params.BitGoEnvironment;
+  if (BitGoEnvironment !== "prod" && BitGoEnvironment !== "test") {
+    throw new Error("BitGo Environment is not defined.");
+  }
 
-export default function NonBitGoRecovery({
-  BitGoEnvironment,
-}: NonBitGoRecoveryProps) {
   return (
     <div className="tw-min-h-screen">
       <BackToHomeHeader Title="Non-BitGo Recovery" />
