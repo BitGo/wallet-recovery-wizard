@@ -11,3 +11,4 @@ export * from './SelectAutocomplete';
 export * from './Menu';
 export * from './Notice';
 export * from './RecoveryCoinsSelectAutocomplete';
+export * from './AlertBanner';
