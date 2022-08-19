@@ -7,9 +7,10 @@ import {
   Textarea,
   Textfield,
 } from '../../../components';
+import { useOutletContext } from 'react-router-dom';
 
 const validationSchema = Yup.object({
-  krsProvider: Yup.string(),
+  krsProvider: Yup.string().required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
@@ -19,7 +20,15 @@ const validationSchema = Yup.object({
 });
 
 export default function BitcoinForm() {
-  const { handleSubmit } = useFormik({
+  const [, setAlert] =
+    useOutletContext<
+      [
+        string | undefined,
+        React.Dispatch<React.SetStateAction<string | undefined>>
+      ]
+    >();
+
+  const { handleSubmit, handleChange, handleBlur, touched, errors } = useFormik({
     initialValues: {
       krsProvider: '',
       userKey: '',
@@ -29,13 +38,17 @@ export default function BitcoinForm() {
       recoveryDestination: '',
       scan: '20',
     },
+    validationSchema,
     async onSubmit() {
-      //TODO
+      setAlert("WARNING!");
     },
   });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}
+      onReset={() => setAlert(undefined)}
+    id="non-bitgo-recovery-form"
+    >
       <div className="tw-mb-8">
         <Notice
           Variant="Secondary"
@@ -49,9 +62,12 @@ export default function BitcoinForm() {
       </h4>
       <div className="tw-my-4">
         <Selectfield
+          Invalid={touched.krsProvider && !!errors.krsProvider}
           name="krsProvider"
           Label="Key Recovery Service"
-          HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
+          HelperText={touched.krsProvider && errors.krsProvider ? errors.krsProvider : "The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."}
+          onChange={handleChange}
+          onBlur={handleBlur}
         >
           <option value="">None</option>
           <option value="keyternal">Keyternal</option>
@@ -66,6 +82,8 @@ export default function BitcoinForm() {
           HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
           placeholder='Enter the "A: User Key" from your BitGo keycard...'
           rows={4}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
       <div className="tw-mb-4">
@@ -75,6 +93,8 @@ export default function BitcoinForm() {
           HelperText="TEMP: This one needs to be changed depending on key recovery service."
           placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
           rows={4}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
       <div className="tw-mb-4">
@@ -83,6 +103,8 @@ export default function BitcoinForm() {
           Label="Box C Value"
           HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
           placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
       <div className="tw-mb-4">
@@ -92,6 +114,8 @@ export default function BitcoinForm() {
           Label="Wallet Passphrase"
           HelperText="The passphrase of the wallet."
           placeholder="Enter your wallet password..."
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
       <div className="tw-mb-4">
@@ -101,6 +125,8 @@ export default function BitcoinForm() {
           Label="Destination Address"
           HelperText="The address your recovery transaction will send to."
           placeholder="Enter destination address..."
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
       <div className="tw-mb-4">
@@ -109,6 +135,8 @@ export default function BitcoinForm() {
           Label="Address Scanning Factor"
           HelperText="The amount of addresses without transactions to scan before stopping the tool."
           Width="fill"
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
       </div>
     </form>
