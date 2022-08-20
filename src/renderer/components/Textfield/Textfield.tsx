@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type TextfieldProps = {
+export type TextfieldProps = {
   Disabled?: boolean;
   HelperText?: React.ReactNode;
   Invalid?: boolean;
