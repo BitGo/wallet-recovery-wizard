@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { Icon } from '../Icon';
 
-type SelectfieldProps = {
+export type SelectfieldProps = {
   children: React.ReactNode;
   Disabled?: boolean;
   HelperText?: React.ReactNode;

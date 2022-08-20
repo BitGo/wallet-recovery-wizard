@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-type TextareaProps = {
+export type TextareaProps = {
   Disabled?: boolean;
   Invalid?: boolean;
   HelperText?: React.ReactNode;
