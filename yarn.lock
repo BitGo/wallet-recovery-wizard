@@ -1221,6 +1221,15 @@
     superagent "3.8.3"
     superagent-proxy "3.0.0"
 
+"@bitgo/sdk-coin-btc@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@bitgo/sdk-coin-btc/-/sdk-coin-btc-1.0.2.tgz#75d00abf77fccdbd6da02257c6b40b89ee3367ed"
+  integrity sha512-W157B391+ytMFcIZgEoaglvFuq1toIypVJdWd0/I8Fd2BmsSQN+z8eCKIpD7fW9p8KkYcgchxyjh1XqHx/ua8A==
+  dependencies:
+    "@bitgo/abstract-utxo" "^1.1.1"
+    "@bitgo/sdk-core" "^1.1.1"
+    "@bitgo/utxo-lib" "^2.4.1"
+
 "@bitgo/sdk-core@^1.1.1":
   version "1.1.1"
   resolved "https://registry.npmjs.org/@bitgo/sdk-core/-/sdk-core-1.1.1.tgz"

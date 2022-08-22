@@ -5,6 +5,7 @@
   "dependencies": {
     "@bitgo/abstract-utxo": "^1.1.1",
     "@bitgo/sdk-api": "^1.1.1",
+    "@bitgo/sdk-coin-btc": "^1.0.2",
     "clsx": "^1.2.1",
     "electron-squirrel-startup": "^1.0.0",
     "formik": "^2.2.9",

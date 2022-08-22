@@ -4,6 +4,7 @@
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   /**
@@ -25,9 +26,16 @@ module.exports = {
         },
       ],
     }),
+    new webpack.DefinePlugin({ 'global.GENTLY': false }),
   ],
+  node: {
+    __dirname: true,
+  },
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
+  },
+  externals: {
+    hexoid: 'hexoid',
   },
   optimization: {
     minimize: process.env.NODE_ENV === 'production',
