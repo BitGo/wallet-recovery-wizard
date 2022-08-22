@@ -9,10 +9,18 @@ import {
 } from '../../components';
 
 export default function NonBitGoRecovery() {
-  const params = useParams<'BitGoEnvironment'>();
+  const params = useParams<'BitGoEnvironment' | '*'>();
+  console.log(params);
 
   const alertState = React.useState<string | undefined>();
-  const [alert] = alertState;
+  const [alert, setAlert] = alertState;
+
+  const star = params['*'];
+  React.useEffect(() => {
+    if (star !== '') {
+      setAlert(undefined);
+    }
+  }, [star, setAlert]);
 
   const BitGoEnvironment = params.BitGoEnvironment;
   if (BitGoEnvironment !== 'prod' && BitGoEnvironment !== 'test') {
@@ -45,13 +53,29 @@ export default function NonBitGoRecovery() {
                 BitGoEnvironment={BitGoEnvironment}
               />
             </div>
-            <Outlet context={alertState}/>
+            <Outlet context={alertState} />
           </div>
           <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-            <Button Variant="secondary" Width="hug" form="non-bitgo-recovery-form" type="reset">
+            <Button
+              Variant="secondary"
+              Width="hug"
+              form="non-bitgo-recovery-form"
+              type="reset"
+            >
               Cancel
             </Button>
-            <Button Variant="primary" Width="hug" form="non-bitgo-recovery-form" type="submit">
+            <Button
+              Variant="primary"
+              Width="hug"
+              form="non-bitgo-recovery-form"
+              type="submit"
+              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                if (params['*'] === '') {
+                  event.preventDefault();
+                  setAlert('Please select a currency.');
+                }
+              }}
+            >
               Recover Funds
             </Button>
           </div>

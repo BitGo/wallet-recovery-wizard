@@ -3,8 +3,17 @@
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
 import { contextBridge, ipcRenderer } from 'electron';
+import type {
+  RecoverParams,
+  BackupKeyRecoveryTransansaction,
+  FormattedOfflineVaultTxInfo,
+} from '@bitgo/abstract-utxo';
 
 type Commands = {
+  backupKeyRecovery(
+    coin: string,
+    parameters: RecoverParams
+  ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(environment: 'prod' | 'test'): Promise<void>;
 };
 
@@ -19,6 +28,9 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
+  backupKeyRecovery(coin, parameters) {
+    return ipcRenderer.invoke('backupKeyRecovery', coin, parameters);
+  },
   setBitGoEnvironment(environment) {
     return ipcRenderer.invoke('setBitgoEnvironment', environment);
   },

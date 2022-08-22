@@ -7,7 +7,8 @@ import {
   Icon,
   Notice,
 } from '../../../components';
-import { useOutletContext } from 'react-router-dom';
+import { useOutletContext, useParams } from 'react-router-dom';
+import { useElectronCommand } from '../../../hooks';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -22,6 +23,9 @@ const validationSchema = Yup.object({
 });
 
 export default function BitcoinForm() {
+  const params = useParams<'BitGoEnvironment'>();
+  const BitGoEnvironment = params.BitGoEnvironment;
+
   const [, setAlert] =
     useOutletContext<
       [
@@ -30,19 +34,29 @@ export default function BitcoinForm() {
       ]
     >();
 
+  const [backupKeyRecovery, backupKeyRecoveryState] = useElectronCommand('backupKeyRecovery'); 
   return (
     <Formik
       initialValues={{
-        krsProvider: '',
         userKey: '',
         backupKey: '',
         bitgoKey: '',
         walletPassphrase: '',
         recoveryDestination: '',
         scan: '20',
+        krsProvider: '',
       }}
       validationSchema={validationSchema}
-      onSubmit={() => {
+      onSubmit={async values => {
+        const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc'; //what to do if BitGo environment not set? Default to test?
+        backupKeyRecovery(coinTicker, {
+          ...values,
+          scan: Number(values.scan),
+          ignoreAddressTypes: ['p2wsh'],
+        });
+        console.log(backupKeyRecoveryState);
+
+
         setAlert('WARNING!');
       }}
     >
