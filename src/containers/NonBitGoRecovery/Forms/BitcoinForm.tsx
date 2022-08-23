@@ -1,3 +1,4 @@
+import * as React from 'react';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import {
@@ -34,8 +35,25 @@ export default function BitcoinForm() {
       ]
     >();
 
-  const [recover, recoverState] =
-    useElectronCommand('recover');
+  const [recover, recoverPayload] = useElectronCommand('recover');
+
+  React.useEffect(() => {
+    if (recoverPayload.state === 'success') {
+      console.log(`type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`);
+      let recoverTransaction;
+    } else if (
+      recoverPayload.state === 'failure' &&
+      recoverPayload.error instanceof Error
+    ) {
+      setAlert(
+        recoverPayload.error.message.replace(
+          "Error invoking remote method 'recover': ",
+          ''
+        )
+      );
+    }
+  }, [recoverPayload]);
+
   return (
     <Formik
       initialValues={{
@@ -55,9 +73,6 @@ export default function BitcoinForm() {
           scan: Number(values.scan),
           ignoreAddressTypes: ['p2wsh'],
         });
-        console.log(recoverState);
-
-        setAlert('WARNING!');
       }}
     >
       <Form id="non-bitgo-recovery-form">
