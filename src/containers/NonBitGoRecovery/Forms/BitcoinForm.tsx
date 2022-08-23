@@ -34,8 +34,8 @@ export default function BitcoinForm() {
       ]
     >();
 
-  const [backupKeyRecovery, backupKeyRecoveryState] =
-    useElectronCommand('backupKeyRecovery');
+  const [recover, recoverState] =
+    useElectronCommand('recover');
   return (
     <Formik
       initialValues={{
@@ -49,13 +49,13 @@ export default function BitcoinForm() {
       }}
       validationSchema={validationSchema}
       onSubmit={async values => {
-        const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc'; //what to do if BitGo environment not set? Default to test?
-        backupKeyRecovery(coinTicker, {
+        const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc';
+        recover(coinTicker, {
           ...values,
           scan: Number(values.scan),
           ignoreAddressTypes: ['p2wsh'],
         });
-        console.log(backupKeyRecoveryState);
+        console.log(recoverState);
 
         setAlert('WARNING!');
       }}

@@ -74,12 +74,9 @@ async function createWindow() {
     sdk.register('tbtc', Tbtc.createInstance);
     return await Promise.resolve();
   });
-  ipcMain.handle('backupKeyRecovery', async (event, coin, parameters) => {
-    return await backupKeyRecovery(
-      sdk.coin(coin) as AbstractUtxoCoin,
-      sdk,
-      parameters
-    );
+  ipcMain.handle('recover', async (event, coin, parameters) => {
+    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+    return await baseCoin.recover(parameters);
   });
 }
 

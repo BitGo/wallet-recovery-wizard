@@ -10,7 +10,7 @@ import type {
 } from '@bitgo/abstract-utxo';
 
 type Commands = {
-  backupKeyRecovery(
+  recover(
     coin: string,
     parameters: RecoverParams
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
@@ -28,8 +28,8 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
-  backupKeyRecovery(coin, parameters) {
-    return ipcRenderer.invoke('backupKeyRecovery', coin, parameters);
+  recover(coin, parameters) {
+    return ipcRenderer.invoke('recover', coin, parameters);
   },
   setBitGoEnvironment(environment) {
     return ipcRenderer.invoke('setBitgoEnvironment', environment);
