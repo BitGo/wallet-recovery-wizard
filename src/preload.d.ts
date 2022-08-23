@@ -8,8 +8,17 @@ import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
+import type { ObjectEncodingOptions } from 'node:fs';
 
 type Commands = {
+  writeFile(
+    file: string,
+    data: string,
+    options?: ObjectEncodingOptions
+  ): Promise<void>;
+  showSaveDialog(
+    options: Electron.SaveDialogOptions
+  ): Promise<Electron.SaveDialogReturnValue>;
   recover(
     coin: string,
     parameters: RecoverParams
@@ -19,15 +28,25 @@ type Commands = {
 
 type Queries = {
   getBitGoEnvironments(): Promise<['prod', 'test']>;
+  getChain(coin: string): Promise<string>;
 };
 
 const queries: Queries = {
+  getChain(coin) {
+    return ipcRenderer.invoke('getChain', coin);
+  },
   getBitGoEnvironments() {
     return ipcRenderer.invoke('getBitgoEnvironments');
   },
 };
 
 const commands: Commands = {
+  writeFile(file, data, options) {
+    return ipcRenderer.invoke('writeFile', file, data, options);
+  },
+  showSaveDialog(options) {
+    return ipcRenderer.invoke('showSaveDialog', options);
+  },
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
   },

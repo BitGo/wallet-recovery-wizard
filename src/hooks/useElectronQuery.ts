@@ -4,7 +4,8 @@ import { asyncDataReducer, AsyncDataReducer } from '../reducers';
 type Queries = Window['queries'];
 
 export const useElectronQuery = <TQuery extends keyof Queries>(
-  queryName: TQuery
+  queryName: TQuery,
+  args: Parameters<Queries[TQuery]>
 ) => {
   type Return = ReturnType<Queries[TQuery]>;
   const query = window.queries[queryName];
@@ -18,7 +19,9 @@ export const useElectronQuery = <TQuery extends keyof Queries>(
   );
   React.useEffect(() => {
     dispatch({ type: 'fetch' });
-    query()
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    query(...args)
       .then(data => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -27,7 +30,7 @@ export const useElectronQuery = <TQuery extends keyof Queries>(
       .catch(error => {
         dispatch({ type: 'reject', payload: error });
       });
-  }, [queryName]);
+  }, [queryName, ...args]);
 
   return state;
 };

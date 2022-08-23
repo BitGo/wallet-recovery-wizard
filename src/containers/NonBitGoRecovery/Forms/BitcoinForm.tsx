@@ -9,7 +9,7 @@ import {
   Notice,
 } from '../../../components';
 import { useOutletContext, useParams } from 'react-router-dom';
-import { useElectronCommand } from '../../../hooks';
+import { useElectronCommand, useElectronQuery } from '../../../hooks';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -26,6 +26,7 @@ const validationSchema = Yup.object({
 export default function BitcoinForm() {
   const params = useParams<'BitGoEnvironment'>();
   const BitGoEnvironment = params.BitGoEnvironment;
+  const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc';
 
   const [, setAlert] =
     useOutletContext<
@@ -36,13 +37,38 @@ export default function BitcoinForm() {
     >();
 
   const [recover, recoverPayload] = useElectronCommand('recover');
+  const [showSaveDialog, showSaveDialogPayload] = useElectronCommand('showSaveDialog');
+  const [writeFile, writeFilePayload] = useElectronCommand('writeFile');
+  const chainPayload = useElectronQuery('getChain', [coinTicker]);
 
   React.useEffect(() => {
     if (recoverPayload.state === 'success') {
-      console.log(
-        `type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`
-      );
-      let recoverTransaction;
+      console.log(`type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`);
+      let recoveryTransaction;
+      if ('txHex' in recoverPayload.data) {
+        recoveryTransaction = recoverPayload.data.txHex;
+      } else if ('transactionHex' in recoverPayload.data) {
+        recoveryTransaction = recoverPayload.data.transactionHex;
+      }
+
+      if (!recoveryTransaction) {
+        setAlert('Fully-signed recovery transaction not detected.');
+        return;
+      }
+
+      const fileName = chainPayload.data + '-recovery-' + Date.now().toString() + '.json';
+      const dialogParams = {
+        filters: [
+          {
+            name: 'Custom File Type',
+            extensions: ['json'],
+          },
+        ],
+        defaultPath: `~/${fileName}`,
+      };
+
+      showSaveDialog(dialogParams);
+
     } else if (
       recoverPayload.state === 'failure' &&
       recoverPayload.error instanceof Error
@@ -54,7 +80,15 @@ export default function BitcoinForm() {
         )
       );
     }
-  }, [recoverPayload]);
+  }, [recoverPayload, setAlert, showSaveDialog]);
+
+  React.useEffect(() => {
+    if (showSaveDialogPayload.state === 'success' && recoverPayload.state === 'success') {
+      if (showSaveDialogPayload.data.filePath) {
+        writeFile(showSaveDialogPayload.data.filePath, JSON.stringify(recoverPayload.data, null, 2), {encoding: 'utf-8'});
+      }
+    }
+  }, [showSaveDialogPayload, writeFile, recoverPayload])
 
   return (
     <Formik
@@ -69,7 +103,7 @@ export default function BitcoinForm() {
       }}
       validationSchema={validationSchema}
       onSubmit={async values => {
-        const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc';
+        console.log(values);
         recover(coinTicker, {
           ...values,
           scan: Number(values.scan),
@@ -120,7 +154,7 @@ export default function BitcoinForm() {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
+          <FormikTextfield
             name="bitgoKey"
             Label="Box C Value"
             HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."

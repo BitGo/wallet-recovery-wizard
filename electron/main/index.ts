@@ -4,6 +4,8 @@ import { join } from 'path';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { AbstractUtxoCoin, backupKeyRecovery } from '@bitgo/abstract-utxo';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
+import { dialog } from 'electron';
+import fs from 'node:fs/promises';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -77,6 +79,15 @@ async function createWindow() {
   ipcMain.handle('recover', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     return await baseCoin.recover(parameters);
+  });
+  ipcMain.handle('getChain', (event, coin) => {
+    return sdk.coin(coin).getChain();
+  });
+  ipcMain.handle('showSaveDialog', async (event, options) => {
+    return await dialog.showSaveDialog(options);
+  });
+  ipcMain.handle('writeFile', async (event, file, data, options) => {
+    return await fs.writeFile(file, data, options);
   });
 }
 
