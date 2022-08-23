@@ -177,11 +177,12 @@ export default function BitcoinForm() {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikTextarea
             name="bitgoKey"
             Label="Box C Value"
             HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
             placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
+            rows={2}
           />
         </div>
         <div className="tw-mb-4">
