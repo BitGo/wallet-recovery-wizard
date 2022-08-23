@@ -39,7 +39,9 @@ export default function BitcoinForm() {
 
   React.useEffect(() => {
     if (recoverPayload.state === 'success') {
-      console.log(`type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`);
+      console.log(
+        `type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`
+      );
       let recoverTransaction;
     } else if (
       recoverPayload.state === 'failure' &&

@@ -1,24 +1,33 @@
 import * as React from 'react';
 import { asyncDataReducer, AsyncDataReducer } from '../reducers';
 
-export const useElectronQuery = (query: keyof Window['queries']) => {
-  const [state, dispatch] = React.useReducer<
-    AsyncDataReducer<Awaited<ReturnType<Window['queries'][typeof query]>>>
-  >(asyncDataReducer, {
-    data: undefined,
-    error: undefined,
-    state: 'idle',
-  });
+type Queries = Window['queries'];
+
+export const useElectronQuery = <TQuery extends keyof Queries>(
+  queryName: TQuery
+) => {
+  type Return = ReturnType<Queries[TQuery]>;
+  const query = window.queries[queryName];
+  const [state, dispatch] = React.useReducer<AsyncDataReducer<Awaited<Return>>>(
+    asyncDataReducer,
+    {
+      data: undefined,
+      error: undefined,
+      state: 'idle',
+    }
+  );
   React.useEffect(() => {
     dispatch({ type: 'fetch' });
-    window.queries[query]()
+    query()
       .then(data => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         dispatch({ type: 'resolve', payload: data });
       })
       .catch(error => {
         dispatch({ type: 'reject', payload: error });
       });
-  }, [query]);
+  }, [queryName]);
 
   return state;
 };

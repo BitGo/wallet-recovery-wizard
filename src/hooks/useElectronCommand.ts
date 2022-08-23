@@ -1,10 +1,15 @@
 import * as React from 'react';
 import { asyncDataReducer, AsyncDataReducer } from '../reducers';
 
-export const useElectronCommand = (cmd: keyof Window['commands']) => {
-  type Command = Window['commands'][typeof cmd];
+type Commands = Window['commands'];
+
+export const useElectronCommand = <TCommand extends keyof Commands>(
+  commandName: TCommand
+) => {
+  type Command = Commands[TCommand];
   type Params = Parameters<Command>;
   type Return = ReturnType<Command>;
+  const command = window.commands[commandName];
   const [state, dispatch] = React.useReducer<AsyncDataReducer<Awaited<Return>>>(
     asyncDataReducer,
     {
@@ -13,11 +18,9 @@ export const useElectronCommand = (cmd: keyof Window['commands']) => {
       state: 'idle',
     }
   );
-  const command = React.useCallback(
+  const callback = React.useCallback(
     (...args: Params) => {
       dispatch({ type: 'fetch' });
-      const command = window.commands[cmd];
-
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       command(...args)
@@ -30,8 +33,8 @@ export const useElectronCommand = (cmd: keyof Window['commands']) => {
           dispatch({ type: 'reject', payload: error });
         });
     },
-    [cmd]
+    [commandName]
   );
 
-  return [command, state] as const;
+  return [callback, state] as const;
 };
