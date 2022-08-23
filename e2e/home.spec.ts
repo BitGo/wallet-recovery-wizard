@@ -2,8 +2,7 @@ import { test, expect, _electron as electron } from '@playwright/test';
 
 test('title should be BitGo Wallet Recovery Wizard', async () => {
   const app = await electron.launch({
-    args: ['main/index.js'],
-    cwd: '.webpack',
+    args: ['http://localhost:7777'],
   });
   const window = await app.firstWindow();
   await window.waitForSelector('#root');

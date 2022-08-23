@@ -116,7 +116,7 @@ function template(paths) {
       .join(' | ')};
     Size: 'small' | 'medium' | 'large';
   }
-  
+
   export function CryptocurrencyIcon({Name, Size, ...hostProps}: CryptocurrencyIconProps & JSX.IntrinsicElements['svg']) {
     switch (Name) {
       ${paths.map(itemTemplate).join('\n')}
@@ -129,7 +129,7 @@ function template(paths) {
 fs.writeFileSync(
   path.resolve(
     __dirname,
-    '../src/renderer/components/CryptocurrencyIcon/CryptocurrencyIcon.tsx'
+    '../src/components/CryptocurrencyIcon/CryptocurrencyIcon.tsx'
   ),
   template(paths)
 );
