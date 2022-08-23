@@ -82,11 +82,16 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
-# Webpack
-.webpack/
+# Vite
+dist/
 
-# Electron-Forge
-out/
+# Electron
+release/
+
+# Storybook
+storybook-static/
+
+# Playwright
 test-results/
 playwright-report/
 playwright/.cache/

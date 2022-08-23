@@ -41,8 +41,8 @@ const config: PlaywrightTestConfig = {
     trace: 'on-first-retry',
   },
   webServer: {
-    port: 3000,
-    command: 'npm start',
+    port: 7777,
+    command: 'npm run dev',
   },
 };
 
