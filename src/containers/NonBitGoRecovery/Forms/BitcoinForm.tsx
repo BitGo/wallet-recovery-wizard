@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as Yup from 'yup';
 import { Formik, Form } from 'formik';
 import {
+  Button,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
@@ -24,7 +25,7 @@ const validationSchema = Yup.object({
 });
 
 export default function BitcoinForm() {
-  const params = useParams<'BitGoEnvironment'>();
+  const params = useParams<'BitGoEnvironment' | '*'>();
   const BitGoEnvironment = params.BitGoEnvironment;
   const coinTicker = BitGoEnvironment === 'prod' ? 'btc' : 'tbtc';
 
@@ -36,14 +37,23 @@ export default function BitcoinForm() {
       ]
     >();
 
+  const isRecovering = React.useRef(false);
+
   const [recover, recoverPayload] = useElectronCommand('recover');
-  const [showSaveDialog, showSaveDialogPayload] = useElectronCommand('showSaveDialog');
+  const [showSaveDialog, showSaveDialogPayload] =
+    useElectronCommand('showSaveDialog');
   const [writeFile, writeFilePayload] = useElectronCommand('writeFile');
   const chainPayload = useElectronQuery('getChain', [coinTicker]);
 
+  const isLoading =
+    recoverPayload.state === 'loading' ||
+    showSaveDialogPayload.state === 'loading' ||
+    writeFilePayload.state === 'loading' ||
+    chainPayload.state === 'loading';
+  const recoverButtonLabel = isLoading ? 'Recovering...' : 'Recover Funds';
+
   React.useEffect(() => {
     if (recoverPayload.state === 'success') {
-      console.log(`type: ${typeof recoverPayload.data} data: ${recoverPayload.data}`);
       let recoveryTransaction;
       if ('txHex' in recoverPayload.data) {
         recoveryTransaction = recoverPayload.data.txHex;
@@ -56,7 +66,8 @@ export default function BitcoinForm() {
         return;
       }
 
-      const fileName = chainPayload.data + '-recovery-' + Date.now().toString() + '.json';
+      const fileName =
+        chainPayload.data + '-recovery-' + Date.now().toString() + '.json';
       const dialogParams = {
         filters: [
           {
@@ -67,8 +78,8 @@ export default function BitcoinForm() {
         defaultPath: `~/${fileName}`,
       };
 
+      isRecovering.current = false;
       showSaveDialog(dialogParams);
-
     } else if (
       recoverPayload.state === 'failure' &&
       recoverPayload.error instanceof Error
@@ -79,16 +90,28 @@ export default function BitcoinForm() {
           ''
         )
       );
+      isRecovering.current = false;
+    } else if (recoverPayload.state === 'loading') {
+      isRecovering.current = true;
     }
   }, [recoverPayload, setAlert, showSaveDialog]);
 
   React.useEffect(() => {
-    if (showSaveDialogPayload.state === 'success' && recoverPayload.state === 'success') {
+    if (
+      showSaveDialogPayload.state === 'success' &&
+      recoverPayload.state === 'success' &&
+      !isRecovering.current
+    ) {
+      //Removing recoverPayload as a dependency fixes stale showSaveDialogPayload.state
       if (showSaveDialogPayload.data.filePath) {
-        writeFile(showSaveDialogPayload.data.filePath, JSON.stringify(recoverPayload.data, null, 2), {encoding: 'utf-8'});
+        writeFile(
+          showSaveDialogPayload.data.filePath,
+          JSON.stringify(recoverPayload.data, null, 2),
+          { encoding: 'utf-8' }
+        );
       }
     }
-  }, [showSaveDialogPayload, writeFile, recoverPayload])
+  }, [showSaveDialogPayload, recoverPayload, writeFile]);
 
   return (
     <Formik
@@ -103,9 +126,9 @@ export default function BitcoinForm() {
       }}
       validationSchema={validationSchema}
       onSubmit={async values => {
-        console.log(values);
         recover(coinTicker, {
           ...values,
+          bitgoKey: values.bitgoKey.split(/\s+/).join(''),
           scan: Number(values.scan),
           ignoreAddressTypes: ['p2wsh'],
         });
@@ -186,6 +209,32 @@ export default function BitcoinForm() {
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Width="fill"
           />
+        </div>
+        <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
+          <Button
+            Variant="secondary"
+            Width="hug"
+            form="non-bitgo-recovery-form"
+            type="reset"
+          >
+            Cancel
+          </Button>
+          <Button
+            Variant="primary"
+            Width="hug"
+            form="non-bitgo-recovery-form"
+            type="submit"
+            Disabled={isLoading}
+            disabled={isLoading}
+            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+              if (params['*'] === '') {
+                event.preventDefault();
+                setAlert('Please select a currency.');
+              }
+            }}
+          >
+            {recoverButtonLabel}
+          </Button>
         </div>
       </Form>
     </Formik>

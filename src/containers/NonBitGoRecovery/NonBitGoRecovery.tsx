@@ -55,30 +55,6 @@ export default function NonBitGoRecovery() {
             </div>
             <Outlet context={alertState} />
           </div>
-          <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-            <Button
-              Variant="secondary"
-              Width="hug"
-              form="non-bitgo-recovery-form"
-              type="reset"
-            >
-              Cancel
-            </Button>
-            <Button
-              Variant="primary"
-              Width="hug"
-              form="non-bitgo-recovery-form"
-              type="submit"
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                if (params['*'] === '') {
-                  event.preventDefault();
-                  setAlert('Please select a currency.');
-                }
-              }}
-            >
-              Recover Funds
-            </Button>
-          </div>
         </div>
       </div>
     </div>
