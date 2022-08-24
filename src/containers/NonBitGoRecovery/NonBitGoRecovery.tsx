@@ -1,30 +1,29 @@
+import { AlertBannerContext } from '~/contexts';
 import * as React from 'react';
-import { Outlet, useParams } from 'react-router-dom';
+import { Route, Routes, useParams } from 'react-router-dom';
 import {
   AlertBanner,
   BackToHomeHeader,
-  Button,
   Icon,
   RecoveryCoinsSelectAutocomplete,
-} from '../../components';
+} from '~/components';
+import { Coin } from './Coin';
+import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 
 export default function NonBitGoRecovery() {
-  const params = useParams<'BitGoEnvironment' | '*'>();
-  console.log(params);
+  const { env, coin } = useParams<'env' | 'coin'>();
 
   const alertState = React.useState<string | undefined>();
   const [alert, setAlert] = alertState;
 
-  const star = params['*'];
   React.useEffect(() => {
-    if (star !== '') {
+    if (coin !== '') {
       setAlert(undefined);
     }
-  }, [star, setAlert]);
+  }, [coin, setAlert]);
 
-  const BitGoEnvironment = params.BitGoEnvironment;
-  if (BitGoEnvironment !== 'prod' && BitGoEnvironment !== 'test') {
-    throw new Error('BitGo Environment is not defined.');
+  if (env !== 'prod' && env !== 'test') {
+    throw new Error('env is not defined.');
   }
 
   const alertBanner = alert ? (
@@ -49,11 +48,14 @@ export default function NonBitGoRecovery() {
           </div>
           <div className="tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-pt-8 tw-pb-4 tw-px-8">
             <div className="tw-mb-8">
-              <RecoveryCoinsSelectAutocomplete
-                BitGoEnvironment={BitGoEnvironment}
-              />
+              <RecoveryCoinsSelectAutocomplete />
             </div>
-            <Outlet context={alertState} />
+            <AlertBannerContext.Provider value={alertState}>
+              <Routes>
+                <Route index element={<NonBitGoRecoveryIndex />} />
+                <Route path=":coin" element={<Coin />} />
+              </Routes>
+            </AlertBannerContext.Provider>
           </div>
         </div>
       </div>

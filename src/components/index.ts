@@ -7,6 +7,7 @@ export * from './FormikSelectfield';
 export * from './FormikTextarea';
 export * from './FormikTextfield';
 export * from './Icon';
+export * from './LinkCard';
 export * from './Menu';
 export * from './Notice';
 export * from './RecoveryCoinsSelectAutocomplete';

@@ -1,25 +1,30 @@
-import {
-  ComponentMeta,
-  ComponentStoryObj,
-  DecoratorFn,
-} from '@storybook/react';
-import { HashRouter } from 'react-router-dom';
+import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { RecoveryCoinsSelectAutocomplete } from './RecoveryCoinsSelectAutocomplete';
-
-const RouterDecorator: DecoratorFn = (StoryFn, context) => {
-  return <HashRouter>{StoryFn(context)}</HashRouter>;
-};
 
 const meta: ComponentMeta<typeof RecoveryCoinsSelectAutocomplete> = {
   title: 'Components/RecoveryCoinsSelectAutocomplete',
   component: RecoveryCoinsSelectAutocomplete,
-  decorators: [RouterDecorator],
-  args: {
-    BitGoEnvironment: 'test',
+  parameters: {
+    reactRouter: {
+      routePath: '/non-bitgo-recovery/:env',
+      routeParams: { env: 'test' },
+    },
   },
 };
 
 export default meta;
 
-export const Main: ComponentStoryObj<typeof RecoveryCoinsSelectAutocomplete> =
-  {};
+export const Testnet: ComponentStoryObj<
+  typeof RecoveryCoinsSelectAutocomplete
+> = {};
+
+export const Mainnet: ComponentStoryObj<
+  typeof RecoveryCoinsSelectAutocomplete
+> = {
+  parameters: {
+    reactRouter: {
+      routePath: '/non-bitgo-recovery/:env',
+      routeParams: { env: 'prod' },
+    },
+  },
+};

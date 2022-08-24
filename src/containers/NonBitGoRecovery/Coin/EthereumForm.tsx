@@ -1,6 +1,5 @@
-import * as React from 'react';
 import * as Yup from 'yup';
-import { Formik, Form } from 'formik';
+import { FormikProvider, Form, FormikHelpers, useFormik } from 'formik';
 import {
   Button,
   FormikSelectfield,
@@ -8,9 +7,7 @@ import {
   FormikTextfield,
   Icon,
   Notice,
-} from '../../../components';
-import { useOutletContext, useParams } from 'react-router-dom';
-import { useElectronCommand, useElectronQuery } from '../../../hooks';
+} from '~/components';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -24,118 +21,40 @@ const validationSchema = Yup.object({
   scan: Yup.string().required(),
 });
 
-export default function EthereumForm() {
-  const params = useParams<'BitGoEnvironment' | '*'>();
-  const BitGoEnvironment = params.BitGoEnvironment;
-  const coinTicker = BitGoEnvironment === 'prod' ? 'eth' : 'gteth';
+export type EthereumFormProps = {
+  onSubmit: (
+    values: EthereumFormValues,
+    formikHelpers: FormikHelpers<EthereumFormValues>
+  ) => void | Promise<any>;
+};
 
-  const [, setAlert] =
-    useOutletContext<
-      [
-        string | undefined,
-        React.Dispatch<React.SetStateAction<string | undefined>>
-      ]
-    >();
+type EthereumFormValues = {
+  userKey: string;
+  backupKey: string;
+  bitgoKey: string;
+  walletPassphrase: string;
+  recoveryDestination: string;
+  scan: string;
+  krsProvider: string;
+};
 
-  const isRecovering = React.useRef(false);
-
-  const [recover, recoverPayload] = useElectronCommand('recover');
-  const [showSaveDialog, showSaveDialogPayload] =
-    useElectronCommand('showSaveDialog');
-  const [writeFile, writeFilePayload] = useElectronCommand('writeFile');
-  const chainPayload = useElectronQuery('getChain', [coinTicker]);
-
-  const isLoading =
-    recoverPayload.state === 'loading' ||
-    showSaveDialogPayload.state === 'loading' ||
-    writeFilePayload.state === 'loading' ||
-    chainPayload.state === 'loading';
-  const recoverButtonLabel = isLoading ? 'Recovering...' : 'Recover Funds';
-
-  React.useEffect(() => {
-    if (recoverPayload.state === 'success') {
-      let recoveryTransaction;
-      if ('txHex' in recoverPayload.data) {
-        recoveryTransaction = recoverPayload.data.txHex;
-      } else if ('transactionHex' in recoverPayload.data) {
-        recoveryTransaction = recoverPayload.data.transactionHex;
-      }
-
-      if (!recoveryTransaction) {
-        setAlert('Fully-signed recovery transaction not detected.');
-        return;
-      }
-
-      const fileName =
-        chainPayload.data + '-recovery-' + Date.now().toString() + '.json';
-      const dialogParams = {
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: `~/${fileName}`,
-      };
-
-      isRecovering.current = false;
-      showSaveDialog(dialogParams);
-    } else if (
-      recoverPayload.state === 'failure' &&
-      recoverPayload.error instanceof Error
-    ) {
-      setAlert(
-        recoverPayload.error.message.replace(
-          "Error invoking remote method 'recover': ",
-          ''
-        )
-      );
-      isRecovering.current = false;
-    } else if (recoverPayload.state === 'loading') {
-      isRecovering.current = true;
-    }
-  }, [recoverPayload, setAlert, showSaveDialog]);
-
-  React.useEffect(() => {
-    if (
-      showSaveDialogPayload.state === 'success' &&
-      recoverPayload.state === 'success' &&
-      !isRecovering.current
-    ) {
-      //Removing recoverPayload as a dependency fixes stale showSaveDialogPayload.state
-      if (showSaveDialogPayload.data.filePath) {
-        writeFile(
-          showSaveDialogPayload.data.filePath,
-          JSON.stringify(recoverPayload.data, null, 2),
-          { encoding: 'utf-8' }
-        );
-      }
-    }
-  }, [showSaveDialogPayload, recoverPayload, writeFile]);
+export function EthereumForm({ onSubmit }: EthereumFormProps) {
+  const formik = useFormik<EthereumFormValues>({
+    onSubmit,
+    initialValues: {
+      userKey: '',
+      backupKey: '',
+      bitgoKey: '',
+      walletPassphrase: '',
+      recoveryDestination: '',
+      scan: '20',
+      krsProvider: '',
+    },
+    validationSchema,
+  });
 
   return (
-    <Formik
-      initialValues={{
-        apiKey: '',
-        userKey: '',
-        backupKey: '',
-        bitgoKey: '',
-        walletContractAddress: '',
-        walletPassphrase: '',
-        recoveryDestination: '',
-        gasLimit: '500000',
-        maxFeePerGas: '20',
-        maxPriorityFeePerGas: '10',
-        krsProvider: '',
-      }}
-      validationSchema={validationSchema}
-      onSubmit={async values => {
-        recover(coinTicker, {
-          ...values,
-          ignoreAddressTypes: [],
-        });
-      }}
-    >
+    <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
         <div className="tw-mb-8">
           <Notice
@@ -242,32 +161,20 @@ export default function EthereumForm() {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Button
-            Variant="secondary"
-            Width="hug"
-            form="non-bitgo-recovery-form"
-            type="reset"
-          >
+          <Button Variant="secondary" Width="hug" type="reset">
             Cancel
           </Button>
           <Button
             Variant="primary"
             Width="hug"
-            form="non-bitgo-recovery-form"
             type="submit"
-            Disabled={isLoading}
-            disabled={isLoading}
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-              if (params['*'] === '') {
-                event.preventDefault();
-                setAlert('Please select a currency.');
-              }
-            }}
+            Disabled={formik.isSubmitting}
+            disabled={formik.isSubmitting}
           >
-            {recoverButtonLabel}
+            {formik.isSubmitting ? 'Recovering...' : 'Recover Funds'}
           </Button>
         </div>
       </Form>
-    </Formik>
+    </FormikProvider>
   );
 }
