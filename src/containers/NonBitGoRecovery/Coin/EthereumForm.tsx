@@ -15,10 +15,12 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
+  gasLimit: Yup.string().required(),
+  maxFeePerGas: Yup.string().required(),
+  maxPriorityFeePerGas: Yup.string().required(),
 });
 
 export type EthereumFormProps = {
@@ -29,26 +31,32 @@ export type EthereumFormProps = {
 };
 
 type EthereumFormValues = {
+  apiKey: string;
   userKey: string;
   backupKey: string;
-  bitgoKey: string;
+  walletContractAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
+  gasLimit: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
 };
 
 export function EthereumForm({ onSubmit }: EthereumFormProps) {
   const formik = useFormik<EthereumFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       userKey: '',
       backupKey: '',
-      bitgoKey: '',
+      walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
+      gasLimit: '500000',
+      maxFeePerGas: '20',
+      maxPriorityFeePerGas: '10',
     },
     validationSchema,
   });
@@ -56,14 +64,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
-        <div className="tw-mb-8">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Temp text.
-          </Notice>
-        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
           Self-managed hot wallet details
         </h4>

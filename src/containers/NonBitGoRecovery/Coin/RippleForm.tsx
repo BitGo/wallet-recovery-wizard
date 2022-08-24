@@ -13,10 +13,9 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  rootAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
 });
 
 export type RippleFormProps = {
@@ -29,10 +28,9 @@ export type RippleFormProps = {
 type RippleFormValues = {
   userKey: string;
   backupKey: string;
-  bitgoKey: string;
+  rootAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
 };
 
@@ -42,10 +40,9 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
     initialValues: {
       userKey: '',
       backupKey: '',
-      bitgoKey: '',
+      rootAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
     },
     validationSchema,
@@ -88,7 +85,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
+          <FormikTextfield
             name="rootAddress"
             Label="Root Address"
             HelperText="The root address of the wallet."

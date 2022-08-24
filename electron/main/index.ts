@@ -4,6 +4,10 @@ import { join } from 'path';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { AbstractUtxoCoin, backupKeyRecovery } from '@bitgo/abstract-utxo';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
+import { Eth, Gteth } from '@bitgo/sdk-coin-eth';
+import { Xlm, Txlm } from '@bitgo/sdk-coin-xlm';
+import { Xrp, Txrp } from '@bitgo/sdk-coin-xrp';
+import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { dialog } from 'electron';
 import fs from 'node:fs/promises';
 
@@ -64,6 +68,14 @@ async function createWindow() {
   });
   sdk.register('btc', Btc.createInstance);
   sdk.register('tbtc', Tbtc.createInstance);
+  sdk.register('eth', Eth.createInstance);
+  sdk.register('gteth', Gteth.createInstance);
+  sdk.register('eos', Eos.createInstance);
+  sdk.register('teos', Teos.createInstance);
+  sdk.register('xlm', Xlm.createInstance);
+  sdk.register('txlm', Txlm.createInstance);
+  sdk.register('xrp', Xrp.createInstance);
+  sdk.register('txrp', Txrp.createInstance);
 
   ipcMain.handle('getBitgoEnvironments', async () => {
     return await Promise.resolve(['test', 'prod']);
@@ -74,6 +86,14 @@ async function createWindow() {
     });
     sdk.register('btc', Btc.createInstance);
     sdk.register('tbtc', Tbtc.createInstance);
+    sdk.register('eth', Eth.createInstance);
+    sdk.register('gteth', Gteth.createInstance);
+    sdk.register('eos', Eos.createInstance);
+    sdk.register('teos', Teos.createInstance);
+    sdk.register('xlm', Xlm.createInstance);
+    sdk.register('txlm', Txlm.createInstance);
+    sdk.register('xrp', Xrp.createInstance);
+    sdk.register('txrp', Txrp.createInstance);
     return await Promise.resolve();
   });
   ipcMain.handle('recover', async (event, coin, parameters) => {

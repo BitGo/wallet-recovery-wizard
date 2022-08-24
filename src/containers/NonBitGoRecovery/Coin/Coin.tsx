@@ -73,7 +73,7 @@ export function Coin() {
         />
       );
     case 'eth':
-    case 'teth':
+    case 'gteth':
       return (
         <EthereumForm
           onSubmit={async (values, { setSubmitting }) => {
@@ -82,9 +82,8 @@ export function Coin() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: ['p2wsh'],
+                bitgoKey: '',
+                ignoreAddressTypes: [],
               });
               let recoveryTransaction;
               if ('txHex' in recoverData) {
@@ -136,6 +135,10 @@ export function Coin() {
       );
     case 'xrp':
     case 'txrp':
+    case 'xlm':
+    case 'txlm':
+    case 'eos':
+    case 'teos':
       return (
         <RippleForm
           onSubmit={async (values, { setSubmitting }) => {
@@ -144,9 +147,8 @@ export function Coin() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: ['p2wsh'],
+                bitgoKey: '',
+                ignoreAddressTypes: [],
               });
               let recoveryTransaction;
               if ('txHex' in recoverData) {
