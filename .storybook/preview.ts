@@ -1,4 +1,7 @@
 import '../src/assets/styles/index.css';
+import { withRouter } from 'storybook-addon-react-router-v6';
+
+export const decorators = [withRouter];
 
 const screens = {
   sm: '640px',

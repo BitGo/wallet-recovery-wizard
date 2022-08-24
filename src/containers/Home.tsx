@@ -1,15 +1,10 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Selectfield, Title } from '../components';
-import { LinkCard, LinkCardItem } from '../components/LinkCard';
+import { Selectfield, Title, LinkCard, LinkCardItem } from '~/components';
 import logo from '/logo.svg';
-// import { useElectronQuery, useElectronCommand } from '../hooks';
 
 export default function Home() {
   const [BitGoEnvironment, setBitGoEnvironment] = React.useState('test');
-  // const { data, state } = useElectronQuery('getBitGoEnvironments');
-  // const [setBitGoEnvironment, { state: setBitGoEnvironmentState }] =
-  //   useElectronCommand('setBitGoEnvironment');
 
   return (
     <>

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { CryptocurrencyIcon } from '../CryptocurrencyIcon';
 import { SelectAutocomplete } from '../SelectAutocomplete';
 import { SelectAutocompleteItem } from '../SelectAutocomplete/SelectAutocompleteItem';
@@ -136,17 +136,11 @@ const test = [
   },
 ] as const;
 
-export type RecoveryCoinsSelectAutocompleteProps = {
-  BitGoEnvironment: 'prod' | 'test';
-};
-
-export function RecoveryCoinsSelectAutocomplete({
-  BitGoEnvironment,
-}: RecoveryCoinsSelectAutocompleteProps) {
+export function RecoveryCoinsSelectAutocomplete() {
   const navigate = useNavigate();
-  const BitGoEnvironmentTitle =
-    BitGoEnvironment === 'prod' ? 'Mainnet' : 'Testnet';
-  const data = BitGoEnvironment === 'prod' ? prod : test;
+  const { env = 'test' } = useParams<'env'>();
+  const envTitle = env === 'prod' ? 'Mainnet' : 'Testnet';
+  const data = env === 'prod' ? prod : test;
   const children = data.map(coin => (
     <SelectAutocompleteItem
       key={coin.value}
@@ -169,8 +163,7 @@ export function RecoveryCoinsSelectAutocomplete({
         <div>
           <span className="tw-text-gray-700">
             Current environment: &nbsp;
-            <span className="tw-font-semibold">{BitGoEnvironmentTitle}</span>.
-            &nbsp;
+            <span className="tw-font-semibold">{envTitle}</span>. &nbsp;
           </span>
           <Link
             to="/"
@@ -182,9 +175,7 @@ export function RecoveryCoinsSelectAutocomplete({
       }
       Width="fill"
       onChange={event => {
-        navigate(
-          `/non-bitgo-recovery/${BitGoEnvironment}/${event.currentTarget.value}`
-        );
+        navigate(`/non-bitgo-recovery/${env}/${event.currentTarget.value}`);
       }}
     >
       {children}
