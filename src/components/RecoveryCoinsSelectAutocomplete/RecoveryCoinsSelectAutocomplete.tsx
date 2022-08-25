@@ -108,7 +108,7 @@ const test = [
     Title: 'TXLM',
     Description: 'Testnet Stellar',
     Icon: 'xlm',
-    value: 'xlm',
+    value: 'txlm',
   },
   {
     Title: 'GTETH',

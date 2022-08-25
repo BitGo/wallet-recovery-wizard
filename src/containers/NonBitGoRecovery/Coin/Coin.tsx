@@ -10,7 +10,7 @@ import { BitcoinSVForm } from './BitcoinSVForm';
 import { TronForm } from './TronForm';
 import { ERC20Form } from './ERC20TokenForm';
 
-import { Chain, Hardfork } from '@ethereumjs/common';
+//import { Chain, Hardfork } from '@ethereumjs/common';
 import {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
@@ -21,25 +21,28 @@ function toWei(gas: number) {
   return gas * GWEI;
 }
 
+function safeEnv(value: string | undefined): 'prod' | 'test' {
+  if (value !== 'test' && value !== 'prod') {
+    throw new Error(`expected value to be "test" or "prod" but got: ${value}`);
+  }
+  return value;
+}
+
 function isRecoveryTransaction(
   recoverData: BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo
 ) {
-  if ('txHex' in recoverData && Boolean(recoverData['txHex'])) {
-    return true;
-  } else if ('transactionHex' in recoverData && Boolean(recoverData['transactionHex'])) {
-    return true
-  } else if ('tx' in recoverData && Boolean(recoverData['tx'])) {
-    return true;
-  } else if ('transaction' in recoverData && Boolean(recoverData['transaction'])) {
-    return true;
-  } else if ('txid' in recoverData && Boolean(recoverData['txid'])) {
-    return true;
-  }
-  return false;
+  return (
+    ('txHex' in recoverData && !!recoverData['txHex']) ||
+    ('transactionHex' in recoverData && !!recoverData['transactionHex']) ||
+    ('tx' in recoverData && !!recoverData['tx']) ||
+    ('transaction' in recoverData && !!recoverData['transaction']) ||
+    ('txid' in recoverData && !!recoverData['txid'])
+  );
 }
 
 export function Coin() {
-  const { coin } = useParams<'coin'>();
+  const { env, coin } = useParams<'env' | 'coin'>();
+  const bitGoEnvironment = safeEnv(env);
   console.log(coin);
   const [, setAlert] = useAlertBanner();
 
@@ -107,7 +110,6 @@ export function Coin() {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              const bitGoEnvironment = coin === 'eth' ? 'prod' : 'test';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey
@@ -247,7 +249,6 @@ export function Coin() {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              const bitGoEnvironment = 'prod';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey
@@ -310,7 +311,6 @@ export function Coin() {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              const bitGoEnvironment = 'prod';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey
@@ -371,7 +371,6 @@ export function Coin() {
             console.log(values);
             setSubmitting(true);
             try {
-              const bitGoEnvironment = 'prod';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey
@@ -432,7 +431,6 @@ export function Coin() {
             console.log(values);
             setSubmitting(true);
             try {
-              const bitGoEnvironment = 'prod';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey
@@ -549,7 +547,6 @@ export function Coin() {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              const bitGoEnvironment = coin === 'erc' ? 'prod' : 'test';
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
                 values.apiKey

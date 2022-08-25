@@ -17,7 +17,7 @@ const validationSchema = Yup.object({
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  gasLimit: Yup.string().required(),
+  gasLimit: Yup.number().typeError('Gas limit must be a number').integer().positive('Gas limit must be a positive integer').required(),
   maxFeePerGas: Yup.string().required(),
   maxPriorityFeePerGas: Yup.string().required(),
 });
@@ -60,6 +60,11 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
     validationSchema,
   });
 
+  const backupKeyHelperText =
+    formik.values.krsProvider === ''
+      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
+      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+
   return (
     <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
@@ -100,7 +105,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           <FormikTextarea
             name="backupKey"
             Label="Box B Value"
-            HelperText="TEMP: This one needs to be changed depending on key recovery service."
+            HelperText={ backupKeyHelperText }
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
           />
@@ -160,11 +165,9 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Link to="/" className="tw-contents">
-            <Button Variant="secondary" Width="hug" type="reset">
-              Cancel
-            </Button>
-          </Link>
+          <Button Tag={Link} to="/" Variant="secondary" Width="hug">
+            Cancel
+          </Button>
           <Button
             Variant="primary"
             Width="hug"
