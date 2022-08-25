@@ -8,6 +8,14 @@ import { Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Xlm, Txlm } from '@bitgo/sdk-coin-xlm';
 import { Xrp, Txrp } from '@bitgo/sdk-coin-xrp';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
+import { Bch } from '@bitgo/sdk-coin-bch';
+import { Ltc } from '@bitgo/sdk-coin-ltc';
+import { Btg } from '@bitgo/sdk-coin-btg';
+import { Zec } from '@bitgo/sdk-coin-zec';
+import { Dash } from '@bitgo/sdk-coin-dash';
+import { Bcha } from '@bitgo/sdk-coin-bcha';
+import { Bsv } from '@bitgo/sdk-coin-bsv';
+import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { dialog } from 'electron';
 import fs from 'node:fs/promises';
 
@@ -76,24 +84,21 @@ async function createWindow() {
   sdk.register('txlm', Txlm.createInstance);
   sdk.register('xrp', Xrp.createInstance);
   sdk.register('txrp', Txrp.createInstance);
+  sdk.register('bch', Bch.createInstance);
+  sdk.register('ltc', Ltc.createInstance);
+  sdk.register('btg', Btg.createInstance);
+  sdk.register('dash', Dash.createInstance);
+  sdk.register('zec', Zec.createInstance);
+  sdk.register('bcha', Bcha.createInstance);
+  sdk.register('bsv', Bsv.createInstance);
+  sdk.register('trx', Trx.createInstance);
+  sdk.register('ttrx', Ttrx.createInstance);
 
   ipcMain.handle('getBitgoEnvironments', async () => {
     return await Promise.resolve(['test', 'prod']);
   });
-  ipcMain.handle('setBitgoEnvironment', async (event, environment) => {
-    sdk = new BitGoAPI({
-      env: environment,
-    });
-    sdk.register('btc', Btc.createInstance);
-    sdk.register('tbtc', Tbtc.createInstance);
-    sdk.register('eth', Eth.createInstance);
-    sdk.register('gteth', Gteth.createInstance);
-    sdk.register('eos', Eos.createInstance);
-    sdk.register('teos', Teos.createInstance);
-    sdk.register('xlm', Xlm.createInstance);
-    sdk.register('txlm', Txlm.createInstance);
-    sdk.register('xrp', Xrp.createInstance);
-    sdk.register('txrp', Txrp.createInstance);
+  ipcMain.handle('setBitgoEnvironment', async (event, environment, apiKey) => {
+    sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
     return await Promise.resolve();
   });
   ipcMain.handle('recover', async (event, coin, parameters) => {

@@ -5,9 +5,8 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
+import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -161,9 +160,11 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Button Variant="secondary" Width="hug" type="reset">
-            Cancel
-          </Button>
+          <Link to="/" className="tw-contents">
+            <Button Variant="secondary" Width="hug" type="reset">
+              Cancel
+            </Button>
+          </Link>
           <Button
             Variant="primary"
             Width="hug"

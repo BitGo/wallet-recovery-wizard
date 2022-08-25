@@ -5,9 +5,9 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
+import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -53,17 +53,13 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
     validationSchema,
   });
 
+  const [backupKeyHelperText, setBackupKeyHelperText] = React.useState(
+    'Your encrypted backup key, as found on your BitGo recovery keycard.'
+  );
+
   return (
     <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
-        <div className="tw-mb-8">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Temp text.
-          </Notice>
-        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
           Self-managed hot wallet details
         </h4>
@@ -72,6 +68,14 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
             name="krsProvider"
             Label="Key Recovery Service"
             HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
+            onChange={event => {
+              formik.handleChange(event);
+              setBackupKeyHelperText(
+                event.currentTarget.value === ''
+                  ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
+                  : 'The backup public key for the wallet, as found on your BitGo recovery keycard.'
+              );
+            }}
           >
             <option value="">None</option>
             <option value="keyternal">Keyternal</option>
@@ -92,7 +96,7 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           <FormikTextarea
             name="backupKey"
             Label="Box B Value"
-            HelperText="TEMP: This one needs to be changed depending on key recovery service."
+            HelperText={ backupKeyHelperText }
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
           />
@@ -133,9 +137,11 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Button Variant="secondary" Width="hug" type="reset">
-            Cancel
-          </Button>
+          <Link to="/" className="tw-contents">
+            <Button Variant="secondary" Width="hug" type="reset">
+              Cancel
+            </Button>
+          </Link>
           <Button
             Variant="primary"
             Width="hug"
