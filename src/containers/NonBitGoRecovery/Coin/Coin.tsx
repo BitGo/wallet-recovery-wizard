@@ -118,12 +118,6 @@ export function Coin() {
 
               const { gasLimit, maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                 values;
-              if (
-                Number(gasLimit) <= 0 ||
-                Number(gasLimit) !== parseInt(gasLimit, 10)
-              ) {
-                throw new Error('Gas limit must be a positive integer');
-              }
               const recoveryParams = {
                 ...rest,
                 eip1559: {
