@@ -176,18 +176,27 @@ module.exports = {
         include: paths.appSrc,
       },
       {
-        test: /\.js$/,
+        test: /\.m?js$/,
+        loader: require.resolve('@open-wc/webpack-import-meta-loader'),
+        include: [path.resolve(__dirname, '../node_modules/@polkadot/')],
+      },
+      {
+        test: /\.m?js$/,
         use: [
-          require.resolve('@open-wc/webpack-import-meta-loader'),
           {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/env'],
+              presets: [
+                '@babel/preset-env',
+                {
+                  exclude: ['transform-exponentiation-operator'],
+                },
+              ],
             },
           },
         ],
       
-        include: [path.resolve(__dirname, '../node_modules/@polkadot/')],
+        include: [path.resolve(__dirname, '../node_modules/@polkadot/'), path.resolve(__dirname, '../node_modules/ecpair/')],
       },
       {
         // "oneOf" will traverse all following loaders until one will
@@ -405,6 +414,18 @@ module.exports = {
         },
       },
     }),
+    new webpack.NormalModuleReplacementPlugin(
+      /@emurgo\/cardano-serialization-lib-nodejs/,
+      '@emurgo/cardano-serialization-lib-browser',
+    ),
+    new webpack.ContextReplacementPlugin(/cardano-serialization-lib-browser/),
+    new webpack.NormalModuleReplacementPlugin(
+      /@polkadot\/util$/,
+      function(resource) {
+        resource.request = resource.request + '/bundle-polkadot-util.js';
+      },
+    ),
+    new webpack.ContextReplacementPlugin(/bundle-polkadot-util.js/),
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
@@ -416,7 +437,7 @@ module.exports = {
     child_process: 'empty',
   },
   externals: {
-    "vm2": "require('vm2')",
-    "crypto": "require('crypto')"
+    vm2: "require('vm2')",
+    crypto: "require('crypto')",
   },
 };

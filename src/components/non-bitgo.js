@@ -67,6 +67,17 @@ class NonBitGoRecoveryForm extends Component {
       'maxFeePerGas',
       'maxPriorityFeePerGas',
     ],
+    ethw: [
+      'userKey',
+      'backupKey',
+      'walletContractAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
+    ],
     xrp: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'walletPassphrase', 'recoveryDestination'],
     trx: ['userKey', 'backupKey', 'bitgoKey', 'walletPassphrase', 'recoveryDestination'],
@@ -128,7 +139,7 @@ class NonBitGoRecoveryForm extends Component {
         coin = bitgo.coin(coinTicker);
       }
     } else {
-      const coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      const coinTicker = this.state.env === 'test' && this.state.coin !== 'ethw' ? `t${this.state.coin}` : this.state.coin;
       coin = bitgo.coin(coinTicker);
     }
 
@@ -197,7 +208,7 @@ class NonBitGoRecoveryForm extends Component {
       }
     }
 
-    if (this.state.coin === 'eth' || this.state.coin === 'token') {
+    if (this.state.coin === 'eth' || this.state.coin === 'token' || this.state.coin === 'ethw') {
       recoveryParams = {
         ...recoveryParams,
         eip1559: {
@@ -205,7 +216,7 @@ class NonBitGoRecoveryForm extends Component {
           maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
         },
         replayProtectionOptions: {
-          chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
+          chain: this.state.coin === 'ethw' ? NaN : this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
           hardfork: Hardfork.London,
         },
       };

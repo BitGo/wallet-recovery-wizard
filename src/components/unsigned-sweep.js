@@ -7,7 +7,6 @@ import { omit } from 'lodash';
 import classNames from 'classnames';
 import ErrorMessage from './error-message';
 import * as BitGoJS from 'bitgo';
-import * as Errors from 'bitgo/dist/src/errors';
 
 import tooltips from 'constants/tooltips';
 import coinConfig from 'constants/coin-config';
@@ -63,6 +62,19 @@ class UnsignedSweep extends Component {
       'maxFeePerGas',
       'maxPriorityFeePerGas',
     ],
+    ethw: [
+      'userKey',
+      'userKeyID',
+      'backupKey',
+      'backupKeyID',
+      'walletContractAddress',
+      'walletPassphrase',
+      'recoveryDestination',
+      'apiKey',
+      'gasLimit',
+      'maxFeePerGas',
+      'maxPriorityFeePerGas',
+    ],
     xrp: ['userKey', 'userKeyID', 'backupKey', 'backupKeyID', 'rootAddress', 'recoveryDestination'],
     xlm: ['userKey', 'backupKey', 'rootAddress', 'recoveryDestination'],
     token: [
@@ -99,7 +111,7 @@ class UnsignedSweep extends Component {
         coin = bitgo.coin(coinTicker);
       }
     } else {
-      let coinTicker = this.state.env === 'test' ? `t${this.state.coin}` : this.state.coin;
+      let coinTicker = this.state.env === 'test' && this.state.coin !== 'ethw' ? `t${this.state.coin}` : this.state.coin;
       // Goerli testnet is denoted by gteth which is different from our normal convention of denoting
       // test coins
       coinTicker = this.state.coin === 'eth' && this.state.env === 'test' ? `g${coinTicker}` : coinTicker;
@@ -232,7 +244,7 @@ class UnsignedSweep extends Component {
         recoveryParams.gasLimit = 500000;
       }
 
-      if (this.state.coin === 'eth' || this.state.coin === 'token') {
+      if (this.state.coin === 'eth' || this.state.coin === 'token' || this.state.coin === 'ethw') {
         recoveryParams = {
           ...recoveryParams,
           eip1559: {
@@ -240,7 +252,7 @@ class UnsignedSweep extends Component {
             maxPriorityFeePerGas: toWei(recoveryParams.maxPriorityFeePerGas),
           },
           replayProtectionOptions: {
-            chain: this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
+            chain: this.state.coin === 'ethw' ? NaN : this.state.env === 'prod' ? Chain.Mainnet : Chain.Goerli,
             hardfork: Hardfork.London,
           },
         };
@@ -281,7 +293,7 @@ class UnsignedSweep extends Component {
       ];
 
       if (!recoveryPrebuild) {
-        throw new Errors.ErrorNoInputToRecover();
+        throw new BitGoJS.ErrorNoInputToRecover();
       }
 
       const fileName = baseCoin.getChain() + '-unsigned-sweep-' + Date.now().toString() + '.json';

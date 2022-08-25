@@ -1,4 +1,4 @@
-import * as Errors from 'bitgo/dist/src/errors';
+import { ErrorNoInputToRecover } from 'bitgo';
 
 import * as utxolib from '@bitgo/utxo-lib';
 import coinConfig from './constants/coin-config';
@@ -82,7 +82,7 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
     } catch (e) {
       // if this current path we try yields us no inputs to recover, we catch the
       // error and move on to the next iteration and continue trying the remaining paths
-      if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) {
+      if (e.constructor.name !== ErrorNoInputToRecover.name) {
         throw new Error(e.message);
       }
     }
@@ -90,7 +90,7 @@ export async function recoverWithKeyPath(baseCoin, recoveryParams) {
   // if we couldn't build a tx here, it must have been the case that there were no inputs available
   // to recover. All the other errors would have been caught and thrown already by the line:
   // if (e.constructor.name !== Errors.ErrorNoInputToRecover.name) { throw new Error(e.message);}
-  throw new Errors.ErrorNoInputToRecover();
+  throw new ErrorNoInputToRecover();
 }
 
 const GWEI = 10 ** 9;

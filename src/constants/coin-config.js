@@ -105,6 +105,14 @@ export default {
         { label: 'Testnet (Goerli)', value: 'test' },
       ],
     },
+    ethw: {
+      fullName: 'Ethereum PoW',
+      supportedRecoveries: [],
+      icon: ethIcon,
+      envOptions: [
+        { label: 'Mainnet', value: 'prod' },
+      ],
+    },
     token: {
       fullName: 'ERC20 Token',
       supportedRecoveries: [],
@@ -136,12 +144,12 @@ export default {
   supportedRecoveries: {
     crossChain: ['btc', 'bch', 'ltc'],
     nonBitGo: {
-      test: ['btc', 'eth', 'xrp', 'xlm', 'token', 'trx', 'eos'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
+      test: ['btc', 'eth', 'ethw', 'xrp', 'xlm', 'token', 'trx', 'eos'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'ethw', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     unsignedSweep: {
-      test: ['btc', 'xrp', 'xlm', 'eth', 'token', 'trx', 'eos'],
-      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
+      test: ['btc', 'xrp', 'xlm', 'eth', 'ethw', 'token', 'trx', 'eos'],
+      prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'ethw', 'token', 'trx', 'bsv', 'bcha', 'eos'],
     },
     migrated: {
       test: ['bch', 'bsv'],
