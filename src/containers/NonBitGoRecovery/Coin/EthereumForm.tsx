@@ -30,7 +30,7 @@ export type EthereumFormProps = {
   onSubmit: (
     values: EthereumFormValues,
     formikHelpers: FormikHelpers<EthereumFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type EthereumFormValues = {

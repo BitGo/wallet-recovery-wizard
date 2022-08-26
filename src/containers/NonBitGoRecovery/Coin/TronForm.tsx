@@ -6,7 +6,6 @@ import {
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
@@ -24,7 +23,7 @@ export type TronFormProps = {
   onSubmit: (
     values: TronFormValues,
     formikHelpers: FormikHelpers<TronFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type TronFormValues = {

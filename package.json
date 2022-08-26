@@ -43,7 +43,10 @@
     "autoprefixer": "^10.4.8",
     "electron": "^20.0.2",
     "electron-builder": "^23.3.3",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-react": "^7.31.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "jest": "^27.5.1",
     "react": "^18.2.0",
@@ -60,9 +63,12 @@
     "node": "16.15.0",
     "npm": "8.5.5"
   },
-  "env": {
-    "VITE_DEV_SERVER_HOST": "127.0.0.1",
-    "VITE_DEV_SERVER_PORT": 7777
+  "debug": {
+    "env": {
+      "VITE_DEV_SERVER_HOST": "127.0.0.1",
+      "VITE_DEV_SERVER_PORT": 7777,
+      "VITE_DEV_SERVER_URL": "http://127.0.0.1:7777"
+    }
   },
   "keywords": [],
   "license": "Apache-2.0",

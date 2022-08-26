@@ -20,6 +20,20 @@
   "settings": {
     "react": {
       "version": "detect"
+    },
+    "import/resolver": {
+      "alias": {
+        "map": [["~", "./src"]],
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
     }
+  },
+  "rules": {
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": ["\\.svg$"]
+      }
+    ]
   }
 }

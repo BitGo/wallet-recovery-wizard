@@ -1,8 +1,8 @@
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { release } from 'os';
 import { join } from 'path';
 import { BitGoAPI } from '@bitgo/sdk-api';
-import { AbstractUtxoCoin, backupKeyRecovery } from '@bitgo/abstract-utxo';
+import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
 import { Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Xlm, Txlm } from '@bitgo/sdk-coin-xlm';
@@ -16,7 +16,6 @@ import { Dash } from '@bitgo/sdk-coin-dash';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
-import { dialog } from 'electron';
 import fs from 'node:fs/promises';
 
 // Disable GPU Acceleration for Windows 7
@@ -40,8 +39,7 @@ export const ROOT_PATH = {
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/index.js');
-// 🚧 Use ['ENV_NAME'] avoid vite:define plugin
-const url = process.env.VITE_DEV_SERVER_URL as string;
+const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(ROOT_PATH.dist, 'index.html');
 
 async function createWindow() {
