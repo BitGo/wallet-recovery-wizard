@@ -5,10 +5,7 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
@@ -28,7 +25,7 @@ export type LitecoinFormProps = {
   onSubmit: (
     values: LitecoinFormValues,
     formikHelpers: FormikHelpers<LitecoinFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type LitecoinFormValues = {

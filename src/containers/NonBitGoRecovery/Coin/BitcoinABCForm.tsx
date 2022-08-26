@@ -8,7 +8,6 @@ import {
   Icon,
   Notice,
 } from '~/components';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
@@ -28,7 +27,7 @@ export type BitcoinABCFormProps = {
   onSubmit: (
     values: BitcoinABCFormValues,
     formikHelpers: FormikHelpers<BitcoinABCFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type BitcoinABCFormValues = {

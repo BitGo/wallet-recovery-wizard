@@ -6,7 +6,6 @@ import {
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
@@ -25,7 +24,7 @@ export type BitcoinFormProps = {
   onSubmit: (
     values: BitcoinFormValues,
     formikHelpers: FormikHelpers<BitcoinFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type BitcoinFormValues = {

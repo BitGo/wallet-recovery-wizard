@@ -27,7 +27,7 @@ export type ERC20FormProps = {
   onSubmit: (
     values: ERC20FormValues,
     formikHelpers: FormikHelpers<ERC20FormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type ERC20FormValues = {

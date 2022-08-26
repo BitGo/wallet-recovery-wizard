@@ -7,7 +7,6 @@ import {
   FormikTextfield,
 } from '~/components';
 import { Link } from 'react-router-dom';
-import React from 'react';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -24,7 +23,7 @@ export type RippleFormProps = {
   onSubmit: (
     values: RippleFormValues,
     formikHelpers: FormikHelpers<RippleFormValues>
-  ) => void | Promise<any>;
+  ) => void | Promise<void>;
 };
 
 type RippleFormValues = {

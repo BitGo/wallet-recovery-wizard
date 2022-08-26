@@ -120,6 +120,7 @@ export function Coin() {
                 values;
               const recoveryParams = {
                 ...rest,
+                gasLimit: Number(gasLimit),
                 eip1559: {
                   maxFeePerGas: toWei(Number(maxFeePerGas)),
                   maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
