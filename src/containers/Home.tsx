@@ -50,7 +50,7 @@ export default function Home() {
                 />
                 <LinkCardItem
                   Tag={Link}
-                  to="/"
+                  to={`/${env}/build-unsigned-sweep`}
                   Title="Build Unsigned Sweep"
                   Description="Build an unsigned transaction to sweep a wallet without using BitGo."
                 />

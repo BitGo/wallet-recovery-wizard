@@ -16,6 +16,9 @@ type Commands = {
     data: string,
     options?: ObjectEncodingOptions
   ): Promise<void>;
+  showMessageBox(
+    options: Electron.MessageBoxOptions
+  ): Promise<Electron.MessageBoxReturnValue>;
   showSaveDialog(
     options: Electron.SaveDialogOptions
   ): Promise<Electron.SaveDialogReturnValue>;
@@ -30,22 +33,36 @@ type Commands = {
 };
 
 type Queries = {
-  getBitGoEnvironments(): Promise<['prod', 'test']>;
+  deriveKeyWithSeed(
+    coin: string,
+    key: string,
+    seed: string
+  ): Promise<{
+    key: string;
+    derivationPath: string;
+  }>;
+  deriveKeyByPath(key: string, id: string): Promise<string>;
   getChain(coin: string): Promise<string>;
 };
 
 const queries: Queries = {
+  deriveKeyWithSeed(coin, key, seed) {
+    return ipcRenderer.invoke('deriveKeyWithSeed', coin, key, seed);
+  },
+  deriveKeyByPath(key, id) {
+    return ipcRenderer.invoke('deriveKeyByPath', key, id);
+  },
   getChain(coin) {
     return ipcRenderer.invoke('getChain', coin);
-  },
-  getBitGoEnvironments() {
-    return ipcRenderer.invoke('getBitgoEnvironments');
   },
 };
 
 const commands: Commands = {
   writeFile(file, data, options) {
     return ipcRenderer.invoke('writeFile', file, data, options);
+  },
+  showMessageBox(options) {
+    return ipcRenderer.invoke('showMessageBox', options);
   },
   showSaveDialog(options) {
     return ipcRenderer.invoke('showSaveDialog', options);

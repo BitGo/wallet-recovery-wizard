@@ -17,6 +17,7 @@ import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import fs from 'node:fs/promises';
+import { fromBase58 } from 'bip32';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -41,6 +42,29 @@ let win: BrowserWindow | null = null;
 const preload = join(__dirname, '../preload/index.js');
 const url = process.env.VITE_DEV_SERVER_URL;
 const indexHtml = join(ROOT_PATH.dist, 'index.html');
+
+let sdk = new BitGoAPI({
+  env: 'test',
+});
+sdk.register('btc', Btc.createInstance);
+sdk.register('tbtc', Tbtc.createInstance);
+sdk.register('eth', Eth.createInstance);
+sdk.register('gteth', Gteth.createInstance);
+sdk.register('eos', Eos.createInstance);
+sdk.register('teos', Teos.createInstance);
+sdk.register('xlm', Xlm.createInstance);
+sdk.register('txlm', Txlm.createInstance);
+sdk.register('xrp', Xrp.createInstance);
+sdk.register('txrp', Txrp.createInstance);
+sdk.register('bch', Bch.createInstance);
+sdk.register('ltc', Ltc.createInstance);
+sdk.register('btg', Btg.createInstance);
+sdk.register('dash', Dash.createInstance);
+sdk.register('zec', Zec.createInstance);
+sdk.register('bcha', Bcha.createInstance);
+sdk.register('bsv', Bsv.createInstance);
+sdk.register('trx', Trx.createInstance);
+sdk.register('ttrx', Ttrx.createInstance);
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -69,48 +93,44 @@ async function createWindow() {
     return { action: 'deny' };
   });
 
-  let sdk = new BitGoAPI({
-    env: 'test',
-  });
-  sdk.register('btc', Btc.createInstance);
-  sdk.register('tbtc', Tbtc.createInstance);
-  sdk.register('eth', Eth.createInstance);
-  sdk.register('gteth', Gteth.createInstance);
-  sdk.register('eos', Eos.createInstance);
-  sdk.register('teos', Teos.createInstance);
-  sdk.register('xlm', Xlm.createInstance);
-  sdk.register('txlm', Txlm.createInstance);
-  sdk.register('xrp', Xrp.createInstance);
-  sdk.register('txrp', Txrp.createInstance);
-  sdk.register('bch', Bch.createInstance);
-  sdk.register('ltc', Ltc.createInstance);
-  sdk.register('btg', Btg.createInstance);
-  sdk.register('dash', Dash.createInstance);
-  sdk.register('zec', Zec.createInstance);
-  sdk.register('bcha', Bcha.createInstance);
-  sdk.register('bsv', Bsv.createInstance);
-  sdk.register('trx', Trx.createInstance);
-  sdk.register('ttrx', Ttrx.createInstance);
+  // commands
 
-  ipcMain.handle('getBitgoEnvironments', async () => {
-    return await Promise.resolve(['test', 'prod']);
-  });
   ipcMain.handle('setBitgoEnvironment', async (event, environment, apiKey) => {
     sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
     return await Promise.resolve();
   });
+
   ipcMain.handle('recover', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     return await baseCoin.recover(parameters);
   });
-  ipcMain.handle('getChain', (event, coin) => {
-    return sdk.coin(coin).getChain();
+
+  ipcMain.handle('showMessageBox', async (event, options) => {
+    return await dialog.showMessageBox(options);
   });
+
   ipcMain.handle('showSaveDialog', async (event, options) => {
     return await dialog.showSaveDialog(options);
   });
+
   ipcMain.handle('writeFile', async (event, file, data, options) => {
     return await fs.writeFile(file, data, options);
+  });
+
+  // queries
+
+  ipcMain.handle('deriveKeyWithSeed', (event, coin, key, seed) => {
+    return sdk.coin(coin).deriveKeyWithSeed({ key, seed });
+  });
+
+  ipcMain.handle('deriveKeyByPath', (event, key, id) => {
+    const node = fromBase58(key);
+    const derivedNode = node.derivePath(id);
+    return derivedNode.toBase58();
+  });
+
+  ipcMain.handle('getChain', (event, coin) => {
+    return sdk.coin(coin).getChain();
   });
 }
 
