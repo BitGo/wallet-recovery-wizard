@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { RecoveryCoinsSelectAutocomplete } from './RecoveryCoinsSelectAutocomplete';
 
 const meta: ComponentMeta<typeof RecoveryCoinsSelectAutocomplete> = {
-  title: 'Components/RecoveryCoinsSelectAutocomplete',
   component: RecoveryCoinsSelectAutocomplete,
   parameters: {
     reactRouter: {

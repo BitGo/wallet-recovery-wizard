@@ -3,7 +3,6 @@ import { Icon } from '../Icon';
 import { Notice } from './Notice';
 
 const meta: ComponentMeta<typeof Notice> = {
-  title: 'Components/Notice',
   component: Notice,
   args: {
     Variant: 'Secondary',

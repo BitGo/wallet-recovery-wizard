@@ -5,7 +5,6 @@ import { Icon } from '../Icon/Icon';
 import { Button } from './Button';
 
 const meta: ComponentMeta<typeof Button> = {
-  title: 'Components/Button',
   component: Button,
   subcomponents: { IconLeft: Icon, IconRight: Icon },
   args: {

@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { CryptocurrencyIcon } from './CryptocurrencyIcon';
 
 const meta: ComponentMeta<typeof CryptocurrencyIcon> = {
-  title: 'components/CryptocurrencyIcon',
   component: CryptocurrencyIcon,
   args: {
     Name: '$pac',

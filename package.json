@@ -26,14 +26,14 @@
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
-    "@playwright/test": "^1.25.0",
+    "@playwright/test": "^1.25.1",
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
     "@storybook/builder-vite": "^0.2.2",
     "@storybook/jest": "^0.0.10",
     "@storybook/react": "^6.5.9",
-    "@storybook/test-runner": "^0.5.0",
+    "@storybook/test-runner": "^0.7.0",
     "@storybook/testing-library": "^0.0.13",
     "@testing-library/react": "^13.3.0",
     "@types/react": "^18.0.17",
@@ -41,22 +41,24 @@
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@vitejs/plugin-react": "^2.0.1",
     "autoprefixer": "^10.4.8",
-    "electron": "^20.0.2",
+    "concurrently": "^7.3.0",
+    "electron": "^20.1.0",
     "electron-builder": "^23.3.3",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-react": "^7.31.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "jest": "^27.5.1",
+    "http-server": "^14.1.1",
+    "jsdom": "^20.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "storybook-addon-react-router-v6": "^0.1.14",
     "tailwindcss": "^3.1.8",
     "ts-node": "^10.9.1",
-    "typescript": "^4.7.4",
+    "typescript": "^4.8.2",
     "vite": "^3.0.7",
-    "vite-plugin-electron": "^0.9.0",
+    "vite-plugin-electron": "^0.9.1",
     "vitest": "^0.22.1"
   },
   "engines": {
@@ -74,13 +76,8 @@
   "license": "Apache-2.0",
   "main": "dist/electron/main/index.js",
   "name": "wallet-recovery-wizard",
-  "overrides": {
-    "@storybook/test-runner": {
-      "jest-playwright-preset": "^1.7.2"
-    }
-  },
   "private": true,
-  "productName": "Wallet Recovery Wizard",
+  "productName": "BitGo Wallet Recovery Wizard",
   "scripts": {
     "build": "tsc && vite build && electron-builder",
     "dev": "vite",
@@ -92,7 +89,9 @@
     "playwright:test": "playwright test",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
+    "storybook:preview": "http-server storybook-static --port 6006 --silent",
     "storybook:test": "test-storybook",
+    "storybook:test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx start-storybook --ci -p 6006\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
     "test": "vitest"
   },
   "version": "4.0.0"

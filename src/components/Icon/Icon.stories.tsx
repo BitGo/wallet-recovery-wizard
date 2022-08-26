@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { Icon } from './Icon';
 
 const meta: ComponentMeta<typeof Icon> = {
-  title: 'Components/Icon',
   component: Icon,
 };
 

@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { Textfield } from './Textfield';
 
 const meta: ComponentMeta<typeof Textfield> = {
-  title: 'Components/Textfield',
   component: Textfield,
   args: {
     Disabled: false,

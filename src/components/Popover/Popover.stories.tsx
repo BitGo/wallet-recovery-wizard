@@ -5,7 +5,6 @@ import { Searchfield } from '../Searchfield';
 import { Popover } from './Popover';
 
 const meta: ComponentMeta<typeof Popover> = {
-  title: 'Components/Popover',
   component: Popover,
   args: {
     open: true,

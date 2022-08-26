@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { Selectfield } from './Selectfield';
 
 const meta: ComponentMeta<typeof Selectfield> = {
-  title: 'Components/Selectfield',
   component: Selectfield,
   args: {
     children: [

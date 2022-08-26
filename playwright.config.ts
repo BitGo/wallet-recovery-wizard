@@ -42,7 +42,7 @@ const config: PlaywrightTestConfig = {
   },
   webServer: {
     port: 7777,
-    command: 'npm run dev',
+    command: 'NODE_ENV=test npm run dev',
   },
 };
 

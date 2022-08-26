@@ -2,7 +2,6 @@ import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import NonBitGoRecovery from './NonBitGoRecovery';
 
 const meta: ComponentMeta<typeof NonBitGoRecovery> = {
-  title: 'containers/NonBitGoRecovery',
   component: NonBitGoRecovery,
   parameters: {
     layout: 'fullscreen',

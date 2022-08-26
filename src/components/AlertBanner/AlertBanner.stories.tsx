@@ -3,7 +3,6 @@ import { Icon } from '../Icon';
 import { AlertBanner } from './AlertBanner';
 
 const meta: ComponentMeta<typeof AlertBanner> = {
-  title: 'Components/AlertBanner',
   component: AlertBanner,
   args: {
     Variant: 'destructive',

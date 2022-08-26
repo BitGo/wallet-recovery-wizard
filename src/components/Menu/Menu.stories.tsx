@@ -4,7 +4,6 @@ import { Menu } from './Menu';
 import { MenuItem } from './MenuItem';
 
 const meta: ComponentMeta<typeof Menu> = {
-  title: 'Components/Menu',
   component: Menu,
   subcomponents: { MenuItem },
   args: {

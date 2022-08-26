@@ -3,7 +3,6 @@ import { LinkCard } from './LinkCard';
 import { LinkCardItem } from './LinkCardItem';
 
 const meta: ComponentMeta<typeof LinkCard> = {
-  title: 'Components/LinkCard',
   component: LinkCard,
   subcomponents: { LinkCardItem },
   args: {

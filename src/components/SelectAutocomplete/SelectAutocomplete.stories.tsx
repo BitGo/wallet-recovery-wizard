@@ -4,7 +4,6 @@ import { SelectAutocomplete } from './SelectAutocomplete';
 import { SelectAutocompleteItem } from './SelectAutocompleteItem';
 
 const meta: ComponentMeta<typeof SelectAutocomplete> = {
-  title: 'Components/SelectAutocomplete',
   component: SelectAutocomplete,
   args: {
     children: [

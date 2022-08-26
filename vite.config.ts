@@ -44,12 +44,13 @@ export default defineConfig({
       },
     }),
   ],
-  server: process.env.VSCODE_DEBUG
-    ? {
-        host: pkg.debug.env.VITE_DEV_SERVER_HOST,
-        port: pkg.debug.env.VITE_DEV_SERVER_PORT,
-      }
-    : undefined,
+  server:
+    process.env.VSCODE_DEBUG || process.env.NODE_ENV === 'test'
+      ? {
+          host: pkg.debug.env.VITE_DEV_SERVER_HOST,
+          port: pkg.debug.env.VITE_DEV_SERVER_PORT,
+        }
+      : undefined,
 });
 
 function withDebug(config: UserConfig): UserConfig {

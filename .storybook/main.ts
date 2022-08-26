@@ -2,7 +2,11 @@ import type { StorybookViteConfig } from '@storybook/builder-vite';
 import { loadConfigFromFile, mergeConfig } from 'vite';
 
 const config: StorybookViteConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx|mdx)'],
+  stories: [
+    { titlePrefix: 'Components', directory: '../src/components' },
+    { titlePrefix: 'Containers', directory: '../src/containers' },
+    '../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
+  ],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-essentials',
@@ -14,6 +18,7 @@ const config: StorybookViteConfig = {
     builder: '@storybook/builder-vite',
   },
   features: {
+    buildStoriesJson: true,
     interactionsDebugger: true,
     storyStoreV7: true,
   },
