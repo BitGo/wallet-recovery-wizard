@@ -43,7 +43,7 @@ function isRecoveryTransaction(
 export function Coin() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
-  console.log(coin);
+  console.log(`Coin: ${coin} Env: ${bitGoEnvironment}`);
   const [, setAlert] = useAlertBanner();
 
   switch (coin) {

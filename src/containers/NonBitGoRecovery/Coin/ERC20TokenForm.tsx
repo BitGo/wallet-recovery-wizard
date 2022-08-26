@@ -15,29 +15,27 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
+  tokenContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  gasLimit: Yup.number()
-    .typeError('Gas limit must be a number')
-    .integer()
-    .positive('Gas limit must be a positive integer')
-    .required(),
+  gasLimit: Yup.string().required(),
   maxFeePerGas: Yup.string().required(),
   maxPriorityFeePerGas: Yup.string().required(),
 });
 
-export type EthereumFormProps = {
+export type ERC20FormProps = {
   onSubmit: (
-    values: EthereumFormValues,
-    formikHelpers: FormikHelpers<EthereumFormValues>
+    values: ERC20FormValues,
+    formikHelpers: FormikHelpers<ERC20FormValues>
   ) => void | Promise<any>;
 };
 
-type EthereumFormValues = {
+type ERC20FormValues = {
   apiKey: string;
   userKey: string;
   backupKey: string;
   walletContractAddress: string;
+  tokenContractAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
   krsProvider: string;
@@ -46,13 +44,14 @@ type EthereumFormValues = {
   maxPriorityFeePerGas: string;
 };
 
-export function EthereumForm({ onSubmit }: EthereumFormProps) {
-  const formik = useFormik<EthereumFormValues>({
+export function ERC20Form({ onSubmit }: ERC20FormProps) {
+  const formik = useFormik<ERC20FormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',
       userKey: '',
       backupKey: '',
+      tokenContractAddress: '',
       walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
@@ -120,6 +119,15 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             Width="fill"
             Label="Wallet Contract Address"
             HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
+            placeholder="Enter wallet contract address..."
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            name="tokenContractAddress"
+            Width="fill"
+            Label="Token Contract Address"
+            HelperText="The address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address."
             placeholder="Enter wallet contract address..."
           />
         </div>

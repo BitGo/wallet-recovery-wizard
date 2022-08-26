@@ -1,65 +1,59 @@
 import * as Yup from 'yup';
-import { FormikProvider, Form, FormikHelpers, useFormik } from 'formik';
+import { useFormik, Form, FormikProvider, FormikHelpers } from 'formik';
 import {
   Button,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
+  Icon,
+  Notice,
 } from '~/components';
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
+  apiKey: Yup.string().required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  walletContractAddress: Yup.string().required(),
+  bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  gasLimit: Yup.number()
-    .typeError('Gas limit must be a number')
-    .integer()
-    .positive('Gas limit must be a positive integer')
-    .required(),
-  maxFeePerGas: Yup.string().required(),
-  maxPriorityFeePerGas: Yup.string().required(),
+  scan: Yup.string().required(),
 });
 
-export type EthereumFormProps = {
+export type LitecoinFormProps = {
   onSubmit: (
-    values: EthereumFormValues,
-    formikHelpers: FormikHelpers<EthereumFormValues>
+    values: LitecoinFormValues,
+    formikHelpers: FormikHelpers<LitecoinFormValues>
   ) => void | Promise<any>;
 };
 
-type EthereumFormValues = {
+type LitecoinFormValues = {
   apiKey: string;
   userKey: string;
   backupKey: string;
-  walletContractAddress: string;
+  bitgoKey: string;
   walletPassphrase: string;
   recoveryDestination: string;
+  scan: string;
   krsProvider: string;
-  gasLimit: string;
-  maxFeePerGas: string;
-  maxPriorityFeePerGas: string;
 };
 
-export function EthereumForm({ onSubmit }: EthereumFormProps) {
-  const formik = useFormik<EthereumFormValues>({
+export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
+  const formik = useFormik<LitecoinFormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',
       userKey: '',
       backupKey: '',
-      walletContractAddress: '',
+      bitgoKey: '',
       walletPassphrase: '',
       recoveryDestination: '',
+      scan: '20',
       krsProvider: '',
-      gasLimit: '500000',
-      maxFeePerGas: '20',
-      maxPriorityFeePerGas: '10',
     },
     validationSchema,
   });
@@ -92,7 +86,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             name="apiKey"
             Width="fill"
             Label="API Key"
-            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
             placeholder="Enter API key..."
           />
         </div>
@@ -115,12 +109,12 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
-            name="walletContractAddress"
-            Width="fill"
-            Label="Wallet Contract Address"
-            HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
-            placeholder="Enter wallet contract address..."
+          <FormikTextarea
+            name="bitgoKey"
+            Label="Box C Value"
+            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
+            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
+            rows={2}
           />
         </div>
         <div className="tw-mb-4">
@@ -143,29 +137,10 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="gasLimit"
+            name="scan"
+            Label="Address Scanning Factor"
+            HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Width="fill"
-            Label="Gas limit"
-            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
-            defaultValue={500000}
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            name="maxFeePerGas"
-            Width="fill"
-            Label="Max Fee Per Gas (Gwei)"
-            HelperText="Max fee per gas for the ETH transaction. The default is 20 Gwei."
-            defaultValue={20}
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            name="maxPriorityFeePerGas"
-            Width="fill"
-            Label="Max Priority Fee Per Gas (Gwei)"
-            HelperText='"Tip" to the ETH miner. The default is 10 Gwei.'
-            defaultValue={10}
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">

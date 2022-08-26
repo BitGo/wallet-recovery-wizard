@@ -86,7 +86,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           <FormikTextarea
             name="backupKey"
             Label="Box B Value"
-            HelperText={ backupKeyHelperText }
+            HelperText={backupKeyHelperText}
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
           />
