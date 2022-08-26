@@ -6,7 +6,7 @@ const meta: ComponentMeta<typeof NonBitGoRecovery> = {
   parameters: {
     layout: 'fullscreen',
     reactRouter: {
-      routePath: '/non-bitgo-recovery/:env',
+      routePath: '/:env/non-bitgo-recovery',
       routeParams: { env: 'test' },
     },
   },

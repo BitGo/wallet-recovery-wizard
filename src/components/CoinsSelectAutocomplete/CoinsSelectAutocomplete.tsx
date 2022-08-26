@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { CryptocurrencyIcon } from '../CryptocurrencyIcon';
 import { SelectAutocomplete } from '../SelectAutocomplete';
 import { SelectAutocompleteItem } from '../SelectAutocomplete/SelectAutocompleteItem';
@@ -136,8 +136,13 @@ const test = [
   },
 ] as const;
 
-export function RecoveryCoinsSelectAutocomplete() {
-  const navigate = useNavigate();
+export type CoinsSelectAutocompleteProps = {
+  onChange: React.ChangeEventHandler<HTMLSelectElement>;
+};
+
+export function CoinsSelectAutocomplete({
+  onChange,
+}: CoinsSelectAutocompleteProps) {
   const { env = 'test' } = useParams<'env'>();
   const envTitle = env === 'prod' ? 'Mainnet' : 'Testnet';
   const data = env === 'prod' ? prod : test;
@@ -174,9 +179,7 @@ export function RecoveryCoinsSelectAutocomplete() {
         </div>
       }
       Width="fill"
-      onChange={event => {
-        navigate(`/non-bitgo-recovery/${env}/${event.currentTarget.value}`);
-      }}
+      onChange={onChange}
     >
       {children}
     </SelectAutocomplete>

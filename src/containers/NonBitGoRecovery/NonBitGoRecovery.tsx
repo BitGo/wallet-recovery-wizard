@@ -1,26 +1,21 @@
 import { AlertBannerContext } from '~/contexts';
 import * as React from 'react';
-import { Route, Routes, useParams } from 'react-router-dom';
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import {
   AlertBanner,
   BackToHomeHeader,
   Icon,
-  RecoveryCoinsSelectAutocomplete,
+  CoinsSelectAutocomplete,
 } from '~/components';
 import { Coin } from './Coin';
 import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 
 export default function NonBitGoRecovery() {
-  const { env, coin } = useParams<'env' | 'coin'>();
+  const { env } = useParams<'env' | 'coin'>();
+  const navigate = useNavigate();
 
   const alertState = React.useState<string | undefined>();
-  const [alert, setAlert] = alertState;
-
-  React.useEffect(() => {
-    if (coin !== '') {
-      setAlert(undefined);
-    }
-  }, [coin, setAlert]);
+  const [alert] = alertState;
 
   if (env !== 'prod' && env !== 'test') {
     throw new Error('env is not defined.');
@@ -48,7 +43,13 @@ export default function NonBitGoRecovery() {
           </div>
           <div className="tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-pt-8 tw-pb-4 tw-px-8">
             <div className="tw-mb-8">
-              <RecoveryCoinsSelectAutocomplete />
+              <CoinsSelectAutocomplete
+                onChange={event => {
+                  navigate(
+                    `/${env}/non-bitgo-recovery/${event.currentTarget.value}`
+                  );
+                }}
+              />
             </div>
             <AlertBannerContext.Provider value={alertState}>
               <Routes>

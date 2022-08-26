@@ -64,7 +64,7 @@ export function BitcoinSVForm({ onSubmit }: BitcoinSVFormProps) {
 
   return (
     <FormikProvider value={formik}>
-      <Form id="non-bitgo-recovery-form">
+      <Form>
         <div className="tw-mb-8">
           <Notice
             Variant="Secondary"

@@ -4,7 +4,7 @@ import { Selectfield, Title, LinkCard, LinkCardItem } from '~/components';
 import logo from '/logo.svg';
 
 export default function Home() {
-  const [BitGoEnvironment, setBitGoEnvironment] = React.useState('test');
+  const [env, setEnv] = React.useState('test');
 
   return (
     <>
@@ -29,10 +29,8 @@ export default function Home() {
               <div className="tw-flex tw-flex-col tw-gap-2">
                 <Selectfield
                   Label="Environment"
-                  value={BitGoEnvironment}
-                  onChange={event =>
-                    setBitGoEnvironment(event.currentTarget.value)
-                  }
+                  value={env}
+                  onChange={event => setEnv(event.currentTarget.value)}
                 >
                   <option value="test">Testnet</option>
                   <option value="prod">Mainnet</option>
@@ -46,7 +44,7 @@ export default function Home() {
               <LinkCard Width="fill" Title="Available Offline">
                 <LinkCardItem
                   Tag={Link}
-                  to={`/non-bitgo-recovery/${BitGoEnvironment}`}
+                  to={`/${env}/non-bitgo-recovery`}
                   Title="Non-BitGo Recovery"
                   Description="Recover wallets using the user and backup key (sign a transaction without BitGo)."
                 />

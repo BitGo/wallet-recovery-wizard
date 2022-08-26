@@ -59,7 +59,7 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
 
   return (
     <FormikProvider value={formik}>
-      <Form id="non-bitgo-recovery-form">
+      <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
           Self-managed hot wallet details
         </h4>

@@ -19,7 +19,7 @@ ReactDOM.createRoot(root).render(
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
           <Route
-            path="non-bitgo-recovery/:env/*"
+            path="/:env/non-bitgo-recovery/*"
             element={<NonBitGoRecovery />}
           />
         </Route>
