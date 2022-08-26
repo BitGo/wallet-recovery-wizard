@@ -5,9 +5,8 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
+import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -15,10 +14,16 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
+  gasLimit: Yup.number()
+    .typeError('Gas limit must be a number')
+    .integer()
+    .positive('Gas limit must be a positive integer')
+    .required(),
+  maxFeePerGas: Yup.string().required(),
+  maxPriorityFeePerGas: Yup.string().required(),
 });
 
 export type EthereumFormProps = {
@@ -29,41 +34,44 @@ export type EthereumFormProps = {
 };
 
 type EthereumFormValues = {
+  apiKey: string;
   userKey: string;
   backupKey: string;
-  bitgoKey: string;
+  walletContractAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
+  gasLimit: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
 };
 
 export function EthereumForm({ onSubmit }: EthereumFormProps) {
   const formik = useFormik<EthereumFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       userKey: '',
       backupKey: '',
-      bitgoKey: '',
+      walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
+      gasLimit: '500000',
+      maxFeePerGas: '20',
+      maxPriorityFeePerGas: '10',
     },
     validationSchema,
   });
 
+  const backupKeyHelperText =
+    formik.values.krsProvider === ''
+      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
+      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+
   return (
     <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
-        <div className="tw-mb-8">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Temp text.
-          </Notice>
-        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
           Self-managed hot wallet details
         </h4>
@@ -101,7 +109,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           <FormikTextarea
             name="backupKey"
             Label="Box B Value"
-            HelperText="TEMP: This one needs to be changed depending on key recovery service."
+            HelperText={backupKeyHelperText}
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
           />
@@ -161,7 +169,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Button Variant="secondary" Width="hug" type="reset">
+          <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
           </Button>
           <Button

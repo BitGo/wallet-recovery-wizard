@@ -6,6 +6,8 @@ import {
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
+import { Link } from 'react-router-dom';
+import React from 'react';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
@@ -13,10 +15,9 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  rootAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
 });
 
 export type RippleFormProps = {
@@ -29,10 +30,9 @@ export type RippleFormProps = {
 type RippleFormValues = {
   userKey: string;
   backupKey: string;
-  bitgoKey: string;
+  rootAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
 };
 
@@ -42,14 +42,18 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
     initialValues: {
       userKey: '',
       backupKey: '',
-      bitgoKey: '',
+      rootAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
     },
     validationSchema,
   });
+
+  const backupKeyHelperText =
+    formik.values.krsProvider === ''
+      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
+      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
 
   return (
     <FormikProvider value={formik}>
@@ -82,13 +86,13 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           <FormikTextarea
             name="backupKey"
             Label="Box B Value"
-            HelperText="TEMP: This one needs to be changed depending on key recovery service."
+            HelperText={backupKeyHelperText}
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
+          <FormikTextfield
             name="rootAddress"
             Label="Root Address"
             HelperText="The root address of the wallet."
@@ -114,7 +118,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-          <Button Variant="secondary" Width="hug" type="reset">
+          <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
           </Button>
           <Button

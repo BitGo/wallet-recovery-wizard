@@ -1,12 +1,11 @@
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider, FormikHelpers } from 'formik';
+import { FormikProvider, Form, FormikHelpers, useFormik } from 'formik';
 import {
   Button,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
@@ -15,40 +14,51 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
+  tokenContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
+  gasLimit: Yup.string().required(),
+  maxFeePerGas: Yup.string().required(),
+  maxPriorityFeePerGas: Yup.string().required(),
 });
 
-export type BitcoinFormProps = {
+export type ERC20FormProps = {
   onSubmit: (
-    values: BitcoinFormValues,
-    formikHelpers: FormikHelpers<BitcoinFormValues>
+    values: ERC20FormValues,
+    formikHelpers: FormikHelpers<ERC20FormValues>
   ) => void | Promise<any>;
 };
 
-type BitcoinFormValues = {
+type ERC20FormValues = {
+  apiKey: string;
   userKey: string;
   backupKey: string;
-  bitgoKey: string;
+  walletContractAddress: string;
+  tokenContractAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
+  gasLimit: string;
+  maxFeePerGas: string;
+  maxPriorityFeePerGas: string;
 };
 
-export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
-  const formik = useFormik<BitcoinFormValues>({
+export function ERC20Form({ onSubmit }: ERC20FormProps) {
+  const formik = useFormik<ERC20FormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       userKey: '',
       backupKey: '',
-      bitgoKey: '',
+      tokenContractAddress: '',
+      walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
+      gasLimit: '500000',
+      maxFeePerGas: '20',
+      maxPriorityFeePerGas: '10',
     },
     validationSchema,
   });
@@ -77,6 +87,15 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            name="apiKey"
+            Width="fill"
+            Label="API Key"
+            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            placeholder="Enter API key..."
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
             name="userKey"
             Label="Box A Value"
@@ -95,12 +114,21 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            name="bitgoKey"
-            Label="Box C Value"
-            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
-            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
-            rows={2}
+          <FormikTextfield
+            name="walletContractAddress"
+            Width="fill"
+            Label="Wallet Contract Address"
+            HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
+            placeholder="Enter wallet contract address..."
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            name="tokenContractAddress"
+            Width="fill"
+            Label="Token Contract Address"
+            HelperText="The address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address."
+            placeholder="Enter wallet contract address..."
           />
         </div>
         <div className="tw-mb-4">
@@ -123,10 +151,29 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="scan"
-            Label="Address Scanning Factor"
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
+            name="gasLimit"
             Width="fill"
+            Label="Gas limit"
+            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
+            defaultValue={500000}
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            name="maxFeePerGas"
+            Width="fill"
+            Label="Max Fee Per Gas (Gwei)"
+            HelperText="Max fee per gas for the ETH transaction. The default is 20 Gwei."
+            defaultValue={20}
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            name="maxPriorityFeePerGas"
+            Width="fill"
+            Label="Max Priority Fee Per Gas (Gwei)"
+            HelperText='"Tip" to the ETH miner. The default is 10 Gwei.'
+            defaultValue={10}
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">

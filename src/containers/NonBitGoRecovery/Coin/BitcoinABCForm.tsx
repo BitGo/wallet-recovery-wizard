@@ -5,6 +5,8 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
+  Icon,
+  Notice,
 } from '~/components';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
@@ -13,6 +15,7 @@ const validationSchema = Yup.object({
   krsProvider: Yup.mixed()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
+  apiKey: Yup.string().required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
@@ -21,14 +24,15 @@ const validationSchema = Yup.object({
   scan: Yup.string().required(),
 });
 
-export type BitcoinFormProps = {
+export type BitcoinABCFormProps = {
   onSubmit: (
-    values: BitcoinFormValues,
-    formikHelpers: FormikHelpers<BitcoinFormValues>
+    values: BitcoinABCFormValues,
+    formikHelpers: FormikHelpers<BitcoinABCFormValues>
   ) => void | Promise<any>;
 };
 
-type BitcoinFormValues = {
+type BitcoinABCFormValues = {
+  apiKey: string;
   userKey: string;
   backupKey: string;
   bitgoKey: string;
@@ -38,10 +42,11 @@ type BitcoinFormValues = {
   krsProvider: string;
 };
 
-export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
-  const formik = useFormik<BitcoinFormValues>({
+export function BitcoinABCForm({ onSubmit }: BitcoinABCFormProps) {
+  const formik = useFormik<BitcoinABCFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       userKey: '',
       backupKey: '',
       bitgoKey: '',
@@ -61,6 +66,17 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form id="non-bitgo-recovery-form">
+        <div className="tw-mb-8">
+          <Notice
+            Variant="Secondary"
+            IconLeft={<Icon Name="warning-sign" Size="small" />}
+          >
+            Bitcoin SV transactions are replayable on Bitcoin Cash and Bitcoin
+            SV. Please make sure you are the owner of the Destination Address to
+            avoid accidentally sending your Bitcoin ABC to an address you do not
+            own.
+          </Notice>
+        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-pb-2">
           Self-managed hot wallet details
         </h4>
@@ -75,6 +91,15 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
             <option value="bitgoKRSv2">BitGo KRS</option>
             <option value="dai">Coincover</option>
           </FormikSelectfield>
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            name="apiKey"
+            Width="fill"
+            Label="API Key"
+            HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
+            placeholder="Enter API key..."
+          />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea

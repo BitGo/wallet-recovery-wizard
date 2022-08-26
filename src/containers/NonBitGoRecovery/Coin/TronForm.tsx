@@ -18,28 +18,26 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
 });
 
-export type BitcoinFormProps = {
+export type TronFormProps = {
   onSubmit: (
-    values: BitcoinFormValues,
-    formikHelpers: FormikHelpers<BitcoinFormValues>
+    values: TronFormValues,
+    formikHelpers: FormikHelpers<TronFormValues>
   ) => void | Promise<any>;
 };
 
-type BitcoinFormValues = {
+type TronFormValues = {
   userKey: string;
   backupKey: string;
   bitgoKey: string;
   walletPassphrase: string;
   recoveryDestination: string;
-  scan: string;
   krsProvider: string;
 };
 
-export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
-  const formik = useFormik<BitcoinFormValues>({
+export function TronForm({ onSubmit }: TronFormProps) {
+  const formik = useFormik<TronFormValues>({
     onSubmit,
     initialValues: {
       userKey: '',
@@ -47,7 +45,6 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
       bitgoKey: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
       krsProvider: '',
     },
     validationSchema,
@@ -119,14 +116,6 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
             Label="Destination Address"
             HelperText="The address your recovery transaction will send to."
             placeholder="Enter destination address..."
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            name="scan"
-            Label="Address Scanning Factor"
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Width="fill"
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
