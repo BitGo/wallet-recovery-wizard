@@ -39,6 +39,66 @@ function isRecoveryTransaction(
   );
 }
 
+async function isDerivationPath(id: string, description: string) {
+  if (id.length > 2 && id.indexOf('m/') === 0) {
+    const response = await window.commands.showMessageBox({
+      type: 'question',
+      buttons: ['Derivation Path', 'Seed'],
+      title: 'Derivation Path?',
+      message: `Is the provided value a Derivation Path or a Seed?\n${description}: ${id}\n`,
+    });
+
+    return !!response.response;
+  }
+
+  return false;
+}
+
+async function updateKeysFromIds<
+  TParams extends {
+    userKey: string;
+    userKeyID?: string;
+    backupKeyID?: string;
+    backupKey: string;
+  }
+>(
+  coin: string,
+  params: TParams
+): Promise<Omit<TParams, 'userKeyID' | 'backupKeyID'>> {
+  const { userKeyID, backupKeyID, ...copy } = params;
+  const data = [
+    {
+      id: userKeyID,
+      key: copy.userKey,
+      description: 'User Key ID',
+      name: 'userKey',
+    },
+    {
+      id: backupKeyID,
+      key: copy.backupKey,
+      description: 'Backup Key ID',
+      name: 'backupKey',
+    },
+  ] as const;
+
+  for await (const item of data) {
+    if (item.id) {
+      if (await isDerivationPath(item.id, item.description)) {
+        copy[item.name] = await window.queries.deriveKeyByPath(
+          item.key,
+          item.id
+        );
+      } else {
+        copy[item.name] = (
+          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+        ).key;
+      }
+    }
+  }
+
+  return copy;
+}
+
 export function Coin() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
@@ -56,16 +116,34 @@ export function Coin() {
             try {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
+                ...(await updateKeysFromIds(coin, values)),
                 ignoreAddressTypes: ['p2wsh'],
+                scan: Number(values.scan),
               });
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
                 );
               }
+
+              const userXpub = values.userKeyID
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.userKey,
+                      values.userKeyID
+                    )
+                  ).key
+                : values.userKey;
+              const backupXpub = values.backupKeyID
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.backupKey,
+                      values.backupKeyID
+                    )
+                  ).key
+                : values['backupKey'];
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -74,7 +152,7 @@ export function Coin() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -83,7 +161,29 @@ export function Coin() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    xpubsWithDerivationPath: {
+                      user: {
+                        xpub: userXpub,
+                        derivedFromParentWithSeed: values.userKeyID
+                          ? values.userKeyID
+                          : undefined,
+                      },
+                      backup: {
+                        xpub: backupXpub,
+                        derivedFromParentWithSeed: values.backupKeyID
+                          ? values.backupKeyID
+                          : undefined,
+                      },
+                      bitgo: { xpub: values.bitgoKey },
+                    },
+                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                  },
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
             } catch (err) {

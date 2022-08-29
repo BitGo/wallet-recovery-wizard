@@ -5,6 +5,7 @@ import { HashRouter, Routes, Route } from 'react-router-dom';
 import App from './containers/App';
 import Home from './containers/Home';
 import NonBitGoRecovery from './containers/NonBitGoRecovery';
+import BuildUnsignedSweep from './containers/BuildUnsignedSweep';
 
 const root = document.getElementById('root');
 
@@ -21,6 +22,10 @@ ReactDOM.createRoot(root).render(
           <Route
             path="/:env/non-bitgo-recovery/*"
             element={<NonBitGoRecovery />}
+          />
+          <Route
+            path="/:env/build-unsigned-sweep/*"
+            element={<BuildUnsignedSweep />}
           />
         </Route>
       </Routes>
