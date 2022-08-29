@@ -102,7 +102,6 @@ async function updateKeysFromIds<
 export function Coin() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
-  console.log(`Coin: ${coin} Env: ${bitGoEnvironment}`);
   const [, setAlert] = useAlertBanner();
 
   switch (coin) {
@@ -115,11 +114,15 @@ export function Coin() {
             setSubmitting(true);
             try {
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, values)),
-                ignoreAddressTypes: ['p2wsh'],
-                scan: Number(values.scan),
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...(await updateKeysFromIds(coin, values)),
+                  ignoreAddressTypes: ['p2wsh'],
+                  scan: Number(values.scan),
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -214,24 +217,24 @@ export function Coin() {
 
               const { gasLimit, maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                 values;
-              const recoveryParams = {
-                ...rest,
-                gasLimit: Number(gasLimit),
-                eip1559: {
-                  maxFeePerGas: toWei(Number(maxFeePerGas)),
-                  maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
-                },
-                replayProtectionOptions: {
-                  chain: bitGoEnvironment === 'prod' ? 1 : 5, //REPLACE WITH CHAIN
-                  hardfork: 'london', //REPLACE WITH HARDFORK
-                },
-                bitgoKey: '',
-                ignoreAddressTypes: [],
-              };
 
               const recoverData = await window.commands.recover(
                 coin,
-                recoveryParams
+                undefined,
+                {
+                  ...rest,
+                  gasLimit: Number(gasLimit),
+                  eip1559: {
+                    maxFeePerGas: toWei(Number(maxFeePerGas)),
+                    maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
+                  },
+                  replayProtectionOptions: {
+                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    hardfork: 'london',
+                  },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
               );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
@@ -283,11 +286,15 @@ export function Coin() {
             setSubmitting(true);
             try {
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: '',
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -337,12 +344,16 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  scan: Number(values.scan),
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -395,12 +406,16 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  scan: Number(values.scan),
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -450,12 +465,16 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  scan: Number(values.scan),
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -497,7 +516,7 @@ export function Coin() {
       return (
         <BitcoinSVForm
           onSubmit={async (values, { setSubmitting }) => {
-            console.log(values);
+            setAlert(undefined);
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
@@ -505,12 +524,16 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                scan: Number(values.scan),
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  scan: Number(values.scan),
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -536,7 +559,6 @@ export function Coin() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
-              setAlert(undefined);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -557,13 +579,15 @@ export function Coin() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              const chainData = await window.queries.getChain(coin);
-              console.log(chainData);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'
@@ -601,7 +625,7 @@ export function Coin() {
           }}
         />
       );
-    case 'erc': //THIS DEFINITELY NEEDS WORK
+    case 'erc':
     case 'gterc':
       return (
         <ERC20Form
@@ -614,11 +638,16 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                bitgoKey: '',
-                ignoreAddressTypes: [],
-              });
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
+                  gasLimit: Number(values.gasLimit),
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
+              );
               if (!isRecoveryTransaction(recoverData)) {
                 throw new Error(
                   'Fully-signed recovery transaction not detected.'

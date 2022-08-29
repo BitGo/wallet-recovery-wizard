@@ -42,7 +42,6 @@ function isRecoveryTransaction(
 export function Coin() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
-  console.log(`Coin: ${coin} Env: ${bitGoEnvironment}`);
   const [, setAlert] = useAlertBanner();
 
   switch (coin) {
@@ -417,7 +416,7 @@ export function Coin() {
       return (
         <BitcoinSVForm
           onSubmit={async (values, { setSubmitting }) => {
-            console.log(values);
+            setAlert(undefined);
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
@@ -460,7 +459,6 @@ export function Coin() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
-              setAlert(undefined);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -481,8 +479,6 @@ export function Coin() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              const chainData = await window.queries.getChain(coin);
-              console.log(chainData);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
