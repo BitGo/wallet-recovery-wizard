@@ -15,7 +15,7 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
-  tokenContractAddress: Yup.string().required(),
+  tokenAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   gasLimit: Yup.string().required(),
@@ -35,7 +35,7 @@ type ERC20FormValues = {
   userKey: string;
   backupKey: string;
   walletContractAddress: string;
-  tokenContractAddress: string;
+  tokenAddress: string;
   walletPassphrase: string;
   recoveryDestination: string;
   krsProvider: string;
@@ -51,7 +51,7 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
       apiKey: '',
       userKey: '',
       backupKey: '',
-      tokenContractAddress: '',
+      tokenAddress: '',
       walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
@@ -124,7 +124,7 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="tokenContractAddress"
+            name="tokenAddress"
             Width="fill"
             Label="Token Contract Address"
             HelperText="The address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address."

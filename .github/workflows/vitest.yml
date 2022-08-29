@@ -1,4 +1,4 @@
-name: Jest Tests
+name: Vitest Tests
 on: push
 jobs:
   test:
