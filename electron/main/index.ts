@@ -4,7 +4,7 @@ import { join } from 'path';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
-import { Eth, Gteth } from '@bitgo/sdk-coin-eth';
+import { Eth, Gteth, Erc20Token } from '@bitgo/sdk-coin-eth';
 import { Xlm, Txlm } from '@bitgo/sdk-coin-xlm';
 import { Xrp, Txrp } from '@bitgo/sdk-coin-xrp';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
@@ -17,6 +17,7 @@ import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import fs from 'node:fs/promises';
+import { IBaseCoin } from '@bitgo/sdk-core';
 import { fromBase58 } from 'bip32';
 
 // Disable GPU Acceleration for Windows 7
@@ -65,6 +66,7 @@ sdk.register('bcha', Bcha.createInstance);
 sdk.register('bsv', Bsv.createInstance);
 sdk.register('trx', Trx.createInstance);
 sdk.register('ttrx', Ttrx.createInstance);
+sdk.register('erc', Erc20Token.createInstance);
 
 async function createWindow() {
   win = new BrowserWindow({
@@ -94,19 +96,23 @@ async function createWindow() {
   });
 
   // commands
-
   ipcMain.handle('setBitgoEnvironment', async (event, environment, apiKey) => {
     sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
     return await Promise.resolve();
   });
 
-  ipcMain.handle('recover', async (event, coin, parameters) => {
-    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+  ipcMain.handle('recover', async (event, coin, token, parameters) => {
+    let baseCoin: AbstractUtxoCoin;
+    if (token) {
+      try {
+        baseCoin = sdk.coin(token) as AbstractUtxoCoin;
+      } catch (e) {
+        baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+      }
+    } else {
+      baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+    }
     return await baseCoin.recover(parameters);
-  });
-
-  ipcMain.handle('showMessageBox', async (event, options) => {
-    return await dialog.showMessageBox(options);
   });
 
   ipcMain.handle('showSaveDialog', async (event, options) => {
@@ -129,8 +135,18 @@ async function createWindow() {
     return derivedNode.toBase58();
   });
 
-  ipcMain.handle('getChain', (event, coin) => {
-    return sdk.coin(coin).getChain();
+  ipcMain.handle('getChain', (event, coin, token) => {
+    let baseCoin: IBaseCoin;
+    if (token) {
+      try {
+        baseCoin = sdk.coin(token);
+      } catch (e) {
+        baseCoin = sdk.coin(coin);
+      }
+    } else {
+      baseCoin = sdk.coin(coin);
+    }
+    return baseCoin.getChain();
   });
 }
 

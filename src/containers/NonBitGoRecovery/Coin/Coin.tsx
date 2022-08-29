@@ -55,7 +55,7 @@ export function Coin() {
             setSubmitting(true);
             try {
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 scan: Number(values.scan),
@@ -131,6 +131,7 @@ export function Coin() {
 
               const recoverData = await window.commands.recover(
                 coin,
+                undefined,
                 recoveryParams
               );
               if (!isRecoveryTransaction(recoverData)) {
@@ -183,7 +184,7 @@ export function Coin() {
             setSubmitting(true);
             try {
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: '',
                 ignoreAddressTypes: [],
@@ -237,7 +238,7 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 scan: Number(values.scan),
@@ -295,7 +296,7 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 scan: Number(values.scan),
@@ -350,7 +351,7 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 scan: Number(values.scan),
@@ -405,7 +406,7 @@ export function Coin() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 scan: Number(values.scan),
@@ -459,7 +460,7 @@ export function Coin() {
             try {
               const chainData = await window.queries.getChain(coin);
               console.log(chainData);
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(coin, undefined, {
                 ...values,
                 bitgoKey: values.bitgoKey.split(/\s+/).join(''),
                 ignoreAddressTypes: [],
@@ -513,8 +514,9 @@ export function Coin() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              const parentCoin = env === 'test' ? 'gteth' : 'eth';
+              const chainData = await window.queries.getChain(parentCoin, values.tokenAddress);
+              const recoverData = await window.commands.recover(parentCoin, values.tokenAddress, {
                 ...values,
                 bitgoKey: '',
                 ignoreAddressTypes: [],
