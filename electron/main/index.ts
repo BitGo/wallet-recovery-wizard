@@ -66,7 +66,9 @@ sdk.register('bcha', Bcha.createInstance);
 sdk.register('bsv', Bsv.createInstance);
 sdk.register('trx', Trx.createInstance);
 sdk.register('ttrx', Ttrx.createInstance);
-sdk.register('erc', Erc20Token.createInstance);
+Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
 
 async function createWindow() {
   win = new BrowserWindow({

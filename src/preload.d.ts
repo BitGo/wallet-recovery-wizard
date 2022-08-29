@@ -9,6 +9,7 @@ import type {
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
 import type { ObjectEncodingOptions } from 'node:fs';
+import type { Hardfork, Chain } from '@ethereumjs/common';
 
 type Commands = {
   writeFile(
@@ -25,7 +26,20 @@ type Commands = {
   recover(
     coin: string,
     token: string | undefined,
-    parameters: RecoverParams
+    parameters: RecoverParams & {
+      rootAddress?: string;
+      gasLimit?: number;
+      eip1559?: {
+        maxFeePerGas: number;
+        maxPriorityFeePerGas: number;
+      };
+      replayProtectionOptions?: {
+        chain: typeof Chain[keyof typeof Chain];
+        hardfork: `${Hardfork}`;
+      };
+      walletContractAddress?: string;
+      tokenContractAddress?: string;
+    }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(
     environment: 'prod' | 'test',
