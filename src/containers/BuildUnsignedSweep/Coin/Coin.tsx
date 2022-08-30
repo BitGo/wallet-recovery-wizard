@@ -57,26 +57,26 @@ async function isDerivationPath(id: string, description: string) {
 async function updateKeysFromIds<
   TParams extends {
     userKey: string;
-    userKeyID?: string;
-    backupKeyID?: string;
+    userKeyId?: string;
+    backupKeyId?: string;
     backupKey: string;
   }
 >(
   coin: string,
   params: TParams
-): Promise<Omit<TParams, 'userKeyID' | 'backupKeyID'>> {
-  const { userKeyID, backupKeyID, ...copy } = params;
+): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
+  const { userKeyId, backupKeyId, ...copy } = params;
   const data = [
     {
-      id: userKeyID,
+      id: userKeyId,
       key: copy.userKey,
-      description: 'User Key ID',
+      description: 'User Key Id',
       name: 'userKey',
     },
     {
-      id: backupKeyID,
+      id: backupKeyId,
       key: copy.backupKey,
-      description: 'Backup Key ID',
+      description: 'Backup Key Id',
       name: 'backupKey',
     },
   ] as const;
@@ -120,7 +120,6 @@ export function Coin() {
                 {
                   ...(await updateKeysFromIds(coin, values)),
                   ignoreAddressTypes: ['p2wsh'],
-                  scan: Number(values.scan),
                 }
               );
               if (!isRecoveryTransaction(recoverData)) {
@@ -129,21 +128,21 @@ export function Coin() {
                 );
               }
 
-              const userXpub = values.userKeyID
+              const userXpub = values.userKeyId
                 ? (
                     await window.queries.deriveKeyWithSeed(
                       coin,
                       values.userKey,
-                      values.userKeyID
+                      values.userKeyId
                     )
                   ).key
                 : values.userKey;
-              const backupXpub = values.backupKeyID
+              const backupXpub = values.backupKeyId
                 ? (
                     await window.queries.deriveKeyWithSeed(
                       coin,
                       values.backupKey,
-                      values.backupKeyID
+                      values.backupKeyId
                     )
                   ).key
                 : values['backupKey'];
@@ -170,14 +169,14 @@ export function Coin() {
                     xpubsWithDerivationPath: {
                       user: {
                         xpub: userXpub,
-                        derivedFromParentWithSeed: values.userKeyID
-                          ? values.userKeyID
+                        derivedFromParentWithSeed: values.userKeyId
+                          ? values.userKeyId
                           : undefined,
                       },
                       backup: {
                         xpub: backupXpub,
-                        derivedFromParentWithSeed: values.backupKeyID
-                          ? values.backupKeyID
+                        derivedFromParentWithSeed: values.backupKeyId
+                          ? values.backupKeyId
                           : undefined,
                       },
                       bitgo: { xpub: values.bitgoKey },
@@ -215,18 +214,16 @@ export function Coin() {
               );
               const chainData = await window.queries.getChain(coin);
 
-              const { gasLimit, maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                values;
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
                 {
                   ...rest,
-                  gasLimit: Number(gasLimit),
                   eip1559: {
-                    maxFeePerGas: toWei(Number(maxFeePerGas)),
-                    maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
                     chain: bitGoEnvironment === 'prod' ? 1 : 5,
@@ -349,8 +346,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -411,8 +407,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -470,8 +465,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -529,8 +523,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -584,7 +577,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -643,7 +636,6 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  gasLimit: Number(values.gasLimit),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }

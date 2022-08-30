@@ -38,7 +38,7 @@ type Commands = {
         hardfork: `${Hardfork}`;
       };
       walletContractAddress?: string;
-      tokenContractAddress?: string;
+      tokenAddress?: string;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(

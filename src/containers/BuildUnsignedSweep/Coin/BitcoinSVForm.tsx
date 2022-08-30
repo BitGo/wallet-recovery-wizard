@@ -11,7 +11,7 @@ import {
 import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
-  krsProvider: Yup.mixed()
+  krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
   apiKey: Yup.string().required(),
@@ -20,8 +20,8 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
-});
+  scan: Yup.number().required(),
+}).required();
 
 export type BitcoinSVFormProps = {
   onSubmit: (
@@ -30,16 +30,7 @@ export type BitcoinSVFormProps = {
   ) => void | Promise<void>;
 };
 
-type BitcoinSVFormValues = {
-  apiKey: string;
-  userKey: string;
-  backupKey: string;
-  bitgoKey: string;
-  walletPassphrase: string;
-  recoveryDestination: string;
-  scan: string;
-  krsProvider: string;
-};
+type BitcoinSVFormValues = Yup.Asserts<typeof validationSchema>;
 
 export function BitcoinSVForm({ onSubmit }: BitcoinSVFormProps) {
   const formik = useFormik<BitcoinSVFormValues>({
@@ -51,7 +42,7 @@ export function BitcoinSVForm({ onSubmit }: BitcoinSVFormProps) {
       bitgoKey: '',
       walletPassphrase: '',
       recoveryDestination: '',
-      scan: '20',
+      scan: 20,
       krsProvider: '',
     },
     validationSchema,
@@ -81,9 +72,10 @@ export function BitcoinSVForm({ onSubmit }: BitcoinSVFormProps) {
         </h4>
         <div className="tw-mb-4">
           <FormikSelectfield
-            name="krsProvider"
-            Label="Key Recovery Service"
             HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
+            Label="Key Recovery Service"
+            name="krsProvider"
+            Width="fill"
           >
             <option value="">None</option>
             <option value="keyternal">Keyternal</option>
@@ -93,63 +85,66 @@ export function BitcoinSVForm({ onSubmit }: BitcoinSVFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="apiKey"
-            Width="fill"
-            Label="API Key"
             HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
+            Label="API Key"
+            name="apiKey"
             placeholder="Enter API key..."
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            name="userKey"
-            Label="Box A Value"
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+            Label="Box A Value"
+            name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            name="backupKey"
-            Label="Box B Value"
             HelperText={backupKeyHelperText}
+            Label="Box B Value"
+            name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            name="bitgoKey"
-            Label="Box C Value"
             HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
+            Label="Box C Value"
+            name="bitgoKey"
             placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
             rows={2}
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="walletPassphrase"
-            Width="fill"
-            Label="Wallet Passphrase"
             HelperText="The passphrase of the wallet."
+            Label="Wallet Passphrase"
+            name="walletPassphrase"
             placeholder="Enter your wallet password..."
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            name="recoveryDestination"
             Width="fill"
-            Label="Destination Address"
-            HelperText="The address your recovery transaction will send to."
-            placeholder="Enter destination address..."
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="scan"
-            Label="Address Scanning Factor"
+            HelperText="The address your recovery transaction will send to."
+            Label="Destination Address"
+            name="recoveryDestination"
+            placeholder="Enter destination address..."
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
+            Label="Address Scanning Factor"
+            name="scan"
             Width="fill"
           />
         </div>

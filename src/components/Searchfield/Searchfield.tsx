@@ -4,7 +4,7 @@ import { Icon } from '../Icon';
 
 export type SearchfieldProps = {
   Disabled?: boolean;
-  Width?: 'fill' | 'hug';
+  Width: 'fill' | 'hug';
 };
 
 export const Searchfield = React.forwardRef<

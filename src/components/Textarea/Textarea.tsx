@@ -5,7 +5,7 @@ export type TextareaProps = {
   Invalid?: boolean;
   HelperText?: React.ReactNode;
   Label: string;
-  Width?: 'fill' | 'hug';
+  Width: 'fill' | 'hug';
 };
 
 export function Textarea({

@@ -59,8 +59,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: ['p2wsh'],
                 }
               );
@@ -115,18 +114,16 @@ export function Coin() {
               );
               const chainData = await window.queries.getChain(coin);
 
-              const { gasLimit, maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                values;
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
                 {
                   ...rest,
-                  gasLimit: Number(gasLimit),
                   eip1559: {
-                    maxFeePerGas: toWei(Number(maxFeePerGas)),
-                    maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
                     chain: bitGoEnvironment === 'prod' ? 1 : 5,
@@ -249,8 +246,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -311,8 +307,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -370,8 +365,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -429,8 +423,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
-                  scan: Number(values.scan),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -484,7 +477,7 @@ export function Coin() {
                 undefined,
                 {
                   ...values,
-                  bitgoKey: values.bitgoKey.split(/\s+/).join(''),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
@@ -542,18 +535,16 @@ export function Coin() {
                 parentCoin,
                 values.tokenAddress
               );
-              const { gasLimit, maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                values;
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
               const recoverData = await window.commands.recover(
                 parentCoin,
                 values.tokenAddress,
                 {
                   ...rest,
-                  gasLimit: Number(gasLimit),
                   eip1559: {
-                    maxFeePerGas: toWei(Number(maxFeePerGas)),
-                    maxPriorityFeePerGas: toWei(Number(maxPriorityFeePerGas)),
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
                     chain: bitGoEnvironment === 'prod' ? 1 : 5,
