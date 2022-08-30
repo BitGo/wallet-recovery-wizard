@@ -9,32 +9,32 @@ import {
 } from '~/components';
 
 const validationSchema = Yup.object({
+  apiKey: Yup.string().required(),
+  backupKey: Yup.string().required(),
+  gasLimit: Yup.number().required(),
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
-  apiKey: Yup.string().required(),
-  userKey: Yup.string().required(),
-  backupKey: Yup.string().required(),
-  walletContractAddress: Yup.string().required(),
-  tokenAddress: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
-  recoveryDestination: Yup.string().required(),
-  gasLimit: Yup.number().required(),
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
+  recoveryDestination: Yup.string().required(),
+  tokenAddress: Yup.string().required(),
+  userKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
+  walletPassphrase: Yup.string().required(),
 }).required();
 
-export type ERC20FormProps = {
+export type Erc20TokenFormProps = {
   onSubmit: (
-    values: ERC20FormValues,
-    formikHelpers: FormikHelpers<ERC20FormValues>
+    values: Erc20TokenFormValues,
+    formikHelpers: FormikHelpers<Erc20TokenFormValues>
   ) => void | Promise<void>;
 };
 
-type ERC20FormValues = Yup.Asserts<typeof validationSchema>;
+type Erc20TokenFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function ERC20Form({ onSubmit }: ERC20FormProps) {
-  const formik = useFormik<ERC20FormValues>({
+export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
+  const formik = useFormik<Erc20TokenFormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',

@@ -1,94 +1,64 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  Button,
-  FormikSelectfield,
-  FormikTextarea,
-  FormikTextfield,
-} from '~/components';
+import { Button, FormikTextarea, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  gasLimit: Yup.number().required(),
-  krsProvider: Yup.string()
-    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
-    .label('Key Recovery Service'),
+  backupKeyId: Yup.string(),
+  gasLimit: Yup.number()
+    .typeError('Gas limit must be a number')
+    .integer()
+    .positive('Gas limit must be a positive integer')
+    .required(),
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
-  tokenAddress: Yup.string().required(),
   userKey: Yup.string().required(),
+  userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
 }).required();
 
-export type ERC20FormProps = {
+export type Erc20TokenFormProps = {
   onSubmit: (
-    values: ERC20FormValues,
-    formikHelpers: FormikHelpers<ERC20FormValues>
+    values: Erc20TokenFormValues,
+    formikHelpers: FormikHelpers<Erc20TokenFormValues>
   ) => void | Promise<void>;
 };
 
-type ERC20FormValues = Yup.Asserts<typeof validationSchema>;
+type Erc20TokenFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function ERC20Form({ onSubmit }: ERC20FormProps) {
-  const formik = useFormik<ERC20FormValues>({
+export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
+  const formik = useFormik<Erc20TokenFormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',
-      userKey: '',
       backupKey: '',
-      tokenAddress: '',
-      walletContractAddress: '',
-      walletPassphrase: '',
-      recoveryDestination: '',
-      krsProvider: '',
+      backupKeyId: '',
       gasLimit: 500000,
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
+      recoveryDestination: '',
+      userKey: '',
+      userKeyId: '',
+      walletContractAddress: '',
+      walletPassphrase: '',
     },
     validationSchema,
   });
-
-  const backupKeyHelperText =
-    formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
 
   return (
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-managed hot wallet details
+          Self-managed cold wallet details
         </h4>
-        <div className="tw-mb-4">
-          <FormikSelectfield
-            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
-            Label="Key Recovery Service"
-            name="krsProvider"
-            Width="fill"
-          >
-            <option value="">None</option>
-            <option value="keyternal">Keyternal</option>
-            <option value="bitgoKRSv2">BitGo KRS</option>
-            <option value="dai">Coincover</option>
-          </FormikSelectfield>
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            name="apiKey"
-            Width="fill"
-            Label="API Key"
-            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
-            placeholder="Enter API key..."
-          />
-        </div>
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -96,9 +66,17 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
           />
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
-            HelperText={backupKeyHelperText}
-            Label="Box B Value"
+            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
@@ -107,18 +85,17 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
-            Label="Wallet Contract Address"
-            name="walletContractAddress"
-            placeholder="Enter wallet contract address..."
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Backup Key ID (optional)"
+            name="userKeyId"
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address."
-            Label="Token Contract Address"
-            name="tokenAddress"
+            HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
+            Label="Wallet Contract Address"
+            name="walletContractAddress"
             placeholder="Enter wallet contract address..."
             Width="fill"
           />
@@ -143,8 +120,8 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
-            Label="Gas limit"
+            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+            Label="Gas Limit"
             name="gasLimit"
             Width="fill"
           />
@@ -159,9 +136,18 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText='"Tip" to the ETH miner. The default is 10 Gwei.'
+            HelperText='"Tip" to the ETH miner. This is by default 10 Gwei.'
             Label="Max Priority Fee Per Gas (Gwei)"
             name="maxPriorityFeePerGas"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

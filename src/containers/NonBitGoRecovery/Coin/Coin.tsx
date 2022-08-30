@@ -4,7 +4,7 @@ import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { BitcoinSVForm } from './BitcoinSVForm';
-import { ERC20Form } from './ERC20TokenForm';
+import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
@@ -521,7 +521,7 @@ export function Coin() {
     case 'erc':
     case 'gterc':
       return (
-        <ERC20Form
+        <Erc20TokenForm
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);

@@ -4,7 +4,7 @@ import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { BitcoinSVForm } from './BitcoinSVForm';
-import { ERC20Form } from './ERC20TokenForm';
+import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
@@ -214,8 +214,8 @@ export function Coin() {
               );
               const chainData = await window.queries.getChain(coin);
 
-              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
-
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -287,7 +287,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
@@ -345,7 +345,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -406,7 +406,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -522,7 +522,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -576,7 +576,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -621,7 +621,7 @@ export function Coin() {
     case 'erc':
     case 'gterc':
       return (
-        <ERC20Form
+        <Erc20TokenForm
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -635,7 +635,7 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }

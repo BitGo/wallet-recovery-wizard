@@ -35,16 +35,16 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
     onSubmit,
     initialValues: {
       apiKey: '',
-      userKey: '',
-      userKeyId: '',
       backupKey: '',
       backupKeyId: '',
-      walletContractAddress: '',
-      walletPassphrase: '',
-      recoveryDestination: '',
       gasLimit: 500000,
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
+      recoveryDestination: '',
+      userKey: '',
+      userKeyId: '',
+      walletContractAddress: '',
+      walletPassphrase: '',
     },
     validationSchema,
   });
@@ -56,18 +56,9 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           Self-managed cold wallet details
         </h4>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
-            Label="API Key"
-            name="apiKey"
-            placeholder="Enter API key..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -76,16 +67,16 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Your user Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank."
-            Label="User Key Id (optional)"
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
             name="userKeyId"
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="The backup public key for the wallet, as found on your BitGo recovery keycard."
-            Label="Box B Value"
+            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
@@ -94,9 +85,9 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Your backup Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank."
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
             Label="Backup Key ID (optional)"
-            name="backupKeyId"
+            name="userKeyId"
             Width="fill"
           />
         </div>
@@ -129,8 +120,8 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
-            Label="Gas limit"
+            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+            Label="Gas Limit"
             name="gasLimit"
             Width="fill"
           />
@@ -145,9 +136,18 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText='"Tip" to the ETH miner. The default is 10 Gwei.'
+            HelperText='"Tip" to the ETH miner. This is by default 10 Gwei.'
             Label="Max Priority Fee Per Gas (Gwei)"
             name="maxPriorityFeePerGas"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

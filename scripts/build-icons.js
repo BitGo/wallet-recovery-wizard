@@ -3,10 +3,26 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 const path = require('path');
 
+const coins = [
+  'btc',
+  'bch',
+  'ltc',
+  'xrp',
+  'xlm',
+  'dash',
+  'zec',
+  'btg',
+  'eth',
+  'trx',
+  'bsv',
+  'eos',
+];
+
 const paths = fs
   .readdirSync(
     path.dirname(require.resolve('cryptocurrency-icons/svg/color/matic.svg'))
   )
+  .filter(file => coins.includes(path.basename(file, '.svg')))
   .map(file => require.resolve(`cryptocurrency-icons/svg/color/${file}`));
 
 function camelCase(str) {
