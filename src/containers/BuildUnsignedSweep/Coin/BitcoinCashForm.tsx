@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
   Icon,
@@ -11,9 +10,6 @@ import {
 } from '~/components';
 
 const validationSchema = Yup.object({
-  krsProvider: Yup.string()
-    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
-    .label('Key Recovery Service'),
   apiKey: Yup.string().required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
@@ -43,15 +39,9 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
       walletPassphrase: '',
       recoveryDestination: '',
       scan: 20,
-      krsProvider: '',
     },
     validationSchema,
   });
-
-  const backupKeyHelperText =
-    formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
 
   return (
     <FormikProvider value={formik}>
@@ -68,21 +58,8 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
           </Notice>
         </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-managed hot wallet details
+          Self-managed cold wallet details
         </h4>
-        <div className="tw-mb-4">
-          <FormikSelectfield
-            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
-            Label="Key Recovery Service"
-            name="krsProvider"
-            Width="fill"
-          >
-            <option value="">None</option>
-            <option value="keyternal">Keyternal</option>
-            <option value="bitgoKRSv2">BitGo KRS</option>
-            <option value="dai">Coincover</option>
-          </FormikSelectfield>
-        </div>
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
@@ -104,7 +81,7 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText={backupKeyHelperText}
+            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
             Label="Box B Value"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
