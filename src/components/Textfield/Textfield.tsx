@@ -5,7 +5,7 @@ export type TextfieldProps = {
   HelperText?: React.ReactNode;
   Invalid?: boolean;
   Label: string;
-  Width?: 'fill' | 'hug';
+  Width: 'fill' | 'hug';
 };
 
 export function Textfield({

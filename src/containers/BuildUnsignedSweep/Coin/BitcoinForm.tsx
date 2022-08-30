@@ -11,13 +11,13 @@ import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   userKey: Yup.string().required(),
-  userKeyID: Yup.string(),
+  userKeyId: Yup.string(),
   backupKey: Yup.string().required(),
-  backupKeyID: Yup.string(),
+  backupKeyId: Yup.string(),
   bitgoKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.string().required(),
-});
+  scan: Yup.number().required(),
+}).required();
 
 export type BitcoinFormProps = {
   onSubmit: (
@@ -26,27 +26,19 @@ export type BitcoinFormProps = {
   ) => void | Promise<void>;
 };
 
-type BitcoinFormValues = {
-  userKey: string;
-  userKeyID: string;
-  backupKey: string;
-  backupKeyID: string;
-  bitgoKey: string;
-  recoveryDestination: string;
-  scan: string;
-};
+type BitcoinFormValues = Yup.Asserts<typeof validationSchema>;
 
 export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
   const formik = useFormik<BitcoinFormValues>({
     onSubmit,
     initialValues: {
       userKey: '',
-      userKeyID: '',
+      userKeyId: '',
       backupKey: '',
-      backupKeyID: '',
+      backupKeyId: '',
       bitgoKey: '',
       recoveryDestination: '',
-      scan: '20',
+      scan: 20,
     },
     validationSchema,
   });
@@ -69,60 +61,63 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </h4>
         <div className="tw-mb-4">
           <FormikTextarea
-            name="userKey"
-            Label="User Public Key"
             HelperText="Your user public key, as found on your BitGo recovery keycard."
+            Label="User Public Key"
+            name="userKey"
             placeholder='Enter the "Provided User Key" from your BitGo keycard...'
             rows={4}
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="userKeyID"
-            Label="User Key ID (optional)"
             HelperText="Your user Key ID as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank."
+            Label="User Key Id (optional)"
+            name="userKeyId"
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            name="backupKey"
-            Label="Backup Public Key"
             HelperText="The backup public key for the wallet, as found on your BitGo recovery keycard."
+            Label="Backup Public Key"
+            name="backupKey"
             placeholder='Enter the "Backup Key" from your BitGo keycard...'
             rows={2}
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="backupKeyID"
+            name="backupKeyId"
             Width="fill"
-            Label="Backup Key ID (optional)"
+            Label="Backup Key Id (optional)"
             HelperText="Your backup Key ID, as found on your BitGo recovery keycard. Most wallets will not have this and you can leave it blank."
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="bitgoKey"
-            Width="fill"
-            Label="BitGo Public Key"
             HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
+            Label="BitGo Public Key"
+            name="bitgoKey"
             placeholder='Enter the "BitGo Public Key" from your BitGo keycard...'
+            Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="recoveryDestination"
-            Label="Destination Address"
             HelperText="The address your transaction will be sent to."
+            Label="Destination Address"
+            name="recoveryDestination"
             placeholder="Enter destination address..."
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            name="scan"
-            Label="Address Scanning Factor"
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
+            Label="Address Scanning Factor"
+            name="scan"
             Width="fill"
           />
         </div>
