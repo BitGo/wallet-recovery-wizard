@@ -11,12 +11,13 @@ import {
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
-  userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
+  backupKeyId: Yup.string(),
   bitgoKey: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
+  userKey: Yup.string().required(),
+  userKeyId: Yup.string(),
 }).required();
 
 export type BitcoinCashFormProps = {
@@ -33,12 +34,13 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
     onSubmit,
     initialValues: {
       apiKey: '',
-      userKey: '',
       backupKey: '',
+      backupKeyId: '',
       bitgoKey: '',
-      walletPassphrase: '',
       recoveryDestination: '',
       scan: 20,
+      userKey: '',
+      userKeyId: '',
     },
     validationSchema,
   });
@@ -61,18 +63,9 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
           Self-managed cold wallet details
         </h4>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
-            Label="API Key"
-            name="apiKey"
-            placeholder="Enter API key..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -80,9 +73,17 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
           />
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
-            Label="Box B Value"
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
@@ -90,21 +91,18 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
-            Label="Box C Value"
-            name="bitgoKey"
-            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
-            rows={2}
+          <FormikTextfield
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Backup Key ID (optional)"
+            name="userKeyId"
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The passphrase of the wallet."
-            Label="Wallet Passphrase"
-            name="walletPassphrase"
-            placeholder="Enter your wallet password..."
+            HelperText="The BitGo public key for the wallet, as found on your recovery KeyCard."
+            Label="BitGo Public Key"
+            name="bitgoKey"
             Width="fill"
           />
         </div>
@@ -113,7 +111,6 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            placeholder="Enter destination address..."
             Width="fill"
           />
         </div>
@@ -122,6 +119,15 @@ export function BitcoinCashForm({ onSubmit }: BitcoinCashFormProps) {
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Label="Address Scanning Factor"
             name="scan"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An Api-Key Token from blockchair.com required for mainnet recoveries of this coin."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

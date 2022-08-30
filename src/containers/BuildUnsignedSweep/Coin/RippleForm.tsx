@@ -4,11 +4,12 @@ import * as Yup from 'yup';
 import { Button, FormikTextarea, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
-  userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  rootAddress: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
+  backupKeyId: Yup.string(),
   recoveryDestination: Yup.string().required(),
+  rootAddress: Yup.string().required(),
+  userKey: Yup.string().required(),
+  userKeyId: Yup.string(),
 }).required();
 
 export type RippleFormProps = {
@@ -24,11 +25,12 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
   const formik = useFormik<RippleFormValues>({
     onSubmit,
     initialValues: {
-      userKey: '',
       backupKey: '',
-      rootAddress: '',
-      walletPassphrase: '',
+      backupKeyId: '',
       recoveryDestination: '',
+      rootAddress: '',
+      userKey: '',
+      userKeyId: '',
     },
     validationSchema,
   });
@@ -42,7 +44,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -50,12 +52,28 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           />
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
-            Label="Box B Value"
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Backup Key ID (optional)"
+            name="userKeyId"
             Width="fill"
           />
         </div>
@@ -65,15 +83,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             Label="Root Address"
             name="rootAddress"
             placeholder="Enter root address..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The passphrase of the wallet."
-            Label="Wallet Passphrase"
-            name="walletPassphrase"
-            placeholder="Enter your wallet password..."
             Width="fill"
           />
         </div>

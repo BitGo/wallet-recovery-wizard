@@ -1,32 +1,40 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
+import {
+  Button,
+  FormikSelectfield,
+  FormikTextarea,
+  FormikTextfield,
+} from '~/components';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
-  userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  walletContractAddress: Yup.string().required(),
-  tokenAddress: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
-  recoveryDestination: Yup.string().required(),
   gasLimit: Yup.number().required(),
+  krsProvider: Yup.string()
+    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
+    .label('Key Recovery Service'),
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
+  recoveryDestination: Yup.string().required(),
+  tokenAddress: Yup.string().required(),
+  userKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
+  walletPassphrase: Yup.string().required(),
 }).required();
 
-export type ERC20FormProps = {
+export type Erc20TokenFormProps = {
   onSubmit: (
-    values: ERC20FormValues,
-    formikHelpers: FormikHelpers<ERC20FormValues>
+    values: Erc20TokenFormValues,
+    formikHelpers: FormikHelpers<Erc20TokenFormValues>
   ) => void | Promise<void>;
 };
 
-type ERC20FormValues = Yup.Asserts<typeof validationSchema>;
+type Erc20TokenFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function ERC20Form({ onSubmit }: ERC20FormProps) {
-  const formik = useFormik<ERC20FormValues>({
+export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
+  const formik = useFormik<Erc20TokenFormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',
@@ -36,6 +44,7 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
       walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
+      krsProvider: '',
       gasLimit: 500000,
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
@@ -43,12 +52,30 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
     validationSchema,
   });
 
+  const backupKeyHelperText =
+    formik.values.krsProvider === ''
+      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
+      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+
   return (
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-managed cold wallet details
+          Self-managed hot wallet details
         </h4>
+        <div className="tw-mb-4">
+          <FormikSelectfield
+            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
+            Label="Key Recovery Service"
+            name="krsProvider"
+            Width="fill"
+          >
+            <option value="">None</option>
+            <option value="keyternal">Keyternal</option>
+            <option value="bitgoKRSv2">BitGo KRS</option>
+            <option value="dai">Coincover</option>
+          </FormikSelectfield>
+        </div>
         <div className="tw-mb-4">
           <FormikTextfield
             name="apiKey"
@@ -70,7 +97,7 @@ export function ERC20Form({ onSubmit }: ERC20FormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+            HelperText={backupKeyHelperText}
             Label="Box B Value"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'

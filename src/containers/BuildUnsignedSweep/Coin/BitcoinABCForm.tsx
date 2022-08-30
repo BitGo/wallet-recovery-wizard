@@ -14,7 +14,6 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
 }).required();
@@ -36,7 +35,6 @@ export function BitcoinABCForm({ onSubmit }: BitcoinABCFormProps) {
       userKey: '',
       backupKey: '',
       bitgoKey: '',
-      walletPassphrase: '',
       recoveryDestination: '',
       scan: 20,
     },
@@ -51,7 +49,7 @@ export function BitcoinABCForm({ onSubmit }: BitcoinABCFormProps) {
             Variant="Secondary"
             IconLeft={<Icon Name="warning-sign" Size="small" />}
           >
-            Bitcoin SV transactions are replayable on Bitcoin Cash and Bitcoin
+            Bitcoin ABC transactions are replayable on Bitcoin Cash and Bitcoin
             SV. Please make sure you are the owner of the Destination Address to
             avoid accidentally sending your Bitcoin ABC to an address you do not
             own.
@@ -96,15 +94,6 @@ export function BitcoinABCForm({ onSubmit }: BitcoinABCFormProps) {
             name="bitgoKey"
             placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
             rows={2}
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The passphrase of the wallet."
-            Label="Wallet Passphrase"
-            name="walletPassphrase"
-            placeholder="Enter your wallet password..."
             Width="fill"
           />
         </div>
