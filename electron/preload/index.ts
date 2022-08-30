@@ -2,14 +2,14 @@
 // See the Electron documentation for details on how to use preload scripts:
 // https://www.electronjs.org/docs/latest/tutorial/process-model#preload-scripts
 
-import { contextBridge, ipcRenderer } from 'electron';
 import type {
-  RecoverParams,
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
+  RecoverParams,
 } from '@bitgo/abstract-utxo';
+import type { Chain, Hardfork } from '@ethereumjs/common';
+import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
-import type { Hardfork, Chain } from '@ethereumjs/common';
 
 type Commands = {
   writeFile(

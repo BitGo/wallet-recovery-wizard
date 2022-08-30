@@ -1,12 +1,12 @@
-import { AlertBannerContext } from '~/contexts';
 import * as React from 'react';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import {
   AlertBanner,
   BackToHomeHeader,
-  Icon,
   CoinsSelectAutocomplete,
+  Icon,
 } from '~/components';
+import { AlertBannerContext } from '~/contexts';
 import { Coin } from './Coin';
 import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 

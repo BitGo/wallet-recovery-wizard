@@ -1,5 +1,5 @@
+import { FieldConfig, useField } from 'formik';
 import { Selectfield, SelectfieldProps } from '../Selectfield';
-import { useField, FieldConfig } from 'formik';
 
 type FormikSelectFieldProps = FieldConfig<string>;
 

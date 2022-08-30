@@ -1,24 +1,24 @@
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
-import { release } from 'os';
-import { join } from 'path';
-import { BitGoAPI } from '@bitgo/sdk-api';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
-import { Eth, Gteth, Erc20Token } from '@bitgo/sdk-coin-eth';
-import { Xlm, Txlm } from '@bitgo/sdk-coin-xlm';
-import { Xrp, Txrp } from '@bitgo/sdk-coin-xrp';
-import { Eos, Teos } from '@bitgo/sdk-coin-eos';
+import { BitGoAPI } from '@bitgo/sdk-api';
 import { Bch } from '@bitgo/sdk-coin-bch';
-import { Ltc } from '@bitgo/sdk-coin-ltc';
-import { Btg } from '@bitgo/sdk-coin-btg';
-import { Zec } from '@bitgo/sdk-coin-zec';
-import { Dash } from '@bitgo/sdk-coin-dash';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
+import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
+import { Btg } from '@bitgo/sdk-coin-btg';
+import { Dash } from '@bitgo/sdk-coin-dash';
+import { Eos, Teos } from '@bitgo/sdk-coin-eos';
+import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
+import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
-import fs from 'node:fs/promises';
+import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
+import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
+import { Zec } from '@bitgo/sdk-coin-zec';
 import { IBaseCoin } from '@bitgo/sdk-core';
 import { fromBase58 } from 'bip32';
+import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
+import fs from 'node:fs/promises';
+import { release } from 'os';
+import { join } from 'path';
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Selectfield, Title, LinkCard, LinkCardItem } from '~/components';
+import { LinkCard, LinkCardItem, Selectfield, Title } from '~/components';
 import logo from '/logo.svg';
 
 export default function Home() {
@@ -29,13 +29,20 @@ export default function Home() {
               <div className="tw-flex tw-flex-col tw-gap-2">
                 <Selectfield
                   Label="Environment"
-                  value={env}
                   onChange={event => setEnv(event.currentTarget.value)}
+                  value={env}
+                  Width="fill"
                 >
                   <option value="test">Testnet</option>
                   <option value="prod">Mainnet</option>
                 </Selectfield>
-                <Selectfield Label="Language" value="en" disabled Disabled>
+                <Selectfield
+                  disabled
+                  Disabled
+                  Label="Language"
+                  value="en"
+                  Width="fill"
+                >
                   <option value="en">English</option>
                 </Selectfield>
               </div>

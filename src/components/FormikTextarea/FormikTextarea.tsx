@@ -1,5 +1,5 @@
+import { FieldConfig, useField } from 'formik';
 import { Textarea, TextareaProps } from '../Textarea';
-import { useField, FieldConfig } from 'formik';
 
 type FormikTextareaProps = FieldConfig<string>;
 
