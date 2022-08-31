@@ -88,7 +88,7 @@ async function createWindow() {
   if (app.isPackaged) {
     await win.loadFile(indexHtml);
   } else {
-    await win.loadURL(url);
+    await win.loadURL(String(url));
     // win.webContents.openDevTools()
   }
 
