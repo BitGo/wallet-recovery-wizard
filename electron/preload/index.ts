@@ -86,7 +86,7 @@ const commands: Commands = {
     return ipcRenderer.invoke('recover', coin, token, parameters);
   },
   setBitGoEnvironment(environment, apiKey) {
-    return ipcRenderer.invoke('setBitgoEnvironment', environment, apiKey);
+    return ipcRenderer.invoke('setBitGoEnvironment', environment, apiKey);
   },
 };
 
