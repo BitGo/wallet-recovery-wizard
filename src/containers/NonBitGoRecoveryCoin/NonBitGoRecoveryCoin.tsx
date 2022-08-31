@@ -483,8 +483,8 @@ function Form() {
           }}
         />
       );
-    case 'erc':
-    case 'gterc':
+    case 'erc20':
+    case 'gterc20':
       return (
         <Erc20TokenForm
           onSubmit={async (values, { setSubmitting }) => {

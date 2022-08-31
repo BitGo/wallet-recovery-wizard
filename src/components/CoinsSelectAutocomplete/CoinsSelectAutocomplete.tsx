@@ -63,7 +63,7 @@ const prod = [
     Title: 'ERC',
     Description: 'ERC20 Token',
     Icon: 'eth',
-    value: 'erc',
+    value: 'erc20',
   },
   {
     Title: 'TRX',
@@ -120,7 +120,7 @@ const test = [
     Title: 'GTERC',
     Description: 'Goerli Testnet ERC20 Token',
     Icon: 'eth',
-    value: 'gterc',
+    value: 'gterc20',
   },
   {
     Title: 'TTRX',
