@@ -11,6 +11,7 @@ export * from './Icon';
 export * from './LinkCard';
 export * from './Menu';
 export * from './Notice';
+export * from './PageLayout';
 export * from './SelectAutocomplete';
 export * from './Selectfield';
 export * from './Textarea';

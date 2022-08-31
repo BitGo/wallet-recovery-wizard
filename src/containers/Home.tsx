@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { LinkCard, LinkCardItem, Selectfield, Title } from '~/components';
 import logo from '/logo.svg';
 
-export default function Home() {
+export function Home() {
   const [env, setEnv] = React.useState('test');
 
   return (
