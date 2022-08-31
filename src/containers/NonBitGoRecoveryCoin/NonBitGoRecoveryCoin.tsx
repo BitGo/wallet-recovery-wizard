@@ -78,6 +78,7 @@ function Form() {
       );
     case 'eth':
     case 'gteth':
+    case 'ethw':
       return (
         <EthereumForm
           key={coin}
@@ -103,7 +104,7 @@ function Form() {
                     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    chain: coin === 'ethw' ? NaN : bitGoEnvironment === 'prod' ? 1 : 5, // TODO BG-56389: Update ETHw chainid when confirmed
                     hardfork: 'london',
                   },
                   bitgoKey: '',
