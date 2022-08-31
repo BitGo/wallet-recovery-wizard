@@ -122,6 +122,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             Label="Wallet Passphrase"
             name="walletPassphrase"
             placeholder="Enter your wallet password..."
+            type="password"
             Width="fill"
           />
         </div>

@@ -111,6 +111,15 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
+            HelperText="The passphrase for the wallet."
+            Label="Wallet Passphrase"
+            name="walletPassphrase"
+            type="password"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
             HelperText="The address your transaction will be sent to."
             Label="Destination Address"
             name="recoveryDestination"

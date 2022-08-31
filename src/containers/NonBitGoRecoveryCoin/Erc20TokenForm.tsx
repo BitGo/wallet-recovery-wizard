@@ -129,6 +129,7 @@ export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
             Label="Wallet Passphrase"
             name="walletPassphrase"
             placeholder="Enter your wallet password..."
+            type="password"
             Width="fill"
           />
         </div>
