@@ -20,7 +20,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "extraFileExtensions": [".ts", ".tsx", ".json"],
+    "extraFileExtensions": [".json"],
     "ecmaFeatures": {
       "jsx": true
     },

@@ -1,18 +1,14 @@
-import { rmSync } from 'node:fs';
-import path from 'node:path';
-import type { Plugin, UserConfig } from 'vite';
+import { rmSync } from 'fs';
+import path from 'path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import electron from 'vite-plugin-electron';
+import electron, { onstart } from 'vite-plugin-electron';
 import pkg from './package.json';
 
 rmSync(path.join(__dirname, 'dist'), { recursive: true, force: true }); // v14.14.0
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  optimizeDeps: {
-    include: [],
-  },
   resolve: {
     alias: {
       '~': path.join(__dirname, 'src'),
@@ -23,11 +19,15 @@ export default defineConfig({
     electron({
       main: {
         entry: 'electron/main/index.ts',
-        vite: withDebug({
+        vite: {
           build: {
+            // For Debug
+            sourcemap: true,
             outDir: 'dist/electron/main',
           },
-        }),
+          // Will start Electron via VSCode Debug
+          plugins: [process.env.VSCODE_DEBUG ? onstart() : null],
+        },
       },
       preload: {
         input: {
@@ -36,39 +36,22 @@ export default defineConfig({
         },
         vite: {
           build: {
-            // For debug
+            // For Debug
             sourcemap: 'inline',
             outDir: 'dist/electron/preload',
           },
         },
       },
+      // Enables use of Node.js API in the Electron-Renderer
+      // https://github.com/electron-vite/vite-plugin-electron/tree/main/packages/electron-renderer#electron-renderervite-serve
+      renderer: {},
     }),
   ],
   server:
     process.env.VSCODE_DEBUG || process.env.NODE_ENV === 'test'
       ? {
-          host: pkg.debug.env.VITE_DEV_SERVER_HOST,
+          host: pkg.debug.env.VITE_DEV_SERVER_HOSTNAME,
           port: pkg.debug.env.VITE_DEV_SERVER_PORT,
         }
       : undefined,
 });
-
-function withDebug(config: UserConfig): UserConfig {
-  if (process.env.VSCODE_DEBUG) {
-    if (!config.build) {
-      config.build = {};
-    }
-    config.build.sourcemap = true;
-    config.plugins = (config.plugins || []).concat({
-      name: 'electron-vite-debug',
-      configResolved(config) {
-        const index = config.plugins.findIndex(
-          p => p.name === 'electron-main-watcher'
-        );
-        // At present, Vite can only modify plugins in configResolved hook.
-        (config.plugins as Plugin[]).splice(index, 1);
-      },
-    });
-  }
-  return config;
-}

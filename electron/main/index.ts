@@ -76,6 +76,8 @@ async function createWindow() {
     title: 'Main window',
     icon: join(ROOT_PATH.public, 'favicon.svg'),
     webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
       preload,
     },
   });

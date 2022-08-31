@@ -21,7 +21,7 @@
     "types": ["vite/client"],
     "useDefineForClassFields": true
   },
-  "include": ["src"],
+  "include": ["src", "package.json", "electron"],
   "exclude": ["node_modules", "vite.config.ts"],
   "references": [
     {
