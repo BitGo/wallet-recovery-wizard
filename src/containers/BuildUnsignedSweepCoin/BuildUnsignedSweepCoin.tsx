@@ -644,12 +644,13 @@ function Form() {
         />
       );
     default:
-      throw new Error(`Unsupported coin: ${coin}`);
+      throw new Error(`Unsupported coin: ${String(coin)}`);
   }
 }
 
 export function BuildUnsignedSweepCoin() {
   const { env } = useParams<'env'>();
+  const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
     <>
@@ -657,7 +658,7 @@ export function BuildUnsignedSweepCoin() {
         <CoinsSelectAutocomplete
           onChange={event => {
             navigate(
-              `/${env}/build-unsigned-sweep/${event.currentTarget.value}`
+              `/${environment}/build-unsigned-sweep/${event.currentTarget.value}`
             );
           }}
         />

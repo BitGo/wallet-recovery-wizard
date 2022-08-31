@@ -8,7 +8,7 @@ const meta: ComponentMeta<typeof Popover> = {
   component: Popover,
   args: {
     open: true,
-    Target: <Searchfield />,
+    Target: <Searchfield Width="fill" />,
     children: (
       <Menu Tag="nav">
         <MenuItem

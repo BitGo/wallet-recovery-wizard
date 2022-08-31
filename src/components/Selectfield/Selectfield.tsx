@@ -12,14 +12,10 @@ export type SelectfieldProps = {
 
 export function Selectfield({
   children,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  className: _,
   Disabled = false,
   HelperText,
   Invalid = false,
   Label,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  style: __,
   Width,
   ...hostProps
 }: SelectfieldProps & JSX.IntrinsicElements['select']) {
@@ -55,6 +51,7 @@ export function Selectfield({
             'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-pl-4 tw-pr-8 tw-bg-transparent',
             'focus:tw-outline-none'
           )}
+          style={undefined}
         >
           {children}
         </select>

@@ -21,13 +21,14 @@ const meta: ComponentMeta<typeof Button> = {
 
 export default meta;
 
-export const Primary: ComponentStoryObj<typeof Button> = {
+export const Primary: ComponentStoryObj<typeof Button<'button'>> = {
   args: {
     Variant: 'primary',
   },
   async play({ canvasElement, args }) {
     const canvas = within(canvasElement);
 
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await userEvent.click(canvas.getByRole('button'));
     await waitFor(() => expect(args.onClick).toHaveBeenCalled());
   },
@@ -57,7 +58,7 @@ export const Destructive: ComponentStoryObj<typeof Button> = {
   },
 };
 
-export const Disabled: ComponentStoryObj<typeof Button> = {
+export const Disabled: ComponentStoryObj<typeof Button<'button'>> = {
   args: {
     Disabled: true,
     disabled: true,
@@ -65,6 +66,7 @@ export const Disabled: ComponentStoryObj<typeof Button> = {
   async play({ canvasElement, args }) {
     const canvas = within(canvasElement);
 
+    // eslint-disable-next-line @typescript-eslint/await-thenable
     await userEvent.click(canvas.getByRole('button'));
     await waitFor(() => expect(args.onClick).not.toHaveBeenCalled());
   },

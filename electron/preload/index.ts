@@ -115,14 +115,14 @@ declare global {
         listener: (
           event: IpcMainEvent,
           ...args: TParameters<Commands[TChannel]>
-        ) => void
+        ) => ReturnType<Commands[TChannel]>
       ): void;
       handle<TChannel extends keyof Queries>(
         channel: TChannel,
         listener: (
           event: IpcMainEvent,
           ...args: TParameters<Queries[TChannel]>
-        ) => void
+        ) => ReturnType<Queries[TChannel]>
       ): void;
     }
   }

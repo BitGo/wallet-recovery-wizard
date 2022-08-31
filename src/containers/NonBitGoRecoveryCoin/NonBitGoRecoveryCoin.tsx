@@ -556,19 +556,22 @@ function Form() {
         />
       );
     default:
-      throw new Error(`Unsupported coin: ${coin}`);
+      throw new Error(`Unsupported coin: ${String(coin)}`);
   }
 }
 
 export function NonBitGoRecoveryCoin() {
   const { env } = useParams<'env'>();
+  const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
     <>
       <div className="tw-mb-8">
         <CoinsSelectAutocomplete
           onChange={event => {
-            navigate(`/${env}/non-bitgo-recovery/${event.currentTarget.value}`);
+            navigate(
+              `/${environment}/non-bitgo-recovery/${event.currentTarget.value}`
+            );
           }}
         />
       </div>

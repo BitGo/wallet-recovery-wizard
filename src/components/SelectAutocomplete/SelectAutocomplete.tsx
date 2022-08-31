@@ -243,7 +243,7 @@ export function SelectAutocomplete({
             />
           </div>
           <div className="tw-max-h-[25rem] tw-overflow-y-scroll">
-            <Menu
+            <Menu<'nav'>
               ref={menuRef}
               Tag="nav"
               onMouseOver={event => {

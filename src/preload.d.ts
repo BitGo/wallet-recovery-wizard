@@ -113,16 +113,16 @@ declare global {
       handle<TChannel extends keyof Commands>(
         channel: TChannel,
         listener: (
-          event: IpcMainEvent,
+          event: IpcMainInvokeEvent,
           ...args: TParameters<Commands[TChannel]>
-        ) => void
+        ) => ReturnType<Commands[TChannel]>
       ): void;
       handle<TChannel extends keyof Queries>(
         channel: TChannel,
         listener: (
-          event: IpcMainEvent,
+          event: IpcMainInvokeEvent,
           ...args: TParameters<Queries[TChannel]>
-        ) => void
+        ) => ReturnType<Queries[TChannel]>
       ): void;
     }
   }

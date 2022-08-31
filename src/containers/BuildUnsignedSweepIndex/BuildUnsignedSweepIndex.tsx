@@ -1,8 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
+import { safeEnv } from '~/helpers';
 
 export function BuildUnsignedSweepIndex() {
   const { env } = useParams<'env'>();
+  const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
     <>
@@ -10,7 +12,7 @@ export function BuildUnsignedSweepIndex() {
         <CoinsSelectAutocomplete
           onChange={event => {
             navigate(
-              `/${env}/build-unsigned-sweep/${event.currentTarget.value}`
+              `/${environment}/build-unsigned-sweep/${event.currentTarget.value}`
             );
           }}
         />

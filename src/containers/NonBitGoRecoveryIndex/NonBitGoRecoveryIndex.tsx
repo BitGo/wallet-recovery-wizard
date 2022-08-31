@@ -1,15 +1,19 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
+import { safeEnv } from '~/helpers';
 
 export function NonBitGoRecoveryIndex() {
   const { env } = useParams<'env'>();
+  const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
     <>
       <div className="tw-mb-8">
         <CoinsSelectAutocomplete
           onChange={event => {
-            navigate(`/${env}/non-bitgo-recovery/${event.currentTarget.value}`);
+            navigate(
+              `/${environment}/non-bitgo-recovery/${event.currentTarget.value}`
+            );
           }}
         />
       </div>

@@ -1,4 +1,7 @@
-import type { BackupKeyRecoveryTransansaction, FormattedOfflineVaultTxInfo } from "@bitgo/abstract-utxo";
+import type {
+  BackupKeyRecoveryTransansaction,
+  FormattedOfflineVaultTxInfo,
+} from '@bitgo/abstract-utxo';
 
 const GWEI = 10 ** 9;
 export function toWei(gas: number) {
@@ -7,7 +10,9 @@ export function toWei(gas: number) {
 
 export function safeEnv(value: string | undefined): 'prod' | 'test' {
   if (value !== 'test' && value !== 'prod') {
-    throw new Error(`expected value to be "test" or "prod" but got: ${value}`);
+    throw new Error(
+      `expected value to be "test" or "prod" but got: ${String(value)}`
+    );
   }
   return value;
 }
