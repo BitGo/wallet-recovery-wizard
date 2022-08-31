@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
@@ -11,6 +10,7 @@ import {
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
+  backupKeyId: Yup.string(),
   gasLimit: Yup.number()
     .typeError('Gas limit must be a number')
     .integer()
@@ -21,11 +21,9 @@ const validationSchema = Yup.object({
     .integer()
     .positive('Gas price must be a positive integer')
     .required(),
-  krsProvider: Yup.string()
-    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
-    .label('Key Recovery Service'),
   recoveryDestination: Yup.string().required(),
   userKey: Yup.string().required(),
+  userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
 }).required();
@@ -45,21 +43,17 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
     initialValues: {
       apiKey: '',
       backupKey: '',
+      backupKeyId: '',
       gasLimit: 500000,
       gasPrice: 20,
-      krsProvider: '',
       recoveryDestination: '',
       userKey: '',
+      userKeyId: '',
       walletContractAddress: '',
       walletPassphrase: '',
     },
     validationSchema,
   });
-
-  const backupKeyHelperText =
-    formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
 
   return (
     <FormikProvider value={formik}>
@@ -67,19 +61,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed hot wallet details
         </h4>
-        <div className="tw-mb-4">
-          <FormikSelectfield
-            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
-            Label="Key Recovery Service"
-            name="krsProvider"
-            Width="fill"
-          >
-            <option value="">None</option>
-            <option value="keyternal">Keyternal</option>
-            <option value="bitgoKRSv2">BitGo KRS</option>
-            <option value="dai">Coincover</option>
-          </FormikSelectfield>
-        </div>
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
@@ -92,7 +73,7 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -100,12 +81,28 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
           />
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
-            HelperText={backupKeyHelperText}
-            Label="Box B Value"
+            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Backup Key ID (optional)"
+            name="userKeyId"
             Width="fill"
           />
         </div>
