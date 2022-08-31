@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
-import Home from './Home';
+import { Home } from './Home';
 
 const meta: ComponentMeta<typeof Home> = {
   component: Home,

@@ -185,9 +185,10 @@ export function SelectAutocomplete({
         <div className="tw-shadow-1dp tw-z-10 tw-absolute tw-left-0 tw-right-0">
           <div className="tw-p-1">
             <Searchfield
-              tabIndex={-1}
               ref={searchfieldRef}
+              tabIndex={-1}
               value={search}
+              Width="fill"
               onKeyDown={event => {
                 if (event.key === 'Escape') {
                   event.preventDefault();
@@ -242,7 +243,7 @@ export function SelectAutocomplete({
             />
           </div>
           <div className="tw-max-h-[25rem] tw-overflow-y-scroll">
-            <Menu
+            <Menu<'nav'>
               ref={menuRef}
               Tag="nav"
               onMouseOver={event => {

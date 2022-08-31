@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Icon } from '../Icon';
 import * as Polymorphic from '../Polymorphic';
 
@@ -8,8 +8,7 @@ export type LinkCardItemProps = {
   Description: string;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type LinkCardItemTag = 'a' | React.ForwardRefExoticComponent<any>;
+type LinkCardItemTag = 'a' | typeof Link;
 
 const LinkCardItemDefaultTag = 'a';
 
@@ -21,9 +20,9 @@ export const LinkCardItem = Polymorphic.forwardRef<
   const Component = Tag ?? LinkCardItemDefaultTag;
   return (
     <Component
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={ref as any}
-      {...hostProps}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+      {...(hostProps as any)}
+      ref={ref}
       className={clsx(
         'tw-flex tw-flex-col tw-border tw-border-solid tw-px-4 tw-py-4 tw-border-gray-700 tw-rounded',
         'hover:tw-bg-gray-100'

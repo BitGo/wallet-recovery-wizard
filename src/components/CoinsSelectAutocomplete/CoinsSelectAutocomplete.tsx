@@ -143,7 +143,7 @@ export type CoinsSelectAutocompleteProps = {
 export function CoinsSelectAutocomplete({
   onChange,
 }: CoinsSelectAutocompleteProps) {
-  const { env = 'test' } = useParams<'env'>();
+  const { env = 'test', coin = '' } = useParams<'env' | 'coin'>();
   const envTitle = env === 'prod' ? 'Mainnet' : 'Testnet';
   const data = env === 'prod' ? prod : test;
   const children = data.map(coin => (
@@ -179,6 +179,7 @@ export function CoinsSelectAutocomplete({
         </div>
       }
       Width="fill"
+      value={coin}
       onChange={onChange}
     >
       {children}

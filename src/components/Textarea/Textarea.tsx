@@ -9,14 +9,10 @@ export type TextareaProps = {
 };
 
 export function Textarea({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  className: _,
   Disabled = false,
   HelperText,
   Invalid = false,
   Label,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  style: __,
   Width,
   ...hostProps
 }: TextareaProps & JSX.IntrinsicElements['textarea']) {
@@ -48,6 +44,7 @@ export function Textarea({
             'tw-border-red-500': Invalid,
           }
         )}
+        style={undefined}
       />
       {HelperText && (
         <div className="tw-mt-1 tw-text-gray-700 tw-text-label-2">

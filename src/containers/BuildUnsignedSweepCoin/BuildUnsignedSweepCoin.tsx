@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAlertBanner } from '~/contexts';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
@@ -10,36 +10,70 @@ import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
 
-import {
-  BackupKeyRecoveryTransansaction,
-  FormattedOfflineVaultTxInfo,
-} from '@bitgo/abstract-utxo';
+import { CoinsSelectAutocomplete } from '~/components';
+import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
 
-const GWEI = 10 ** 9;
-function toWei(gas: number) {
-  return gas * GWEI;
-}
+async function isDerivationPath(id: string, description: string) {
+  if (id.length > 2 && id.indexOf('m/') === 0) {
+    const response = await window.commands.showMessageBox({
+      type: 'question',
+      buttons: ['Derivation Path', 'Seed'],
+      title: 'Derivation Path?',
+      message: `Is the provided value a Derivation Path or a Seed?\n${description}: ${id}\n`,
+    });
 
-function safeEnv(value: string | undefined): 'prod' | 'test' {
-  if (value !== 'test' && value !== 'prod') {
-    throw new Error(`expected value to be "test" or "prod" but got: ${value}`);
+    return !!response.response;
   }
-  return value;
+
+  return false;
 }
 
-function isRecoveryTransaction(
-  recoverData: BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo
-) {
-  return (
-    ('txHex' in recoverData && !!recoverData['txHex']) ||
-    ('transactionHex' in recoverData && !!recoverData['transactionHex']) ||
-    ('tx' in recoverData && !!recoverData['tx']) ||
-    ('transaction' in recoverData && !!recoverData['transaction']) ||
-    ('txid' in recoverData && !!recoverData['txid'])
-  );
+async function updateKeysFromIds<
+  TParams extends {
+    userKey: string;
+    userKeyId?: string;
+    backupKeyId?: string;
+    backupKey: string;
+  }
+>(
+  coin: string,
+  params: TParams
+): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
+  const { userKeyId, backupKeyId, ...copy } = params;
+  const data = [
+    {
+      id: userKeyId,
+      key: copy.userKey,
+      description: 'User Key Id',
+      name: 'userKey',
+    },
+    {
+      id: backupKeyId,
+      key: copy.backupKey,
+      description: 'Backup Key Id',
+      name: 'backupKey',
+    },
+  ] as const;
+
+  for await (const item of data) {
+    if (item.id) {
+      if (await isDerivationPath(item.id, item.description)) {
+        copy[item.name] = await window.queries.deriveKeyByPath(
+          item.key,
+          item.id
+        );
+      } else {
+        copy[item.name] = (
+          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+        ).key;
+      }
+    }
+  }
+
+  return copy;
 }
 
-export function Coin() {
+function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
   const [, setAlert] = useAlertBanner();
@@ -58,16 +92,34 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  ...(await updateKeysFromIds(coin, values)),
                   ignoreAddressTypes: ['p2wsh'],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const userXpub = values.userKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.userKey,
+                      values.userKeyId
+                    )
+                  ).key
+                : values.userKey;
+              const backupXpub = values.backupKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.backupKey,
+                      values.backupKeyId
+                    )
+                  ).key
+                : values['backupKey'];
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -76,7 +128,7 @@ export function Coin() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -85,7 +137,29 @@ export function Coin() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    xpubsWithDerivationPath: {
+                      user: {
+                        xpub: userXpub,
+                        derivedFromParentWithSeed: values.userKeyId
+                          ? values.userKeyId
+                          : undefined,
+                      },
+                      backup: {
+                        xpub: backupXpub,
+                        derivedFromParentWithSeed: values.backupKeyId
+                          ? values.backupKeyId
+                          : undefined,
+                      },
+                      bitgo: { xpub: values.bitgoKey },
+                    },
+                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                  },
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
             } catch (err) {
@@ -114,8 +188,8 @@ export function Coin() {
               );
               const chainData = await window.queries.getChain(coin);
 
-              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
-
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -133,11 +207,10 @@ export function Coin() {
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -187,16 +260,15 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -245,16 +317,15 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -306,16 +377,15 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -369,11 +439,10 @@ export function Coin() {
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -422,16 +491,15 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -476,16 +544,15 @@ export function Coin() {
                 coin,
                 undefined,
                 {
-                  ...values,
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -530,35 +597,20 @@ export function Coin() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const parentCoin = env === 'test' ? 'gteth' : 'eth';
-              const chainData = await window.queries.getChain(
-                parentCoin,
-                values.tokenAddress
-              );
-              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
-
+              const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(
-                parentCoin,
-                values.tokenAddress,
+                coin,
+                undefined,
                 {
-                  ...rest,
-                  eip1559: {
-                    maxFeePerGas: toWei(maxFeePerGas),
-                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                  },
-                  replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
-                    hardfork: 'london',
-                  },
+                  ...(await updateKeysFromIds(coin, values)),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
               );
-              if (!isRecoveryTransaction(recoverData)) {
-                throw new Error(
-                  'Fully-signed recovery transaction not detected.'
-                );
-              }
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
@@ -592,6 +644,26 @@ export function Coin() {
         />
       );
     default:
-      throw new Error(`Unsupported coin: ${coin}`);
+      throw new Error(`Unsupported coin: ${String(coin)}`);
   }
+}
+
+export function BuildUnsignedSweepCoin() {
+  const { env } = useParams<'env'>();
+  const environment = safeEnv(env);
+  const navigate = useNavigate();
+  return (
+    <>
+      <div className="tw-mb-8">
+        <CoinsSelectAutocomplete
+          onChange={event => {
+            navigate(
+              `/${environment}/build-unsigned-sweep/${event.currentTarget.value}`
+            );
+          }}
+        />
+      </div>
+      <Form />
+    </>
+  );
 }

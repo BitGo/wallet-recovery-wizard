@@ -11,15 +11,15 @@ export const Menu = Polymorphic.forwardRef<
   typeof defaultMenuTag,
   MenuProps,
   MenuTag
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
->(function Menu({ className: _, style: __, children, Tag, ...hostProps }, ref) {
+>(function Menu({ children, Tag, ...hostProps }, ref) {
   const Component = Tag ?? defaultMenuTag;
   return (
     <Component
       {...hostProps}
       className="tw-bg-white tw-p-1 tw-flex tw-flex-col tw-rounded"
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
       ref={ref as any}
+      style={undefined}
     >
       {children}
     </Component>

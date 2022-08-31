@@ -21,10 +21,6 @@ export const Button = Polymorphic.forwardRef<
   ButtonTag
 >(function Button(
   {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    className: _,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    style: __,
     Disabled,
     Width,
     Tag,
@@ -41,7 +37,6 @@ export const Button = Polymorphic.forwardRef<
   return (
     <Component
       {...hostProps}
-      ref={ref}
       className={clsx(
         'tw-border tw-border-solid tw-border-transparent tw-flex-row tw-py-2 tw-px-4 tw-text-button tw-font-semibold tw-text-center tw-items-center tw-justify-center tw-rounded',
         'focus:tw-outline-none focus:tw-ring-4 tw-ring-sky-400 tw-ring-opacity-50 focus:tw-ring-offset-1 tw-ring-offset-blue-500',
@@ -67,6 +62,8 @@ export const Button = Polymorphic.forwardRef<
           'tw-opacity-50': Disabled,
         }
       )}
+      ref={ref}
+      style={undefined}
     >
       {IconLeft && <span className="tw-flex tw-mr-1">{IconLeft}</span>}
       {children && <span className="tw-flex tw-text-base">{children}</span>}

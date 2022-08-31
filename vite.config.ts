@@ -11,7 +11,7 @@ rmSync(path.join(__dirname, 'dist'), { recursive: true, force: true }); // v14.1
 // https://vitejs.dev/config/
 export default defineConfig({
   optimizeDeps: {
-    include: ['storybook-addon-react-router-v6'],
+    include: [],
   },
   resolve: {
     alias: {

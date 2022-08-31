@@ -18,32 +18,21 @@ export const MenuItem = Polymorphic.forwardRef<
   MenuItemProps,
   MenuItemTag
 >(function MenuItem(
-  {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    className: _,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    style: __,
-    Title,
-    Description,
-    Meta,
-    IconLeft,
-    Tag,
-    ...hostProps
-  },
+  { Title, Description, Meta, IconLeft, Tag, ...hostProps },
   ref
 ) {
   const Component = Tag ?? defaultMenuItemTag;
 
   return (
     <Component
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ref={ref as any}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
+      {...(hostProps as any)}
       className={clsx(
         'tw-flex tw-items-center tw-gap-x-2 tw-min-h-14 tw-py-2 tw-px-3 tw-rounded',
         '[button&]:tw-appearance-none [button&]:tw-text-left [&[data-active]]:tw-bg-gray-200 [&[data-current]]:tw-bg-blue-500 [&[data-current]]:tw-text-gray-100 tw-text-slate-900'
       )}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      {...(hostProps as any)}
+      ref={ref}
+      style={undefined}
     >
       {IconLeft && (
         <span className="tw-pointer-events-none tw-flex-grow-0 tw-flex tw-items-center tw-justify-center">

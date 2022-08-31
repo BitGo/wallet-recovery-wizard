@@ -10,18 +10,7 @@ export type SearchfieldProps = {
 export const Searchfield = React.forwardRef<
   HTMLInputElement,
   SearchfieldProps & Omit<JSX.IntrinsicElements['input'], 'type'>
->(function Searchfield(
-  {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    className: _,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    style: __,
-    Disabled = false,
-    Width,
-    ...hostProps
-  },
-  ref
-) {
+>(function Searchfield({ Disabled = false, Width, ...hostProps }, ref) {
   return (
     <div
       className={clsx('tw-flex-col', {
@@ -41,12 +30,13 @@ export const Searchfield = React.forwardRef<
         </span>
         <input
           {...hostProps}
-          ref={ref}
           className={clsx(
             'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-pr-4 tw-pl-8 tw-bg-transparent',
             'placeholder:tw-text-gray-700',
             'focus:tw-outline-none'
           )}
+          ref={ref}
+          style={undefined}
           type="search"
         />
       </div>

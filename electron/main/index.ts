@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Bch } from '@bitgo/sdk-coin-bch';
@@ -80,9 +81,9 @@ async function createWindow() {
   });
 
   if (app.isPackaged) {
-    win.loadFile(indexHtml);
+    await win.loadFile(indexHtml);
   } else {
-    win.loadURL(url);
+    await win.loadURL(url);
     // win.webContents.openDevTools()
   }
 
@@ -93,12 +94,12 @@ async function createWindow() {
 
   // Make all links open with the browser, not with the application
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url);
+    if (url.startsWith('https:')) void shell.openExternal(url);
     return { action: 'deny' };
   });
 
   // commands
-  ipcMain.handle('setBitgoEnvironment', async (event, environment, apiKey) => {
+  ipcMain.handle('setBitGoEnvironment', async (event, environment, apiKey) => {
     sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
     return await Promise.resolve();
   });
@@ -152,7 +153,7 @@ async function createWindow() {
   });
 }
 
-app.whenReady().then(createWindow);
+void app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   win = null;
@@ -172,6 +173,6 @@ app.on('activate', () => {
   if (allWindows.length) {
     allWindows[0].focus();
   } else {
-    createWindow();
+    void createWindow();
   }
 });

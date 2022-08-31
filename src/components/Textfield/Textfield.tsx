@@ -9,10 +9,6 @@ export type TextfieldProps = {
 };
 
 export function Textfield({
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  className: _,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  style: __,
   Disabled = false,
   Invalid = false,
   Label,
@@ -39,7 +35,6 @@ export function Textfield({
       </label>
       <input
         {...hostProps}
-        type="text"
         className={clsx(
           'tw-appearance-none tw-flex tw-w-full tw-py-2 tw-px-4 tw-bg-transparent tw-box-border tw-border tw-border-solid tw-border-gray-700 tw-bg-white tw-text-body tw-text-slate-900 tw-font-normal tw-items-center tw-justify-center tw-rounded tw-relative',
           'placeholder:tw-text-gray-700',
@@ -49,6 +44,8 @@ export function Textfield({
             'tw-border-red-500': Invalid,
           }
         )}
+        style={undefined}
+        type="text"
       />
       {HelperText && (
         <div className="tw-mt-1 tw-text-gray-700 tw-text-label-2">

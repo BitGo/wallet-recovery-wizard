@@ -2,8 +2,8 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  appId: 'YourAppID',
-  productName: 'YourAppName',
+  appId: 'com.bitgo.WalletRecoveryWizard',
+  productName: 'Wallet Recovery Wizard',
   copyright: 'Copyright © 2022 ${author}',
   asar: true,
   directories: {
@@ -33,5 +33,6 @@
   linux: {
     target: ['AppImage'],
     artifactName: '${productName}-Linux-${version}.${ext}',
+    category: 'Utility',
   },
 }
