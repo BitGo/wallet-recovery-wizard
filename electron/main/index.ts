@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
+import { AvaxC, TavaxC } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
@@ -67,6 +68,8 @@ sdk.register('bcha', Bcha.createInstance);
 sdk.register('bsv', Bsv.createInstance);
 sdk.register('trx', Trx.createInstance);
 sdk.register('ttrx', Ttrx.createInstance);
+sdk.register('avaxc', AvaxC.createInstance);
+sdk.register('tavaxc', TavaxC.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

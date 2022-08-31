@@ -6,8 +6,6 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
 
 const validationSchema = Yup.object({
@@ -54,16 +52,6 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form>
-        <div className="tw-mb-6">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Bitcoin transactions are replayable. Please make sure you are the
-            owner of the Destination Address to avoid accidentally sending your
-            Bitcoin to an address you do not own.
-          </Notice>
-        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed hot wallet details
         </h4>
@@ -82,10 +70,10 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your user public key, as found on your BitGo recovery keycard."
-            Label="User Public Key"
+            HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+            Label="Box A Value"
             name="userKey"
-            placeholder='Enter the "Provided User Key" from your BitGo keycard...'
+            placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
             Width="fill"
           />
@@ -93,34 +81,36 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText={backupKeyHelperText}
-            Label="Backup Public Key"
+            Label="Box B Value"
             name="backupKey"
-            placeholder='Enter the "Backup Key" from your BitGo keycard...'
+            placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
+            rows={4}
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextarea
+            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
+            Label="Box C Value"
+            name="bitgoKey"
+            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
             rows={2}
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
-            Label="BitGo Public Key"
-            name="bitgoKey"
-            placeholder='Enter the "BitGo Public Key" from your BitGo keycard...'
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The passphrase for the wallet."
+            HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
+            placeholder="Enter your wallet password..."
             type="password"
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The address your transaction will be sent to."
+            HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
             placeholder="Enter destination address..."
