@@ -9,36 +9,48 @@ import {
 } from '~/components';
 
 const validationSchema = Yup.object({
+  apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  gasLimit: Yup.number()
+    .typeError('Gas limit must be a number')
+    .integer()
+    .positive('Gas limit must be a positive integer')
+    .required(),
+  gasPrice: Yup.number()
+    .typeError('Gas price must be a number')
+    .integer()
+    .positive('Gas price must be a positive integer')
+    .required(),
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.number().required(),
   userKey: Yup.string().required(),
+  walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
 }).required();
 
-export type BitcoinFormProps = {
+export type AvalancheCFormProps = {
   onSubmit: (
-    values: BitcoinFormValues,
-    formikHelpers: FormikHelpers<BitcoinFormValues>
+    values: AvalancheCFormValues,
+    formikHelpers: FormikHelpers<AvalancheCFormValues>
   ) => void | Promise<void>;
 };
 
-type BitcoinFormValues = Yup.Asserts<typeof validationSchema>;
+type AvalancheCFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
-  const formik = useFormik<BitcoinFormValues>({
+export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
+  const formik = useFormik<AvalancheCFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       backupKey: '',
-      bitgoKey: '',
+      gasLimit: 500000,
+      gasPrice: 20,
       krsProvider: '',
       recoveryDestination: '',
-      scan: 20,
       userKey: '',
+      walletContractAddress: '',
       walletPassphrase: '',
     },
     validationSchema,
@@ -69,6 +81,15 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
             Label="Box A Value"
@@ -89,12 +110,11 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
-            Label="Box C Value"
-            name="bitgoKey"
-            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
-            rows={2}
+          <FormikTextfield
+            HelperText="The AVAXC address of the wallet contract. This is also the wallet's base address."
+            Label="Wallet Contract Address"
+            name="walletContractAddress"
+            placeholder="Enter wallet contract address..."
             Width="fill"
           />
         </div>
@@ -119,9 +139,17 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Label="Address Scanning Factor"
-            name="scan"
+            HelperText="Gas limit for the AVAXC transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
+            Label="Gas limit"
+            name="gasLimit"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Gas price for the AVAXC transaction. The default is 20 Gwei."
+            Label="Gas Price"
+            name="gasPrice"
             Width="fill"
           />
         </div>

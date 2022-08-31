@@ -1,5 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAlertBanner } from '~/contexts';
+import { AvalancheCForm } from './AvalancheCForm'
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
@@ -101,6 +102,65 @@ function Form() {
                     chain: bitGoEnvironment === 'prod' ? 1 : 5,
                     hardfork: 'london',
                   },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
+              );
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'avaxc':
+    case 'tavaxc':
+      return (
+        <AvalancheCForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                values.apiKey
+              );
+              const chainData = await window.queries.getChain(coin);
+
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...values,
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }

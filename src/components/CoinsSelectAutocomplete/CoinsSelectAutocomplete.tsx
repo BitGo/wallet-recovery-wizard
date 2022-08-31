@@ -89,6 +89,12 @@ const prod = [
     Icon: 'eos',
     value: 'eos',
   },
+  {
+    Title: 'AVAXC',
+    Description: 'Avalanche C-Chain',
+    Icon: 'avax',
+    value: 'avaxc',
+  },
 ] as const;
 
 const test = [
@@ -133,6 +139,12 @@ const test = [
     Description: 'Testnet Eos',
     Icon: 'eos',
     value: 'teos',
+  },
+  {
+    Title: 'TAVAXC',
+    Description: 'Testnet Avalanche C-Chain',
+    Icon: 'avax',
+    value: 'tavaxc',
   },
 ] as const;
 

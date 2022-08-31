@@ -3,51 +3,57 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
 
 const validationSchema = Yup.object({
+  apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
-  krsProvider: Yup.string()
-    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
-    .label('Key Recovery Service'),
+  backupKeyId: Yup.string(),
+  gasLimit: Yup.number()
+    .typeError('Gas limit must be a number')
+    .integer()
+    .positive('Gas limit must be a positive integer')
+    .required(),
+  gasPrice: Yup.number()
+    .typeError('Gas price must be a number')
+    .integer()
+    .positive('Gas price must be a positive integer')
+    .required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.number().required(),
   userKey: Yup.string().required(),
+  userKeyId: Yup.string(),
+  walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
 }).required();
 
-export type BitcoinFormProps = {
+export type AvalancheCFormProps = {
   onSubmit: (
-    values: BitcoinFormValues,
-    formikHelpers: FormikHelpers<BitcoinFormValues>
+    values: AvalancheCFormValues,
+    formikHelpers: FormikHelpers<AvalancheCFormValues>
   ) => void | Promise<void>;
 };
 
-type BitcoinFormValues = Yup.Asserts<typeof validationSchema>;
+type AvalancheCFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
-  const formik = useFormik<BitcoinFormValues>({
+export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
+  const formik = useFormik<AvalancheCFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       backupKey: '',
-      bitgoKey: '',
-      krsProvider: '',
+      backupKeyId: '',
+      gasLimit: 500000,
+      gasPrice: 20,
       recoveryDestination: '',
-      scan: 20,
       userKey: '',
+      userKeyId: '',
+      walletContractAddress: '',
       walletPassphrase: '',
     },
     validationSchema,
   });
-
-  const backupKeyHelperText =
-    formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
 
   return (
     <FormikProvider value={formik}>
@@ -56,22 +62,18 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           Self-managed hot wallet details
         </h4>
         <div className="tw-mb-4">
-          <FormikSelectfield
-            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
-            Label="Key Recovery Service"
-            name="krsProvider"
+          <FormikTextfield
+            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
-          >
-            <option value="">None</option>
-            <option value="keyternal">Keyternal</option>
-            <option value="bitgoKRSv2">BitGo KRS</option>
-            <option value="dai">Coincover</option>
-          </FormikSelectfield>
+          />
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
-            Label="Box A Value"
+            Label="User Public Key"
             name="userKey"
             placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
@@ -79,9 +81,17 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           />
         </div>
         <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="User Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
           <FormikTextarea
-            HelperText={backupKeyHelperText}
-            Label="Box B Value"
+            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+            Label="Backup Public Key"
             name="backupKey"
             placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
@@ -89,12 +99,19 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="The BitGo public key for the wallet, as found on your BitGo recovery keycard."
-            Label="Box C Value"
-            name="bitgoKey"
-            placeholder='Enter the "C: BitGo Public Key" from your BitGo keycard...'
-            rows={2}
+          <FormikTextfield
+            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Backup Key ID (optional)"
+            name="userKeyId"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="The AVAXC address of the wallet contract. This is also the wallet's base address."
+            Label="Wallet Contract Address"
+            name="walletContractAddress"
+            placeholder="Enter wallet contract address..."
             Width="fill"
           />
         </div>
@@ -119,9 +136,17 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Label="Address Scanning Factor"
-            name="scan"
+            HelperText="Gas limit for the AVAXC transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
+            Label="Gas limit"
+            name="gasLimit"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Gas price for the AVAXC transaction. The default is 20 Gwei."
+            Label="Gas Price"
+            name="gasPrice"
             Width="fill"
           />
         </div>

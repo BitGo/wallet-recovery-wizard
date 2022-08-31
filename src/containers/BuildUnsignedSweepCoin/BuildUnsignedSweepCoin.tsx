@@ -12,6 +12,7 @@ import { TronForm } from './TronForm';
 
 import { CoinsSelectAutocomplete } from '~/components';
 import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
+import { AvalancheCForm } from './AvalancheCForm';
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
@@ -219,7 +220,66 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'avaxc':
+    case 'tavaxc':
+      return (
+        <AvalancheCForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                values.apiKey
+              );
+              const chainData = await window.queries.getChain(coin);
+
+              const recoverData = await window.commands.recover(
+                coin,
+                undefined,
+                {
+                  ...(await updateKeysFromIds(coin, values)),
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
+              );
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -277,7 +337,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -334,7 +394,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -394,7 +454,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -451,7 +511,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -508,7 +568,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -561,7 +621,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${coin}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${coin}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -619,7 +679,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 export interface CryptocurrencyIconProps {
   Name:
+    | 'avax'
     | 'bch'
     | 'bsv'
     | 'btc'
@@ -22,6 +23,38 @@ export function CryptocurrencyIcon({
   ...hostProps
 }: CryptocurrencyIconProps & JSX.IntrinsicElements['svg']) {
   switch (Name) {
+    case 'avax':
+      return (
+        <svg
+          version="1.1"
+          id="Capa_1"
+          xmlns="http://www.w3.org/2000/svg"
+          x="0px"
+          y="0px"
+          viewBox="0 0 32 32"
+          style={{}}
+          xmlSpace="preserve"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
+          className={clsx('tw-inline-flex tw-fill-current', {
+            'tw-w-4 tw-h-4': Size === 'small',
+            'tw-w-6 tw-h-6': Size === 'medium',
+            'tw-w-8 tw-h-8': Size === 'large',
+          })}
+          {...hostProps}
+        >
+          <style type="text/css">{`
+	.st0{fill:#E84142;}
+	.st1{fill:#FFFFFF;}
+`}</style>
+          <circle cx="16" cy="16" r="16" className="st0" />
+          <path
+            d="M21.6,16.4c0.2-0.6,0.8-0.8,1.4-0.7c0.3,0.1,0.5,0.3,0.7,0.7l3.4,6.1c0.6,1,0.1,1.7-1,1.7h-7
+	c-1.1,0-1.6-0.8-1-1.7L21.6,16.4z M14.9,4.7c0-0.6,0.4-1,1-1c0.6,0,1,0.4,1,1l0.8,1.4l1.8,3.2c0.4,0.9,0.4,2,0,2.9l-6.1,10.5
+	c-0.6,0.9-1.5,1.4-2.5,1.5h-5c-1.1,0-1.6-0.8-1-1.7L14.9,4.7z"
+            className="st1"
+          />
+        </svg>
+      );
     case 'bch':
       return (
         <svg
