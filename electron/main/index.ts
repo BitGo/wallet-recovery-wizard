@@ -10,6 +10,7 @@ import { Btg } from '@bitgo/sdk-coin-btg';
 import { Dash } from '@bitgo/sdk-coin-dash';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
+import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
@@ -53,6 +54,7 @@ sdk.register('btc', Btc.createInstance);
 sdk.register('tbtc', Tbtc.createInstance);
 sdk.register('eth', Eth.createInstance);
 sdk.register('gteth', Gteth.createInstance);
+sdk.register('ethw', Ethw.createInstance)
 sdk.register('eos', Eos.createInstance);
 sdk.register('teos', Teos.createInstance);
 sdk.register('xlm', Xlm.createInstance);

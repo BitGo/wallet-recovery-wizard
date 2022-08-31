@@ -60,6 +60,12 @@ const prod = [
     value: 'eth',
   },
   {
+    Title: 'ETHw',
+    Description: 'Ethereum PoW',
+    Icon: 'eth',
+    value: 'ethw',
+  },
+  {
     Title: 'ERC',
     Description: 'ERC20 Token',
     Icon: 'eth',

@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
-import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
+import { assert, isRecoveryTransaction, safeEnv, toWei, getEthLikeRecoveryChainId } from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
@@ -199,6 +199,7 @@ function Form() {
       );
     case 'eth':
     case 'gteth':
+    case 'ethw':
       return (
         <EthereumForm
           key={coin}
@@ -224,7 +225,7 @@ function Form() {
                     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                     hardfork: 'london',
                   },
                   bitgoKey: '',
