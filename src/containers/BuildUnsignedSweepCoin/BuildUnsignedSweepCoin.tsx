@@ -263,6 +263,7 @@ function Form() {
                 undefined,
                 {
                   ...(await updateKeysFromIds(coin, values)),
+                  gasPrice: toWei(values.gasPrice),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
