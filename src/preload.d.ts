@@ -29,6 +29,7 @@ type Commands = {
     parameters: RecoverParams & {
       rootAddress?: string;
       gasLimit?: number;
+      gasPrice?: number;
       eip1559?: {
         maxFeePerGas: number;
         maxPriorityFeePerGas: number;

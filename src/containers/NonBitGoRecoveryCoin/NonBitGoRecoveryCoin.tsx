@@ -161,6 +161,7 @@ function Form() {
                 undefined,
                 {
                   ...values,
+                  gasPrice: toWei(values.gasPrice),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }

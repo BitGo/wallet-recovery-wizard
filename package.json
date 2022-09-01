@@ -5,7 +5,7 @@
   "dependencies": {
     "@bitgo/abstract-utxo": "^1.1.1",
     "@bitgo/sdk-api": "^1.1.1",
-    "@bitgo/sdk-coin-avaxc": "^1.1.1",
+    "@bitgo/sdk-coin-avaxc": "^2.0.0-rc.0",
     "@bitgo/sdk-coin-bch": "^1.1.1",
     "@bitgo/sdk-coin-bcha": "^1.1.1",
     "@bitgo/sdk-coin-bsv": "^1.1.1",
