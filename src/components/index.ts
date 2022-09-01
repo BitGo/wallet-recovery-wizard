@@ -14,6 +14,7 @@ export * from './Notice';
 export * from './PageLayout';
 export * from './SelectAutocomplete';
 export * from './Selectfield';
+export * from './SuccessAnimation';
 export * from './Textarea';
 export * from './Textfield';
 export * from './Title';
