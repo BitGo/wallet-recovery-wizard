@@ -1,11 +1,7 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  Button,
-  FormikTextarea,
-  FormikTextfield,
-} from '~/components';
+import { Button, FormikTextarea, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),

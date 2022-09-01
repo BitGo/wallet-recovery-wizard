@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAlertBanner } from '~/contexts';
-import { AvalancheCForm } from './AvalancheCForm'
+import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
