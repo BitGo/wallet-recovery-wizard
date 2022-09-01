@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { Link } from 'react-router-dom';
 import * as Polymorphic from '../Polymorphic';
 
 export type ButtonProps = {
@@ -10,8 +11,7 @@ export type ButtonProps = {
   children?: React.ReactNode;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type ButtonTag = 'button' | 'a' | React.ForwardRefExoticComponent<any>;
+type ButtonTag = 'button' | 'a' | typeof Link;
 
 const ButtonDefaultTag = 'button';
 
@@ -23,7 +23,7 @@ export const Button = Polymorphic.forwardRef<
   {
     Disabled,
     Width,
-    Tag,
+    Tag = ButtonDefaultTag,
     Variant,
     IconLeft,
     IconRight,
@@ -32,11 +32,10 @@ export const Button = Polymorphic.forwardRef<
   },
   ref
 ) {
-  const Component = Tag ?? ButtonDefaultTag;
-
   return (
-    <Component
-      {...hostProps}
+    <Tag
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+      {...(hostProps as any)}
       className={clsx(
         'tw-border tw-border-solid tw-border-transparent tw-flex-row tw-py-2 tw-px-4 tw-text-button tw-font-semibold tw-text-center tw-items-center tw-justify-center tw-rounded',
         'focus:tw-outline-none focus:tw-ring-4 tw-ring-sky-400 tw-ring-opacity-50 focus:tw-ring-offset-1 tw-ring-offset-blue-500',
@@ -62,12 +61,13 @@ export const Button = Polymorphic.forwardRef<
           'tw-opacity-50': Disabled,
         }
       )}
-      ref={ref}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
+      ref={ref as any}
       style={undefined}
     >
       {IconLeft && <span className="tw-flex tw-mr-1">{IconLeft}</span>}
       {children && <span className="tw-flex tw-text-base">{children}</span>}
       {IconRight && <span className="tw-flex tw-ml-1">{IconRight}</span>}
-    </Component>
+    </Tag>
   );
 });

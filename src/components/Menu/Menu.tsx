@@ -11,10 +11,9 @@ export const Menu = Polymorphic.forwardRef<
   typeof defaultMenuTag,
   MenuProps,
   MenuTag
->(function Menu({ children, Tag, ...hostProps }, ref) {
-  const Component = Tag ?? defaultMenuTag;
+>(function Menu({ children, Tag = defaultMenuTag, ...hostProps }, ref) {
   return (
-    <Component
+    <Tag
       {...hostProps}
       className="tw-bg-white tw-p-1 tw-flex tw-flex-col tw-rounded"
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
@@ -22,6 +21,6 @@ export const Menu = Polymorphic.forwardRef<
       style={undefined}
     >
       {children}
-    </Component>
+    </Tag>
   );
 });

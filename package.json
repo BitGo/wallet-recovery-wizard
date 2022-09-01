@@ -45,7 +45,7 @@
     "cheerio": "^1.0.0-rc.12",
     "concurrently": "^7.3.0",
     "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
-    "electron": "^20.1.0",
+    "electron": "^20.1.1",
     "electron-builder": "^23.5.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-alias": "^1.1.2",

@@ -1,11 +1,18 @@
 {
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
     "composite": true,
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "types": ["vite-plugin-electron/electron-env"]
   },
-  "include": ["package.json", "electron"]
+  "include": [
+    "e2e",
+    "electron",
+    "package.json",
+    "playwright.config.ts",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }

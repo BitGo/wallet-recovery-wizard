@@ -1,3 +1,4 @@
-tailwind.config.js
-/scripts
 /dist
+/scripts
+postcss.config.js
+tailwind.config.js

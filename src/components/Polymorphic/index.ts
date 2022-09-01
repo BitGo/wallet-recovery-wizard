@@ -10,9 +10,19 @@ export const forwardRef = React.forwardRef as <
       Tag?: TElementType;
     } & TProps,
     ref: React.ForwardedRef<React.ElementRef<TElementType>>
-  ) => React.ReactElement | null
+  ) => React.ReactElement<
+    React.ComponentPropsWithoutRef<TElementType> & {
+      Tag?: TElementType;
+    } & TProps,
+    TElementType
+  > | null
 ) => <TTag extends TElementType = TDefaultTag>(
   props: React.ComponentPropsWithRef<TTag> & {
     Tag?: TTag;
   } & TProps
-) => React.ReactElement | null;
+) => React.ReactElement<
+  React.ComponentPropsWithRef<TTag> & {
+    Tag?: TTag;
+  } & TProps,
+  TTag
+> | null;

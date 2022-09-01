@@ -18,13 +18,18 @@ export const MenuItem = Polymorphic.forwardRef<
   MenuItemProps,
   MenuItemTag
 >(function MenuItem(
-  { Title, Description, Meta, IconLeft, Tag, ...hostProps },
+  {
+    Title,
+    Description,
+    Meta,
+    IconLeft,
+    Tag = defaultMenuItemTag,
+    ...hostProps
+  },
   ref
 ) {
-  const Component = Tag ?? defaultMenuItemTag;
-
   return (
-    <Component
+    <Tag
       // eslint-disable-next-line @typescript-eslint/no-explicit-any,@typescript-eslint/no-unsafe-assignment
       {...(hostProps as any)}
       className={clsx(
@@ -54,6 +59,6 @@ export const MenuItem = Polymorphic.forwardRef<
           {Meta}
         </div>
       )}
-    </Component>
+    </Tag>
   );
 });

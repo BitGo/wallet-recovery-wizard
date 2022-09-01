@@ -16,10 +16,12 @@ export const LinkCardItem = Polymorphic.forwardRef<
   typeof LinkCardItemDefaultTag,
   LinkCardItemProps,
   LinkCardItemTag
->(function LinkCardItem({ Title, Description, Tag, ...hostProps }, ref) {
-  const Component = Tag ?? LinkCardItemDefaultTag;
+>(function LinkCardItem(
+  { Title, Description, Tag = LinkCardItemDefaultTag, ...hostProps },
+  ref
+) {
   return (
-    <Component
+    <Tag
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
       {...(hostProps as any)}
       ref={ref}
@@ -39,6 +41,6 @@ export const LinkCardItem = Polymorphic.forwardRef<
       <span className="tw-text-gray-700 tw-text-label-2 tw-mt-1">
         {Description}
       </span>
-    </Component>
+    </Tag>
   );
 });

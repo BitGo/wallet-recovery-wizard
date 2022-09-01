@@ -21,7 +21,7 @@ const meta: ComponentMeta<typeof Button> = {
 
 export default meta;
 
-export const Primary: ComponentStoryObj<typeof Button<'button'>> = {
+export const Primary: ComponentStoryObj<typeof Button> = {
   args: {
     Variant: 'primary',
   },
@@ -58,7 +58,7 @@ export const Destructive: ComponentStoryObj<typeof Button> = {
   },
 };
 
-export const Disabled: ComponentStoryObj<typeof Button<'button'>> = {
+export const Disabled: ComponentStoryObj<typeof Button> = {
   args: {
     Disabled: true,
     disabled: true,
