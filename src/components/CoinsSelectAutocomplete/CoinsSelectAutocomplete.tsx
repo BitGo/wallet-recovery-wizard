@@ -72,18 +72,6 @@ const prod = [
     value: 'trx',
   },
   {
-    Title: 'BSV',
-    Description: 'Bitcoin SV',
-    Icon: 'bsv',
-    value: 'bsv',
-  },
-  {
-    Title: 'BCHA',
-    Description: 'Bitcoin ABC',
-    value: 'bcha',
-    Icon: undefined,
-  },
-  {
     Title: 'EOS',
     Description: 'Eos',
     Icon: 'eos',

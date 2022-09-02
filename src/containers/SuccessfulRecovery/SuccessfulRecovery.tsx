@@ -5,7 +5,7 @@ import CelebrationCheck from './CelebrationCheck.json';
 
 export function SuccessfulRecovery() {
   return (
-    <div className="tw-flex-col tw-inline-block tw-items-center tw-border tw-border-solid tw-border-gray-700 tw-p-16">
+    <div className="tw-flex-col tw-items-center tw-p-16">
       <div className="tw-px-8 tw-mb-2">
         <div className="tw-mb-4">
           <Player

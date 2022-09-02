@@ -1,10 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAlertBanner } from '~/contexts';
 import { AvalancheCForm } from './AvalancheCForm';
-import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
-import { BitcoinSVForm } from './BitcoinSVForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
@@ -17,12 +15,14 @@ function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
   const [, setAlert] = useAlertBanner();
+  const navigate = useNavigate();
 
   switch (coin) {
     case 'btc':
     case 'tbtc':
       return (
         <BitcoinForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -61,13 +61,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -77,6 +78,7 @@ function Form() {
     case 'gteth':
       return (
         <EthereumForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -130,13 +132,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -146,6 +149,7 @@ function Form() {
     case 'tavaxc':
       return (
         <AvalancheCForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -190,13 +194,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -210,6 +215,7 @@ function Form() {
     case 'teos':
       return (
         <RippleForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -248,13 +254,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -263,6 +270,7 @@ function Form() {
     case 'bch':
       return (
         <BitcoinCashForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -305,13 +313,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -323,6 +332,7 @@ function Form() {
     case 'zec':
       return (
         <LitecoinForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -365,127 +375,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'bcha':
-      return (
-        <BitcoinABCForm
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-            } finally {
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'bsv':
-      return (
-        <BitcoinSVForm
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -495,6 +392,7 @@ function Form() {
     case 'ttrx':
       return (
         <TronForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -532,13 +430,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
@@ -548,6 +447,7 @@ function Form() {
     case 'gterc20':
       return (
         <Erc20TokenForm
+          key={ coin }
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -604,13 +504,14 @@ function Form() {
                 JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
+
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {
                 console.error(err);
               }
-            } finally {
               setSubmitting(false);
             }
           }}
