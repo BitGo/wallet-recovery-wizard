@@ -26,7 +26,6 @@ export function SuccessfulRecovery() {
           to="/"
           Variant="secondary"
           Width="hug"
-          className="tw-font-semibold tw-text-label-1 tw-text-gray-900"
         >
           Back to Home &rarr;
         </Button>
