@@ -5,9 +5,7 @@ const meta: ComponentMeta<typeof App> = {
   component: App,
   parameters: {
     reactRouter: {
-      initialEntries: [
-        '/test/non-bitgo-recovery/btc/success'
-      ]
+      initialEntries: ['/test/non-bitgo-recovery/btc/success'],
     },
     layout: 'fullscreen',
   },

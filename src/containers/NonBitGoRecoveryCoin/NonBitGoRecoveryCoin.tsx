@@ -22,7 +22,7 @@ function Form() {
     case 'tbtc':
       return (
         <BitcoinForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -62,7 +62,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -78,7 +80,7 @@ function Form() {
     case 'gteth':
       return (
         <EthereumForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -133,7 +135,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -149,7 +153,7 @@ function Form() {
     case 'tavaxc':
       return (
         <AvalancheCForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -195,7 +199,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -215,7 +221,7 @@ function Form() {
     case 'teos':
       return (
         <RippleForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -255,7 +261,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -270,7 +278,7 @@ function Form() {
     case 'bch':
       return (
         <BitcoinCashForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -314,7 +322,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -332,7 +342,7 @@ function Form() {
     case 'zec':
       return (
         <LitecoinForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -376,7 +386,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -392,7 +404,7 @@ function Form() {
     case 'ttrx':
       return (
         <TronForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -431,7 +443,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -447,7 +461,7 @@ function Form() {
     case 'gterc20':
       return (
         <Erc20TokenForm
-          key={ coin }
+          key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -505,7 +519,9 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);

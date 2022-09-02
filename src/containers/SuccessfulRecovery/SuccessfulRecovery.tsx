@@ -21,12 +21,7 @@ export function SuccessfulRecovery() {
         </div>
       </div>
       <div className="tw-flex tw-justify-center">
-        <Button
-          Tag={Link}
-          to="/"
-          Variant="secondary"
-          Width="hug"
-        >
+        <Button Tag={Link} to="/" Variant="secondary" Width="hug">
           Back to Home &rarr;
         </Button>
       </div>
