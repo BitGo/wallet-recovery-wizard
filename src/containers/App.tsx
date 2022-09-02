@@ -5,6 +5,7 @@ import { Home } from './Home';
 import { NonBitGoRecoveryCoin } from './NonBitGoRecoveryCoin';
 import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 import { PageLayout } from '~/components';
+import { SuccessfulRecovery } from './SuccessfulRecovery';
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
       >
         <Route index element={<NonBitGoRecoveryIndex />} />
         <Route path=":coin" element={<NonBitGoRecoveryCoin />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
       <Route
         path="/:env/build-unsigned-sweep/*"
@@ -35,6 +37,7 @@ export default function App() {
       >
         <Route index element={<BuildUnsignedSweepIndex />} />
         <Route path=":coin" element={<BuildUnsignedSweepCoin />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
     </Routes>
   );
