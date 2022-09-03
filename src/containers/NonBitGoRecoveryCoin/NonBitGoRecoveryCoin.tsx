@@ -163,7 +163,6 @@ function Form() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -409,6 +408,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
+              const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -430,7 +430,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${coin}-recovery-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
