@@ -8,5 +8,8 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[ignore]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "[json5]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }

@@ -1,6 +1,7 @@
 {
   "author": {
-    "name": "BitGo, Inc."
+    "name": "BitGo, Inc.",
+    "email": "support@bitgo.com"
   },
   "dependencies": {
     "@bitgo/abstract-utxo": "^1.1.1",
@@ -80,7 +81,6 @@
   "main": "dist/electron/main/index.js",
   "name": "wallet-recovery-wizard",
   "private": true,
-  "productName": "BitGo Wallet Recovery Wizard",
   "scripts": {
     "build": "tsc && vite build && electron-builder",
     "dev": "vite",
