@@ -404,6 +404,25 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
+              const userXpub = values.userKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.userKey,
+                      values.userKeyId
+                    )
+                  ).key
+                : values.userKey;
+              const backupXpub = values.backupKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.backupKey,
+                      values.backupKeyId
+                    )
+                  ).key
+                : values['backupKey'];
+
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -420,7 +439,29 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    xpubsWithDerivationPath: {
+                      user: {
+                        xpub: userXpub,
+                        derivedFromParentWithSeed: values.userKeyId
+                          ? values.userKeyId
+                          : undefined,
+                      },
+                      backup: {
+                        xpub: backupXpub,
+                        derivedFromParentWithSeed: values.backupKeyId
+                          ? values.backupKeyId
+                          : undefined,
+                      },
+                      bitgo: { xpub: values.bitgoKey },
+                    },
+                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                  },
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -468,6 +509,25 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
+              const userXpub = values.userKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.userKey,
+                      values.userKeyId
+                    )
+                  ).key
+                : values.userKey;
+              const backupXpub = values.backupKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.backupKey,
+                      values.backupKeyId
+                    )
+                  ).key
+                : values['backupKey'];
+
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -484,7 +544,29 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    xpubsWithDerivationPath: {
+                      user: {
+                        xpub: userXpub,
+                        derivedFromParentWithSeed: values.userKeyId
+                          ? values.userKeyId
+                          : undefined,
+                      },
+                      backup: {
+                        xpub: backupXpub,
+                        derivedFromParentWithSeed: values.backupKeyId
+                          ? values.backupKeyId
+                          : undefined,
+                      },
+                      bitgo: { xpub: values.bitgoKey },
+                    },
+                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                  },
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -511,6 +593,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
+              const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -525,6 +608,25 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
+              const userXpub = values.userKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.userKey,
+                      values.userKeyId
+                    )
+                  ).key
+                : values.userKey;
+              const backupXpub = values.backupKeyId
+                ? (
+                    await window.queries.deriveKeyWithSeed(
+                      coin,
+                      values.backupKey,
+                      values.backupKeyId
+                    )
+                  ).key
+                : values['backupKey'];
+
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -532,7 +634,7 @@ function Form() {
                     extensions: ['json'],
                   },
                 ],
-                defaultPath: `~/${coin}-unsigned-sweep-${Date.now()}.json`,
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
               });
 
               if (!showSaveDialogData.filePath) {
@@ -541,7 +643,29 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    xpubsWithDerivationPath: {
+                      user: {
+                        xpub: userXpub,
+                        derivedFromParentWithSeed: values.userKeyId
+                          ? values.userKeyId
+                          : undefined,
+                      },
+                      backup: {
+                        xpub: backupXpub,
+                        derivedFromParentWithSeed: values.backupKeyId
+                          ? values.backupKeyId
+                          : undefined,
+                      },
+                      bitgo: { xpub: values.bitgoKey },
+                    },
+                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                  },
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -572,12 +696,27 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
+              const parentCoin = env === 'test' ? 'gteth' : 'eth';
+              const chainData = await window.queries.getChain(
+                parentCoin,
+                values.tokenAddress
+              );
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                await updateKeysFromIds(parentCoin, values);
+
               const recoverData = await window.commands.recover(
-                coin,
-                undefined,
+                parentCoin,
+                values.tokenAddress,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...rest,
+                  eip1559: {
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                  },
+                  replayProtectionOptions: {
+                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    hardfork: 'london',
+                  },
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
