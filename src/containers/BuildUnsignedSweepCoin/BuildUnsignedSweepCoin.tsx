@@ -1,5 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
+import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
+import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
@@ -7,10 +10,6 @@ import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
-
-import { CoinsSelectAutocomplete } from '~/components';
-import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
-import { AvalancheCForm } from './AvalancheCForm';
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
