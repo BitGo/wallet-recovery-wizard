@@ -1,5 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
+import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
+import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
@@ -8,8 +10,6 @@ import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
-import { CoinsSelectAutocomplete } from '~/components';
-import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
