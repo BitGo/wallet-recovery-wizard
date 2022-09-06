@@ -473,13 +473,13 @@ function Form() {
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await window.queries.getChain(
                 parentCoin,
-                values.tokenAddress
+                values.tokenAddress.toLowerCase(),
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
               const recoverData = await window.commands.recover(
                 parentCoin,
-                values.tokenAddress,
+                values.tokenAddress.toLowerCase(),
                 {
                   ...rest,
                   eip1559: {
