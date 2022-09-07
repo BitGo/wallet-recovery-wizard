@@ -57,11 +57,15 @@ type Queries = {
     key: string;
     derivationPath: string;
   }>;
+  getVersion(): Promise<string>;
   deriveKeyByPath(key: string, id: string): Promise<string>;
   getChain(coin: string, token?: string): Promise<string>;
 };
 
 const queries: Queries = {
+  getVersion() {
+    return ipcRenderer.invoke('getVersion');
+  },
   deriveKeyWithSeed(coin, key, seed) {
     return ipcRenderer.invoke('deriveKeyWithSeed', coin, key, seed);
   },

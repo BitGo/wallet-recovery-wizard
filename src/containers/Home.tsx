@@ -5,6 +5,10 @@ import logo from '/logo.svg';
 
 export function Home() {
   const [env, setEnv] = React.useState('test');
+  const [version, setVersion] = React.useState('...');
+  React.useEffect(() => {
+    void window.queries.getVersion().then(setVersion);
+  }, []);
 
   return (
     <>
@@ -18,7 +22,7 @@ export function Home() {
             BitGo Wallet Recovery Wizard
           </h3>
           <small className="tw-text-label-1 tw-font-medium tw-text-gray-700">
-            Version: 4.0.0 - Dev Build
+            Version: {version}
           </small>
           <div className="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-gap-16">
             <div className="md:tw-basis-[20.75rem]">

@@ -133,6 +133,10 @@ async function createWindow() {
 
   // queries
 
+  ipcMain.handle('getVersion', () => {
+    return app.getVersion();
+  });
+
   ipcMain.handle('deriveKeyWithSeed', (event, coin, key, seed) => {
     return sdk.coin(coin).deriveKeyWithSeed({ key, seed });
   });
