@@ -222,7 +222,6 @@ function Form() {
         <RippleForm
           key={coin}
           onSubmit={async (values, { setSubmitting }) => {
-            console.log(coin, values);
             setAlert(undefined);
             setSubmitting(true);
             try {
