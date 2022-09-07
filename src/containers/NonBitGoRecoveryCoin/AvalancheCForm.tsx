@@ -81,15 +81,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
-            Label="API Key"
-            name="apiKey"
-            placeholder="Enter API key..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
             Label="Box A Value"
@@ -134,6 +125,15 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             Label="Destination Address"
             name="recoveryDestination"
             placeholder="Enter destination address..."
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

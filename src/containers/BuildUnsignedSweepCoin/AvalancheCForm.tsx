@@ -140,7 +140,7 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas price for the AVAXC transaction. The default is 20 Gwei."
+            HelperText="Gas price for the AVAXC transaction. The default is 30 Gwei."
             Label="Gas Price"
             name="gasPrice"
             Width="fill"
