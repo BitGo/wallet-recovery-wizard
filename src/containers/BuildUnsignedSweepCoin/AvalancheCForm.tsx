@@ -41,7 +41,7 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
       backupKey: '',
       backupKeyId: '',
       gasLimit: 500000,
-      gasPrice: 20,
+      gasPrice: 30,
       recoveryDestination: '',
       userKey: '',
       userKeyId: '',

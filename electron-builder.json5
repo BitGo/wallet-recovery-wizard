@@ -21,7 +21,7 @@
     executableName: 'wallet-recovery-wizard',
     icon: 'wallet-recovery-wizard',
     synopsis: 'A UI-based desktop app for BitGo Recoveries',
-    target: ['AppImage', 'deb', 'snap'],
+    target: ['deb'],
   },
   mac: {
     hardenedRuntime: true,
