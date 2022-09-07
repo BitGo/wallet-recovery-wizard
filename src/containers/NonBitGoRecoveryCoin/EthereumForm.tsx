@@ -79,15 +79,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
-            Label="API Key"
-            name="apiKey"
-            placeholder="Enter API key..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
             Label="Box A Value"
@@ -132,6 +123,15 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             Label="Destination Address"
             name="recoveryDestination"
             placeholder="Enter destination address..."
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An API-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

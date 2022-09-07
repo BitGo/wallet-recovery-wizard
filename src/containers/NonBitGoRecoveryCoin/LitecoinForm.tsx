@@ -71,15 +71,6 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
-            Label="API Key"
-            name="apiKey"
-            placeholder="Enter API key..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
             Label="Box A Value"
@@ -133,6 +124,15 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Label="Address Scanning Factor"
             name="scan"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An API-Key Token from blockchair.com required for mainnet recovery of this coin."
+            Label="API Key"
+            name="apiKey"
+            placeholder="Enter API key..."
             Width="fill"
           />
         </div>
