@@ -473,7 +473,7 @@ function Form() {
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await window.queries.getChain(
                 parentCoin,
-                values.tokenAddress.toLowerCase(),
+                values.tokenAddress.toLowerCase()
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
