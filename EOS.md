@@ -32,7 +32,11 @@ If you found that these URLs are no longer valid, you can likely find newly host
     Request Body format (you should find this in your downloaded JSON):
 
 ```json
-{ "compression": "", "packed_trx": "", "signatures": ["", ""] }
+{
+  "compression": "",
+  "packed_trx": "",
+  "signatures": ["", ""]
+}
 ```
 
 ## Important Note
