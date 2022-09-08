@@ -4,6 +4,7 @@ import type {
 } from '@bitgo/abstract-utxo';
 
 const GWEI = 10 ** 9;
+
 export function toWei(gas: number) {
   return gas * GWEI;
 }

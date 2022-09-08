@@ -1,7 +1,7 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
+import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   backupKey: Yup.string().required(),
@@ -42,12 +42,10 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           Self-managed cold wallet details
         </h4>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+          <FormikTextfield
+            HelperText="Your user public key, as found on your recovery KeyCard."
             Label="User Public Key"
             name="userKey"
-            placeholder='Enter the "A: User Key" from your BitGo keycard...'
-            rows={4}
             Width="fill"
           />
         </div>
@@ -60,12 +58,10 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+          <FormikTextfield
+            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
             Label="Backup Public Key"
             name="backupKey"
-            placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
-            rows={4}
             Width="fill"
           />
         </div>
@@ -73,7 +69,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
           <FormikTextfield
             HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
             Label="Backup Key ID (optional)"
-            name="userKeyId"
+            name="backupKeyId"
             Width="fill"
           />
         </div>
@@ -82,7 +78,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText="The root address of the wallet."
             Label="Root Address"
             name="rootAddress"
-            placeholder="Enter root address..."
             Width="fill"
           />
         </div>
@@ -91,7 +86,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            placeholder="Enter destination address..."
             Width="fill"
           />
         </div>

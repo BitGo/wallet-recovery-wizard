@@ -44,8 +44,8 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
 
   const backupKeyHelperText =
     formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+      ? 'Your encrypted backup key, as found on your recovery KeyCard.'
+      : 'The backup public key for the wallet, as found on your recovery KeyCard.';
 
   return (
     <FormikProvider value={formik}>
@@ -68,10 +68,9 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+            HelperText="Your encrypted user key, as found on your recovery KeyCard."
             Label="Box A Value"
             name="userKey"
-            placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
             Width="fill"
           />
@@ -81,7 +80,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText={backupKeyHelperText}
             Label="Box B Value"
             name="backupKey"
-            placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
             Width="fill"
           />
@@ -91,7 +89,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText="The root address of the wallet."
             Label="Root Address"
             name="rootAddress"
-            placeholder="Enter root address..."
             Width="fill"
           />
         </div>
@@ -100,7 +97,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            placeholder="Enter your wallet password..."
             type="password"
             Width="fill"
           />
@@ -110,7 +106,6 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            placeholder="Enter destination address..."
             Width="fill"
           />
         </div>
