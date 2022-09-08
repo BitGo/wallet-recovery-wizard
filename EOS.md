@@ -18,7 +18,7 @@ If you found that these URLs are no longer valid, you can likely find newly host
 
     EOS Nation Endpoints: https://validate.eosnation.io/eos/reports/endpoints.html
 
-2) Ensure that your account is powered up to broadcast transaction on the network. Refer this link to know more about EOS Power Up Model (Note: Your account name is the root address of the wallet).
+2) Ensure that your account is powered up to broadcast transaction on the network (Note: Your account name is the root address of the wallet). Refer this link to know more about EOS Power Up Model.
    https://eos.io/eos-public-blockchain/powerup-model/
 
    Testnet Endpoint: https://monitor.jungletestnet.io/#powerup
