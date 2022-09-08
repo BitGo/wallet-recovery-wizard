@@ -1,7 +1,7 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
+import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
@@ -18,7 +18,6 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
 }).required();
 
 export type EthereumFormProps = {
@@ -44,7 +43,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
       userKey: '',
       userKeyId: '',
       walletContractAddress: '',
-      walletPassphrase: '',
     },
     validationSchema,
   });
@@ -56,12 +54,10 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           Self-managed cold wallet details
         </h4>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+          <FormikTextfield
+            HelperText="Your user public key, as found on your recovery KeyCard."
             Label="User Public Key"
             name="userKey"
-            placeholder='Enter the "A: User Key" from your BitGo keycard...'
-            rows={4}
             Width="fill"
           />
         </div>
@@ -74,12 +70,10 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted backup key, as found on your BitGo recovery keycard."
+          <FormikTextfield
+            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
             Label="Backup Public Key"
             name="backupKey"
-            placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
-            rows={4}
             Width="fill"
           />
         </div>
@@ -87,7 +81,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
           <FormikTextfield
             HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
             Label="Backup Key ID (optional)"
-            name="userKeyId"
+            name="backupKeyId"
             Width="fill"
           />
         </div>
@@ -96,17 +90,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
             Label="Wallet Contract Address"
             name="walletContractAddress"
-            placeholder="Enter wallet contract address..."
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The passphrase of the wallet."
-            Label="Wallet Passphrase"
-            name="walletPassphrase"
-            placeholder="Enter your wallet password..."
-            type="password"
             Width="fill"
           />
         </div>
@@ -115,7 +98,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            placeholder="Enter destination address..."
             Width="fill"
           />
         </div>
@@ -148,7 +130,6 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             HelperText="An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
             Label="API Key"
             name="apiKey"
-            placeholder="Enter API key..."
             Width="fill"
           />
         </div>

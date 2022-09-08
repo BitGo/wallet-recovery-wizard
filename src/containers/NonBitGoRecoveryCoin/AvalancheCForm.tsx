@@ -58,8 +58,8 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
 
   const backupKeyHelperText =
     formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+      ? 'Your encrypted backup key, as found on your recovery KeyCard.'
+      : 'The backup public key for the wallet, as found on your recovery KeyCard.';
 
   return (
     <FormikProvider value={formik}>
@@ -82,10 +82,9 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your encrypted user key, as found on your BitGo recovery keycard."
+            HelperText="Your encrypted user key, as found on your recovery KeyCard."
             Label="Box A Value"
             name="userKey"
-            placeholder='Enter the "A: User Key" from your BitGo keycard...'
             rows={4}
             Width="fill"
           />
@@ -95,7 +94,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText={backupKeyHelperText}
             Label="Box B Value"
             name="backupKey"
-            placeholder='Enter the "B: Backup Key" from your BitGo keycard...'
             rows={4}
             Width="fill"
           />
@@ -105,7 +103,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="The AVAXC address of the wallet contract. This is also the wallet's base address."
             Label="Wallet Contract Address"
             name="walletContractAddress"
-            placeholder="Enter wallet contract address..."
             Width="fill"
           />
         </div>
@@ -114,7 +111,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            placeholder="Enter your wallet password..."
             type="password"
             Width="fill"
           />
@@ -124,7 +120,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            placeholder="Enter destination address..."
             Width="fill"
           />
         </div>
@@ -133,7 +128,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
             Label="API Key"
             name="apiKey"
-            placeholder="Enter API key..."
             Width="fill"
           />
         </div>
@@ -147,7 +141,7 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas price for the AVAXC transaction. The default is 30 Gwei."
+            HelperText="Gas price for the AVAXC transaction. The value should be between 1 Gwei and 2500 Gwei. The default is 30 Gwei."
             Label="Gas Price"
             name="gasPrice"
             Width="fill"
