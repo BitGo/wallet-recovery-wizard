@@ -43,7 +43,3 @@ If you found that these URLs are no longer valid, you can likely find newly host
 
 In order to accommodate cold wallet signing time, BitGo's EOS transactions are built with an **8-hour expiration time**. The EOS network
 rules require that you have to wait until **an hour before expiration** to broadcast your transaction. Broadcasting before this time would result in a failure.
-
-```
-
-```

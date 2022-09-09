@@ -9,23 +9,26 @@ Withdraw Funds without BitGo:
 - Unsigned Sweep: Build an unsigned transaction using the user and backup public keys, independent from any BitGo services.
 - Non-BitGo Recoveries: Build a transaction using the recovery KeyCard, independent from any BitGo services.
 - Coin Support:
-  | | Production | Test |
-  |-------| ------------- | ------------- |
-  | AVAXC | Yes | Yes |
-  | BTC | Yes | Yes |
-  | BCH | Yes | No |
-  | BTG | Yes | No |
-  | DASH | Yes | No |
-  | ETH | Yes | Yes |
-  | EOS | Yes | Yes |
-  | ERC20 | Yes | Yes |
-  | LTC | Yes | No |
-  | TRX | Yes | Yes |
-  | XLM | Yes | Yes |
-  | XRP | Yes | Yes |
-  | ZEC | Yes | No |
+
+  | Coin  | Production | Test |
+  | ----- | ---------- | ---- |
+  | AVAXC | Yes        | Yes  |
+  | BTC   | Yes        | Yes  |
+  | BCH   | Yes        | No   |
+  | BTG   | Yes        | No   |
+  | DASH  | Yes        | No   |
+  | ETH   | Yes        | Yes  |
+  | EOS   | Yes        | Yes  |
+  | ERC20 | Yes        | Yes  |
+  | LTC   | Yes        | No   |
+  | TRX   | Yes        | Yes  |
+  | XLM   | Yes        | Yes  |
+  | XRP   | Yes        | Yes  |
+  | ZEC   | Yes        | No   |
 
 ## Installing and Downloading
+
+This project was bootstrapped with [Electron Vite React](https://github.com/electron-vite/electron-vite-react).
 
 Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/releases).
 
