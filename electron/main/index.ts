@@ -77,7 +77,7 @@ Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Wallet Recovery Wizard',
-    icon: join(ROOT_PATH.public, 'icons/512x512.png'),
+    icon: join(ROOT_PATH.public, 'icon-256x256.png'),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
