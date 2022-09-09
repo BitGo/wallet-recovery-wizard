@@ -20,7 +20,7 @@ Build an unsigned transaction from a cold wallet using the user and backup publi
 
     2. For Coins like Stellar, Ripple, and EOS, Root Address of the wallet needs to be provided.
 
-    3. For Ethereum, ERC20 Token, and Avalanche C-Chain, Wallet Contract Address needs to be provided. This is the ETH or AVAX-C address of the wallet contract. This is also the wallet's base address.
+    3. For Ethereum, ERC20 Token, and Avalanche C-Chain, Wallet Contract Address needs to be provided. This is the ETH or AVAXC address of the wallet contract. This is also the wallet's base address.
        For ERC20 Token, Token Contract Address needs to be provided. This is the address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address
 
 7.  You are asked to provide the Destination Address (The address where you want to receive your recovered funds).
