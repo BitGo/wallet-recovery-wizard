@@ -2,6 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import { assert, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
+import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
@@ -10,6 +11,54 @@ import { EthereumForm } from './EthereumForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
+
+async function includePubsFor<
+  TValues extends {
+    userKey: string;
+    userKeyId?: string;
+    backupKey: string;
+    backupKeyId?: string;
+    bitgoKey?: string;
+  }
+>(values: TValues, coin: string) {
+  const userXpub = values.userKeyId
+    ? (
+        await window.queries.deriveKeyWithSeed(
+          coin,
+          values.userKey,
+          values.userKeyId
+        )
+      ).key
+    : values.userKey;
+  const backupXpub = values.backupKeyId
+    ? (
+        await window.queries.deriveKeyWithSeed(
+          coin,
+          values.backupKey,
+          values.backupKeyId
+        )
+      ).key
+    : values.backupKey;
+
+  return {
+    xpubsWithDerivationPath: {
+      user: {
+        xpub: userXpub,
+        derivedFromParentWithSeed: values.userKeyId
+          ? values.userKeyId
+          : undefined,
+      },
+      backup: {
+        xpub: backupXpub,
+        derivedFromParentWithSeed: values.backupKeyId
+          ? values.backupKeyId
+          : undefined,
+      },
+      bitgo: { xpub: values.bitgoKey },
+    },
+    pubs: [userXpub, backupXpub, values.bitgoKey],
+  };
+}
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
@@ -75,6 +124,10 @@ function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
   const [, setAlert] = useAlertBanner();
+  const [includePubsInUnsignedSweep] = useLocalStorageState(
+    false,
+    'includePubsInUnsignedSweep'
+  );
   const navigate = useNavigate();
 
   switch (coin) {
@@ -103,25 +156,6 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
-              const userXpub = values.userKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.userKey,
-                      values.userKeyId
-                    )
-                  ).key
-                : values.userKey;
-              const backupXpub = values.backupKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.backupKey,
-                      values.backupKeyId
-                    )
-                  ).key
-                : values['backupKey'];
-
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -141,22 +175,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    xpubsWithDerivationPath: {
-                      user: {
-                        xpub: userXpub,
-                        derivedFromParentWithSeed: values.userKeyId
-                          ? values.userKeyId
-                          : undefined,
-                      },
-                      backup: {
-                        xpub: backupXpub,
-                        derivedFromParentWithSeed: values.backupKeyId
-                          ? values.backupKeyId
-                          : undefined,
-                      },
-                      bitgo: { xpub: values.bitgoKey },
-                    },
-                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                    ...(await includePubsFor(values, coin)),
                   },
                   null,
                   2
@@ -233,7 +252,16 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(values, coin)),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -297,7 +325,16 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(values, coin)),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -360,7 +397,16 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(values, coin)),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 
@@ -405,25 +451,6 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
-              const userXpub = values.userKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.userKey,
-                      values.userKeyId
-                    )
-                  ).key
-                : values.userKey;
-              const backupXpub = values.backupKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.backupKey,
-                      values.backupKeyId
-                    )
-                  ).key
-                : values['backupKey'];
-
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -443,22 +470,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    xpubsWithDerivationPath: {
-                      user: {
-                        xpub: userXpub,
-                        derivedFromParentWithSeed: values.userKeyId
-                          ? values.userKeyId
-                          : undefined,
-                      },
-                      backup: {
-                        xpub: backupXpub,
-                        derivedFromParentWithSeed: values.backupKeyId
-                          ? values.backupKeyId
-                          : undefined,
-                      },
-                      bitgo: { xpub: values.bitgoKey },
-                    },
-                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                    ...(await includePubsFor(values, coin)),
                   },
                   null,
                   2
@@ -510,25 +522,6 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
-              const userXpub = values.userKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.userKey,
-                      values.userKeyId
-                    )
-                  ).key
-                : values.userKey;
-              const backupXpub = values.backupKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.backupKey,
-                      values.backupKeyId
-                    )
-                  ).key
-                : values['backupKey'];
-
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -548,22 +541,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    xpubsWithDerivationPath: {
-                      user: {
-                        xpub: userXpub,
-                        derivedFromParentWithSeed: values.userKeyId
-                          ? values.userKeyId
-                          : undefined,
-                      },
-                      backup: {
-                        xpub: backupXpub,
-                        derivedFromParentWithSeed: values.backupKeyId
-                          ? values.backupKeyId
-                          : undefined,
-                      },
-                      bitgo: { xpub: values.bitgoKey },
-                    },
-                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                    ...(await includePubsFor(values, coin)),
                   },
                   null,
                   2
@@ -610,25 +588,6 @@ function Form() {
                 'Fully-signed recovery transaction not detected.'
               );
 
-              const userXpub = values.userKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.userKey,
-                      values.userKeyId
-                    )
-                  ).key
-                : values.userKey;
-              const backupXpub = values.backupKeyId
-                ? (
-                    await window.queries.deriveKeyWithSeed(
-                      coin,
-                      values.backupKey,
-                      values.backupKeyId
-                    )
-                  ).key
-                : values['backupKey'];
-
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
                   {
@@ -648,22 +607,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    xpubsWithDerivationPath: {
-                      user: {
-                        xpub: userXpub,
-                        derivedFromParentWithSeed: values.userKeyId
-                          ? values.userKeyId
-                          : undefined,
-                      },
-                      backup: {
-                        xpub: backupXpub,
-                        derivedFromParentWithSeed: values.backupKeyId
-                          ? values.backupKeyId
-                          : undefined,
-                      },
-                      bitgo: { xpub: values.bitgoKey },
-                    },
-                    pubs: [userXpub, backupXpub, values['bitgoKey']],
+                    ...(await includePubsFor(values, coin)),
                   },
                   null,
                   2
@@ -744,7 +688,16 @@ function Form() {
 
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(values, coin)),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
                 { encoding: 'utf-8' }
               );
 

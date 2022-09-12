@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { LinkCard, LinkCardItem, Selectfield, Title } from '~/components';
+import { useLocalStorageState } from '~/hooks';
 import logo from '/logo.svg';
 
 export function Home() {
-  const [env, setEnv] = React.useState('test');
+  const [env, setEnv] = useLocalStorageState('test', 'env');
+  const [includePubsInUnsignedSweep, setIncludePubsInUnsignedSweep] =
+    useLocalStorageState(false, 'includePubsInUnsignedSweep');
   const [version, setVersion] = React.useState('...');
   React.useEffect(() => {
     void window.queries.getVersion().then(setVersion);
@@ -49,6 +52,19 @@ export function Home() {
                 >
                   <option value="en">English</option>
                 </Selectfield>
+                <label className="tw-text-label-1">
+                  <input
+                    className="tw-accent-blue-500 tw-align-middle"
+                    type="checkbox"
+                    checked={includePubsInUnsignedSweep}
+                    onChange={event => {
+                      setIncludePubsInUnsignedSweep(
+                        event.currentTarget.checked
+                      );
+                    }}
+                  />
+                  &nbsp; Include pubs in Unsigned Sweep transactions
+                </label>
               </div>
             </div>
             <div className="md:tw-flex-grow">
