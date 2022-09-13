@@ -8,7 +8,7 @@ If you found that these URLs are no longer valid, you can likely find newly host
 
 1.  Find a fullnode URL. Below are a few known 3-party API endpoints for your reference:
 
-    Testnet Endpoints: https://monitor.jungletestnet.io/#apiendpoints
+    Testnet (Kylin) Endpoint: https://kylin.eosn.io
 
     Mainnet Endpoints: https://eos-api-list.herokuapp.com
 
@@ -19,7 +19,7 @@ If you found that these URLs are no longer valid, you can likely find newly host
 2.  Ensure that your account is powered up to broadcast transaction on the network (Note: Your account name is the root address of the wallet). Refer this link to know more about EOS Power Up Model.
     https://eos.io/eos-public-blockchain/powerup-model/
 
-    Testnet Endpoint: https://monitor.jungletestnet.io/#powerup
+    Testnet Endpoint: https://faucet.eosnation.io/docs
 
     Mainnet Endpoint: https://bloks.io/wallet/powerup
 
