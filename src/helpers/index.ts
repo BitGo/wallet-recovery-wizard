@@ -9,6 +9,10 @@ export function toWei(gas: number) {
   return gas * GWEI;
 }
 
+export function getEthLikeRecoveryChainId(coinName: string, bitGoEnvironment: string) {
+  return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 5
+}
+
 export function safeEnv(value: string | undefined): 'prod' | 'test' {
   if (value !== 'test' && value !== 'prod') {
     throw new Error(
