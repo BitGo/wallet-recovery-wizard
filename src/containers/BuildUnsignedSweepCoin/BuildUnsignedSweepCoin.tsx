@@ -1,7 +1,13 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
-import { assert, isRecoveryTransaction, safeEnv, toWei, getEthLikeRecoveryChainId } from '~/helpers';
+import {
+  assert,
+  isRecoveryTransaction,
+  safeEnv,
+  toWei,
+  getEthLikeRecoveryChainId,
+} from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
@@ -20,11 +26,12 @@ async function includePubsFor<
     backupKeyId?: string;
     bitgoKey?: string;
   }
->(values: TValues, coin: string) {
+>(values: TValues, coin: string, token?: string) {
   const userXpub = values.userKeyId
     ? (
         await window.queries.deriveKeyWithSeed(
           coin,
+          token,
           values.userKey,
           values.userKeyId
         )
@@ -34,6 +41,7 @@ async function includePubsFor<
     ? (
         await window.queries.deriveKeyWithSeed(
           coin,
+          token,
           values.backupKey,
           values.backupKeyId
         )
@@ -84,6 +92,7 @@ async function updateKeysFromIds<
   }
 >(
   coin: string,
+  token: string | undefined,
   params: TParams
 ): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
   const { userKeyId, backupKeyId, ...copy } = params;
@@ -111,7 +120,7 @@ async function updateKeysFromIds<
         );
       } else {
         copy[item.name] = (
-          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+          await window.queries.deriveKeyWithSeed(coin, token, item.key, item.id)
         ).key;
       }
     }
@@ -146,7 +155,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   ignoreAddressTypes: ['p2wsh'],
                 }
               );
@@ -214,7 +223,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(coin, values);
+                await updateKeysFromIds(coin, undefined, values);
               const recoverData = await window.commands.recover(
                 coin,
                 undefined,
@@ -299,7 +308,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   gasPrice: toWei(values.gasPrice),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
@@ -372,7 +381,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 }
@@ -442,7 +451,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -513,7 +522,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -579,7 +588,7 @@ function Form() {
                 coin,
                 undefined,
                 {
-                  ...(await updateKeysFromIds(coin, values)),
+                  ...(await updateKeysFromIds(coin, undefined, values)),
                   bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                   ignoreAddressTypes: [],
                 }
@@ -649,7 +658,11 @@ function Form() {
                 values.tokenAddress.toLowerCase()
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(parentCoin, values);
+                await updateKeysFromIds(
+                  parentCoin,
+                  values.tokenAddress.toLowerCase(),
+                  values
+                );
 
               const recoverData = await window.commands.recover(
                 parentCoin,

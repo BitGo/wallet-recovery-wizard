@@ -54,7 +54,7 @@ sdk.register('btc', Btc.createInstance);
 sdk.register('tbtc', Tbtc.createInstance);
 sdk.register('eth', Eth.createInstance);
 sdk.register('gteth', Gteth.createInstance);
-sdk.register('ethw', Ethw.createInstance)
+sdk.register('ethw', Ethw.createInstance);
 sdk.register('eos', Eos.createInstance);
 sdk.register('teos', Teos.createInstance);
 sdk.register('xlm', Xlm.createInstance);
@@ -139,8 +139,18 @@ async function createWindow() {
     return app.getVersion();
   });
 
-  ipcMain.handle('deriveKeyWithSeed', (event, coin, key, seed) => {
-    return sdk.coin(coin).deriveKeyWithSeed({ key, seed });
+  ipcMain.handle('deriveKeyWithSeed', (event, coin, token, key, seed) => {
+    let baseCoin: IBaseCoin;
+    if (token) {
+      try {
+        baseCoin = sdk.coin(token);
+      } catch (e) {
+        baseCoin = sdk.coin(coin);
+      }
+    } else {
+      baseCoin = sdk.coin(coin);
+    }
+    return baseCoin.deriveKeyWithSeed({ key, seed });
   });
 
   ipcMain.handle('deriveKeyByPath', (event, key, id) => {

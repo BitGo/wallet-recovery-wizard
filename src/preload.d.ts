@@ -51,6 +51,7 @@ type Commands = {
 type Queries = {
   deriveKeyWithSeed(
     coin: string,
+    token: string | undefined,
     key: string,
     seed: string
   ): Promise<{
@@ -66,8 +67,8 @@ const queries: Queries = {
   getVersion() {
     return ipcRenderer.invoke('getVersion');
   },
-  deriveKeyWithSeed(coin, key, seed) {
-    return ipcRenderer.invoke('deriveKeyWithSeed', coin, key, seed);
+  deriveKeyWithSeed(coin, token, key, seed) {
+    return ipcRenderer.invoke('deriveKeyWithSeed', coin, token, key, seed);
   },
   deriveKeyByPath(key, id) {
     return ipcRenderer.invoke('deriveKeyByPath', key, id);
