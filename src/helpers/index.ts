@@ -18,7 +18,7 @@ export async function recoverWithToken(
   }
 }
 
-export async function getChainWithToken(
+export async function getTokenChain(
   token: string,
   ...params: Parameters<typeof window.queries.getChain>
 ) {

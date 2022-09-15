@@ -3,7 +3,7 @@ import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import {
   assert,
-  getChainWithToken,
+  getTokenChain,
   isRecoveryTransaction,
   recoverWithToken,
   safeEnv,
@@ -651,7 +651,7 @@ function Form() {
                 values.apiKey
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
-              const chainData = await getChainWithToken(
+              const chainData = await getTokenChain(
                 values.tokenAddress.toLowerCase(),
                 parentCoin
               );
