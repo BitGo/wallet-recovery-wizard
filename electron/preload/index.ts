@@ -25,7 +25,6 @@ type Commands = {
   ): Promise<Electron.SaveDialogReturnValue>;
   recover(
     coin: string,
-    token: string | undefined,
     parameters: RecoverParams & {
       rootAddress?: string;
       gasLimit?: number;
@@ -59,7 +58,7 @@ type Queries = {
   }>;
   getVersion(): Promise<string>;
   deriveKeyByPath(key: string, id: string): Promise<string>;
-  getChain(coin: string, token?: string): Promise<string>;
+  getChain(coin: string): Promise<string>;
 };
 
 const queries: Queries = {
@@ -72,8 +71,8 @@ const queries: Queries = {
   deriveKeyByPath(key, id) {
     return ipcRenderer.invoke('deriveKeyByPath', key, id);
   },
-  getChain(coin, token) {
-    return ipcRenderer.invoke('getChain', coin, token);
+  getChain(coin) {
+    return ipcRenderer.invoke('getChain', coin);
   },
 };
 
@@ -87,8 +86,8 @@ const commands: Commands = {
   showSaveDialog(options) {
     return ipcRenderer.invoke('showSaveDialog', options);
   },
-  recover(coin, token, parameters) {
-    return ipcRenderer.invoke('recover', coin, token, parameters);
+  recover(coin, parameters) {
+    return ipcRenderer.invoke('recover', coin, parameters);
   },
   setBitGoEnvironment(environment, apiKey) {
     return ipcRenderer.invoke('setBitGoEnvironment', environment, apiKey);

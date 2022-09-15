@@ -3,7 +3,9 @@ import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import {
   assert,
+  getChain,
   isRecoveryTransaction,
+  recover,
   safeEnv,
   toWei,
   getEthLikeRecoveryChainId,
@@ -18,6 +20,33 @@ import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
 
+async function deriveKeyWithSeedAndToken(
+  token: string | undefined,
+  ...params: Parameters<typeof window.queries.deriveKeyWithSeed>
+) {
+  const [coin, ...rest] = params;
+  let keyAndDerivationPath;
+  if (token) {
+    try {
+      keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
+        token,
+        ...rest
+      );
+    } catch (e) {
+      keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
+        coin,
+        ...rest
+      );
+    }
+  } else {
+    keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
+      coin,
+      ...rest
+    );
+  }
+  return keyAndDerivationPath;
+}
+
 async function includePubsFor<
   TValues extends {
     userKey: string;
@@ -29,9 +58,9 @@ async function includePubsFor<
 >(values: TValues, coin: string, token?: string) {
   const userXpub = values.userKeyId
     ? (
-        await window.queries.deriveKeyWithSeed(
-          coin,
+        await deriveKeyWithSeedAndToken(
           token,
+          coin,
           values.userKey,
           values.userKeyId
         )
@@ -39,9 +68,9 @@ async function includePubsFor<
     : values.userKey;
   const backupXpub = values.backupKeyId
     ? (
-        await window.queries.deriveKeyWithSeed(
-          coin,
+        await deriveKeyWithSeedAndToken(
           token,
+          coin,
           values.backupKey,
           values.backupKeyId
         )
@@ -120,7 +149,7 @@ async function updateKeysFromIds<
         );
       } else {
         copy[item.name] = (
-          await window.queries.deriveKeyWithSeed(coin, token, item.key, item.id)
+          await deriveKeyWithSeedAndToken(token, coin, item.key, item.id)
         ).key;
       }
     }
@@ -150,15 +179,11 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  ignoreAddressTypes: ['p2wsh'],
-                }
-              );
+              const chainData = await getChain(coin);
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                ignoreAddressTypes: ['p2wsh'],
+              });
 
               assert(
                 isRecoveryTransaction(recoverData),
@@ -220,27 +245,23 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
+              const chainData = await getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                 await updateKeysFromIds(coin, undefined, values);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...rest,
-                  eip1559: {
-                    maxFeePerGas: toWei(maxFeePerGas),
-                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                  },
-                  replayProtectionOptions: {
-                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                    hardfork: 'london',
-                  },
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await recover(coin, undefined, {
+                ...rest,
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -302,18 +323,14 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
+              const chainData = await getChain(coin);
 
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  gasPrice: toWei(values.gasPrice),
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                gasPrice: toWei(values.gasPrice),
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -376,16 +393,12 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const chainData = await getChain(coin);
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -446,16 +459,12 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const chainData = await getChain(coin);
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -517,16 +526,12 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const chainData = await getChain(coin);
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -583,16 +588,12 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...(await updateKeysFromIds(coin, undefined, values)),
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const chainData = await getChain(coin);
+              const recoverData = await recover(coin, undefined, {
+                ...(await updateKeysFromIds(coin, undefined, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -653,7 +654,7 @@ function Form() {
                 values.apiKey
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
-              const chainData = await window.queries.getChain(
+              const chainData = await getChain(
                 parentCoin,
                 values.tokenAddress.toLowerCase()
               );
@@ -664,7 +665,7 @@ function Form() {
                   values
                 );
 
-              const recoverData = await window.commands.recover(
+              const recoverData = await recover(
                 parentCoin,
                 values.tokenAddress.toLowerCase(),
                 {
@@ -706,7 +707,11 @@ function Form() {
                   includePubsInUnsignedSweep
                     ? {
                         ...recoverData,
-                        ...(await includePubsFor(values, coin)),
+                        ...(await includePubsFor(
+                          values,
+                          coin,
+                          values.tokenAddress.toLowerCase()
+                        )),
                       }
                     : recoverData,
                   null,

@@ -111,17 +111,8 @@ async function createWindow() {
     return await Promise.resolve();
   });
 
-  ipcMain.handle('recover', async (event, coin, token, parameters) => {
-    let baseCoin: AbstractUtxoCoin;
-    if (token) {
-      try {
-        baseCoin = sdk.coin(token) as AbstractUtxoCoin;
-      } catch (e) {
-        baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
-      }
-    } else {
-      baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
-    }
+  ipcMain.handle('recover', async (event, coin, parameters) => {
+    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     return await baseCoin.recover(parameters);
   });
 
@@ -139,18 +130,8 @@ async function createWindow() {
     return app.getVersion();
   });
 
-  ipcMain.handle('deriveKeyWithSeed', (event, coin, token, key, seed) => {
-    let baseCoin: IBaseCoin;
-    if (token) {
-      try {
-        baseCoin = sdk.coin(token);
-      } catch (e) {
-        baseCoin = sdk.coin(coin);
-      }
-    } else {
-      baseCoin = sdk.coin(coin);
-    }
-    return baseCoin.deriveKeyWithSeed({ key, seed });
+  ipcMain.handle('deriveKeyWithSeed', (event, coin, key, seed) => {
+    return sdk.coin(coin).deriveKeyWithSeed({ key, seed });
   });
 
   ipcMain.handle('deriveKeyByPath', (event, key, id) => {
@@ -159,18 +140,8 @@ async function createWindow() {
     return derivedNode.toBase58();
   });
 
-  ipcMain.handle('getChain', (event, coin, token) => {
-    let baseCoin: IBaseCoin;
-    if (token) {
-      try {
-        baseCoin = sdk.coin(token);
-      } catch (e) {
-        baseCoin = sdk.coin(coin);
-      }
-    } else {
-      baseCoin = sdk.coin(coin);
-    }
-    return baseCoin.getChain();
+  ipcMain.handle('getChain', (event, coin) => {
+    return sdk.coin(coin).getChain();
   });
 }
 
