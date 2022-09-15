@@ -7,50 +7,25 @@ import type { Chain, Hardfork } from '@ethereumjs/common';
 
 const GWEI = 10 ** 9;
 
-export async function recover(
-  coin: string,
-  token: string | undefined,
-  params: RecoverParams & {
-    rootAddress?: string;
-    gasLimit?: number;
-    gasPrice?: number;
-    eip1559?: {
-      maxFeePerGas: number;
-      maxPriorityFeePerGas: number;
-    };
-    replayProtectionOptions?: {
-      chain: typeof Chain[keyof typeof Chain];
-      hardfork: `${Hardfork}`;
-    };
-    walletContractAddress?: string;
-    tokenAddress?: string;
-  }
+export async function recoverWithToken(
+  token: string,
+  params: Parameters<typeof window.commands.recover>
 ) {
-  let recoverPayload;
-  if (token) {
-    try {
-      recoverPayload = await window.commands.recover(token, params);
-    } catch (e) {
-      recoverPayload = await window.commands.recover(coin, params);
-    }
-  } else {
-    recoverPayload = await window.commands.recover(coin, params);
+  const [coin, rest] = params;
+  console.log(rest);
+  try {
+    return await window.commands.recover(token, rest);
+  } catch (e) {
+    return await window.commands.recover(coin, rest);
   }
-  return recoverPayload;
 }
 
-export async function getChain(coin: string, token?: string) {
-  let chain;
-  if (token) {
-    try {
-      chain = await window.queries.getChain(token);
-    } catch (e) {
-      chain = await window.queries.getChain(coin);
-    }
-  } else {
-    chain = await window.queries.getChain(coin);
+export async function getChainWithToken(coin: string, token: string) {
+  try {
+    return await window.queries.getChain(token);
+  } catch (e) {
+    return await window.queries.getChain(coin);
   }
-  return chain;
 }
 
 export function toWei(gas: number) {
