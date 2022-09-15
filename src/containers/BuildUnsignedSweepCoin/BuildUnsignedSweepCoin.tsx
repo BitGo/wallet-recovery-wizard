@@ -21,30 +21,15 @@ import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
 
 async function deriveKeyWithSeedAndToken(
-  token: string | undefined,
+  token: string,
   ...params: Parameters<typeof window.queries.deriveKeyWithSeed>
 ) {
   const [coin, ...rest] = params;
-  let keyAndDerivationPath;
-  if (token) {
-    try {
-      keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
-        token,
-        ...rest
-      );
-    } catch (e) {
-      keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
-        coin,
-        ...rest
-      );
-    }
-  } else {
-    keyAndDerivationPath = await window.queries.deriveKeyWithSeed(
-      coin,
-      ...rest
-    );
+  try {
+    return await window.queries.deriveKeyWithSeed(token, ...rest);
+  } catch (e) {
+    return await window.queries.deriveKeyWithSeed(coin, ...rest);
   }
-  return keyAndDerivationPath;
 }
 
 async function includePubsFor<
@@ -57,23 +42,33 @@ async function includePubsFor<
   }
 >(values: TValues, coin: string, token?: string) {
   const userXpub = values.userKeyId
-    ? (
-        await deriveKeyWithSeedAndToken(
-          token,
-          coin,
-          values.userKey,
-          values.userKeyId
-        )
+    ? (token
+        ? await deriveKeyWithSeedAndToken(
+            token,
+            coin,
+            values.userKey,
+            values.userKeyId
+          )
+        : await window.queries.deriveKeyWithSeed(
+            coin,
+            values.userKey,
+            values.userKeyId
+          )
       ).key
     : values.userKey;
   const backupXpub = values.backupKeyId
-    ? (
-        await deriveKeyWithSeedAndToken(
-          token,
-          coin,
-          values.backupKey,
-          values.backupKeyId
-        )
+    ? (token
+        ? await deriveKeyWithSeedAndToken(
+            token,
+            coin,
+            values.backupKey,
+            values.backupKeyId
+          )
+        : await window.queries.deriveKeyWithSeed(
+            coin,
+            values.backupKey,
+            values.backupKeyId
+          )
       ).key
     : values.backupKey;
 
@@ -149,7 +144,9 @@ async function updateKeysFromIds<
         );
       } else {
         copy[item.name] = (
-          await deriveKeyWithSeedAndToken(token, coin, item.key, item.id)
+          token
+            ? await deriveKeyWithSeedAndToken(token, coin, item.key, item.id)
+            : await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
         ).key;
       }
     }
@@ -655,8 +652,8 @@ function Form() {
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await getChainWithToken(
-                parentCoin,
-                values.tokenAddress.toLowerCase()
+                values.tokenAddress.toLowerCase(),
+                parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                 await updateKeysFromIds(

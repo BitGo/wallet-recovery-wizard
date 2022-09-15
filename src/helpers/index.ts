@@ -1,9 +1,7 @@
 import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
-  RecoverParams,
 } from '@bitgo/abstract-utxo';
-import type { Chain, Hardfork } from '@ethereumjs/common';
 
 const GWEI = 10 ** 9;
 
@@ -20,7 +18,11 @@ export async function recoverWithToken(
   }
 }
 
-export async function getChainWithToken(coin: string, token: string) {
+export async function getChainWithToken(
+  token: string,
+  ...params: Parameters<typeof window.queries.getChain>
+) {
+  const [coin] = params;
   try {
     return await window.queries.getChain(token);
   } catch (e) {

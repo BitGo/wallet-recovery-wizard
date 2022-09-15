@@ -456,8 +456,8 @@ function Form() {
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await getChainWithToken(
-                parentCoin,
-                values.tokenAddress.toLowerCase()
+                values.tokenAddress.toLowerCase(),
+                parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
