@@ -5,12 +5,40 @@ import type {
 
 const GWEI = 10 ** 9;
 
+export async function recoverWithToken(
+  token: string,
+  params: Parameters<typeof window.commands.recover>
+) {
+  const [coin, rest] = params;
+  console.log(rest);
+  try {
+    return await window.commands.recover(token, rest);
+  } catch (e) {
+    return await window.commands.recover(coin, rest);
+  }
+}
+
+export async function getTokenChain(
+  token: string,
+  ...params: Parameters<typeof window.queries.getChain>
+) {
+  const [coin] = params;
+  try {
+    return await window.queries.getChain(token);
+  } catch (e) {
+    return await window.queries.getChain(coin);
+  }
+}
+
 export function toWei(gas: number) {
   return gas * GWEI;
 }
 
-export function getEthLikeRecoveryChainId(coinName: string, bitGoEnvironment: string) {
-  return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 5
+export function getEthLikeRecoveryChainId(
+  coinName: string,
+  bitGoEnvironment: string
+) {
+  return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 5;
 }
 
 export function safeEnv(value: string | undefined): 'prod' | 'test' {

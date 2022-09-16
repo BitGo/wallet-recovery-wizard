@@ -1,7 +1,15 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
-import { assert, getEthLikeRecoveryChainId, isRecoveryTransaction, safeEnv, toWei } from '~/helpers';
+import {
+  assert,
+  getTokenChain,
+  getEthLikeRecoveryChainId,
+  isRecoveryTransaction,
+  recoverWithToken,
+  safeEnv,
+  toWei,
+} from '~/helpers';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
@@ -29,15 +37,11 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: ['p2wsh'],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: ['p2wsh'],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -95,23 +99,19 @@ function Form() {
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...rest,
-                  eip1559: {
-                    maxFeePerGas: toWei(maxFeePerGas),
-                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                  },
-                  replayProtectionOptions: {
-                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                    hardfork: 'london',
-                  },
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -165,16 +165,12 @@ function Form() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  gasPrice: toWei(values.gasPrice),
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                gasPrice: toWei(values.gasPrice),
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -229,15 +225,11 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -290,15 +282,11 @@ function Form() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -354,15 +342,11 @@ function Form() {
                 values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -413,15 +397,11 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(
-                coin,
-                undefined,
-                {
-                  ...values,
-                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                  ignoreAddressTypes: [],
-                }
-              );
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
@@ -475,28 +455,30 @@ function Form() {
                 values.apiKey
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
-              const chainData = await window.queries.getChain(
-                parentCoin,
-                values.tokenAddress.toLowerCase()
+              const chainData = await getTokenChain(
+                values.tokenAddress.toLowerCase(),
+                parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
-              const recoverData = await window.commands.recover(
-                parentCoin,
+              const recoverData = await recoverWithToken(
                 values.tokenAddress.toLowerCase(),
-                {
-                  ...rest,
-                  eip1559: {
-                    maxFeePerGas: toWei(maxFeePerGas),
-                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                [
+                  parentCoin,
+                  {
+                    ...rest,
+                    eip1559: {
+                      maxFeePerGas: toWei(maxFeePerGas),
+                      maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                    },
+                    replayProtectionOptions: {
+                      chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                      hardfork: 'london',
+                    },
+                    bitgoKey: '',
+                    ignoreAddressTypes: [],
                   },
-                  replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
-                    hardfork: 'london',
-                  },
-                  bitgoKey: '',
-                  ignoreAddressTypes: [],
-                }
+                ]
               );
               assert(
                 isRecoveryTransaction(recoverData),
