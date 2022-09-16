@@ -31,21 +31,21 @@ async function includePubsFor<
 >(coin: string, values: TValues) {
   const userXpub = values.userKeyId
     ? (
-        await window.queries.deriveKeyWithSeed(
-          coin,
-          values.userKey,
-          values.userKeyId
-        )
-      ).key
+      await window.queries.deriveKeyWithSeed(
+        coin,
+        values.userKey,
+        values.userKeyId
+      )
+    ).key
     : values.userKey;
   const backupXpub = values.backupKeyId
     ? (
-        await window.queries.deriveKeyWithSeed(
-          coin,
-          values.backupKey,
-          values.backupKeyId
-        )
-      ).key
+      await window.queries.deriveKeyWithSeed(
+        coin,
+        values.backupKey,
+        values.backupKeyId
+      )
+    ).key
     : values.backupKey;
 
   return {
@@ -97,11 +97,11 @@ async function isDerivationPath(id: string, description: string) {
 }
 
 type UpdateKeysFromsIdsDefaultParams = {
-    userKey: string;
-    userKeyId?: string;
-    backupKeyId?: string;
-    backupKey: string;
-  }
+  userKey: string;
+  userKeyId?: string;
+  backupKeyId?: string;
+  backupKey: string;
+}
 
 async function updateKeysFromIds<
   TParams extends UpdateKeysFromsIdsDefaultParams
@@ -149,7 +149,7 @@ function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDefaultPar
   try {
     return updateKeysFromIds(token, ...rest);
   } catch {
-    return updateKeysFromIds(coin, ...rest)
+    return updateKeysFromIds(coin, ...rest);
   }
 }
 
@@ -281,9 +281,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(coin, values)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -350,9 +350,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(coin, values)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -418,9 +418,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(coin, values)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -701,13 +701,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsForToken(
-                          values.tokenAddress.toLowerCase(),
-                          coin,
-                          values
-                        )),
-                      }
+                      ...recoverData,
+                      ...(await includePubsForToken(
+                        values.tokenAddress.toLowerCase(),
+                        coin,
+                        values
+                      )),
+                    }
                     : recoverData,
                   null,
                   2
