@@ -12,7 +12,7 @@ export async function recoverWithToken(
   const [coin, ...rest] = args;
   try {
     return await window.commands.recover(token, ...rest);
-  } catch (e) {
+  } catch {
     return await window.commands.recover(coin, ...rest);
   }
 }
@@ -24,7 +24,7 @@ export async function getTokenChain(
   const [coin, ...rest] = args;
   try {
     return await window.queries.getChain(token, ...rest);
-  } catch (e) {
+  } catch {
     return await window.queries.getChain(coin, ...rest);
   }
 }
