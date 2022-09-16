@@ -20,18 +20,6 @@ import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
 
-async function deriveKeyWithSeedAndToken(
-  token: string,
-  ...params: Parameters<typeof window.queries.deriveKeyWithSeed>
-) {
-  const [coin, ...rest] = params;
-  try {
-    return await window.queries.deriveKeyWithSeed(token, ...rest);
-  } catch (e) {
-    return await window.queries.deriveKeyWithSeed(coin, ...rest);
-  }
-}
-
 async function includePubsFor<
   TValues extends {
     userKey: string;
@@ -40,36 +28,24 @@ async function includePubsFor<
     backupKeyId?: string;
     bitgoKey?: string;
   }
->(values: TValues, coin: string, token?: string) {
+>(coin: string, values: TValues) {
   const userXpub = values.userKeyId
-    ? (token
-        ? await deriveKeyWithSeedAndToken(
-            token,
-            coin,
-            values.userKey,
-            values.userKeyId
-          )
-        : await window.queries.deriveKeyWithSeed(
-            coin,
-            values.userKey,
-            values.userKeyId
-          )
-      ).key
+    ? (
+      await window.queries.deriveKeyWithSeed(
+        coin,
+        values.userKey,
+        values.userKeyId
+      )
+    ).key
     : values.userKey;
   const backupXpub = values.backupKeyId
-    ? (token
-        ? await deriveKeyWithSeedAndToken(
-            token,
-            coin,
-            values.backupKey,
-            values.backupKeyId
-          )
-        : await window.queries.deriveKeyWithSeed(
-            coin,
-            values.backupKey,
-            values.backupKeyId
-          )
-      ).key
+    ? (
+      await window.queries.deriveKeyWithSeed(
+        coin,
+        values.backupKey,
+        values.backupKeyId
+      )
+    ).key
     : values.backupKey;
 
   return {
@@ -92,6 +68,19 @@ async function includePubsFor<
   };
 }
 
+async function includePubsForToken(
+  token: string,
+  ...args: Parameters<typeof includePubsFor>
+) {
+  const [coin, ...rest] = args;
+
+  try {
+    return includePubsFor(token, ...rest);
+  } catch {
+    return includePubsFor(coin, ...rest);
+  }
+}
+
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
     const response = await window.commands.showMessageBox({
@@ -107,16 +96,17 @@ async function isDerivationPath(id: string, description: string) {
   return false;
 }
 
+type UpdateKeysFromsIdsDefaultParams = {
+  userKey: string;
+  userKeyId?: string;
+  backupKeyId?: string;
+  backupKey: string;
+}
+
 async function updateKeysFromIds<
-  TParams extends {
-    userKey: string;
-    userKeyId?: string;
-    backupKeyId?: string;
-    backupKey: string;
-  }
+  TParams extends UpdateKeysFromsIdsDefaultParams
 >(
   coin: string,
-  token: string | undefined,
   params: TParams
 ): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
   const { userKeyId, backupKeyId, ...copy } = params;
@@ -144,15 +134,23 @@ async function updateKeysFromIds<
         );
       } else {
         copy[item.name] = (
-          token
-            ? await deriveKeyWithSeedAndToken(token, coin, item.key, item.id)
-            : await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
         ).key;
       }
     }
   }
 
   return copy;
+}
+
+function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDefaultParams>(token: string, ...args: Parameters<typeof updateKeysFromIds<TParams>>) {
+  const [coin, ...rest] = args;
+
+  try {
+    return updateKeysFromIds(token, ...rest);
+  } catch {
+    return updateKeysFromIds(coin, ...rest);
+  }
 }
 
 function Form() {
@@ -178,7 +176,7 @@ function Form() {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 ignoreAddressTypes: ['p2wsh'],
               });
 
@@ -206,7 +204,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(values, coin)),
+                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
@@ -245,7 +243,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(coin, undefined, values);
+                await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
                 eip1559: {
@@ -283,9 +281,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(values, coin)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -323,7 +321,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
 
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 gasPrice: toWei(values.gasPrice),
                 bitgoKey: '',
                 ignoreAddressTypes: [],
@@ -352,9 +350,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(values, coin)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -392,7 +390,7 @@ function Form() {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 bitgoKey: '',
                 ignoreAddressTypes: [],
               });
@@ -420,9 +418,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(values, coin)),
-                      }
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
                     : recoverData,
                   null,
                   2
@@ -458,7 +456,7 @@ function Form() {
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -486,7 +484,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(values, coin)),
+                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
@@ -525,7 +523,7 @@ function Form() {
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -553,7 +551,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(values, coin)),
+                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
@@ -587,7 +585,7 @@ function Form() {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...(await updateKeysFromIds(coin, undefined, values)),
+                ...(await updateKeysFromIds(coin, values)),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -615,7 +613,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(values, coin)),
+                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
@@ -656,30 +654,28 @@ function Form() {
                 parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(
-                  parentCoin,
+                await updateKeysFromIdsWithToken(
                   values.tokenAddress.toLowerCase(),
-                  values
+                  parentCoin,
+                  values,
                 );
 
               const recoverData = await recoverWithToken(
                 values.tokenAddress.toLowerCase(),
-                [
-                  parentCoin,
-                  {
-                    ...rest,
-                    eip1559: {
-                      maxFeePerGas: toWei(maxFeePerGas),
-                      maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                    },
-                    replayProtectionOptions: {
-                      chain: bitGoEnvironment === 'prod' ? 1 : 5,
-                      hardfork: 'london',
-                    },
-                    bitgoKey: '',
-                    ignoreAddressTypes: [],
+                parentCoin,
+                {
+                  ...rest,
+                  eip1559: {
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
-                ]
+                  replayProtectionOptions: {
+                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    hardfork: 'london',
+                  },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
               );
               assert(
                 isRecoveryTransaction(recoverData),
@@ -705,13 +701,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsFor(
-                          values,
-                          coin,
-                          values.tokenAddress.toLowerCase()
-                        )),
-                      }
+                      ...recoverData,
+                      ...(await includePubsForToken(
+                        values.tokenAddress.toLowerCase(),
+                        coin,
+                        values
+                      )),
+                    }
                     : recoverData,
                   null,
                   2

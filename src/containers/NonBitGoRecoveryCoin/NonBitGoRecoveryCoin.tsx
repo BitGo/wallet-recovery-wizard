@@ -463,22 +463,20 @@ function Form() {
 
               const recoverData = await recoverWithToken(
                 values.tokenAddress.toLowerCase(),
-                [
-                  parentCoin,
-                  {
-                    ...rest,
-                    eip1559: {
-                      maxFeePerGas: toWei(maxFeePerGas),
-                      maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                    },
-                    replayProtectionOptions: {
-                      chain: bitGoEnvironment === 'prod' ? 1 : 5,
-                      hardfork: 'london',
-                    },
-                    bitgoKey: '',
-                    ignoreAddressTypes: [],
+                parentCoin,
+                {
+                  ...rest,
+                  eip1559: {
+                    maxFeePerGas: toWei(maxFeePerGas),
+                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
-                ]
+                  replayProtectionOptions: {
+                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    hardfork: 'london',
+                  },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                }
               );
               assert(
                 isRecoveryTransaction(recoverData),
