@@ -13,7 +13,7 @@
     "@bitgo/sdk-coin-btc": "^1.0.2",
     "@bitgo/sdk-coin-btg": "^1.1.1",
     "@bitgo/sdk-coin-dash": "^1.1.1",
-    "@bitgo/sdk-coin-eos": "^1.0.2",
+    "@bitgo/sdk-coin-eos": "1.0.3-rc.27",
     "@bitgo/sdk-coin-eth": "^1.1.1",
     "@bitgo/sdk-coin-ethw": "^1.1.0-rc.3",
     "@bitgo/sdk-coin-ltc": "^1.1.1",
