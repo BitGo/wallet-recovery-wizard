@@ -66,10 +66,20 @@ Add the output to the bottom of the release notes section
 
 ### Steps to Release
 
-- Go to the Releases list on GitHub and click "Draft a new release"
-- Set the release title and tag to "vx.y.z"
-- Click "Generate release notes"
-- On MacOS, run `./scripts/docker-build.sh`
-- On MacOS, run `./scripts/release-notes.sh` and paste the output to the bottom of the release notes in GitHub
-- Upload the binaries in the file picker at the bottom
-- Publish the release!
+- Run `git clean -dfx`
+- Update version on `package.json` following semantic versioning - https://docs.npmjs.com/about-semantic-versioning
+- `npm install` again to generate `package-lock.json`
+- Create a branch, commit and merge changes to `master`
+- Check out to `master` branch locally and `git pull`
+- Go to `https://github.com/BitGo/wallet-recovery-wizard/releases`
+- Click `Create draft release`
+- Add new tag to the release with the version of the release e.g. `v4.2.1`
+- Add title with the version e.g. `v4.2.1`
+- Click `Generate release notes`
+- (On MacOS) Locally run the docker build script: `./scripts/docker-build.sh`
+- (On MacOS) Run the release notes generation script: `./scripts/release-notes.sh`
+  - Copy the output and paste it into the release notes draft in GitHub
+- After having already ran the docker build script
+  - Go into the `release` folder in the root of the repository and upload the `.dmg` , `.deb` and `.exe` files into the release draft in GitHub
+- Publish release in GitHub
+- Go to Slack on #apps-ovc-wrw and announce the release with the link to GitHub release page

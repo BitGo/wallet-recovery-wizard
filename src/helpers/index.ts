@@ -7,26 +7,25 @@ const GWEI = 10 ** 9;
 
 export async function recoverWithToken(
   token: string,
-  params: Parameters<typeof window.commands.recover>
+  ...args: Parameters<typeof window.commands.recover>
 ) {
-  const [coin, rest] = params;
-  console.log(rest);
+  const [coin, ...rest] = args;
   try {
-    return await window.commands.recover(token, rest);
+    return await window.commands.recover(token, ...rest);
   } catch (e) {
-    return await window.commands.recover(coin, rest);
+    return await window.commands.recover(coin, ...rest);
   }
 }
 
 export async function getTokenChain(
   token: string,
-  ...params: Parameters<typeof window.queries.getChain>
+  ...args: Parameters<typeof window.queries.getChain>
 ) {
-  const [coin] = params;
+  const [coin, ...rest] = args;
   try {
-    return await window.queries.getChain(token);
+    return await window.queries.getChain(token, ...rest);
   } catch (e) {
-    return await window.queries.getChain(coin);
+    return await window.queries.getChain(coin, ...rest);
   }
 }
 
