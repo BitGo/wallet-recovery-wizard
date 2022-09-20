@@ -89,6 +89,12 @@ const prod = [
     Icon: 'avax',
     value: 'avaxc',
   },
+  {
+    Title: 'NEAR',
+    Description: 'NEAR',
+    Icon: 'near',
+    value: 'near',
+  },
 ] as const;
 
 const test = [
@@ -139,6 +145,12 @@ const test = [
     Description: 'Testnet Avalanche C-Chain',
     Icon: 'avax',
     value: 'tavaxc',
+  },
+  {
+    Title: 'TNEAR',
+    Description: 'Testnet NEAR',
+    Icon: 'near',
+    value: 'near',
   },
 ] as const;
 
