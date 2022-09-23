@@ -38,7 +38,7 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
 13. For UTXO based coins like Bitcoin, Litecoin, Dash, Zcash, Bitcoin Gold, and Bitcoin Cash, the key is from https://blockchair.com/.
 
-14. For Ethereum, Ethereum Proof of Work, and ERC20 token, the key is from https://etherscan.io/.
+14. For Ethereum and ERC20 token, the key is from https://etherscan.io/.
 
 15. For Avalanche C-Chain, the key is from https://snowtrace.io/.
 

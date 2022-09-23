@@ -16,6 +16,7 @@ import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
+import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
@@ -228,7 +229,6 @@ function Form() {
       );
     case 'eth':
     case 'gteth':
-    case 'ethw':
       return (
         <EthereumForm
           key={coin}
@@ -240,6 +240,80 @@ function Form() {
                 bitGoEnvironment,
                 values.apiKey
               );
+              const chainData = await window.queries.getChain(coin);
+
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                await updateKeysFromIds(coin, values);
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'ethw':
+      return (
+        <EthereumWForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
