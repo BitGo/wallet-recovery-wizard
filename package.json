@@ -15,7 +15,7 @@
     "@bitgo/sdk-coin-dash": "^1.1.1",
     "@bitgo/sdk-coin-eos": "^1.0.2",
     "@bitgo/sdk-coin-eth": "^1.1.1",
-    "@bitgo/sdk-coin-ethw": "^1.1.0-rc.3",
+    "@bitgo/sdk-coin-ethw": "^1.1.0-rc.19",
     "@bitgo/sdk-coin-ltc": "^1.1.1",
     "@bitgo/sdk-coin-near": "^1.1.1",
     "@bitgo/sdk-coin-trx": "^1.0.2",
@@ -99,5 +99,5 @@
     "storybook:test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx start-storybook --ci -p 6006\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
     "test": "vitest"
   },
-  "version": "4.2.1"
+  "version": "4.3.0"
 }
