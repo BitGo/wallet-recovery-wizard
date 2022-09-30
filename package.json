@@ -57,6 +57,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "http-server": "^14.1.1",
     "jsdom": "^20.0.0",
+    "prompt-sync": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tailwindcss": "^3.1.8",
@@ -85,6 +86,7 @@
   "scripts": {
     "build": "tsc && vite build && electron-builder",
     "dev": "vite",
+    "decode:eth-eip1559": "node ./scripts/decode-eth-eip1559",
     "format:write": "prettier --ignore-path .gitignore --write .",
     "icons:build": "node ./scripts/build-icons.js",
     "lint": "eslint .",
