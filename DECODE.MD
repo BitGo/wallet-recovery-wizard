@@ -13,7 +13,7 @@ npm i
 2. Run the script to decode ETH EIP-1559 transactions:
 
 ```bash
-npm run decode:eth-eip1559
+npm run eth-eip1559:decode
 ```
 
 3. When prompted, paste your transaction hex from your recovery JSON into the terminal and press "Enter."
