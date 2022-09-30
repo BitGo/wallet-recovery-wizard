@@ -63,6 +63,7 @@ export function isRecoveryTransaction(
     ('transactionHex' in value && !!value['transactionHex']) ||
     ('tx' in value && !!value['tx']) ||
     ('transaction' in value && !!value['transaction']) ||
-    ('txid' in value && !!value['txid'])
+    ('txid' in value && !!value['txid']) ||
+    ('serializedTx' in value && !!value['serializedTx'])
   );
 }

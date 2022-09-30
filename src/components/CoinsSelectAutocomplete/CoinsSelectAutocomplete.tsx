@@ -150,7 +150,7 @@ const test = [
     Title: 'TNEAR',
     Description: 'Testnet NEAR',
     Icon: 'near',
-    value: 'near',
+    value: 'tnear',
   },
 ] as const;
 
