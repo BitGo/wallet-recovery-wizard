@@ -15,7 +15,7 @@ function main() {
     'Enter the transaction hex from your recovery JSON: ',
     data => {
       const output = FeeMarketEIP1559Transaction.fromSerializedTx(
-        ethUtil.toBuffer(data.startsWith('0x' ? data : '0x' + data))
+        ethUtil.toBuffer(data.startsWith('0x') ? data : '0x' + data)
       );
       console.log(output.toJSON());
       readline.close();
