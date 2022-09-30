@@ -1,7 +1,4 @@
-const {
-  Transaction: TransactionFactory,
-  FeeMarketEIP1559Transaction,
-} = require('@ethereumjs/tx');
+const { FeeMarketEIP1559Transaction } = require('@ethereumjs/tx');
 const ethUtil = require('ethereumjs-util');
 const readline = require('readline').createInterface({
   input: process.stdin,
