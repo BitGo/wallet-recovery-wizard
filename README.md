@@ -42,3 +42,5 @@ Instructions to broadcast EOS transactions: [EOS.md](EOS.md)
 Instructions to do Non-BitGo recovery from hot wallets: [NON_BITGO_RECOVERY.md](NON_BITGO_RECOVERY.md)
 
 Instructions to do Non-BitGo recovery from cold wallets (Unsigned Sweep): [UNSIGNED_SWEEP.md](UNSIGNED_SWEEP.md)
+
+Instructions to decode ETH transactions [DECODE.md](DECODE.MD)

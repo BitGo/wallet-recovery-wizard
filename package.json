@@ -86,6 +86,7 @@
   "scripts": {
     "build": "tsc && vite build && electron-builder",
     "dev": "vite",
+    "eth-eip1559:decode": "node ./scripts/decode-eth-eip1559",
     "format:write": "prettier --ignore-path .gitignore --write .",
     "icons:build": "node ./scripts/build-icons.js",
     "lint": "eslint .",

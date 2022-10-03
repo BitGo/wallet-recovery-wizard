@@ -1,18 +1,16 @@
 # ETHw Transaction Broadcast Instructions
 
-Our tool can help you build a transaction to recover ETHw, but you have to broadcast the transaction to network yourselves.
+Version 4.3.0 of the Wallet Recovery Wizard supports building transactions to recover ETHw from your BitGo Hot and Self-Managed Cold wallets.
 
-Unfortunately, we could not find any block explorers that can assist you with broadcasting, but we have found a full node RPC endpoint which you can call.
+Below is the full node RPC endpoint that must be called to broadcast the transaction as there are no suitable explorers available for ETHw. 
 
-If you found that this URL is no longer valid, you can likely find newly hosted endpoints via google search. Please also let us know so we can update these URLs.
-
-Construct your API request to the full node:
+Construct the API request to the full node:
 
     Request URL: https://mainnet.ethereumpow.org/
 
     Method: POST
 
-    Request Body format (you should find "tx" in your downloaded JSON):
+    Request Body format (find "tx" in your downloaded JSON):
 
 ```json
 {
@@ -25,4 +23,6 @@ Construct your API request to the full node:
 
 ## Important Note
 
-You must prepend 0x to "tx" from your downloaded JSON in order for the request to succeed.
+**Must prepend 0x to "tx" from the downloaded JSON in order for the request to succeed.**
+
+If the request URL is no longer valid, please find newly hosted endpoints via google search or contact your BitGo representative.
