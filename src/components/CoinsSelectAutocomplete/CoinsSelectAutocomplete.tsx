@@ -91,7 +91,7 @@ const prod = [
   },
   {
     Title: 'NEAR',
-    Description: 'NEAR',
+    Description: 'Near',
     Icon: 'near',
     value: 'near',
   },
@@ -148,7 +148,7 @@ const test = [
   },
   {
     Title: 'TNEAR',
-    Description: 'Testnet NEAR',
+    Description: 'Testnet Near',
     Icon: 'near',
     value: 'tnear',
   },
