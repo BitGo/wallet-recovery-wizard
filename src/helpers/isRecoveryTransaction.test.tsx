@@ -1,18 +1,38 @@
 import { isRecoveryTransaction } from './index';
 
-async function validateRecovery(
-  ...args: Parameters<typeof window.commands.recover>
-) {
-  const [coin, ...rest] = args;
-  await window.commands.setBitGoEnvironment('prod');
-  const recoverPayload = await window.commands.recover(coin, ...rest);
-  expect(isRecoveryTransaction(recoverPayload)).toBe(true);
-}
+const BLOCKCHAIR_API_KEY = '';
+
+const recoverInfo = {
+  btc: {
+    userKey: '',
+    backupKey: '',
+    bitgoKey: '',
+    walletPassphrase: '',
+    recoveryDestination: '',
+  },
+  ltc: {
+    userKey: '',
+    backupKey: '',
+    bitgoKey: '',
+    walletPassphrase: '',
+    recoveryDestination: '',
+  },
+};
 
 describe('isRecoveryTransaction()', () => {
   it('validates btc recovery', async () => {
-    await validateRecovery({
-      /* A bunch of parameters */
+    const recoverPayload = await window.commands.recover('btc', {
+      ...recoverInfo.btc,
+      ignoreAddressTypes: ['p2wsh'],
     });
+    expect(isRecoveryTransaction(recoverPayload)).toBe(true);
+  });
+  it('validates ltc recovery', async () => {
+    const recoverPayload = await window.commands.recover('btc', {
+      ...recoverInfo.btc,
+      ignoreAddressTypes: [],
+      apiKey: BLOCKCHAIR_API_KEY,
+    });
+    expect(isRecoveryTransaction(recoverPayload)).toBe(true);
   });
 });
