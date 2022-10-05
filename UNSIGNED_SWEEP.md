@@ -62,6 +62,8 @@ Build an unsigned transaction from a cold wallet using the user and backup publi
 
     Ethereum Proof of Work transactions: [ETHW.md](ETHW.md)
 
+    Near transactions: [NEAR.md](NEAR.md)
+
     Ripple transactions: https://bithomp.com/submit/
 
     Stellar transactions: https://laboratory.stellar.org/#txsubmitter?network=public

@@ -10,6 +10,7 @@ export interface CryptocurrencyIconProps {
     | 'eos'
     | 'eth'
     | 'ltc'
+    | 'near'
     | 'trx'
     | 'xlm'
     | 'xrp'
@@ -232,6 +233,28 @@ export function CryptocurrencyIcon({
               fill="#FFF"
               d="M10.427 19.214L9 19.768l.688-2.759 1.444-.58L13.213 8h5.129l-1.519 6.196 1.41-.571-.68 2.75-1.427.571-.848 3.483H23L22.127 24H9.252z"
             />
+          </g>
+        </svg>
+      );
+    case 'near':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 32 32"
+          className={clsx('tw-inline-flex tw-fill-current', {
+            'tw-w-4 tw-h-4': Size === 'small',
+            'tw-w-6 tw-h-6': Size === 'medium',
+            'tw-w-8 tw-h-8': Size === 'large',
+          })}
+          {...hostProps}
+        >
+          <g transform="matrix(.11018 0 0 .10972 .134 .2)">
+            <ellipse ry="143.39" rx="144" cy="144" cx="144" fill="#fff" />
+            <path
+              d="M187.58 79.31L157.48 124a3.2 3.2 0 004.75 4.2l29.63-25.7a1.2 1.2 0 012 .91v80.46a1.2 1.2 0 01-2.12.77L102.18 77.43A15.35 15.35 0 0090.47 72h-3.13A15.34 15.34 0 0072 87.34v113.32A15.34 15.34 0 0087.34 216a15.35 15.35 0 0013.08-7.31l30.1-44.69a3.2 3.2 0 00-4.75-4.2l-29.63 25.7a1.2 1.2 0 01-2-.91v-80.48a1.2 1.2 0 012.12-.77l89.55 107.23a15.35 15.35 0 0011.71 5.43h3.13A15.34 15.34 0 00216 200.66V87.34A15.34 15.34 0 00200.66 72a15.35 15.35 0 00-13.08 7.31z"
+              data-name="Layer 1"
+            />
+            <ellipse ry="145.831" rx="145.22" cy="144" cx="144" fill="none" />
           </g>
         </svg>
       );

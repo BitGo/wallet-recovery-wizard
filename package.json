@@ -17,6 +17,7 @@
     "@bitgo/sdk-coin-eth": "^1.1.1",
     "@bitgo/sdk-coin-ethw": "^1.1.0-rc.19",
     "@bitgo/sdk-coin-ltc": "^1.1.1",
+    "@bitgo/sdk-coin-near": "^1.1.2-rc.38",
     "@bitgo/sdk-coin-trx": "^1.0.2",
     "@bitgo/sdk-coin-xlm": "^1.0.2",
     "@bitgo/sdk-coin-xrp": "^1.1.1",
