@@ -19,7 +19,7 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
     2. For Coins like Stellar, Ripple, and EOS, Root Address of the wallet needs to be provided.
 
-    3. For Ethereum, Ethereum Proof of Work, ERC20 Token, and Avalanche C-Chain, Wallet Contract Address needs to be provided. This is the ETH or AVAXC address of the wallet contract. This is also the wallet's base address.
+    3. For Ethereum, Ethereum Proof of Work, ERC20 Token, Avalanche C-Chain and Polygon, Wallet Contract Address needs to be provided. This is the ETH or AVAXC or Polygon address of the wallet contract. This is also the wallet's base address.
        For ERC20 Token, Token Contract Address needs to be provided. This is the address of the smart contract of the token to recover. This is unique to each token and is NOT your wallet address
 
 6.  You are asked to provide Wallet Passphrase. This is the password that you had set at the time of wallet creation.
@@ -30,9 +30,9 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
 9.  For Bitcoin, Litecoin, Dash, Zcash, Bitcoin Gold, Tron, Bitcoin Cash, Near, Polkadot, and Solana, Address Scanning Factor needs to be provided. By default, it's value is 20 and can be changed if needed. The tool scans the addresses of the wallet to find the unspents. If it doesn't find unspents in 20 consecutive addresses, then it will stop scanning and generate a recovery transaction. For eg: If your funds are stuck in addresses with indices 10, 25 and 50 and you keep scanning factor as 20. Then the tool will stop after scanning till 46th index, because it didn't find unspents for 20 consecutive addresses from 26th address onwards. So in order to recover the funds in the address with 50th index, you will have to increase the scanning factor to a higher value.
 
-10. For Ethereum, Ethereum Proof of Work, and ERC20 Token, Max Fee Per Gas Price and Max Priority Fee Per Gas in Gwei needs to be provided. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei for Max Fee Per Gas and 10 Gwei for Max Priority Fee Per Gas. If there is not enough Gwei in the backup key address gas tank, you will need to fund your backup key address. WRW will report the backup key address if there is not enough Gwei in it.
+10.  For Ethereum, Ethereum Proof of Work, Polygon, and ERC20 Token, Max Fee Per Gas Price and Max Priority Fee Per Gas in Gwei needs to be provided. The value should be between 1 Gwei and 2500 Gwei. The default is 20 Gwei for Max Fee Per Gas and 10 Gwei for Max Priority Fee Per Gas. If there is not enough Gwei in the backup key address gas tank, you will need to fund your backup key address. WRW will report the backup key address if there is not enough Gwei in it.
 
-11. For Ethereum, Ethereum Proof of Work, ERC20 Token, and Avalanche C-Chain, Gas Limit needs to be provided. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas.
+11. For Ethereum, Ethereum Proof of Work, ERC20 Token, Polygon and Avalanche C-Chain, Gas Limit needs to be provided. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas.
 
 12. For Avalanche C-Chain, Gas Price needs to be provided. The value should be between 1 Gwei and 2500 Gwei. The default is 30 Gwei.
 
@@ -44,9 +44,11 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
 16. For Avalanche C-Chain, the key is from https://snowtrace.io/.
 
-17. The SDK determines the amount of Coin that can be recovered, and builds a fully signed transaction to send that amount to the Destination Address.
+17. For Polygon, the key is from https://polygonscan.com/.
 
-18. This completed transaction can be broadcasted on the network using a blockchain explorer to finish the recovery.
+18. The SDK determines the amount of Coin that can be recovered, and builds a fully signed transaction to send that amount to the Destination Address.
+
+19. This completed transaction can be broadcasted on the network using a blockchain explorer to finish the recovery.
     Some blockchain explorers to broadcast the transaction are as follows:
 
     Avalanche C-Chain transactions: https://snowtrace.io/pushTx
@@ -62,6 +64,8 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
     Ethereum Proof of Work transactions: [ETHW.md](ETHW.md)
 
     Near transactions: [NEAR.md](NEAR.md)
+    
+    Polygon transactions: https://polygonscan.com/
 
     Ripple transactions: https://bithomp.com/submit/
 

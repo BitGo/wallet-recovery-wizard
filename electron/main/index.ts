@@ -19,6 +19,7 @@ import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Zec } from '@bitgo/sdk-coin-zec';
+import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { fromBase58 } from 'bip32';
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
@@ -80,6 +81,8 @@ sdk.register('dot', Dot.createInstance);
 sdk.register('tdot', Tdot.createInstance);
 sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
+sdk.register('polygon', Polygon.createInstance);
+sdk.register('tpolygon', Tpolygon.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
