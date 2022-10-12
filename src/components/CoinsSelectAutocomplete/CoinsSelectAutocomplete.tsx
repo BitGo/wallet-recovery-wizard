@@ -235,6 +235,12 @@ const nonBitgoRecoveryCoins = {
       Icon: 'near',
       value: 'near',
     },
+    {
+      Title: 'DOT',
+      Description: 'Polkadot',
+      Icon: 'dot',
+      value: 'dot',
+    },
   ] as const,
   test: [
     {
@@ -290,6 +296,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'Testnet Near',
       Icon: 'near',
       value: 'tnear',
+    },
+    {
+      Title: 'TDOT',
+      Description: 'Testnet Polkadot',
+      Icon: 'dot',
+      value: 'tdot',
     },
   ] as const,
 };

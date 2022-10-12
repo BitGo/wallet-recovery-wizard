@@ -18,6 +18,7 @@ const coins = [
   'eos',
   'avax',
   'near',
+  'dot',
 ];
 
 const paths = fs
