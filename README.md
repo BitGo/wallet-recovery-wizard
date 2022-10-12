@@ -39,6 +39,8 @@ Instructions to broadcast ETHw transactions: [ETHW.md](ETHW.md)
 
 Instructions to broadcast EOS transactions: [EOS.md](EOS.md)
 
+Instructions to broadcast DOT transactions: [DOT.md](DOT.md)
+
 Instructions to broadcast NEAR transactions: [NEAR.md](NEAR.md)
 
 Instructions to do Non-BitGo recovery from hot wallets: [NON_BITGO_RECOVERY.md](NON_BITGO_RECOVERY.md)
