@@ -38,6 +38,10 @@ type Commands = {
         hardfork: `${Hardfork}`;
       };
       walletContractAddress?: string;
+      durableNonce?: {
+        publicKey: string;
+        secretKey: string;
+      };
       tokenAddress?: string;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
