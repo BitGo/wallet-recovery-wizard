@@ -34,6 +34,7 @@
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
     "@playwright/test": "^1.25.2",
+    "@solana/web3.js": "^1.66.1",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",

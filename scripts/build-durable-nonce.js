@@ -33,12 +33,8 @@ function getUserInput(question) {
 }
 
 async function createNonceAccount(wallet) {
-  const url = web3.clusterApiUrl(
-    process.argv[3] === '-d' ? 'devnet' : 'mainnet-beta'
-  );
-  console.log(url);
   const connection = new web3.Connection(
-    web3.clusterApiUrl(process.argv[3] === '-d' ? 'devnet' : 'mainnet-beta'),
+    web3.clusterApiUrl(process.argv[3] === '-m' ? 'mainnet-beta' : 'devnet'),
     'confirmed'
   );
   // Generate keypair for nonce account

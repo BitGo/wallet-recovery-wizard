@@ -43,6 +43,8 @@ Instructions to broadcast DOT transactions: [DOT.md](DOT.md)
 
 Instructions to broadcast NEAR transactions: [NEAR.md](NEAR.md)
 
+Instructions to broadcast SOL transactions: [SOL.md](SOL.md)
+
 Instructions to do Non-BitGo recovery from hot wallets: [NON_BITGO_RECOVERY.md](NON_BITGO_RECOVERY.md)
 
 Instructions to do Non-BitGo recovery from cold wallets (Unsigned Sweep): [UNSIGNED_SWEEP.md](UNSIGNED_SWEEP.md)
