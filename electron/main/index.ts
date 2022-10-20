@@ -8,6 +8,7 @@ import { Bsv } from '@bitgo/sdk-coin-bsv';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
 import { Btg } from '@bitgo/sdk-coin-btg';
 import { Dash } from '@bitgo/sdk-coin-dash';
+import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
@@ -74,6 +75,8 @@ sdk.register('avaxc', AvaxC.createInstance);
 sdk.register('tavaxc', TavaxC.createInstance);
 sdk.register('near', Near.createInstance);
 sdk.register('tnear', TNear.createInstance);
+sdk.register('dot', Dot.createInstance);
+sdk.register('tdot', Tdot.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

@@ -29,6 +29,8 @@ function Form() {
   switch (coin) {
     case 'btc':
     case 'tbtc':
+    case 'dot':
+    case 'tdot':
       return (
         <BitcoinForm
           key={coin}
