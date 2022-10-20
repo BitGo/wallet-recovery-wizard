@@ -80,7 +80,9 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
             Variant="Secondary"
             IconLeft={<Icon Name="warning-sign" Size="small" />}
           >
-            Solana transactions have a broadcast window of 60 seconds.
+            Solana transactions have a broadcast window of 60 seconds. By
+            filling out the Durable Nonce: Public Key field and the Durable
+            Nonce: Secret Key field, you can extend this window.
           </Notice>
         </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
@@ -145,7 +147,7 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Helper Text"
+            HelperText="The public key of the authority for your nonce account."
             Label="Durable Nonce: Public Key"
             name="publicKey"
             rows={2}
@@ -154,7 +156,7 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Helper Text"
+            HelperText="The secret key for your nonce account."
             Label="Durable Nonce: Secret Key"
             name="secretKey"
             rows={2}
