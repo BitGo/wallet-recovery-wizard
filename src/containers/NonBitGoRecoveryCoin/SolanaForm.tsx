@@ -16,7 +16,6 @@ const validationSchema = Yup.object({
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
-  publicKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
   userKey: Yup.string().required(),

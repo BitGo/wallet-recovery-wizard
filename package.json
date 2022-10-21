@@ -51,6 +51,7 @@
     "autoprefixer": "^10.4.11",
     "base58-js": "^1.0.4",
     "cheerio": "^1.0.0-rc.12",
+    "commander": "^9.4.1",
     "concurrently": "^7.4.0",
     "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
     "electron": "^20.1.4",
