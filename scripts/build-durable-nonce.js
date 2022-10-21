@@ -8,8 +8,6 @@ const readline = createInterface({
   output: process.stdout,
 });
 
-main();
-
 function question(question) {
   return new Promise(resolve => {
     readline.question(question, data => {
@@ -50,16 +48,19 @@ async function createNonceAccount(wallet, network) {
   return nonceAccount;
 }
 
+function getSecretKeyFromInput(input) {
+  try {
+    return new Uint8Array(JSON.parse(input));
+  } catch {
+    return base58_to_binary(input);
+  }
+}
+
 async function handleImport({ network }) {
   const input = await question(
     'Enter the secret key of your existing wallet authority: '
   );
-  let secretKey;
-  try {
-    secretKey = new Uint8Array(JSON.parse(input));
-  } catch {
-    secretKey = base58_to_binary(input);
-  }
+  const secretKey = getSecretKeyFromInput(input);
   keypair = web3.Keypair.fromSecretKey(secretKey);
 
   const nonceAccount = await createNonceAccount(keypair, network);
@@ -82,7 +83,7 @@ function handleCreate() {
   );
 }
 
-async function main() {
+function defineCommands() {
   program
     .command('create')
     .description('create a new solana keypair')
@@ -102,7 +103,12 @@ async function main() {
         .makeOptionMandatory()
     )
     .action(handleImport);
+}
 
+async function main() {
+  defineCommands();
   await program.parseAsync(process.argv);
   process.exit(0);
 }
+
+main();
