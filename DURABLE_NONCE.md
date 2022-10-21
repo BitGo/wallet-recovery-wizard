@@ -10,22 +10,22 @@ cd wallet-recovery-wizard
 npm i
 ```
 
-2. Run the script to build a durable nonce with the "create" flag set, and save your public key and secret key:
+2. Run the script to build a durable nonce with the "create" command, and save your public key and secret key:
 
 ```bash
-npm run durable-nonce:build -- -c
+npm run durable-nonce:build -- create
 ```
 
-3.  Run the script to build a durable nonce with the "import" flag set, and copy and paste the public key and secret key into Wallet Recovery Wizard.
+3.  Run the script to build a durable nonce with the "import" command, and copy and paste the public key and secret key into Wallet Recovery Wizard.
 
-    i. If on Devnet, either use the -d flag, or do not specify the environment (devnet is the default):
+    i. If on Devnet, set the -n flag to "devnet":
 
     ```bash
-    npm run durable-nonce:build -- -c -d
+    npm run durable-nonce:build -- import -n devnet
     ```
 
-    ii. If on Mainnet Beta, use the -m flag:
+    ii. If on Mainnet Beta, set the -n flag to "mainnet-beta":
 
     ```bash
-    npm run durable-nonce:build -- -c -m
+    npm run durable-nonce:build -- import -n mainnet-beta
     ```

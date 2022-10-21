@@ -1,17 +1,12 @@
 const web3 = require('@solana/web3.js');
 const { binary_to_base58, base58_to_binary } = require('base58-js');
 const { createInterface } = require('readline');
-const { program } = require('commander');
+const { program, Option } = require('commander');
 
 const readline = createInterface({
   input: process.stdin,
   output: process.stdout,
 });
-
-const connection = new web3.Connection(
-  web3.clusterApiUrl('devnet'),
-  'confirmed'
-);
 
 main();
 
@@ -24,7 +19,11 @@ function question(question) {
   });
 }
 
-async function createNonceAccount(wallet) {
+async function createNonceAccount(wallet, network) {
+  const connection = new web3.Connection(
+    web3.clusterApiUrl(network),
+    'confirmed'
+  );
   // Generate keypair for nonce account
   let nonceAccount = web3.Keypair.generate();
 
@@ -51,13 +50,7 @@ async function createNonceAccount(wallet) {
   return nonceAccount;
 }
 
-async function handleImport(network) {
-  if (network !== 'devnet' && network !== 'mainnet-beta') {
-    program.error('error: network muse be either devnet or mainnet-beta', {
-      exitCode: 2,
-    });
-  }
-
+async function handleImport({ network }) {
   const input = await question(
     'Enter the secret key of your existing wallet authority: '
   );
@@ -69,7 +62,7 @@ async function handleImport(network) {
   }
   keypair = web3.Keypair.fromSecretKey(secretKey);
 
-  const nonceAccount = await createNonceAccount(keypair);
+  const nonceAccount = await createNonceAccount(keypair, network);
   console.log(`\nPublic key: ${nonceAccount.publicKey.toBase58()}`);
   console.log(`Secret key: ${binary_to_base58(secretKey)}`);
   console.log(
@@ -92,21 +85,23 @@ function handleCreate() {
 async function main() {
   program
     .command('create')
-    .description('clone a repository into a newly created directory')
+    .description('create a new solana keypair')
     .showHelpAfterError()
     .action(handleCreate);
 
   program
     .command('import')
-    .description('clone a repository into a newly created directory')
+    .description('import an existing solana keypair')
     .showHelpAfterError()
-    .requiredOption(
-      '-n, --network <solana-network>',
-      'network for nonce account creation'
+    .addOption(
+      new Option(
+        '-n, --network <solana-network>',
+        'network for nonce account creation'
+      )
+        .choices(['devnet', 'mainnet-beta'])
+        .makeOptionMandatory()
     )
-    .action(async options => {
-      await handleImport(options.network);
-    });
+    .action(handleImport);
 
   await program.parseAsync(process.argv);
   process.exit(0);
