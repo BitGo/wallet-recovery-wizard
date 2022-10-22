@@ -3,6 +3,26 @@ const { binary_to_base58, base58_to_binary } = require('base58-js');
 const { createInterface } = require('readline');
 const { program, Option } = require('commander');
 
+program
+  .command('create')
+  .description('create a new solana keypair')
+  .showHelpAfterError()
+  .action(handleCreate);
+
+program
+  .command('import')
+  .description('import an existing solana keypair')
+  .showHelpAfterError()
+  .addOption(
+    new Option(
+      '-n, --network <solana-network>',
+      'network for nonce account creation'
+    )
+      .choices(['devnet', 'mainnet-beta'])
+      .makeOptionMandatory()
+  )
+  .action(handleImport);
+
 const readline = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -83,30 +103,7 @@ function handleCreate() {
   );
 }
 
-function defineCommands() {
-  program
-    .command('create')
-    .description('create a new solana keypair')
-    .showHelpAfterError()
-    .action(handleCreate);
-
-  program
-    .command('import')
-    .description('import an existing solana keypair')
-    .showHelpAfterError()
-    .addOption(
-      new Option(
-        '-n, --network <solana-network>',
-        'network for nonce account creation'
-      )
-        .choices(['devnet', 'mainnet-beta'])
-        .makeOptionMandatory()
-    )
-    .action(handleImport);
-}
-
 async function main() {
-  defineCommands();
   await program.parseAsync(process.argv);
   process.exit(0);
 }
