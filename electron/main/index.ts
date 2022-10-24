@@ -17,6 +17,7 @@ import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
+import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Zec } from '@bitgo/sdk-coin-zec';
 import { fromBase58 } from 'bip32';
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
@@ -77,6 +78,8 @@ sdk.register('near', Near.createInstance);
 sdk.register('tnear', TNear.createInstance);
 sdk.register('dot', Dot.createInstance);
 sdk.register('tdot', Tdot.createInstance);
+sdk.register('sol', Sol.createInstance);
+sdk.register('tsol', Tsol.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

@@ -18,6 +18,7 @@ import { EthereumForm } from './EthereumForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
+import { SolanaForm } from './SolanaForm';
 import { TronForm } from './TronForm';
 
 function Form() {
@@ -44,6 +45,65 @@ function Form() {
                 ...values,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: ['p2wsh'],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'sol':
+    case 'tsol':
+      return (
+        <SolanaForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              const chainData = await window.queries.getChain(coin);
+              const { publicKey, secretKey, ...rest } = values;
+              const durableNonce =
+                publicKey && secretKey ? { publicKey, secretKey } : undefined;
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                durableNonce,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
               });
               assert(
                 isRecoveryTransaction(recoverData),

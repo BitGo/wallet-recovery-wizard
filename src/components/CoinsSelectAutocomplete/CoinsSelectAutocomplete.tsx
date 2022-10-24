@@ -241,6 +241,12 @@ const nonBitgoRecoveryCoins = {
       Icon: 'dot',
       value: 'dot',
     },
+    {
+      Title: 'SOL',
+      Description: 'Solana',
+      Icon: 'sol',
+      value: 'sol',
+    },
   ] as const,
   test: [
     {
@@ -302,6 +308,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'Testnet Polkadot',
       Icon: 'dot',
       value: 'tdot',
+    },
+    {
+      Title: 'TSOL',
+      Description: 'Testnet Solana',
+      Icon: 'sol',
+      value: 'tsol',
     },
   ] as const,
 };

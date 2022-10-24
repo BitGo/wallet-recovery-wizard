@@ -19,6 +19,7 @@
     "@bitgo/sdk-coin-ethw": "^1.1.0-rc.19",
     "@bitgo/sdk-coin-ltc": "^1.1.1",
     "@bitgo/sdk-coin-near": "^1.1.2-rc.38",
+    "@bitgo/sdk-coin-sol": "^2.0.0",
     "@bitgo/sdk-coin-trx": "^1.0.2",
     "@bitgo/sdk-coin-xlm": "^1.0.2",
     "@bitgo/sdk-coin-xrp": "^1.1.1",
@@ -33,6 +34,7 @@
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
     "@playwright/test": "^1.25.2",
+    "@solana/web3.js": "^1.66.1",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-interactions": "^6.5.12",
     "@storybook/addon-links": "^6.5.12",
@@ -47,7 +49,9 @@
     "@typescript-eslint/eslint-plugin": "^5.37.0",
     "@vitejs/plugin-react": "^2.1.0",
     "autoprefixer": "^10.4.11",
+    "base58-js": "^1.0.4",
     "cheerio": "^1.0.0-rc.12",
+    "commander": "^9.4.1",
     "concurrently": "^7.4.0",
     "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
     "electron": "^20.1.4",
@@ -87,6 +91,7 @@
   "scripts": {
     "build": "tsc && vite build && electron-builder",
     "dev": "vite",
+    "durable-nonce:build": "node ./scripts/build-durable-nonce",
     "eth-eip1559:decode": "node ./scripts/decode-eth-eip1559",
     "format:write": "prettier --ignore-path .gitignore --write .",
     "icons:build": "node ./scripts/build-icons.js",

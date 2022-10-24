@@ -19,6 +19,7 @@ const coins = [
   'avax',
   'near',
   'dot',
+  'sol',
 ];
 
 const paths = fs
