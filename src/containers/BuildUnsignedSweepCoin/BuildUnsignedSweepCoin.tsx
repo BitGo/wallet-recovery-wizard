@@ -178,6 +178,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...(await updateKeysFromIds(coin, values)),
+                scan: Number(values.scan),
                 ignoreAddressTypes: ['p2wsh'],
               });
 
@@ -531,6 +532,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...(await updateKeysFromIds(coin, values)),
+                scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -598,6 +600,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...(await updateKeysFromIds(coin, values)),
+                scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
