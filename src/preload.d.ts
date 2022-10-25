@@ -43,6 +43,7 @@ type Commands = {
         secretKey: string;
       };
       tokenAddress?: string;
+      startingScanIndex?: number;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(
