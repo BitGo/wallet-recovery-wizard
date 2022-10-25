@@ -24,6 +24,7 @@
     "@bitgo/sdk-coin-xlm": "^1.0.2",
     "@bitgo/sdk-coin-xrp": "^1.1.1",
     "@bitgo/sdk-coin-zec": "^1.1.1",
+    "@bitgo/sdk-coin-polygon": "^1.1.0-rc.33", 
     "@ethereumjs/common": "^2.6.5",
     "@lottiefiles/react-lottie-player": "^3.4.7",
     "clsx": "^1.2.1",

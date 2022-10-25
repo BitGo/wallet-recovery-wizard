@@ -90,6 +90,12 @@ const buildUnsignedSweepCoins = {
       Icon: 'avax',
       value: 'avaxc',
     },
+    {
+      Title: 'POLYGON',
+      Description: 'Polygon Chain',
+      Icon: 'polygon',
+      value: 'polygon',
+    },
   ] as const,
   test: [
     {
@@ -139,6 +145,12 @@ const buildUnsignedSweepCoins = {
       Description: 'Testnet Avalanche C-Chain',
       Icon: 'avax',
       value: 'tavaxc',
+    },
+    {
+      Title: 'TPOLYGON',
+      Description: 'Polygon Mumbai Testnet',
+      Icon: 'polygon',
+      value: 'tpolygon',
     },
   ] as const,
 };
@@ -247,6 +259,12 @@ const nonBitgoRecoveryCoins = {
       Icon: 'sol',
       value: 'sol',
     },
+    {
+      Title: 'POLYGON',
+      Description: 'POLYGON Chain',
+      Icon: 'polygon',
+      value: 'polygon',
+    },
   ] as const,
   test: [
     {
@@ -314,6 +332,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'Testnet Solana',
       Icon: 'sol',
       value: 'tsol',
+    },
+    {
+      Title: 'TPOLYGON',
+      Description: 'Polygon Mumbai Testnet',
+      Icon: 'polygon',
+      value: 'tpolygon',
     },
   ] as const,
 };

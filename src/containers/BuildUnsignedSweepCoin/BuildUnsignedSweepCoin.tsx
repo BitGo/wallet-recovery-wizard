@@ -20,6 +20,7 @@ import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
+import { PolygonForm } from './PolygonForm';
 
 async function includePubsFor<
   TValues extends {
@@ -691,6 +692,80 @@ function Form() {
                     ...recoverData,
                     ...(await includePubsFor(coin, values)),
                   },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'polygon':
+    case 'tpolygon':
+      return (
+        <PolygonForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                values.apiKey
+              );
+              const chainData = await window.queries.getChain(coin);
+
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                await updateKeysFromIds(coin, values);
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
+                    : recoverData,
                   null,
                   2
                 ),
