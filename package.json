@@ -4,6 +4,7 @@
     "email": "support@bitgo.com"
   },
   "dependencies": {
+    "@bitgo-beta/sdk-coin-near": "^1.1.1-beta.45",
     "@bitgo/abstract-utxo": "^1.1.1",
     "@bitgo/sdk-api": "^1.1.1",
     "@bitgo/sdk-coin-avaxc": "^2.0.0-rc.4",
@@ -18,7 +19,6 @@
     "@bitgo/sdk-coin-eth": "^1.1.1",
     "@bitgo/sdk-coin-ethw": "^1.1.0-rc.19",
     "@bitgo/sdk-coin-ltc": "^1.1.1",
-    "@bitgo/sdk-coin-near": "^1.1.2-rc.38",
     "@bitgo/sdk-coin-sol": "^2.0.0",
     "@bitgo/sdk-coin-trx": "^1.0.2",
     "@bitgo/sdk-coin-xlm": "^1.0.2",
