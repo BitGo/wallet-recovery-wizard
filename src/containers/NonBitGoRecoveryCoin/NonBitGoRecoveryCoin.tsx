@@ -88,6 +88,8 @@ function Form() {
       );
     case 'dot':
     case 'tdot':
+    case 'near':
+    case 'tnear':
       return (
         <PolkadotForm
           key={coin}
@@ -578,8 +580,6 @@ function Form() {
       );
     case 'trx':
     case 'ttrx':
-    case 'near':
-    case 'tnear':
       return (
         <TronForm
           key={coin}
