@@ -6,8 +6,6 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
 } from '~/components';
 
 const validationSchema = Yup.object({
@@ -21,47 +19,27 @@ const validationSchema = Yup.object({
   startingScanIndex: Yup.number().required(),
   userKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
-})
-  .required()
-  .shape(
-    {
-      publicKey: Yup.string().when('secretKey', {
-        is: (val: string) => !!val,
-        then: Yup.string().required(
-          'A public key must be provided with a secret key'
-        ),
-      }),
-      secretKey: Yup.string().when('publicKey', {
-        is: (val: string) => !!val,
-        then: Yup.string().required(
-          'A secret key must be provided with a public key'
-        ),
-      }),
-    },
-    [['secretKey', 'publicKey']]
-  );
+}).required();
 
-export type SolanaFormProps = {
+export type PolkadotFormProps = {
   onSubmit: (
-    values: SolanaFormValues,
-    formikHelpers: FormikHelpers<SolanaFormValues>
+    values: PolkadotFormValues,
+    formikHelpers: FormikHelpers<PolkadotFormValues>
   ) => void | Promise<void>;
 };
 
-type SolanaFormValues = Yup.Asserts<typeof validationSchema>;
+type PolkadotFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function SolanaForm({ onSubmit }: SolanaFormProps) {
-  const formik = useFormik<SolanaFormValues>({
+export function PolkadotForm({ onSubmit }: PolkadotFormProps) {
+  const formik = useFormik<PolkadotFormValues>({
     onSubmit,
     initialValues: {
       backupKey: '',
       bitgoKey: '',
       krsProvider: '',
-      publicKey: '',
       recoveryDestination: '',
       scan: 20,
       startingScanIndex: 0,
-      secretKey: '',
       userKey: '',
       walletPassphrase: '',
     },
@@ -76,16 +54,6 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form>
-        <div className="tw-mb-8">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Solana transactions have a broadcast window of 60 seconds. By
-            filling out the Durable Nonce: Public Key field and the Durable
-            Nonce: Secret Key field, you can extend this window.
-          </Notice>
-        </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed hot wallet details
         </h4>
@@ -143,24 +111,6 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="The public key of the authority for your nonce account."
-            Label="Durable Nonce: Public Key"
-            name="publicKey"
-            rows={2}
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="The secret key for your nonce account."
-            Label="Durable Nonce: Secret Key"
-            name="secretKey"
-            rows={2}
             Width="fill"
           />
         </div>

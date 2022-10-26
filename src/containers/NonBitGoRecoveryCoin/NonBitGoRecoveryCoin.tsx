@@ -17,6 +17,7 @@ import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
+import { PolkadotForm } from './PolkadotForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { TronForm } from './TronForm';
@@ -30,8 +31,6 @@ function Form() {
   switch (coin) {
     case 'btc':
     case 'tbtc':
-    case 'dot':
-    case 'tdot':
       return (
         <BitcoinForm
           key={coin}
@@ -43,6 +42,66 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
+                scan: Number(values.scan),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: ['p2wsh'],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'dot':
+    case 'tdot':
+    case 'near':
+    case 'tnear':
+      return (
+        <PolkadotForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                scan: Number(values.scan),
+                startingScanIndex: Number(values.startingScanIndex),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: ['p2wsh'],
               });
@@ -96,11 +155,14 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
-              const { publicKey, secretKey, ...rest } = values;
+              const { publicKey, secretKey, scan, startingScanIndex, ...rest } =
+                values;
               const durableNonce =
                 publicKey && secretKey ? { publicKey, secretKey } : undefined;
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
+                scan: Number(scan),
+                startingScanIndex: Number(startingScanIndex),
                 durableNonce,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
@@ -411,6 +473,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
+                scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -471,6 +534,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
+                scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -515,8 +579,6 @@ function Form() {
       );
     case 'trx':
     case 'ttrx':
-    case 'near':
-    case 'tnear':
       return (
         <TronForm
           key={coin}
