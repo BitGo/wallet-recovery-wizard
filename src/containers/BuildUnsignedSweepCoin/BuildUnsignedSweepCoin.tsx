@@ -240,7 +240,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const chainData = await window.queries.getChain(coin);
 
@@ -392,7 +393,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const chainData = await window.queries.getChain(coin);
 
@@ -528,7 +530,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
@@ -596,7 +599,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
@@ -726,7 +730,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const chainData = await window.queries.getChain(coin);
 
@@ -800,7 +805,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                values.apiKey
+                values.apiKey,
+                coin
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await getTokenChain(

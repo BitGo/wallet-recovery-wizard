@@ -117,10 +117,29 @@ async function createWindow() {
   });
 
   // commands
-  ipcMain.handle('setBitGoEnvironment', async (event, environment, apiKey) => {
-    sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
-    return await Promise.resolve();
-  });
+  ipcMain.handle(
+    'setBitGoEnvironment',
+    async (event, environment, apiKey, apiKeyCoin) => {
+      switch (apiKeyCoin) {
+        case 'eth':
+        case 'gteth':
+        case 'ethw':
+        case 'erc20':
+        case 'gterc20':
+        case 'avaxc':
+        case 'tavaxc':
+          sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
+          break;
+        case 'polygon':
+        case 'tpolygon':
+          sdk = new BitGoAPI({ env: environment, polygonscanApiToken: apiKey });
+          break;
+        default:
+          sdk = new BitGoAPI({ env: environment });
+      }
+      return await Promise.resolve();
+    }
+  );
 
   ipcMain.handle('recover', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
