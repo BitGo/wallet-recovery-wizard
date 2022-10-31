@@ -39,7 +39,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
@@ -97,7 +97,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
@@ -154,7 +154,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const { publicKey, secretKey, scan, startingScanIndex, ...rest } =
                 values;
@@ -217,9 +217,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
 
@@ -285,7 +285,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
@@ -352,9 +352,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
@@ -415,7 +415,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
@@ -470,9 +470,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
@@ -532,9 +532,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
@@ -591,7 +591,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment);
+              await window.commands.setBitGoEnvironment(coin, bitGoEnvironment);
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
@@ -647,9 +647,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const chainData = await window.queries.getChain(coin);
 
@@ -713,9 +713,9 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
+                coin,
                 bitGoEnvironment,
-                values.apiKey,
-                coin
+                values.apiKey
               );
               const parentCoin = env === 'test' ? 'gteth' : 'eth';
               const chainData = await getTokenChain(

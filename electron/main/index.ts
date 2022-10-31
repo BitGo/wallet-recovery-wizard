@@ -119,8 +119,8 @@ async function createWindow() {
   // commands
   ipcMain.handle(
     'setBitGoEnvironment',
-    async (event, environment, apiKey, apiKeyCoin) => {
-      switch (apiKeyCoin) {
+    async (event, coin, environment, apiKey) => {
+      switch (coin) {
         case 'eth':
         case 'gteth':
         case 'ethw':

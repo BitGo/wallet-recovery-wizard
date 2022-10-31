@@ -47,9 +47,9 @@ type Commands = {
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(
+    coin: string,
     environment: 'prod' | 'test',
-    apiKey?: string,
-    apiKeyCoin?: string
+    apiKey?: string
   ): Promise<void>;
 };
 
@@ -95,13 +95,8 @@ const commands: Commands = {
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
   },
-  setBitGoEnvironment(environment, apiKey, apiKeyCoin) {
-    return ipcRenderer.invoke(
-      'setBitGoEnvironment',
-      environment,
-      apiKey,
-      apiKeyCoin
-    );
+  setBitGoEnvironment(coin, environment, apiKey) {
+    return ipcRenderer.invoke('setBitGoEnvironment', coin, environment, apiKey);
   },
 };
 
