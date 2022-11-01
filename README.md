@@ -52,3 +52,7 @@ Instructions to do Non-BitGo recovery from cold wallets (Unsigned Sweep): [UNSIG
 Instructions to decode ETH transactions [DECODE.md](DECODE.MD)
 
 Instructions to obtain durable nonce for SOL transactions [DURABLE_NONCE.md](DURABLE_NONCE.md)
+
+## FAQs
+
+How can I onboard a new coin for Wallet Recovery Wizard? [ONBOARD_COIN.md](ONBOARD_COIN.md)
