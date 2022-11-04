@@ -14,6 +14,7 @@ import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo-beta/sdk-coin-near';
+import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
@@ -80,6 +81,8 @@ sdk.register('dot', Dot.createInstance);
 sdk.register('tdot', Tdot.createInstance);
 sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
+sdk.register('polygon', Polygon.createInstance);
+sdk.register('tpolygon', Tpolygon.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
@@ -114,10 +117,29 @@ async function createWindow() {
   });
 
   // commands
-  ipcMain.handle('setBitGoEnvironment', async (event, environment, apiKey) => {
-    sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
-    return await Promise.resolve();
-  });
+  ipcMain.handle(
+    'setBitGoEnvironment',
+    async (event, coin, environment, apiKey) => {
+      switch (coin) {
+        case 'eth':
+        case 'gteth':
+        case 'ethw':
+        case 'erc20':
+        case 'gterc20':
+        case 'avaxc':
+        case 'tavaxc':
+          sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
+          break;
+        case 'polygon':
+        case 'tpolygon':
+          sdk = new BitGoAPI({ env: environment, polygonscanApiToken: apiKey });
+          break;
+        default:
+          sdk = new BitGoAPI({ env: environment });
+      }
+      return await Promise.resolve();
+    }
+  );
 
   ipcMain.handle('recover', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
