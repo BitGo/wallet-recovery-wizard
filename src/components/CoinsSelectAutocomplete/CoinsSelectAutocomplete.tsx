@@ -96,6 +96,12 @@ const buildUnsignedSweepCoins = {
       Icon: 'polygon',
       value: 'polygon',
     },
+    {
+      Title: 'XEC',
+      Description: 'eCash',
+      Icon: 'xec',
+      value: 'bcha',
+    },
   ] as const,
   test: [
     {
@@ -264,6 +270,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'POLYGON Chain',
       Icon: 'polygon',
       value: 'polygon',
+    },
+    {
+      Title: 'XEC',
+      Description: 'eCash',
+      Icon: 'xec',
+      value: 'bcha',
     },
   ] as const,
   test: [

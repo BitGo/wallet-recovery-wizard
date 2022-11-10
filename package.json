@@ -9,7 +9,7 @@
     "@bitgo/sdk-api": "^1.1.1",
     "@bitgo/sdk-coin-avaxc": "^2.0.0-rc.4",
     "@bitgo/sdk-coin-bch": "^1.1.1",
-    "@bitgo/sdk-coin-bcha": "^1.1.1",
+    "@bitgo/sdk-coin-bcha": "^1.4.0",
     "@bitgo/sdk-coin-bsv": "^1.1.1",
     "@bitgo/sdk-coin-btc": "^1.0.2",
     "@bitgo/sdk-coin-btg": "^1.1.1",
