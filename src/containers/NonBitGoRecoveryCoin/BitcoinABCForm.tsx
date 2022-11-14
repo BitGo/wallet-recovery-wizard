@@ -23,17 +23,17 @@ const validationSchema = Yup.object({
   scan: Yup.number().required(),
 }).required();
 
-export type ECashFormProps = {
+export type BitcoinABCFormProps = {
   onSubmit: (
-    values: ECashFormValues,
-    formikHelpers: FormikHelpers<ECashFormValues>
+    values: BitcoinABCFormValues,
+    formikHelpers: FormikHelpers<BitcoinABCFormValues>
   ) => void | Promise<void>;
 };
 
-type ECashFormValues = Yup.Asserts<typeof validationSchema>;
+type BitcoinABCFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function ECashForm({ onSubmit }: ECashFormProps) {
-  const formik = useFormik<ECashFormValues>({
+export function BitcoinABCForm({ onSubmit }: BitcoinABCFormProps) {
+  const formik = useFormik<BitcoinABCFormValues>({
     onSubmit,
     initialValues: {
       apiKey: '',
@@ -61,7 +61,7 @@ export function ECashForm({ onSubmit }: ECashFormProps) {
             Variant="Secondary"
             IconLeft={<Icon Name="warning-sign" Size="small" />}
           >
-            XEC (aka BCHA) transactions are replayable on Bitcoin Cash. Please
+            BCHA (aka XEC) transactions are replayable on Bitcoin Cash. Please
             make sure you are the owner of the Destination Address to avoid
             accidentally sending your XEC to an address you do not own.
           </Notice>

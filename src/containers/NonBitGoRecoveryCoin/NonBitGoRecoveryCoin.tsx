@@ -13,7 +13,7 @@ import {
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
-import { ECashForm } from './ECashForm';
+import { BitcoinABCForm } from './BitcoinABCForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
 import { EthereumWForm } from './EthereumWForm';
@@ -521,9 +521,9 @@ function Form() {
           }}
         />
       );
-    case 'xec':
+    case 'bcha':
       return (
-        <ECashForm
+        <BitcoinABCForm
           key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
