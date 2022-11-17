@@ -1,3 +1,9 @@
+process.env.DIST_ELECTRON = join(__dirname, '../..');
+process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
+process.env.PUBLIC = app.isPackaged
+  ? process.env.DIST
+  : join(process.env.DIST_ELECTRON, '../public');
+
 /* eslint-disable @typescript-eslint/unbound-method */
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
@@ -20,11 +26,14 @@ import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Zec } from '@bitgo/sdk-coin-zec';
-import { fromBase58 } from 'bip32';
+import * as ecc from 'tiny-secp256k1';
+import BIP32Factory from 'bip32';
 import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
+
+const bip32 = BIP32Factory(ecc);
 
 // Disable GPU Acceleration for Windows 7
 if (release().startsWith('6.1')) app.disableHardwareAcceleration();
@@ -37,18 +46,11 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0);
 }
 
-export const ROOT_PATH = {
-  // /dist
-  dist: join(__dirname, '../..'),
-  // /dist or /public
-  public: join(__dirname, app.isPackaged ? '../..' : '../../../public'),
-};
-
 let win: BrowserWindow | null = null;
 // Here, you can also use other preload
 const preload = join(__dirname, '../preload/index.js');
 const url = String(process.env.VITE_DEV_SERVER_URL);
-const indexHtml = join(ROOT_PATH.dist, 'index.html');
+const indexHtml = join(process.env.DIST, 'index.html');
 
 let sdk = new BitGoAPI({
   env: 'test',
@@ -90,7 +92,7 @@ Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Wallet Recovery Wizard',
-    icon: join(ROOT_PATH.public, 'icon-256x256.png'),
+    icon: join(process.env.PUBLIC, 'icon-256x256.png'),
     webPreferences: {
       contextIsolation: true,
       nodeIntegration: false,
@@ -98,13 +100,14 @@ async function createWindow() {
     },
   });
 
-  if (app.isPackaged) {
-    await win.loadFile(indexHtml);
+  if (process.env.VITE_DEV_SERVER_URL) {
+    // electron-vite-vue#298
+    await win.loadURL(url);
+    // Open devTool if the app is not packaged
+    // win.webContents.openDevTools();
   } else {
-    await win.loadURL(String(url));
-    // win.webContents.openDevTools()
+    await win.loadFile(indexHtml);
   }
-
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
@@ -165,7 +168,7 @@ async function createWindow() {
   });
 
   ipcMain.handle('deriveKeyByPath', (event, key, id) => {
-    const node = fromBase58(key);
+    const node = bip32.fromBase58(key);
     const derivedNode = node.derivePath(id);
     return derivedNode.toBase58();
   });

@@ -14,7 +14,7 @@
     buildResources: 'electron/resources',
     output: 'release/${version}',
   },
-  files: ['dist'],
+  files: ['dist-electron', 'dist'],
   linux: {
     artifactName: '${productName}-Linux-${version}.${ext}',
     category: 'Utility',
