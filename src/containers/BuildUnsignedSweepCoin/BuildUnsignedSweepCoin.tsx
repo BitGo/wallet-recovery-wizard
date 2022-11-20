@@ -590,6 +590,8 @@ function Form() {
     case 'btg':
     case 'dash':
     case 'zec':
+    case 'doge':
+    case 'tdoge':
       return (
         <LitecoinForm
           key={coin}

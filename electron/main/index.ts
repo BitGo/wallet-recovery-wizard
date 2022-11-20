@@ -8,6 +8,7 @@ import { Bsv } from '@bitgo/sdk-coin-bsv';
 import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
 import { Btg } from '@bitgo/sdk-coin-btg';
 import { Dash } from '@bitgo/sdk-coin-dash';
+import { Doge } from '@bitgo/sdk-coin-doge';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
@@ -83,6 +84,7 @@ sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
 sdk.register('polygon', Polygon.createInstance);
 sdk.register('tpolygon', Tpolygon.createInstance);
+sdk.register('doge', Doge.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

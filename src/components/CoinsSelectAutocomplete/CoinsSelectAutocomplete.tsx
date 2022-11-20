@@ -96,6 +96,12 @@ const buildUnsignedSweepCoins = {
       Icon: 'polygon',
       value: 'polygon',
     },
+    {
+      Title: 'DOGE',
+      Description: 'Dogecoin',
+      Icon: 'doge',
+      value: 'doge',
+    },
   ] as const,
   test: [
     {
