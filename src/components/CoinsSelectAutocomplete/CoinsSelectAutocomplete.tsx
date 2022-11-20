@@ -102,6 +102,12 @@ const buildUnsignedSweepCoins = {
       Icon: 'xec',
       value: 'bcha',
     },
+    {
+      Title: 'DOGE',
+      Description: 'Dogecoin',
+      Icon: 'doge',
+      value: 'doge',
+    },
   ] as const,
   test: [
     {
@@ -157,6 +163,12 @@ const buildUnsignedSweepCoins = {
       Description: 'Polygon Mumbai Testnet',
       Icon: 'polygon',
       value: 'tpolygon',
+    },
+    {
+      Title: 'TDOGE',
+      Description: 'Dogecoin Testnet',
+      Icon: 'doge',
+      value: 'tdoge',
     },
   ] as const,
 };
@@ -277,6 +289,12 @@ const nonBitgoRecoveryCoins = {
       Icon: 'xec',
       value: 'bcha',
     },
+    {
+      Title: 'DOGE',
+      Description: 'Dogecoin',
+      Icon: 'doge',
+      value: 'doge',
+    },
   ] as const,
   test: [
     {
@@ -350,6 +368,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'Polygon Mumbai Testnet',
       Icon: 'polygon',
       value: 'tpolygon',
+    },
+    {
+      Title: 'TDOGE',
+      Description: 'Dogecoin Testnet',
+      Icon: 'doge',
+      value: 'tdoge',
     },
   ] as const,
 };
