@@ -41,8 +41,11 @@ const config: PlaywrightTestConfig = {
     trace: 'on-first-retry',
   },
   webServer: {
-    port: 7777,
-    command: 'NODE_ENV=test npm run dev',
+    env: {
+      NODE_ENV: 'test',
+    },
+    url: 'http://localhost:5173',
+    command: 'vite',
   },
 };
 
