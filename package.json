@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@bitgo-beta/sdk-coin-near": "1.1.1-beta.45",
-    "@bitgo/abstract-utxo": "1.1.1",
-    "@bitgo/sdk-api": "1.1.1",
+    "@bitgo/abstract-utxo": "1.10.0",
+    "@bitgo/sdk-api": "1.9.1",
     "@bitgo/sdk-coin-avaxc": "2.0.0-rc.4",
     "@bitgo/sdk-coin-bch": "1.1.1",
     "@bitgo/sdk-coin-bcha": "1.1.1",
@@ -19,6 +19,7 @@
     "@bitgo/sdk-coin-btc": "1.0.2",
     "@bitgo/sdk-coin-btg": "1.1.1",
     "@bitgo/sdk-coin-dash": "1.1.1",
+    "@bitgo/sdk-coin-doge": "^1.8.1",
     "@bitgo/sdk-coin-dot": "1.1.0",
     "@bitgo/sdk-coin-eos": "1.0.2",
     "@bitgo/sdk-coin-eth": "1.1.1",

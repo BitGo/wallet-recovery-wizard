@@ -22,6 +22,7 @@ const coins = [
   'sol',
   'polygon',
   'xec',
+  'doge',
 ];
 
 const paths = fs
