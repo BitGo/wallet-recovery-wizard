@@ -7,6 +7,7 @@ process.env.PUBLIC = app.isPackaged
 /* eslint-disable @typescript-eslint/unbound-method */
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
+import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { AvaxC, TavaxC } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
@@ -88,6 +89,8 @@ sdk.register('polygon', Polygon.createInstance);
 sdk.register('tpolygon', Tpolygon.createInstance);
 sdk.register('doge', Doge.createInstance);
 sdk.register('tdoge', Tdoge.createInstance);
+sdk.register('ada', Ada.createInstance);
+sdk.register('tada', Tada.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

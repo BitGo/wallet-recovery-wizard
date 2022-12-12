@@ -295,6 +295,12 @@ const nonBitgoRecoveryCoins = {
       Icon: 'doge',
       value: 'doge',
     },
+    {
+      Title: 'ADA',
+      Description: 'Cardano',
+      Icon: 'ada',
+      value: 'ada',
+    },
   ] as const,
   test: [
     {
@@ -374,6 +380,12 @@ const nonBitgoRecoveryCoins = {
       Description: 'Dogecoin Testnet',
       Icon: 'doge',
       value: 'tdoge',
+    },
+    {
+      Title: 'TADA',
+      Description: 'Cardano Testnet',
+      Icon: 'ada',
+      value: 'tada',
     },
   ] as const,
 };
