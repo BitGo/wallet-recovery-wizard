@@ -12,6 +12,7 @@
     "@bitgo-beta/sdk-coin-near": "1.1.1-beta.45",
     "@bitgo/abstract-utxo": "1.10.0",
     "@bitgo/sdk-api": "1.9.1",
+    "@bitgo/sdk-coin-ada": "2.3.3",
     "@bitgo/sdk-coin-avaxc": "2.0.0-rc.4",
     "@bitgo/sdk-coin-bch": "1.1.1",
     "@bitgo/sdk-coin-bcha": "1.1.1",
