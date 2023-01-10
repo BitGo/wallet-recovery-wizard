@@ -28,7 +28,7 @@
     "@bitgo/sdk-coin-ltc": "1.1.1",
     "@bitgo/sdk-coin-polygon": "1.1.0-rc.33",
     "@bitgo/sdk-coin-sol": "2.0.0",
-    "@bitgo/sdk-coin-trx": "1.0.2",
+    "@bitgo/sdk-coin-trx": "1.5.0",
     "@bitgo/sdk-coin-xlm": "1.0.2",
     "@bitgo/sdk-coin-xrp": "1.1.1",
     "@bitgo/sdk-coin-zec": "1.1.1",
