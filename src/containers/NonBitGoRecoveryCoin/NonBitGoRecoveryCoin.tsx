@@ -226,6 +226,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
+
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
                 eip1559: {
