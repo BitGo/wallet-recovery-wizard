@@ -1,4 +1,4 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
@@ -18,6 +18,7 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
+  isTss: Yup.boolean(),
 }).required();
 
 export type EthereumFormProps = {
@@ -43,6 +44,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
       userKey: '',
       userKeyId: '',
       walletContractAddress: '',
+      isTss: false,
     },
     validationSchema,
   });
@@ -132,6 +134,12 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             name="apiKey"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4" role="group">
+          <label>
+            <Field type="checkbox" name="isTss" />
+            Is TSS recovery?
+          </label>
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
