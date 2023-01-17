@@ -1,4 +1,4 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
@@ -19,6 +19,7 @@ const validationSchema = Yup.object({
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
+  isTss: Yup.boolean(),
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
@@ -47,6 +48,7 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
       recoveryDestination: '',
+      isTss: false,
       userKey: '',
       walletContractAddress: '',
       walletPassphrase: '',
@@ -152,6 +154,12 @@ export function EthereumForm({ onSubmit }: EthereumFormProps) {
             name="maxPriorityFeePerGas"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4" role="group">
+          <label>
+            <Field type="checkbox" name="isTss" />
+            Is TSS recovery?
+          </label>
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
