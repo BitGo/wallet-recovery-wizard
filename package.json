@@ -9,6 +9,7 @@
     }
   },
   "dependencies": {
+    "@bitgo-beta/sdk-coin-eth": "1.1.1-beta.116",
     "@bitgo-beta/sdk-coin-near": "1.1.1-beta.45",
     "@bitgo/abstract-utxo": "1.10.0",
     "@bitgo/sdk-api": "1.9.1",
