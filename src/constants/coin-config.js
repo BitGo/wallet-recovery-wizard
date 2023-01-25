@@ -35,6 +35,7 @@ export default {
     },
     bcha: {
       fullName: 'Bitcoin ABC',
+      supportedRecoveries: ['btc', 'bch'],
       icon: bchaIcon,
       envOptions: [{ label: 'Mainnet', value: 'prod' }],
       replayableNetworks: ['bch', 'bsv'],
@@ -134,7 +135,7 @@ export default {
     },
   },
   supportedRecoveries: {
-    crossChain: ['btc', 'bch', 'ltc'],
+    crossChain: ['btc', 'bch', 'bcha', 'ltc'],
     nonBitGo: {
       test: ['btc', 'eth', 'xrp', 'xlm', 'token', 'trx', 'eos'],
       prod: ['btc', 'bch', 'ltc', 'xrp', 'xlm', 'dash', 'zec', 'btg', 'eth', 'token', 'trx', 'bsv', 'bcha', 'eos'],
