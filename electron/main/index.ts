@@ -21,7 +21,7 @@ import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
-import { Near, TNear } from '@bitgo-beta/sdk-coin-near';
+import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
