@@ -17,10 +17,10 @@
     "apply-fmt": "prettier --write ."
   },
   "dependencies": {
-    "@bitgo/utxo-lib": "2.2.2-rc.2",
+    "@bitgo/utxo-lib": "7.5.0",
     "autoprefixer": "8.6.5",
     "bignumber.js": "^9.0.0",
-    "bitgo": "14.1.0-wrw-hotfix.2",
+    "bitgo": "16.4.0",
     "bootstrap": "^4.3.1",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
