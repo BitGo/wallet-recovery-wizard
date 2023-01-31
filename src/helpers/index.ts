@@ -67,3 +67,14 @@ export function isRecoveryTransaction(
     ('serializedTx' in value && !!value['serializedTx'])
   );
 }
+
+export function mapLoginError(message: string): string {
+  if (message === 'invalid_client') {
+    return 'Invalid email format';
+  } else if (message === 'invalid_grant') {
+    return 'Incorrect email or password';
+  } else if (message === 'needs_otp') {
+    return 'Invalid OTP';
+  }
+  return message;
+}

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Outlet } from 'react-router-dom';
 import { AlertBanner, BackToHomeHeader, Icon } from '~/components';
 import { AlertBannerContext } from '~/contexts';
 
@@ -8,7 +7,11 @@ export type PageLayoutProps = {
   Description: string;
 };
 
-export function PageLayout({ Title, Description }: PageLayoutProps) {
+export function PageLayout({
+  Title,
+  Description,
+  children,
+}: React.PropsWithChildren<PageLayoutProps>) {
   const alertState = React.useState<string | undefined>();
   const [alert] = alertState;
 
@@ -33,7 +36,7 @@ export function PageLayout({ Title, Description }: PageLayoutProps) {
           </div>
           <div className="tw-border tw-border-solid tw-border-gray-700 tw-rounded tw-pt-8 tw-pb-4 tw-px-8">
             <AlertBannerContext.Provider value={alertState}>
-              <Outlet />
+              {children}
             </AlertBannerContext.Provider>
           </div>
         </div>

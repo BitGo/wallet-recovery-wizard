@@ -83,6 +83,16 @@ export function Home() {
                 />
               </LinkCard>
             </div>
+            <div className="md:tw-flex-grow">
+              <LinkCard Width="fill" Title="Available Online">
+                <LinkCardItem
+                  Tag={Link}
+                  to={`/${env}/wrong-chain-recovery`}
+                  Title="Wrong Chain Recoveries"
+                  Description="Recover funds sent to the wrong chain, such as BTC sent to a LTC address."
+                />
+              </LinkCard>
+            </div>
           </div>
         </div>
       </div>
