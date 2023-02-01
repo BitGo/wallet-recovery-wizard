@@ -9,13 +9,14 @@ export type LoginProps = {
 
 export function Login({ onSuccess }: LoginProps) {
   const { env, coin } = useParams<'env' | 'coin'>();
-  const bitGoEnvironment = safeEnv(env);
+  const safeBitgoEnv = safeEnv(env);
 
   const [, setAlert] = useAlertBanner();
   return (
     <LoginForm
+      env={safeBitgoEnv}
       onSubmit={async (values, { setSubmitting }) => {
-        await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+        await window.commands.setBitGoEnvironment(safeBitgoEnv, coin);
         const { username, password, otp } = values;
         setAlert(undefined);
         setSubmitting(true);

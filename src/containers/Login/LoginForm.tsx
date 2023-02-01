@@ -2,6 +2,8 @@ import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
+import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
+import { BitgoEnv } from '~/helpers';
 
 const validationSchema = Yup.object({
   username: Yup.string().required(),
@@ -14,11 +16,12 @@ export type LoginFormProps = {
     values: LoginFormValues,
     formikHelpers: FormikHelpers<LoginFormValues>
   ) => void | Promise<void>;
+  env?: BitgoEnv;
 };
 
 type LoginFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function LoginForm({ onSubmit }: LoginFormProps) {
+export function LoginForm({ onSubmit, env }: LoginFormProps) {
   const formik = useFormik<LoginFormValues>({
     onSubmit,
     initialValues: {
@@ -37,7 +40,7 @@ export function LoginForm({ onSubmit }: LoginFormProps) {
         </h4>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Your BitGo login email."
+            HelperText={<BackToHomeHelperText env={env} />}
             Label="Email"
             name="username"
             Width="fill"

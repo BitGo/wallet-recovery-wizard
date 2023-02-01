@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import { Link, useParams } from 'react-router-dom';
+import { safeEnv } from '~/helpers';
+import { BackToHomeHelperText } from '../BackToHomeHelperText';
 import { CryptocurrencyIcon } from '../CryptocurrencyIcon';
 import { SelectAutocomplete } from '../SelectAutocomplete';
 import { SelectAutocompleteItem } from '../SelectAutocomplete/SelectAutocompleteItem';
@@ -398,7 +400,7 @@ export function CoinsSelectAutocomplete({
   onChange,
 }: CoinsSelectAutocompleteProps) {
   const { env = 'test', coin = '' } = useParams<'env' | 'coin'>();
-  const envTitle = env === 'prod' ? 'Mainnet' : 'Testnet';
+  const safeBitgoEnv = safeEnv(env);
   const isUnsignedSweep = window.location.href.includes('build-unsigned-sweep');
   const coins = isUnsignedSweep
     ? buildUnsignedSweepCoins
@@ -422,20 +424,7 @@ export function CoinsSelectAutocomplete({
   return (
     <SelectAutocomplete
       Label="Currency"
-      HelperText={
-        <div>
-          <span className="tw-text-gray-700">
-            Current environment: &nbsp;
-            <span className="tw-font-semibold">{envTitle}</span>. &nbsp;
-          </span>
-          <Link
-            to="/"
-            className={clsx('tw-text-blue-200', 'hover:tw-underline')}
-          >
-            Go back to change &rarr;
-          </Link>
-        </div>
-      }
+      HelperText={<BackToHomeHelperText env={safeBitgoEnv} />}
       Width="fill"
       value={coin}
       onChange={onChange}
