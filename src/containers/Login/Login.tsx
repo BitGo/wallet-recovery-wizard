@@ -3,11 +3,11 @@ import { useAlertBanner } from '~/contexts';
 import { mapLoginError, safeEnv } from '~/helpers';
 import { LoginForm } from './LoginForm';
 
-export type LoginFormProps = {
+export type LoginProps = {
   onSuccess: (username: string) => void | Promise<void>;
 };
 
-export function Login({ onSuccess }: LoginFormProps) {
+export function Login({ onSuccess }: LoginProps) {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
 

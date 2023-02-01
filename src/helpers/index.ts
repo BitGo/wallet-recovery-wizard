@@ -69,12 +69,14 @@ export function isRecoveryTransaction(
 }
 
 export function mapLoginError(message: string): string {
-  if (message === 'invalid_client') {
-    return 'Invalid email format';
-  } else if (message === 'invalid_grant') {
-    return 'Incorrect email or password';
-  } else if (message === 'needs_otp') {
-    return 'Invalid OTP';
+  switch (message) {
+    case 'invalid_client':
+      return 'Invalid email format';
+    case 'invalid_grant':
+      return 'Incorrect email or password';
+    case 'needs_otp':
+      return 'Invalid OTP';
+    default:
+      return message;
   }
-  return message;
 }

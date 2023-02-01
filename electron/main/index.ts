@@ -96,18 +96,17 @@ Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
 });
 
 function handleSdkError(e: unknown): string {
-  let message: string | undefined;
   if (typeof e === 'string' && e !== null) {
-    message = e;
+    return e;
   } else if (
     typeof e === 'object' &&
     e !== null &&
     'message' in e &&
     typeof e.message === 'string'
   ) {
-    message = e.message;
+    return e.message;
   }
-  return message ?? 'unknown sdk error';
+  return 'unknown sdk error';
 }
 
 async function createWindow() {
