@@ -11,6 +11,8 @@ import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
 
+type User = { username: string };
+
 type Commands = {
   writeFile(
     file: string,
@@ -47,10 +49,12 @@ type Commands = {
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   setBitGoEnvironment(
-    coin: string,
     environment: 'prod' | 'test',
+    coin?: string,
     apiKey?: string
   ): Promise<void>;
+  login(username: string, password: string, otp: string): Promise<Error | User>;
+  logout(): Promise<Error | undefined>;
 };
 
 type Queries = {
@@ -65,6 +69,8 @@ type Queries = {
   getVersion(): Promise<string>;
   deriveKeyByPath(key: string, id: string): Promise<string>;
   getChain(coin: string): Promise<string>;
+  getUser(): Promise<Error | User>;
+  isSdkAuthenticated(): Promise<boolean>;
 };
 
 const queries: Queries = {
@@ -79,6 +85,12 @@ const queries: Queries = {
   },
   getChain(coin) {
     return ipcRenderer.invoke('getChain', coin);
+  },
+  getUser() {
+    return ipcRenderer.invoke('getUser');
+  },
+  isSdkAuthenticated() {
+    return ipcRenderer.invoke('isSdkAuthenticated');
   },
 };
 
@@ -95,8 +107,14 @@ const commands: Commands = {
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
   },
-  setBitGoEnvironment(coin, environment, apiKey) {
-    return ipcRenderer.invoke('setBitGoEnvironment', coin, environment, apiKey);
+  setBitGoEnvironment(environment, coin, apiKey) {
+    return ipcRenderer.invoke('setBitGoEnvironment', environment, coin, apiKey);
+  },
+  login(username, password, otp) {
+    return ipcRenderer.invoke('login', username, password, otp);
+  },
+  logout() {
+    return ipcRenderer.invoke('logout');
   },
 };
 

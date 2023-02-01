@@ -21,7 +21,7 @@ import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
-import { Near, TNear } from '@bitgo-beta/sdk-coin-near';
+import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
@@ -95,6 +95,20 @@ Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
+function handleSdkError(e: unknown): string {
+  if (typeof e === 'string' && e !== null) {
+    return e;
+  } else if (
+    typeof e === 'object' &&
+    e !== null &&
+    'message' in e &&
+    typeof e.message === 'string'
+  ) {
+    return e.message;
+  }
+  return 'unknown sdk error';
+}
+
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Wallet Recovery Wizard',
@@ -126,9 +140,34 @@ async function createWindow() {
   });
 
   // commands
+  ipcMain.handle('login', async (event, username, password, otp) => {
+    try {
+      const res = (await sdk.authenticate({
+        username,
+        password,
+        otp,
+      })) as Error | { user: { username: string } };
+      if (res instanceof Error) {
+        return res;
+      }
+      return res.user as Error | { username: string };
+    } catch (e: unknown) {
+      return new Error(handleSdkError(e));
+    }
+  });
+
+  ipcMain.handle('logout', async event => {
+    try {
+      await sdk.logout();
+      return undefined;
+    } catch (e: unknown) {
+      return new Error(handleSdkError(e));
+    }
+  });
+
   ipcMain.handle(
     'setBitGoEnvironment',
-    async (event, coin, environment, apiKey) => {
+    async (event, environment, coin, apiKey) => {
       switch (coin) {
         case 'eth':
         case 'gteth':
@@ -181,6 +220,19 @@ async function createWindow() {
 
   ipcMain.handle('getChain', (event, coin) => {
     return sdk.coin(coin).getChain();
+  });
+
+  ipcMain.handle('getUser', () => {
+    try {
+      return sdk.me();
+    } catch (e: unknown) {
+      return new Error(handleSdkError(e));
+    }
+  });
+
+  ipcMain.handle('isSdkAuthenticated', async event => {
+    const sdkJson = sdk.toJSON();
+    return Promise.resolve(sdkJson.user || sdkJson.token);
   });
 }
 
