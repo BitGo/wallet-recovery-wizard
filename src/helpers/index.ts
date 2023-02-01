@@ -40,7 +40,9 @@ export function getEthLikeRecoveryChainId(
   return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 5;
 }
 
-export function safeEnv(value: string | undefined): 'prod' | 'test' {
+export type BitgoEnv = 'prod' | 'test';
+
+export function safeEnv(value: string | undefined): BitgoEnv {
   if (value !== 'test' && value !== 'prod') {
     throw new Error(
       `expected value to be "test" or "prod" but got: ${String(value)}`
