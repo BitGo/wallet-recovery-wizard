@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { safeEnv } from '~/helpers';
 import { BackToHomeHelperText } from '../BackToHomeHelperText';
 import { CryptocurrencyIcon } from '../CryptocurrencyIcon';
