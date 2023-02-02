@@ -22,6 +22,8 @@ import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
+import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
+import { buildUnsignedSweepCoins } from '~/helpers/config';
 
 async function includePubsFor<
   TValues extends {
@@ -963,7 +965,7 @@ function Form() {
 }
 
 export function BuildUnsignedSweepCoin() {
-  const { env } = useParams<'env'>();
+  const { env, coin } = useParams<'env' | 'coin'>();
   const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
@@ -975,6 +977,9 @@ export function BuildUnsignedSweepCoin() {
               `/${environment}/build-unsigned-sweep/${event.currentTarget.value}`
             );
           }}
+          coins={buildUnsignedSweepCoins[environment]}
+          selectedCoin={coin}
+          helperText={<BackToHomeHelperText env={environment}/>}
         />
       </div>
       <Form />

@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { Route, Routes } from 'react-router-dom';
+import { BackToHomeHelperText } from '../BackToHomeHelperText';
 import { CoinsSelectAutocomplete } from './CoinsSelectAutocomplete';
 
 const meta: ComponentMeta<typeof CoinsSelectAutocomplete> = {
@@ -20,9 +21,16 @@ const meta: ComponentMeta<typeof CoinsSelectAutocomplete> = {
 
 export default meta;
 
-export const Testnet: ComponentStoryObj<typeof CoinsSelectAutocomplete> = {};
+export const Testnet: ComponentStoryObj<typeof CoinsSelectAutocomplete> = {
+  args: {
+    helperText: <BackToHomeHelperText env={'test'} />,
+  },
+};
 
 export const Mainnet: ComponentStoryObj<typeof CoinsSelectAutocomplete> = {
+  args: {
+    helperText: <BackToHomeHelperText env={'prod'} />,
+  },
   parameters: {
     reactRouter: {
       initialEntries: ['/prod/coins-select-autocomplete'],
