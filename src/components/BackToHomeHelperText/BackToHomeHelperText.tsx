@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import { BitgoEnv } from '~/helpers';
 
@@ -16,7 +15,7 @@ export function BackToHomeHelperText({ env }: BackToHomeHeaderProps) {
         </span>
         . &nbsp;
       </span>
-      <Link to="/" className={'tw-text-blue-200 hover:tw-underline'}>
+      <Link to="/" className="tw-text-blue-200 hover:tw-underline">
         Go back to change &rarr;
       </Link>
     </div>

@@ -25,6 +25,8 @@ import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { TronForm } from './TronForm';
+import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
+import { nonBitgoRecoveryCoins } from '~/helpers/config';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -216,13 +218,8 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const chainData = await window.queries.getChain(coin);
-              const {
-                publicKey,
-                secretKey,
-                scan,
-                startingScanIndex,
-                ...rest
-              } = values;
+              const { publicKey, secretKey, scan, startingScanIndex, ...rest } =
+                values;
               const durableNonce =
                 publicKey && secretKey ? { publicKey, secretKey } : undefined;
               const recoverData = await window.commands.recover(coin, {
@@ -975,7 +972,7 @@ function Form() {
 }
 
 export function NonBitGoRecoveryCoin() {
-  const { env } = useParams<'env'>();
+  const { env, coin } = useParams<'env' | 'coin'>();
   const environment = safeEnv(env);
   const navigate = useNavigate();
   return (
@@ -987,6 +984,9 @@ export function NonBitGoRecoveryCoin() {
               `/${environment}/non-bitgo-recovery/${event.currentTarget.value}`
             );
           }}
+          coins={nonBitgoRecoveryCoins[environment]}
+          selectedCoin={coin}
+          helperText={<BackToHomeHelperText env={environment} />}
         />
       </div>
       <Form />
