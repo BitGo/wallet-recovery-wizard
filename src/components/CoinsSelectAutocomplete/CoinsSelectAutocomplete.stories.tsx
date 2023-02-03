@@ -1,5 +1,10 @@
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
 import { Route, Routes } from 'react-router-dom';
+import {
+  buildUnsignedSweepCoins,
+  nonBitgoRecoveryCoins,
+} from '~/helpers/config';
+import { BackToHomeHelperText } from '../BackToHomeHelperText';
 import { CoinsSelectAutocomplete } from './CoinsSelectAutocomplete';
 
 const meta: ComponentMeta<typeof CoinsSelectAutocomplete> = {
@@ -20,12 +25,38 @@ const meta: ComponentMeta<typeof CoinsSelectAutocomplete> = {
 
 export default meta;
 
-export const Testnet: ComponentStoryObj<typeof CoinsSelectAutocomplete> = {};
+export const TestnetBuildUnsignedSweep: ComponentStoryObj<
+  typeof CoinsSelectAutocomplete
+> = {
+  args: {
+    coins: buildUnsignedSweepCoins['test'],
+    helperText: <BackToHomeHelperText env={'test'} />,
+  },
+};
 
-export const Mainnet: ComponentStoryObj<typeof CoinsSelectAutocomplete> = {
-  parameters: {
-    reactRouter: {
-      initialEntries: ['/prod/coins-select-autocomplete'],
-    },
+export const MainnetBuildUnsignedSweep: ComponentStoryObj<
+  typeof CoinsSelectAutocomplete
+> = {
+  args: {
+    coins: buildUnsignedSweepCoins['prod'],
+    helperText: <BackToHomeHelperText env={'prod'} />,
+  },
+};
+
+export const TestnetNonBitgoRecovery: ComponentStoryObj<
+  typeof CoinsSelectAutocomplete
+> = {
+  args: {
+    coins: nonBitgoRecoveryCoins['test'],
+    helperText: <BackToHomeHelperText env={'test'} />,
+  },
+};
+
+export const MainnetNonBitgoRecovery: ComponentStoryObj<
+  typeof CoinsSelectAutocomplete
+> = {
+  args: {
+    coins: nonBitgoRecoveryCoins['prod'],
+    helperText: <BackToHomeHelperText env={'prod'} />,
   },
 };
