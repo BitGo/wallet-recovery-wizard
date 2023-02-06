@@ -63,12 +63,6 @@ export const allCoinMetas = {
     Icon: 'eth',
     value: 'eth',
   },
-  ethw: {
-    Title: 'ETHw',
-    Description: 'Ethereum PoW',
-    Icon: 'eth',
-    value: 'ethw',
-  },
   erc20: {
     Title: 'ERC',
     Description: 'ERC20 Token',
@@ -247,7 +241,6 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.zec,
     allCoinMetas.btg,
     allCoinMetas.eth,
-    allCoinMetas.ethw,
     allCoinMetas.erc20,
     allCoinMetas.trx,
     allCoinMetas.eos,
@@ -282,7 +275,6 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.zec,
       allCoinMetas.btg,
       allCoinMetas.eth,
-      allCoinMetas.ethw,
       allCoinMetas.erc20,
       allCoinMetas.trx,
       allCoinMetas.eos,

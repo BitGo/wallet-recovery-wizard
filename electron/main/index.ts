@@ -19,7 +19,6 @@ import { Doge, Tdoge } from '@bitgo/sdk-coin-doge';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
-import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
@@ -61,7 +60,6 @@ sdk.register('btc', Btc.createInstance);
 sdk.register('tbtc', Tbtc.createInstance);
 sdk.register('eth', Eth.createInstance);
 sdk.register('gteth', Gteth.createInstance);
-sdk.register('ethw', Ethw.createInstance);
 sdk.register('eos', Eos.createInstance);
 sdk.register('teos', Teos.createInstance);
 sdk.register('xlm', Xlm.createInstance);
@@ -171,7 +169,6 @@ async function createWindow() {
       switch (coin) {
         case 'eth':
         case 'gteth':
-        case 'ethw':
         case 'erc20':
         case 'gterc20':
         case 'avaxc':
