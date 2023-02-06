@@ -191,6 +191,22 @@ async function createWindow() {
     return await baseCoin.recover(parameters);
   });
 
+  ipcMain.handle(
+    'wrongChainRecover',
+    async (event, sourceCoin, destinationCoin, parameters) => {
+      try {
+        const sourceBaseCoin = sdk.coin(sourceCoin) as AbstractUtxoCoin;
+        const destinationCoinBase = sdk.coin(
+          destinationCoin
+        ) as AbstractUtxoCoin;
+        parameters.recoveryCoin = destinationCoinBase;
+        return await sourceBaseCoin.recoverFromWrongChain(parameters);
+      } catch (e) {
+        return new Error(handleSdkError(e));
+      }
+    }
+  );
+
   ipcMain.handle('showSaveDialog', async (event, options) => {
     return await dialog.showSaveDialog(options);
   });

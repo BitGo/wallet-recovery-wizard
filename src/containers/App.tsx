@@ -50,6 +50,7 @@ export default function App() {
         }
       >
         <Route index element={<WrongChainRecovery />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
     </Routes>
   );

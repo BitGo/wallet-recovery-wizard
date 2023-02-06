@@ -45,9 +45,7 @@ export function SelectAutocomplete({
       Select a currency
     </span>
   );
-  const [selected, setSelected] = React.useState<string>(
-    toString(hostProps.value ?? hostProps.defaultValue)
-  );
+  const selected = hostProps.value ?? hostProps.defaultValue;
 
   const childrenArray = React.Children.toArray(children) as React.ReactElement<
     React.ComponentProps<typeof SelectAutocompleteItem>
@@ -61,7 +59,6 @@ export function SelectAutocomplete({
     selected === ''
       ? placeholder
       : childrenArray.find(node => node.props.value === selected);
-
   React.useEffect(() => {
     const button = currentButton;
     if (button) {
@@ -98,7 +95,7 @@ export function SelectAutocomplete({
 
   return (
     <div
-      className={clsx('tw-flex-col tw-relative', {
+      className={clsx('tw-flex-col tw-relative', 'tw-flex-grow-0', {
         'tw-opacity-50': Disabled,
         'tw-flex': Width === 'fill',
         'tw-inline-flex': Width === 'hug',
@@ -158,7 +155,6 @@ export function SelectAutocomplete({
                 }
               }}
               onChange={e => {
-                setSelected(e.currentTarget.value);
                 if (hostProps.onChange) {
                   hostProps.onChange(e);
                 }

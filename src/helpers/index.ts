@@ -70,7 +70,7 @@ export function isRecoveryTransaction(
   );
 }
 
-export function mapLoginError(message: string): string {
+export function mapSdkErrorToAlert(message: string): string {
   switch (message) {
     case 'invalid_client':
       return 'Invalid email format';
