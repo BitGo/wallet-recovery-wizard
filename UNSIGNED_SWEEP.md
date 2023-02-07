@@ -60,7 +60,7 @@ Build an unsigned transaction from a cold wallet using the user and backup publi
 
     Ethereum and ERC20 Token transactions: https://etherscan.io/pushTx
 
-    Ethereum Proof of Work transactions: [ETHW.md](ETHW.md)
+    Ethereum Proof of Work transactions (deprecated): [ETHW.md](ETHW.md)
 
     Near transactions: [NEAR.md](NEAR.md)
 
