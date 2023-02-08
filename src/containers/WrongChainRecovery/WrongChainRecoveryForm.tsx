@@ -84,6 +84,7 @@ export function WrongChainRecoveryForm({
               Label="Api Key"
               name="apiKey"
               Width="fill"
+              type="password"
             />
           </div>
         )}
