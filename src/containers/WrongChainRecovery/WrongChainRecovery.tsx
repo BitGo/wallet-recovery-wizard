@@ -12,8 +12,10 @@ import { WrongChainRecoveryForm } from './WrongChainRecoveryForm';
 
 export function WrongChainRecovery() {
   const { env } = useParams<'env'>();
+  const navigate = useNavigate();
+  const [_, setAlert] = useAlertBanner();
+
   const environment = safeEnv(env);
-  const [, setAlert] = useAlertBanner();
 
   const sourceCoins: readonly CoinMetadata[] = Object.keys(
     wrongChainRecoveryCoins[environment]
@@ -30,39 +32,13 @@ export function WrongChainRecovery() {
   );
 
   useEffect(() => {
-    const newDestinationCoins =
-      wrongChainRecoveryCoins[environment][sourceCoin];
     if (
-      newDestinationCoins.length &&
-      !newDestinationCoins.find(item => item.value === destinationCoin)
+      destinationCoins.length &&
+      !destinationCoins.find(item => item.value === destinationCoin)
     ) {
-      setDestinationCoin(newDestinationCoins[0].value);
+      setDestinationCoin(destinationCoins[0].value);
     }
-  }, [environment, sourceCoin, destinationCoin]);
-
-  const sourceCoinHelperText = () => {
-    return (
-      <span className="tw-text-gray-700">
-        This is the coin that was sent to the wrong address.
-        <br />
-        For instance, if you sent BTC to an LTC address, the source coin would
-        be BTC.
-      </span>
-    );
-  };
-
-  const destinationCoinHelperText = () => {
-    return (
-      <span className="tw-text-gray-700">
-        This is the coin of the wallet that received the source coin.
-        <br />
-        For instance, if you sent BTC to an LTC address, the destination coin
-        would be LTC.
-      </span>
-    );
-  };
-
-  const navigate = useNavigate();
+  }, [destinationCoins, destinationCoin]);
 
   const apiProvider = (): 'Block Chair' | undefined => {
     if (
@@ -83,7 +59,14 @@ export function WrongChainRecovery() {
           onChange={event => {
             setSourceCoin(event.currentTarget.value);
           }}
-          helperText={sourceCoinHelperText()}
+          helperText={
+            <span className="tw-text-gray-700">
+              This is the coin that was sent to the wrong address.
+              <br />
+              For instance, if you sent BTC to an LTC address, the source coin
+              would be BTC.
+            </span>
+          }
         />
         <CoinsSelectAutocomplete
           coins={destinationCoins}
@@ -91,7 +74,14 @@ export function WrongChainRecovery() {
           onChange={event => {
             setDestinationCoin(event.currentTarget.value);
           }}
-          helperText={destinationCoinHelperText()}
+          helperText={
+            <span className="tw-text-gray-700">
+              This is the coin of the wallet that received the source coin.
+              <br />
+              For instance, if you sent BTC to an LTC address, the destination
+              coin would be LTC.
+            </span>
+          }
         />
       </div>
       <WrongChainRecoveryForm

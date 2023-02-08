@@ -95,7 +95,7 @@ export function SelectAutocomplete({
 
   return (
     <div
-      className={clsx('tw-flex-col tw-relative', 'tw-flex-grow-0', {
+      className={clsx('tw-flex-col tw-relative', {
         'tw-opacity-50': Disabled,
         'tw-flex': Width === 'fill',
         'tw-inline-flex': Width === 'hug',

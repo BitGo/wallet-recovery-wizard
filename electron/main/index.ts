@@ -33,6 +33,8 @@ import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
+import { BaseCoin } from '@bitgo/sdk-core';
+import assert from 'assert';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -105,6 +107,19 @@ function handleSdkError(e: unknown): string {
     return e.message;
   }
   return 'unknown sdk error';
+}
+
+function isAbstractUtxoCoin(coin: BaseCoin): coin is AbstractUtxoCoin {
+  return coin instanceof AbstractUtxoCoin;
+}
+
+function assertsIsAbstractUtxoCoin(
+  coin: BaseCoin
+): asserts coin is AbstractUtxoCoin {
+  assert(
+    isAbstractUtxoCoin(coin),
+    new Error(`coind ${coin.getChain()} is not an instance of AbstractBaseCoin`)
+  );
 }
 
 async function createWindow() {
@@ -195,11 +210,11 @@ async function createWindow() {
     'wrongChainRecover',
     async (event, sourceCoin, destinationCoin, parameters) => {
       try {
-        const sourceBaseCoin = sdk.coin(sourceCoin) as AbstractUtxoCoin;
-        const destinationCoinBase = sdk.coin(
-          destinationCoin
-        ) as AbstractUtxoCoin;
-        parameters.recoveryCoin = destinationCoinBase;
+        const sourceBaseCoin = sdk.coin(sourceCoin);
+        const destinationBaseCoin = sdk.coin(destinationCoin);
+        assertsIsAbstractUtxoCoin(sourceBaseCoin);
+        assertsIsAbstractUtxoCoin(destinationBaseCoin);
+        parameters.recoveryCoin = destinationBaseCoin;
         return await sourceBaseCoin.recoverFromWrongChain(parameters);
       } catch (e) {
         return new Error(handleSdkError(e));
