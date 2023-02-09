@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { useAlertBanner } from '~/contexts';
-import { mapLoginError, safeEnv } from '~/helpers';
+import { mapSdkErrorToAlert, safeEnv } from '~/helpers';
 import { LoginForm } from './LoginForm';
 
 export type LoginProps = {
@@ -25,7 +25,7 @@ export function Login({ onSuccess }: LoginProps) {
         }
         const res = await window.commands.login(username, password, otp);
         if (res instanceof Error) {
-          setAlert(mapLoginError(res.message));
+          setAlert(mapSdkErrorToAlert(res.message));
         } else {
           await onSuccess(res.username);
         }

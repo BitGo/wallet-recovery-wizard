@@ -4,7 +4,10 @@
 
 import type {
   BackupKeyRecoveryTransansaction,
+  CrossChainRecoverySigned,
+  CrossChainRecoveryUnsigned,
   FormattedOfflineVaultTxInfo,
+  RecoverFromWrongChainOptions,
   RecoverParams,
 } from '@bitgo/abstract-utxo';
 import type { Chain, Hardfork } from '@ethereumjs/common';
@@ -48,6 +51,11 @@ type Commands = {
       startingScanIndex?: number;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
+  wrongChainRecover(
+    sourceCoin: string,
+    destinationCoin: string,
+    parameters: RecoverFromWrongChainOptions
+  ): Promise<Error | CrossChainRecoverySigned | CrossChainRecoveryUnsigned>;
   setBitGoEnvironment(
     environment: 'prod' | 'test',
     coin?: string,
@@ -106,6 +114,14 @@ const commands: Commands = {
   },
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
+  },
+  wrongChainRecover(sourceCoin, destinationCoin, parameters) {
+    return ipcRenderer.invoke(
+      'wrongChainRecover',
+      sourceCoin,
+      destinationCoin,
+      parameters
+    );
   },
   setBitGoEnvironment(environment, coin, apiKey) {
     return ipcRenderer.invoke('setBitGoEnvironment', environment, coin, apiKey);

@@ -304,3 +304,18 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tada,
     ] as const,
   };
+
+export const wrongChainRecoveryCoins: Record<
+  BitgoEnv,
+  Record<string, readonly CoinMetadata[]>
+> = {
+  prod: {
+    btc: [allCoinMetas.ltc, allCoinMetas.bch],
+    bch: [allCoinMetas.btc, allCoinMetas.ltc],
+    bcha: [allCoinMetas.btc, allCoinMetas.bch],
+    ltc: [allCoinMetas.btc, allCoinMetas.bch],
+  },
+  test: {
+    // TODO(BG-67581): testnet only has 1 coin enabled for cross chain recovery
+  },
+} as const;
