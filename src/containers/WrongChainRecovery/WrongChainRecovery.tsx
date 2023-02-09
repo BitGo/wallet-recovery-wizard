@@ -51,7 +51,7 @@ export function WrongChainRecovery() {
   };
 
   return (
-    <div>
+    <>
       <div className="tw-flex tw-flex-col tw-gap-4 md:tw-flex-row md:tw-gap-16 tw-mb-4">
         <CoinsSelectAutocomplete
           coins={sourceCoins}
@@ -136,6 +136,6 @@ export function WrongChainRecovery() {
           }
         }}
       />
-    </div>
+    </>
   );
 }

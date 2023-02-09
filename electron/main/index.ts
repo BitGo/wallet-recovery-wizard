@@ -118,7 +118,7 @@ function assertsIsAbstractUtxoCoin(
 ): asserts coin is AbstractUtxoCoin {
   assert(
     isAbstractUtxoCoin(coin),
-    new Error(`coind ${coin.getChain()} is not an instance of AbstractBaseCoin`)
+    new Error(`coin ${coin.getChain()} is not an instance of AbstractUtxoCoin`)
   );
 }
 
