@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-npm run build
-
 docker run --rm -ti \
  --env-file <(env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_') \
  --env ELECTRON_CACHE="/root/.cache/electron" \
@@ -12,3 +10,6 @@ docker run --rm -ti \
  -v ~/.cache/electron-builder:/root/.cache/electron-builder \
  electronuserland/builder:16-wine \
  /bin/bash -c "npm install && npm run build -- -wl"
+
+npm i dmg-license && npm run build
+npm uninstall dmg-license
