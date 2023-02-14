@@ -317,5 +317,9 @@ export const wrongChainRecoveryCoins: Record<
   },
   test: {
     // TODO(BG-67581): testnet only has 1 coin enabled for cross chain recovery
+    tbtc: [],
+    tbch: [],
+    tbcha: [],
+    tltc: [],
   },
 } as const;
