@@ -78,6 +78,9 @@ export function mapSdkErrorToAlert(message: string): string {
       return 'Incorrect email or password';
     case 'needs_otp':
       return 'Invalid OTP';
+    case 'request_source_unverified':
+    case 'request_source_verification_pending':
+      return 'You are trying to log in from an unverified IP address, please check your inbox for a verification email.';
     default:
       return message;
   }
