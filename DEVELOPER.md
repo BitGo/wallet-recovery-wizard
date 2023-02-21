@@ -82,4 +82,4 @@ Add the output to the bottom of the release notes section
 - After having already ran the docker build script
   - Go into the `release` folder in the root of the repository and upload the `.dmg` , `.deb` and `.exe` files into the release draft in GitHub
 - Publish release in GitHub
-- Go to Slack on #apps-ovc-wrw and announce the release with the link to GitHub release page
+- Go to Slack on #eng-wrw and announce the release with the link to GitHub release page
