@@ -323,3 +323,48 @@ export const wrongChainRecoveryCoins: Record<
     tltc: [],
   },
 } as const;
+
+export const evmCrossChainRecoveryCoins: Record<
+  BitgoEnv,
+  readonly CoinMetadata[]
+> = {
+  prod: [
+    allCoinMetas.polygon,
+  ] as const,
+  test: [
+    allCoinMetas.tpolygon,
+  ] as const
+  };
+
+export type WalletMetadata = {
+  Title: string;
+  Description: string;
+  value: string;
+};
+
+export const allWalletMetas = {
+  hot: {
+    Title: 'Hot Wallet',
+    Description: 'Self managed Hot Wallet',
+    value: 'hot',
+  },
+  cold: {
+    Title: 'Cold Wallet',
+    Description: 'Self managed Cold Wallet',
+    value: 'cold',
+  },
+  custody: {
+    Title: 'Custody Wallet',
+    Description: 'Bitgo managed Custody Wallet',
+    value: 'custody',
+  },
+}
+
+
+export const evmCrossChainRecoveryWallets: 
+WalletMetadata[] 
+ =  [
+  allWalletMetas.hot,
+  allWalletMetas.cold, 
+  allWalletMetas.custody
+]

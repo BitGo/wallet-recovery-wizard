@@ -7,6 +7,9 @@ import { NonBitGoRecoveryCoin } from './NonBitGoRecoveryCoin';
 import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 import { SuccessfulRecovery } from './SuccessfulRecovery';
 import { WrongChainRecovery } from './WrongChainRecovery';
+import { EvmCrossChainRecoveryIndex } from './EvmCrossChainRecoveryIndex';
+import { EvmCrossChainRecoveryCoin } from './EvmCrossChainRecoveryCoin';
+import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet';
 
 export default function App() {
   return (
@@ -38,6 +41,20 @@ export default function App() {
       >
         <Route index element={<BuildUnsignedSweepIndex />} />
         <Route path=":coin" element={<BuildUnsignedSweepCoin />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/evm-cross-chain-recovery/*"
+        element={
+          <UnauthenticatedPageLayout
+            Title="Evm Cross Chain Recovery"
+            Description="Recover wallet funds sent to wrong chain(evm compatible) for hot/cold/custody wallets."
+          />
+        }
+      >
+        <Route index element={<EvmCrossChainRecoveryIndex />} />
+        <Route path=":wallet" element={<EvmCrossChainRecoveryWallet />} />
+        <Route path=":wallet/:coin" element={<EvmCrossChainRecoveryCoin />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
       <Route
