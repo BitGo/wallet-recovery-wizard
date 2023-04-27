@@ -61,6 +61,8 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
     Ethereum and ERC20 Token transactions: https://etherscan.io/pushTx
 
+    Ethereum Proof of Work transactions: [ETHW.md](ETHW.md)
+
     Near transactions: [NEAR.md](NEAR.md)
 
     Ripple transactions: https://bithomp.com/submit/

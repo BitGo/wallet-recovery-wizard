@@ -18,7 +18,7 @@ Withdraw Funds without BitGo:
   | BTG   | Yes        | No   |
   | DASH  | Yes        | No   |
   | ETH   | Yes        | Yes  |
-  | ETHw  | No         | No   |
+  | ETHw  | Yes        | No   |
   | EOS   | Yes        | Yes  |
   | ERC20 | Yes        | Yes  |
   | LTC   | Yes        | No   |
@@ -34,6 +34,8 @@ This project was bootstrapped with [Electron Vite React](https://github.com/elec
 Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/releases).
 
 ## Important Documentation
+
+Instructions to broadcast ETHw transactions: [ETHW.md](ETHW.md)
 
 Instructions to broadcast EOS transactions: [EOS.md](EOS.md)
 
