@@ -81,6 +81,12 @@ export function Home() {
                   Title="Build Unsigned Sweep"
                   Description="Build an unsigned transaction to sweep a wallet without using BitGo."
                 />
+                <LinkCardItem
+                  Tag={Link}
+                  to={`/${env}/evm-cross-chain-recovery`}
+                  Title="Evm Cross Chain Recovery"
+                  Description="Recover wallet funds sent to wrong chain(evm compatible) for hot/cold/custody wallets."
+                />
               </LinkCard>
             </div>
             <div className="md:tw-flex-grow">
