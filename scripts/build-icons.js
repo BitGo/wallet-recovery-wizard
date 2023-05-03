@@ -24,6 +24,7 @@ const coins = [
   'xec',
   'doge',
   'ada',
+  'atom',
 ];
 
 const paths = fs
