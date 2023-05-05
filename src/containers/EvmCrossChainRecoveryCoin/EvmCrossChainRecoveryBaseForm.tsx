@@ -69,6 +69,14 @@ export function EvmCrossChainRecoveryBaseForm() {
           Width="fill"
         />
       </div>
+      <div className="tw-mb-4">
+        <FormikTextfield
+          HelperText="An Api-Key Token required for the explorer."
+          Label="API Key"
+          name="apiKey"
+          Width="fill"
+        />
+      </div>
     </Form>
   );
 }

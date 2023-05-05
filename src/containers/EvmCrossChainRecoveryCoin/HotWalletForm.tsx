@@ -19,6 +19,7 @@ const validationSchema = Yup.object({
   walletPassphrase: Yup.string().required(),
   bitgoDestinationAddress: Yup.string(),
   tokenContractAddress: Yup.string(),
+  apiKey: Yup.string().required(),
 }).required();
 
 export type FormProps = {
@@ -44,6 +45,7 @@ export function HotWalletForm({ onSubmit }: FormProps) {
       walletPassphrase: '',
       bitgoDestinationAddress: '',
       tokenContractAddress: '',
+      apiKey: '',
     },
     validationSchema,
   });

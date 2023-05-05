@@ -20,6 +20,7 @@ async function handleOnSubmit(
   formikHelpers: FormikHelpers<any>,
   bitGoEnvironment: BitgoEnv,
   coin: string,
+  defaultPath: string,
   navigate: NavigateFunction,
   setAlert: React.Dispatch<React.SetStateAction<string | undefined>>
 ) {  
@@ -30,8 +31,8 @@ async function handleOnSubmit(
     await window.commands.setBitGoEnvironment(
       bitGoEnvironment,
       coin,
+      values.apiKey
     );
-    const chainData = await window.queries.getChain(coin as string);
     const recoverData = await window.commands.recover(coin as string, {
       ...values,
       eip1559: {
@@ -55,7 +56,7 @@ async function handleOnSubmit(
           extensions: ['json'],
         },
       ],
-      defaultPath: `~/${chainData}-unsigned-evmBasedRecovery-${Date.now()}.json`,
+      defaultPath,
     });
 
     if (!showSaveDialogData.filePath) {
@@ -99,7 +100,8 @@ function getHotWalletCoinForm() {
         <HotWalletForm
           key={coin} 
           onSubmit={(values, formikHelpers) => {
-            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, navigate, setAlert);
+            const defaultPath = `~/recover-${coin}-${values.walletContractAddress}-prepared.half-signed-${Date.now()}.json`
+            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, defaultPath, navigate, setAlert);
           }}
         />
       );
@@ -123,7 +125,8 @@ function getColdWalletCoinForm() {
         <ColdWalletForm
           key={coin}
           onSubmit={(values, formikHelpers) => {
-            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, navigate, setAlert);
+            const defaultPath = `~/recover-${coin}-${values.walletContractAddress}-prepared.unsigned-${Date.now()}.json`
+            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, defaultPath, navigate, setAlert);
           }}
         />
       );
@@ -147,7 +150,8 @@ function getCustodyWalletCoinForm() {
         <CustodyWalletForm
           key={coin}
           onSubmit={(values, formikHelpers) => {
-            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, navigate, setAlert);
+            const defaultPath = `~/recover-${coin}-${values.walletContractAddress}-prepared.unsigned-${Date.now()}.json`
+            handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, defaultPath, navigate, setAlert);
           }}
         />
       );
