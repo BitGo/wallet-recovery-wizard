@@ -15,7 +15,6 @@ const validationSchema = Yup.object({
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
-  bitgoDestinationAddress: Yup.string(),
   tokenContractAddress: Yup.string(),
   apiKey: Yup.string().required(),
 }).required();
@@ -39,7 +38,6 @@ export function CustodyWalletForm({ onSubmit }: FormProps) {
       maxPriorityFeePerGas: 50,
       recoveryDestination: '',
       walletContractAddress: '',
-      bitgoDestinationAddress: '',
       tokenContractAddress: '',
       apiKey: '',
     },

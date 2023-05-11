@@ -17,7 +17,6 @@ const validationSchema = Yup.object({
   recoveryDestination: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
-  bitgoDestinationAddress: Yup.string(),
   tokenContractAddress: Yup.string(),
   apiKey: Yup.string().required(),
 }).required();
@@ -43,7 +42,6 @@ export function HotWalletForm({ onSubmit }: FormProps) {
       recoveryDestination: '',
       walletContractAddress: '',
       walletPassphrase: '',
-      bitgoDestinationAddress: '',
       tokenContractAddress: '',
       apiKey: '',
     },
@@ -59,7 +57,7 @@ export function HotWalletForm({ onSubmit }: FormProps) {
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="Your encrypted user key, as found on your recovery KeyCard."
-            Label="Encrypted User Key"
+            Label="Encrypted User Key*"
             name="userKey"
             Width="fill"
           />
@@ -67,7 +65,7 @@ export function HotWalletForm({ onSubmit }: FormProps) {
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The passphrase of the wallet."
-            Label="Wallet Passphrase"
+            Label="Wallet Passphrase*"
             name="walletPassphrase"
             type="password"
             Width="fill"
