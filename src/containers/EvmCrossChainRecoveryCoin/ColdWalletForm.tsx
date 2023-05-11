@@ -17,7 +17,6 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
-  bitgoDestinationAddress: Yup.string(),
   tokenContractAddress: Yup.string(),
   apiKey: Yup.string().required(),
 }).required();
@@ -43,7 +42,6 @@ export function ColdWalletForm({ onSubmit }: FormProps) {
       userKey: '',
       userKeyId: '',
       walletContractAddress: '',
-      bitgoDestinationAddress: '',
       tokenContractAddress: '',
       apiKey: '',
     },
@@ -59,7 +57,7 @@ export function ColdWalletForm({ onSubmit }: FormProps) {
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="Your user public key, as found on your recovery KeyCard."
-            Label="User Public Key"
+            Label="User Public Key*"
             name="userKey"
             Width="fill"
           />

@@ -15,6 +15,57 @@ import { HotWalletForm } from './HotWalletForm';
 import { CustodyWalletForm } from './CustodyWalletForm';
 import { FormikHelpers } from 'formik';
 
+async function isDerivationPath(id: string, description: string) {
+  if (id.length > 2 && id.indexOf('m/') === 0) {
+    const response = await window.commands.showMessageBox({
+      type: 'question',
+      buttons: ['Derivation Path', 'Seed'],
+      title: 'Derivation Path?',
+      message: `Is the provided value a Derivation Path or a Seed?\n${description}: ${id}\n`,
+    });
+
+    return !!response.response;
+  }
+
+  return false;
+}
+
+type UpdateKeysFromsIdsDefaultParams = {
+  userKey: string;
+  userKeyId?: string;
+}
+
+async function updateKeysFromIds<
+  TParams extends UpdateKeysFromsIdsDefaultParams
+>(
+  coin: string,
+  params: TParams
+): Promise<Omit<TParams, 'userKeyId'>> {
+  const { userKeyId, ...copy } = params;
+
+  const item = {
+        id: userKeyId,
+        key: copy.userKey,
+        description: 'User Key Id',
+        name: 'userKey',
+      } as const
+  
+  if (item.id) {
+    if (await isDerivationPath(item.id, item.description)) {
+      copy[item.name] = await window.queries.deriveKeyByPath(
+        item.key,
+        item.id
+      );
+    } else {
+      copy[item.name] = (
+        await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+      ).key;
+    }
+  }
+
+  return copy;
+}
+
 async function handleOnSubmit(
   values: any,
   formikHelpers: FormikHelpers<any>,
@@ -33,14 +84,15 @@ async function handleOnSubmit(
       coin,
       values.apiKey
     );
+    const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = await updateKeysFromIds(coin, values);
     const recoverData = await window.commands.recover(coin as string, {
       ...values,
       eip1559: {
-        maxFeePerGas: toWei(values.maxFeePerGas),
-        maxPriorityFeePerGas: toWei(values.maxPriorityFeePerGas),
+        maxFeePerGas: toWei(maxFeePerGas),
+        maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
       },
       bitgoKey: '',
-      userKey: values.hasOwnProperty('userKey') ? values.userKey : '',
+      userKey: rest.hasOwnProperty('userKey') ? rest.userKey : '',
       backupKey: '',
       ignoreAddressTypes: [],
     });

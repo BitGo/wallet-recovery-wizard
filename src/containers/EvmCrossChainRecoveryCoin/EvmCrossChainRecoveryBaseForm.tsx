@@ -8,7 +8,7 @@ export function EvmCrossChainRecoveryBaseForm() {
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="The address of the wallet contract. This is also the wallet's base address."
-          Label="Wallet Contract Address"
+          Label="Wallet Contract Address*"
           name="walletContractAddress"
           Width="fill"
         />
@@ -16,7 +16,7 @@ export function EvmCrossChainRecoveryBaseForm() {
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="The Fee address which will be used to pay fee for your recovery transaction."
-          Label="Bitgo Fee Address"
+          Label="Bitgo Fee Address*"
           name="bitgoFeeAddress"
           Width="fill"
         />
@@ -24,7 +24,7 @@ export function EvmCrossChainRecoveryBaseForm() {
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="The address your recovery transaction will send to."
-          Label="Destination Address"
+          Label="Destination Address*"
           name="recoveryDestination"
           Width="fill"
         />
@@ -55,14 +55,6 @@ export function EvmCrossChainRecoveryBaseForm() {
       </div>
       <div className="tw-mb-4">
         <FormikTextfield
-          HelperText="The bitgo address where some part of fee will be sent for your recovery transaction."
-          Label="Bitgo Destination Address"
-          name="bitgoDestinationAddress"
-          Width="fill"
-        />
-      </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
           HelperText="The contract address of the token which needs to be recovered."
           Label="Token Contract Address"
           name="tokenContractAddress"
@@ -72,7 +64,7 @@ export function EvmCrossChainRecoveryBaseForm() {
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="An Api-Key Token required for the explorer."
-          Label="API Key"
+          Label="API Key*"
           name="apiKey"
           Width="fill"
         />

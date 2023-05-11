@@ -27,7 +27,7 @@ export function WalletTypeSelect({
 
   return (
     <SelectAutocomplete
-      Label="Wallet"
+      Label="Wallet Type"
       HelperText={helperText}
       Width="fill"
       value={selectedWallet}
