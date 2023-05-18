@@ -135,6 +135,12 @@ export const allCoinMetas = {
     Icon: 'ada',
     value: 'ada',
   },
+  atom: {
+    Title: 'ATOM',
+    Description: 'Atom',
+    Icon: 'atom',
+    value: 'atom',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -231,6 +237,12 @@ export const allCoinMetas = {
     Icon: 'ada',
     value: 'tada',
   },
+  tatom: {
+    Title: 'TATOM',
+    Description: 'Atom Testnet',
+    Icon: 'atom',
+    value: 'tatom',
+  }
 } as const;
 
 export const buildUnsignedSweepCoins: Record<
@@ -294,6 +306,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.bcha,
       allCoinMetas.doge,
       allCoinMetas.ada,
+      allCoinMetas.atom,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -310,6 +323,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tpolygon,
       allCoinMetas.tdoge,
       allCoinMetas.tada,
+      allCoinMetas.tatom,
     ] as const,
   };
 
