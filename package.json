@@ -29,7 +29,7 @@
     "@bitgo/sdk-coin-near": "1.3.20",
     "@bitgo/sdk-coin-polygon": "1.5.4",
     "@bitgo/sdk-coin-sol": "2.4.4",
-    "@bitgo/sdk-coin-trx": "1.7.4",
+    "@bitgo/sdk-coin-trx": "1.8.0",
     "@bitgo/sdk-coin-xlm": "2.0.6",
     "@bitgo/sdk-coin-xrp": "1.4.2",
     "@bitgo/sdk-coin-zec": "1.3.20",
