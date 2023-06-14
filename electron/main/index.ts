@@ -192,9 +192,11 @@ async function createWindow() {
         case 'ethw':
         case 'erc20':
         case 'gterc20':
+          sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
+          break;
         case 'avaxc':
         case 'tavaxc':
-          sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
+          sdk = new BitGoAPI({ env: environment, snowtraceApiToken: apiKey });
           break;
         case 'polygon':
         case 'tpolygon':
