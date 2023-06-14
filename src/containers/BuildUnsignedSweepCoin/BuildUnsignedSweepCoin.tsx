@@ -22,6 +22,8 @@ import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
+import { SolanaForm } from './SolanaForm';
+import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { buildUnsignedSweepCoins } from '~/helpers/config';
 
@@ -955,6 +957,132 @@ function Form() {
               } else {
                 console.error(err);
               }
+            }
+          }}
+        />
+      );
+    case 'sol':
+    case 'tsol':
+      return (
+      <SolanaForm
+        key={coin}
+        onSubmit={async (values, { setSubmitting }) => {
+          setAlert(undefined);
+          setSubmitting(true);
+          try {
+            await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+            const chainData = await window.queries.getChain(coin);
+            const recoverData = await window.commands.recover(coin, {
+              bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+              ignoreAddressTypes: [],
+              userKey: '',
+              backupKey: '',
+              recoveryDestination: values.recoveryDestination,
+            });
+            assert(
+              isRecoveryTransaction(recoverData),
+              'Fully-signed recovery transaction not detected.'
+            );
+
+            const showSaveDialogData = await window.commands.showSaveDialog({
+              filters: [
+                {
+                  name: 'Custom File Type',
+                  extensions: ['json'],
+                },
+              ],
+              defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+            });
+
+            if (!showSaveDialogData.filePath) {
+              throw new Error('No file path selected');
+            }
+
+            await window.commands.writeFile(
+              showSaveDialogData.filePath,
+              JSON.stringify(
+                {
+                  ...recoverData,
+                },
+                null,
+                2
+              ),
+              { encoding: 'utf-8' }
+            );
+
+            navigate(
+              `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+            );
+          } catch (err) {
+            if (err instanceof Error) {
+              setAlert(err.message);
+            } else {
+              console.error(err);
+            }
+            setSubmitting(false);
+          }
+        }}
+      />
+    );
+    case 'ada':
+    case 'tada':
+      return (
+        <CardanoForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+                userKey: '',
+                backupKey: '',
+                recoveryDestination: values.recoveryDestination,
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
             }
           }}
         />

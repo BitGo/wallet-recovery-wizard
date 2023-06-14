@@ -267,6 +267,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.polygon,
     allCoinMetas.bcha,
     allCoinMetas.doge,
+    allCoinMetas.sol,
+    allCoinMetas.ada,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -279,6 +281,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tavaxc,
     allCoinMetas.tpolygon,
     allCoinMetas.tdoge,
+    allCoinMetas.tsol,
+    allCoinMetas.tada,
   ] as const,
 };
 
@@ -383,10 +387,10 @@ export const allWalletMetas = {
 }
 
 
-export const evmCrossChainRecoveryWallets: 
-WalletMetadata[] 
+export const evmCrossChainRecoveryWallets:
+WalletMetadata[]
  =  [
   allWalletMetas.hot,
-  allWalletMetas.cold, 
+  allWalletMetas.cold,
   allWalletMetas.custody
 ]
