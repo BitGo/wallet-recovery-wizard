@@ -1026,6 +1026,8 @@ function Form() {
     );
     case 'ada':
     case 'tada':
+    case 'dot':
+    case 'tdot':
       return (
         <CardanoForm
           key={coin}
