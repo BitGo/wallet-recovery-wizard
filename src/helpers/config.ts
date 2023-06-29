@@ -269,6 +269,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.doge,
     allCoinMetas.sol,
     allCoinMetas.ada,
+    allCoinMetas.tdot,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -283,6 +284,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tdoge,
     allCoinMetas.tsol,
     allCoinMetas.tada,
+    allCoinMetas.tdot,
   ] as const,
 };
 
