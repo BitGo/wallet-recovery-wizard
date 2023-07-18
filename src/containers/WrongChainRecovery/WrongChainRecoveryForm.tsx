@@ -71,7 +71,7 @@ export function WrongChainRecoveryForm({
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText={`The address the source coin was mistakenly sent to. This should be a ${sourceCoin} address.`}
+            HelperText={`The address your recovery transaction will send to. This should be a ${sourceCoin} address.`}
             Label="Destination Address"
             name="destinationAddress"
             Width="fill"
