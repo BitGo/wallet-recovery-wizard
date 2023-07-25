@@ -9,6 +9,7 @@ import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Atom, Tatom } from '@bitgo-beta/sdk-coin-atom';
+import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { AvaxC, TavaxC } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
@@ -96,6 +97,8 @@ sdk.register('ada', Ada.createInstance);
 sdk.register('tada', Tada.createInstance);
 sdk.register('atom', Atom.createInstance);
 sdk.register('tatom', Tatom.createInstance);
+sdk.register('osmo', Osmo.createInstance);
+sdk.register('tosmo', Tosmo.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
