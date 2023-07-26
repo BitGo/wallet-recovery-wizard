@@ -141,6 +141,12 @@ export const allCoinMetas = {
     Icon: 'atom',
     value: 'atom',
   },
+  osmo: {
+    Title: 'OSMO',
+    Description: 'Osmosis',
+    Icon: 'osmo',
+    value: 'osmo',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -242,6 +248,12 @@ export const allCoinMetas = {
     Description: 'Atom Testnet',
     Icon: 'atom',
     value: 'tatom',
+  },
+  tosmo: {
+    Title: 'TOSMO',
+    Description: 'Osmosis Testnet',
+    Icon: 'osmo',
+    value: 'tosmo',
   }
 } as const;
 
@@ -313,6 +325,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.doge,
       allCoinMetas.ada,
       allCoinMetas.atom,
+      allCoinMetas.osmo,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -330,6 +343,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tdoge,
       allCoinMetas.tada,
       allCoinMetas.tatom,
+      allCoinMetas.tosmo,
     ] as const,
   };
 

@@ -969,6 +969,8 @@ function Form() {
       );
     case 'atom':
     case 'tatom':
+    case 'osmo':
+    case 'tosmo':
       return (
         <CosmosForm
           key={coin}
