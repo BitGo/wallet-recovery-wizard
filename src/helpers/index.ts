@@ -1,7 +1,7 @@
 import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
-} from '@bitgo/abstract-utxo';
+} from '@bitgo-beta/abstract-utxo';
 
 const GWEI = 10 ** 9;
 
