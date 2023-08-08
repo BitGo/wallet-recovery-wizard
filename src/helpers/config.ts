@@ -147,6 +147,36 @@ export const allCoinMetas = {
     Icon: 'osmo',
     value: 'osmo',
   },
+  tia: {
+    Title: 'TIA',
+    Description: 'Celestia',
+    Icon: 'tia',
+    value: 'tia',
+  },
+  injective: {
+    Title: 'INJECTIVE',
+    Description: 'Injective',
+    Icon: 'injective',
+    value: 'injective',
+  },
+  bld: {
+    Title: 'BLD',
+    Description: 'Agoric',
+    Icon: 'bld',
+    value: 'bld',
+  },
+  hash: {
+    Title: 'HASH',
+    Description: 'Provenance',
+    Icon: 'hash',
+    value: 'hash',
+  },
+  sei: {
+    Title: 'SEI',
+    Description: 'Sei',
+    Icon: 'sei',
+    value: 'sei',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -254,7 +284,37 @@ export const allCoinMetas = {
     Description: 'Osmosis Testnet',
     Icon: 'osmo',
     value: 'tosmo',
-  }
+  },
+  ttia: {
+    Title: 'TTIA',
+    Description: 'Celestia Testnet',
+    Icon: 'tia',
+    value: 'ttia',
+  },
+  tinjective: {
+    Title: 'TINJECTIVE',
+    Description: 'Injective Testnet',
+    Icon: 'injective',
+    value: 'tinjective',
+  },
+  tbld: {
+    Title: 'TBLD',
+    Description: 'Agoric Testnet',
+    Icon: 'bld',
+    value: 'tbld',
+  },
+  thash: {
+    Title: 'THASH',
+    Description: 'Provenance Testnet',
+    Icon: 'hash',
+    value: 'thash',
+  },
+  tsei: {
+    Title: 'TSEI',
+    Description: 'Sei Testnet',
+    Icon: 'sei',
+    value: 'tsei',
+  },
 } as const;
 
 export const buildUnsignedSweepCoins: Record<
@@ -326,6 +386,11 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.ada,
       allCoinMetas.atom,
       allCoinMetas.osmo,
+      allCoinMetas.tia,
+      allCoinMetas.injective,
+      allCoinMetas.bld,
+      allCoinMetas.hash,
+      allCoinMetas.sei,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -344,6 +409,11 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tada,
       allCoinMetas.tatom,
       allCoinMetas.tosmo,
+      allCoinMetas.ttia,
+      allCoinMetas.tinjective,
+      allCoinMetas.tbld,
+      allCoinMetas.thash,
+      allCoinMetas.tsei,
     ] as const,
   };
 

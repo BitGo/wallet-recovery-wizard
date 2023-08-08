@@ -1,20 +1,23 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
+import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { useAlertBanner } from '~/contexts';
 import {
   assert,
-  getTokenChain,
   getEthLikeRecoveryChainId,
+  getTokenChain,
   isRecoveryTransaction,
   recoverWithToken,
   safeEnv,
   toWei,
 } from '~/helpers';
+import { nonBitgoRecoveryCoins } from '~/helpers/config';
 import { AvalancheCForm } from './AvalancheCForm';
+import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
-import { BitcoinABCForm } from './BitcoinABCForm';
 import { CardanoForm } from './CardanoForm';
+import { CosmosForm } from './CosmosForm';
 import { DogecoinForm } from './DogecoinForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
 import { EthereumForm } from './EthereumForm';
@@ -25,9 +28,6 @@ import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { TronForm } from './TronForm';
-import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { nonBitgoRecoveryCoins } from '~/helpers/config';
-import { CosmosForm } from './CosmosForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -971,6 +971,16 @@ function Form() {
     case 'tatom':
     case 'osmo':
     case 'tosmo':
+    case 'tia':
+    case 'ttia':
+    case 'injective':
+    case 'tinjective':
+    case 'bld':
+    case 'tbld':
+    case 'hash':
+    case 'thash':
+    case 'sei':
+    case 'tsei':
       return (
         <CosmosForm
           key={coin}
