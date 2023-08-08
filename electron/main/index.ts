@@ -5,16 +5,15 @@ process.env.PUBLIC = app.isPackaged
   : join(process.env.DIST_ELECTRON, '../public');
 
 /* eslint-disable @typescript-eslint/unbound-method */
+import { Atom, Tatom } from '@bitgo-beta/sdk-coin-atom';
+import { Bld, Tbld } from '@bitgo-beta/sdk-coin-bld';
+import { Hash, Thash } from '@bitgo-beta/sdk-coin-hash';
+import { Injective, Tinjective } from '@bitgo-beta/sdk-coin-injective';
+import { Sei, Tsei } from '@bitgo-beta/sdk-coin-sei';
+import { Tia, Ttia } from '@bitgo-beta/sdk-coin-tia';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
-import { Atom, Tatom } from '@bitgo-beta/sdk-coin-atom';
-import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
-import { Tia, Ttia } from '@bitgo/sdk-coin-tia';
-import { Injective, Tinjective } from '@bitgo/sdk-coin-injective';
-import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
-import { Hash, Thash } from '@bitgo/sdk-coin-hash';
-import { Sei, Tsei } from '@bitgo/sdk-coin-sei';
 import { AvaxC, TavaxC } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
@@ -29,20 +28,21 @@ import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
-import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Zec } from '@bitgo/sdk-coin-zec';
-import * as ecc from 'tiny-secp256k1';
+import { BaseCoin } from '@bitgo/sdk-core';
+import assert from 'assert';
 import BIP32Factory from 'bip32';
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron';
+import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
-import { BaseCoin } from '@bitgo/sdk-core';
-import assert from 'assert';
+import * as ecc from 'tiny-secp256k1';
 
 const bip32 = BIP32Factory(ecc);
 
