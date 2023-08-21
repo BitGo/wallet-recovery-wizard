@@ -5,12 +5,12 @@ process.env.PUBLIC = app.isPackaged
   : join(process.env.DIST_ELECTRON, '../public');
 
 /* eslint-disable @typescript-eslint/unbound-method */
-import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
-import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
-import { Hash, Thash } from '@bitgo/sdk-coin-hash';
-import { Injective, Tinjective } from '@bitgo/sdk-coin-injective';
-import { Sei, Tsei } from '@bitgo/sdk-coin-sei';
-import { Tia, Ttia } from '@bitgo/sdk-coin-tia';
+import { Atom, Tatom } from '@bitgo-beta/sdk-coin-atom';
+import { Bld, Tbld } from '@bitgo-beta/sdk-coin-bld';
+import { Hash, Thash } from '@bitgo-beta/sdk-coin-hash';
+import { Injective, Tinjective } from '@bitgo-beta/sdk-coin-injective';
+import { Sei, Tsei } from '@bitgo-beta/sdk-coin-sei';
+import { Tia, Ttia } from '@bitgo-beta/sdk-coin-tia';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
