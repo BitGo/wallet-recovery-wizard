@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
+  apiKey: Yup.string().required(),
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
   backupKey: Yup.string().required(),
@@ -26,6 +27,7 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
   const formik = useFormik<BitcoinFormValues>({
     onSubmit,
     initialValues: {
+      apiKey: '',
       userKey: '',
       userKeyId: '',
       backupKey: '',
@@ -96,6 +98,14 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Label="Address Scanning Factor"
             name="scan"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An Api-Key Token from blockchair.com required for recovery of this coin."
+            Label="API Key"
+            name="apiKey"
             Width="fill"
           />
         </div>
