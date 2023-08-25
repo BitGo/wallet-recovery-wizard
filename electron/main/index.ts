@@ -35,6 +35,7 @@ import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
 import { Zec } from '@bitgo/sdk-coin-zec';
+import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
 import { BaseCoin } from '@bitgo/sdk-core';
 import assert from 'assert';
 import BIP32Factory from 'bip32';
@@ -114,6 +115,8 @@ sdk.register('hash', Hash.createInstance);
 sdk.register('thash', Thash.createInstance);
 sdk.register('sei', Sei.createInstance);
 sdk.register('tsei', Tsei.createInstance);
+sdk.register('zeta', Zeta.createInstance);
+sdk.register('tzeta', Tzeta.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
