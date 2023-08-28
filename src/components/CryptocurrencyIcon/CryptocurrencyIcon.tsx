@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 export interface CryptocurrencyIconProps {
-    Name: 'ada' | 'atom' | 'avax' | 'bch' | 'bsv' | 'btc' | 'btg' | 'dash' | 'doge' | 'dot' | 'eos' | 'eth' | 'ltc' | 'near' | 'osmo' |  'tia' |  'injective' |  'bld' |  'hash' |  'sei' | 'polygon' | 'sol' | 'trx' | 'xec' | 'xlm' | 'xrp' | 'zec';
+    Name: 'ada' | 'atom' | 'avax' | 'bch' | 'bsv' | 'btc' | 'btg' | 'dash' | 'doge' | 'dot' | 'eos' | 'eth' | 'ltc' | 'near' | 'osmo' |  'tia' |  'injective' |  'bld' |  'hash' |  'sei' | 'zeta' | 'polygon' | 'sol' | 'trx' | 'xec' | 'xlm' | 'xrp' | 'zec';
     Size: 'small' | 'medium' | 'large';
   }
 
@@ -988,6 +988,19 @@ case 'zec':
         'tw-w-6 tw-h-6': Size === 'medium',
         'tw-w-8 tw-h-8': Size === 'large',
       })} {...hostProps}><g fill="none" fillRule="evenodd"><circle cx="16" cy="16" r="16" fill="#ECB244"/><path fill="#FFF" d="M15.096 19.846h6.297v3.35h-3.875c.064.958.097 1.847.161 2.804h-3.261v-2.77h-3.876c0-1.093-.129-2.187.065-3.213.097-.547.678-1.026 1.033-1.504a462.137 462.137 0 013.714-4.581c.485-.582.969-1.129 1.518-1.778h-6.04v-3.35h3.586V6h3.132v2.735h3.908c0 1.128.129 2.222-.065 3.248-.097.547-.678 1.026-1.065 1.504a462.138 462.138 0 01-3.714 4.581 37.083 37.083 0 01-1.518 1.778z" fillRule="nonzero"/></g></svg>;
+case 'zeta':
+    return <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          version="1"
+          viewBox="0 0 178 178"
+        >
+          <path
+            d="M790 1774c-176-33-285-73-390-144-188-127-319-316-376-540-25-102-26-286 0-394 78-335 328-586 666-672 102-25 286-26 394 0 335 78 586 328 672 666 25 102 26 286 0 394-77 330-320 579-651 667-68 19-263 33-315 23zm468-691l-3-258-67-3-67-3-3 140-3 140-190-162C712 754 659 699 642 642c-23-77-40-72 233-72h244l3 63 3 62h130l3-127 3-128H490v89c0 112 24 193 79 266 22 29 133 133 246 229 113 97 205 178 205 181s-88 5-195 5H631l-3-62-3-63-67-3-68-3v261h770l-2-257z"
+            transform="matrix(.1 0 0 -.1 0 178)"
+          ></path>
+        </svg>;
       default:
         return null;
     }

@@ -177,6 +177,12 @@ export const allCoinMetas = {
     Icon: 'sei',
     value: 'sei',
   },
+  zeta: {
+    Title: 'ZETA',
+    Description: 'Zeta',
+    Icon: 'zeta',
+    value: 'zeta',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -315,6 +321,12 @@ export const allCoinMetas = {
     Icon: 'sei',
     value: 'tsei',
   },
+  tzeta: {
+    Title: 'TZETA',
+    Description: 'Zeta Testnet',
+    Icon: 'zeta',
+    value: 'tzeta',
+  },
 } as const;
 
 export const buildUnsignedSweepCoins: Record<
@@ -391,6 +403,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.bld,
       allCoinMetas.hash,
       allCoinMetas.sei,
+      allCoinMetas.zeta,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -414,6 +427,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbld,
       allCoinMetas.thash,
       allCoinMetas.tsei,
+      allCoinMetas.tzeta,
     ] as const,
   };
 

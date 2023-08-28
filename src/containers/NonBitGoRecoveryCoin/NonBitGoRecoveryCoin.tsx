@@ -981,6 +981,8 @@ function Form() {
     case 'thash':
     case 'sei':
     case 'tsei':
+    case 'zeta':
+    case 'tzeta':
       return (
         <CosmosForm
           key={coin}
