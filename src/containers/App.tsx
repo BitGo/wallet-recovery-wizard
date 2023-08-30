@@ -10,6 +10,8 @@ import { WrongChainRecovery } from './WrongChainRecovery';
 import { EvmCrossChainRecoveryIndex } from './EvmCrossChainRecoveryIndex';
 import { EvmCrossChainRecoveryCoin } from './EvmCrossChainRecoveryCoin';
 import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet';
+import { BuildUnsignedConsolidationIndex } from './BuildUnsignedConsolidation';
+import { BuildUnsignedConsolidationCoin } from '~/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin';
 
 export default function App() {
   return (
@@ -41,6 +43,14 @@ export default function App() {
       >
         <Route index element={<BuildUnsignedSweepIndex />} />
         <Route path=":coin" element={<BuildUnsignedSweepCoin />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/build-unsigned-consolidation/*"
+        element={<UnauthenticatedPageLayout Title="Build Unsigned Consolidation" Description="This tool will construct an unsigned consolidation transaction on the wallet you specify without using BitGo." />}
+      >
+        <Route index element={<BuildUnsignedConsolidationIndex />} />
+        <Route path=":coin" element={<BuildUnsignedConsolidationCoin />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
       <Route

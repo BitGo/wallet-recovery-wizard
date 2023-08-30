@@ -329,6 +329,15 @@ export const allCoinMetas = {
   },
 } as const;
 
+export const buildUnsignedConsolidationCoins: Record<BitgoEnv, readonly CoinMetadata[]> = {
+  prod: [
+    allCoinMetas.trx,
+    ],
+  test: [
+    allCoinMetas.ttrx,
+  ]
+}
+
 export const buildUnsignedSweepCoins: Record<
   BitgoEnv,
   readonly CoinMetadata[]

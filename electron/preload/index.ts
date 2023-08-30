@@ -10,6 +10,8 @@ import type {
   RecoverFromWrongChainOptions,
   RecoverParams,
 } from '@bitgo/abstract-utxo';
+// Recovery Consolidations only supported in tron for now.
+import type { ConsolidationRecoveryOptions, ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
@@ -17,6 +19,10 @@ import type { ObjectEncodingOptions } from 'node:fs';
 type User = { username: string };
 
 type Commands = {
+  recoverConsolidations(
+    coin: string,
+    params: ConsolidationRecoveryOptions
+  ): Promise<Error | ConsolidationRecoveryBatch>;
   writeFile(
     file: string,
     data: string,
@@ -103,6 +109,9 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
+  recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions): Promise<ConsolidationRecoveryBatch> {
+    return ipcRenderer.invoke('recoverConsolidations', coin, params);
+  },
   writeFile(file, data, options) {
     return ipcRenderer.invoke('writeFile', file, data, options);
   },
