@@ -85,7 +85,7 @@ async function handleOnSubmit(
       values.apiKey
     );
     const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = await updateKeysFromIds(coin, values);
-    const recoverData = await window.commands.recover(coin as string, {
+    const recoverData = await window.commands.recover(coin , {
       ...values,
       eip1559: {
         maxFeePerGas: toWei(maxFeePerGas),

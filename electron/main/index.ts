@@ -235,6 +235,24 @@ async function createWindow() {
     return await baseCoin.recover(parameters);
   });
 
+  ipcMain.handle('recoverConsolidations', async (event, coin, params) => {
+    try {
+      switch (coin) {
+        case 'trx':
+        case 'ttrx': {
+          // Batch Consolidations only implemented for Tron for now so have
+          // to reference Trx Coin directly instead of Basecoin;
+          const trxCoin = sdk.coin(coin) as Trx | Ttrx;
+          return await trxCoin.recoverConsolidations(params);
+        }
+        default:
+          throw new Error(`Coin: ${coin} does not support consolidation recovery`);
+      }
+    } catch (e) {
+      return new Error(handleSdkError(e));
+    }
+  });
+
   ipcMain.handle(
     'wrongChainRecover',
     async (event, sourceCoin, destinationCoin, parameters) => {

@@ -87,6 +87,12 @@ export function Home() {
                   Title="Evm Cross Chain Recovery"
                   Description="Recover wallet funds sent to wrong chain(evm compatible) for hot/cold/custody wallets."
                 />
+                <LinkCardItem
+                    Tag={Link}
+                    Title='Build Unsigned Consolidation'
+                    Description='Build an unsigned transaction to consolidate a wallet without using BitGo.'
+                    to={`/${env}/build-unsigned-consolidation`}
+                />
               </LinkCard>
             </div>
             <div className="md:tw-flex-grow">

@@ -10,13 +10,22 @@ import type {
   RecoverFromWrongChainOptions,
   RecoverParams,
 } from '@bitgo/abstract-utxo';
+
+import  type {
+  ConsolidateRecoverOptions,
+} from '@bitgo/sdk-coin-trx';
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
+import { ConsolidationRecoveryBatch, ConsolidationRecoveryOptions } from '@bitgo/sdk-coin-trx';
 
 type User = { username: string };
 
 type Commands = {
+  recoverConsolidations(
+    coin: string,
+    params: ConsolidateRecoverOptions,
+  ): Promise<Error | ConsolidationRecoveryBatch>,
   writeFile(
     file: string,
     data: string,
@@ -103,6 +112,9 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
+  recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions) {
+    return ipcRenderer.invoke('recoverConsolidations', coin, params);
+  },
   writeFile(file, data, options) {
     return ipcRenderer.invoke('writeFile', file, data, options);
   },

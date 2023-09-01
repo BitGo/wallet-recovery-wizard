@@ -3,12 +3,16 @@ import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import {
   assert,
+  getEthLikeRecoveryChainId,
   getTokenChain,
+  includePubsFor,
+  includePubsForToken,
   isRecoveryTransaction,
   recoverWithToken,
   safeEnv,
   toWei,
-  getEthLikeRecoveryChainId,
+  updateKeysFromIds,
+  updateKeysFromIdsWithToken,
 } from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
@@ -26,139 +30,6 @@ import { SolanaForm } from './SolanaForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { buildUnsignedSweepCoins } from '~/helpers/config';
-
-async function includePubsFor<
-  TValues extends {
-    userKey: string;
-    userKeyId?: string;
-    backupKey: string;
-    backupKeyId?: string;
-    bitgoKey?: string;
-  }
->(coin: string, values: TValues) {
-  const userXpub = values.userKeyId
-    ? (
-      await window.queries.deriveKeyWithSeed(
-        coin,
-        values.userKey,
-        values.userKeyId
-      )
-    ).key
-    : values.userKey;
-  const backupXpub = values.backupKeyId
-    ? (
-      await window.queries.deriveKeyWithSeed(
-        coin,
-        values.backupKey,
-        values.backupKeyId
-      )
-    ).key
-    : values.backupKey;
-
-  return {
-    xpubsWithDerivationPath: {
-      user: {
-        xpub: userXpub,
-        derivedFromParentWithSeed: values.userKeyId
-          ? values.userKeyId
-          : undefined,
-      },
-      backup: {
-        xpub: backupXpub,
-        derivedFromParentWithSeed: values.backupKeyId
-          ? values.backupKeyId
-          : undefined,
-      },
-      bitgo: { xpub: values.bitgoKey },
-    },
-    pubs: [userXpub, backupXpub, values.bitgoKey],
-  };
-}
-
-async function includePubsForToken(
-  token: string,
-  ...args: Parameters<typeof includePubsFor>
-) {
-  const [coin, ...rest] = args;
-
-  try {
-    return includePubsFor(token, ...rest);
-  } catch {
-    return includePubsFor(coin, ...rest);
-  }
-}
-
-async function isDerivationPath(id: string, description: string) {
-  if (id.length > 2 && id.indexOf('m/') === 0) {
-    const response = await window.commands.showMessageBox({
-      type: 'question',
-      buttons: ['Derivation Path', 'Seed'],
-      title: 'Derivation Path?',
-      message: `Is the provided value a Derivation Path or a Seed?\n${description}: ${id}\n`,
-    });
-
-    return !!response.response;
-  }
-
-  return false;
-}
-
-type UpdateKeysFromsIdsDefaultParams = {
-  userKey: string;
-  userKeyId?: string;
-  backupKeyId?: string;
-  backupKey: string;
-}
-
-async function updateKeysFromIds<
-  TParams extends UpdateKeysFromsIdsDefaultParams
->(
-  coin: string,
-  params: TParams
-): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
-  const { userKeyId, backupKeyId, ...copy } = params;
-  const data = [
-    {
-      id: userKeyId,
-      key: copy.userKey,
-      description: 'User Key Id',
-      name: 'userKey',
-    },
-    {
-      id: backupKeyId,
-      key: copy.backupKey,
-      description: 'Backup Key Id',
-      name: 'backupKey',
-    },
-  ] as const;
-
-  for await (const item of data) {
-    if (item.id) {
-      if (await isDerivationPath(item.id, item.description)) {
-        copy[item.name] = await window.queries.deriveKeyByPath(
-          item.key,
-          item.id
-        );
-      } else {
-        copy[item.name] = (
-          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
-        ).key;
-      }
-    }
-  }
-
-  return copy;
-}
-
-function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDefaultParams>(token: string, ...args: Parameters<typeof updateKeysFromIds<TParams>>) {
-  const [coin, ...rest] = args;
-
-  try {
-    return updateKeysFromIds(token, ...rest);
-  } catch {
-    return updateKeysFromIds(coin, ...rest);
-  }
-}
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -289,9 +160,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -363,9 +234,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -433,9 +304,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -501,9 +372,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -843,9 +714,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -890,7 +761,7 @@ function Form() {
                 await updateKeysFromIdsWithToken(
                   values.tokenAddress.toLowerCase(),
                   parentCoin,
-                  values,
+                  values
                 );
 
               const recoverData = await recoverWithToken(
@@ -934,13 +805,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsForToken(
-                        values.tokenAddress.toLowerCase(),
-                        coin,
-                        values
-                      )),
-                    }
+                        ...recoverData,
+                        ...(await includePubsForToken(
+                          values.tokenAddress.toLowerCase(),
+                          coin,
+                          values
+                        )),
+                      }
                     : recoverData,
                   null,
                   2
@@ -964,66 +835,66 @@ function Form() {
     case 'sol':
     case 'tsol':
       return (
-      <SolanaForm
-        key={coin}
-        onSubmit={async (values, { setSubmitting }) => {
-          setAlert(undefined);
-          setSubmitting(true);
-          try {
-            await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
-            const chainData = await window.queries.getChain(coin);
-            const recoverData = await window.commands.recover(coin, {
-              bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-              ignoreAddressTypes: [],
-              userKey: '',
-              backupKey: '',
-              recoveryDestination: values.recoveryDestination,
-            });
-            assert(
-              isRecoveryTransaction(recoverData),
-              'Fully-signed recovery transaction not detected.'
-            );
+        <SolanaForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+                userKey: '',
+                backupKey: '',
+                recoveryDestination: values.recoveryDestination,
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
 
-            const showSaveDialogData = await window.commands.showSaveDialog({
-              filters: [
-                {
-                  name: 'Custom File Type',
-                  extensions: ['json'],
-                },
-              ],
-              defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-            });
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
 
-            if (!showSaveDialogData.filePath) {
-              throw new Error('No file path selected');
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
             }
-
-            await window.commands.writeFile(
-              showSaveDialogData.filePath,
-              JSON.stringify(
-                {
-                  ...recoverData,
-                },
-                null,
-                2
-              ),
-              { encoding: 'utf-8' }
-            );
-
-            navigate(
-              `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
-            );
-          } catch (err) {
-            if (err instanceof Error) {
-              setAlert(err.message);
-            } else {
-              console.error(err);
-            }
-            setSubmitting(false);
-          }
-        }}
-      />
-    );
+          }}
+        />
+      );
     case 'ada':
     case 'tada':
     case 'dot':
