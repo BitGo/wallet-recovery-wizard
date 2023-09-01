@@ -109,7 +109,7 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
-  recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions): Promise<ConsolidationRecoveryBatch> {
+  recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions): Promise<Error | ConsolidationRecoveryBatch> {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
   writeFile(file, data, options) {
