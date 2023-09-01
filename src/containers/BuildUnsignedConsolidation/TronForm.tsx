@@ -88,7 +88,7 @@ export function TronForm({ onSubmit }: TronFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The starting index of addresses to consolidate"
+            HelperText="The starting index (inclusive) of addresses to consolidate"
             Label="Starting Scan Index"
             name="startingScanIndex"
             Width="fill"
@@ -96,7 +96,7 @@ export function TronForm({ onSubmit }: TronFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The ending index of addresses to consolidate"
+            HelperText="The ending index (exclusive) of addresses to consolidate"
             Label="Ending Scan Index"
             name="endingScanIndex"
             Width="fill"
