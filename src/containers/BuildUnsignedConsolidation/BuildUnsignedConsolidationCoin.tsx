@@ -30,10 +30,14 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
           await window.commands.setBitGoEnvironment(environment);
           const chainData = await window.queries.getChain(coin);
           const pubsForOvc = await includePubsFor(coin, values);
-          const consolidateData: ConsolidationRecoveryBatch = await window.commands.recoverConsolidations(coin, {
+          const consolidateData = await window.commands.recoverConsolidations(coin, {
             ...(await updateKeysFromIds(coin, values)),
             bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
           }) as ConsolidationRecoveryBatch;
+
+          if (consolidateData instanceof Error) {
+            throw consolidateData;
+          }
 
           assert(isRecoveryConsolidationTransaction(consolidateData), 'Recovery consolidation transaction not found');
 
