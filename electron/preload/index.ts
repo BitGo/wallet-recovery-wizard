@@ -9,9 +9,9 @@ import type {
   FormattedOfflineVaultTxInfo,
   RecoverFromWrongChainOptions,
   RecoverParams,
-} from '@bitgo/abstract-utxo';
+} from '@bitgo-beta/abstract-utxo';
 // Recovery Consolidations only supported in tron for now.
-import type { ConsolidationRecoveryOptions, ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
+import type { ConsolidationRecoveryOptions, ConsolidationRecoveryBatch } from '@bitgo-beta/sdk-coin-trx';
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
