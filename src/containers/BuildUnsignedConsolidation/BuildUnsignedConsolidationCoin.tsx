@@ -4,7 +4,7 @@ import { TronForm } from '~/containers/BuildUnsignedConsolidation/TronForm';
 import { CoinsSelectAutocomplete } from '~/components';
 import { buildUnsignedConsolidationCoins  } from '~/helpers/config';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
+import { ConsolidationRecoveryBatch } from '@bitgo-beta/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
 
 type ConsolidationFormProps = {
