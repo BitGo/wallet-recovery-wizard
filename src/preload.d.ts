@@ -9,11 +9,11 @@ import type {
   FormattedOfflineVaultTxInfo,
   RecoverFromWrongChainOptions,
   RecoverParams,
-} from '@bitgo-beta/abstract-utxo';
+} from '@bitgo/abstract-utxo';
 
 import  type {
   ConsolidateRecoverOptions,
-} from '@bitgo-beta/sdk-coin-trx';
+} from '@bitgo/sdk-coin-trx';
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
