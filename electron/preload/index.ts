@@ -15,10 +15,21 @@ import type { ConsolidationRecoveryOptions, ConsolidationRecoveryBatch } from '@
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
+import {
+  BroadcastableSweepTransaction,
+  createAdaBroadcastableSweepTransactionParameters,
+  createDotBroadcastableSweepTransactionParameters, createSolBroadcastableSweepTransactionParameters,
+} from '../types';
 
 type User = { username: string };
 
 type Commands = {
+  createBroadcastableSweepTransaction(
+    coin: string,
+    parameters: createAdaBroadcastableSweepTransactionParameters |
+      createDotBroadcastableSweepTransactionParameters |
+      createSolBroadcastableSweepTransactionParameters
+  ): Promise<Error | BroadcastableSweepTransaction>
   recoverConsolidations(
     coin: string,
     params: ConsolidationRecoveryOptions
@@ -109,6 +120,9 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
+  createBroadcastableSweepTransaction(coin, parameters): Promise<Error | BroadcastableSweepTransaction> {
+    return ipcRenderer.invoke('createBroadcastableSweepTransaction', coin, parameters);
+  },
   recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions): Promise<Error | ConsolidationRecoveryBatch> {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
