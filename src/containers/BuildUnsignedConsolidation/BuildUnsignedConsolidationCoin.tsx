@@ -1,90 +1,165 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { assert, BitgoEnv, includePubsFor, safeEnv, updateKeysFromIds } from '~/helpers';
+import {
+  assert,
+  BitgoEnv,
+  includePubsFor,
+  safeEnv,
+  updateKeysFromIds,
+} from '~/helpers';
 import { TronForm } from '~/containers/BuildUnsignedConsolidation/TronForm';
 import { CoinsSelectAutocomplete } from '~/components';
-import { buildUnsignedConsolidationCoins  } from '~/helpers/config';
+import { buildUnsignedConsolidationCoins } from '~/helpers/config';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
+import { GenericEcdsaForm } from '~/containers/BuildUnsignedConsolidation/GenericEcdsaForm';
 
 type ConsolidationFormProps = {
   coin?: string;
   environment: BitgoEnv;
-}
+};
 
-function isRecoveryConsolidationTransaction(result: any): result is ConsolidationRecoveryBatch {
+function isRecoveryConsolidationTransaction(
+  result: any
+): result is ConsolidationRecoveryBatch {
   const consolidationRecoveryBatch = result as ConsolidationRecoveryBatch;
-  return consolidationRecoveryBatch && consolidationRecoveryBatch.transactions !== undefined;
+  return (
+    consolidationRecoveryBatch &&
+    consolidationRecoveryBatch.transactions !== undefined
+  );
 }
 
 function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
-  const [, setAlert ] = useAlertBanner();
+  const [, setAlert] = useAlertBanner();
   const navigate = useNavigate();
 
   switch (coin) {
+    case 'ada':
+    case 'tada':
+    case 'dot':
+    case 'tdot':
+      return (
+        <GenericEcdsaForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              //TODO: Add support for strict type checking
+              await window.commands.setBitGoEnvironment(environment);
+              const chainData = await window.queries.getChain(coin);
+              const consolidateData =
+                await window.commands.recoverConsolidations(coin, values);
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateData, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     case 'trx':
     case 'ttrx':
-      return <TronForm  onSubmit={async (values, { setSubmitting }) => {
-        setSubmitting(true);
-        try {
-          await window.commands.setBitGoEnvironment(environment);
-          const chainData = await window.queries.getChain(coin);
-          const pubsForOvc = await includePubsFor(coin, values);
-          const consolidateData = await window.commands.recoverConsolidations(coin, {
-            ...(await updateKeysFromIds(coin, values)),
-            bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-          }) as ConsolidationRecoveryBatch;
+      return (
+        <TronForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const chainData = await window.queries.getChain(coin);
+              const pubsForOvc = await includePubsFor(coin, values);
+              const consolidateData =
+                (await window.commands.recoverConsolidations(coin, {
+                  ...(await updateKeysFromIds(coin, values)),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                })) as ConsolidationRecoveryBatch;
 
-          if (consolidateData instanceof Error) {
-            throw consolidateData;
-          }
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
 
-          assert(isRecoveryConsolidationTransaction(consolidateData), 'Recovery consolidation transaction not found');
+              assert(
+                isRecoveryConsolidationTransaction(consolidateData),
+                'Recovery consolidation transaction not found'
+              );
 
-          if (consolidateData.transactions.length === 0) {
-            setAlert('No transactions found for consolidation');
-            return;
-          }
+              if (consolidateData.transactions.length === 0) {
+                setAlert('No transactions found for consolidation');
+                return;
+              }
 
-          const consolidateDataWithPubs = {
-            transactions: consolidateData.transactions.map((transaction) => {
-              return {
-                ...transaction,
-                ...pubsForOvc
+              const consolidateDataWithPubs = {
+                transactions: consolidateData.transactions.map(transaction => {
+                  return {
+                    ...transaction,
+                    ...pubsForOvc,
+                  };
+                }),
               };
-            })};
 
-          const showSaveDialogData = await window.commands.showSaveDialog({
-            filters: [
-              {
-                name: 'Custom File Type',
-                extensions: ['json'],
-              },
-            ],
-            defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
-          });
-          if (!showSaveDialogData.filePath) {
-            throw new Error('No file path selected');
-          }
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
 
-          await window.commands.writeFile(
-            showSaveDialogData.filePath,
-            JSON.stringify(consolidateDataWithPubs, null, 2),
-            { encoding: 'utf8' },
-          );
-          navigate(`/${environment}/build-unsigned-consolidation/${coin}/success`);
-        } catch (e) {
-          if (e instanceof  Error) {
-            setAlert(e.message);
-          } else {
-            console.log(e);
-          }
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateDataWithPubs, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
 
-          setSubmitting(false);
-        }
-      }}/>;
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     default:
-      throw new Error (`Unsupported coin: ${String(coin)}`);
+      throw new Error(`Unsupported coin: ${String(coin)}`);
   }
 }
 
@@ -104,10 +179,10 @@ export function BuildUnsignedConsolidationCoin() {
           }}
           coins={buildUnsignedConsolidationCoins[environment]}
           selectedCoin={coin}
-          helperText={<BackToHomeHelperText env={environment}/>}
+          helperText={<BackToHomeHelperText env={environment} />}
         />
       </div>
       <ConsolidationForm coin={coin} environment={environment} />
     </>
-  )
+  );
 }

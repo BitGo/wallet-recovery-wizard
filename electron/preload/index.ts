@@ -10,15 +10,24 @@ import type {
   RecoverFromWrongChainOptions,
   RecoverParams,
 } from '@bitgo/abstract-utxo';
-// Recovery Consolidations only supported in tron for now.
-import type { ConsolidationRecoveryOptions, ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
+import type {
+  ConsolidationRecoveryOptions as TrxConsolidationRecoveryOptions,
+  ConsolidationRecoveryBatch as TrxConsolidationRecoveryBatch,
+} from '@bitgo/sdk-coin-trx';
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
 import {
+  AdaRecoveryConsolidationRecoveryBatch,
+  AdaRecoveryConsolidationRecoveryOptions,
   BroadcastableSweepTransaction,
   createAdaBroadcastableSweepTransactionParameters,
-  createDotBroadcastableSweepTransactionParameters, createSolBroadcastableSweepTransactionParameters,
+  createDotBroadcastableSweepTransactionParameters,
+  createSolBroadcastableSweepTransactionParameters,
+  DotRecoverConsolidationRecoveryBatch,
+  DotRecoveryConsolidationRecoveryOptions,
+  SolRecoverConsolidationRecoveryBatch,
+  SolRecoveryConsolidationRecoveryOptions,
 } from '../types';
 
 type User = { username: string };
@@ -26,14 +35,25 @@ type User = { username: string };
 type Commands = {
   createBroadcastableSweepTransaction(
     coin: string,
-    parameters: createAdaBroadcastableSweepTransactionParameters |
-      createDotBroadcastableSweepTransactionParameters |
-      createSolBroadcastableSweepTransactionParameters
-  ): Promise<Error | BroadcastableSweepTransaction>
+    parameters:
+      | createAdaBroadcastableSweepTransactionParameters
+      | createDotBroadcastableSweepTransactionParameters
+      | createSolBroadcastableSweepTransactionParameters
+  ): Promise<Error | BroadcastableSweepTransaction>;
   recoverConsolidations(
     coin: string,
-    params: ConsolidationRecoveryOptions
-  ): Promise<Error | ConsolidationRecoveryBatch>;
+    params:
+      | TrxConsolidationRecoveryOptions
+      | AdaRecoveryConsolidationRecoveryOptions
+      | DotRecoveryConsolidationRecoveryOptions
+      | SolRecoveryConsolidationRecoveryOptions
+  ): Promise<
+    | Error
+    | TrxConsolidationRecoveryBatch
+    | AdaRecoveryConsolidationRecoveryBatch
+    | DotRecoverConsolidationRecoveryBatch
+    | SolRecoverConsolidationRecoveryBatch
+  >,
   writeFile(
     file: string,
     data: string,
@@ -120,10 +140,30 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
-  createBroadcastableSweepTransaction(coin, parameters): Promise<Error | BroadcastableSweepTransaction> {
-    return ipcRenderer.invoke('createBroadcastableSweepTransaction', coin, parameters);
+  createBroadcastableSweepTransaction(
+    coin,
+    parameters
+  ): Promise<Error | BroadcastableSweepTransaction> {
+    return ipcRenderer.invoke(
+      'createBroadcastableSweepTransaction',
+      coin,
+      parameters
+    );
   },
-  recoverConsolidations(coin: string, params: ConsolidationRecoveryOptions): Promise<Error | ConsolidationRecoveryBatch> {
+  recoverConsolidations(
+    coin: string,
+    params:
+      | TrxConsolidationRecoveryOptions
+      | AdaRecoveryConsolidationRecoveryOptions
+      | DotRecoveryConsolidationRecoveryOptions
+      | SolRecoveryConsolidationRecoveryOptions
+  ): Promise<
+    | Error
+    | TrxConsolidationRecoveryBatch
+    | AdaRecoveryConsolidationRecoveryBatch
+    | DotRecoverConsolidationRecoveryBatch
+    | SolRecoverConsolidationRecoveryBatch
+  > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
   writeFile(file, data, options) {

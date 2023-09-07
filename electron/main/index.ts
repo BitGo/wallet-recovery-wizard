@@ -1,3 +1,10 @@
+import {
+  AdaRecoveryConsolidationRecoveryOptions,
+  DotRecoveryConsolidationRecoveryOptions,
+  SolRecoveryConsolidationRecoveryOptions,
+  TrxConsolidationRecoveryOptions,
+} from '../types';
+
 process.env.DIST_ELECTRON = join(__dirname, '../..');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
 process.env.PUBLIC = app.isPackaged
@@ -238,15 +245,30 @@ async function createWindow() {
   ipcMain.handle('recoverConsolidations', async (event, coin, params) => {
     try {
       switch (coin) {
+        case 'ada':
+        case 'tada':
+        case 'dot':
+        case 'tdot': {
+          const mpcCoin = sdk.coin(coin) as
+            | Ada
+            | Tada
+            | Dot
+            | Tdot;
+          return await mpcCoin.recoverConsolidations(params);
+        }
         case 'trx':
         case 'ttrx': {
           // Batch Consolidations only implemented for Tron for now so have
           // to reference Trx Coin directly instead of Basecoin;
           const trxCoin = sdk.coin(coin) as Trx | Ttrx;
-          return await trxCoin.recoverConsolidations(params);
+          return await trxCoin.recoverConsolidations(
+            params as TrxConsolidationRecoveryOptions
+          );
         }
         default:
-          throw new Error(`Coin: ${coin} does not support consolidation recovery`);
+          throw new Error(
+            `Coin: ${coin} does not support consolidation recovery`
+          );
       }
     } catch (e) {
       return new Error(handleSdkError(e));
@@ -310,22 +332,33 @@ async function createWindow() {
     return Promise.resolve(sdkJson.user || sdkJson.token);
   });
 
-  ipcMain.handle('createBroadcastableSweepTransaction', async (event, coin, parameters) => {
-    switch (coin) {
-      // Temporary measure till this is refactored into Basecoin
-      case 'ada':
-      case 'tada':
-      case 'dot':
-      case 'tdot':
-      case 'sol':
-      case 'tsol': {
-        const coinInstance = sdk.coin(coin) as Ada | Tada | Dot | Tdot | Sol | Tsol;
-        return coinInstance.createBroadcastableSweepTransaction(parameters);
+  ipcMain.handle(
+    'createBroadcastableSweepTransaction',
+    async (event, coin, parameters) => {
+      switch (coin) {
+        // Temporary measure till this is refactored into Basecoin
+        case 'ada':
+        case 'tada':
+        case 'dot':
+        case 'tdot':
+        case 'sol':
+        case 'tsol': {
+          const coinInstance = sdk.coin(coin) as
+            | Ada
+            | Tada
+            | Dot
+            | Tdot
+            | Sol
+            | Tsol;
+          return coinInstance.createBroadcastableSweepTransaction(parameters);
+        }
+        default:
+          return new Error(
+            `Coin: ${coin} does not support creating a broadcastable creation`
+          );
       }
-      default:
-        return new Error(`Coin: ${coin} does not support creating a broadcastable creation`);
     }
-  });
+  );
 }
 
 void app.whenReady().then(createWindow);
