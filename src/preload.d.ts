@@ -69,6 +69,7 @@ type Commands = {
       };
       tokenAddress?: string;
       startingScanIndex?: number;
+      seed?: string;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(

@@ -107,9 +107,6 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                scan: Number(values.scan),
-                startingScanIndex: Number(values.startingScanIndex),
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: ['p2wsh'],
               });
               assert(
@@ -164,8 +161,6 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                scan: Number(values.scan),
-                startingScanIndex: Number(values.startingScanIndex),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
@@ -219,14 +214,12 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const chainData = await window.queries.getChain(coin);
-              const { publicKey, secretKey, scan, startingScanIndex, ...rest } =
+              const { publicKey, secretKey, ...rest } =
                 values;
               const durableNonce =
                 publicKey && secretKey ? { publicKey, secretKey } : undefined;
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
-                scan: Number(scan),
-                startingScanIndex: Number(startingScanIndex),
                 durableNonce,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],

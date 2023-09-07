@@ -13,8 +13,7 @@ import {
 const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.number().required(),
-  startingScanIndex: Yup.number().required(),
+  seed: Yup.string(),
 })
   .required()
   .shape(
@@ -50,10 +49,9 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
     initialValues: {
       bitgoKey: '',
       recoveryDestination: '',
-      scan: 20,
-      startingScanIndex: 0,
       publicKey: '',
       secretKey: '',
+      seed: undefined,
     },
     validationSchema,
   });
@@ -84,6 +82,14 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
+            HelperText="Your user seed as found on your KeyCard as Key ID. Most wallets will not have this and you can leave it blank."
+            Label="Seed (optional)"
+            name="seed"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
@@ -105,22 +111,6 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
             Label="Durable Nonce: Secret Key"
             name="secretKey"
             rows={2}
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Label="Address Scanning Factor"
-            name="scan"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="This is the index to start scanning from, typically used to scan more indexes. You can call this recover function again starting from scanIndex + 1."
-            Label="Starting Scan Index"
-            name="startingScanIndex"
             Width="fill"
           />
         </div>

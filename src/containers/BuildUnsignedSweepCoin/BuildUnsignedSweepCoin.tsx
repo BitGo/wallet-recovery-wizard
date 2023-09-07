@@ -843,12 +843,17 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const chainData = await window.queries.getChain(coin);
+              const { publicKey, secretKey } = values;
+              const durableNonce =
+                publicKey && secretKey ? { publicKey, secretKey } : undefined;
               const recoverData = await window.commands.recover(coin, {
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
                 userKey: '',
                 backupKey: '',
                 recoveryDestination: values.recoveryDestination,
+                seed: values.seed,
+                durableNonce,
               });
               assert(
                 isRecoveryTransaction(recoverData),
@@ -914,6 +919,7 @@ function Form() {
                 userKey: '',
                 backupKey: '',
                 recoveryDestination: values.recoveryDestination,
+                seed: values.seed,
               });
               assert(
                 isRecoveryTransaction(recoverData),
