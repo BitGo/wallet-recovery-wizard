@@ -18,9 +18,11 @@ function isBroadcastableTransaction(
   const broadcastableTransaction = json as BroadcastableSweepTransaction;
   return (
     broadcastableTransaction &&
-    broadcastableTransaction.length !== undefined &&
-    broadcastableTransaction.length > 0 &&
-    broadcastableTransaction[0].serializedTx !== undefined
+    broadcastableTransaction.transactions &&
+    broadcastableTransaction.transactions.length !== undefined &&
+    broadcastableTransaction.transactions.length > 0 &&
+    broadcastableTransaction.transactions[0].serializedTx !== undefined &&
+    broadcastableTransaction.lastScanIndex !== undefined
   );
 }
 
