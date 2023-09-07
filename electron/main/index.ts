@@ -309,6 +309,23 @@ async function createWindow() {
     const sdkJson = sdk.toJSON();
     return Promise.resolve(sdkJson.user || sdkJson.token);
   });
+
+  ipcMain.handle('createBroadcastableSweepTransaction', async (event, coin, parameters) => {
+    switch (coin) {
+      // Temporary measure till this is refactored into Basecoin
+      case 'ada':
+      case 'tada':
+      case 'dot':
+      case 'tdot':
+      case 'sol':
+      case 'tsol': {
+        const coinInstance = sdk.coin(coin) as Ada | Tada | Dot | Tdot | Sol | Tsol;
+        return coinInstance.createBroadcastableSweepTransaction(parameters);
+      }
+      default:
+        return new Error(`Coin: ${coin} does not support creating a broadcastable creation`);
+    }
+  });
 }
 
 void app.whenReady().then(createWindow);

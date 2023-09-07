@@ -93,6 +93,12 @@ export function Home() {
                     Description='Build an unsigned transaction to consolidate a wallet without using BitGo.'
                     to={`/${env}/build-unsigned-consolidation`}
                 />
+                <LinkCardItem
+                  Tag={Link}
+                  Title='Create Broadcastable MPC Transaction'
+                  Description='Build a broadcastable MPC transaction without using BitGo.'
+                  to={`/${env}/create-broadcastable-transaction`}
+                />
               </LinkCard>
             </div>
             <div className="md:tw-flex-grow">

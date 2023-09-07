@@ -12,6 +12,7 @@ import { EvmCrossChainRecoveryCoin } from './EvmCrossChainRecoveryCoin';
 import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet';
 import { BuildUnsignedConsolidationIndex } from './BuildUnsignedConsolidation';
 import { BuildUnsignedConsolidationCoin } from '~/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin';
+import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcastableTransaction';
 
 export default function App() {
   return (
@@ -51,6 +52,13 @@ export default function App() {
       >
         <Route index element={<BuildUnsignedConsolidationIndex />} />
         <Route path=":coin" element={<BuildUnsignedConsolidationCoin />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/create-broadcastable-transaction/*"
+        element={<UnauthenticatedPageLayout Title="Create Broadcastable Transaction" Description="This tool will construct a broadcastable transaction given a signed transaction from OVC" />}
+      >
+        <Route index element={<CreateBroadcastableTransactionIndex />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
       <Route
