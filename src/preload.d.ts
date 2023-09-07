@@ -17,7 +17,7 @@ import  type {
 import type { Chain, Hardfork } from '@ethereumjs/common';
 import { contextBridge, ipcRenderer } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
-import { ConsolidationRecoveryBatch, ConsolidationRecoveryOptions } from '@bitgo-beta/sdk-coin-trx';
+import { ConsolidationRecoveryBatch, ConsolidationRecoveryOptions } from '@bitgo/sdk-coin-trx';
 import {
   BroadcastableSweepTransaction,
   createAdaBroadcastableSweepTransactionParameters,
