@@ -1,6 +1,6 @@
-import { Ada, Tada } from '@bitgo-beta/sdk-coin-ada';
-import { Dot, Tdot } from '@bitgo-beta/sdk-coin-dot';
-import { Sol, Tsol } from '@bitgo-beta/sdk-coin-sol';
+import { Ada, Tada } from '@bitgo/sdk-coin-ada';
+import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
+import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 
 export type createAdaBroadcastableSweepTransactionParameters = Parameters<Ada['createBroadcastableSweepTransaction']>[0] | Parameters<Tada['createBroadcastableSweepTransaction']>[0];
 export type createDotBroadcastableSweepTransactionParameters = Parameters<Dot['createBroadcastableSweepTransaction']>[0] | Parameters<Tdot['createBroadcastableSweepTransaction']>[0];
