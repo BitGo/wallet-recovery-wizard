@@ -13,6 +13,7 @@ import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
 import { GenericEcdsaForm } from '~/containers/BuildUnsignedConsolidation/GenericEcdsaForm';
+import { SolForm } from '~/containers/BuildUnsignedConsolidation/SolForm';
 
 type ConsolidationFormProps = {
   coin?: string;
@@ -34,6 +35,62 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
   const navigate = useNavigate();
 
   switch (coin) {
+    case 'sol':
+    case 'tsol': {
+      return (
+        <SolForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const chainData = await window.queries.getChain(coin);
+              const consolidateData =
+                await window.commands.recoverConsolidations(coin, {
+                  ...values,
+                  durableNonces: {
+                    ...values.durableNonces,
+                    publicKeys: values.durableNonces.publicKeys.split(',').map((v) => v.trim()),
+                  }
+                });
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateData, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    }
     case 'ada':
     case 'tada':
     case 'dot':
@@ -43,7 +100,6 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              //TODO: Add support for strict type checking
               await window.commands.setBitGoEnvironment(environment);
               const chainData = await window.queries.getChain(coin);
               const consolidateData =

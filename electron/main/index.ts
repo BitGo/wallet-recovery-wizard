@@ -249,11 +249,23 @@ async function createWindow() {
         case 'tada':
         case 'dot':
         case 'tdot': {
-          const mpcCoin = sdk.coin(coin) as
-            | Ada
-            | Tada
-            | Dot
-            | Tdot;
+          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot;
+          return await mpcCoin.recoverConsolidations(params);
+        }
+        case 'sol':
+        case 'tsol': {
+          if (
+            !('durableNonces' in params) ||
+            params.durableNonces.publicKeys === undefined ||
+            !params.durableNonces.publicKeys.length ||
+            params.durableNonces.secretKey === undefined ||
+            params.durableNonces.secretKey === ''
+          ) {
+            throw new Error(
+              'Missing Durable Nonces for Solana Recovery Consolidation'
+            );
+          }
+          const mpcCoin = sdk.coin(coin) as Sol | Tsol;
           return await mpcCoin.recoverConsolidations(params);
         }
         case 'trx':

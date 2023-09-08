@@ -8,6 +8,11 @@ const validationSchema = Yup.object({
   backupKey: Yup.string(),
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string(),
+  durableNonces: Yup.object({
+    // TODO: Figure out how to transform this into a string array via Yup
+    publicKeys: Yup.string().required(),
+    secretKey: Yup.string().required(),
+  }).required(),
   startingScanIndex: Yup.number(),
   endingScanIndex: Yup.number().moreThan(
     Yup.ref('startingScanIndex'),
@@ -16,29 +21,32 @@ const validationSchema = Yup.object({
   seed: Yup.string(),
 }).required();
 
-export type EcdsaFormValues =  Yup.Asserts<typeof validationSchema>;
+export type SolFormValues = Yup.Asserts<typeof validationSchema>;
 
-export type GenericEcdsaFormValues = {
+export type SolFormProps = {
   onSubmit: (
-    values: EcdsaFormValues,
-    formikHelpers: FormikHelpers<EcdsaFormValues>
+    values: SolFormValues,
+    formikHelpers: FormikHelpers<SolFormValues>
   ) => void | Promise<void>;
-}
+};
 
-export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
-
-  const formik = useFormik<EcdsaFormValues>({
+export function SolForm({ onSubmit }: SolFormProps) {
+  const formik = useFormik<SolFormValues>({
     onSubmit,
     initialValues: {
       userKey: '',
       backupKey: '',
       bitgoKey: '',
       walletPassphrase: '',
+      durableNonces: {
+        publicKeys: '',
+        secretKey: '',
+      },
       startingScanIndex: 1,
       endingScanIndex: 21,
       seed: undefined,
-    }
-  })
+    },
+  });
 
   return (
     <FormikProvider value={formik}>
@@ -75,6 +83,23 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
             HelperText="Your wallet passphrase, required for hot wallets."
             Label="Wallet Passphrase (optional)"
             name="walletPassphrase"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextarea
+            HelperText="Public Keys for your durable Nonces"
+            Label="Public Keys (comma separated)"
+            name="durableNonces.publicKeys"
+            Width="fill"
+            value={formik.values.durableNonces.publicKeys}
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Secret Key for your durable Nonces"
+            Label="Secret Key"
+            name="durableNonces.secretKey"
             Width="fill"
           />
         </div>
@@ -118,5 +143,5 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
         </div>
       </Form>
     </FormikProvider>
-  )
+  );
 }

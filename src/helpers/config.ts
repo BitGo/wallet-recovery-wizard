@@ -334,11 +334,13 @@ export const buildUnsignedConsolidationCoins: Record<BitgoEnv, readonly CoinMeta
     allCoinMetas.trx,
     allCoinMetas.ada,
     allCoinMetas.dot,
+    allCoinMetas.sol,
     ],
   test: [
     allCoinMetas.ttrx,
     allCoinMetas.tada,
     allCoinMetas.tdot,
+    allCoinMetas.tsol,
   ]
 }
 
