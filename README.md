@@ -49,6 +49,8 @@ Instructions to do Non-BitGo recovery from hot wallets: [NON_BITGO_RECOVERY.md](
 
 Instructions to do Non-BitGo recovery from cold wallets (Unsigned Sweep): [UNSIGNED_SWEEP.md](UNSIGNED_SWEEP.md)
 
+Instructions to do Non-BitGo consolidate recovery from cold wallets (Unsigned Consolidate Recover): [UNSIGNED_CONSOLIDATE_RECOVER.md](UNSIGNED_CONSOLIDATE_RECOVER.md)
+
 Instructions to decode ETH transactions [DECODE.md](DECODE.MD)
 
 Instructions to obtain durable nonce for SOL transactions [DURABLE_NONCE.md](DURABLE_NONCE.md)
