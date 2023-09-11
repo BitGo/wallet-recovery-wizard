@@ -56,8 +56,8 @@ export function SolForm({ onSubmit }: SolFormProps) {
         </h4>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your user public key, as found on your recovery KeyCard."
-            Label="User Public Key"
+            HelperText="Your user public key, as found on your recovery KeyCard. Required for hot wallets."
+            Label="User Public Key (optional)"
             name="userKey"
             Width="fill"
           />
@@ -72,8 +72,8 @@ export function SolForm({ onSubmit }: SolFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
-            Label="Backup Public Key"
+            HelperText="The backup public key for the wallet, as found on your recovery KeyCard. Required for hot wallets."
+            Label="Backup Public Key (optional)"
             name="backupKey"
             Width="fill"
           />
