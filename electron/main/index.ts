@@ -13,6 +13,7 @@ process.env.PUBLIC = app.isPackaged
 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
+import { Bera, Tbera } from '@bitgo/sdk-coin-bera';
 import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
 import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
 import { Hash, Thash } from '@bitgo/sdk-coin-hash';
@@ -127,6 +128,8 @@ sdk.register('zeta', Zeta.createInstance);
 sdk.register('tzeta', Tzeta.createInstance);
 sdk.register('coreum', Coreum.createInstance);
 sdk.register('tcoreum', Tcoreum.createInstance);
+sdk.register('bera', Bera.createInstance);
+sdk.register('tbera', Tbera.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

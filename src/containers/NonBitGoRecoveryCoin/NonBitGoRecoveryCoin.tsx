@@ -978,6 +978,8 @@ function Form() {
     case 'tzeta':
     case 'coreum':
     case 'tcoreum':
+    case 'bera':
+    case 'tbera':
       return (
         <CosmosForm
           key={coin}
