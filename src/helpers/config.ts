@@ -189,6 +189,12 @@ export const allCoinMetas = {
     Icon: 'coreum',
     value: 'coreum',
   },
+  bera: {
+    Title: 'BERA',
+    Description: 'Bera',
+    Icon: 'bera',
+    value: 'bera',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -339,6 +345,12 @@ export const allCoinMetas = {
     Icon: 'coreum',
     value: 'tcoreum',
   },
+  tbera: {
+    Title: 'TBERA',
+    Description: 'Bera Testnet',
+    Icon: 'bera',
+    value: 'tbera',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<BitgoEnv, readonly CoinMetadata[]> = {
@@ -432,6 +444,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sei,
       allCoinMetas.zeta,
       allCoinMetas.coreum,
+      allCoinMetas.bera,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -457,6 +470,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsei,
       allCoinMetas.tzeta,
       allCoinMetas.tcoreum,
+      allCoinMetas.tbera,
     ] as const,
   };
 
