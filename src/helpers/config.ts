@@ -97,19 +97,25 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'avax',
     value: 'avaxc',
   },
+  avaxcToken: {
+    Title: 'AVAXC TOKEN',
+    Description: 'Avalanche C-Chain Token',
+    Icon: 'avax',
+    value: 'avaxcToken',
+  },
   arbeth: {
     Title: 'ARBETH',
     Description: 'Arbitrum',
     Icon: 'arbeth',
     value: 'arbeth',
-    ApiKeyProvider: 'arbiscan.io'
+    ApiKeyProvider: 'arbiscan.io',
   },
   opeth: {
     Title: 'OPETH',
     Description: 'Optimism',
     Icon: 'opeth',
     value: 'opeth',
-    ApiKeyProvider: 'optimistic.etherscan.io'
+    ApiKeyProvider: 'optimistic.etherscan.io',
   },
   near: {
     Title: 'NEAR',
@@ -269,19 +275,25 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'avax',
     value: 'tavaxc',
   },
+  tavaxcToken: {
+    Title: 'TAVAXC TOKEN',
+    Description: 'Testnet Avalanche C-Chain Token',
+    Icon: 'avax',
+    value: 'tavaxcToken',
+  },
   tarbeth: {
     Title: 'TARBETH',
     Description: 'Arbitrum Sepolia',
     Icon: 'arbeth',
     value: 'tarbeth',
-    ApiKeyProvider: 'arbiscan.io'
+    ApiKeyProvider: 'arbiscan.io',
   },
   topeth: {
     Title: 'TOPETH',
     Description: 'Optimism Sepolia',
     Icon: 'opeth',
     value: 'topeth',
-    ApiKeyProvider: 'optimistic.etherscan.io'
+    ApiKeyProvider: 'optimistic.etherscan.io',
   },
   tnear: {
     Title: 'TNEAR',
@@ -375,20 +387,23 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
 } as const;
 
-export const buildUnsignedConsolidationCoins: Record<BitgoEnv, readonly CoinMetadata[]> = {
+export const buildUnsignedConsolidationCoins: Record<
+  BitgoEnv,
+  readonly CoinMetadata[]
+> = {
   prod: [
     allCoinMetas.trx,
     allCoinMetas.ada,
     allCoinMetas.dot,
     allCoinMetas.sol,
-    ],
+  ],
   test: [
     allCoinMetas.ttrx,
     allCoinMetas.tada,
     allCoinMetas.tdot,
     allCoinMetas.tsol,
-  ]
-}
+  ],
+};
 
 export const buildUnsignedSweepCoins: Record<
   BitgoEnv,
@@ -409,6 +424,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.trx,
     allCoinMetas.eos,
     allCoinMetas.avaxc,
+    allCoinMetas.avaxcToken,
     allCoinMetas.arbeth,
     allCoinMetas.opeth,
     allCoinMetas.polygon,
@@ -427,6 +443,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.ttrx,
     allCoinMetas.teos,
     allCoinMetas.tavaxc,
+    allCoinMetas.tavaxcToken,
     allCoinMetas.tarbeth,
     allCoinMetas.topeth,
     allCoinMetas.tpolygon,
@@ -454,6 +471,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.trx,
       allCoinMetas.eos,
       allCoinMetas.avaxc,
+      allCoinMetas.avaxcToken,
       allCoinMetas.arbeth,
       allCoinMetas.opeth,
       allCoinMetas.near,
@@ -482,6 +500,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.ttrx,
       allCoinMetas.teos,
       allCoinMetas.tavaxc,
+      allCoinMetas.tavaxcToken,
       allCoinMetas.tarbeth,
       allCoinMetas.topeth,
       allCoinMetas.tnear,
@@ -525,13 +544,9 @@ export const evmCrossChainRecoveryCoins: Record<
   BitgoEnv,
   readonly CoinMetadata[]
 > = {
-  prod: [
-    allCoinMetas.polygon,
-  ] as const,
-  test: [
-    allCoinMetas.tpolygon,
-  ] as const
-  };
+  prod: [allCoinMetas.polygon] as const,
+  test: [allCoinMetas.tpolygon] as const,
+};
 
 export type WalletMetadata = {
   Title: string;
@@ -555,13 +570,10 @@ export const allWalletMetas = {
     Description: 'Bitgo managed Custody Wallet',
     value: 'custody',
   },
-}
+};
 
-
-export const evmCrossChainRecoveryWallets:
-WalletMetadata[]
- =  [
+export const evmCrossChainRecoveryWallets: WalletMetadata[] = [
   allWalletMetas.hot,
   allWalletMetas.cold,
-  allWalletMetas.custody
-]
+  allWalletMetas.custody,
+];

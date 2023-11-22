@@ -23,7 +23,7 @@ import { Tia, Ttia } from '@bitgo/sdk-coin-tia';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
-import { AvaxC, TavaxC } from '@bitgo/sdk-coin-avaxc';
+import { AvaxC, TavaxC, AvaxCToken } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
 import { Bcha } from '@bitgo/sdk-coin-bcha';
 import { Bsv } from '@bitgo/sdk-coin-bsv';
@@ -134,6 +134,9 @@ sdk.register('tzeta', Tzeta.createInstance);
 sdk.register('coreum', Coreum.createInstance);
 sdk.register('tcoreum', Tcoreum.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+AvaxCToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 

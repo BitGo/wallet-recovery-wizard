@@ -84,6 +84,8 @@ type Commands = {
         secretKey: string;
       };
       tokenAddress?: string;
+      //TODO(WP-1221): remove and use tokenAddress instead
+      tokenContractAddress?: string;
       startingScanIndex?: number;
       seed?: string;
     }

@@ -16,6 +16,7 @@ import {
 } from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
+import { AvalancheCTokenForm } from './AvalancheCTokenForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
@@ -272,10 +273,7 @@ function Form() {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin
-              );
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const chainData = await window.queries.getChain(coin);
 
               const recoverData = await window.commands.recover(coin, {
@@ -328,6 +326,80 @@ function Form() {
                 console.error(err);
               }
               setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'avaxcToken':
+    case 'tavaxcToken':
+      return (
+        <AvalancheCTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const parentCoin = env === 'test' ? 'tavaxc' : 'avaxc';
+              const chainData = await getTokenChain(
+                values.tokenAddress.toLowerCase(),
+                parentCoin
+              );
+              const recoverData = await window.commands.recover(parentCoin, {
+                ...(await updateKeysFromIds(coin, values)),
+                //TODO(WP-1221): remove and use tokenAddress instead
+                tokenContractAddress: values.tokenAddress.toLowerCase(),
+                gasPrice: toWei(values.gasPrice),
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsForToken(
+                          values.tokenAddress.toLowerCase(),
+                          coin,
+                          values
+                        )),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
             }
           }}
         />
@@ -990,7 +1062,7 @@ export function BuildUnsignedSweepCoin() {
           }}
           coins={buildUnsignedSweepCoins[environment]}
           selectedCoin={coin}
-          helperText={<BackToHomeHelperText env={environment}/>}
+          helperText={<BackToHomeHelperText env={environment} />}
         />
       </div>
       <Form />
