@@ -409,8 +409,7 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment,
-                coin,
-                values.apiKey
+                coin
               );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
