@@ -9,7 +9,6 @@ import {
 } from '~/components';
 
 const validationSchema = Yup.object({
-  apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   gasLimit: Yup.number()
     .typeError('Gas limit must be a number')
@@ -43,7 +42,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
   const formik = useFormik<AvalancheCFormValues>({
     onSubmit,
     initialValues: {
-      apiKey: '',
       backupKey: '',
       gasLimit: 500000,
       gasPrice: 30,
@@ -120,14 +118,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
-            Label="API Key"
-            name="apiKey"
             Width="fill"
           />
         </div>

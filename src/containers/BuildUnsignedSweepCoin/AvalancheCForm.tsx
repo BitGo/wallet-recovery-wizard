@@ -4,7 +4,6 @@ import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
-  apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   backupKeyId: Yup.string(),
   gasLimit: Yup.number()
@@ -36,7 +35,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
   const formik = useFormik<AvalancheCFormValues>({
     onSubmit,
     initialValues: {
-      apiKey: '',
       backupKey: '',
       backupKeyId: '',
       gasLimit: 500000,
@@ -100,14 +98,6 @@ export function AvalancheCForm({ onSubmit }: AvalancheCFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An API-Key Token from snowtrace.com required for Avalanche C-Chain Mainnet recoveries."
-            Label="API Key"
-            name="apiKey"
             Width="fill"
           />
         </div>
