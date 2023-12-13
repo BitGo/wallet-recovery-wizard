@@ -20,7 +20,7 @@ import { CardanoForm } from './CardanoForm';
 import { CosmosForm } from './CosmosForm';
 import { DogecoinForm } from './DogecoinForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
-import { EthereumForm } from './EthereumForm';
+import { EthereumForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolkadotForm } from './PolkadotForm';
@@ -265,9 +265,14 @@ function Form() {
       );
     case 'eth':
     case 'gteth':
+    case 'arbeth':
+    case 'tarbeth':
+    case 'opeth':
+    case 'topeth':
       return (
         <EthereumForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);

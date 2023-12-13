@@ -6,9 +6,11 @@ export type CoinMetadata = {
   Description: string;
   value: string;
   Icon: CryptocurrencyIconProps['Name'];
+  ApiKeyProvider?: string;
+  isTssSupported?: boolean;
 };
 
-export const allCoinMetas = {
+export const allCoinMetas: Record<string, CoinMetadata> = {
   btc: {
     Title: 'BTC',
     Description: 'Bitcoin',
@@ -62,6 +64,8 @@ export const allCoinMetas = {
     Description: 'Ethereum',
     Icon: 'eth',
     value: 'eth',
+    ApiKeyProvider: 'etherscan.com',
+    isTssSupported: true,
   },
   ethw: {
     Title: 'ETHw',
@@ -92,6 +96,20 @@ export const allCoinMetas = {
     Description: 'Avalanche C-Chain',
     Icon: 'avax',
     value: 'avaxc',
+  },
+  arbeth: {
+    Title: 'ARBETH',
+    Description: 'Arbitrum',
+    Icon: 'arbeth',
+    value: 'arbeth',
+    ApiKeyProvider: 'arbiscan.io'
+  },
+  opeth: {
+    Title: 'OPETH',
+    Description: 'Optimism',
+    Icon: 'opeth',
+    value: 'opeth',
+    ApiKeyProvider: 'optimistic.etherscan.io'
   },
   near: {
     Title: 'NEAR',
@@ -224,6 +242,8 @@ export const allCoinMetas = {
     Description: 'Goerli Testnet Ethereum',
     Icon: 'eth',
     value: 'gteth',
+    ApiKeyProvider: 'etherscan.com',
+    isTssSupported: true,
   },
   gterc20: {
     Title: 'GTERC',
@@ -248,6 +268,20 @@ export const allCoinMetas = {
     Description: 'Testnet Avalanche C-Chain',
     Icon: 'avax',
     value: 'tavaxc',
+  },
+  tarbeth: {
+    Title: 'TARBETH',
+    Description: 'Arbitrum Sepolia',
+    Icon: 'arbeth',
+    value: 'tarbeth',
+    ApiKeyProvider: 'arbiscan.io'
+  },
+  topeth: {
+    Title: 'TOPETH',
+    Description: 'Optimism Sepolia',
+    Icon: 'opeth',
+    value: 'topeth',
+    ApiKeyProvider: 'optimistic.etherscan.io'
   },
   tnear: {
     Title: 'TNEAR',
@@ -375,6 +409,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.trx,
     allCoinMetas.eos,
     allCoinMetas.avaxc,
+    allCoinMetas.arbeth,
+    allCoinMetas.opeth,
     allCoinMetas.polygon,
     allCoinMetas.bcha,
     allCoinMetas.doge,
@@ -391,6 +427,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.ttrx,
     allCoinMetas.teos,
     allCoinMetas.tavaxc,
+    allCoinMetas.tarbeth,
+    allCoinMetas.topeth,
     allCoinMetas.tpolygon,
     allCoinMetas.tdoge,
     allCoinMetas.tsol,
@@ -416,6 +454,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.trx,
       allCoinMetas.eos,
       allCoinMetas.avaxc,
+      allCoinMetas.arbeth,
+      allCoinMetas.opeth,
       allCoinMetas.near,
       allCoinMetas.dot,
       allCoinMetas.sol,
@@ -442,6 +482,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.ttrx,
       allCoinMetas.teos,
       allCoinMetas.tavaxc,
+      allCoinMetas.tarbeth,
+      allCoinMetas.topeth,
       allCoinMetas.tnear,
       allCoinMetas.tdot,
       allCoinMetas.tsol,

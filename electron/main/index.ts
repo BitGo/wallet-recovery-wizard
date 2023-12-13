@@ -13,6 +13,7 @@ process.env.PUBLIC = app.isPackaged
 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
+import { Arbeth, Tarbeth } from '@bitgo/sdk-coin-arbeth';
 import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
 import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
 import { Hash, Thash } from '@bitgo/sdk-coin-hash';
@@ -36,6 +37,7 @@ import { Erc20Token, Eth, Gteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Opeth, Topeth } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
@@ -97,6 +99,10 @@ sdk.register('trx', Trx.createInstance);
 sdk.register('ttrx', Ttrx.createInstance);
 sdk.register('avaxc', AvaxC.createInstance);
 sdk.register('tavaxc', TavaxC.createInstance);
+sdk.register('arbeth', Arbeth.createInstance);
+sdk.register('tarbeth', Tarbeth.createInstance);
+sdk.register('opeth', Opeth.createInstance);
+sdk.register('topeth', Topeth.createInstance);
 sdk.register('near', Near.createInstance);
 sdk.register('tnear', TNear.createInstance);
 sdk.register('dot', Dot.createInstance);
@@ -228,6 +234,14 @@ async function createWindow() {
         case 'avaxc':
         case 'tavaxc':
           sdk = new BitGoAPI({ env: environment, snowtraceApiToken: apiKey });
+          break;
+        case 'arbeth':
+        case 'tarbeth':
+          sdk = new BitGoAPI({ env: environment, arbiscanApiToken: apiKey });
+          break;
+        case 'opeth':
+        case 'topeth':
+          sdk = new BitGoAPI({ env: environment, optimisticEtherscanApiToken: apiKey });
           break;
         case 'polygon':
         case 'tpolygon':

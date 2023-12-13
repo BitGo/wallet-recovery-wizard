@@ -20,7 +20,7 @@ import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { Erc20TokenForm } from './Erc20TokenForm';
-import { EthereumForm } from './EthereumForm';
+import { EthLikeForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
@@ -107,9 +107,14 @@ function Form() {
       );
     case 'eth':
     case 'gteth':
+    case 'arbeth':
+    case 'tarbeth':
+    case 'opeth':
+    case 'topeth':
       return (
-        <EthereumForm
+        <EthLikeForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);

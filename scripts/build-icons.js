@@ -33,6 +33,8 @@ const coins = [
   'sei',
   'zeta',
   'coreum',
+  'arbeth',
+  'opeth'
 ];
 
 const paths = fs
