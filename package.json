@@ -99,8 +99,8 @@
     "vitest": "0.25.5"
   },
   "engines": {
-    "node": "16.15.0",
-    "npm": "8.5.5"
+    "node": "20.10.0",
+    "npm": "10.2.3"
   },
   "keywords": [],
   "license": "Apache-2.0",
@@ -125,5 +125,22 @@
     "storybook:test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx start-storybook --ci -p 6006\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
     "test": "vitest"
   },
-  "version": "4.21.0"
+  "version": "4.21.0",
+  "overrides": {
+    "@polkadot/api": "10.9.1",
+    "@polkadot/x-fetch": "12.3.2",
+    "@polkadot/keyring": "12.3.2",
+    "@polkadot/networks": "12.3.2",
+    "@polkadot/types": "10.9.1",
+    "@polkadot/util": "12.3.2",
+    "@polkadot/util-crypto": "12.3.2",
+    "@polkadot/wasm-crypto": "7.2.1",
+    "@polkadot/wasm-util": "7.2.1",
+    "@polkadot/x-bigint": "12.3.2",
+    "@polkadot/x-global": "12.3.2",
+    "@polkadot/x-randomvalues": "12.3.2",
+    "@polkadot/x-ws": "12.3.2",
+    "@substrate/txwrapper-core": "7.0.1",
+    "@substrate/txwrapper-polkadot": "7.0.1"
+  }
 }
