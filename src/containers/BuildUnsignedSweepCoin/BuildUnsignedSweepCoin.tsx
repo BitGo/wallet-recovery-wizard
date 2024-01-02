@@ -107,7 +107,7 @@ function Form() {
         />
       );
     case 'eth':
-    case 'gteth':
+    case 'hteth':
     case 'arbeth':
     case 'tarbeth':
     case 'opeth':
@@ -815,7 +815,7 @@ function Form() {
         />
       );
     case 'erc20':
-    case 'gterc20':
+    case 'hterc20':
       return (
         <Erc20TokenForm
           key={coin}
@@ -828,7 +828,7 @@ function Form() {
                 coin,
                 values.apiKey
               );
-              const parentCoin = env === 'test' ? 'gteth' : 'eth';
+              const parentCoin = env === 'test' ? 'hteth' : 'eth';
               const chainData = await getTokenChain(
                 values.tokenAddress.toLowerCase(),
                 parentCoin
@@ -850,7 +850,7 @@ function Form() {
                     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 5,
+                    chain: bitGoEnvironment === 'prod' ? 1 : 17000,
                     hardfork: 'london',
                   },
                   bitgoKey: '',
@@ -881,13 +881,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                        ...recoverData,
-                        ...(await includePubsForToken(
-                          values.tokenAddress.toLowerCase(),
-                          coin,
-                          values
-                        )),
-                      }
+                      ...recoverData,
+                      ...(await includePubsForToken(
+                        values.tokenAddress.toLowerCase(),
+                        coin,
+                        values
+                      )),
+                    }
                     : recoverData,
                   null,
                   2
