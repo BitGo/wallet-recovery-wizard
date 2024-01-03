@@ -1,0 +1,31 @@
+name: on_pr_edit
+run-name: 'on_pr_edit: ${{ github.ref_name }}'
+
+on:
+  pull_request:
+    types:
+      - edited
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  run-scan:
+    name: Trigger Renovate Scan
+    if:
+      ${{ contains(github.event.pull_request.body, '[x] <!-- rebase-check -->')
+      && github.event.pull_request.user.login == 'bitgo-renovate-bot[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: trigger-renovate-scan
+        uses: BitGo/gha-renovate-bot@master
+        with:
+          target-base-branch: master
+          target-repository: ${{ github.repository }}
+          caller-pr: ${{ github.event.pull_request.number }}
+          trigger-token: ${{ secrets.BITGOBOT_RENOVATE_ACTIONS_GITHUB_TOKEN }} # Should be a PAT
