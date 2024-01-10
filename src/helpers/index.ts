@@ -37,7 +37,7 @@ export function getEthLikeRecoveryChainId(
   coinName: string,
   bitGoEnvironment: string
 ) {
-  return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 5;
+  return coinName === 'ethw' ? 10001 : bitGoEnvironment === 'prod' ? 1 : 17000;
 }
 
 export type BitgoEnv = 'prod' | 'test';
