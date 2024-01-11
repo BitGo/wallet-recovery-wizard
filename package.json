@@ -125,7 +125,7 @@
     "storybook:test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx start-storybook --ci -p 6006\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
     "test": "vitest"
   },
-  "version": "4.21.0",
+  "version": "4.22.0",
   "overrides": {
     "@polkadot/api": "10.9.1",
     "@polkadot/x-fetch": "12.3.2",
