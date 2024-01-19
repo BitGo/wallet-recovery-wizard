@@ -236,7 +236,7 @@ async function createWindow() {
           break;
         case 'avaxc':
         case 'tavaxc':
-          sdk = new BitGoAPI({ env: environment, snowtraceApiToken: apiKey });
+          sdk = new BitGoAPI({ env: environment });
           break;
         case 'arbeth':
         case 'tarbeth':
@@ -244,7 +244,10 @@ async function createWindow() {
           break;
         case 'opeth':
         case 'topeth':
-          sdk = new BitGoAPI({ env: environment, optimisticEtherscanApiToken: apiKey });
+          sdk = new BitGoAPI({
+            env: environment,
+            optimisticEtherscanApiToken: apiKey,
+          });
           break;
         case 'polygon':
         case 'tpolygon':

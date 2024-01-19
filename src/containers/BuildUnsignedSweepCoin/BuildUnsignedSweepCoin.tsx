@@ -342,13 +342,12 @@ function Form() {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = env === 'test' ? 'tavaxc' : 'avaxc';
               const chainData = await getTokenChain(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin
               );
               const recoverData = await window.commands.recover(parentCoin, {
                 ...(await updateKeysFromIds(coin, values)),
-                //TODO(WP-1221): remove and use tokenAddress instead
-                tokenContractAddress: values.tokenAddress.toLowerCase(),
+                tokenContractAddress: values.tokenContractAddress.toLowerCase(),
                 gasPrice: toWei(values.gasPrice),
                 bitgoKey: '',
                 ignoreAddressTypes: [],
@@ -379,7 +378,7 @@ function Form() {
                     ? {
                         ...recoverData,
                         ...(await includePubsForToken(
-                          values.tokenAddress.toLowerCase(),
+                          values.tokenContractAddress.toLowerCase(),
                           coin,
                           values
                         )),
@@ -830,18 +829,18 @@ function Form() {
               );
               const parentCoin = env === 'test' ? 'hteth' : 'eth';
               const chainData = await getTokenChain(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                 await updateKeysFromIdsWithToken(
-                  values.tokenAddress.toLowerCase(),
+                  values.tokenContractAddress.toLowerCase(),
                   parentCoin,
                   values
                 );
 
               const recoverData = await recoverWithToken(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin,
                 {
                   ...rest,
@@ -881,13 +880,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsForToken(
-                        values.tokenAddress.toLowerCase(),
-                        coin,
-                        values
-                      )),
-                    }
+                        ...recoverData,
+                        ...(await includePubsForToken(
+                          values.tokenContractAddress.toLowerCase(),
+                          coin,
+                          values
+                        )),
+                      }
                     : recoverData,
                   null,
                   2

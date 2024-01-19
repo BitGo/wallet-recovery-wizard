@@ -24,7 +24,7 @@ const validationSchema = Yup.object({
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
   recoveryDestination: Yup.string().required(),
-  tokenAddress: Yup.string().required(),
+  tokenContractAddress: Yup.string().required(),
   userKey: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
@@ -45,7 +45,7 @@ export function AvalancheCTokenForm({ onSubmit }: AvalancheCTokenFormProps) {
     initialValues: {
       userKey: '',
       backupKey: '',
-      tokenAddress: '',
+      tokenContractAddress: '',
       walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
@@ -110,7 +110,7 @@ export function AvalancheCTokenForm({ onSubmit }: AvalancheCTokenFormProps) {
           <FormikTextfield
             HelperText="The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address."
             Label="Token Contract Address"
-            name="tokenAddress"
+            name="tokenContractAddress"
             Width="fill"
           />
         </div>

@@ -471,13 +471,12 @@ function Form() {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = env === 'test' ? 'tavaxc' : 'avaxc';
               const chainData = await getTokenChain(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin
               );
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
-                //TODO(WP-1221): remove and use tokenAddress instead
-                tokenContractAddress: values.tokenAddress.toLowerCase(),
+                tokenContractAddress: values.tokenContractAddress.toLowerCase(),
                 gasPrice: toWei(values.gasPrice),
                 bitgoKey: '',
                 ignoreAddressTypes: [],
@@ -962,13 +961,13 @@ function Form() {
               );
               const parentCoin = env === 'test' ? 'hteth' : 'eth';
               const chainData = await getTokenChain(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin
               );
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
               const recoverData = await recoverWithToken(
-                values.tokenAddress.toLowerCase(),
+                values.tokenContractAddress.toLowerCase(),
                 parentCoin,
                 {
                   ...rest,

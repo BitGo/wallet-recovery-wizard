@@ -53,7 +53,7 @@ type Commands = {
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
-  >,
+  >;
   writeFile(
     file: string,
     data: string,
@@ -84,7 +84,7 @@ type Commands = {
         publicKey: string;
         secretKey: string;
       };
-      tokenAddress?: string;
+      tokenContractAddress?: string;
       startingScanIndex?: number;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;

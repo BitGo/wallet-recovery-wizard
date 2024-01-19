@@ -18,7 +18,7 @@ const validationSchema = Yup.object({
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
-  tokenAddress: Yup.string().required(),
+  tokenContractAddress: Yup.string().required(),
   userKey: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
@@ -40,7 +40,7 @@ export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
       apiKey: '',
       userKey: '',
       backupKey: '',
-      tokenAddress: '',
+      tokenContractAddress: '',
       walletContractAddress: '',
       walletPassphrase: '',
       recoveryDestination: '',
@@ -106,7 +106,7 @@ export function Erc20TokenForm({ onSubmit }: Erc20TokenFormProps) {
           <FormikTextfield
             HelperText="The address of the smart contract of the token to recover. This is unique to each token, and is NOT your wallet address."
             Label="Token Contract Address"
-            name="tokenAddress"
+            name="tokenContractAddress"
             Width="fill"
           />
         </div>
