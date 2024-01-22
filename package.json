@@ -142,5 +142,8 @@
     "@polkadot/x-ws": "12.3.2",
     "@substrate/txwrapper-core": "7.0.1",
     "@substrate/txwrapper-polkadot": "7.0.1"
+  },
+  "optionalDependencies": {
+    "dmg-license": "1.0.11"
   }
 }

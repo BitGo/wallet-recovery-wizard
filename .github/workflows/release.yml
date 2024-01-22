@@ -71,8 +71,7 @@ jobs:
       - run: |
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package.json"
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
-      # TODO we should pin that version in the package-lock
-      - run: npm install dmg-license
+      - run: npm ci
       - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
@@ -96,7 +95,7 @@ jobs:
       - run: |
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package.json"
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
-      - run: npm install
+      - run: npm ci
       - run: npm run build -- -wl
       - uses: actions/upload-artifact@v4
         with:
