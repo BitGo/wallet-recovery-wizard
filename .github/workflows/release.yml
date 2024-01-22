@@ -48,7 +48,7 @@ jobs:
               https://api.github.com/repos/BitGo/wallet-recovery-wizard/releases/tags/v${{ env.NEXT_VERSION }}
           )
 
-          current_release_name=$(echo "$current_release" | jq ".name")
+          current_release_name=$(echo "$current_release" | jq ".name // empty")
           if [[ -n "$current_release_name" ]]; then
             echo "A release already exists for version ${{ env.NEXT_VERSION }}."
             exit 1
