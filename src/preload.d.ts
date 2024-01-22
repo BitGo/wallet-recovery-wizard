@@ -75,7 +75,7 @@ type Commands = {
         maxPriorityFeePerGas: number;
       };
       replayProtectionOptions?: {
-        chain: 10001 | typeof Chain[keyof typeof Chain];
+        chain: 10001 | 17000 | typeof Chain[keyof typeof Chain];
         hardfork: `${Hardfork}`;
       };
       walletContractAddress?: string;
@@ -83,8 +83,6 @@ type Commands = {
         publicKey: string;
         secretKey: string;
       };
-      tokenAddress?: string;
-      //TODO(WP-1221): remove and use tokenAddress instead
       tokenContractAddress?: string;
       startingScanIndex?: number;
       seed?: string;
