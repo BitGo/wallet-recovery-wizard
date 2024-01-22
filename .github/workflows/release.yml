@@ -1,4 +1,4 @@
-name: on_pr_edit
+name: release
 run-name: 'release: ${{ github.ref_name }}'
 
 on:
