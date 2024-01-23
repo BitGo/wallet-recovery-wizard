@@ -108,7 +108,7 @@
   "name": "wallet-recovery-wizard",
   "private": true,
   "scripts": {
-    "build": "tsc && vite build && electron-builder",
+    "build": "tsc && vite build && electron-builder --publish never",
     "dev": "vite",
     "durable-nonce:build": "node ./scripts/build-durable-nonce",
     "eth-eip1559:decode": "node ./scripts/decode-eth-eip1559",
