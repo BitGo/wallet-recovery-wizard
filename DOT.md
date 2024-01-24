@@ -1,4 +1,4 @@
-Version 4.5.0 of the Wallet Recovery Wizard supports building transactions to recover NEAR from your BitGo Hot and Self-Managed Cold wallets.
+Version 4.5.0 of the Wallet Recovery Wizard supports building transactions to recover DOT from your BitGo Hot and Self-Managed Cold wallets.
 
 Below is a list full node RPC endpoints that must be called to broadcast the transaction as there are no suitable explorers available for DOT.
 
