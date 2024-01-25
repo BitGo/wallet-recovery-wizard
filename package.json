@@ -30,6 +30,7 @@
     "@bitgo/sdk-coin-eth": "20.0.0",
     "@bitgo/sdk-coin-ethw": "17.0.0",
     "@bitgo/sdk-coin-hash": "1.22.0",
+    "@bitgo/sdk-coin-hbar": "1.9.0",
     "@bitgo/sdk-coin-injective": "1.22.0",
     "@bitgo/sdk-coin-ltc": "2.2.29",
     "@bitgo/sdk-coin-near": "1.6.29",

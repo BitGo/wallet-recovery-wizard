@@ -88,16 +88,22 @@ export function Home() {
                   Description="Recover wallet funds sent to wrong chain(evm compatible) for hot/cold/custody wallets."
                 />
                 <LinkCardItem
-                    Tag={Link}
-                    Title='Build Unsigned Consolidation'
-                    Description='Build an unsigned transaction to consolidate a wallet without using BitGo.'
-                    to={`/${env}/build-unsigned-consolidation`}
+                  Tag={Link}
+                  Title="Build Unsigned Consolidation"
+                  Description="Build an unsigned transaction to consolidate a wallet without using BitGo."
+                  to={`/${env}/build-unsigned-consolidation`}
                 />
                 <LinkCardItem
                   Tag={Link}
-                  Title='Create Broadcastable MPC Transaction'
-                  Description='Build a broadcastable MPC transaction without using BitGo.'
+                  Title="Create Broadcastable MPC Transaction"
+                  Description="Build a broadcastable MPC transaction without using BitGo."
                   to={`/${env}/create-broadcastable-transaction`}
+                />
+                <LinkCardItem
+                  Tag={Link}
+                  Title="Broadcast Transaction"
+                  Description="Broadcast a signed transaction to the blockchain, without BitGo."
+                  to={`/${env}/broadcast-transaction`}
                 />
               </LinkCard>
             </div>

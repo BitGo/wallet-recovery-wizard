@@ -1,9 +1,4 @@
-import {
-  AdaRecoveryConsolidationRecoveryOptions,
-  DotRecoveryConsolidationRecoveryOptions,
-  SolRecoveryConsolidationRecoveryOptions,
-  TrxConsolidationRecoveryOptions,
-} from '../types';
+import { TrxConsolidationRecoveryOptions } from '../types';
 
 process.env.DIST_ELECTRON = join(__dirname, '../..');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
@@ -54,6 +49,7 @@ import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
+import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -133,6 +129,8 @@ sdk.register('zeta', Zeta.createInstance);
 sdk.register('tzeta', Tzeta.createInstance);
 sdk.register('coreum', Coreum.createInstance);
 sdk.register('tcoreum', Tcoreum.createInstance);
+sdk.register('hbar', Hbar.createInstance);
+sdk.register('thbar', Thbar.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
@@ -263,6 +261,11 @@ async function createWindow() {
   ipcMain.handle('recover', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     return await baseCoin.recover(parameters);
+  });
+
+  ipcMain.handle('broadcastTransaction', async (event, coin, parameters) => {
+    const baseCoin = sdk.coin(coin);
+    return await baseCoin.broadcastTransaction(parameters);
   });
 
   ipcMain.handle('recoverConsolidations', async (event, coin, params) => {

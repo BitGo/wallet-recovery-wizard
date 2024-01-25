@@ -13,6 +13,9 @@ import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet/EvmCr
 import { BuildUnsignedConsolidationIndex } from './BuildUnsignedConsolidation';
 import { BuildUnsignedConsolidationCoin } from '~/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin';
 import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcastableTransaction';
+import { BroadcastTransactionIndex } from './BroadcastTransactionIndex';
+import { SuccessfulBroadcastTransaction } from './SuccessfulBroadcastTransaction';
+import { BroadcastTransactionCoin } from './BroadcastTransactionCoin';
 
 export default function App() {
   return (
@@ -48,7 +51,12 @@ export default function App() {
       </Route>
       <Route
         path="/:env/build-unsigned-consolidation/*"
-        element={<UnauthenticatedPageLayout Title="Build Unsigned Consolidation" Description="This tool will construct an unsigned consolidation transaction on the wallet you specify without using BitGo." />}
+        element={
+          <UnauthenticatedPageLayout
+            Title="Build Unsigned Consolidation"
+            Description="This tool will construct an unsigned consolidation transaction on the wallet you specify without relying on BitGo"
+          />
+        }
       >
         <Route index element={<BuildUnsignedConsolidationIndex />} />
         <Route path=":coin" element={<BuildUnsignedConsolidationCoin />} />
@@ -56,10 +64,31 @@ export default function App() {
       </Route>
       <Route
         path="/:env/create-broadcastable-transaction/*"
-        element={<UnauthenticatedPageLayout Title="Create Broadcastable Transaction" Description="This tool will construct a broadcastable transaction given a signed transaction from OVC" />}
+        element={
+          <UnauthenticatedPageLayout
+            Title="Create Broadcastable Transaction"
+            Description="This tool will construct a broadcastable transaction given a signed transaction from OVC"
+          />
+        }
       >
         <Route index element={<CreateBroadcastableTransactionIndex />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/broadcast-transaction/*"
+        element={
+          <UnauthenticatedPageLayout
+            Title="Broadcast Transaction"
+            Description="Broadcast a signed transaction to the blockchain, without BitGo"
+          />
+        }
+      >
+        <Route index element={<BroadcastTransactionIndex />} />
+        <Route path=":coin" element={<BroadcastTransactionCoin />} />
+        <Route
+          path=":coin/success"
+          element={<SuccessfulBroadcastTransaction />}
+        />
       </Route>
       <Route
         path="/:env/evm-cross-chain-recovery/*"
