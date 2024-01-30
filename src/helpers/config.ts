@@ -213,6 +213,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'coreum',
     value: 'coreum',
   },
+  hbar: {
+    Title: 'HBAR',
+    Description: 'Hedera',
+    Icon: 'hbar',
+    value: 'hbar',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -385,6 +391,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'coreum',
     value: 'tcoreum',
   },
+  thbar: {
+    Title: 'THBAR',
+    Description: 'Hedera Testnet',
+    Icon: 'hbar',
+    value: 'thbar',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -433,6 +445,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.sol,
     allCoinMetas.ada,
     allCoinMetas.dot,
+    allCoinMetas.hbar,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -451,6 +464,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsol,
     allCoinMetas.tada,
     allCoinMetas.tdot,
+    allCoinMetas.thbar,
   ] as const,
 };
 
@@ -490,6 +504,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sei,
       allCoinMetas.zeta,
       allCoinMetas.coreum,
+      allCoinMetas.hbar,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -518,6 +533,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsei,
       allCoinMetas.tzeta,
       allCoinMetas.tcoreum,
+      allCoinMetas.thbar,
     ] as const,
   };
 
@@ -546,6 +562,14 @@ export const evmCrossChainRecoveryCoins: Record<
 > = {
   prod: [allCoinMetas.polygon] as const,
   test: [allCoinMetas.tpolygon] as const,
+};
+
+export const broadcastTransactionCoins: Record<
+  BitgoEnv,
+  readonly CoinMetadata[]
+> = {
+  prod: [allCoinMetas.hbar] as const,
+  test: [allCoinMetas.thbar] as const,
 };
 
 export type WalletMetadata = {

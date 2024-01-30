@@ -18,6 +18,8 @@ import {
   AdaRecoveryConsolidationRecoveryBatch,
   AdaRecoveryConsolidationRecoveryOptions,
   BroadcastableSweepTransaction,
+  BroadcastTransactionResult,
+  BroadcastTransactionOptions,
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
@@ -32,6 +34,10 @@ import {
 type User = { username: string };
 
 type Commands = {
+  broadcastTransaction(
+    coin: string,
+    options: BroadcastTransactionOptions
+  ): Promise<Error | BroadcastTransactionResult>;
   createBroadcastableSweepTransaction(
     coin: string,
     parameters:
@@ -140,6 +146,9 @@ const queries: Queries = {
 };
 
 const commands: Commands = {
+  broadcastTransaction(coin: string, options: BroadcastTransactionOptions) {
+    return ipcRenderer.invoke('broadcastTransaction', coin, options);
+  },
   recoverConsolidations(
     coin: string,
     params:
