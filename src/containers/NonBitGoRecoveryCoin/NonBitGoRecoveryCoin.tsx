@@ -53,7 +53,7 @@ function Form() {
                 ...values,
                 scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: ['p2wsh'],
+                ignoreAddressTypes: [],
               });
               assert(
                 isRecoveryTransaction(recoverData),
@@ -109,7 +109,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                ignoreAddressTypes: ['p2wsh'],
+                ignoreAddressTypes: [],
               });
               assert(
                 isRecoveryTransaction(recoverData),
@@ -1055,7 +1055,7 @@ function Form() {
                 scan: Number(values.scan),
                 startingScanIndex: Number(values.startingScanIndex),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: ['p2wsh'],
+                ignoreAddressTypes: [],
               });
               assert(
                 isRecoveryTransaction(recoverData),
