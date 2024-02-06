@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
+  FormikPasswordfield,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
@@ -109,11 +110,10 @@ export function EthereumForm({ onSubmit, coinName }: EthLikeFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>
@@ -127,7 +127,9 @@ export function EthereumForm({ onSubmit, coinName }: EthLikeFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText={`An Api-Key Token from ${allCoinMetas[coinName].ApiKeyProvider ?? 'etherscan.com'} required for recoveries.`}
+            HelperText={`An Api-Key Token from ${
+              allCoinMetas[coinName].ApiKeyProvider ?? 'etherscan.com'
+            } required for recoveries.`}
             Label="API Key"
             name="apiKey"
             Width="fill"
@@ -157,14 +159,14 @@ export function EthereumForm({ onSubmit, coinName }: EthLikeFormProps) {
             Width="fill"
           />
         </div>
-         {allCoinMetas[coinName].isTssSupported &&
-        <div className="tw-mb-4" role="group">
-          <label>
-            <Field type="checkbox" name="isTss" />
-            Is TSS recovery?
-          </label>
-        </div>
-        }
+        {allCoinMetas[coinName].isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

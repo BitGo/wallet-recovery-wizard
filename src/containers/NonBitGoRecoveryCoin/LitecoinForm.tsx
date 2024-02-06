@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
+  FormikPasswordfield,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
@@ -98,11 +99,10 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
+  FormikPasswordfield,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
@@ -94,11 +95,10 @@ export function TronForm({ onSubmit }: TronFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>
