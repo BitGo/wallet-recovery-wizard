@@ -1,14 +1,15 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
+  FormikPasswordfield,
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
-import {useAlertBanner} from "~/contexts";
-import {useEffect} from "react";
+import { useAlertBanner } from '~/contexts';
 
 const validationSchema = Yup.object({
   backupKey: Yup.string().required(),
@@ -62,10 +63,12 @@ export function EthereumWForm({ onSubmit }: EthereumWFormProps) {
   const [, setAlert] = useAlertBanner();
 
   useEffect(() => {
-    setAlert("It appears you are trying to recover ETHw. Please be warned that completing this recovery flow exposes wallets on other EVM networks like Ethereum to some risk. \n" +
-      "\n" +
-      "If you are recovering from an ETHw address that shares an address as another BitGo ETH wallet, please ensure that all funds have been moved out of the corresponding ETH wallet. For example, if you are recovering ETHw from 0xabc.. , please ensure that there is no mainnet ETH on 0xabc... before submitting your recovery request.")
-  }, [setAlert])
+    setAlert(
+      'It appears you are trying to recover ETHw. Please be warned that completing this recovery flow exposes wallets on other EVM networks like Ethereum to some risk. \n' +
+        '\n' +
+        'If you are recovering from an ETHw address that shares an address as another BitGo ETH wallet, please ensure that all funds have been moved out of the corresponding ETH wallet. For example, if you are recovering ETHw from 0xabc.. , please ensure that there is no mainnet ETH on 0xabc... before submitting your recovery request.'
+    );
+  }, [setAlert]);
 
   return (
     <FormikProvider value={formik}>
@@ -113,11 +116,10 @@ export function EthereumWForm({ onSubmit }: EthereumWFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>

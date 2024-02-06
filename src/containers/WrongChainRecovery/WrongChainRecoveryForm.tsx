@@ -1,7 +1,7 @@
 import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, FormikTextfield } from '~/components';
+import { Button, FormikPasswordfield, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   signTransaction: Yup.bool().default(false).required(),
@@ -104,10 +104,9 @@ export function WrongChainRecoveryForm({
         {formik.values.signTransaction && (
           <>
             <div className="tw-mb-4">
-              <FormikTextfield
+              <FormikPasswordfield
                 HelperText={`The wallet passphrase of the ${destinationCoin} wallet that received the source coin. You can leave this blank if you know the private key.`}
                 Label="Wallet Passphrase"
-                type="password"
                 name="walletPassphrase"
                 Width="fill"
               />

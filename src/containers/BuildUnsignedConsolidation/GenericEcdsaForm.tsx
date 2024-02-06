@@ -1,7 +1,12 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import {
+  Button,
+  FormikPasswordfield,
+  FormikTextarea,
+  FormikTextfield,
+} from '~/components';
 
 const validationSchema = Yup.object({
   userKey: Yup.string(),
@@ -16,17 +21,16 @@ const validationSchema = Yup.object({
   seed: Yup.string(),
 }).required();
 
-export type EcdsaFormValues =  Yup.Asserts<typeof validationSchema>;
+export type EcdsaFormValues = Yup.Asserts<typeof validationSchema>;
 
 export type GenericEcdsaFormValues = {
   onSubmit: (
     values: EcdsaFormValues,
     formikHelpers: FormikHelpers<EcdsaFormValues>
   ) => void | Promise<void>;
-}
+};
 
 export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
-
   const formik = useFormik<EcdsaFormValues>({
     onSubmit,
     initialValues: {
@@ -37,8 +41,8 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
       startingScanIndex: 1,
       endingScanIndex: 21,
       seed: undefined,
-    }
-  })
+    },
+  });
 
   return (
     <FormikProvider value={formik}>
@@ -71,7 +75,7 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="Your wallet passphrase, required for hot wallets."
             Label="Wallet Passphrase (optional)"
             name="walletPassphrase"
@@ -118,5 +122,5 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
         </div>
       </Form>
     </FormikProvider>
-  )
+  );
 }

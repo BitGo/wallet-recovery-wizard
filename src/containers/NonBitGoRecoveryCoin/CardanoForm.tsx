@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikSelectfield,
+  FormikPasswordfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
@@ -81,11 +81,10 @@ export function CardanoForm({ onSubmit }: CardanoFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="The passphrase of the wallet."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>

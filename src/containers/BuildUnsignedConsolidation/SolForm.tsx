@@ -1,7 +1,12 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import {
+  Button,
+  FormikPasswordfield,
+  FormikTextarea,
+  FormikTextfield,
+} from '~/components';
 
 const validationSchema = Yup.object({
   userKey: Yup.string(),
@@ -79,7 +84,7 @@ export function SolForm({ onSubmit }: SolFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="Your wallet passphrase, required for hot wallets."
             Label="Wallet Passphrase (optional)"
             name="walletPassphrase"

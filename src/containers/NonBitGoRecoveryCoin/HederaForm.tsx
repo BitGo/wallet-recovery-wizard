@@ -1,7 +1,12 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import { Button, FormikTextarea, FormikTextfield } from '~/components';
+import {
+  Button,
+  FormikPasswordfield,
+  FormikTextarea,
+  FormikTextfield,
+} from '~/components';
 
 const validationSchema = Yup.object({
   userKey: Yup.string().required(),
@@ -75,11 +80,10 @@ export function HederaForm({ onSubmit }: HederaFormProps) {
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
+          <FormikPasswordfield
             HelperText="Your wallet passphrase."
             Label="Wallet Passphrase"
             name="walletPassphrase"
-            type="password"
             Width="fill"
           />
         </div>
