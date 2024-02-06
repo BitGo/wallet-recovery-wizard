@@ -11,7 +11,7 @@
   "dependencies": {
     "@bitgo/abstract-cosmos": "7.0.0",
     "@bitgo/abstract-utxo": "5.0.0",
-    "@bitgo/sdk-api": "1.40.0",
+    "@bitgo/sdk-api": "1.41.0",
     "@bitgo/sdk-coin-ada": "2.33.0",
     "@bitgo/sdk-coin-arbeth": "17.0.0",
     "@bitgo/sdk-coin-atom": "9.0.0",
