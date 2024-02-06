@@ -16,6 +16,8 @@ import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcas
 import { BroadcastTransactionIndex } from './BroadcastTransactionIndex';
 import { SuccessfulBroadcastTransaction } from './SuccessfulBroadcastTransaction';
 import { BroadcastTransactionCoin } from './BroadcastTransactionCoin';
+import { NonBitGoUndelegationIndex } from './NonBitGoUndelegationIndex';
+import { NonBitGoUndelegationCoin } from './NonBitgoUndelegationCoin';
 
 export default function App() {
   return (
@@ -34,6 +36,18 @@ export default function App() {
         <Route index element={<NonBitGoRecoveryIndex />} />
         <Route path=":coin" element={<NonBitGoRecoveryCoin />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/non-bitgo-undelegation/*"
+        element={
+          <UnauthenticatedPageLayout
+            Title="Non-BitGo Undelegation"
+            Description="Use your self-managed hot wallet recovery key card to undelegate without relying on BitGo."
+          />
+        }
+      >
+        <Route index element={<NonBitGoUndelegationIndex />} />
+        <Route path=":coin" element={<NonBitGoUndelegationCoin />} />
       </Route>
       <Route
         path="/:env/build-unsigned-sweep/*"

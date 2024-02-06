@@ -77,6 +77,12 @@ export function Home() {
                 />
                 <LinkCardItem
                   Tag={Link}
+                  to={`/${env}/non-bitgo-undelegation`}
+                  Title="Non-BitGo Undelegation"
+                  Description="Delegate (sign a transaction without BitGo)."
+                />
+                <LinkCardItem
+                  Tag={Link}
                   to={`/${env}/build-unsigned-sweep`}
                   Title="Build Unsigned Sweep"
                   Description="Build an unsigned transaction to sweep a wallet without using BitGo."
