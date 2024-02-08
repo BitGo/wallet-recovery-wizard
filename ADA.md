@@ -26,23 +26,22 @@ const axiosConfig = {
   headers: {
     'Content-Type': 'application/cbor',
   },
-  timeout: 10000,
+  timeout: 50000,
 };
 
 // Mainnet = https://api.koios.rest/api/v1/submittx
 // Testnet = https://preprod.koios.rest/api/v1/submittx
 const url = 'https://preprod.koios.rest/api/v1/submittx';
 
-const serializedSignedTx = '84a...5f6';
+const serializedSignedTx = '84a..af6';
 
-const bytes = Uint8Array.from(Buffer.from(serializedSignedTx, 'hex'));
-
-try {
+async function main() {
+  const bytes = Uint8Array.from(Buffer.from(serializedSignedTx, 'hex'));
   const res = await axios.post(url, bytes, axiosConfig);
   console.log(res.data);
-} catch (err) {
-  console.log(err);
 }
+
+main().catch(console.error);
 ```
 
 - Run the following command to execute the script:
