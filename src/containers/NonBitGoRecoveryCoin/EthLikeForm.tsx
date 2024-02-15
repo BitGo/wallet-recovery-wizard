@@ -46,7 +46,7 @@ export function EthereumForm({ onSubmit, coinName }: EthLikeFormProps) {
     initialValues: {
       apiKey: '',
       backupKey: '',
-      gasLimit: 500000,
+      gasLimit: allCoinMetas[coinName]?.defaultGasLimitNum ?? 500000,
       krsProvider: '',
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
@@ -137,7 +137,11 @@ export function EthereumForm({ onSubmit, coinName }: EthLikeFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
+            HelperText={`Gas limit for the ETH transaction. The value should be between ${
+              allCoinMetas[coinName].minGasLimit ?? '30,000'
+            } and 20,000,000. The default is ${
+              allCoinMetas[coinName].defaultGasLimit ?? '500,000'
+            } unit of gas.`}
             Label="Gas limit"
             name="gasLimit"
             Width="fill"

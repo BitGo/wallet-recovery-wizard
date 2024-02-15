@@ -11,7 +11,7 @@ import {
   safeEnv,
   toWei,
 } from '~/helpers';
-import { nonBitgoRecoveryCoins } from '~/helpers/config';
+import { nonBitgoRecoveryCoins, tokenParentCoins } from '~/helpers/config';
 import { AvalancheCForm } from './AvalancheCForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
@@ -19,7 +19,7 @@ import { BitcoinForm } from './BitcoinForm';
 import { CardanoForm } from './CardanoForm';
 import { CosmosForm } from './CosmosForm';
 import { DogecoinForm } from './DogecoinForm';
-import { Erc20TokenForm } from './Erc20TokenForm';
+import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthereumForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
@@ -948,9 +948,14 @@ function Form() {
       );
     case 'erc20':
     case 'hterc20':
+    case 'arbethToken':
+    case 'tarbethToken':
+    case 'opethToken':
+    case 'topethToken':
       return (
-        <Erc20TokenForm
+        <EthLikeTokenForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -960,7 +965,7 @@ function Form() {
                 coin,
                 values.apiKey
               );
-              const parentCoin = env === 'test' ? 'hteth' : 'eth';
+              const parentCoin = tokenParentCoins[coin];
               const chainData = await getTokenChain(
                 values.tokenContractAddress.toLowerCase(),
                 parentCoin

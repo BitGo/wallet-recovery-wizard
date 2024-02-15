@@ -8,7 +8,7 @@ process.env.PUBLIC = app.isPackaged
 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
-import { Arbeth, Tarbeth } from '@bitgo/sdk-coin-arbeth';
+import { Arbeth, Tarbeth, ArbethToken } from '@bitgo/sdk-coin-arbeth';
 import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
 import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
 import { Hash, Thash } from '@bitgo/sdk-coin-hash';
@@ -32,7 +32,7 @@ import { Erc20Token, Eth, Hteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
-import { Opeth, Topeth } from '@bitgo/sdk-coin-opeth';
+import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
@@ -135,6 +135,12 @@ Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 AvaxCToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+ArbethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+OpethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
