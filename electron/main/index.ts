@@ -50,6 +50,7 @@ import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
+import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -131,6 +132,8 @@ sdk.register('coreum', Coreum.createInstance);
 sdk.register('tcoreum', Tcoreum.createInstance);
 sdk.register('hbar', Hbar.createInstance);
 sdk.register('thbar', Thbar.createInstance);
+sdk.register('algo', Algo.createInstance)
+sdk.register('talgo', Talgo.createInstance)
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });

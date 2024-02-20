@@ -219,6 +219,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'hbar',
     value: 'hbar',
   },
+  algo: {
+    Title: 'ALGO',
+    Description: 'Algorand',
+    Icon: 'algo',
+    value: 'algo',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -397,6 +403,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'hbar',
     value: 'thbar',
   },
+  talgo: {
+    Title: 'TALGO',
+    Description: 'Algorand Testnet',
+    Icon: 'algo',
+    value: 'talgo',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -505,6 +517,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.zeta,
       allCoinMetas.coreum,
       allCoinMetas.hbar,
+      allCoinMetas.algo,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -534,6 +547,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tzeta,
       allCoinMetas.tcoreum,
       allCoinMetas.thbar,
+      allCoinMetas.talgo,
     ] as const,
   };
 

@@ -36,6 +36,7 @@ const coins = [
   'arbeth',
   'opeth',
   'hbar',
+  'algo',
 ];
 
 const paths = fs
