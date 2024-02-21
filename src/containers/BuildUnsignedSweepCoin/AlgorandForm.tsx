@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikPasswordfield,
-  FormikTextarea,
   FormikTextfield,
 } from '~/components';
 
@@ -13,10 +11,14 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   rootAddress: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
+  bitgoKey: Yup.string().optional(),
   walletPassphrase: Yup.string().optional(),
   fee: Yup.number().required(),
-  firstRound: Yup.number().optional(),
+  firstRound: Yup.number().optional()
+    .typeError('firstRound must be a number')
+    .integer()
+    .positive('firstRound must be a positive integer')
+    .required(),
   note: Yup.string().optional(),
   nodeParams: Yup.object({
     token: Yup.string().required(),
@@ -63,29 +65,18 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
           Self-Managed Hot Wallet
         </h4>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted user key (box A of the KeyCard)."
-            Label="Encrypted User Key"
+          <FormikTextfield
+            HelperText="Your public user key (box A on your KeyCard)"
+            Label="Public User Key"
             name="userKey"
-            rows={4}
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Your encrypted backup key (box B of the KeyCard)."
-            Label="Encrypted Backup Key"
+          <FormikTextfield
+            HelperText="Your public backup key (box B on your KeyCard)"
+            Label="Backup Public Key"
             name="backupKey"
-            rows={4}
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextarea
-            HelperText="Bitgo Public key (box C of the KeyCard)."
-            Label="BitGo Public Key"
-            name="bitgoKey"
-            rows={4}
             Width="fill"
           />
         </div>
@@ -94,14 +85,6 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
             HelperText="The base address of the wallet (also known as root address)"
             Label="Base Address"
             name="rootAddress"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikPasswordfield
-            HelperText="Your wallet passphrase."
-            Label="Wallet Passphrase"
-            name="walletPassphrase"
             Width="fill"
           />
         </div>
