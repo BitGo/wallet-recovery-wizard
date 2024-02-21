@@ -1170,7 +1170,7 @@ function Form() {
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
                 ...values,
-                bitgoKey: '',
+                bitgoKey: values.bitgoKey,
                 ignoreAddressTypes: [],
               });
               assert(
