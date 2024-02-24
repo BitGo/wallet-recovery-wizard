@@ -8,6 +8,9 @@ export type CoinMetadata = {
   Icon: CryptocurrencyIconProps['Name'];
   ApiKeyProvider?: string;
   isTssSupported?: boolean;
+  minGasLimit?: string;
+  defaultGasLimit?: string;
+  defaultGasLimitNum?: number;
 };
 
 export const allCoinMetas: Record<string, CoinMetadata> = {
@@ -78,6 +81,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'ERC20 Token',
     Icon: 'eth',
     value: 'erc20',
+    minGasLimit: '30,000',
+    defaultGasLimit: '500,000',
   },
   trx: {
     Title: 'TRX',
@@ -109,6 +114,19 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'arbeth',
     value: 'arbeth',
     ApiKeyProvider: 'arbiscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+  },
+  arbethToken: {
+    Title: 'ARBETH TOKEN',
+    Description: 'Arbitrum Token',
+    Icon: 'arbeth',
+    value: 'arbethToken',
+    ApiKeyProvider: 'arbiscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
   },
   opeth: {
     Title: 'OPETH',
@@ -116,6 +134,19 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'opeth',
     value: 'opeth',
     ApiKeyProvider: 'optimistic.etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+  },
+  opethToken: {
+    Title: 'OPETH TOKEN',
+    Description: 'Optimism Token',
+    Icon: 'opeth',
+    value: 'opethToken',
+    ApiKeyProvider: 'optimistic.etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
   },
   near: {
     Title: 'NEAR',
@@ -262,6 +293,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Holesky Testnet ERC20 Token',
     Icon: 'eth',
     value: 'hterc20',
+    minGasLimit: '30,000',
+    defaultGasLimit: '500,000',
   },
   ttrx: {
     Title: 'TTRX',
@@ -293,6 +326,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'arbeth',
     value: 'tarbeth',
     ApiKeyProvider: 'arbiscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+  },
+  tarbethToken: {
+    Title: 'TARBETH TOKEN',
+    Description: 'Testnet Arbitrum Token',
+    Icon: 'arbeth',
+    value: 'tarbethToken',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
   },
   topeth: {
     Title: 'TOPETH',
@@ -300,6 +345,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'opeth',
     value: 'topeth',
     ApiKeyProvider: 'optimistic.etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+  },
+  topethToken: {
+    Title: 'TOPETH TOKEN',
+    Description: 'Testnet Optimism Token',
+    Icon: 'opeth',
+    value: 'topethToken',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
   },
   tnear: {
     Title: 'TNEAR',
@@ -438,7 +495,9 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.avaxc,
     allCoinMetas.avaxcToken,
     allCoinMetas.arbeth,
+    allCoinMetas.arbethToken,
     allCoinMetas.opeth,
+    allCoinMetas.opethToken,
     allCoinMetas.polygon,
     allCoinMetas.bcha,
     allCoinMetas.doge,
@@ -458,7 +517,9 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tavaxc,
     allCoinMetas.tavaxcToken,
     allCoinMetas.tarbeth,
+    allCoinMetas.tarbethToken,
     allCoinMetas.topeth,
+    allCoinMetas.topethToken,
     allCoinMetas.tpolygon,
     allCoinMetas.tdoge,
     allCoinMetas.tsol,
@@ -487,7 +548,9 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.avaxc,
       allCoinMetas.avaxcToken,
       allCoinMetas.arbeth,
+      allCoinMetas.arbethToken,
       allCoinMetas.opeth,
+      allCoinMetas.opethToken,
       allCoinMetas.near,
       allCoinMetas.dot,
       allCoinMetas.sol,
@@ -517,7 +580,9 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tavaxc,
       allCoinMetas.tavaxcToken,
       allCoinMetas.tarbeth,
+      allCoinMetas.tarbethToken,
       allCoinMetas.topeth,
+      allCoinMetas.topethToken,
       allCoinMetas.tnear,
       allCoinMetas.tdot,
       allCoinMetas.tsol,
@@ -601,3 +666,12 @@ export const evmCrossChainRecoveryWallets: WalletMetadata[] = [
   allWalletMetas.cold,
   allWalletMetas.custody,
 ];
+
+export const tokenParentCoins = {
+  hterc20: 'hteth',
+  erc20: 'eth',
+  arbethToken: 'arbeth',
+  tarbethToken: 'tarbeth',
+  opethToken: 'opeth',
+  topethToken: 'topeth',
+};

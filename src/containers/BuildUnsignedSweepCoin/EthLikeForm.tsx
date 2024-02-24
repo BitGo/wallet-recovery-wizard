@@ -39,7 +39,7 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
       apiKey: '',
       backupKey: '',
       backupKeyId: '',
-      gasLimit: 500000,
+      gasLimit: allCoinMetas[coinName]?.defaultGasLimitNum ?? 500000,
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
       recoveryDestination: '',
@@ -107,7 +107,11 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas limit for the ETH transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+            HelperText={`Gas limit for the ETH transaction. The value should be between ${
+              allCoinMetas[coinName].minGasLimit ?? '30,000'
+            } and 20,000,000. The default is ${
+              allCoinMetas[coinName].defaultGasLimit ?? '500,000'
+            } unit of gas.`}
             Label="Gas Limit"
             name="gasLimit"
             Width="fill"
@@ -131,19 +135,22 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText={`An Api-Key Token from ${allCoinMetas[coinName].ApiKeyProvider ?? 'etherscan.com'} required for recoveries.`}
+            HelperText={`An Api-Key Token from ${
+              allCoinMetas[coinName].ApiKeyProvider ?? 'etherscan.com'
+            } required for recoveries.`}
             Label="API Key"
             name="apiKey"
             Width="fill"
           />
         </div>
-        { allCoinMetas[coinName].isTssSupported &&
-        <div className="tw-mb-4" role="group">
-          <label>
-            <Field type="checkbox" name="isTss" />
-            Is TSS recovery?
-          </label>
-        </div>}
+        {allCoinMetas[coinName].isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

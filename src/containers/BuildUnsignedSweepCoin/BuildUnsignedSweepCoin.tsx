@@ -20,7 +20,7 @@ import { AvalancheCTokenForm } from './AvalancheCTokenForm';
 import { BitcoinCashForm } from './BitcoinCashForm';
 import { BitcoinForm } from './BitcoinForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
-import { Erc20TokenForm } from './Erc20TokenForm';
+import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthLikeForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
@@ -30,7 +30,7 @@ import { TronForm } from './TronForm';
 import { SolanaForm } from './SolanaForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { buildUnsignedSweepCoins } from '~/helpers/config';
+import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 
 function Form() {
@@ -816,9 +816,14 @@ function Form() {
       );
     case 'erc20':
     case 'hterc20':
+    case 'arbethToken':
+    case 'tarbethToken':
+    case 'opethToken':
+    case 'topethToken':
       return (
-        <Erc20TokenForm
+        <EthLikeTokenForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -828,7 +833,7 @@ function Form() {
                 coin,
                 values.apiKey
               );
-              const parentCoin = env === 'test' ? 'hteth' : 'eth';
+              const parentCoin = tokenParentCoins[coin];
               const chainData = await getTokenChain(
                 values.tokenContractAddress.toLowerCase(),
                 parentCoin
