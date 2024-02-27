@@ -32,7 +32,8 @@ export interface CryptocurrencyIconProps {
     | 'xrp'
     | 'zec'
     | 'zeta'
-    | 'hbar';
+    | 'hbar'
+    | 'algo';
   Size: 'small' | 'medium' | 'large';
 }
 
@@ -1613,6 +1614,109 @@ export function CryptocurrencyIcon({
                 className="cls-1"
                 d="M1758.12,1790.62H1599.38V1453.13H900.62v337.49H741.87V696.25H900.62v329.37h698.76V696.25h158.75Zm-850-463.75h698.75V1152.5H908.12Z"
               />
+            </g>
+          </g>
+        </svg>
+      );
+    case 'algo':
+      return (
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          xmlns="http://www.w3.org/2000/svg"
+          className={clsx('tw-inline-flex tw-fill-current', {
+            'tw-w-4 tw-h-4': Size === 'small',
+            'tw-w-6 tw-h-6': Size === 'medium',
+            'tw-w-8 tw-h-8': Size === 'large',
+          })}
+          {...hostProps}
+        >
+          <defs>
+            <filter
+              x="-5.8%"
+              y="-4.2%"
+              width="111.7%"
+              height="111.7%"
+              filterUnits="objectBoundingBox"
+              id="a"
+            >
+              <feOffset dy=".5" in="SourceAlpha" result="shadowOffsetOuter1" />
+              <feGaussianBlur
+                stdDeviation=".5"
+                in="shadowOffsetOuter1"
+                result="shadowBlurOuter1"
+              />
+              <feComposite
+                in="shadowBlurOuter1"
+                in2="SourceAlpha"
+                operator="out"
+                result="shadowBlurOuter1"
+              />
+              <feColorMatrix
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.199473505 0"
+                in="shadowBlurOuter1"
+              />
+            </filter>
+            <filter id="d">
+              <feColorMatrix
+                in="SourceGraphic"
+                values="0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 0 1.000000 0 0 0 1.000000 0"
+              />
+            </filter>
+            <filter
+              x="-23.4%"
+              y="-23.4%"
+              width="146.9%"
+              height="146.9%"
+              filterUnits="objectBoundingBox"
+              id="e"
+            >
+              <feOffset dy=".5" in="SourceAlpha" result="shadowOffsetOuter1" />
+              <feGaussianBlur
+                stdDeviation=".5"
+                in="shadowOffsetOuter1"
+                result="shadowBlurOuter1"
+              />
+              <feColorMatrix
+                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.204257246 0"
+                in="shadowBlurOuter1"
+                result="shadowMatrixOuter1"
+              />
+              <feMerge>
+                <feMergeNode in="shadowMatrixOuter1" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="c">
+              <stop stop-color="#FFF" stop-opacity=".5" offset="0%" />
+              <stop stop-opacity=".5" offset="100%" />
+            </linearGradient>
+            <circle id="b" cx="16" cy="15" r="15" />
+          </defs>
+          <g fill="none" fill-rule="evenodd">
+            <use fill="#000" filter="url(#a)" xlinkHref="#b" />
+            <use fill="#000" xlinkHref="#b" />
+            <use
+              fill="url(#c)"
+              xlinkHref="#b"
+            />
+            <circle
+              stroke-opacity=".097"
+              stroke="#000"
+              stroke-linejoin="square"
+              cx="16"
+              cy="15"
+              r="14.5"
+            />
+            <g filter="url(#d)">
+              <g filter="url(#e)" transform="translate(7.5 6)">
+                <path
+                  fill="#FFF"
+                  fill-rule="nonzero"
+                  d="M2.75 15.916l2.303-3.986 2.301-3.972 2.288-3.986.38-.632.167.632.702 2.624-.786 1.362-2.301 3.972-2.288 3.986h2.75l2.302-3.986 1.193-2.063.562 2.063 1.066 3.986h2.47l-1.066-3.986-1.067-3.972-.28-1.025 1.712-2.961H12.66l-.085-.295-.87-3.256L11.593 0h-2.4l-.056.084L6.89 3.972l-2.3 3.986-2.288 3.972L0 15.916z"
+                />
+              </g>
             </g>
           </g>
         </svg>
