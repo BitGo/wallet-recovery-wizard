@@ -5,6 +5,7 @@ import { safeEnv } from '~/helpers';
 import { broadcastTransactionCoins } from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
+import { AlgorandForm } from '~/containers/BroadcastTransactionCoin/AlgorandForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -63,6 +64,56 @@ function Form() {
           }}
         />
       );
+    case 'algo':
+    case 'talgo':
+      return (
+        <AlgorandForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const broadcastResult =
+                await window.commands.broadcastTransaction(coin, {
+                  serializedSignedTransaction: values.serializedSignedTx,
+                });
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-broadcast-transaction-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(broadcastResult, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/broadcast-transaction/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+
     default:
       throw new Error(`Unsupported coin: ${String(coin)}`);
   }
