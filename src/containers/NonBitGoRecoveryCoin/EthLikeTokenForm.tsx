@@ -137,7 +137,9 @@ export function EthLikeTokenForm({
             name="apiKey"
             Width="fill"
             Label="API Key"
-            HelperText="An Api-Key Token from etherscan.com required for Ethereum Mainnet recoveries."
+            HelperText={`An Api-Key Token from ${
+              allCoinMetas[coinName].ApiKeyProvider ?? 'etherscan.com'
+            } required for recoveries.`}
           />
         </div>
         <div className="tw-mb-4">
