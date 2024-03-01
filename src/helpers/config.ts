@@ -651,8 +651,8 @@ export const broadcastTransactionCoins: Record<
   BitgoEnv,
   readonly CoinMetadata[]
 > = {
-  prod: [allCoinMetas.hbar] as const,
-  test: [allCoinMetas.thbar] as const,
+  prod: [allCoinMetas.hbar, allCoinMetas.algo] as const,
+  test: [allCoinMetas.thbar, allCoinMetas.talgo] as const,
 };
 
 export type WalletMetadata = {

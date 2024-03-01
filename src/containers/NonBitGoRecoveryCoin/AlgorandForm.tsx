@@ -45,7 +45,7 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
       bitgoKey: '',
       walletPassphrase: '',
       fee: 1000,
-      firstRound: 0,
+      firstRound: undefined,
       note: '',
       nodeParams: {
         token: '',
@@ -123,7 +123,7 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The first round for when the transaction is valid. If the transaction is sent prior to this round it will be rejected by the network."
+            HelperText="The first round for when the transaction is valid. If not provided, the latest round from the node is used."
             Label="First Round when the transaction should be valid"
             name="firstRound"
             Width="fill"
