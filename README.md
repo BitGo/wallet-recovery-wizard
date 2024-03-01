@@ -37,6 +37,8 @@ Please see the [releases page](https://github.com/BitGo/wallet-recovery-wizard/r
 
 Instructions to broadcast ETHw transactions: [ETHW.md](ETHW.md)
 
+Instructions to broadcast ETHLike transactions [ETHLIKE.md](ETHLIKE.md)
+
 Instructions to broadcast EOS transactions: [EOS.md](EOS.md)
 
 Instructions to broadcast DOT transactions: [DOT.md](DOT.md)
