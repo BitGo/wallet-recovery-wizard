@@ -2,16 +2,16 @@ import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
-  Button,
+  Button, FormikTextarea,
   FormikTextfield,
 } from '~/components';
 
 const validationSchema = Yup.object({
   backupKey: Yup.string().required(),
   userKey: Yup.string().required(),
+  bitgoKey: Yup.string().required(),
   rootAddress: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  bitgoKey: Yup.string().optional(),
   walletPassphrase: Yup.string().optional(),
   fee: Yup.number().required(),
   firstRound: Yup.number().optional(),
@@ -38,9 +38,9 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
     initialValues: {
       backupKey: '',
       userKey: '',
+      bitgoKey: '',
       rootAddress: '',
       recoveryDestination: '',
-      bitgoKey: '',
       walletPassphrase: '',
       fee: 1000,
       firstRound: undefined,
@@ -73,6 +73,14 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
             HelperText="Your public backup key (box B on your KeyCard)"
             Label="Backup Public Key"
             name="backupKey"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Bitgo Public key (box C of the KeyCard)."
+            Label="BitGo Public Key"
+            name="bitgoKey"
             Width="fill"
           />
         </div>
