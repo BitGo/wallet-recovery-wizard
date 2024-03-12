@@ -78,6 +78,7 @@ function Form() {
               const broadcastResult =
                 await window.commands.broadcastTransaction(coin, {
                   serializedSignedTransaction: values.serializedSignedTx,
+                  nodeParams: values.nodeParams,
                 });
               const showSaveDialogData = await window.commands.showSaveDialog({
                 filters: [
