@@ -2,7 +2,7 @@ import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
-  Button, FormikTextarea,
+  Button,
   FormikTextfield,
 } from '~/components';
 

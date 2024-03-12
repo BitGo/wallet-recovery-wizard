@@ -45,7 +45,7 @@
     "@bitgo/sdk-coin-xrp": "1.8.3",
     "@bitgo/sdk-coin-zec": "1.6.3",
     "@bitgo/sdk-coin-zeta": "1.30.2",
-    "@bitgo/sdk-coin-algo": "1.27.1",
+    "@bitgo/sdk-coin-algo": "1.28.0",
     "@bitgo/utxo-lib": "9.34.0",
     "@ethereumjs/common": "2.6.5",
     "@lottiefiles/react-lottie-player": "3.4.9",
