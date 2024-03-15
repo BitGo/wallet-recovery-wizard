@@ -41,15 +41,15 @@ Build an unsigned transaction from a cold wallet using the user and backup publi
 
 15. For Avalanche C-Chain, the key is from https://snowtrace.io/.
 
-16. For Algorand, clients are required to use their own node to build/broadcast recovery transactions.
+16. For Algorand, you must use your own node to broadcast recovery transactions.
 
-17. The SDK determines the amount of Coin that can be recovered, and builds an unsigned transaction to send that amount to the Destination Address.
+17. The SDK determines the amount of an asset that you can recover, and then builds a unsigned transaction to a destination address.
 
-18. You need to half sign this unsigned transaction with your user private key using Offline Vault Console.
+18. Using the OVC (Offline Vault Console), you must sign the unsigned transaction with your private user key, resulting in a half-signed transaction.
 
-19. You need to fully sign the half signed transaction with your backup private key using Offline Vault Console.
+19. Using the OVC again, you must sign the half-signed transaction with your private backup key, resulting in a fully-signed transaction.
 
-20. This completed transaction can be broadcasted on the network using a blockchain explorer to finish the recovery.
+20. To finish the recovery, broadcast the fully-signed transaction on the network using a blockchain explorer.
     Some blockchain explorers to broadcast the transaction are as follows:
 
     Avalanche C-Chain transactions: https://snowtrace.io/pushTx
