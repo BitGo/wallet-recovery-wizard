@@ -26,8 +26,8 @@ Withdraw Funds without BitGo:
   | XLM   | Yes        | Yes  |
   | XRP   | Yes        | Yes  |
   | ZEC   | Yes        | No   |
-- | HBAR  | No         | Yes  |
-- | ALGO  | No         | Yes  |
+- | HBAR  | Yes        | Yes  |
+- | ALGO  | Yes        | Yes  |
   
 
 ## Installing and Downloading
