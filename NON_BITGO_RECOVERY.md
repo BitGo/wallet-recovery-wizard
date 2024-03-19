@@ -46,9 +46,11 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 
 17. For Avalanche C-Chain, the key is from https://snowtrace.io/.
 
-18. The SDK determines the amount of Coin that can be recovered, and builds a fully signed transaction to send that amount to the Destination Address.
+18. For Algorand, you must use your own node to broadcast recovery transactions.
 
-19. This completed transaction can be broadcasted on the network using a blockchain explorer to finish the recovery.
+19. The SDK determines the amount of an asset that you can recover, and then builds a fully-signed transaction to a destination address.
+
+20. To finish the recovery, broadcast the fully-signed transaction on the network using a blockchain explorer.
     Some blockchain explorers to broadcast the transaction are as follows:
 
     Avalanche C-Chain transactions: https://snowtrace.io/pushTx

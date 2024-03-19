@@ -11,7 +11,7 @@ Withdraw Funds without BitGo:
 - Coin Support:
 
   | Coin  | Production | Test |
-  | ----- | ---------- | ---- |
+  |-------|------------|------|
   | AVAXC | Yes        | Yes  |
   | BTC   | Yes        | Yes  |
   | BCH   | Yes        | No   |
@@ -26,6 +26,9 @@ Withdraw Funds without BitGo:
   | XLM   | Yes        | Yes  |
   | XRP   | Yes        | Yes  |
   | ZEC   | Yes        | No   |
+- | HBAR  | Yes        | Yes  |
+- | ALGO  | Yes        | Yes  |
+  
 
 ## Installing and Downloading
 
