@@ -31,6 +31,11 @@ Besides the BitGo SDK, the WRW also depends on third-party nodes or block explor
   your own explorer. Note that UTXO-coin recovery tends to generate many calls to the full node, since it need to rederive addresses based on key information and check for remaining funds in each derived address. Be aware that rate limit might be reached.
 - For account-based coins, there are no shared functions defined in the parent class. Each coin class may have its own functions that communicate with a third-party node. For example, the ETH recovery has `recoveryBlockchainExplorerQuery` whereas EOS recovery has `getDataFromNode`.
 
+#### Upgrade the BitGo SDK dependencies
+```
+npm run bump-bitgo-versions 
+```
+
 ### Changes to the WRW
 
 - Once the changes are merged in the SDK and a new SDK is released, you now can update the SDK version in the WRW, and start to build out the WRW’s front end features.
