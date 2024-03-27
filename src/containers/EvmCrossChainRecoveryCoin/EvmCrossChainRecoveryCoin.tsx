@@ -49,7 +49,7 @@ async function updateKeysFromIds<
         description: 'User Key Id',
         name: 'userKey',
       } as const
-  
+
   if (item.id) {
     if (await isDerivationPath(item.id, item.description)) {
       copy[item.name] = await window.queries.deriveKeyByPath(
@@ -74,10 +74,10 @@ async function handleOnSubmit(
   defaultPath: string,
   navigate: NavigateFunction,
   setAlert: React.Dispatch<React.SetStateAction<string | undefined>>
-) {  
+) {
   setAlert(undefined);
   formikHelpers.setSubmitting(true)
-  
+
   try {
     await window.commands.setBitGoEnvironment(
       bitGoEnvironment,
@@ -148,9 +148,11 @@ function getHotWalletCoinForm() {
   switch (coin) {
     case 'polygon':
     case 'tpolygon':
+    case 'eth':
+    case 'hteth':
       return (
         <HotWalletForm
-          key={coin} 
+          key={coin}
           onSubmit={(values, formikHelpers) => {
             const defaultPath = `~/recover-${coin}-${values.walletContractAddress}-prepared.half-signed-${Date.now()}.json`
             handleOnSubmit(values, formikHelpers, bitGoEnvironment, coin, defaultPath, navigate, setAlert);
@@ -173,6 +175,8 @@ function getColdWalletCoinForm() {
   switch (coin) {
     case 'polygon':
     case 'tpolygon':
+    case 'eth':
+    case 'hteth':
       return (
         <ColdWalletForm
           key={coin}
@@ -198,6 +202,8 @@ function getCustodyWalletCoinForm() {
   switch (coin) {
     case 'polygon':
     case 'tpolygon':
+    case 'eth':
+    case 'hteth':
       return (
         <CustodyWalletForm
           key={coin}
@@ -223,7 +229,7 @@ function Form() {
       return getColdWalletCoinForm()
     case 'custody':
       return getCustodyWalletCoinForm()
-    
+
     default:
       throw new Error(`Unsupported wallet type: ${String(wallet)}`);
   }
