@@ -643,8 +643,8 @@ export const evmCrossChainRecoveryCoins: Record<
   BitgoEnv,
   readonly CoinMetadata[]
 > = {
-  prod: [allCoinMetas.polygon] as const,
-  test: [allCoinMetas.tpolygon] as const,
+  prod: [allCoinMetas.polygon, allCoinMetas.eth] as const,
+  test: [allCoinMetas.tpolygon, allCoinMetas.hteth] as const,
 };
 
 export const broadcastTransactionCoins: Record<
