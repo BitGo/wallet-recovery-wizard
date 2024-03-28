@@ -81,7 +81,7 @@
     "concurrently": "7.6.0",
     "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
     "electron": "22.3.25",
-    "electron-builder": "24.9.1",
+    "electron-builder": "24.13.3",
     "electron-playwright-helpers": "1.2.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-import-resolver-alias": "1.1.2",
