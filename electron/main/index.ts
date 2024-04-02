@@ -247,10 +247,14 @@ async function createWindow() {
           break;
         case 'arbeth':
         case 'tarbeth':
+        case 'arbethToken':
+        case 'tarbethToken':
           sdk = new BitGoAPI({ env: environment, arbiscanApiToken: apiKey });
           break;
         case 'opeth':
         case 'topeth':
+        case 'opethToken':
+        case 'topethToken':
           sdk = new BitGoAPI({
             env: environment,
             optimisticEtherscanApiToken: apiKey,
