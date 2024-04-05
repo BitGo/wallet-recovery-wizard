@@ -864,7 +864,7 @@ function Form() {
                 }
               );
               assert(
-                isRecoveryTransaction(recoverData),
+                recoverData !== undefined && isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
               );
 

@@ -135,8 +135,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'opeth',
     ApiKeyProvider: 'optimistic.etherscan.io',
     minGasLimit: '400,000',
-    defaultGasLimit: '1,000,000',
-    defaultGasLimitNum: 1000000,
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
   },
   opethToken: {
     Title: 'OPETH TOKEN',
@@ -145,8 +145,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'opethToken',
     ApiKeyProvider: 'optimistic.etherscan.io',
     minGasLimit: '400,000',
-    defaultGasLimit: '1,000,000',
-    defaultGasLimitNum: 1000000,
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
   },
   near: {
     Title: 'NEAR',
