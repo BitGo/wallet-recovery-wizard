@@ -12,8 +12,12 @@ export async function recoverWithToken(
   const [coin, ...rest] = args;
   try {
     return await window.commands.recover(token, ...rest);
-  } catch {
-    return await window.commands.recover(coin, ...rest);
+  } catch (err) {
+    if (err instanceof Error) {
+      throw new Error(err.message);
+    } else {
+      console.error(err)
+    }
   }
 }
 
