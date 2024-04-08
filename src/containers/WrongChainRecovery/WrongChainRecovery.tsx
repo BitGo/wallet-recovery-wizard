@@ -44,12 +44,6 @@ export function WrongChainRecovery() {
   }, [destinationCoins, destinationCoin]);
 
   const apiProvider = (): 'Block Chair' | undefined => {
-    if (
-      sourceCoin == allCoinMetas.btc.value ||
-      sourceCoin === allCoinMetas.tbtc.value
-    ) {
-      return undefined;
-    }
     return 'Block Chair';
   };
 
