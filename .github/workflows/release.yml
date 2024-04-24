@@ -20,7 +20,7 @@ jobs:
     env:
       NEXT_VERSION: "${{ inputs.next-version }}"
     outputs:
-      dmg_filename: "Wallet Recovery Wizard-${{ inputs.next-version }}-arm64.dmg"
+      dmg_filename: "Wallet Recovery Wizard-${{ inputs.next-version }}.dmg"
       exe_filename: "Wallet Recovery Wizard-Setup-${{ inputs.next-version }}.exe"
       deb_filename: "Wallet Recovery Wizard-Linux-${{ inputs.next-version }}.deb"
     steps:
