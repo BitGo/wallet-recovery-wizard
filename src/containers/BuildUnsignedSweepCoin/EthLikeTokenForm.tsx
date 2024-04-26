@@ -43,8 +43,9 @@ export function EthLikeTokenForm({
       backupKey: '',
       backupKeyId: '',
       gasLimit: allCoinMetas[coinName]?.defaultGasLimitNum ?? 500000,
-      maxFeePerGas: 20,
-      maxPriorityFeePerGas: 10,
+      maxFeePerGas: allCoinMetas[coinName]?.defaultMaxFeePerGas ?? 20,
+      maxPriorityFeePerGas:
+        allCoinMetas[coinName]?.defaultMaxPriorityFeePerGas ?? 10,
       recoveryDestination: '',
       tokenContractAddress: '',
       userKey: '',

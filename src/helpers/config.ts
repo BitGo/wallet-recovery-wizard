@@ -11,6 +11,8 @@ export type CoinMetadata = {
   minGasLimit?: string;
   defaultGasLimit?: string;
   defaultGasLimitNum?: number;
+  defaultMaxFeePerGas?: number;
+  defaultMaxPriorityFeePerGas?: number;
 };
 
 export const allCoinMetas: Record<string, CoinMetadata> = {
@@ -171,6 +173,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'POLYGON Chain',
     Icon: 'polygon',
     value: 'polygon',
+  },
+  polygonToken: {
+    Title: 'POLYGON TOKEN',
+    Description: 'Polygon Token',
+    Icon: 'polygon',
+    value: 'polygonToken',
+    ApiKeyProvider: 'polygonscan.com',
+    minGasLimit: '30,000',
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
+    defaultMaxPriorityFeePerGas: 30,
+    defaultMaxFeePerGas: 50,
   },
   bcha: {
     Title: 'BCHA',
@@ -390,6 +404,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'polygon',
     value: 'tpolygon',
   },
+  tpolygonToken: {
+    Title: 'TPOLYGON TOKEN',
+    Description: 'Testnet Polygon Token',
+    Icon: 'polygon',
+    value: 'tpolygonToken',
+    ApiKeyProvider: 'polygonscan.com',
+    minGasLimit: '30,000',
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
+    defaultMaxPriorityFeePerGas: 30,
+    defaultMaxFeePerGas: 50,
+  },
   tdoge: {
     Title: 'TDOGE',
     Description: 'Dogecoin Testnet',
@@ -513,6 +539,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.opeth,
     allCoinMetas.opethToken,
     allCoinMetas.polygon,
+    allCoinMetas.polygonToken,
     allCoinMetas.bcha,
     allCoinMetas.doge,
     allCoinMetas.sol,
@@ -536,6 +563,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.topeth,
     allCoinMetas.topethToken,
     allCoinMetas.tpolygon,
+    allCoinMetas.tpolygonToken,
     allCoinMetas.tdoge,
     allCoinMetas.tsol,
     allCoinMetas.tada,
@@ -571,6 +599,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.dot,
       allCoinMetas.sol,
       allCoinMetas.polygon,
+      allCoinMetas.polygonToken,
       allCoinMetas.bcha,
       allCoinMetas.doge,
       allCoinMetas.ada,
@@ -604,6 +633,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tdot,
       allCoinMetas.tsol,
       allCoinMetas.tpolygon,
+      allCoinMetas.tpolygonToken,
       allCoinMetas.tdoge,
       allCoinMetas.tada,
       allCoinMetas.tatom,
@@ -692,4 +722,6 @@ export const tokenParentCoins = {
   tarbethToken: 'tarbeth',
   opethToken: 'opeth',
   topethToken: 'topeth',
+  polygonToken: 'polygon',
+  tpolygonToken: 'tpolygon',
 };

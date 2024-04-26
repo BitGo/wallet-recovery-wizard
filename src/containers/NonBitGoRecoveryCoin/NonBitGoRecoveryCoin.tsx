@@ -953,6 +953,8 @@ function Form() {
     case 'tarbethToken':
     case 'opethToken':
     case 'topethToken':
+    case 'polygonToken':
+    case 'tpolygonToken':
       return (
         <EthLikeTokenForm
           key={coin}
