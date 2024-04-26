@@ -821,6 +821,8 @@ function Form() {
     case 'tarbethToken':
     case 'opethToken':
     case 'topethToken':
+    case 'polygonToken':
+    case 'tpolygonToken':
       return (
         <EthLikeTokenForm
           key={coin}
@@ -1152,9 +1154,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2

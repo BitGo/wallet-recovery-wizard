@@ -34,7 +34,7 @@ import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
-import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
@@ -132,8 +132,8 @@ sdk.register('coreum', Coreum.createInstance);
 sdk.register('tcoreum', Tcoreum.createInstance);
 sdk.register('hbar', Hbar.createInstance);
 sdk.register('thbar', Thbar.createInstance);
-sdk.register('algo', Algo.createInstance)
-sdk.register('talgo', Talgo.createInstance)
+sdk.register('algo', Algo.createInstance);
+sdk.register('talgo', Talgo.createInstance);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
@@ -144,6 +144,9 @@ ArbethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 OpethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+PolygonToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
@@ -262,6 +265,8 @@ async function createWindow() {
           break;
         case 'polygon':
         case 'tpolygon':
+        case 'polygonToken':
+        case 'tpolygonToken':
           sdk = new BitGoAPI({ env: environment, polygonscanApiToken: apiKey });
           break;
         default:
