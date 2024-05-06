@@ -17,6 +17,8 @@ const validationSchema = Yup.object({
   walletContractAddress: Yup.string().required(),
   tokenContractAddress: Yup.string(),
   apiKey: Yup.string().required(),
+  wrongChain: Yup.string().required(),
+  intendedChain: Yup.string().required(),
 }).required();
 
 export type FormProps = {
@@ -38,8 +40,10 @@ export function CustodyWalletForm({ onSubmit }: FormProps) {
       maxPriorityFeePerGas: 50,
       recoveryDestination: '',
       walletContractAddress: '',
-      tokenContractAddress: '',
+      tokenContractAddress: undefined,
       apiKey: '',
+      wrongChain: '',
+      intendedChain: '',
     },
     validationSchema,
   });
@@ -50,7 +54,7 @@ export function CustodyWalletForm({ onSubmit }: FormProps) {
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Bitgo managed custody wallet details
         </h4>
-        <EvmCrossChainRecoveryBaseForm/>
+        <EvmCrossChainRecoveryBaseForm formik={formik} />
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

@@ -98,6 +98,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'eos',
     value: 'eos',
   },
+  etc: {
+    Title: 'ETC',
+    Description: 'Ethereum Classic',
+    Icon: 'etc',
+    value: 'etc',
+  },
+  tetc: {
+    Title: 'TETC',
+    Description: 'Testnet Ethereum Classic',
+    Icon: 'etc',
+    value: 'tetc',
+  },
   avaxc: {
     Title: 'AVAXC',
     Description: 'Avalanche C-Chain',
@@ -669,13 +681,31 @@ export const wrongChainRecoveryCoins: Record<
   },
 } as const;
 
-export const evmCrossChainRecoveryCoins: Record<
-  BitgoEnv,
-  readonly CoinMetadata[]
-> = {
-  prod: [allCoinMetas.polygon, allCoinMetas.eth] as const,
-  test: [allCoinMetas.tpolygon, allCoinMetas.hteth] as const,
-};
+export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
+  {
+    prod: [allCoinMetas.polygon, allCoinMetas.eth] as const,
+    test: [allCoinMetas.tpolygon, allCoinMetas.hteth] as const,
+  };
+
+export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
+  {
+    polygon: [allCoinMetas.eth] as const,
+    tpolygon: [allCoinMetas.hteth] as const,
+    eth: [
+      allCoinMetas.polygon,
+      allCoinMetas.arbeth,
+      allCoinMetas.opeth,
+      allCoinMetas.avaxc,
+      allCoinMetas.etc,
+    ] as const,
+    hteth: [
+      allCoinMetas.tpolygon,
+      allCoinMetas.tarbeth,
+      allCoinMetas.topeth,
+      allCoinMetas.tavaxc,
+      allCoinMetas.tetc,
+    ] as const,
+  };
 
 export const broadcastTransactionCoins: Record<
   BitgoEnv,
