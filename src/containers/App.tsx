@@ -8,8 +8,7 @@ import { NonBitGoRecoveryIndex } from './NonBitGoRecoveryIndex';
 import { SuccessfulRecovery } from './SuccessfulRecovery';
 import { WrongChainRecovery } from './WrongChainRecovery';
 import { EvmCrossChainRecoveryIndex } from './EvmCrossChainRecoveryIndex';
-import { EvmCrossChainRecoveryCoin } from './EvmCrossChainRecoveryCoin';
-import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet';
+import { EvmCrossChainRecoveryWallet } from './EvmCrossChainRecoveryWallet';
 import { BuildUnsignedConsolidationIndex } from './BuildUnsignedConsolidation';
 import { BuildUnsignedConsolidationCoin } from '~/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin';
 import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcastableTransaction';
@@ -101,8 +100,7 @@ export default function App() {
       >
         <Route index element={<EvmCrossChainRecoveryIndex />} />
         <Route path=":wallet" element={<EvmCrossChainRecoveryWallet />} />
-        <Route path=":wallet/:coin" element={<EvmCrossChainRecoveryCoin />} />
-        <Route path=":coin/success" element={<SuccessfulRecovery />} />
+        <Route path=":wallet/success" element={<SuccessfulRecovery />} />
       </Route>
       <Route
         path="/:env/wrong-chain-recovery"

@@ -33,7 +33,8 @@ export interface CryptocurrencyIconProps {
     | 'zec'
     | 'zeta'
     | 'hbar'
-    | 'algo';
+    | 'algo'
+    | 'etc';
   Size: 'small' | 'medium' | 'large';
 }
 
@@ -1697,10 +1698,7 @@ export function CryptocurrencyIcon({
           <g fill="none" fill-rule="evenodd">
             <use fill="#000" filter="url(#a)" xlinkHref="#b" />
             <use fill="#000" xlinkHref="#b" />
-            <use
-              fill="url(#c)"
-              xlinkHref="#b"
-            />
+            <use fill="url(#c)" xlinkHref="#b" />
             <circle
               stroke-opacity=".097"
               stroke="#000"
@@ -1717,6 +1715,35 @@ export function CryptocurrencyIcon({
                   d="M2.75 15.916l2.303-3.986 2.301-3.972 2.288-3.986.38-.632.167.632.702 2.624-.786 1.362-2.301 3.972-2.288 3.986h2.75l2.302-3.986 1.193-2.063.562 2.063 1.066 3.986h2.47l-1.066-3.986-1.067-3.972-.28-1.025 1.712-2.961H12.66l-.085-.295-.87-3.256L11.593 0h-2.4l-.056.084L6.89 3.972l-2.3 3.986-2.288 3.972L0 15.916z"
                 />
               </g>
+            </g>
+          </g>
+        </svg>
+      );
+    case 'etc':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+        >
+          <g fill="none" fill-rule="evenodd">
+            <circle cx="16" cy="16" r="16" fill="#328332" />
+            <g fill="#FFF">
+              <path
+                fill-rule="nonzero"
+                d="M15.989 16.553l-6.721-.577 6.72-3.802v4.379zm0 4.46v6.94C13.652 24.315 11.076 20.311 9 17.07c2.45 1.38 5.008 2.823 6.989 3.944zm0-10.068L9 14.845 15.989 4v6.945z"
+              />
+              <path
+                fill-opacity=".601"
+                fill-rule="nonzero"
+                d="M22.71 15.976l-6.721.577v-4.379l6.72 3.802zm-6.721 5.038c1.98-1.12 4.537-2.564 6.988-3.944-2.076 3.242-4.652 7.246-6.988 10.882v-6.938zm0-10.069V4l6.988 10.845-6.988-3.9z"
+              />
+              <path opacity=".2" d="M15.989 16.553l6.72-.577-6.72 3.775z" />
+              <path
+                opacity=".603"
+                d="M15.988 16.553l-6.721-.577 6.721 3.775z"
+              />
             </g>
           </g>
         </svg>

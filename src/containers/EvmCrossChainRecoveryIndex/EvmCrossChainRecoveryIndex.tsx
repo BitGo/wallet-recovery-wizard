@@ -1,9 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import { CoinsSelectAutocomplete, Selectfield } from '~/components';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { WalletTypeSelect } from '~/components/WalletTypeSelect';
 import { safeEnv } from '~/helpers';
-import { evmCrossChainRecoveryCoins, evmCrossChainRecoveryWallets } from '~/helpers/config';
+import { evmCrossChainRecoveryWallets } from '~/helpers/config';
 
 export function EvmCrossChainRecoveryIndex() {
   const { env } = useParams<'env'>();
@@ -15,6 +14,7 @@ export function EvmCrossChainRecoveryIndex() {
       <div className="tw-mb-8">
         <WalletTypeSelect
           onChange={event => {
+            console.log(event.currentTarget.value);
             navigate(
               `/${environment}/evm-cross-chain-recovery/${event.currentTarget.value}`
             );
