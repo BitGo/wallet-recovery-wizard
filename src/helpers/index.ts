@@ -66,6 +66,7 @@ export function isRecoveryTransaction(
 ) {
   return (
     ('txHex' in value && !!value['txHex']) ||
+    ('txBase64' in value && !!value['txBase64']) ||
     ('transactionHex' in value && !!value['transactionHex']) ||
     ('tx' in value && !!value['tx']) ||
     ('transaction' in value && !!value['transaction']) ||
