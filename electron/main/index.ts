@@ -35,7 +35,7 @@ import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
-import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
+import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
@@ -147,6 +147,9 @@ OpethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 PolygonToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+SolToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 

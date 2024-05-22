@@ -28,6 +28,7 @@ import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
 import { SolanaForm } from './SolanaForm';
+import { SolanaTokenForm } from './SolanaTokenForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
@@ -936,6 +937,79 @@ function Form() {
                 userKey: '',
                 backupKey: '',
                 recoveryDestination: values.recoveryDestination,
+                seed: values.seed,
+                durableNonce,
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'solToken':
+    case 'tsolToken':
+      return (
+        <SolanaTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const parentCoin = env === 'test' ? 'tsol' : 'sol';
+              const chainData = await getTokenChain(
+                values.tokenAddress,
+                parentCoin
+              );
+              const { publicKey, secretKey } = values;
+              const durableNonce =
+                publicKey && secretKey ? { publicKey, secretKey } : undefined;
+              const recoverData = await window.commands.recover(parentCoin, {
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+                userKey: '',
+                backupKey: '',
+                recoveryDestination: values.recoveryDestination,
+                tokenContractAddress: values.tokenAddress,
                 seed: values.seed,
                 durableNonce,
               });
