@@ -27,6 +27,7 @@ import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { TronForm } from './TronForm';
+import { TronTokenForm } from './TronTokenForm';
 import { SolanaForm } from './SolanaForm';
 import { SolanaTokenForm } from './SolanaTokenForm';
 import { CardanoForm } from './CardanoForm';
@@ -693,6 +694,73 @@ function Form() {
               const recoverData = await window.commands.recover(coin, {
                 ...(await updateKeysFromIds(coin, values)),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    ...(await includePubsFor(coin, values)),
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'trxToken':
+    case 'ttrxToken':
+      return (
+        <TronTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const parentCoin = env === 'test' ? 'ttrx' : 'trx';
+              const chainData = await getTokenChain(
+                values.tokenAddress,
+                parentCoin
+              );
+              const recoverData = await window.commands.recover(parentCoin, {
+                ...(await updateKeysFromIds(coin, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                tokenContractAddress: values.tokenAddress,
                 ignoreAddressTypes: [],
               });
               assert(
