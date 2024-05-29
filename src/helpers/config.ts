@@ -715,8 +715,8 @@ export const wrongChainRecoveryCoins: Record<
 
 export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
   {
-    prod: [allCoinMetas.polygon, allCoinMetas.eth] as const,
-    test: [allCoinMetas.tpolygon, allCoinMetas.hteth] as const,
+    prod: [allCoinMetas.polygon, allCoinMetas.eth, allCoinMetas.opeth] as const,
+    test: [allCoinMetas.tpolygon, allCoinMetas.hteth, allCoinMetas.topeth] as const,
   };
 
 export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
@@ -736,6 +736,20 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.topeth,
       allCoinMetas.tavaxc,
       allCoinMetas.tetc,
+    ] as const,
+    topeth: [
+      allCoinMetas.tarbeth,
+      allCoinMetas.hteth,
+      allCoinMetas.tpolygon,
+      allCoinMetas.tavaxc,
+      allCoinMetas.tetc
+    ] as const,
+    opeth: [
+      allCoinMetas.arbeth,
+      allCoinMetas.eth,
+      allCoinMetas.polygon,
+      allCoinMetas.avaxc,
+      allCoinMetas.etc
     ] as const,
   };
 
