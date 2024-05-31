@@ -727,29 +727,21 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.polygon,
       allCoinMetas.arbeth,
       allCoinMetas.opeth,
-      allCoinMetas.avaxc,
-      allCoinMetas.etc,
     ] as const,
     hteth: [
       allCoinMetas.tpolygon,
       allCoinMetas.tarbeth,
       allCoinMetas.topeth,
-      allCoinMetas.tavaxc,
-      allCoinMetas.tetc,
     ] as const,
     topeth: [
       allCoinMetas.tarbeth,
       allCoinMetas.hteth,
       allCoinMetas.tpolygon,
-      allCoinMetas.tavaxc,
-      allCoinMetas.tetc
     ] as const,
     opeth: [
       allCoinMetas.arbeth,
       allCoinMetas.eth,
       allCoinMetas.polygon,
-      allCoinMetas.avaxc,
-      allCoinMetas.etc
     ] as const,
   };
 
