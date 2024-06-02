@@ -41,6 +41,7 @@ import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
 import { Zec } from '@bitgo/sdk-coin-zec';
 import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
+import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
 import { BaseCoin } from '@bitgo/sdk-core';
 import assert from 'assert';
 import BIP32Factory from 'bip32';
@@ -108,6 +109,8 @@ sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
 sdk.register('polygon', Polygon.createInstance);
 sdk.register('tpolygon', Tpolygon.createInstance);
+sdk.register('bsc', Bsc.createInstance);
+sdk.register('tbsc', Tbsc.createInstance);
 sdk.register('doge', Doge.createInstance);
 sdk.register('tdoge', Tdoge.createInstance);
 sdk.register('ada', Ada.createInstance);
@@ -275,6 +278,9 @@ async function createWindow() {
         case 'tpolygonToken':
           sdk = new BitGoAPI({ env: environment, polygonscanApiToken: apiKey });
           break;
+        case 'bsc':
+        case 'tbsc':
+          sdk = new BitGoAPI({ env: environment, bscscanApiToken: apiKey });
         default:
           sdk = new BitGoAPI({ env: environment });
       }

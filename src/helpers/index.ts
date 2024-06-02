@@ -2,6 +2,7 @@ import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
+import { coins, EthereumNetwork } from '@bitgo/statics'
 
 const GWEI = 10 ** 9;
 
@@ -41,13 +42,11 @@ export function getEthLikeRecoveryChainId(
   coinName: string,
   bitGoEnvironment: string
 ) {
-  if(coinName === 'ethw') {
-    return 10001;
-  } else if(coinName === 'polygon') {
-      return 137;
-  } else if(coinName === 'tpolygon') {
-      return 80002;
+  const chainId = (coins.get(coinName)?.network as EthereumNetwork)?.chainId;
+  if (chainId) {
+    return chainId;
   }
+
   // default to eth
   return bitGoEnvironment === 'prod' ? 1 : 17000;
 }

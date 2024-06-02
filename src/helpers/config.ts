@@ -199,6 +199,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'polygon',
     isTssSupported: true,
   },
+  bsc: {
+    Title: 'BSC',
+    Description: 'BNB Smart Chain',
+    Icon: 'bsc',
+    value: 'bsc',
+    isTssSupported: true,
+  },
   polygonToken: {
     Title: 'POLYGON TOKEN',
     Description: 'Polygon Token',
@@ -443,6 +450,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     isTssSupported: true,
     ApiKeyProvider: 'api-amoy.polygonscan.com',
   },
+  tbsc: {
+    Title: 'TBSC',
+    Description: 'BNB Smart Chain Testnet',
+    Icon: 'bsc',
+    value: 'tbsc',
+    isTssSupported: true,
+  },
   tpolygonToken: {
     Title: 'TPOLYGON TOKEN',
     Description: 'Testnet Polygon Token',
@@ -580,6 +594,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.opethToken,
     allCoinMetas.polygon,
     allCoinMetas.polygonToken,
+    allCoinMetas.bsc,
     allCoinMetas.bcha,
     allCoinMetas.doge,
     allCoinMetas.sol,
@@ -613,6 +628,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tdot,
     allCoinMetas.thbar,
     allCoinMetas.talgo,
+    allCoinMetas.tbsc,
   ] as const,
 };
 
@@ -645,6 +661,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.solToken,
       allCoinMetas.polygon,
       allCoinMetas.polygonToken,
+      allCoinMetas.bsc,
       allCoinMetas.bcha,
       allCoinMetas.doge,
       allCoinMetas.ada,
@@ -681,6 +698,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsolToken,
       allCoinMetas.tpolygon,
       allCoinMetas.tpolygonToken,
+      allCoinMetas.tbsc,
       allCoinMetas.tdoge,
       allCoinMetas.tada,
       allCoinMetas.tatom,

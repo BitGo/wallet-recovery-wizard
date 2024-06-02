@@ -37,6 +37,7 @@ const coins = [
   'opeth',
   'hbar',
   'algo',
+  'bsc',
 ];
 
 const paths = fs

@@ -24,7 +24,6 @@ import { EthereumForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolkadotForm } from './PolkadotForm';
-import { PolygonForm } from './PolygonForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { SolanaTokenForm } from './SolanaTokenForm';
@@ -339,6 +338,8 @@ function Form() {
     case 'topeth':
     case 'polygon':
     case 'tpolygon':
+    case 'bsc':
+    case 'tbsc':
       return (
         <EthereumForm
           key={coin}
