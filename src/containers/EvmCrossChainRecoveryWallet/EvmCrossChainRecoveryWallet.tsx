@@ -11,6 +11,7 @@ import { ColdWalletForm } from './ColdWalletForm';
 import { HotWalletForm } from './HotWalletForm';
 import { CustodyWalletForm } from './CustodyWalletForm';
 import { FormikHelpers } from 'formik';
+import { allWalletMetas } from '~/helpers/config';
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
@@ -28,23 +29,31 @@ async function isDerivationPath(id: string, description: string) {
 }
 
 interface BaseParams {
-  walletContractAddress: string;
-  bitgoFeeAddress: string;
   recoveryDestination: string;
-  gasLimit: number;
-  maxFeePerGas: number;
-  maxPriorityFeePerGas: number;
   tokenContractAddress?: string;
-  apiKey: string;
   wrongChain: string;
   intendedChain: string;
 }
-interface HotWalletParams extends BaseParams {
+
+interface CustodyWalletParams extends BaseParams {
+  walletId: string;
+}
+
+interface NonCustodyWalletParams extends BaseParams {
+  walletContractAddress: string;
+  bitgoFeeAddress: string;
+  gasLimit: number;
+  maxFeePerGas: number;
+  maxPriorityFeePerGas: number;
+  apiKey: string;
+}
+
+interface HotWalletParams extends NonCustodyWalletParams {
   userKey: string;
   walletPassphrase: string;
 }
 
-interface ColdWalletParams extends BaseParams {
+interface ColdWalletParams extends NonCustodyWalletParams {
   userKey: string;
   userKeyId?: string;
 }
@@ -80,10 +89,11 @@ async function updateKeysFromIds<
 }
 
 async function handleOnSubmit(
-  values: HotWalletParams | ColdWalletParams | BaseParams,
+  values: HotWalletParams | ColdWalletParams | CustodyWalletParams,
   formikHelpers: FormikHelpers<any>,
   bitGoEnvironment: BitgoEnv,
   defaultPath: string,
+  wallet: string,
   navigate: NavigateFunction,
   setAlert: React.Dispatch<React.SetStateAction<string | undefined>>
 ) {
@@ -91,32 +101,10 @@ async function handleOnSubmit(
   formikHelpers.setSubmitting(true);
 
   try {
-    await window.commands.setBitGoEnvironment(
+    const recoverData = await generateRecoverData(
+      values,
       bitGoEnvironment,
-      values.wrongChain,
-      values.apiKey
-    );
-    const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-      await updateKeysFromIds<ColdWalletParams>(
-        values.wrongChain,
-        values as ColdWalletParams
-      );
-    const recoverData = await window.commands.recover(values.wrongChain, {
-      ...values,
-      eip1559: {
-        maxFeePerGas: toWei(maxFeePerGas),
-        maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-      },
-      bitgoKey: '',
-      userKey: Object.prototype.hasOwnProperty.call(rest, 'userKey')
-        ? rest.userKey
-        : '',
-      backupKey: '',
-      ignoreAddressTypes: [],
-    });
-    assert(
-      isRecoveryTransaction(recoverData),
-      'Half-signed recovery transaction not detected.'
+      wallet
     );
 
     const showSaveDialogData = await window.commands.showSaveDialog({
@@ -150,6 +138,66 @@ async function handleOnSubmit(
   }
 }
 
+async function generateRecoverData(
+  values: CustodyWalletParams | HotWalletParams | ColdWalletParams,
+  bitGoEnvironment: BitgoEnv,
+  wallet: string
+) {
+  if (wallet === allWalletMetas.custody.value)
+    return await handleCustodyFormSubmit(values as CustodyWalletParams);
+
+  return await handleNonCustodyFormSubmit(
+    values as HotWalletParams | ColdWalletParams,
+    bitGoEnvironment
+  );
+}
+
+async function handleCustodyFormSubmit(values: CustodyWalletParams) {
+  return {
+    walletId: values.walletId,
+    destinationAddress: values.recoveryDestination,
+    wrongChain: values.wrongChain,
+    intendedChain: values.intendedChain,
+    ...(values.tokenContractAddress && {
+      tokenContractAddress: values.tokenContractAddress,
+    }),
+  };
+}
+
+async function handleNonCustodyFormSubmit(
+  values: HotWalletParams | ColdWalletParams,
+  bitGoEnvironment: BitgoEnv
+) {
+  await window.commands.setBitGoEnvironment(
+    bitGoEnvironment,
+    values.wrongChain,
+    values.apiKey
+  );
+  const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+    await updateKeysFromIds<ColdWalletParams>(
+      values.wrongChain,
+      values as ColdWalletParams
+    );
+  const recoverData = await window.commands.recover(values.wrongChain, {
+    ...values,
+    eip1559: {
+      maxFeePerGas: toWei(maxFeePerGas),
+      maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+    },
+    bitgoKey: '',
+    userKey: Object.prototype.hasOwnProperty.call(rest, 'userKey')
+      ? rest.userKey
+      : '',
+    backupKey: '',
+    ignoreAddressTypes: [],
+  });
+  assert(
+    isRecoveryTransaction(recoverData),
+    'Half-signed recovery transaction not detected.'
+  );
+  return recoverData;
+}
+
 function getHotWalletCoinForm(
   bitgoEnvironment: BitgoEnv,
   navigate: NavigateFunction,
@@ -166,6 +214,7 @@ function getHotWalletCoinForm(
           formikHelpers,
           bitgoEnvironment,
           defaultPath,
+          allWalletMetas.hot.value,
           navigate,
           setAlert
         );
@@ -190,6 +239,7 @@ function getColdWalletCoinForm(
           formikHelpers,
           bitgoEnvironment,
           defaultPath,
+          allWalletMetas.cold.value,
           navigate,
           setAlert
         );
@@ -207,13 +257,14 @@ function getCustodyWalletCoinForm(
     <CustodyWalletForm
       onSubmit={async (values, formikHelpers) => {
         const defaultPath = `~/recover-${
-          values.walletContractAddress
+          values.walletId
         }-prepared.unsigned-${Date.now()}.json`;
         return handleOnSubmit(
           values,
           formikHelpers,
           bitgoEnvironment,
           defaultPath,
+          allWalletMetas.custody.value,
           navigate,
           setAlert
         );
@@ -229,11 +280,11 @@ function Form() {
   const [, setAlert] = useAlertBanner();
   const navigate = useNavigate();
   switch (wallet) {
-    case 'hot':
+    case allWalletMetas.hot.value:
       return getHotWalletCoinForm(bitGoEnvironment, navigate, setAlert);
-    case 'cold':
+    case allWalletMetas.cold.value:
       return getColdWalletCoinForm(bitGoEnvironment, navigate, setAlert);
-    case 'custody':
+    case allWalletMetas.custody.value:
       return getCustodyWalletCoinForm(bitGoEnvironment, navigate, setAlert);
 
     default:

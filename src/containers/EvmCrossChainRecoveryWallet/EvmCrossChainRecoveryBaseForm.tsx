@@ -6,6 +6,7 @@ import {
   evmCCRWrongChainCoins,
   evmCCRIntendedChainCoins,
   CoinMetadata,
+  allWalletMetas,
 } from '~/helpers/config';
 import { BitgoEnv, safeEnv } from '~/helpers';
 
@@ -22,6 +23,8 @@ export function EvmCrossChainRecoveryBaseForm({
     readonly CoinMetadata[]
   >([]);
   const { env } = useParams<'env'>();
+  const { wallet } = useParams<'wallet'>();
+  const isCustodyWallet = wallet === allWalletMetas.custody.value;
   const bitGoEnvironment: BitgoEnv = safeEnv(env);
   const wrongChainCoins: readonly CoinMetadata[] =
     evmCCRWrongChainCoins[bitGoEnvironment];
@@ -87,22 +90,26 @@ export function EvmCrossChainRecoveryBaseForm({
           {getIntendedChainCoins()}
         </FormikSelectfield>
       </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText="The base address of the wallet."
-          Label="Wallet Contract Address* (Base Address)"
-          name="walletContractAddress"
-          Width="fill"
-        />
-      </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText="The Fee address which will be used to pay fee for your recovery transaction."
-          Label="Bitgo Fee Address*"
-          name="bitgoFeeAddress"
-          Width="fill"
-        />
-      </div>
+      {!isCustodyWallet && (
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="The base address of the wallet."
+            Label="Wallet Contract Address* (Base Address)"
+            name="walletContractAddress"
+            Width="fill"
+          />
+        </div>
+      )}
+      {!isCustodyWallet && (
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="The Fee address which will be used to pay fee for your recovery transaction."
+            Label="Bitgo Fee Address*"
+            name="bitgoFeeAddress"
+            Width="fill"
+          />
+        </div>
+      )}
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="The address your recovery transaction will send to."
@@ -111,30 +118,37 @@ export function EvmCrossChainRecoveryBaseForm({
           Width="fill"
         />
       </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText="Gas limit for the Polygon transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
-          Label="Gas Limit"
-          name="gasLimit"
-          Width="fill"
-        />
-      </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText="Max fee per gas for the Polygon transaction. The default is 20 Gwei."
-          Label="Max Fee Per Gas (Gwei)"
-          name="maxFeePerGas"
-          Width="fill"
-        />
-      </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText='"Tip" to the Polygon miner. This is by default 10 Gwei.'
-          Label="Max Priority Fee Per Gas (Gwei)"
-          name="maxPriorityFeePerGas"
-          Width="fill"
-        />
-      </div>
+
+      {!isCustodyWallet && (
+        <>
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText="Gas limit for the Polygon transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+              Label="Gas Limit"
+              name="gasLimit"
+              Width="fill"
+            />
+          </div>
+
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText="Max fee per gas for the Polygon transaction. The default is 20 Gwei."
+              Label="Max Fee Per Gas (Gwei)"
+              name="maxFeePerGas"
+              Width="fill"
+            />
+          </div>
+
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText='"Tip" to the Polygon miner. This is by default 10 Gwei.'
+              Label="Max Priority Fee Per Gas (Gwei)"
+              name="maxPriorityFeePerGas"
+              Width="fill"
+            />
+          </div>
+        </>
+      )}
       <div className="tw-mb-4">
         <FormikTextfield
           HelperText="The contract address of the token which needs to be recovered."
@@ -143,14 +157,16 @@ export function EvmCrossChainRecoveryBaseForm({
           Width="fill"
         />
       </div>
-      <div className="tw-mb-4">
-        <FormikTextfield
-          HelperText="An Api-Key Token required for the explorer."
-          Label="API Key*"
-          name="apiKey"
-          Width="fill"
-        />
-      </div>
+      {!isCustodyWallet && (
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An Api-Key Token required for the explorer."
+            Label="API Key*"
+            name="apiKey"
+            Width="fill"
+          />
+        </div>
+      )}
     </Form>
   );
 }
