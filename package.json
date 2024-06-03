@@ -19,6 +19,7 @@
     "@bitgo/sdk-coin-bch": "2.0.16",
     "@bitgo/sdk-coin-bcha": "2.1.0",
     "@bitgo/sdk-coin-bld": "2.0.16",
+    "@bitgo/sdk-coin-bsc": "22.1.0",
     "@bitgo/sdk-coin-bsv": "2.0.16",
     "@bitgo/sdk-coin-btc": "2.0.16",
     "@bitgo/sdk-coin-btg": "2.0.16",
