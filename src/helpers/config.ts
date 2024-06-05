@@ -71,6 +71,10 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'eth',
     ApiKeyProvider: 'etherscan.com',
     isTssSupported: true,
+    defaultGasLimit: '200,000',
+    defaultGasLimitNum: 200000,
+    defaultMaxFeePerGas: 100,
+    defaultMaxPriorityFeePerGas: 20,
   },
   ethw: {
     Title: 'ETHw',
@@ -157,6 +161,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+    defaultMaxFeePerGas: 50,
+    defaultMaxPriorityFeePerGas: 10,
   },
   opethToken: {
     Title: 'OPETH TOKEN',
@@ -198,6 +204,10 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'polygon',
     value: 'polygon',
     isTssSupported: true,
+    defaultGasLimit: '200,000',
+    defaultGasLimitNum: 200000,
+    defaultMaxFeePerGas: 200,
+    defaultMaxPriorityFeePerGas: 50,
   },
   bsc: {
     Title: 'BSC',
@@ -339,6 +349,10 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'hteth',
     ApiKeyProvider: 'etherscan.com',
     isTssSupported: true,
+    defaultGasLimit: '200,000',
+    defaultGasLimitNum: 200000,
+    defaultMaxFeePerGas: 100,
+    defaultMaxPriorityFeePerGas: 20,
   },
   hterc20: {
     Title: 'HTERC',
@@ -407,6 +421,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+    defaultMaxFeePerGas: 50,
+    defaultMaxPriorityFeePerGas: 10,
   },
   topethToken: {
     Title: 'TOPETH TOKEN',
@@ -449,6 +465,10 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'tpolygon',
     isTssSupported: true,
     ApiKeyProvider: 'api-amoy.polygonscan.com',
+    defaultGasLimit: '200,000',
+    defaultGasLimitNum: 200000,
+    defaultMaxFeePerGas: 200,
+    defaultMaxPriorityFeePerGas: 50,
   },
   tbsc: {
     Title: 'TBSC',
@@ -737,7 +757,11 @@ export const wrongChainRecoveryCoins: Record<
 export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
   {
     prod: [allCoinMetas.polygon, allCoinMetas.eth, allCoinMetas.opeth] as const,
-    test: [allCoinMetas.tpolygon, allCoinMetas.hteth, allCoinMetas.topeth] as const,
+    test: [
+      allCoinMetas.tpolygon,
+      allCoinMetas.hteth,
+      allCoinMetas.topeth,
+    ] as const,
   };
 
 export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =

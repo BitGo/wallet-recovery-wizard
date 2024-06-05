@@ -9,6 +9,7 @@ import {
   allWalletMetas,
 } from '~/helpers/config';
 import { BitgoEnv, safeEnv } from '~/helpers';
+import { allCoinMetas } from '~/helpers/config';
 
 export function EvmCrossChainRecoveryBaseForm({
   formik,
@@ -22,6 +23,9 @@ export function EvmCrossChainRecoveryBaseForm({
   const [intendedChainCoins, setIntendedChainCoins] = useState<
     readonly CoinMetadata[]
   >([]);
+  const [gasLimit, setGasLimit] = useState(500000);
+  const [maxFeePerGas, setMaxFeePerGas] = useState(500);
+  const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState(50);
   const { env } = useParams<'env'>();
   const { wallet } = useParams<'wallet'>();
   const isCustodyWallet = wallet === allWalletMetas.custody.value;
@@ -43,11 +47,17 @@ export function EvmCrossChainRecoveryBaseForm({
   const handleWrongChainChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    setWrongChain(event.target.value);
-    formik.setFieldValue('wrongChain', event.target.value);
+    const wrongChainName = event.target.value;
+    setWrongChain(wrongChainName);
+    formik.setFieldValue('wrongChain', wrongChainName);
     setDisabled(false);
-    const intendedChainCoins = evmCCRIntendedChainCoins[event.target.value];
+    const intendedChainCoins = evmCCRIntendedChainCoins[wrongChainName];
     setIntendedChainCoins(intendedChainCoins);
+    setGasLimit(allCoinMetas[wrongChainName]?.defaultGasLimitNum ?? 500000);
+    setMaxFeePerGas(allCoinMetas[wrongChainName]?.defaultMaxFeePerGas ?? 500);
+    setMaxPriorityFeePerGas(
+      allCoinMetas[wrongChainName]?.defaultMaxPriorityFeePerGas ?? 50
+    );
   };
 
   const getIntendedChainCoins = () => {
@@ -127,6 +137,7 @@ export function EvmCrossChainRecoveryBaseForm({
               Label="Gas Limit"
               name="gasLimit"
               Width="fill"
+              value={gasLimit}
             />
           </div>
 
@@ -136,6 +147,7 @@ export function EvmCrossChainRecoveryBaseForm({
               Label="Max Fee Per Gas (Gwei)"
               name="maxFeePerGas"
               Width="fill"
+              value={maxFeePerGas}
             />
           </div>
 
@@ -145,6 +157,7 @@ export function EvmCrossChainRecoveryBaseForm({
               Label="Max Priority Fee Per Gas (Gwei)"
               name="maxPriorityFeePerGas"
               Width="fill"
+              value={maxPriorityFeePerGas}
             />
           </div>
         </>
