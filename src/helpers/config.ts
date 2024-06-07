@@ -558,12 +558,14 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.ada,
     allCoinMetas.dot,
     allCoinMetas.sol,
+    allCoinMetas.solToken,
   ],
   test: [
     allCoinMetas.ttrx,
     allCoinMetas.tada,
     allCoinMetas.tdot,
     allCoinMetas.tsol,
+    allCoinMetas.tsolToken,
   ],
 };
 

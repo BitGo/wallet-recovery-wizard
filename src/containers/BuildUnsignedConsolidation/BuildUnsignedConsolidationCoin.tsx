@@ -14,6 +14,7 @@ import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
 import { GenericEcdsaForm } from '~/containers/BuildUnsignedConsolidation/GenericEcdsaForm';
 import { SolForm } from '~/containers/BuildUnsignedConsolidation/SolForm';
+import { SolTokenForm } from '~/containers/BuildUnsignedConsolidation/SolTokenForm';
 
 type ConsolidationFormProps = {
   coin?: string;
@@ -77,6 +78,63 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               );
               navigate(
                 `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    }
+    case 'solToken':
+    case 'tsolToken': {
+      return (
+        <SolTokenForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const parentCoin = coin === 'tsolToken' ? 'tsol' : 'sol';
+              const chainData = await window.queries.getChain(parentCoin);
+              const consolidateData =
+                await window.commands.recoverConsolidations(parentCoin, {
+                  ...values,
+                  durableNonces: {
+                    ...values.durableNonces,
+                    publicKeys: values.durableNonces.publicKeys.split(',').map((v) => v.trim()),
+                  }
+                });
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-token-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateData, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${parentCoin}/success`
               );
             } catch (e) {
               if (e instanceof Error) {
