@@ -555,6 +555,7 @@ export const buildUnsignedConsolidationCoins: Record<
 > = {
   prod: [
     allCoinMetas.trx,
+    allCoinMetas.trxToken,
     allCoinMetas.ada,
     allCoinMetas.dot,
     allCoinMetas.sol,
@@ -562,6 +563,7 @@ export const buildUnsignedConsolidationCoins: Record<
   ],
   test: [
     allCoinMetas.ttrx,
+    allCoinMetas.ttrxToken,
     allCoinMetas.tada,
     allCoinMetas.tdot,
     allCoinMetas.tsol,
