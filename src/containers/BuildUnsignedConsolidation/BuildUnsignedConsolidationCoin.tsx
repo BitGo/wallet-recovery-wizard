@@ -7,6 +7,7 @@ import {
   updateKeysFromIds,
 } from '~/helpers';
 import { TronForm } from '~/containers/BuildUnsignedConsolidation/TronForm';
+import { TronTokenForm } from '~/containers/BuildUnsignedConsolidation/TronTokenForm';
 import { CoinsSelectAutocomplete } from '~/components';
 import { buildUnsignedConsolidationCoins } from '~/helpers/config';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
@@ -247,6 +248,79 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
                   },
                 ],
                 defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateDataWithPubs, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'trxToken':
+    case 'ttrxToken':
+      return (
+        <TronTokenForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const parentCoin = coin === 'ttrxToken' ? 'ttrx' : 'trx';
+              const chainData = await window.queries.getChain(parentCoin);
+              const pubsForOvc = await includePubsFor(parentCoin, values);
+              const consolidateData =
+                (await window.commands.recoverConsolidations(parentCoin, {
+                  ...(await updateKeysFromIds(parentCoin, values)),
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                })) as ConsolidationRecoveryBatch;
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              assert(
+                isRecoveryConsolidationTransaction(consolidateData),
+                'Recovery consolidation transaction not found'
+              );
+
+              if (consolidateData.transactions.length === 0) {
+                setAlert('No transactions found for consolidation');
+                return;
+              }
+
+              const consolidateDataWithPubs = {
+                transactions: consolidateData.transactions.map(transaction => {
+                  return {
+                    ...transaction,
+                    ...pubsForOvc,
+                  };
+                }),
+              };
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-token-unsigned-consolidation-${Date.now()}.json`,
               });
               if (!showSaveDialogData.filePath) {
                 throw new Error('No file path selected');
