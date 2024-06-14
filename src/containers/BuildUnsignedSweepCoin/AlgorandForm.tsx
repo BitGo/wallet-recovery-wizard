@@ -58,7 +58,7 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-Managed Hot Wallet
+          Self-Managed Cold Wallet
         </h4>
         <div className="tw-mb-4">
           <FormikTextfield
