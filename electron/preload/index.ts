@@ -46,6 +46,7 @@ type Commands = {
       | createDotBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
+  sweepV1(coin: string, parameters);
   recoverConsolidations(
     coin: string,
     params:
@@ -158,6 +159,9 @@ const commands: Commands = {
       coin,
       parameters
     );
+  },
+  sweepV1(coin, parameters) {
+    return ipcRenderer.invoke('sweepV1', coin, parameters);
   },
   recoverConsolidations(
     coin: string,

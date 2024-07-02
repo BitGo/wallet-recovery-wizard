@@ -427,6 +427,25 @@ async function createWindow() {
       }
     }
   );
+
+  ipcMain.handle(
+    'sweepV1',
+    async (event, coin, parameters) => {
+      switch (coin) {
+        case 'btc':
+        case 'tbtc': {
+          const coinInstance = sdk.coin(coin) as
+            | Btc
+            | Tbtc
+          return coinInstance.sweepV1(parameters);
+        }
+        default:
+          return new Error(
+            `Coin: ${coin} does not support v1 wallets sweep`
+          );
+      }
+    }
+  );
 }
 
 void app.whenReady().then(createWindow);
