@@ -434,10 +434,8 @@ async function createWindow() {
       switch (coin) {
         case 'btc':
         case 'tbtc': {
-          const coinInstance = sdk.coin(coin) as
-            | Btc
-            | Tbtc
-          return coinInstance.sweepV1(parameters);
+          const coinInstance = sdk.coin(coin) as AbstractUtxoCoin;
+          return await coinInstance.sweepV1(parameters);
         }
         default:
           return new Error(
