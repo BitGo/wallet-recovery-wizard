@@ -36,6 +36,7 @@ export function V1BtcSweep() {
           try {
             const unspents = JSON.parse(event.target?.result as string) as BitGoV1Unspent[];
             setSubmitting(true);
+            await window.commands.unlock(values.otp);
             const chainData = await window.queries.getChain(coin);
             const result = await window.commands.sweepV1(coin, {
               walletId: values.walletId,
@@ -68,14 +69,14 @@ export function V1BtcSweep() {
               `/${environment}/v1btc-sweep/${coin}/success`
             );
           } catch (error) {
+            setSubmitting(false);
+            console.log(error);
             if (error instanceof Error) {
-              setFieldError('unspents', error.message);
               setAlert(error.message);
-            } else {
-              console.log(error);
             }
+          } finally {
+            setSubmitting(false);
           }
-          setSubmitting(false);
         };
 
       }}

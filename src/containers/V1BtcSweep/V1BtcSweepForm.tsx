@@ -10,6 +10,7 @@ const validationSchema = Yup.object({
   unspents: Yup.mixed().required(),
   destinationAddress: Yup.string().required(),
   encryptedUserKey: Yup.string().required(),
+  otp: Yup.string().required(),
 }).required();
 
 export type V1BtcSweepFormProps = {
@@ -30,6 +31,7 @@ export function V1BtcSweepForm({onSubmit}: V1BtcSweepFormProps) {
       unspents: undefined,
       destinationAddress: '',
       encryptedUserKey: '',
+      otp: '',
     },
     validationSchema,
   });
@@ -80,6 +82,14 @@ export function V1BtcSweepForm({onSubmit}: V1BtcSweepFormProps) {
                 .setFieldValue('unspents', event.currentTarget.files?.[0])
                 .catch(console.error);
             }}
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText={`2FA`}
+            Label="2FA Code"
+            name="otp"
+            Width="fill"
           />
         </div>
 
