@@ -45,6 +45,7 @@ type Commands = {
       | createDotBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
+  unlock(otp: string);
   sweepV1(coin: string, parameters);
   recoverConsolidations(
     coin: string,

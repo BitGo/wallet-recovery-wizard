@@ -428,6 +428,11 @@ async function createWindow() {
     }
   );
 
+  ipcMain.handle('unlock', async (event, otp) => {
+    const response = await sdk.unlock({ otp });
+    return response;
+  });
+
   ipcMain.handle(
     'sweepV1',
     async (event, coin, parameters) => {
