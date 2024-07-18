@@ -115,6 +115,12 @@ export function Home() {
                   Title="Wrong Chain Recoveries"
                   Description="Recover funds sent to the wrong chain, such as BTC sent to a LTC address."
                 />
+                <LinkCardItem
+                  Tag={Link}
+                  to={`/${env}/v1btc-sweep`}
+                  Title="V1BTC Sweep"
+                  Description="Create a full-signed sweep transaction using User and BitGo key."
+                />
               </LinkCard>
             </div>
           </div>

@@ -427,6 +427,28 @@ async function createWindow() {
       }
     }
   );
+
+  ipcMain.handle('unlock', async (event, otp) => {
+    const response = await sdk.unlock({ otp });
+    return response;
+  });
+
+  ipcMain.handle(
+    'sweepV1',
+    async (event, coin, parameters) => {
+      switch (coin) {
+        case 'btc':
+        case 'tbtc': {
+          const coinInstance = sdk.coin(coin) as AbstractUtxoCoin;
+          return await coinInstance.sweepV1(parameters);
+        }
+        default:
+          return new Error(
+            `Coin: ${coin} does not support v1 wallets sweep`
+          );
+      }
+    }
+  );
 }
 
 void app.whenReady().then(createWindow);

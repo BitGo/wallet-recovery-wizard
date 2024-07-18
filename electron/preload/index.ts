@@ -46,6 +46,8 @@ type Commands = {
       | createDotBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
+  unlock(otp: string);
+  sweepV1(coin: string, parameters);
   recoverConsolidations(
     coin: string,
     params:
@@ -158,6 +160,12 @@ const commands: Commands = {
       coin,
       parameters
     );
+  },
+  unlock(otp: string) {
+    return ipcRenderer.invoke('unlock', otp);
+  },
+  sweepV1(coin, parameters) {
+    return ipcRenderer.invoke('sweepV1', coin, parameters);
   },
   recoverConsolidations(
     coin: string,

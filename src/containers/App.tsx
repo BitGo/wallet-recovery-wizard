@@ -15,6 +15,7 @@ import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcas
 import { BroadcastTransactionIndex } from './BroadcastTransactionIndex';
 import { SuccessfulBroadcastTransaction } from './SuccessfulBroadcastTransaction';
 import { BroadcastTransactionCoin } from './BroadcastTransactionCoin';
+import {V1BtcSweep} from "~/containers/V1BtcSweep";
 
 export default function App() {
   return (
@@ -112,6 +113,18 @@ export default function App() {
         }
       >
         <Route index element={<WrongChainRecovery />} />
+        <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/v1btc-sweep"
+        element={
+          <AuthenticatedPageLayout
+            Title="V1BTC Sweep"
+            Description="Create a full-signed sweep transaction using User and BitGo key."
+          />
+        }
+      >
+        <Route index element={<V1BtcSweep />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
       </Route>
     </Routes>
