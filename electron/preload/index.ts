@@ -9,7 +9,9 @@ import type {
   FormattedOfflineVaultTxInfo,
   RecoverFromWrongChainOptions,
   RecoverParams,
+  V1SweepParams,
 } from '@bitgo/abstract-utxo';
+import { v1Sweep } from '@bitgo/abstract-utxo';
 import type {
   ConsolidationRecoveryOptions as TrxConsolidationRecoveryOptions,
   ConsolidationRecoveryBatch as TrxConsolidationRecoveryBatch,
@@ -47,7 +49,7 @@ type Commands = {
       | createSolBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
-  sweepV1(coin: string, parameters);
+  sweepV1(coin: string, parameters: V1SweepParams): ReturnType<typeof v1Sweep>;
   recoverConsolidations(
     coin: string,
     params:
