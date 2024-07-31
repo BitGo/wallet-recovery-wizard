@@ -2,7 +2,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import {
-  assert,
+  assert, getEip1559Params,
   getEthLikeRecoveryChainId,
   getTokenChain,
   includePubsFor,
@@ -112,6 +112,8 @@ function Form() {
       );
     case 'eth':
     case 'hteth':
+    case 'etc':
+    case 'tetc':
     case 'arbeth':
     case 'tarbeth':
     case 'opeth':
@@ -135,10 +137,7 @@ function Form() {
                 await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
-                eip1559: {
-                  maxFeePerGas: toWei(maxFeePerGas),
-                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                },
+                eip1559: getEip1559Params(coin, maxFeePerGas, maxPriorityFeePerGas),
                 replayProtectionOptions: {
                   chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                   hardfork: 'london',

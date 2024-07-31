@@ -29,6 +29,7 @@
     "@bitgo/sdk-coin-doge": "2.0.32",
     "@bitgo/sdk-coin-dot": "4.1.10",
     "@bitgo/sdk-coin-eos": "2.1.25",
+    "@bitgo/sdk-coin-etc": "2.2.0",
     "@bitgo/sdk-coin-eth": "24.2.21",
     "@bitgo/sdk-coin-ethlike": "1.1.13",
     "@bitgo/sdk-coin-ethw": "20.0.32",

@@ -260,9 +260,13 @@ export function isBscChain(coin: string) {
   return (coin === 'bsc' || coin === 'tbsc')
 }
 
+export function isEtcChain(coin: string) {
+  return (coin === 'etc' ||  coin === 'tetc')
+}
+
 export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriorityFeePerGas: number) {
-  // bsc and tbsc doesn't support EIP-1559
-  if (isBscChain(coin)) {
+  // bsc/tbsc and etc/tetc doesn't support EIP-1559
+  if (isBscChain(coin) || isEtcChain(coin)) {
     return undefined;
   }
   return {
