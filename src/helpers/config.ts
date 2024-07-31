@@ -580,6 +580,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'algo',
     value: 'talgo',
   },
+  baseeth: {
+    Title: 'BASEETH',
+    Description: 'Base Chain Mainnet',
+    Icon: 'baseeth',
+    value: 'baseeth',
+  },
+  tbaseeth: {
+    Title: 'TBASEETH',
+    Description: 'Base Sepolia Testnet',
+    Icon: 'baseeth',
+    value: 'tbaseeth',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -775,12 +787,19 @@ export const wrongChainRecoveryCoins: Record<
 
 export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
   {
-    prod: [allCoinMetas.polygon, allCoinMetas.eth, allCoinMetas.opeth, allCoinMetas.bsc] as const,
+    prod: [
+      allCoinMetas.polygon,
+      allCoinMetas.eth,
+      allCoinMetas.opeth,
+      allCoinMetas.bsc,
+      allCoinMetas.baseeth,
+    ] as const,
     test: [
       allCoinMetas.tpolygon,
       allCoinMetas.hteth,
       allCoinMetas.topeth,
       allCoinMetas.tbsc,
+      allCoinMetas.tbaseeth,
     ] as const,
   };
 
@@ -825,6 +844,12 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.hteth,
       allCoinMetas.tarbeth,
       allCoinMetas.topeth,
+    ] as const,
+    baseeth: [
+      allCoinMetas.eth,
+    ] as const,
+    tbaseeth: [
+      allCoinMetas.hteth,
     ] as const,
   };
 
@@ -875,4 +900,27 @@ export const tokenParentCoins = {
   topethToken: 'topeth',
   polygonToken: 'polygon',
   tpolygonToken: 'tpolygon',
+};
+
+export type EvmCcrNonBitgoCoinConfigType = {
+  name: string,
+  chainId: number,
+  networkId: number,
+  defaultHardfork: string,
+};
+
+export const evmCcrNonBitgoCoins = ['tbaseeth', 'baseeth'] as const;
+export type EvmCcrNonBitgoCoin = (typeof evmCcrNonBitgoCoins)[number]
+
+export const evmCcrNonBitgoCoinConfig = {
+  baseeth: {
+    name: 'Base Chain',
+    chainId: 8453,
+    defaultHardfork: 'london',
+  },
+  tbaseeth: {
+    name: 'Base Sepolia',
+    chainId: 84532,
+    defaultHardfork: 'london',
+  },
 };

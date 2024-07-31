@@ -31,6 +31,7 @@
     "@bitgo/sdk-coin-dot": "4.1.7",
     "@bitgo/sdk-coin-eos": "2.1.22",
     "@bitgo/sdk-coin-eth": "24.2.18",
+    "@bitgo/sdk-coin-ethlike": "1.1.10",
     "@bitgo/sdk-coin-ethw": "20.0.29",
     "@bitgo/sdk-coin-hash": "2.0.29",
     "@bitgo/sdk-coin-hbar": "2.0.29",
