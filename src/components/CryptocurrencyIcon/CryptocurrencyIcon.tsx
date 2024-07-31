@@ -5,6 +5,7 @@ export interface CryptocurrencyIconProps {
     | 'arbeth'
     | 'atom'
     | 'avax'
+    | 'baseeth'
     | 'bch'
     | 'bld'
     | 'bsc'
@@ -223,6 +224,27 @@ export function CryptocurrencyIcon({
 	c-0.6,0.9-1.5,1.4-2.5,1.5h-5c-1.1,0-1.6-0.8-1-1.7L14.9,4.7z"
             className="st1"
           />
+        </svg>
+      );
+    case 'baseeth':
+      return (
+        <svg
+          version="1.0"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 200.000000 201.000000"
+          preserveAspectRatio="xMidYMid meet"
+          className={clsx('tw-inline-flex tw-fill-current', {
+            'tw-w-4 tw-h-4': Size === 'small',
+            'tw-w-6 tw-h-6': Size === 'medium',
+            'tw-w-8 tw-h-8': Size === 'large',
+          })}
+          {...hostProps}
+        >
+
+          <g transform="translate(0.000000,201.000000) scale(0.100000,-0.100000)" fill="#0052ff" stroke="none">
+            <path
+              d="M915 2004 c-213 -23 -395 -99 -561 -236 -134 -110 -241 -264 -301 -432 -16 -45 -53 -207 -53 -231 0 -13 78 -15 665 -15 l665 0 0 -85 0 -85 -665 0 c-455 0 -665 -3 -665 -10 0 -22 32 -167 47 -215 82 -256 284 -483 534 -599 219 -102 512 -117 741 -37 81 28 193 86 264 136 133 95 278 280 340 434 52 128 68 216 68 371 1 147 -6 191 -46 320 -89 280 -342 538 -618 630 -129 42 -305 65 -415 54z"/>
+          </g>
         </svg>
       );
     case 'bch':
