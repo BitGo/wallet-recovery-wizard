@@ -112,6 +112,8 @@ function Form() {
       );
     case 'eth':
     case 'hteth':
+    case 'etc':
+    case 'tetc':
     case 'arbeth':
     case 'tarbeth':
     case 'opeth':

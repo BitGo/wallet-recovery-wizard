@@ -13,6 +13,7 @@ const coins = [
   'zec',
   'btg',
   'eth',
+  'etc',
   'trx',
   'bsv',
   'eos',
