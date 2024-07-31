@@ -1,4 +1,5 @@
 import { TrxConsolidationRecoveryOptions } from '../types';
+import EthereumCommon from '@ethereumjs/common';
 
 process.env.DIST_ELECTRON = join(__dirname, '../..');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
@@ -28,7 +29,7 @@ import { Dash } from '@bitgo/sdk-coin-dash';
 import { Doge, Tdoge } from '@bitgo/sdk-coin-doge';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
-import { Erc20Token, Eth, Hteth } from '@bitgo/sdk-coin-eth';
+import { AbstractEthLikeNewCoins, Erc20Token, Eth, Hteth } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
@@ -52,6 +53,7 @@ import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
+import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -137,6 +139,9 @@ sdk.register('hbar', Hbar.createInstance);
 sdk.register('thbar', Thbar.createInstance);
 sdk.register('algo', Algo.createInstance);
 sdk.register('talgo', Talgo.createInstance);
+sdk.register('baseeth', EthLikeCoin.createInstance);
+sdk.register('tbaseeth', TethLikeCoin.createInstance);
+
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
@@ -289,7 +294,12 @@ async function createWindow() {
   );
 
   ipcMain.handle('recover', async (event, coin, parameters) => {
-    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+    const baseCoin = sdk.coin(coin) as AbstractEthLikeNewCoins;
+    if (parameters.ethCommonParams) {
+      parameters.common = EthereumCommon.custom({
+        ...parameters.ethCommonParams
+      });
+    }
     return await baseCoin.recover(parameters);
   });
 

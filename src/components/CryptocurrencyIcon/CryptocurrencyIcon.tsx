@@ -5,6 +5,7 @@ export interface CryptocurrencyIconProps {
     | 'arbeth'
     | 'atom'
     | 'avax'
+    | 'baseeth'
     | 'bch'
     | 'bld'
     | 'bsc'
@@ -223,6 +224,12 @@ export function CryptocurrencyIcon({
 	c-0.6,0.9-1.5,1.4-2.5,1.5h-5c-1.1,0-1.6-0.8-1-1.7L14.9,4.7z"
             className="st1"
           />
+        </svg>
+      );
+    case 'baseeth':
+      return (
+        <svg>
+          //TODO
         </svg>
       );
     case 'bch':
