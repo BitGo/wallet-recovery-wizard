@@ -3,6 +3,12 @@ import type {
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
 import { coins, EthereumNetwork } from '@bitgo/statics'
+import {
+  EvmCcrNonBitgoCoin,
+  evmCcrNonBitgoCoinConfig,
+  EvmCcrNonBitgoCoinConfigType,
+  evmCcrNonBitgoCoins,
+} from '~/helpers/config';
 
 const GWEI = 10 ** 9;
 
@@ -230,6 +236,23 @@ export function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDef
   } catch {
     return updateKeysFromIds(coin, ...rest);
   }
+}
+
+export function isNonBitgoCoin(coin : EvmCcrNonBitgoCoin) {
+  return evmCcrNonBitgoCoins.includes(coin);
+}
+
+export function getEthCommonConfigParams(coin : EvmCcrNonBitgoCoin) : EvmCcrNonBitgoCoinConfigType | undefined {
+  if (!isNonBitgoCoin(coin)){
+    return undefined;
+  }
+  const config = evmCcrNonBitgoCoinConfig[coin];
+  return {
+    name: config.name,
+    chainId: config.chainId,
+    networkId: config.chainId,
+    defaultHardfork: config.defaultHardfork,
+  };
 }
 
 export function isBscChain(coin: string) {

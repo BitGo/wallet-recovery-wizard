@@ -5,13 +5,15 @@ import {
   assert,
   isRecoveryTransaction,
   safeEnv,
-  toWei, getEip1559Params,
+  toWei,
+  getEip1559Params,
+  getEthCommonConfigParams,
 } from '~/helpers';
 import { ColdWalletForm } from './ColdWalletForm';
 import { HotWalletForm } from './HotWalletForm';
 import { CustodyWalletForm } from './CustodyWalletForm';
 import { FormikHelpers } from 'formik';
-import { allWalletMetas } from '~/helpers/config';
+import { allWalletMetas, EvmCcrNonBitgoCoin } from '~/helpers/config';
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
@@ -189,6 +191,7 @@ async function handleNonCustodyFormSubmit(
       : '',
     backupKey: '',
     ignoreAddressTypes: [],
+    ethCommonParams: getEthCommonConfigParams(values.wrongChain as EvmCcrNonBitgoCoin),
   });
   assert(
     isRecoveryTransaction(recoverData),
