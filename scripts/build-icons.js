@@ -38,6 +38,7 @@ const coins = [
   'hbar',
   'algo',
   'bsc',
+  'sui'
 ];
 
 const paths = fs
