@@ -43,6 +43,7 @@
     "@bitgo/sdk-coin-polygon": "20.5.14",
     "@bitgo/sdk-coin-sei": "2.0.30",
     "@bitgo/sdk-coin-sol": "4.4.4",
+    "@bitgo/sdk-coin-sui": "5.4.0",
     "@bitgo/sdk-coin-tia": "2.1.16",
     "@bitgo/sdk-coin-trx": "2.0.30",
     "@bitgo/sdk-coin-xlm": "3.2.4",
