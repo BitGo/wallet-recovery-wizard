@@ -18,3 +18,6 @@ playwright/.cache/
 
 # electron-vite-react
 .vscode/.debug.env
+
+# Idea IntelliJ
+.idea/

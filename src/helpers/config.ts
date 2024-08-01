@@ -312,6 +312,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'algo',
     value: 'algo',
   },
+  sui: {
+    Title: 'SUI',
+    Description: 'Sui',
+    Icon: 'sui',
+    value: 'sui',
+  },
+  tsui: {
+    Title: 'TSUI',
+    Description: 'Testnet Sui',
+    Icon: 'sui',
+    value: 'tsui',
+  },
   tbtc: {
     Title: 'TBTC',
     Description: 'Testnet Bitcoin',
@@ -700,6 +712,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.coreum,
       allCoinMetas.hbar,
       allCoinMetas.algo,
+      allCoinMetas.sui,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -736,6 +749,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tcoreum,
       allCoinMetas.thbar,
       allCoinMetas.talgo,
+      allCoinMetas.tsui
     ] as const,
   };
 
