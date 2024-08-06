@@ -1130,6 +1130,8 @@ function Form() {
     case 'tada':
     case 'dot':
     case 'tdot':
+    case 'sui':
+    case 'tsui':
       return (
         <CardanoForm
           key={coin}
