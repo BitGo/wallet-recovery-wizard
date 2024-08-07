@@ -33,6 +33,8 @@ import {
   DotRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
   SolRecoveryConsolidationRecoveryOptions,
+  SuiRecoverConsolidationRecoveryBatch,
+  SuiRecoveryConsolidationRecoveryOptions,
 } from '../types';
 
 type User = { username: string };
@@ -59,12 +61,14 @@ type Commands = {
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | SuiRecoverConsolidationRecoveryBatch
   >;
   writeFile(
     file: string,
