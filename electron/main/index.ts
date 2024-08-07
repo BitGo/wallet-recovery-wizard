@@ -423,14 +423,18 @@ async function createWindow() {
         case 'dot':
         case 'tdot':
         case 'sol':
-        case 'tsol': {
+        case 'tsol':
+        case 'sui':
+        case 'tsui': {
           const coinInstance = sdk.coin(coin) as
             | Ada
             | Tada
             | Dot
             | Tdot
             | Sol
-            | Tsol;
+            | Tsol
+            | Sui
+            | Tsui;
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:
