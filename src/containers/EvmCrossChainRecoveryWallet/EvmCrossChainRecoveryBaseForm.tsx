@@ -8,7 +8,7 @@ import {
   CoinMetadata,
   allWalletMetas,
 } from '~/helpers/config';
-import { BitgoEnv, safeEnv } from '~/helpers';
+import { BitgoEnv, isBscChain, safeEnv } from '~/helpers';
 import { allCoinMetas } from '~/helpers/config';
 
 export function EvmCrossChainRecoveryBaseForm({
@@ -130,17 +130,19 @@ export function EvmCrossChainRecoveryBaseForm({
       </div>
 
       {!isCustodyWallet && (
-        <>
-          <div className="tw-mb-4">
-            <FormikTextfield
-              HelperText="Gas limit for the Polygon transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
-              Label="Gas Limit"
-              name="gasLimit"
-              Width="fill"
-              value={gasLimit}
-            />
-          </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Gas limit for the Polygon transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+            Label="Gas Limit"
+            name="gasLimit"
+            Width="fill"
+            value={gasLimit}
+          />
+        </div>
+      )}
 
+      {!isCustodyWallet && !isBscChain(wrongChain) && (
+        <>
           <div className="tw-mb-4">
             <FormikTextfield
               HelperText="Max fee per gas for the Polygon transaction. The default is 20 Gwei."
@@ -161,6 +163,17 @@ export function EvmCrossChainRecoveryBaseForm({
             />
           </div>
         </>
+      )}
+
+      {!isCustodyWallet && isBscChain(wrongChain) && (
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Provide the Gas Price for BSC. This is by default 20 Gwei"
+            Label="Gas Price (Gwei)"
+            name="gasPrice"
+            Width="fill"
+          />
+        </div>
       )}
       <div className="tw-mb-4">
         <FormikTextfield

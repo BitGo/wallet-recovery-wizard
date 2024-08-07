@@ -13,6 +13,7 @@ export type CoinMetadata = {
   defaultGasLimitNum?: number;
   defaultMaxFeePerGas?: number;
   defaultMaxPriorityFeePerGas?: number;
+  defaultGasPrice?: number;
 };
 
 export const allCoinMetas: Record<string, CoinMetadata> = {
@@ -774,11 +775,12 @@ export const wrongChainRecoveryCoins: Record<
 
 export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
   {
-    prod: [allCoinMetas.polygon, allCoinMetas.eth, allCoinMetas.opeth] as const,
+    prod: [allCoinMetas.polygon, allCoinMetas.eth, allCoinMetas.opeth, allCoinMetas.bsc] as const,
     test: [
       allCoinMetas.tpolygon,
       allCoinMetas.hteth,
       allCoinMetas.topeth,
+      allCoinMetas.tbsc,
     ] as const,
   };
 
@@ -813,6 +815,16 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.arbeth,
       allCoinMetas.eth,
       allCoinMetas.polygon,
+    ] as const,
+    bsc: [
+      allCoinMetas.eth,
+      allCoinMetas.arbeth,
+      allCoinMetas.opeth,
+    ] as const,
+    tbsc: [
+      allCoinMetas.hteth,
+      allCoinMetas.tarbeth,
+      allCoinMetas.topeth,
     ] as const,
   };
 

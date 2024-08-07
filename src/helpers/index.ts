@@ -232,3 +232,18 @@ export function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDef
     return updateKeysFromIds(coin, ...rest);
   }
 }
+
+export function isBscChain(coin: string) {
+  return (coin === 'bsc' || coin === 'tbsc')
+}
+
+export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriorityFeePerGas: number) {
+  // bsc and tbsc doesn't support EIP-1559
+  if (isBscChain(coin)) {
+    return undefined;
+  }
+  return {
+    maxFeePerGas: toWei(maxFeePerGas),
+    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+  }
+}
