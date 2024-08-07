@@ -21,6 +21,7 @@ const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
   wrongChain: Yup.string().required(),
   intendedChain: Yup.string().required(),
+  gasPrice: Yup.number().required(),
 }).required();
 
 export type FormProps = {
@@ -48,6 +49,7 @@ export function ColdWalletForm({ onSubmit }: FormProps) {
       apiKey: '',
       wrongChain: '',
       intendedChain: '',
+      gasPrice: 20,
     },
     validationSchema,
   });
