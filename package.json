@@ -9,7 +9,6 @@
     }
   },
   "dependencies": {
-    "@bitgo-beta/sdk-coin-sui": "^1.4.1-alpha.158",
     "@bitgo/abstract-cosmos": "10.0.24",
     "@bitgo/abstract-utxo": "8.9.0",
     "@bitgo/sdk-api": "1.50.0",
@@ -42,6 +41,7 @@
     "@bitgo/sdk-coin-polygon": "20.5.8",
     "@bitgo/sdk-coin-sei": "2.0.24",
     "@bitgo/sdk-coin-sol": "4.3.2",
+    "@bitgo/sdk-coin-sui": "^5.4.0",
     "@bitgo/sdk-coin-tia": "2.1.10",
     "@bitgo/sdk-coin-trx": "2.0.24",
     "@bitgo/sdk-coin-xlm": "3.1.2",
