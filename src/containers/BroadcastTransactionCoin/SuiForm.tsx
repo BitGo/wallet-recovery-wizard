@@ -18,7 +18,7 @@ function hasBroadcastableTransactions(
     | suiBroadcastTransactionParameters;
   return (
     data &&
-    data.transactions !== undefined &&
+    data.transactions &&
     data.transactions.length > 0
   );
 }
