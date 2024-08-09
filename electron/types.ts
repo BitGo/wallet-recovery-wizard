@@ -18,6 +18,9 @@ export type createDotBroadcastableSweepTransactionParameters =
 export type createSolBroadcastableSweepTransactionParameters =
   | Parameters<Sol['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tsol['createBroadcastableSweepTransaction']>[0];
+export type createSuiBroadcastableSweepTransactionParameters =
+  | Parameters<Sui['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tsui['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -27,6 +30,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tdot['createBroadcastableSweepTransaction']
     | Sol['createBroadcastableSweepTransaction']
     | Tsol['createBroadcastableSweepTransaction']
+    | Sui['createBroadcastableSweepTransaction']
+    | Tsui['createBroadcastableSweepTransaction']
   >
 >;
 

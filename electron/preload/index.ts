@@ -28,6 +28,7 @@ import {
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
+  createSuiBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
@@ -47,6 +48,7 @@ type Commands = {
       | createAdaBroadcastableSweepTransactionParameters
       | createDotBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
+      | createSuiBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
   sweepV1(coin: string, parameters: V1SweepParams): ReturnType<typeof v1Sweep>;
