@@ -79,7 +79,8 @@ export function isRecoveryTransaction(
     ('transaction' in value && !!value['transaction']) ||
     ('txid' in value && !!value['txid']) ||
     ('serializedTx' in value && !!value['serializedTx']) ||
-    ('txRequests' in value && !!value['txRequests'])
+    ('txRequests' in value && !!value['txRequests']) ||
+    ('transactions' in value && !!value['transactions'])
   );
 }
 
