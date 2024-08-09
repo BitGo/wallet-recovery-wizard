@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@bitgo-beta/sdk-coin-sui": "^1.4.1-alpha.163",
+    "@bitgo-beta/sdk-coin-sui": "^1.4.1-alpha.167",
     "@bitgo/abstract-cosmos": "10.0.24",
     "@bitgo/abstract-utxo": "8.9.0",
     "@bitgo/sdk-api": "1.50.0",
