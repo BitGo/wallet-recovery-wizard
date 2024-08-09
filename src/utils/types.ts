@@ -7,7 +7,7 @@ import {
 } from '@bitgo/sdk-coin-trx';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
-import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
+import { Sui, Tsui } from '@bitgo-beta/sdk-coin-sui';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
@@ -29,6 +29,10 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tsol['createBroadcastableSweepTransaction']
   >
 >;
+
+export type suiBroadcastTransactionParameters =
+  | Parameters<Sui['broadcastTransaction']>[0]
+  | Parameters<Tsui['broadcastTransaction']>[0];
 
 export type BroadcastTransactionOptions = Awaited<
   | Parameters<Hbar['broadcastTransaction']>[0]
