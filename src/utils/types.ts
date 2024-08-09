@@ -7,7 +7,7 @@ import {
 } from '@bitgo/sdk-coin-trx';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
-import { Sui, Tsui } from '@bitgo-beta/sdk-coin-sui';
+import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]

@@ -52,7 +52,7 @@ import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
-import { Sui, Tsui } from '@bitgo-beta/sdk-coin-sui';
+import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 
 const bip32 = BIP32Factory(ecc);
 
