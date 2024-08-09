@@ -35,6 +35,10 @@ export type BroadcastableSweepTransaction = Awaited<
   >
 >;
 
+export type suiBroadcastTransactionParameters =
+  | Parameters<Sui['broadcastTransaction']>[0]
+  | Parameters<Tsui['broadcastTransaction']>[0];
+
 export type BroadcastTransactionOptions = Awaited<
   | Parameters<Hbar['broadcastTransaction']>[0]
   | Parameters<Thbar['broadcastTransaction']>[0]
