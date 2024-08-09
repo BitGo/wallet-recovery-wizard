@@ -28,6 +28,8 @@ import {
   DotRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
   SolRecoveryConsolidationRecoveryOptions,
+  SuiRecoverConsolidationRecoveryBatch,
+  SuiRecoveryConsolidationRecoveryOptions,
   TrxConsolidationRecoveryBatch,
   TrxConsolidationRecoveryOptions,
 } from '~/utils/types';
@@ -56,12 +58,14 @@ type Commands = {
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | SuiRecoverConsolidationRecoveryBatch
   >;
   writeFile(
     file: string,
@@ -160,12 +164,14 @@ const commands: Commands = {
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | SuiRecoverConsolidationRecoveryBatch
   > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },

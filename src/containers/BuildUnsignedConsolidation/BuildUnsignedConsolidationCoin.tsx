@@ -154,9 +154,12 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
     case 'tada':
     case 'dot':
     case 'tdot':
+    case 'sui':
+    case 'tsui':
       return (
         <GenericEcdsaForm
           onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(environment);

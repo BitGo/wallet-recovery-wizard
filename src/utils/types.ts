@@ -67,6 +67,9 @@ export type DotRecoveryConsolidationRecoveryOptions =
 export type SolRecoveryConsolidationRecoveryOptions =
   | Parameters<Sol['recoverConsolidations']>[0]
   | Parameters<Tsol['recoverConsolidations']>[0];
+export type SuiRecoveryConsolidationRecoveryOptions =
+  | Parameters<Sui['recoverConsolidations']>[0]
+  | Parameters<Tsui['recoverConsolidations']>[0];
 export type TrxConsolidationRecoveryOptions = ConsolidationRecoveryOptions;
 
 export type AdaRecoveryConsolidationRecoveryBatch = Awaited<
@@ -77,5 +80,8 @@ export type DotRecoverConsolidationRecoveryBatch = Awaited<
 >;
 export type SolRecoverConsolidationRecoveryBatch = Awaited<
   ReturnType<Sol['recoverConsolidations'] | Tsol['recoverConsolidations']>
+>;
+export type SuiRecoverConsolidationRecoveryBatch = Awaited<
+  ReturnType<Sui['recoverConsolidations'] | Tsui['recoverConsolidations']>
 >;
 export type TrxConsolidationRecoveryBatch = ConsolidationRecoveryBatch;
