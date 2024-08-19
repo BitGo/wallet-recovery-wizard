@@ -6,12 +6,14 @@ import {
   isRecoveryTransaction,
   safeEnv,
   toWei,
+  getEip1559Params,
+  getEthCommonConfigParams,
 } from '~/helpers';
 import { ColdWalletForm } from './ColdWalletForm';
 import { HotWalletForm } from './HotWalletForm';
 import { CustodyWalletForm } from './CustodyWalletForm';
 import { FormikHelpers } from 'formik';
-import { allWalletMetas } from '~/helpers/config';
+import { allWalletMetas, EvmCcrNonBitgoCoin } from '~/helpers/config';
 
 async function isDerivationPath(id: string, description: string) {
   if (id.length > 2 && id.indexOf('m/') === 0) {
@@ -46,6 +48,7 @@ interface NonCustodyWalletParams extends BaseParams {
   maxFeePerGas: number;
   maxPriorityFeePerGas: number;
   apiKey: string;
+  gasPrice: number;
 }
 
 interface HotWalletParams extends NonCustodyWalletParams {
@@ -178,18 +181,17 @@ async function handleNonCustodyFormSubmit(
       values.wrongChain,
       values as ColdWalletParams
     );
+  values.gasPrice = toWei(values.gasPrice);
   const recoverData = await window.commands.recover(values.wrongChain, {
     ...values,
-    eip1559: {
-      maxFeePerGas: toWei(maxFeePerGas),
-      maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-    },
+    eip1559: getEip1559Params(values.wrongChain, maxFeePerGas, maxPriorityFeePerGas),
     bitgoKey: '',
     userKey: Object.prototype.hasOwnProperty.call(rest, 'userKey')
       ? rest.userKey
       : '',
     backupKey: '',
     ignoreAddressTypes: [],
+    ethCommonParams: getEthCommonConfigParams(values.wrongChain as EvmCcrNonBitgoCoin),
   });
   assert(
     isRecoveryTransaction(recoverData),
