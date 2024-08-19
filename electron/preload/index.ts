@@ -37,6 +37,9 @@ import {
   SuiRecoveryConsolidationRecoveryOptions,
 } from '../types';
 
+import type * as EthLikeCommon from '@ethereumjs/common';
+import { EvmCcrNonBitgoCoinConfigType } from '../../src/helpers/config';
+
 type User = { username: string };
 
 type Commands = {
@@ -102,6 +105,8 @@ type Commands = {
       };
       tokenContractAddress?: string;
       startingScanIndex?: number;
+      common?: EthLikeCommon.default;
+      ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(
