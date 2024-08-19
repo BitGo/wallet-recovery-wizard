@@ -3,6 +3,12 @@ import type {
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
 import { coins, EthereumNetwork } from '@bitgo/statics'
+import {
+  EvmCcrNonBitgoCoin,
+  evmCcrNonBitgoCoinConfig,
+  EvmCcrNonBitgoCoinConfigType,
+  evmCcrNonBitgoCoins,
+} from '~/helpers/config';
 
 const GWEI = 10 ** 9;
 
@@ -230,5 +236,37 @@ export function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDef
     return updateKeysFromIds(token, ...rest);
   } catch {
     return updateKeysFromIds(coin, ...rest);
+  }
+}
+
+export function isNonBitgoCoin(coin : EvmCcrNonBitgoCoin) {
+  return evmCcrNonBitgoCoins.includes(coin);
+}
+
+export function getEthCommonConfigParams(coin : EvmCcrNonBitgoCoin) : EvmCcrNonBitgoCoinConfigType | undefined {
+  if (!isNonBitgoCoin(coin)){
+    return undefined;
+  }
+  const config = evmCcrNonBitgoCoinConfig[coin];
+  return {
+    name: config.name,
+    chainId: config.chainId,
+    networkId: config.chainId,
+    defaultHardfork: config.defaultHardfork,
+  };
+}
+
+export function isBscChain(coin: string) {
+  return (coin === 'bsc' || coin === 'tbsc')
+}
+
+export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriorityFeePerGas: number) {
+  // bsc and tbsc doesn't support EIP-1559
+  if (isBscChain(coin)) {
+    return undefined;
+  }
+  return {
+    maxFeePerGas: toWei(maxFeePerGas),
+    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
   }
 }
