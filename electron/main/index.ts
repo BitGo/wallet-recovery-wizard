@@ -55,7 +55,6 @@ import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo-beta/sdk-coin-sui';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
-import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -145,8 +144,6 @@ sdk.register('sui', Sui.createInstance);
 sdk.register('tsui', Tsui.createInstance);
 sdk.register('baseeth', EthLikeCoin.createInstance);
 sdk.register('tbaseeth', TethLikeCoin.createInstance);
-sdk.register('sui', Sui.createInstance);
-sdk.register('tsui', Tsui.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
