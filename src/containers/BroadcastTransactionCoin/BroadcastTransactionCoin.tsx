@@ -6,6 +6,7 @@ import { broadcastTransactionCoins } from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { AlgorandForm } from '~/containers/BroadcastTransactionCoin/AlgorandForm';
+import { SuiForm } from '~/containers/BroadcastTransactionCoin/SuiForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -114,6 +115,9 @@ function Form() {
           }}
         />
       );
+    case 'sui':
+    case 'tsui':
+      return ( <SuiForm /> );
 
     default:
       throw new Error(`Unsupported coin: ${String(coin)}`);
