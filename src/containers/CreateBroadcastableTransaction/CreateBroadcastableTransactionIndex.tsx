@@ -8,6 +8,7 @@ import type {
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
+  createSuiBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
 import { useAlertBanner } from '~/contexts';
@@ -31,11 +32,13 @@ function isSignedTransaction(
 ): json is
   | createAdaBroadcastableSweepTransactionParameters
   | createDotBroadcastableSweepTransactionParameters
-  | createSolBroadcastableSweepTransactionParameters {
+  | createSolBroadcastableSweepTransactionParameters
+  | createSuiBroadcastableSweepTransactionParameters {
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
-    | createSolBroadcastableSweepTransactionParameters;
+    | createSolBroadcastableSweepTransactionParameters
+    | createSuiBroadcastableSweepTransactionParameters;
   return (
     signedTransaction &&
     signedTransaction.signatureShares !== undefined &&
@@ -64,7 +67,8 @@ export function CreateBroadcastableTransactionIndex() {
             const tx = JSON.parse(event.target?.result as string) as
               | createAdaBroadcastableSweepTransactionParameters
               | createDotBroadcastableSweepTransactionParameters
-              | createSolBroadcastableSweepTransactionParameters;
+              | createSolBroadcastableSweepTransactionParameters
+              | createSuiBroadcastableSweepTransactionParameters;
 
             assert(isSignedTransaction(tx), 'Signed transaction not found');
 
