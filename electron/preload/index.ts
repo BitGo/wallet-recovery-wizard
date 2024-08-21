@@ -33,6 +33,8 @@ import {
   DotRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
   SolRecoveryConsolidationRecoveryOptions,
+  SuiRecoverConsolidationRecoveryBatch,
+  SuiRecoveryConsolidationRecoveryOptions,
 } from '../types';
 
 import type * as EthLikeCommon from '@ethereumjs/common';
@@ -62,12 +64,14 @@ type Commands = {
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | SuiRecoverConsolidationRecoveryBatch
   >;
   writeFile(
     file: string,

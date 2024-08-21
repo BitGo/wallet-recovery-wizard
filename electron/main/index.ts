@@ -317,7 +317,9 @@ async function createWindow() {
         case 'ada':
         case 'tada':
         case 'dot':
-        case 'tdot': {
+        case 'tdot':
+        case 'sui':
+        case 'tsui': {
           const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot;
           return await mpcCoin.recoverConsolidations(params);
         }
