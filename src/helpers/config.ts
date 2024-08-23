@@ -843,11 +843,13 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.eth,
       allCoinMetas.arbeth,
       allCoinMetas.opeth,
+      allCoinMetas.polygon,
     ] as const,
     tbsc: [
       allCoinMetas.hteth,
       allCoinMetas.tarbeth,
       allCoinMetas.topeth,
+      allCoinMetas.tpolygon,
     ] as const,
     baseeth: [
       allCoinMetas.eth,
