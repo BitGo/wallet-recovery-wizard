@@ -149,7 +149,6 @@ export function EvmCrossChainRecoveryBaseForm({
               Label="Max Fee Per Gas (Gwei)"
               name="maxFeePerGas"
               Width="fill"
-              value={maxFeePerGas}
             />
           </div>
 
@@ -159,7 +158,6 @@ export function EvmCrossChainRecoveryBaseForm({
               Label="Max Priority Fee Per Gas (Gwei)"
               name="maxPriorityFeePerGas"
               Width="fill"
-              value={maxPriorityFeePerGas}
             />
           </div>
         </>
