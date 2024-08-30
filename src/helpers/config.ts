@@ -853,9 +853,15 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
     ] as const,
     baseeth: [
       allCoinMetas.eth,
+      allCoinMetas.arbeth,
+      allCoinMetas.opeth,
+      allCoinMetas.polygon,
     ] as const,
     tbaseeth: [
       allCoinMetas.hteth,
+      allCoinMetas.tarbeth,
+      allCoinMetas.topeth,
+      allCoinMetas.tpolygon,
     ] as const,
   };
 
