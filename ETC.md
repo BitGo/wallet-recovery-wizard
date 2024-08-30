@@ -23,7 +23,7 @@ Create a new file called `broadcastETCTransaction.js`
 and add the following script:
 
 ```js
-const axios = require('axios');
+import axios from 'axios';
 
 // Replace with your API key
 const apiKey = 'your-api-key-here';
