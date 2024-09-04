@@ -136,7 +136,6 @@ export function EvmCrossChainRecoveryBaseForm({
             Label="Gas Limit"
             name="gasLimit"
             Width="fill"
-            value={gasLimit}
           />
         </div>
       )}
