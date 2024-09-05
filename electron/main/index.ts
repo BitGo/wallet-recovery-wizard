@@ -29,7 +29,12 @@ import { Dash } from '@bitgo/sdk-coin-dash';
 import { Doge, Tdoge } from '@bitgo/sdk-coin-doge';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Eos, Teos } from '@bitgo/sdk-coin-eos';
-import { AbstractEthLikeNewCoins, Erc20Token, Eth, Hteth } from '@bitgo/sdk-coin-eth';
+import {
+  AbstractEthLikeNewCoins,
+  Erc20Token,
+  Eth,
+  Hteth,
+} from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
@@ -56,6 +61,7 @@ import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
+import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -303,10 +309,17 @@ async function createWindow() {
     const baseCoin = sdk.coin(coin) as AbstractEthLikeNewCoins;
     if (parameters.ethCommonParams) {
       parameters.common = EthereumCommon.custom({
-        ...parameters.ethCommonParams
+        ...parameters.ethCommonParams,
       });
     }
-    return await baseCoin.recover(parameters);
+    const openSSLBytes = loadWebAssembly().buffer;
+    return await baseCoin.recover(
+      {
+        ...parameters,
+        openSSLBytes,
+      },
+      openSSLBytes
+    );
   });
 
   ipcMain.handle('broadcastTransaction', async (event, coin, parameters) => {
@@ -455,22 +468,17 @@ async function createWindow() {
     return response;
   });
 
-  ipcMain.handle(
-    'sweepV1',
-    async (event, coin, parameters) => {
-      switch (coin) {
-        case 'btc':
-        case 'tbtc': {
-          const coinInstance = sdk.coin(coin) as AbstractUtxoCoin;
-          return await coinInstance.sweepV1(parameters);
-        }
-        default:
-          return new Error(
-            `Coin: ${coin} does not support v1 wallets sweep`
-          );
+  ipcMain.handle('sweepV1', async (event, coin, parameters) => {
+    switch (coin) {
+      case 'btc':
+      case 'tbtc': {
+        const coinInstance = sdk.coin(coin) as AbstractUtxoCoin;
+        return await coinInstance.sweepV1(parameters);
       }
+      default:
+        return new Error(`Coin: ${coin} does not support v1 wallets sweep`);
     }
-  );
+  });
 }
 
 void app.whenReady().then(createWindow);
