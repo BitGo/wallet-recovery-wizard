@@ -124,9 +124,13 @@ async function handleOnSubmit(
       throw new Error('No file path selected');
     }
 
+    // COIN-52 : User key removal from the generated file
+    const responseObject = typeof recoverData === 'string' ? JSON.parse(recoverData) : recoverData;
+    delete responseObject.userKey;
+
     await window.commands.writeFile(
       showSaveDialogData.filePath,
-      JSON.stringify(recoverData, null, 2),
+      JSON.stringify(responseObject, null, 2),
       { encoding: 'utf-8' }
     );
 
