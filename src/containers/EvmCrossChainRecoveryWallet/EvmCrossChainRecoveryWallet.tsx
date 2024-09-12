@@ -5,8 +5,6 @@ import {
   assert,
   isRecoveryTransaction,
   safeEnv,
-  toWei,
-  getEip1559Params,
   getEthCommonConfigParams,
 } from '~/helpers';
 import { ColdWalletForm } from './ColdWalletForm';
@@ -44,11 +42,7 @@ interface CustodyWalletParams extends BaseParams {
 interface NonCustodyWalletParams extends BaseParams {
   walletContractAddress: string;
   bitgoFeeAddress: string;
-  gasLimit: number;
-  maxFeePerGas: number;
-  maxPriorityFeePerGas: number;
   apiKey: string;
-  gasPrice: number;
 }
 
 interface HotWalletParams extends NonCustodyWalletParams {
@@ -180,15 +174,14 @@ async function handleNonCustodyFormSubmit(
     values.wrongChain,
     values.apiKey
   );
-  const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+  const { ...rest } =
     await updateKeysFromIds<ColdWalletParams>(
       values.wrongChain,
       values as ColdWalletParams
     );
-  values.gasPrice = toWei(values.gasPrice);
+
   const recoverData = await window.commands.recover(values.wrongChain, {
     ...values,
-    eip1559: getEip1559Params(values.wrongChain, maxFeePerGas, maxPriorityFeePerGas),
     bitgoKey: '',
     userKey: Object.prototype.hasOwnProperty.call(rest, 'userKey')
       ? rest.userKey
