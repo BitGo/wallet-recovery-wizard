@@ -7,13 +7,6 @@ import { EvmCrossChainRecoveryBaseForm } from './EvmCrossChainRecoveryBaseForm';
 const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   bitgoFeeAddress: Yup.string().required(),
-  gasLimit: Yup.number()
-    .typeError('Gas limit must be a number')
-    .integer()
-    .positive('Gas limit must be a positive integer')
-    .required(),
-  maxFeePerGas: Yup.number().required(),
-  maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
@@ -21,7 +14,6 @@ const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
   wrongChain: Yup.string().required(),
   intendedChain: Yup.string().required(),
-  gasPrice: Yup.number().required(),
 }).required();
 
 export type FormProps = {
@@ -39,9 +31,6 @@ export function HotWalletForm({ onSubmit }: FormProps) {
     initialValues: {
       userKey: '',
       bitgoFeeAddress: '',
-      gasLimit: 500000,
-      maxFeePerGas: 500,
-      maxPriorityFeePerGas: 50,
       recoveryDestination: '',
       walletContractAddress: '',
       walletPassphrase: '',
@@ -49,7 +38,6 @@ export function HotWalletForm({ onSubmit }: FormProps) {
       apiKey: '',
       wrongChain: '',
       intendedChain: '',
-      gasPrice: 20,
     },
     validationSchema,
   });
