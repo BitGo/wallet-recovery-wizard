@@ -72,7 +72,8 @@ export function CreateBroadcastableTransactionIndex() {
 
             assert(isSignedTransaction(tx), 'Signed transaction not found');
 
-            const coin = tx.signatureShares[0].txRequest.walletCoin;
+            let coin = tx.signatureShares[0].txRequest.walletCoin;
+            coin = (coin as string).split(':')[0];
             const chainData = await window.queries.getChain(coin);
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const broadcastTx: Error | BroadcastableSweepTransaction =

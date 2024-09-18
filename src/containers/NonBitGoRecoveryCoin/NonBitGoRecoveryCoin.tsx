@@ -954,6 +954,8 @@ function Form() {
       );
     case 'trxToken':
     case 'ttrxToken':
+    case 'suiToken':
+    case 'tsuiToken':
       return (
         <TronTokenForm
           key={coin}
@@ -962,11 +964,8 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
-              const parentCoin = env === 'test' ? 'ttrx' : 'trx';
-              const chainData = await getTokenChain(
-                values.tokenAddress,
-                parentCoin
-              );
+              const parentCoin = tokenParentCoins[coin];
+              let chainData = await getTokenChain(values.tokenAddress, parentCoin);
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),

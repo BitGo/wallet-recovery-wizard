@@ -9,13 +9,14 @@ import {
 import { TronForm } from '~/containers/BuildUnsignedConsolidation/TronForm';
 import { TronTokenForm } from '~/containers/BuildUnsignedConsolidation/TronTokenForm';
 import { CoinsSelectAutocomplete } from '~/components';
-import { buildUnsignedConsolidationCoins } from '~/helpers/config';
+import { buildUnsignedConsolidationCoins, tokenParentCoins } from '~/helpers/config';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
 import { GenericEcdsaForm } from '~/containers/BuildUnsignedConsolidation/GenericEcdsaForm';
 import { SolForm } from '~/containers/BuildUnsignedConsolidation/SolForm';
 import { SolTokenForm } from '~/containers/BuildUnsignedConsolidation/SolTokenForm';
+import { SuiTokenForm } from '~/containers/BuildUnsignedConsolidation/SuiTokenForm';
 
 type ConsolidationFormProps = {
   coin?: string;
@@ -25,10 +26,9 @@ type ConsolidationFormProps = {
 function isRecoveryConsolidationTransaction(
   result: any
 ): result is ConsolidationRecoveryBatch {
-  const consolidationRecoveryBatch = result as ConsolidationRecoveryBatch;
   return (
-    consolidationRecoveryBatch &&
-    consolidationRecoveryBatch.transactions !== undefined
+    ('txRequests' in result && !!result['txRequests']) ||
+    ('transactions' in result && !!result['transactions'])
   );
 }
 
@@ -331,6 +331,60 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               await window.commands.writeFile(
                 showSaveDialogData.filePath,
                 JSON.stringify(consolidateDataWithPubs, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'suiToken':
+    case 'tsuiToken':
+      return (
+        <SuiTokenForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const parentCoin = tokenParentCoins[coin];
+              const chainData = await window.queries.getChain(parentCoin);
+              const consolidateData = await window.commands.recoverConsolidations(parentCoin, {
+                ...(await updateKeysFromIds(parentCoin, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                tokenContractAddress: values.packageId,
+                seed: values.seed,
+              });
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateData, null, 2),
                 { encoding: 'utf8' }
               );
               navigate(
