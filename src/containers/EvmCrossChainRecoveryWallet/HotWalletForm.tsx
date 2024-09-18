@@ -11,7 +11,7 @@ const validationSchema = Yup.object({
   walletContractAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   tokenContractAddress: Yup.string(),
-  apiKey: Yup.string().required(),
+  apiKey: Yup.string(),
   wrongChain: Yup.string().required(),
   intendedChain: Yup.string().required(),
 }).required();

@@ -8,8 +8,7 @@ import {
   CoinMetadata,
   allWalletMetas,
 } from '~/helpers/config';
-import { BitgoEnv, isBscChain, safeEnv } from '~/helpers';
-import { allCoinMetas } from '~/helpers/config';
+import { BitgoEnv, isAvaxcCoin, safeEnv } from '~/helpers';
 
 export function EvmCrossChainRecoveryBaseForm({
   formik,
@@ -34,6 +33,7 @@ export function EvmCrossChainRecoveryBaseForm({
       {`${coin.Title}: ${coin.Description}`}
     </option>
   ));
+
   wrongChainCoinsChildren.unshift(
     <option disabled selected value="">
       {' '}
@@ -128,7 +128,7 @@ export function EvmCrossChainRecoveryBaseForm({
           Width="fill"
         />
       </div>
-      {!isCustodyWallet && (
+      {!isCustodyWallet && !isAvaxcCoin(wrongChain) &&(
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="An Api-Key Token required for the explorer."

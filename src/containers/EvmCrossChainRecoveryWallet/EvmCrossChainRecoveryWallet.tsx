@@ -42,7 +42,7 @@ interface CustodyWalletParams extends BaseParams {
 interface NonCustodyWalletParams extends BaseParams {
   walletContractAddress: string;
   bitgoFeeAddress: string;
-  apiKey: string;
+  apiKey?: string;
 }
 
 interface HotWalletParams extends NonCustodyWalletParams {

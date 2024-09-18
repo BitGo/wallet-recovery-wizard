@@ -274,3 +274,8 @@ export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriority
     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
   }
 }
+
+
+export function isAvaxcCoin(chainName: string) {
+  return (chainName === 'tavaxc' || chainName === 'avaxc') ;
+}
