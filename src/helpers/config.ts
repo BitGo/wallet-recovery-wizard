@@ -319,11 +319,23 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'sui',
     value: 'sui',
   },
+  suiToken: {
+    Title: 'SUI Token',
+    Description: 'Sui Token',
+    Icon: 'sui',
+    value: 'suiToken',
+  },
   tsui: {
     Title: 'TSUI',
     Description: 'Testnet Sui',
     Icon: 'sui',
     value: 'tsui',
+  },
+  tsuiToken: {
+    Title: 'TSUI Token',
+    Description: 'Testnet Sui Token',
+    Icon: 'sui',
+    value: 'tsuiToken',
   },
   tbtc: {
     Title: 'TBTC',
@@ -606,6 +618,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.sol,
     allCoinMetas.solToken,
     allCoinMetas.sui,
+    allCoinMetas.suiToken,
   ],
   test: [
     allCoinMetas.ttrx,
@@ -615,6 +628,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.tsol,
     allCoinMetas.tsolToken,
     allCoinMetas.tsui,
+    allCoinMetas.tsuiToken,
   ],
 };
 
@@ -656,6 +670,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.hbar,
     allCoinMetas.algo,
     allCoinMetas.sui,
+    allCoinMetas.suiToken,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -684,6 +699,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.talgo,
     allCoinMetas.tbsc,
     allCoinMetas.tsui,
+    allCoinMetas.tsuiToken,
   ] as const,
 };
 
@@ -733,6 +749,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.hbar,
       allCoinMetas.algo,
       allCoinMetas.sui,
+      allCoinMetas.suiToken,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -771,6 +788,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.thbar,
       allCoinMetas.talgo,
       allCoinMetas.tsui,
+      allCoinMetas.tsuiToken,
     ] as const,
   };
 
@@ -928,6 +946,10 @@ export const tokenParentCoins = {
   topethToken: 'topeth',
   polygonToken: 'polygon',
   tpolygonToken: 'tpolygon',
+  suiToken: 'sui',
+  tsuiToken: 'tsui',
+  trxToken: 'trx',
+  ttrxToken: 'ttrx'
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {

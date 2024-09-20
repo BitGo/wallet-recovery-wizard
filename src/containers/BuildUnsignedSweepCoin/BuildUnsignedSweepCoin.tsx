@@ -30,6 +30,7 @@ import { TronForm } from './TronForm';
 import { TronTokenForm } from './TronTokenForm';
 import { SolanaForm } from './SolanaForm';
 import { SolanaTokenForm } from './SolanaTokenForm';
+import { SuiTokenForm } from './SuiTokenForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
@@ -1172,6 +1173,73 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'suiToken':
+    case 'tsuiToken':
+      return (
+        <SuiTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const parentCoin = tokenParentCoins[coin];
+              const chainData = coin;
+              const recoverData = await window.commands.recover(parentCoin, {
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                tokenContractAddress: values.packageId,
+                recoveryDestination: values.recoveryDestination,
+                seed: values.seed,
+                ignoreAddressTypes: [],
+                userKey: '',
+                backupKey: ''
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
