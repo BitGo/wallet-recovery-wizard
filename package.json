@@ -69,7 +69,7 @@
     "@storybook/addon-essentials": "6.5.16",
     "@storybook/addon-interactions": "6.5.16",
     "@storybook/addon-links": "6.5.16",
-    "@storybook/builder-vite": "0.2.7",
+    "@storybook/builder-vite": "8.3.3",
     "@storybook/jest": "0.0.10",
     "@storybook/react": "6.5.16",
     "@storybook/test-runner": "0.9.1",
@@ -78,7 +78,7 @@
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "@typescript-eslint/eslint-plugin": "5.45.1",
-    "@vitejs/plugin-react": "2.2.0",
+    "@vitejs/plugin-react": "4.3.1",
     "autoprefixer": "10.4.13",
     "base58-js": "1.0.5",
     "cheerio": "1.0.0-rc.12",
@@ -99,11 +99,11 @@
     "tailwindcss": "3.2.4",
     "ts-node": "10.9.1",
     "typescript": "4.9.3",
-    "vite": "3.2.8",
+    "vite": "5.4.7",
     "vite-electron-plugin": "0.5.2",
     "vite-plugin-electron": "0.10.4",
     "vite-plugin-electron-renderer": "0.11.3",
-    "vitest": "0.25.5"
+    "vitest": "0.25.8"
   },
   "engines": {
     "node": "20.10.0",
