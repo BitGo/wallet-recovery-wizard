@@ -820,6 +820,7 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.bsc,
       allCoinMetas.baseeth,
       allCoinMetas.arbeth,
+      allCoinMetas.avaxc
     ] as const,
     test: [
       allCoinMetas.tpolygon,
@@ -828,6 +829,7 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbsc,
       allCoinMetas.tbaseeth,
       allCoinMetas.tarbeth,
+      allCoinMetas.tavaxc
     ] as const,
   };
 
@@ -896,6 +898,18 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.hteth,
       allCoinMetas.tpolygon,
       allCoinMetas.topeth,
+    ] as const,
+    avaxc: [
+      allCoinMetas.eth,
+      allCoinMetas.polygon,
+      allCoinMetas.opeth,
+      allCoinMetas.arbeth,
+    ] as const,
+    tavaxc: [
+      allCoinMetas.hteth,
+      allCoinMetas.tpolygon,
+      allCoinMetas.topeth,
+      allCoinMetas.tarbeth,
     ] as const,
   };
 
