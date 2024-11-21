@@ -2,7 +2,7 @@ import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
-import { coins, EthereumNetwork } from '@bitgo/statics'
+import { coins, EthereumNetwork, BaseCoin, ContractAddressDefinedToken } from '@bitgo/statics';
 import {
   EvmCcrNonBitgoCoin,
   evmCcrNonBitgoCoinConfig,
@@ -11,6 +11,34 @@ import {
 } from '~/helpers/config';
 
 const GWEI = 10 ** 9;
+const INTERNAL_TEST_TOKENS = new Set([
+  '0xerc721:bsctoken',
+  '0xterc721:bsctoken',
+  '0xerc1155:bsctoken',
+  '0xterc1155:bsctoken',
+  '0xerc721:opethtoken',
+  '0xterc721:opethtoken',
+  '0xerc1155:opethtoken',
+  '0xterc1155:opethtoken',
+  '0xerc721:arbethtoken',
+  '0xterc721:arbethtoken',
+  '0xerc1155:arbethtoken',
+  '0xterc1155:arbethtoken',
+  '0xerc721:token',
+  '0xterc721:token',
+  '0xerc1155:token',
+  '0xterc1155:token',
+  '0xnonstandard:token',
+  '0xtnonstandard:token',
+  '0xerc721:polygontoken',
+  '0xterc721:polygontoken',
+  '0xerc1155:polygontoken',
+  '0xterc1155:polygontoken',
+  '0xerc721:beratoken',
+  '0xterc721:beratoken',
+  '0xerc1155:beratoken',
+  '0xterc1155:beratoken',
+]);
 
 export async function recoverWithToken(
   token: string,
@@ -278,4 +306,52 @@ export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriority
 
 export function isAvaxcCoin(chainName: string) {
   return (chainName === 'tavaxc' || chainName === 'avaxc') ;
+}
+
+function tokenHash(str: string): string {
+  // token hash must be 0x-prefixed lowercase hex string
+  str = str.toLowerCase();
+  if (INTERNAL_TEST_TOKENS.has(str)) {
+    return str;
+  }
+  if (!str.match(/^0x[0-9a-f]{40}$/)) {
+    throw new Error(`invalid hash format: ${str}`);
+  }
+  return str;
+}
+
+
+const tokenTickerMapByCoinFamily = coins.reduce(
+  (acc: Record<string, Record<string, string>>, coin: Readonly<BaseCoin>) => {
+    if (coin instanceof ContractAddressDefinedToken) {
+      const coinFamily = coin.network.family;
+      if (!acc[coinFamily.toLowerCase()]) {
+        acc[coinFamily.toLowerCase()] = {};
+      }
+      acc[coinFamily.toLowerCase()][
+        tokenHash(coin.contractAddress.toString())
+      ] = coin.name.toLowerCase();
+    }
+    return acc;
+  },
+  {},
+);
+
+export function getTickerByCoinFamily(
+  hash: string,
+  coinFamily: string,
+): string {
+
+  console.log("hash and conFamily")
+  console.log(hash, coinFamily)
+  if (
+    tokenTickerMapByCoinFamily[coinFamily.toLowerCase()] &&
+    tokenTickerMapByCoinFamily[coinFamily.toLowerCase()][tokenHash(hash)]
+  ) {
+    return tokenTickerMapByCoinFamily[coinFamily.toLowerCase()][
+      tokenHash(hash)
+    ];
+  }
+
+  throw new Error(`token not found for hash: ${hash}`);
 }
