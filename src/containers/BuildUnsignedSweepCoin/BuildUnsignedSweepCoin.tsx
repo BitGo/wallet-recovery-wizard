@@ -2,7 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { CoinsSelectAutocomplete } from '~/components';
 import { useAlertBanner } from '~/contexts';
 import {
-  assert, getEip1559Params,
+  assert,
+  getEip1559Params,
   getEthLikeRecoveryChainId,
   getTokenChain,
   includePubsFor,
@@ -13,6 +14,7 @@ import {
   toWei,
   updateKeysFromIds,
   updateKeysFromIdsWithToken,
+  getTickerByCoinFamily,
 } from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
@@ -138,7 +140,11 @@ function Form() {
                 await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
-                eip1559: getEip1559Params(coin, maxFeePerGas, maxPriorityFeePerGas),
+                eip1559: getEip1559Params(
+                  coin,
+                  maxFeePerGas,
+                  maxPriorityFeePerGas
+                ),
                 replayProtectionOptions: {
                   chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                   hardfork: 'london',
@@ -917,8 +923,13 @@ function Form() {
                   values
                 );
 
+              const tokenTicker = getTickerByCoinFamily(
+                values.tokenContractAddress,
+                parentCoin
+              );
+
               const recoverData = await recoverWithToken(
-                values.tokenContractAddress.toLowerCase(),
+                tokenTicker,
                 parentCoin,
                 {
                   ...rest,
@@ -1213,7 +1224,7 @@ function Form() {
                 seed: values.seed,
                 ignoreAddressTypes: [],
                 userKey: '',
-                backupKey: ''
+                backupKey: '',
               });
               assert(
                 isRecoveryTransaction(recoverData),
