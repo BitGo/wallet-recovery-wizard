@@ -104,6 +104,8 @@ type Commands = {
       seed?: string;
       common?: EthLikeCommon.default;
       ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
+      issuerAddress?: string, // eg. xrpl token
+      currencyCode?: string, // eg. xrpl token
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(

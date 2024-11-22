@@ -361,6 +361,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'xrp',
     value: 'txrp',
   },
+  txrpToken: {
+    Title: 'TXRP Token',
+    Description: 'Testnet Ripple Token',
+    Icon: 'xrp',
+    value: 'txrpToken',
+  },
   txlm: {
     Title: 'TXLM',
     Description: 'Testnet Stellar',
@@ -675,6 +681,7 @@ export const buildUnsignedSweepCoins: Record<
   test: [
     allCoinMetas.tbtc,
     allCoinMetas.txrp,
+    allCoinMetas.txrpToken,
     allCoinMetas.txlm,
     allCoinMetas.hteth,
     allCoinMetas.tetc,
@@ -754,6 +761,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
     test: [
       allCoinMetas.tbtc,
       allCoinMetas.txrp,
+      allCoinMetas.txrpToken,
       allCoinMetas.txlm,
       allCoinMetas.hteth,
       allCoinMetas.tetc,
@@ -963,7 +971,8 @@ export const tokenParentCoins = {
   suiToken: 'sui',
   tsuiToken: 'tsui',
   trxToken: 'trx',
-  ttrxToken: 'ttrx'
+  ttrxToken: 'ttrx',
+  txrpToken: 'txrp',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {
