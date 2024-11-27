@@ -45,7 +45,7 @@ import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
-import { Txrp, Xrp } from '@bitgo/sdk-coin-xrp';
+import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
 import { Zec } from '@bitgo/sdk-coin-zec';
 import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
 import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
@@ -173,6 +173,9 @@ SolToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 TrxToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+XrpToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
