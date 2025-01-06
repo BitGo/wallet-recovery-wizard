@@ -42,6 +42,7 @@ import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
+import { Rune, Trune } from '@bitgo/sdk-coin-rune';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
@@ -153,6 +154,8 @@ sdk.register('baseeth', EthLikeCoin.createInstance);
 sdk.register('tbaseeth', TethLikeCoin.createInstance);
 sdk.register('sui', Sui.createInstance);
 sdk.register('tsui', Tsui.createInstance);
+sdk.register('thorchain:rune', Rune.createInstance);
+sdk.register('tthorchain:rune', Trune.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);

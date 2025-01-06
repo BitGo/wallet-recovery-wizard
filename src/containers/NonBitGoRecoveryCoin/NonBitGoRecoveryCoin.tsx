@@ -1171,6 +1171,8 @@ function Form() {
     case 'tcoreum':
     case 'sui':
     case 'tsui':
+    case 'thorchain:rune':
+    case 'tthorchain:rune':
       return (
         <CosmosForm
           key={coin}
