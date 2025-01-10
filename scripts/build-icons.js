@@ -40,6 +40,7 @@ const coins = [
   'algo',
   'bsc',
   'sui',
+  'thorchain:rune'
 ];
 
 const paths = fs
