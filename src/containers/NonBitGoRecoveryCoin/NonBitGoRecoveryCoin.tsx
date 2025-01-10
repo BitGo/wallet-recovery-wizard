@@ -337,12 +337,17 @@ function Form() {
     case 'tetc':
     case 'arbeth':
     case 'tarbeth':
+    case 'coredao':
+    case 'tcoredao':
+    case 'oas':
+    case 'toas':
     case 'opeth':
     case 'topeth':
     case 'polygon':
     case 'tpolygon':
     case 'bsc':
     case 'tbsc':
+      console.log('Entered toas case');
       return (
         <EthereumForm
           key={coin}
