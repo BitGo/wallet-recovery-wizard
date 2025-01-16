@@ -24,6 +24,7 @@ import { BitcoinForm } from './BitcoinForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthLikeForm } from './EthLikeForm';
+import { EthLikeFormTSS } from './EthLikeFormTSS';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
@@ -182,6 +183,85 @@ function Form() {
                       ...(await includePubsFor(coin, values)),
                     }
                     : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'coredao':
+    case 'tcoredao':
+    case 'oas':
+    case 'toas':
+      return (
+        <EthLikeFormTSS
+          key={coin}
+          coinName={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                coin,
+                values.apiKey
+              );
+              const chainData = await window.queries.getChain(coin);
+
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                userKey: values.commonKeyChain,
+                backupKey: values.commonKeyChain,
+                eip1559: getEip1559Params(
+                  coin,
+                  maxFeePerGas,
+                  maxPriorityFeePerGas
+                ),
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  recoverData,
                   null,
                   2
                 ),
