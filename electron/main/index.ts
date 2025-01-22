@@ -63,6 +63,7 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
+import { Bera, Tbera } from '@bitgo/sdk-coin-bera';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -156,6 +157,8 @@ sdk.register('sui', Sui.createInstance);
 sdk.register('tsui', Tsui.createInstance);
 sdk.register('thorchain:rune', Rune.createInstance);
 sdk.register('tthorchain:rune', Trune.createInstance);
+sdk.register('bera', Bera.createInstance);
+sdk.register('tbera', Tbera.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -304,6 +307,11 @@ async function createWindow() {
         case 'bsc':
         case 'tbsc':
           sdk = new BitGoAPI({ env: environment, bscscanApiToken: apiKey });
+          break;
+        case 'bera':
+        case 'tbera':
+          sdk = new BitGoAPI({ env: environment });
+          break;
         default:
           sdk = new BitGoAPI({ env: environment });
       }
