@@ -343,6 +343,8 @@ function Form() {
     case 'tpolygon':
     case 'bsc':
     case 'tbsc':
+    case 'bera':
+    case 'tbera':
       return (
         <EthereumForm
           key={coin}

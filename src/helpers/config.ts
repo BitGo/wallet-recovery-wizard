@@ -325,6 +325,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'thorchain:rune',
     value: 'thorchain:rune'
   },
+  bera: {
+    Title: 'BERA',
+    Description: 'Bera',
+    Icon: 'bera',
+    value: 'bera',
+    ApiKeyProvider: 'bartio.beratrail.io'
+  },
   suiToken: {
     Title: 'SUI Token',
     Description: 'Sui Token',
@@ -622,6 +629,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'baseeth',
     value: 'tbaseeth',
   },
+  tbera: {
+    Title: 'TBERA',
+    Description: 'Bera Testnet',
+    Icon: 'bera',
+    value: 'tbera',
+    ApiKeyProvider: 'bartio.beratrail.io'
+  }
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -689,6 +703,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.algo,
     allCoinMetas.sui,
     allCoinMetas.suiToken,
+    allCoinMetas.bera
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -719,6 +734,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tbsc,
     allCoinMetas.tsui,
     allCoinMetas.tsuiToken,
+    allCoinMetas.tbera
   ] as const,
 };
 
@@ -770,6 +786,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sui,
       allCoinMetas.suiToken,
       allCoinMetas['thorchain:rune'],
+      allCoinMetas.bera,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -811,6 +828,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsui,
       allCoinMetas.tsuiToken,
       allCoinMetas['tthorchain:rune'],
+      allCoinMetas.tbera
     ] as const,
   };
 

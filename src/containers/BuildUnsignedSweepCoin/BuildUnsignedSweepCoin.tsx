@@ -122,6 +122,8 @@ function Form() {
     case 'tarbeth':
     case 'opeth':
     case 'topeth':
+    case 'bera':
+    case 'tbera':
       return (
         <EthLikeForm
           key={coin}
