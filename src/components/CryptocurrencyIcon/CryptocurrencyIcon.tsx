@@ -12,6 +12,7 @@ export interface CryptocurrencyIconProps {
     | 'bsv'
     | 'btc'
     | 'btg'
+    | 'coredao'
     | 'coreum'
     | 'dash'
     | 'doge'
@@ -22,6 +23,7 @@ export interface CryptocurrencyIconProps {
     | 'injective'
     | 'ltc'
     | 'near'
+    | 'oas'
     | 'opeth'
     | 'osmo'
     | 'polygon'
@@ -1824,7 +1826,47 @@ export function CryptocurrencyIcon({
           </style>
           <use id="Background" href="#img1" x="0" y="0" />
         </svg>
-      )
+      );
+    case 'coredao':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          version="1.2"
+          viewBox="0 0 32 32"
+        >
+          <defs>
+            <image
+              id="img2"
+              width="32"
+              height="32"
+              href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAAXNSR0IB2cksfwAAADNQTFRFEhIS/5IR4YIRa0ISiVIRTTISMCISIRoSpmISpmIReUoSiFISPyoS8IoRxHIRw3IS4YISJZADBQAAAWpJREFUeJztlttuwyAMhiFLuqqt+v6PuantqvWwbCGYgE8BIu1iCxcV4N8fJgVsaxY2uwL+A8Cafgmgcd4qQgWAsXlWAWKTHIQIwAYJIQBaCLq9BwWP4AGJ0+buBy+PTABZUwuCAli1jMCA15vvdDdeaL9UAF5p+Ji+u/1k0ZYdpJvfXgUzBuyu1L13v7AoqCNCDNh/OMwldk97oNcA3ub+fNAdLtPA5gGsoTsdr1QWALvHyEwAPgVO2hdEMHN96wDts2ALFFD4DTCgexizBOBVtYDkDlQAJskK+F0AL8kGDEl5SqgVgBQRJIdTPgA/iSYdqY8qQcTvaHQpGEDISt4+7OMnoVqI3t9JGUDzlx0Tw+jOZzeU2hpgh330/i2U8ivJzoLueGKn2fqAixTmju/igtwkPgnUPavE0YskqUqbjt9Zc1fKvA5VVIVl3tBCdaa4qwC2nigDjOb9eU6htc3ubX6JRW0F/AnANwm/tUGfnIZxAAAAAElFTkSuQmCC"
+            ></image>
+          </defs>
+          <use id="Background" x="0" y="0" href="#img2"></use>
+        </svg>
+      );
+    case 'oas':
+      return (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          version="1.2"
+          viewBox="0 0 32 32"
+        >
+          <defs>
+            <image
+              id="img1"
+              width="32"
+              height="32"
+              href="data:image/png;base64,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"
+            ></image>
+          </defs>
+          <use id="Background" x="0" y="0" href="#img1"></use>
+        </svg>
+      );
     default:
       return null;
   }

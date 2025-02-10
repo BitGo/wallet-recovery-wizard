@@ -337,6 +337,10 @@ function Form() {
     case 'tetc':
     case 'arbeth':
     case 'tarbeth':
+    case 'coredao':
+    case 'tcoredao':
+    case 'oas':
+    case 'toas':
     case 'opeth':
     case 'topeth':
     case 'polygon':

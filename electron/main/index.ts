@@ -12,6 +12,7 @@ import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
 import { Arbeth, Tarbeth, ArbethToken } from '@bitgo/sdk-coin-arbeth';
 import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
 import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
+import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
 import { Hash, Thash } from '@bitgo/sdk-coin-hash';
 import { Injective, Tinjective } from '@bitgo/sdk-coin-injective';
 import { Sei, Tsei } from '@bitgo/sdk-coin-sei';
@@ -39,6 +40,7 @@ import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
 import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
@@ -156,6 +158,10 @@ sdk.register('sui', Sui.createInstance);
 sdk.register('tsui', Tsui.createInstance);
 sdk.register('thorchain:rune', Rune.createInstance);
 sdk.register('tthorchain:rune', Trune.createInstance);
+sdk.register('coredao', Coredao.createInstance);
+sdk.register('tcoredao', Tcoredao.createInstance);
+sdk.register('oas', Oas.createInstance);
+sdk.register('toas', Toas.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -285,6 +291,14 @@ async function createWindow() {
         case 'arbethToken':
         case 'tarbethToken':
           sdk = new BitGoAPI({ env: environment, arbiscanApiToken: apiKey });
+          break;
+        case 'coredao':
+        case 'tcoredao':
+          sdk = new BitGoAPI({ env: environment, coredaoExplorerApiToken: apiKey });
+          break;
+        case 'oas':
+        case 'toas':
+          sdk = new BitGoAPI({ env: environment, oasExplorerApiToken: apiKey });
           break;
         case 'opeth':
         case 'topeth':
