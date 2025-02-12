@@ -347,6 +347,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'thorchain:rune',
     value: 'thorchain:rune'
   },
+  baby: {
+    Title: 'BABY',
+    Description: 'Babylon',
+    Icon: 'baby',
+    value: 'baby',
+  },
   suiToken: {
     Title: 'SUI Token',
     Description: 'Sui Token',
@@ -642,6 +648,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'thorchain:rune',
     value: 'tthorchain:rune'
   },
+  tbaby: {
+    Title: 'TBABY',
+    Description: 'Babylon Testnet',
+    Icon: 'baby',
+    value: 'tbaby',
+  },
   thbar: {
     Title: 'THBAR',
     Description: 'Hedera Testnet',
@@ -816,6 +828,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sui,
       allCoinMetas.suiToken,
       allCoinMetas['thorchain:rune'],
+      allCoinMetas.baby,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -859,6 +872,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsui,
       allCoinMetas.tsuiToken,
       allCoinMetas['tthorchain:rune'],
+      allCoinMetas.baby,
     ] as const,
   };
 
