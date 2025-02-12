@@ -329,6 +329,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'hbar',
     value: 'hbar',
   },
+  hbarToken: {
+    Title: 'HBAR Token',
+    Description: 'Hedera Token',
+    Icon: 'hbar',
+    value: 'hbarToken',
+  },
   algo: {
     Title: 'ALGO',
     Description: 'Algorand',
@@ -648,6 +654,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'hbar',
     value: 'thbar',
   },
+  thbarToken: {
+    Title: 'THBAR Token',
+    Description: 'Testnet Hedera Token',
+    Icon: 'hbar',
+    value: 'thbarToken',
+  },
   talgo: {
     Title: 'TALGO',
     Description: 'Algorand Testnet',
@@ -730,6 +742,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.ada,
     allCoinMetas.dot,
     allCoinMetas.hbar,
+    allCoinMetas.hbarToken,
     allCoinMetas.algo,
     allCoinMetas.sui,
     allCoinMetas.suiToken,
@@ -759,6 +772,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tada,
     allCoinMetas.tdot,
     allCoinMetas.thbar,
+    allCoinMetas.thbarToken,
     allCoinMetas.talgo,
     allCoinMetas.tbsc,
     allCoinMetas.tsui,
@@ -812,6 +826,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.zeta,
       allCoinMetas.coreum,
       allCoinMetas.hbar,
+      allCoinMetas.hbarToken,
       allCoinMetas.algo,
       allCoinMetas.sui,
       allCoinMetas.suiToken,
@@ -855,6 +870,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tzeta,
       allCoinMetas.tcoreum,
       allCoinMetas.thbar,
+      allCoinMetas.thbarToken,
       allCoinMetas.talgo,
       allCoinMetas.tsui,
       allCoinMetas.tsuiToken,
@@ -1035,6 +1051,8 @@ export const tokenParentCoins = {
   trxToken: 'trx',
   ttrxToken: 'ttrx',
   txrpToken: 'txrp',
+  hbarToken: 'hbar',
+  thbarToken: 'thbar',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {

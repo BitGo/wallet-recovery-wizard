@@ -60,7 +60,7 @@ import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
-import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
+import { Hbar, Thbar , HbarToken} from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
@@ -185,6 +185,9 @@ TrxToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 XrpToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+HbarToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 

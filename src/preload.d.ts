@@ -106,6 +106,7 @@ type Commands = {
       ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
       issuerAddress?: string, // eg. xrpl token
       currencyCode?: string, // eg. xrpl token
+      tokenId?: string, // eg. hbar token
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(
