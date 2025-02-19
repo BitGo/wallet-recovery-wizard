@@ -42,7 +42,8 @@ const coins = [
   'sui',
   'thorchain:rune',
   'coredao',
-  'oas'
+  'oas',
+  'baby'
 ];
 
 const paths = fs
