@@ -38,6 +38,7 @@ import {
 } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
+import { Flr,Tflr } from '@bitgo/sdk-coin-flr'
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
@@ -47,6 +48,7 @@ import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
 import { Rune, Trune } from '@bitgo/sdk-coin-rune';
 import { Baby, Tbaby } from '@bitgo/sdk-coin-baby';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
+import { Sgb,Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
@@ -66,6 +68,8 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
+import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
+import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -165,6 +169,14 @@ sdk.register('coredao', Coredao.createInstance);
 sdk.register('tcoredao', Tcoredao.createInstance);
 sdk.register('oas', Oas.createInstance);
 sdk.register('toas', Toas.createInstance);
+sdk.register('flr', Flr.createInstance);
+sdk.register('tflr', Tflr.createInstance);
+sdk.register('sgb', Sgb.createInstance);
+sdk.register('tsgb', Tsgb.createInstance);
+sdk.register('xdc', Xdc.createInstance);
+sdk.register('txdc', Txdc.createInstance);
+sdk.register('wemix', Wemix.createInstance);
+sdk.register('twemix', Twemix.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -324,6 +336,19 @@ async function createWindow() {
         case 'bsc':
         case 'tbsc':
           sdk = new BitGoAPI({ env: environment, bscscanApiToken: apiKey });
+        case 'flr':
+        case 'tflr':
+          sdk = new BitGoAPI({ env: environment, flrExplorerApiToken: apiKey });
+        case 'sgb':
+        case 'tsgb':
+          sdk = new BitGoAPI({ env: environment, sgbExplorerApiToken: apiKey });
+        case 'xdc':
+        case 'txdc':
+          sdk = new BitGoAPI({ env: environment, xdcExplorerApiToken: apiKey });
+        case 'wemix':
+        case 'twemix':
+          sdk = new BitGoAPI({ env: environment, wemixExplorerApiToken: apiKey});
+
         default:
           sdk = new BitGoAPI({ env: environment });
       }

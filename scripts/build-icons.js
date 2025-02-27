@@ -43,6 +43,10 @@ const coins = [
   'thorchain:rune',
   'coredao',
   'oas',
+  'flr',
+  'wemix',
+  'xdc',
+  'sgb',
   'baby'
 ];
 
