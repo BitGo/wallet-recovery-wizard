@@ -348,6 +348,14 @@ function Form() {
     case 'tpolygon':
     case 'bsc':
     case 'tbsc':
+    case 'flr':
+    case 'tflr':
+    case 'sgb':
+    case 'tsgb':
+    case 'wemix':
+    case 'twemix':
+    case 'xdc':
+    case 'txdc':
       return (
         <EthereumForm
           key={coin}
@@ -361,7 +369,9 @@ function Form() {
                 coin,
                 values.apiKey
               );
+              
               const chainData = await window.queries.getChain(coin);
+            
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
@@ -378,6 +388,7 @@ function Form() {
                 bitgoKey: '',
                 ignoreAddressTypes: [],
               });
+            
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
