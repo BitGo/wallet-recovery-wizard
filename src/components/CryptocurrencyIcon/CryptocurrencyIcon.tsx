@@ -17,6 +17,7 @@ export interface CryptocurrencyIconProps {
     | 'dash'
     | 'doge'
     | 'dot'
+    | 'tao'
     | 'eos'
     | 'eth'
     | 'flr'

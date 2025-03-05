@@ -388,9 +388,11 @@ async function createWindow() {
         case 'tada':
         case 'dot':
         case 'tdot':
+        case 'tao':
+        case 'ttao':
         case 'sui':
         case 'tsui': {
-          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot;
+          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot | Tao | Ttao;
           return await mpcCoin.recoverConsolidations(params);
         }
         case 'sol':
@@ -494,6 +496,8 @@ async function createWindow() {
         case 'tada':
         case 'dot':
         case 'tdot':
+        case 'tao':
+        case 'ttao':
         case 'sol':
         case 'tsol':
         case 'sui':
@@ -503,6 +507,8 @@ async function createWindow() {
             | Tada
             | Dot
             | Tdot
+            | Tao
+            | Ttao
             | Sol
             | Tsol
             | Sui
