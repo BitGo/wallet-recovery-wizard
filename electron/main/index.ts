@@ -70,6 +70,7 @@ import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
 import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
+import { Tao, Ttao } from '@bitgo-beta/sdk-coin-tao';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -125,6 +126,8 @@ sdk.register('near', Near.createInstance);
 sdk.register('tnear', TNear.createInstance);
 sdk.register('dot', Dot.createInstance);
 sdk.register('tdot', Tdot.createInstance);
+sdk.register('tao', Tao.createInstance);
+sdk.register('ttao', Ttao.createInstance);
 sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
 sdk.register('polygon', Polygon.createInstance);

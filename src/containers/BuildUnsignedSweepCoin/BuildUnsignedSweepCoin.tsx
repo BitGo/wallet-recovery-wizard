@@ -1207,6 +1207,8 @@ function Form() {
     case 'tada':
     case 'dot':
     case 'tdot':
+    case 'tao':
+    case 'ttao':
     case 'sui':
     case 'tsui':
       return (
