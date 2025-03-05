@@ -22,10 +22,13 @@ import {
   BroadcastTransactionOptions,
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
+  createTaoBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
+  TaoRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
+  TaoRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
   SolRecoveryConsolidationRecoveryOptions,
   SuiRecoverConsolidationRecoveryBatch,
@@ -48,6 +51,7 @@ type Commands = {
     parameters:
       | createAdaBroadcastableSweepTransactionParameters
       | createDotBroadcastableSweepTransactionParameters
+      | createTaoBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
@@ -59,6 +63,7 @@ type Commands = {
       | TrxConsolidationRecoveryOptions
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
+      | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
@@ -66,6 +71,7 @@ type Commands = {
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
+    | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
   >;
@@ -170,6 +176,7 @@ const commands: Commands = {
       | TrxConsolidationRecoveryOptions
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
+      | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
@@ -177,6 +184,7 @@ const commands: Commands = {
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
+    | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
   > {

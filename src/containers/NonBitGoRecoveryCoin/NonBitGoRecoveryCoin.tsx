@@ -100,6 +100,8 @@ function Form() {
       );
     case 'dot':
     case 'tdot':
+    case 'tao':
+    case 'ttao':
     case 'near':
     case 'tnear':
       return (
@@ -369,9 +371,9 @@ function Form() {
                 coin,
                 values.apiKey
               );
-              
+
               const chainData = await window.queries.getChain(coin);
-            
+
 
               const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
 
@@ -388,7 +390,7 @@ function Form() {
                 bitgoKey: '',
                 ignoreAddressTypes: [],
               });
-            
+
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'

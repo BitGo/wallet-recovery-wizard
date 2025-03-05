@@ -9,6 +9,7 @@ import type {
   createDotBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
+  createTaoBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
 import { useAlertBanner } from '~/contexts';
@@ -32,11 +33,13 @@ function isSignedTransaction(
 ): json is
   | createAdaBroadcastableSweepTransactionParameters
   | createDotBroadcastableSweepTransactionParameters
+  | createTaoBroadcastableSweepTransactionParameters
   | createSolBroadcastableSweepTransactionParameters
   | createSuiBroadcastableSweepTransactionParameters {
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
+    | createTaoBroadcastableSweepTransactionParameters
     | createSolBroadcastableSweepTransactionParameters
     | createSuiBroadcastableSweepTransactionParameters;
   return (
@@ -67,6 +70,7 @@ export function CreateBroadcastableTransactionIndex() {
             const tx = JSON.parse(event.target?.result as string) as
               | createAdaBroadcastableSweepTransactionParameters
               | createDotBroadcastableSweepTransactionParameters
+              | createTaoBroadcastableSweepTransactionParameters
               | createSolBroadcastableSweepTransactionParameters
               | createSuiBroadcastableSweepTransactionParameters;
 
