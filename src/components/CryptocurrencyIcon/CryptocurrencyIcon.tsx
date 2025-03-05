@@ -17,6 +17,7 @@ export interface CryptocurrencyIconProps {
     | 'dash'
     | 'doge'
     | 'dot'
+    | 'tao'
     | 'eos'
     | 'eth'
     | 'flr'
@@ -1970,6 +1971,16 @@ export function CryptocurrencyIcon({
             ></image>
           </defs>
           <use href="#img1"></use>
+        </svg>
+      )
+    case 'tao':
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64">
+          <path fill="#FEFEFE" d="M0 0h64v64H0z"></path>
+          <path
+            fill="#050608"
+            d="m28.352 20.902 2.578.01 2.695.026 2.719.013Q39.672 20.97 43 21c-.878 1.962-.878 1.962-2 4-2.678.839-5.174.818-8 1l1 1c.212 2.463.376 4.908.5 7.375.253 5.389.253 5.389 1.5 10.625-4.875-.875-4.875-.875-6-2a57 57 0 0 1-.098-4.035l.01-2.451.026-2.577.013-2.587q.02-3.175.049-6.35h-9l1-3c2.349-1.174 3.738-1.115 6.352-1.098"
+          ></path>
         </svg>
       )
     default:

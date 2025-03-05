@@ -20,6 +20,7 @@ const coins = [
   'avax',
   'near',
   'dot',
+  'tao',
   'sol',
   'polygon',
   'xec',

@@ -27,10 +27,13 @@ import {
   BroadcastTransactionOptions,
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
+  createTaoBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
+  TaoRecoverConsolidationRecoveryBatch,
+  TaoRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
   SolRecoveryConsolidationRecoveryOptions,
   SuiRecoverConsolidationRecoveryBatch,
@@ -52,6 +55,7 @@ type Commands = {
     parameters:
       | createAdaBroadcastableSweepTransactionParameters
       | createDotBroadcastableSweepTransactionParameters
+      | createTaoBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
@@ -63,6 +67,7 @@ type Commands = {
       | TrxConsolidationRecoveryOptions
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
+      | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
@@ -70,6 +75,7 @@ type Commands = {
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
+    | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
   >;
@@ -186,12 +192,14 @@ const commands: Commands = {
       | TrxConsolidationRecoveryOptions
       | AdaRecoveryConsolidationRecoveryOptions
       | DotRecoveryConsolidationRecoveryOptions
+      | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
     | AdaRecoveryConsolidationRecoveryBatch
     | DotRecoverConsolidationRecoveryBatch
+    | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
   > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
