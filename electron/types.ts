@@ -4,6 +4,7 @@ import {
 } from '@bitgo/sdk-coin-trx';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
+import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
@@ -15,6 +16,9 @@ export type createAdaBroadcastableSweepTransactionParameters =
 export type createDotBroadcastableSweepTransactionParameters =
   | Parameters<Dot['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tdot['createBroadcastableSweepTransaction']>[0];
+export type createTaoBroadcastableSweepTransactionParameters =
+  | Parameters<Tao['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Ttao['createBroadcastableSweepTransaction']>[0];
 export type createSolBroadcastableSweepTransactionParameters =
   | Parameters<Sol['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tsol['createBroadcastableSweepTransaction']>[0];
@@ -28,6 +32,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tada['createBroadcastableSweepTransaction']
     | Dot['createBroadcastableSweepTransaction']
     | Tdot['createBroadcastableSweepTransaction']
+    | Tao['createBroadcastableSweepTransaction']
+    | Ttao['createBroadcastableSweepTransaction']
     | Sol['createBroadcastableSweepTransaction']
     | Tsol['createBroadcastableSweepTransaction']
     | Sui['createBroadcastableSweepTransaction']
@@ -54,6 +60,9 @@ export type AdaRecoveryConsolidationRecoveryOptions =
 export type DotRecoveryConsolidationRecoveryOptions =
   | Parameters<Dot['recoverConsolidations']>[0]
   | Parameters<Tdot['recoverConsolidations']>[0];
+export type TaoRecoveryConsolidationRecoveryOptions =
+  | Parameters<Tao['recoverConsolidations']>[0]
+  | Parameters<Ttao['recoverConsolidations']>[0];
 export type SolRecoveryConsolidationRecoveryOptions =
   | Parameters<Sol['recoverConsolidations']>[0]
   | Parameters<Tsol['recoverConsolidations']>[0];
@@ -67,6 +76,9 @@ export type AdaRecoveryConsolidationRecoveryBatch = Awaited<
 >;
 export type DotRecoverConsolidationRecoveryBatch = Awaited<
   ReturnType<Dot['recoverConsolidations'] | Tdot['recoverConsolidations']>
+>;
+export type TaoRecoverConsolidationRecoveryBatch = Awaited<
+  ReturnType<Tao['recoverConsolidations'] | Ttao['recoverConsolidations']>
 >;
 export type SolRecoverConsolidationRecoveryBatch = Awaited<
   ReturnType<Sol['recoverConsolidations'] | Tsol['recoverConsolidations']>

@@ -70,6 +70,7 @@ import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
 import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
+import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -125,6 +126,8 @@ sdk.register('near', Near.createInstance);
 sdk.register('tnear', TNear.createInstance);
 sdk.register('dot', Dot.createInstance);
 sdk.register('tdot', Tdot.createInstance);
+sdk.register('tao', Tao.createInstance);
+sdk.register('ttao', Ttao.createInstance);
 sdk.register('sol', Sol.createInstance);
 sdk.register('tsol', Tsol.createInstance);
 sdk.register('polygon', Polygon.createInstance);
@@ -385,9 +388,11 @@ async function createWindow() {
         case 'tada':
         case 'dot':
         case 'tdot':
+        case 'tao':
+        case 'ttao':
         case 'sui':
         case 'tsui': {
-          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot;
+          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot | Tao | Ttao;
           return await mpcCoin.recoverConsolidations(params);
         }
         case 'sol':
@@ -491,6 +496,8 @@ async function createWindow() {
         case 'tada':
         case 'dot':
         case 'tdot':
+        case 'tao':
+        case 'ttao':
         case 'sol':
         case 'tsol':
         case 'sui':
@@ -500,6 +507,8 @@ async function createWindow() {
             | Tada
             | Dot
             | Tdot
+            | Tao
+            | Ttao
             | Sol
             | Tsol
             | Sui
