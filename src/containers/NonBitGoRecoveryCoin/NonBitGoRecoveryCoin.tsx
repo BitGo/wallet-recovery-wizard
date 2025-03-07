@@ -56,6 +56,7 @@ function Form() {
               const recoverData = await window.commands.recover(coin, {
                 ...values,
                 scan: Number(values.scan),
+                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
