@@ -12,6 +12,7 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
+  feeRate: Yup.number().nullable().optional(),
 }).required();
 
 export type BitcoinFormProps = {
@@ -35,6 +36,7 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
       bitgoKey: '',
       recoveryDestination: '',
       scan: 20,
+      feeRate: null,
     },
     validationSchema,
   });
@@ -90,6 +92,14 @@ export function BitcoinForm({ onSubmit }: BitcoinFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="(optional) The fee rate in satoshis per byte to use for the recovery transaction."
+            Label="Fee Rate"
+            name="feeRate"
             Width="fill"
           />
         </div>
