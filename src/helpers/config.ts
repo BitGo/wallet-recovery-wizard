@@ -539,7 +539,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'coredao',
     value: 'tcoredao',
     isTssSupported: true,
-    ApiKeyProvider: 'scan.test.btcs.network',
+    ApiKeyProvider: 'scan.test2.btcs.network',
     minGasLimit: '400,000',
     defaultGasLimit: '1,000,000',
     defaultGasLimitNum: 1000000,
