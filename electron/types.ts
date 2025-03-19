@@ -11,6 +11,7 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Eth, Hteth } from '@bitgo/sdk-coin-eth';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
@@ -33,6 +34,9 @@ export type createIcpBroadcastableSweepTransactionParameters =
 export type createNearBroadcastableSweepTransactionParameters =
   | Parameters<Near['createBroadcastableSweepTransaction']>[0]
   | Parameters<TNear['createBroadcastableSweepTransaction']>[0];
+export type createEthBroadcastableSweepTransactionParameters =
+  | Parameters<Eth['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Hteth['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -60,6 +64,8 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<Tsui['broadcastTransaction']>[0]
   | Parameters<Near['broadcastTransaction']>[0]
   | Parameters<TNear['broadcastTransaction']>[0]
+  | Parameters<Eth['broadcastTransaction']>[0]
+  | Parameters<Hteth['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
