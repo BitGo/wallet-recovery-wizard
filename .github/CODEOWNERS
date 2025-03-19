@@ -5,4 +5,4 @@
 *   @BitGo/engineering
 
 ## THIS SHOULD ALWAYS BE LAST ##
-CODEOWNERS @BitGo/engineering @BitGo/git-admins
+/.github/CODEOWNERS @BitGo/git-admins
