@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
   recoveryDestination: Yup.string().required(),
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
+  derivationSeed: Yup.string(),
   walletContractAddress: Yup.string().required(),
 }).required();
 
@@ -42,6 +43,7 @@ export function PolygonForm({ onSubmit }: PolygonFormProps) {
       recoveryDestination: '',
       userKey: '',
       userKeyId: '',
+      derivationSeed: '',
       walletContractAddress: '',
     },
     validationSchema,
@@ -90,6 +92,14 @@ export function PolygonForm({ onSubmit }: PolygonFormProps) {
             HelperText="The Polygon address of the wallet contract. This is also the wallet's base address."
             Label="Wallet Contract Address"
             name="walletContractAddress"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your derivation seed, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Derivation Seed (Optional)"
+            name="derivationSeed"
             Width="fill"
           />
         </div>
