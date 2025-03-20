@@ -2,7 +2,7 @@
 # Each line is a file pattern followed by one or more owners.
 
 # These owners and first officers will be the default owners for everything in the repo.
-*   @BitGo/engineering
+* @BitGo/ethalt-team @BitGo/btc-team
 
 ## THIS SHOULD ALWAYS BE LAST ##
 /.github/CODEOWNERS @BitGo/git-admins
