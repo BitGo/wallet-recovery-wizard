@@ -1210,6 +1210,8 @@ function Form() {
     case 'tdot':
     case 'tao':
     case 'ttao':
+    case 'icp':
+    case 'ticp':
     case 'sui':
     case 'tsui':
       return (

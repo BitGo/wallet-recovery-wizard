@@ -38,6 +38,7 @@ import {
   SolRecoveryConsolidationRecoveryOptions,
   SuiRecoverConsolidationRecoveryBatch,
   SuiRecoveryConsolidationRecoveryOptions,
+  createIcpBroadcastableSweepTransactionParameters,
 } from '../types';
 
 import type * as EthLikeCommon from '@ethereumjs/common';
@@ -56,6 +57,7 @@ type Commands = {
       | createAdaBroadcastableSweepTransactionParameters
       | createDotBroadcastableSweepTransactionParameters
       | createTaoBroadcastableSweepTransactionParameters
+      | createIcpBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;

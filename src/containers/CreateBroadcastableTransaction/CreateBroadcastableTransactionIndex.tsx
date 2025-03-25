@@ -10,6 +10,7 @@ import type {
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   createTaoBroadcastableSweepTransactionParameters,
+  createIcpBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
 import { useAlertBanner } from '~/contexts';
@@ -35,13 +36,15 @@ function isSignedTransaction(
   | createDotBroadcastableSweepTransactionParameters
   | createTaoBroadcastableSweepTransactionParameters
   | createSolBroadcastableSweepTransactionParameters
-  | createSuiBroadcastableSweepTransactionParameters {
+  | createSuiBroadcastableSweepTransactionParameters
+  | createIcpBroadcastableSweepTransactionParameters {
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
     | createTaoBroadcastableSweepTransactionParameters
     | createSolBroadcastableSweepTransactionParameters
-    | createSuiBroadcastableSweepTransactionParameters;
+    | createSuiBroadcastableSweepTransactionParameters
+    | createIcpBroadcastableSweepTransactionParameters;
   return (
     signedTransaction &&
     signedTransaction.signatureShares !== undefined &&
@@ -72,12 +75,13 @@ export function CreateBroadcastableTransactionIndex() {
               | createDotBroadcastableSweepTransactionParameters
               | createTaoBroadcastableSweepTransactionParameters
               | createSolBroadcastableSweepTransactionParameters
-              | createSuiBroadcastableSweepTransactionParameters;
+              | createSuiBroadcastableSweepTransactionParameters
+              | createIcpBroadcastableSweepTransactionParameters;
 
             assert(isSignedTransaction(tx), 'Signed transaction not found');
 
             let coin = tx.signatureShares[0].txRequest.walletCoin;
-            coin = (coin as string).split(':')[0];
+            coin = (coin ).split(':')[0];
             const chainData = await window.queries.getChain(coin);
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const broadcastTx: Error | BroadcastableSweepTransaction =

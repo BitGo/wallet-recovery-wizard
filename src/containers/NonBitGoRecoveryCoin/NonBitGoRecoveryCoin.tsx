@@ -103,6 +103,8 @@ function Form() {
     case 'tdot':
     case 'tao':
     case 'ttao':
+    case 'icp':
+    case 'ticp':
     case 'near':
     case 'tnear':
       return (
@@ -1040,7 +1042,7 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = tokenParentCoins[coin];
-              let chainData = await getTokenChain(values.tokenAddress, parentCoin);
+              const chainData = await getTokenChain(values.tokenAddress, parentCoin);
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
