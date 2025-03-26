@@ -9,6 +9,7 @@ import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
+import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
@@ -25,6 +26,9 @@ export type createSolBroadcastableSweepTransactionParameters =
 export type createSuiBroadcastableSweepTransactionParameters =
   | Parameters<Sui['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tsui['createBroadcastableSweepTransaction']>[0];
+export type createIcpBroadcastableSweepTransactionParameters =
+  | Parameters<Icp['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Ticp['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -38,6 +42,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tsol['createBroadcastableSweepTransaction']
     | Sui['createBroadcastableSweepTransaction']
     | Tsui['createBroadcastableSweepTransaction']
+    | Icp['createBroadcastableSweepTransaction']
+    | Ticp['createBroadcastableSweepTransaction']
   >
 >;
 

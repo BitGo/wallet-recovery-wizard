@@ -2,6 +2,7 @@ import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
+import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import {
   ConsolidationRecoveryBatch,
   ConsolidationRecoveryOptions,
@@ -25,6 +26,9 @@ export type createSolBroadcastableSweepTransactionParameters =
 export type createSuiBroadcastableSweepTransactionParameters =
   | Parameters<Sui['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tsui['createBroadcastableSweepTransaction']>[0];
+export type createIcpBroadcastableSweepTransactionParameters =
+  | Parameters<Icp['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Ticp['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -38,6 +42,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tsol['createBroadcastableSweepTransaction']
     | Sui['createBroadcastableSweepTransaction']
     | Tsui['createBroadcastableSweepTransaction']
+    | Icp['createBroadcastableSweepTransaction']
+    | Ticp['createBroadcastableSweepTransaction']
   >
 >;
 
