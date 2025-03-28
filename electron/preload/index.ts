@@ -30,6 +30,7 @@ import {
   createTaoBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
+  createNearBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
   TaoRecoverConsolidationRecoveryBatch,
@@ -60,6 +61,7 @@ type Commands = {
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
       | createIcpBroadcastableSweepTransactionParameters
+      | createNearBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
   sweepV1(coin: string, parameters: V1SweepParams): ReturnType<typeof v1Sweep>;

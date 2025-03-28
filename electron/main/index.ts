@@ -509,7 +509,9 @@ async function createWindow() {
         case 'sui':
         case 'tsui':
         case 'icp':
-        case 'ticp': {
+        case 'ticp':
+        case 'tnear':
+        case 'near':    {
           const coinInstance = sdk.coin(coin) as
             | Ada
             | Tada
@@ -522,7 +524,9 @@ async function createWindow() {
             | Sui
             | Tsui
             | Icp
-            | Ticp;
+            | Ticp
+            | Near
+            | TNear;
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:
