@@ -351,6 +351,9 @@ async function createWindow() {
         case 'wemix':
         case 'twemix':
           sdk = new BitGoAPI({ env: environment, wemixExplorerApiToken: apiKey});
+        case 'baseeth':
+        case 'tbaseeth':
+          sdk = new BitGoAPI({ env: environment, baseethApiToken: apiKey });
 
         default:
           sdk = new BitGoAPI({ env: environment });
