@@ -48,7 +48,8 @@ const coins = [
   'wemix',
   'xdc',
   'sgb',
-  'baby'
+  'baby',
+  'icp'
 ];
 
 const paths = fs

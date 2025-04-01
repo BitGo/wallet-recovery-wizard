@@ -105,6 +105,8 @@ function Form() {
     case 'ttao':
     case 'near':
     case 'tnear':
+    case 'icp':
+    case 'ticp':
       return (
         <PolkadotForm
           key={coin}

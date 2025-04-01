@@ -71,6 +71,7 @@ import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
 import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
+import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -180,6 +181,8 @@ sdk.register('xdc', Xdc.createInstance);
 sdk.register('txdc', Txdc.createInstance);
 sdk.register('wemix', Wemix.createInstance);
 sdk.register('twemix', Twemix.createInstance);
+sdk.register('icp', Icp.createInstance);
+sdk.register('ticp', Ticp.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -504,7 +507,9 @@ async function createWindow() {
         case 'sol':
         case 'tsol':
         case 'sui':
-        case 'tsui': {
+        case 'tsui':
+        case 'icp':
+        case 'ticp': {
           const coinInstance = sdk.coin(coin) as
             | Ada
             | Tada
@@ -515,7 +520,9 @@ async function createWindow() {
             | Sol
             | Tsol
             | Sui
-            | Tsui;
+            | Tsui
+            | Icp
+            | Ticp;
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:

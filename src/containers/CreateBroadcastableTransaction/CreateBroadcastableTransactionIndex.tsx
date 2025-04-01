@@ -10,6 +10,7 @@ import type {
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   createTaoBroadcastableSweepTransactionParameters,
+  createIcpBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
 import { useAlertBanner } from '~/contexts';
@@ -35,13 +36,17 @@ function isSignedTransaction(
   | createDotBroadcastableSweepTransactionParameters
   | createTaoBroadcastableSweepTransactionParameters
   | createSolBroadcastableSweepTransactionParameters
-  | createSuiBroadcastableSweepTransactionParameters {
+  | createSuiBroadcastableSweepTransactionParameters
+  | createSuiBroadcastableSweepTransactionParameters
+  | createIcpBroadcastableSweepTransactionParameters {
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
     | createTaoBroadcastableSweepTransactionParameters
     | createSolBroadcastableSweepTransactionParameters
-    | createSuiBroadcastableSweepTransactionParameters;
+    | createSuiBroadcastableSweepTransactionParameters
+    | createSuiBroadcastableSweepTransactionParameters
+    | createIcpBroadcastableSweepTransactionParameters;
   return (
     signedTransaction &&
     signedTransaction.signatureShares !== undefined &&
@@ -72,7 +77,8 @@ export function CreateBroadcastableTransactionIndex() {
               | createDotBroadcastableSweepTransactionParameters
               | createTaoBroadcastableSweepTransactionParameters
               | createSolBroadcastableSweepTransactionParameters
-              | createSuiBroadcastableSweepTransactionParameters;
+              | createSuiBroadcastableSweepTransactionParameters
+              | createIcpBroadcastableSweepTransactionParameters;
 
             assert(isSignedTransaction(tx), 'Signed transaction not found');
 
