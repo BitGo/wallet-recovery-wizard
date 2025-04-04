@@ -19,6 +19,7 @@ const validationSchema = Yup.object({
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
+  derivationSeed: Yup.string(),
   isTss: Yup.boolean(),
 }).required();
 
@@ -46,6 +47,7 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
       userKey: '',
       userKeyId: '',
       walletContractAddress: '',
+      derivationSeed: '',
       isTss: false,
     },
     validationSchema,
@@ -94,6 +96,14 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
             HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
             Label="Wallet Contract Address"
             name="walletContractAddress"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="Your derivation seed, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+            Label="Derivation Seed (Optional)"
+            name="derivationSeed"
             Width="fill"
           />
         </div>
