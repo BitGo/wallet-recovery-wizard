@@ -513,6 +513,14 @@ async function createWindow() {
         case 'tnear':
         case 'near':    
         case 'eth':
+        case 'flr':
+        case 'tflr':
+        case 'wemix':
+        case 'twemix':
+        case 'sgb':
+        case 'tsgb':
+        case 'xdc':
+        case 'txdc':     
         case 'hteth':{
           const coinInstance = sdk.coin(coin) as
             | Ada
@@ -530,7 +538,16 @@ async function createWindow() {
             | Near
             | TNear
             | Eth
-            | Hteth;
+            | Hteth
+            | Flr
+            | Tflr
+            | Wemix
+            | Twemix
+            | Sgb
+            | Tsgb
+            | Xdc
+            | Txdc;
+            
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:

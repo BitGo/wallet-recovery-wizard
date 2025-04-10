@@ -12,6 +12,10 @@ import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Eth, Hteth } from '@bitgo/sdk-coin-eth';
+import { Flr, Tflr } from '@bitgo/sdk-coin-flr';
+import { Wemix, Twemix } from '@bitgo/sdk-coin-wemix';
+import { Xdc, Txdc } from '@bitgo/sdk-coin-xdc';
+import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
@@ -37,6 +41,18 @@ export type createNearBroadcastableSweepTransactionParameters =
 export type createEthBroadcastableSweepTransactionParameters =
   | Parameters<Eth['createBroadcastableSweepTransaction']>[0]
   | Parameters<Hteth['createBroadcastableSweepTransaction']>[0];
+export type createFlrBroadcastableSweepTransactionParameters =
+  | Parameters<Flr['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tflr['createBroadcastableSweepTransaction']>[0];
+export type createWemixBroadcastableSweepTransactionParameters =
+  | Parameters<Wemix['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Twemix['createBroadcastableSweepTransaction']>[0];
+export type createSgbBroadcastableSweepTransactionParameters =
+  | Parameters<Sgb['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tsgb['createBroadcastableSweepTransaction']>[0];
+export type createXdcBroadcastableSweepTransactionParameters =
+  | Parameters<Xdc['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Txdc['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -66,6 +82,14 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<TNear['broadcastTransaction']>[0]
   | Parameters<Eth['broadcastTransaction']>[0]
   | Parameters<Hteth['broadcastTransaction']>[0]
+  | Parameters<Flr['broadcastTransaction']>[0]
+  | Parameters<Tflr['broadcastTransaction']>[0]
+  | Parameters<Wemix['broadcastTransaction']>[0]
+  | Parameters<Twemix['broadcastTransaction']>[0]
+  | Parameters<Xdc['broadcastTransaction']>[0]
+  | Parameters<Txdc['broadcastTransaction']>[0]
+  | Parameters<Sgb['broadcastTransaction']>[0]
+  | Parameters<Tsgb['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
