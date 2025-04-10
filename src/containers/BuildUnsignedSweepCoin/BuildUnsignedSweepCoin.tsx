@@ -133,6 +133,10 @@ function Form() {
     case 'txdc':
     case 'sgb':
     case 'tsgb':
+    case 'oas':
+    case 'toas':
+    case 'coredao':
+    case 'tcoredao':
       return (
         <EthLikeForm
           key={coin}

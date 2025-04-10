@@ -879,6 +879,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.sgb,
     allCoinMetas.xdc,
     allCoinMetas.wemix,
+    allCoinMetas.coredao,
+    allCoinMetas.oas,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -917,6 +919,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsgb,
     allCoinMetas.txdc,
     allCoinMetas.twemix,
+    allCoinMetas.tcoredao,
+    allCoinMetas.toas,
   ] as const,
 };
 
