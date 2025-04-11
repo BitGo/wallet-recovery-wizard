@@ -1,7 +1,8 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
+import { allCoinMetas } from '~/helpers/config';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
@@ -19,6 +20,7 @@ const validationSchema = Yup.object({
   userKeyId: Yup.string(),
   derivationSeed: Yup.string(),
   walletContractAddress: Yup.string().required(),
+  isTss: Yup.boolean(),
 }).required();
 
 export type PolygonFormProps = {
@@ -26,11 +28,11 @@ export type PolygonFormProps = {
     values: PolygonFormValues,
     formikHelpers: FormikHelpers<PolygonFormValues>
   ) => void | Promise<void>;
+  coinName: string; // Add coinName as a prop
 };
 
 type PolygonFormValues = Yup.Asserts<typeof validationSchema>;
-
-export function PolygonForm({ onSubmit }: PolygonFormProps) {
+export function PolygonForm({ onSubmit, coinName }: PolygonFormProps) {
   const formik = useFormik<PolygonFormValues>({
     onSubmit,
     initialValues: {
@@ -45,6 +47,7 @@ export function PolygonForm({ onSubmit }: PolygonFormProps) {
       userKeyId: '',
       derivationSeed: '',
       walletContractAddress: '',
+      isTss: false,
     },
     validationSchema,
   });
@@ -143,6 +146,14 @@ export function PolygonForm({ onSubmit }: PolygonFormProps) {
             Width="fill"
           />
         </div>
+        {allCoinMetas[coinName]?.isTssSupported && ( 
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

@@ -512,7 +512,6 @@ async function createWindow() {
         case 'ticp':
         case 'tnear':
         case 'near':    
-        case 'eth':
         case 'flr':
         case 'tflr':
         case 'wemix':
@@ -524,8 +523,11 @@ async function createWindow() {
         case 'oas':
         case 'toas':
         case 'coredao':
-        case 'tcoredao':     
-        case 'hteth':{
+        case 'tcoredao': 
+        case 'eth':    
+        case 'hteth':
+        case 'polygon':
+        case 'tpolygon':{
           const coinInstance = sdk.coin(coin) as
             | Ada
             | Tada
@@ -554,8 +556,9 @@ async function createWindow() {
             | Oas
             | Toas
             | Coredao
-            | Tcoredao;
-            
+            | Tcoredao
+            | Polygon
+            | Tpolygon;
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:
