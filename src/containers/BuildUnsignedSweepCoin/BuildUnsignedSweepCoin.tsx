@@ -898,6 +898,7 @@ function Form() {
       return (
         <PolygonForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -913,9 +914,14 @@ function Form() {
                 await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
-                eip1559: {
-                  maxFeePerGas: toWei(maxFeePerGas),
-                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                eip1559: getEip1559Params(
+                  coin,
+                  maxFeePerGas,
+                  maxPriorityFeePerGas,
+                ),
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
                 },
                 bitgoKey: '',
                 ignoreAddressTypes: [],
