@@ -520,7 +520,11 @@ async function createWindow() {
         case 'sgb':
         case 'tsgb':
         case 'xdc':
-        case 'txdc':     
+        case 'txdc':
+        case 'oas':
+        case 'toas':
+        case 'coredao':
+        case 'tcoredao':     
         case 'hteth':{
           const coinInstance = sdk.coin(coin) as
             | Ada
@@ -546,7 +550,11 @@ async function createWindow() {
             | Sgb
             | Tsgb
             | Xdc
-            | Txdc;
+            | Txdc
+            | Oas
+            | Toas
+            | Coredao
+            | Tcoredao;
             
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
