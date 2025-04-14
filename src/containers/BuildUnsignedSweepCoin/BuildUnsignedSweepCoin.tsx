@@ -165,7 +165,7 @@ function Form() {
                   chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                   hardfork: 'london',
                 },
-                bitgoKey: '',
+                bitgoKey: values.bitgoKey || '',
                 ignoreAddressTypes: [],
               });
               assert(
