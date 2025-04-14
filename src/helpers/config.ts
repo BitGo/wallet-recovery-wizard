@@ -885,6 +885,20 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'stx',
     value: 'tsip10Token',
   },
+  ton: {
+    Title: 'TON',
+    Description: 'Ton',
+    Icon: 'ton',
+    ApiKeyProvider: 'toncenter.com',
+    value: 'ton',
+  },
+  tton: {
+    Title: 'TTON',
+    Description: 'Ton Testnet',
+    ApiKeyProvider: 'testnet.toncenter.com',
+    Icon: 'ton',
+    value: 'tton',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -967,6 +981,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.stx,
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
+    allCoinMetas.ton,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -1010,6 +1025,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tstx,
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
+    allCoinMetas.tton,
   ] as const,
 };
 
@@ -1077,6 +1093,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.stx,
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
+      allCoinMetas.ton,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1134,6 +1151,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tstx,
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
+      allCoinMetas.tton,
     ] as const,
   };
 
