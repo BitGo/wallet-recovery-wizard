@@ -73,6 +73,7 @@ import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
+import { Ton, Tton } from '@bitgo/sdk-coin-ton';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -186,6 +187,8 @@ sdk.register('icp', Icp.createInstance);
 sdk.register('ticp', Ticp.createInstance);
 sdk.register('stx', Stx.createInstance);
 sdk.register('tstx', Tstx.createInstance);
+sdk.register('ton', Ton.createInstance);
+sdk.register('tton', Tton.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -516,6 +519,8 @@ async function createWindow() {
         case 'tsui':
         case 'icp':
         case 'ticp':
+        case 'ton':
+        case 'tton':
         case 'tnear':
         case 'near':
         case 'flr':
@@ -547,6 +552,8 @@ async function createWindow() {
             | Tsui
             | Icp
             | Ticp
+            | Ton
+            | Tton
             | Near
             | TNear
             | Eth
