@@ -898,6 +898,20 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'stx',
     value: 'tsip10Token',
   },
+  ton: {
+    Title: 'TON',
+    Description: 'Ton',
+    Icon: 'ton',
+    ApiKeyProvider: 'toncenter.com',
+    value: 'ton',
+  },
+  tton: {
+    Title: 'TTON',
+    Description: 'Ton Testnet',
+    ApiKeyProvider: 'testnet.toncenter.com',
+    Icon: 'ton',
+    value: 'tton',
+  },
   tmon: {
     Title: 'TMONAD',
     Description: 'Testnet Monad',
@@ -1035,6 +1049,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.stx,
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
+    allCoinMetas.ton,
     ...prodEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1081,6 +1096,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tstx,
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
+    allCoinMetas.tton,
     ...testEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
 };
@@ -1150,6 +1166,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.stx,
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
+      allCoinMetas.ton,
       ...prodEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1209,6 +1226,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tstx,
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
+      allCoinMetas.tton,
       ...testEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
   };
