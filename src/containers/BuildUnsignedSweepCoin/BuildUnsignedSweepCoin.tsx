@@ -24,6 +24,7 @@ import { BitcoinForm } from './BitcoinForm';
 import { BitcoinABCForm } from './BitcoinABCForm';
 import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthLikeForm } from './EthLikeForm';
+import { BscForm } from './BscForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolygonForm } from './PolygonForm';
@@ -42,6 +43,7 @@ import { RippleTokenForm } from '~/containers/BuildUnsignedSweepCoin/RippleToken
 import { HederaTokenForm } from '~/containers/BuildUnsignedSweepCoin/HederaTokenForm';
 import { NearForm } from './NearForm';
 
+
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
   const bitGoEnvironment = safeEnv(env);
@@ -51,6 +53,7 @@ function Form() {
     'includePubsInUnsignedSweep'
   );
   const navigate = useNavigate();
+  console.log("Entering form with coin", coin);
 
   switch (coin) {
     case 'btc':
@@ -973,6 +976,80 @@ function Form() {
             }
           }}
         />
+      );
+    case 'bsc':
+    case 'tbsc':
+    console.log('bsc');
+      return (
+            <BscForm
+          key={coin}
+          coinName={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+
+              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = await updateKeysFromIds(coin, values);
+              const recoverData = await window.commands.recover(coin, {
+                ...rest,
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
+                replayProtectionOptions: {
+                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                  hardfork: 'london',
+                },
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  {
+                    ...recoverData,
+                    ...(await includePubsFor(coin, values)),
+                  },
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          } }    
+          />
       );
     case 'erc20':
     case 'hterc20':
