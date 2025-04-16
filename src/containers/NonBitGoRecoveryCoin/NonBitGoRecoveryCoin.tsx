@@ -21,6 +21,7 @@ import { CosmosForm } from './CosmosForm';
 import { DogecoinForm } from './DogecoinForm';
 import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthereumForm } from './EthLikeForm';
+import { BscForm } from './BscForm';
 import { EthereumWForm } from './EthereumWForm';
 import { LitecoinForm } from './LitecoinForm';
 import { PolkadotForm } from './PolkadotForm';
@@ -34,6 +35,7 @@ import { HederaForm } from './HederaForm';
 import { AlgorandForm } from '~/containers/NonBitGoRecoveryCoin/AlgorandForm';
 import { RippleTokenForm } from '~/containers/NonBitGoRecoveryCoin/RippleTokenForm';
 import { HederaTokenForm } from '~/containers/NonBitGoRecoveryCoin/HederaTokenForm';
+
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -351,8 +353,6 @@ function Form() {
     case 'topeth':
     case 'polygon':
     case 'tpolygon':
-    case 'bsc':
-    case 'tbsc':
     case 'flr':
     case 'tflr':
     case 'sgb':
@@ -419,6 +419,89 @@ function Form() {
                 { encoding: 'utf-8' }
               );
 
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+      case 'bsc':
+      case 'tbsc':
+        return (
+            <BscForm
+              key={coin}
+              coinName={coin}
+              onSubmit={async (values, { setSubmitting }) => {
+                setAlert(undefined);
+                setSubmitting(true);
+                try {
+                  await window.commands.setBitGoEnvironment(
+                    bitGoEnvironment,
+                    coin,
+                    values.apiKey
+                  );
+        
+                  const chainData = await window.queries.getChain(coin);
+        
+                  const {
+                    gasLimit,
+                    userKey,
+                    backupKey,
+                    walletContractAddress,
+                    walletPassphrase,
+                    recoveryDestination,
+                    ...rest
+                  } = values;
+        
+                  const recoverData = await window.commands.recover(coin, {
+                    ...rest,
+                    gasLimit: Number(gasLimit),
+                    userKey,
+                    backupKey,
+                    walletContractAddress,
+                    walletPassphrase,
+                    recoveryDestination,
+                    replayProtectionOptions: {
+                      chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                      hardfork: 'london',
+                    },
+                    bitgoKey: '',
+                    ignoreAddressTypes: [],
+                  });
+        
+                  assert(
+                    isRecoveryTransaction(recoverData),
+                    'Fully-signed recovery transaction not detected.'
+                  );
+        
+                  const showSaveDialogData = await window.commands.showSaveDialog({
+                    filters: [
+                      {
+                        name: 'Custom File Type',
+                        extensions: ['json'],
+                      },
+                    ],
+                    defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                  });
+        
+                  if (!showSaveDialogData.filePath) {
+                    throw new Error('No file path selected');
+                  }
+        
+                  await window.commands.writeFile(
+                    showSaveDialogData.filePath,
+                    JSON.stringify(recoverData, null, 2),
+                    { encoding: 'utf-8' }
+                  );
+        
               navigate(
                 `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
               );
