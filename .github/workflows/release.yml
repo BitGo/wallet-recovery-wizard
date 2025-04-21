@@ -164,13 +164,21 @@ jobs:
       - name: Get the ID of the new release
         id: get-new-release-id
         run: |
+          release_payload=$(jq -n '{
+            "tag_name": "v${{ env.NEXT_VERSION }}",
+            "target_commitish": "${{ github.sha }}",
+            "name": "v${{ env.NEXT_VERSION }}",
+            "draft": true,
+            "generate_release_notes": true
+          }')
+
           new_release=$(curl -L \
             -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ github.token }}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/BitGo/wallet-recovery-wizard/releases \
-            -d '{"tag_name":"v${{ env.NEXT_VERSION }}","target_commitish":"${{ github.sha }}","name":"v${{ env.NEXT_VERSION }}","draft":true,"generate_release_notes":true}'
+            -d "$release_payload"
           )
           new_release_id=$(echo "$new_release" | jq ".id")
           echo "new_release_id=$new_release_id" >> "$GITHUB_OUTPUT"
@@ -200,7 +208,7 @@ jobs:
             -H "Content-Type: application/octet-stream" \
             "${{ steps.get-new-release-id.outputs.new_release_url }}?name=$target_dmg_filename.sha256sum" \
             --data-binary "@${{ env.DMG_FILENAME }}.sha256sum"
- 
+
       - name: Add the Mac Intel assets to the release
         run: |
           target_dmg_filename_intel=$(echo "${{ env.DMG_FILENAME_INTEL }}" | sed 's/\ /\./g')
