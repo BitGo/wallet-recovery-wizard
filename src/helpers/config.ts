@@ -421,6 +421,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'sui',
     value: 'suiToken',
   },
+  stx: {
+    Title: 'STX',
+    Description: 'Stacks',
+    Icon: 'stx',
+    value: 'stx',
+  },
+  sip10Token: {
+    Title: 'SIP10 Token',
+    Description: 'Stacks SIP10 Token',
+    Icon: 'stx',
+    value: 'sip10Token',
+  },
   tsui: {
     Title: 'TSUI',
     Description: 'Testnet Sui',
@@ -802,6 +814,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'baseeth',
     value: 'tbaseeth',
   },
+  tstx: {
+    Title: 'TSTX',
+    Description: 'Stacks Testnet',
+    Icon: 'stx',
+    value: 'tstx',
+  },
+  tsip10Token: {
+    Title: 'TSIP10 Token',
+    Description: 'Testnet SIP10 Token',
+    Icon: 'stx',
+    value: 'tsip10Token',
+  },
 } as const;
 
 export const buildUnsignedConsolidationCoins: Record<
@@ -881,6 +905,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.wemix,
     allCoinMetas.coredao,
     allCoinMetas.oas,
+    allCoinMetas.stx,
+    allCoinMetas.sip10Token,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -921,6 +947,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.twemix,
     allCoinMetas.tcoredao,
     allCoinMetas.toas,
+    allCoinMetas.tstx,
+    allCoinMetas.tsip10Token,
   ] as const,
 };
 
@@ -982,6 +1010,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.suiToken,
       allCoinMetas['thorchain:rune'],
       allCoinMetas.baby,
+      allCoinMetas.stx,
+      allCoinMetas.sip10Token,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1033,6 +1063,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsuiToken,
       allCoinMetas['tthorchain:rune'],
       allCoinMetas.baby,
+      allCoinMetas.tstx,
+      allCoinMetas.tsip10Token,
     ] as const,
   };
 
@@ -1211,6 +1243,8 @@ export const tokenParentCoins = {
   txrpToken: 'txrp',
   hbarToken: 'hbar',
   thbarToken: 'thbar',
+  sip10Token: 'stx',
+  tsip10Token: 'tstx',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {

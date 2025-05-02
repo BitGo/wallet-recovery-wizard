@@ -72,6 +72,7 @@ import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
 import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
+import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -183,6 +184,8 @@ sdk.register('wemix', Wemix.createInstance);
 sdk.register('twemix', Twemix.createInstance);
 sdk.register('icp', Icp.createInstance);
 sdk.register('ticp', Ticp.createInstance);
+sdk.register('stx', Stx.createInstance);
+sdk.register('tstx', Tstx.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -209,6 +212,9 @@ XrpToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 HbarToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+Sip10Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
@@ -511,7 +517,7 @@ async function createWindow() {
         case 'icp':
         case 'ticp':
         case 'tnear':
-        case 'near':    
+        case 'near':
         case 'flr':
         case 'tflr':
         case 'wemix':
@@ -523,8 +529,8 @@ async function createWindow() {
         case 'oas':
         case 'toas':
         case 'coredao':
-        case 'tcoredao': 
-        case 'eth':    
+        case 'tcoredao':
+        case 'eth':
         case 'hteth':
         case 'polygon':
         case 'tpolygon':{

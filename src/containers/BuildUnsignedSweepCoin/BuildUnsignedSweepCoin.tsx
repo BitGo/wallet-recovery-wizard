@@ -37,10 +37,11 @@ import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
 import { HederaForm } from './HederaForm';
-import { AlgorandForm } from '~/containers/BuildUnsignedSweepCoin/AlgorandForm';
-import { RippleTokenForm } from '~/containers/BuildUnsignedSweepCoin/RippleTokenForm';
-import { HederaTokenForm } from '~/containers/BuildUnsignedSweepCoin/HederaTokenForm';
+import { AlgorandForm } from './AlgorandForm';
+import { RippleTokenForm } from './RippleTokenForm';
+import { HederaTokenForm } from './HederaTokenForm';
 import { NearForm } from './NearForm';
+import { StacksForm } from './StacksForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -516,6 +517,80 @@ function Form() {
               assert(
                 isRecoveryTransaction(recoverData),
                 'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                      ...recoverData,
+                      ...(await includePubsFor(coin, values)),
+                    }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'stx':
+    case 'tstx':
+    case 'sip10Token':
+    case 'tsip10Token':
+      return (
+        <StacksForm
+          key={coin}
+          isToken={coin === 'sip10Token' || coin === 'tsip10Token'}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              let parentCoin: string | undefined;
+              if (coin === 'sip10Token' || coin === 'tsip10Token') {
+                parentCoin = tokenParentCoins[coin];
+              }
+              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const callerCoin = parentCoin ? parentCoin : coin;
+              const recoverData = await window.commands.recover(callerCoin, {
+                ...(await updateKeysFromIds(coin, values)),
+                userKey: values.userKey.replace(/\s+/g, ''),
+                backupKey: values.backupKey.replace(/\s+/g, ''),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Unsigned recovery transaction not detected.'
               );
 
               const showSaveDialogData = await window.commands.showSaveDialog({
@@ -1569,7 +1644,7 @@ function Form() {
       const chainData = await window.queries.getChain(coin);
 
       // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(coin, { 
+      const recoverData = await window.commands.recover(coin, {
           ...values,
           userKey:(values.userKey ?? '').replace(/\s+/g, ''),
           backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
