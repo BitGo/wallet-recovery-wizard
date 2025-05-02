@@ -842,7 +842,7 @@ function Form() {
                 parentCoin
               );
               const recoverData = await window.commands.recover(parentCoin, {
-                ...(await updateKeysFromIds(coin, values)),
+                ...(await updateKeysFromIds(parentCoin, values)),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 tokenContractAddress: values.tokenAddress,
                 ignoreAddressTypes: [],
@@ -871,7 +871,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(coin, values)),
+                    ...(await includePubsFor(parentCoin, values)),
                   },
                   null,
                   2
