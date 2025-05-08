@@ -49,7 +49,8 @@ const coins = [
   'xdc',
   'sgb',
   'baby',
-  'icp'
+  'icp',
+  'stx'
 ];
 
 const paths = fs

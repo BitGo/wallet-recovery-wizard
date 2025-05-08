@@ -31,9 +31,10 @@ import { TronForm } from './TronForm';
 import { TronTokenForm } from './TronTokenForm';
 import { AvalancheCTokenForm } from './AvalancheCTokenForm';
 import { HederaForm } from './HederaForm';
-import { AlgorandForm } from '~/containers/NonBitGoRecoveryCoin/AlgorandForm';
-import { RippleTokenForm } from '~/containers/NonBitGoRecoveryCoin/RippleTokenForm';
-import { HederaTokenForm } from '~/containers/NonBitGoRecoveryCoin/HederaTokenForm';
+import { AlgorandForm } from './AlgorandForm';
+import { RippleTokenForm } from './RippleTokenForm';
+import { HederaTokenForm } from './HederaTokenForm';
+import { StacksForm } from './StacksForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -688,6 +689,69 @@ function Form() {
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
                 bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'stx':
+    case 'tstx':
+    case 'sip10Token':
+    case 'tsip10Token':
+      return (
+        <StacksForm
+          key={coin}
+          isToken={coin === 'sip10Token' || coin === 'tsip10Token'}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              let parentCoin: string | undefined;
+              if (coin === 'sip10Token' || coin === 'tsip10Token') {
+                parentCoin = tokenParentCoins[coin];
+              }
+              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const callerCoin = parentCoin ? parentCoin : coin;
+              const recoverData = await window.commands.recover(callerCoin, {
+                ...values,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
               });
               assert(
