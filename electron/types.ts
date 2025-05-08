@@ -11,6 +11,15 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Eth, Hteth } from '@bitgo/sdk-coin-eth';
+import { Flr, Tflr } from '@bitgo/sdk-coin-flr';
+import { Wemix, Twemix } from '@bitgo/sdk-coin-wemix';
+import { Xdc, Txdc } from '@bitgo/sdk-coin-xdc';
+import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
+import { Oas, Toas } from '@bitgo/sdk-coin-oas';
+import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
+import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -36,8 +45,26 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<Tsui['broadcastTransaction']>[0]
   | Parameters<Near['broadcastTransaction']>[0]
   | Parameters<TNear['broadcastTransaction']>[0]
+  | Parameters<Eth['broadcastTransaction']>[0]
+  | Parameters<Hteth['broadcastTransaction']>[0]
+  | Parameters<Flr['broadcastTransaction']>[0]
+  | Parameters<Tflr['broadcastTransaction']>[0]
+  | Parameters<Wemix['broadcastTransaction']>[0]
+  | Parameters<Twemix['broadcastTransaction']>[0]
+  | Parameters<Xdc['broadcastTransaction']>[0]
+  | Parameters<Txdc['broadcastTransaction']>[0]
+  | Parameters<Sgb['broadcastTransaction']>[0]
+  | Parameters<Tsgb['broadcastTransaction']>[0]
+  | Parameters<Oas['broadcastTransaction']>[0]
+  | Parameters<Toas['broadcastTransaction']>[0]
+  | Parameters<Coredao['broadcastTransaction']>[0]
+  | Parameters<Tcoredao['broadcastTransaction']>[0]
+  | Parameters<Polygon['broadcastTransaction']>[0]
+  | Parameters<Tpolygon['broadcastTransaction']>[0]
+  | Parameters<Bsc['broadcastTransaction']>[0]
   | Parameters<Icp['broadcastTransaction']>[0]
   | Parameters<Ticp['broadcastTransaction']>[0]
+  | Parameters<Tbsc['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
