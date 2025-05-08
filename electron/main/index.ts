@@ -26,7 +26,7 @@ import * as ecc from 'tiny-secp256k1';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { registerCoinConstructors } from 'bitgo';
-import { GlobalCoinFactory } from '@bitgo/sdk-core'
+import { GlobalCoinFactory } from '@bitgo/sdk-core';
 
 const bip32 = BIP32Factory(ecc);
 
