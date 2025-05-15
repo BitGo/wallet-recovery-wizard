@@ -15,6 +15,7 @@ import {
   updateKeysFromIds,
   updateKeysFromIdsWithToken,
   getTickerByCoinFamily,
+  isBscChain,
 } from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
@@ -970,6 +971,8 @@ function Form() {
       );
     case 'polygon':
     case 'tpolygon':
+    case 'bsc':
+    case 'tbsc':
       return (
         <PolygonForm
           key={coin}
@@ -989,11 +992,10 @@ function Form() {
                 await updateKeysFromIds(coin, values);
               const recoverData = await window.commands.recover(coin, {
                 ...rest,
-                eip1559: getEip1559Params(
-                  coin,
-                  maxFeePerGas,
-                  maxPriorityFeePerGas,
-                ),
+                eip1559: {
+                  maxFeePerGas: toWei(maxFeePerGas),
+                  maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                },
                 replayProtectionOptions: {
                   chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                   hardfork: 'london',
