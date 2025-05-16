@@ -78,8 +78,6 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tsol['createBroadcastableSweepTransaction']
     | Sui['createBroadcastableSweepTransaction']
     | Tsui['createBroadcastableSweepTransaction']
-    | Icp['createBroadcastableSweepTransaction']
-    | Ticp['createBroadcastableSweepTransaction']
   >
 >;
 
@@ -108,6 +106,8 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<Tcoredao['broadcastTransaction']>[0]
   | Parameters<Polygon['broadcastTransaction']>[0]
   | Parameters<Tpolygon['broadcastTransaction']>[0]
+  | Parameters<Icp['broadcastTransaction']>[0]
+  | Parameters<Ticp['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
