@@ -1131,7 +1131,7 @@ function Form() {
                       ...recoverData,
                       ...(await includePubsForToken(
                         values.tokenContractAddress.toLowerCase(),
-                        coin,
+                        parentCoin,
                         values
                       )),
                     }
