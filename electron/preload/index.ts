@@ -39,6 +39,7 @@ import {
   createCoredaoBroadcastableSweepTransactionParameters,
   createSgbBroadcastableSweepTransactionParameters,
   createpolygonBroadcastableSweepTransactionParameters,
+  createTonBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
   TaoRecoverConsolidationRecoveryBatch,
@@ -78,6 +79,7 @@ type Commands = {
       | createOasBroadcastableSweepTransactionParameters
       | createCoredaoBroadcastableSweepTransactionParameters
       | createpolygonBroadcastableSweepTransactionParameters
+      | createTonBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
   sweepV1(coin: string, parameters: V1SweepParams): ReturnType<typeof v1Sweep>;

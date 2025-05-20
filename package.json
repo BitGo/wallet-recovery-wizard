@@ -55,6 +55,7 @@
     "@bitgo/sdk-coin-sui": "5.13.8",
     "@bitgo/sdk-coin-tao": "1.6.9",
     "@bitgo/sdk-coin-tia": "3.0.48",
+    "@bitgo/sdk-coin-ton": "3.5.2",
     "@bitgo/sdk-coin-trx": "3.0.1",
     "@bitgo/sdk-coin-wemix": "1.2.3",
     "@bitgo/sdk-coin-xdc": "1.2.3",
