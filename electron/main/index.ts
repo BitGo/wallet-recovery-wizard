@@ -9,7 +9,7 @@ process.env.PUBLIC = app.isPackaged
 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
-import { Arbeth, Tarbeth, ArbethToken } from '@bitgo/sdk-coin-arbeth';
+import { Arbeth, Tarbeth, ArbethToken } from '@bitgo-beta/sdk-coin-arbeth';
 import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
 import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
 import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
@@ -18,7 +18,7 @@ import { Injective, Tinjective } from '@bitgo/sdk-coin-injective';
 import { Sei, Tsei } from '@bitgo/sdk-coin-sei';
 import { Tia, Ttia } from '@bitgo/sdk-coin-tia';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { BitGoAPI } from '@bitgo/sdk-api';
+import { BitGoAPI } from '@bitgo-beta/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { AvaxC, TavaxC, AvaxCToken } from '@bitgo/sdk-coin-avaxc';
 import { Bch } from '@bitgo/sdk-coin-bch';
@@ -35,16 +35,16 @@ import {
   Erc20Token,
   Eth,
   Hteth,
-} from '@bitgo/sdk-coin-eth';
+} from '@bitgo-beta/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
 import { Flr,Tflr } from '@bitgo/sdk-coin-flr'
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
-import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
+import { Opeth, Topeth, OpethToken } from '@bitgo-beta/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
-import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
+import { Polygon, Tpolygon, PolygonToken } from '@bitgo-beta/sdk-coin-polygon';
 import { Rune, Trune } from '@bitgo/sdk-coin-rune';
 import { Baby, Tbaby } from '@bitgo/sdk-coin-baby';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
@@ -54,7 +54,7 @@ import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
 import { Zec } from '@bitgo/sdk-coin-zec';
 import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
-import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
+import { Bsc, Tbsc } from '@bitgo-beta/sdk-coin-bsc';
 import { BaseCoin } from '@bitgo/sdk-core';
 import assert from 'assert';
 import BIP32Factory from 'bip32';
@@ -68,8 +68,8 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
-import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
-import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
+import { Xdc,Txdc } from '@bitgo-beta/sdk-coin-xdc';
+import { Wemix,Twemix } from '@bitgo-beta/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
