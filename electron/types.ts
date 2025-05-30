@@ -11,14 +11,14 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
-import { Eth, Hteth } from '@bitgo/sdk-coin-eth';
+import { Eth, Hteth } from '@bitgo-beta/sdk-coin-eth';
 import { Flr, Tflr } from '@bitgo/sdk-coin-flr';
-import { Wemix, Twemix } from '@bitgo/sdk-coin-wemix';
-import { Xdc, Txdc } from '@bitgo/sdk-coin-xdc';
+import { Wemix, Twemix } from '@bitgo-beta/sdk-coin-wemix';
+import { Xdc, Txdc } from '@bitgo-beta/sdk-coin-xdc';
 import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
-import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Polygon, Tpolygon } from '@bitgo-beta/sdk-coin-polygon';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
