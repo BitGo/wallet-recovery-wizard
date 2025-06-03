@@ -123,7 +123,7 @@ export function PolygonForm({ onSubmit }: PolygonFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="An Api-Key Token from polygonscan.com required for Polygon Mainnet recoveries."
+            HelperText="An Api-Key Token from etherscan.io required for Polygon Mainnet recoveries."
             Label="API Key"
             name="apiKey"
             Width="fill"
