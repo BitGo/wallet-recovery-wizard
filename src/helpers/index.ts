@@ -140,18 +140,24 @@ export function mapSdkErrorToAlert(message: string): string {
 
 export async function includePubsFor<
   TValues extends {
-    userKey: string;
+    userKey?: string;
     userKeyId?: string;
-    backupKey: string;
+    backupKey?: string;
     backupKeyId?: string;
     bitgoKey?: string;
   }
 >(coin: string, values: TValues) {
+  if (!values.userKey && !values.backupKey && !values.bitgoKey) {
+    throw new Error('No keys provided');
+  }
+  const userKey = values.userKey || values.bitgoKey;
+  const backupKey = values.backupKey || values.bitgoKey;
+
   const userXpub = values.userKeyId
     ? (
         await window.queries.deriveKeyWithSeed(
           coin,
-          values.userKey,
+          userKey!,
           values.userKeyId
         )
       ).key
@@ -160,7 +166,7 @@ export async function includePubsFor<
     ? (
         await window.queries.deriveKeyWithSeed(
           coin,
-          values.backupKey,
+          backupKey!,
           values.backupKeyId
         )
       ).key
@@ -215,10 +221,11 @@ export async function isDerivationPath(id: string, description: string) {
 }
 
 export type UpdateKeysFromsIdsDefaultParams = {
-  userKey: string;
+  userKey?: string;
   userKeyId?: string;
   backupKeyId?: string;
-  backupKey: string;
+  backupKey?: string;
+  bitgoKey?: string;
 }
 
 export async function updateKeysFromIds<
@@ -228,16 +235,22 @@ export async function updateKeysFromIds<
   params: TParams,
 ): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
   const { userKeyId, backupKeyId, ...copy } = params;
+  if (!copy.bitgoKey && !copy.userKey && !copy.backupKey) {
+    throw new Error('No keys provided');
+  }
+  // Either both userKey and backupKey are provided, or only bitgoKey is provided.
+  const userKey = copy.userKey || copy.bitgoKey;
+  const backupKey = copy.backupKey || copy.bitgoKey;
   const data = [
     {
       id: userKeyId,
-      key: copy.userKey,
+      key: userKey,
       description: 'User Key Id',
       name: 'userKey',
     },
     {
       id: backupKeyId,
-      key: copy.backupKey,
+      key: backupKey,
       description: 'Backup Key Id',
       name: 'backupKey',
     },
@@ -247,12 +260,12 @@ export async function updateKeysFromIds<
     if (item.id) {
       if (await isDerivationPath(item.id, item.description)) {
         copy[item.name] = await window.queries.deriveKeyByPath(
-          item.key,
+          item.key!,
           item.id,
         );
       } else {
         copy[item.name] = (
-          await window.queries.deriveKeyWithSeed(coin, item.key, item.id)
+          await window.queries.deriveKeyWithSeed(coin, item.key!, item.id)
         ).key;
       }
     }
