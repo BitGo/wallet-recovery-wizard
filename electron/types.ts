@@ -19,6 +19,7 @@ import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
 
 export type createAdaBroadcastableSweepTransactionParameters =
   | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
@@ -65,6 +66,9 @@ export type createCoredaoBroadcastableSweepTransactionParameters =
 export type createpolygonBroadcastableSweepTransactionParameters =
   | Parameters<Polygon['createBroadcastableSweepTransaction']>[0]
   | Parameters<Tpolygon['createBroadcastableSweepTransaction']>[0];
+export type createBscBroadcastableSweepTransactionParameters =
+  | Parameters<Bsc['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tbsc['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -106,8 +110,10 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<Tcoredao['broadcastTransaction']>[0]
   | Parameters<Polygon['broadcastTransaction']>[0]
   | Parameters<Tpolygon['broadcastTransaction']>[0]
+  | Parameters<Bsc['broadcastTransaction']>[0]
   | Parameters<Icp['broadcastTransaction']>[0]
   | Parameters<Ticp['broadcastTransaction']>[0]
+  | Parameters<Tbsc['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
