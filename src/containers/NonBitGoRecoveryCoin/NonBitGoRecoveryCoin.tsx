@@ -1259,6 +1259,12 @@ function Form() {
     case 'tthorchain:rune':
     case 'baby':
     case 'tbaby':
+    case 'cronos':
+    case 'tcronos':
+    case 'initia':
+    case 'tinitia':
+    case 'asi':
+    case 'tasi':
       return (
         <CosmosForm
           key={coin}
