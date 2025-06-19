@@ -19,6 +19,7 @@ const validationSchema = Yup.object({
     .label('Key Recovery Service'),
   recoveryDestination: Yup.string().required(),
   tokenAddress: Yup.string().required(),
+  tokenProgramId: Yup.string().required(),
   userKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
 })
@@ -60,6 +61,7 @@ export function SolanaTokenForm({ onSubmit }: SolanaTokenFormProps) {
       publicKey: '',
       recoveryDestination: '',
       tokenAddress: '',
+      tokenProgramId: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
       secretKey: '',
       userKey: '',
       walletPassphrase: '',
@@ -135,6 +137,17 @@ export function SolanaTokenForm({ onSubmit }: SolanaTokenFormProps) {
             name="tokenAddress"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4">
+          <FormikSelectfield
+            HelperText="The programId for smart contract of the token to recover."
+            Label="Token ProgramId"
+            name="tokenProgramId"
+            Width="fill"
+          >
+            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">Sol SPL Token</option>
+            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">Sol SPL 2022 Token</option>
+          </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
           <FormikPasswordfield

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
+  FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
   Icon,
@@ -13,6 +14,7 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   tokenAddress: Yup.string().required(),
+  tokenProgramId: Yup.string().required(),
   seed: Yup.string(),
 })
   .required()
@@ -51,6 +53,7 @@ export function SolanaTokenForm({ onSubmit }: SolanaTokenFormProps) {
       recoveryDestination: '',
       publicKey: '',
       tokenAddress: '',
+      tokenProgramId: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
       secretKey: '',
       seed: undefined,
     },
@@ -96,6 +99,17 @@ export function SolanaTokenForm({ onSubmit }: SolanaTokenFormProps) {
             name="tokenAddress"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4">
+          <FormikSelectfield
+            HelperText="The programId for smart contract of the token to recover."
+            Label="Token ProgramId"
+            name="tokenProgramId"
+            Width="fill"
+          >
+            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">SOL SPL Token</option>
+            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">Sol SPL 2022 Token</option>
+          </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
           <FormikTextfield

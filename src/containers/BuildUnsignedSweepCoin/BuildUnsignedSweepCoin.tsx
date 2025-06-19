@@ -1249,6 +1249,7 @@ function Form() {
                 backupKey: '',
                 recoveryDestination: values.recoveryDestination,
                 tokenContractAddress: values.tokenAddress,
+                programId: values.tokenProgramId,
                 seed: values.seed,
                 durableNonce,
               });
