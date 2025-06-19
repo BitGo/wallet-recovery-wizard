@@ -296,6 +296,7 @@ function Form() {
                 durableNonce,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 tokenContractAddress: values.tokenAddress,
+                programId: values.tokenProgramId,
                 ignoreAddressTypes: [],
               });
               assert(
