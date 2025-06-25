@@ -120,6 +120,7 @@ type Commands = {
       currencyCode?: string, // eg. xrpl token
       tokenId?: string, // eg. hbar token
       contractId?: string, // eg. stacks sip10 token
+      programId?: string, // eg. solana spl 2022 token
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(
