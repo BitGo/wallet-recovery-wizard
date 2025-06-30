@@ -6,8 +6,18 @@ import { allCoinMetas } from '~/helpers/config';
 
 const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
-  backupKey: Yup.string().required(),
+  backupKey: Yup.string().when('isTss', {
+    is: false,
+    then: Yup.string().required(),
+    otherwise: Yup.string().notRequired(),
+  }),
+  bitgoKey: Yup.string().when('isTss', {
+    is: true,
+    then: Yup.string().required(),
+    otherwise: Yup.string().notRequired(),
+  }),
   backupKeyId: Yup.string(),
+  seed: Yup.string(),
   gasLimit: Yup.number()
     .typeError('Gas limit must be a number')
     .integer()
@@ -16,7 +26,11 @@ const validationSchema = Yup.object({
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
-  userKey: Yup.string().required(),
+  userKey: Yup.string().when('isTss', {
+    is: false,
+    then: Yup.string().required(),
+    otherwise: Yup.string().notRequired(),
+  }),
   userKeyId: Yup.string(),
   walletContractAddress: Yup.string().required(),
   derivationSeed: Yup.string(),
@@ -40,6 +54,8 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
       apiKey: '',
       backupKey: '',
       backupKeyId: '',
+      bitgoKey: '',
+      seed: '',
       gasLimit: allCoinMetas[coinName]?.defaultGasLimitNum ?? 500000,
       maxFeePerGas: 20,
       maxPriorityFeePerGas: 10,
@@ -59,46 +75,79 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed cold wallet details
         </h4>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="Your user public key, as found on your recovery KeyCard."
-            Label="User Public Key"
-            name="userKey"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
-            Label="User Key ID (optional)"
-            name="userKeyId"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
-            Label="Backup Public Key"
-            name="backupKey"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
-            Label="Backup Key ID (optional)"
-            name="backupKeyId"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
-            Label="Wallet Contract Address"
-            name="walletContractAddress"
-            Width="fill"
-          />
-        </div>
+        {allCoinMetas[coinName].isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
+        {formik.values.isTss ? null : (
+          <div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your user public key, as found on your recovery KeyCard."
+                Label="User Public Key"
+                name="userKey"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+                Label="User Key ID (optional)"
+                name="userKeyId"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
+                Label="Backup Public Key"
+                name="backupKey"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+                Label="Backup Key ID (optional)"
+                name="backupKeyId"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="The ETH address of the wallet contract. This is also the wallet's base address."
+                Label="Wallet Contract Address"
+                name="walletContractAddress"
+                Width="fill"
+              />
+            </div>
+          </div>
+        )}
+        {formik.values.isTss ? (
+          <div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your BitGo public key, also known as the common keychain public key."
+                Label="BitGo Public Key"
+                name="bitgoKey"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your user seed as found on your KeyCard as Key ID. Most wallets will not have this and you can leave it blank."
+                Label="Seed (optional)"
+                name="seed"
+                Width="fill"
+              />
+            </div>
+          </div>
+        ) : null
+        }
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="Your derivation seed, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
@@ -153,14 +202,6 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
             Width="fill"
           />
         </div>
-        {allCoinMetas[coinName].isTssSupported && (
-          <div className="tw-mb-4" role="group">
-            <label>
-              <Field type="checkbox" name="isTss" />
-              Is TSS recovery?
-            </label>
-          </div>
-        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
