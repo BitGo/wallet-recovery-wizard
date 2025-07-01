@@ -70,7 +70,7 @@ function Form() {
                 ...(await updateKeysFromIds(coin, values)),
                 scan: Number(values.scan),
                 feeRate: values.feeRate ? Number(values.feeRate) : undefined,
-                ignoreAddressTypes: ['p2wsh'],
+                ignoreAddressTypes: [],
               });
 
               assert(
