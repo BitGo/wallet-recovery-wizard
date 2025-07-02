@@ -67,6 +67,8 @@
     "@bitgo/sdk-coin-zeta": "3.1.4",
     "@bitgo/sdk-opensslbytes": "2.0.0",
     "@bitgo/utxo-lib": "11.6.1",
+    "@bitgo-beta/bitgo": "14.2.1-beta.1200",
+    "@bitgo-beta/sdk-core": "8.2.1-beta.979",
     "@ethereumjs/common": "2.6.5",
     "@lottiefiles/react-lottie-player": "3.4.9",
     "clsx": "1.2.1",
@@ -75,7 +77,8 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
-    "yup": "0.32.11"
+    "yup": "0.32.11",
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#b721234e85cd24fd6ed1af2fdc0c3cdcd916416a"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
@@ -99,7 +102,7 @@
     "cheerio": "1.0.0-rc.12",
     "commander": "9.4.1",
     "concurrently": "7.6.0",
-    "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#b721234e85cd24fd6ed1af2fdc0c3cdcd916416a",
     "electron": "22.3.25",
     "electron-builder": "24.9.1",
     "electron-playwright-helpers": "1.2.0",
