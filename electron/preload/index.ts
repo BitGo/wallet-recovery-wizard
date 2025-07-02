@@ -25,20 +25,6 @@ import {
   BroadcastableSweepTransaction,
   BroadcastTransactionResult,
   BroadcastTransactionOptions,
-  createAdaBroadcastableSweepTransactionParameters,
-  createDotBroadcastableSweepTransactionParameters,
-  createTaoBroadcastableSweepTransactionParameters,
-  createSolBroadcastableSweepTransactionParameters,
-  createSuiBroadcastableSweepTransactionParameters,
-  createNearBroadcastableSweepTransactionParameters,
-  createEthBroadcastableSweepTransactionParameters,
-  createFlrBroadcastableSweepTransactionParameters,
-  createWemixBroadcastableSweepTransactionParameters,
-  createXdcBroadcastableSweepTransactionParameters,
-  createOasBroadcastableSweepTransactionParameters,
-  createCoredaoBroadcastableSweepTransactionParameters,
-  createSgbBroadcastableSweepTransactionParameters,
-  createpolygonBroadcastableSweepTransactionParameters,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
   TaoRecoverConsolidationRecoveryBatch,
@@ -47,9 +33,9 @@ import {
   SolRecoveryConsolidationRecoveryOptions,
   SuiRecoverConsolidationRecoveryBatch,
   SuiRecoveryConsolidationRecoveryOptions,
-  createIcpBroadcastableSweepTransactionParameters,
 } from '../types';
 
+import { MPCSweepRecoveryOptions } from '@bitgo/sdk-core';
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '../../src/helpers/config';
 
@@ -62,22 +48,7 @@ type Commands = {
   ): Promise<Error | BroadcastTransactionResult>;
   createBroadcastableSweepTransaction(
     coin: string,
-    parameters:
-      | createAdaBroadcastableSweepTransactionParameters
-      | createDotBroadcastableSweepTransactionParameters
-      | createTaoBroadcastableSweepTransactionParameters
-      | createSolBroadcastableSweepTransactionParameters
-      | createSuiBroadcastableSweepTransactionParameters
-      | createIcpBroadcastableSweepTransactionParameters
-      | createNearBroadcastableSweepTransactionParameters
-      | createEthBroadcastableSweepTransactionParameters
-      | createFlrBroadcastableSweepTransactionParameters
-      | createWemixBroadcastableSweepTransactionParameters
-      | createXdcBroadcastableSweepTransactionParameters
-      | createSgbBroadcastableSweepTransactionParameters
-      | createOasBroadcastableSweepTransactionParameters
-      | createCoredaoBroadcastableSweepTransactionParameters
-      | createpolygonBroadcastableSweepTransactionParameters
+    parameters: MPCSweepRecoveryOptions
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
   sweepV1(coin: string, parameters: V1SweepParams): ReturnType<typeof v1Sweep>;

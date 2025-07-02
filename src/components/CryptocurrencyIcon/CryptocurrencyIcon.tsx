@@ -1,4 +1,6 @@
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
+
 export interface CryptocurrencyIconProps {
   Name:
     | 'ada'
@@ -53,6 +55,76 @@ export interface CryptocurrencyIconProps {
     | 'initia'
     | 'asi';
   Size: 'small' | 'medium' | 'large';
+}
+
+export function CryptocurrencyIconNew({
+                                        Name,
+                                        Size,
+                                        ...hostProps
+                                      }: CryptocurrencyIconProps & JSX.IntrinsicElements['svg']) {
+  const [Icon, setIcon] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const loadIcon = async () => {
+      try {
+        setIsLoading(true);
+        setHasError(false);
+        console.log(
+          'huii'
+        )
+        const module = await import(`cryptocurrency-icons/react/bob`);
+        console.log(module, "module");
+        setIcon(module.default);
+
+      } catch (error) {
+        console.error(`Failed to load icon for ${Name}:`, error);
+        setHasError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadIcon();
+  }, [Name]);
+
+  // Loading state
+  if (isLoading) {
+    return (
+    <h1>hi</h1>
+    );
+  }
+
+  // Error state
+  if (hasError || !Icon) {
+    return (
+      <svg
+        viewBox="0 0 32 32"
+        className={clsx('tw-inline-flex', {
+          'tw-w-4 tw-h-4': Size === 'small',
+          'tw-w-6 tw-h-6': Size === 'medium',
+          'tw-w-8 tw-h-8': Size === 'large',
+        })}
+        {...hostProps}
+      >
+        <circle cx="16" cy="16" r="16" fill="#e0e0e0" />
+        <text x="16" y="20" fontSize="12" fontWeight="bold" textAnchor="middle" fill="#666">
+          {Name.slice(0, 1).toUpperCase()}
+        </text>
+      </svg>
+    );
+  }
+
+  // Render the loaded icon
+  return <Icon
+    className={clsx('tw-inline-flex', {
+      'tw-w-4 tw-h-4': Size === 'small',
+      'tw-w-6 tw-h-6': Size === 'medium',
+      'tw-w-8 tw-h-8': Size === 'large',
+    })}
+    {...hostProps}
+  />;
 }
 
 export function CryptocurrencyIcon({

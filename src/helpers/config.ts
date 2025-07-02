@@ -1,4 +1,5 @@
 import { CryptocurrencyIconProps } from '~/components';
+import { CoinFeature, coins, NetworkType } from '@bitgo/statics';
 import { BitgoEnv } from '.';
 
 export type CoinMetadata = {
@@ -15,6 +16,14 @@ export type CoinMetadata = {
   defaultMaxPriorityFeePerGas?: number;
   defaultGasPrice?: number;
 };
+
+const evmUnsignedSweepCoins = coins.filter((coin) => coin.features.includes(CoinFeature.EVM_COIN) && !coin.isToken);
+export const testEvmUnsignedSweepCoins = evmUnsignedSweepCoins.filter((coins) => coins.network.type === NetworkType.TESTNET).map((coin) => coin.name);
+export const prodEvmUnsignedSweepCoins = evmUnsignedSweepCoins.filter((coins) => coins.network.type === NetworkType.MAINNET).map((coin) => coin.name);
+
+const evmNonBitgoRecoveryCoins = coins.filter((coin) => coin.features.includes(CoinFeature.EVM_COIN) && !coin.isToken);
+export const testEvmNonBitgoRecoveryCoins = evmNonBitgoRecoveryCoins.filter((coins) => coins.network.type === NetworkType.TESTNET).map((coin) => coin.name);
+export const prodEvmNonBitgoRecoveryCoins = evmNonBitgoRecoveryCoins.filter((coins) => coins.network.type === NetworkType.MAINNET).map((coin) => coin.name);
 
 export const allCoinMetas: Record<string, CoinMetadata> = {
   btc: {
@@ -946,6 +955,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.oas,
     allCoinMetas.stx,
     allCoinMetas.sip10Token,
+    ...prodEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -988,6 +998,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.toas,
     allCoinMetas.tstx,
     allCoinMetas.tsip10Token,
+    ...testEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
 };
 
@@ -1054,6 +1065,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.initia,
       allCoinMetas.stx,
       allCoinMetas.sip10Token,
+      ...prodEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1110,6 +1122,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tinitia,
       allCoinMetas.tstx,
       allCoinMetas.tsip10Token,
+      ...testEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
   };
 

@@ -35,7 +35,12 @@ import { SolanaTokenForm } from './SolanaTokenForm';
 import { SuiTokenForm } from './SuiTokenForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
+import {
+  buildUnsignedSweepCoins,
+  testEvmUnsignedSweepCoins,
+  prodEvmUnsignedSweepCoins,
+  tokenParentCoins,
+} from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 import { AlgorandForm } from './AlgorandForm';
 import { RippleTokenForm } from './RippleTokenForm';
@@ -43,6 +48,31 @@ import { HederaTokenForm } from './HederaTokenForm';
 import { NearForm } from './NearForm';
 import { IcpForm } from './IcpForm';
 import { StacksForm } from './StacksForm';
+
+const evmCoins = [
+  'eth',
+  'hteth',
+  'etc',
+  'tetc',
+  'arbeth',
+  'tarbeth',
+  'opeth',
+  'topeth',
+  'flr',
+  'tflr',
+  'wemix',
+  'twemix',
+  'xdc',
+  'txdc',
+  'sgb',
+  'tsgb',
+  'oas',
+  'toas',
+  'coredao',
+  'tcoredao',
+  ...testEvmUnsignedSweepCoins,
+  ...prodEvmUnsignedSweepCoins,
+];
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -99,105 +129,6 @@ function Form() {
                     ...recoverData,
                     ...(await includePubsFor(coin, values)),
                   },
-                  null,
-                  2
-                ),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'eth':
-    case 'hteth':
-    case 'etc':
-    case 'tetc':
-    case 'arbeth':
-    case 'tarbeth':
-    case 'opeth':
-    case 'topeth':
-    case 'flr':
-    case 'tflr':
-    case 'wemix':
-    case 'twemix':
-    case 'xdc':
-    case 'txdc':
-    case 'sgb':
-    case 'tsgb':
-    case 'oas':
-    case 'toas':
-    case 'coredao':
-    case 'tcoredao':
-      return (
-        <EthLikeForm
-          key={coin}
-          coinName={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-
-              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(coin, values);
-              const recoverData = await window.commands.recover(coin, {
-                ...rest,
-                eip1559: getEip1559Params(
-                  coin,
-                  maxFeePerGas,
-                  maxPriorityFeePerGas
-                ),
-                replayProtectionOptions: {
-                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                  hardfork: 'london',
-                },
-                bitgoKey: '',
-                ignoreAddressTypes: [],
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(
-                  includePubsInUnsignedSweep
-                    ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
-                    : recoverData,
                   null,
                   2
                 ),
@@ -1632,169 +1563,251 @@ function Form() {
     case 'ticp':
       return (
         <IcpForm
-  key={coin}
-  onSubmit={async (values, { setSubmitting }) => {
-    setAlert(undefined);
-    setSubmitting(true);
-    try {
-      // Set the BitGo environment for the selected coin
-      await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              // Set the BitGo environment for the selected coin
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
-      // Fetch chain-specific data
-      const chainData = await window.queries.getChain(coin);
+              // Fetch chain-specific data
+              const chainData = await window.queries.getChain(coin);
 
-      // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(coin, {
-          ...values,
-          userKey:(values.userKey ?? '').replace(/\s+/g, ''),
-          backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
-          bitgoKey: values.bitgoKey, // Include the BitGo key
-          recoveryDestination: values.recoveryDestination, // Include the recovery destination
-          ignoreAddressTypes: [], // Update keys from IDs
-         // Ignore specific address types if needed
-      });
-
-      // Ensure the recovery transaction is valid
-      assert(
-        isRecoveryTransaction(recoverData),
-        'Recovery transaction not detected.'
-      );
-
-      // Show a save dialog for the unsigned sweep JSON file
-      const showSaveDialogData = await window.commands.showSaveDialog({
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-      });
-
-      // Handle case where no file path is selected
-      if (!showSaveDialogData.filePath) {
-        throw new Error('No file path selected');
-      }
-
-      // Write the unsigned sweep data to the selected file
-      await window.commands.writeFile(
-        showSaveDialogData.filePath,
-        JSON.stringify(
-          includePubsInUnsignedSweep
-            ? {
-                ...recoverData,
-                ...(await includePubsFor(coin, {
+              // Recover data for the unsigned sweep
+              const recoverData = await window.commands.recover(coin, {
                   ...values,
-                  userKey: values.userKey ?? '',
-                  backupKey: values.backupKey ?? '', // Include public keys if required
-              })),
-            }
-            : recoverData,
-          null,
-          2
-        ),
-        { encoding: 'utf-8' }
-      );
+                  userKey:(values.userKey ?? '').replace(/\s+/g, ''),
+                  backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
+                  bitgoKey: values.bitgoKey, // Include the BitGo key
+                  recoveryDestination: values.recoveryDestination, // Include the recovery destination
+                  ignoreAddressTypes: [], // Update keys from IDs
+                 // Ignore specific address types if needed
+              });
 
-      // Navigate to the success page
-      navigate(`/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`);
-    } catch (err) {
-      // Handle errors and display alerts
-      if (err instanceof Error) {
-        setAlert(err.message);
-      } else {
-        console.error(err);
-      }
-      setSubmitting(false);
-    }
-  }}
-/>
+              // Ensure the recovery transaction is valid
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
+
+              // Show a save dialog for the unsigned sweep JSON file
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              // Handle case where no file path is selected
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              // Write the unsigned sweep data to the selected file
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: values.userKey ?? '',
+                          backupKey: values.backupKey ?? '', // Include public keys if required
+                      })),
+                    }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              // Navigate to the success page
+              navigate(`/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`);
+            } catch (err) {
+              // Handle errors and display alerts
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
       );
     case 'near':
     case 'tnear':
       return (
         <NearForm
-  key={coin}
-  onSubmit={async (values, { setSubmitting }) => {
-    setAlert(undefined);
-    setSubmitting(true);
-    try {
-      // Set the BitGo environment for the selected coin
-      await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              // Set the BitGo environment for the selected coin
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
-      // Fetch chain-specific data
-      const chainData = await window.queries.getChain(coin);
+              // Fetch chain-specific data
+              const chainData = await window.queries.getChain(coin);
 
-      // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(coin, {
-          ...values,
-          userKey:(values.userKey ?? '').replace(/\s+/g, ''),
-          backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
-          bitgoKey: values.bitgoKey, // Include the BitGo key
-          recoveryDestination: values.recoveryDestination, // Include the recovery destination
-          ignoreAddressTypes: [], // Update keys from IDs
-         // Ignore specific address types if needed
-      });
-
-      // Ensure the recovery transaction is valid
-      assert(
-        isRecoveryTransaction(recoverData),
-        'Recovery transaction not detected.'
-      );
-
-      // Show a save dialog for the unsigned sweep JSON file
-      const showSaveDialogData = await window.commands.showSaveDialog({
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-      });
-
-      // Handle case where no file path is selected
-      if (!showSaveDialogData.filePath) {
-        throw new Error('No file path selected');
-      }
-
-      // Write the unsigned sweep data to the selected file
-      await window.commands.writeFile(
-        showSaveDialogData.filePath,
-        JSON.stringify(
-          includePubsInUnsignedSweep
-            ? {
-                ...recoverData,
-                ...(await includePubsFor(coin, {
+              // Recover data for the unsigned sweep
+              const recoverData = await window.commands.recover(coin, {
                   ...values,
-                  userKey: values.userKey ?? '',
-                  backupKey: values.backupKey ?? '', // Include public keys if required
-              })),
-            }
-            : recoverData,
-          null,
-          2
-        ),
-        { encoding: 'utf-8' }
-      );
+                  userKey:(values.userKey ?? '').replace(/\s+/g, ''),
+                  backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
+                  bitgoKey: values.bitgoKey, // Include the BitGo key
+                  recoveryDestination: values.recoveryDestination, // Include the recovery destination
+                  ignoreAddressTypes: [], // Update keys from IDs
+                 // Ignore specific address types if needed
+              });
 
-      // Navigate to the success page
-      navigate(`/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`);
-    } catch (err) {
-      // Handle errors and display alerts
-      if (err instanceof Error) {
-        setAlert(err.message);
-      } else {
-        console.error(err);
-      }
-      setSubmitting(false);
-    }
-  }}
-/>
+              // Ensure the recovery transaction is valid
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
+
+              // Show a save dialog for the unsigned sweep JSON file
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              // Handle case where no file path is selected
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              // Write the unsigned sweep data to the selected file
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: values.userKey ?? '',
+                          backupKey: values.backupKey ?? '', // Include public keys if required
+                      })),
+                    }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              // Navigate to the success page
+              navigate(`/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`);
+            } catch (err) {
+              // Handle errors and display alerts
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
       );
     default:
-      throw new Error(`Unsupported coin: ${String(coin)}`);
+      if (coin in evmCoins) {
+        return (
+          <EthLikeForm
+            key={coin}
+            coinName={coin}
+            onSubmit={async (values, { setSubmitting }) => {
+              setAlert(undefined);
+              setSubmitting(true);
+              try {
+                await window.commands.setBitGoEnvironment(
+                  bitGoEnvironment,
+                  coin,
+                  values.apiKey
+                );
+                const chainData = await window.queries.getChain(coin);
+
+                const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                  await updateKeysFromIds(coin, values);
+                const recoverData = await window.commands.recover(coin, {
+                  ...rest,
+                  eip1559: getEip1559Params(
+                    coin,
+                    maxFeePerGas,
+                    maxPriorityFeePerGas
+                  ),
+                  replayProtectionOptions: {
+                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                    hardfork: 'london',
+                  },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                });
+                assert(
+                  isRecoveryTransaction(recoverData),
+                  'Fully-signed recovery transaction not detected.'
+                );
+
+                const showSaveDialogData = await window.commands.showSaveDialog({
+                  filters: [
+                    {
+                      name: 'Custom File Type',
+                      extensions: ['json'],
+                    },
+                  ],
+                  defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+                });
+
+                if (!showSaveDialogData.filePath) {
+                  throw new Error('No file path selected');
+                }
+
+                await window.commands.writeFile(
+                  showSaveDialogData.filePath,
+                  JSON.stringify(
+                    includePubsInUnsignedSweep
+                      ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
+                      : recoverData,
+                    null,
+                    2
+                  ),
+                  { encoding: 'utf-8' }
+                );
+
+                navigate(
+                  `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+                );
+              } catch (err) {
+                if (err instanceof Error) {
+                  setAlert(err.message);
+                } else {
+                  console.error(err);
+                }
+                setSubmitting(false);
+              }
+            }}
+          />
+        );
+      }
+      break;
   }
+  throw new Error(`Unsupported coin: ${String(coin)}`);
 }
 
 export function BuildUnsignedSweepCoin() {
