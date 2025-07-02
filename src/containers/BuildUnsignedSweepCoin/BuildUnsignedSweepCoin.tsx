@@ -1724,7 +1724,8 @@ function Form() {
         />
       );
     default:
-      if (coin in evmCoins) {
+      if (coin && evmCoins.includes(coin)) {
+
         return (
           <EthLikeForm
             key={coin}

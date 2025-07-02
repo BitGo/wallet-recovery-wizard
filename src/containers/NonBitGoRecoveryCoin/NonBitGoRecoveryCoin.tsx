@@ -1480,7 +1480,7 @@ function Form() {
         />
       );
     default:
-      if (coin in evmCoins) {
+      if (coin && evmCoins.includes(coin)) {
         return (
           <EthereumForm
             key={coin}
