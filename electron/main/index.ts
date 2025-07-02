@@ -542,7 +542,9 @@ async function createWindow() {
         case 'eth':
         case 'hteth':
         case 'polygon':
-        case 'tpolygon':{
+        case 'tpolygon':
+        case 'bsc':
+        case 'tbsc':{
           const coinInstance = sdk.coin(coin) as
             | Ada
             | Tada
@@ -573,7 +575,9 @@ async function createWindow() {
             | Coredao
             | Tcoredao
             | Polygon
-            | Tpolygon;
+            | Tpolygon
+            | Bsc
+            | Tbsc;
           return coinInstance.createBroadcastableSweepTransaction(parameters);
         }
         default:
