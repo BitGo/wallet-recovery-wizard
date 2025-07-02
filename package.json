@@ -68,6 +68,8 @@
     "@bitgo/sdk-coin-zeta": "3.1.5",
     "@bitgo/sdk-opensslbytes": "2.0.0",
     "@bitgo/utxo-lib": "11.6.1",
+    "bitgo": "48.3.0",
+    "@bitgo/sdk-core": "35.5.0",
     "@ethereumjs/common": "2.6.5",
     "@lottiefiles/react-lottie-player": "3.4.9",
     "clsx": "1.2.1",
@@ -76,7 +78,8 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
-    "yup": "0.32.11"
+    "yup": "0.32.11",
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#563983ccd57bdf8e1e2ac33c8648f78eb23c2cb1"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
@@ -100,7 +103,6 @@
     "cheerio": "1.0.0-rc.12",
     "commander": "9.4.1",
     "concurrently": "7.6.0",
-    "cryptocurrency-icons": "github:BitGo/cryptocurrency-icons",
     "electron": "22.3.25",
     "electron-builder": "24.9.1",
     "electron-playwright-helpers": "1.2.0",
@@ -131,6 +133,7 @@
   "name": "wallet-recovery-wizard",
   "private": true,
   "scripts": {
+    "generate-icons": "node scripts/generate-dynamic-icons.ts",
     "build": "tsc && vite build && electron-builder --publish never",
     "dev": "vite",
     "durable-nonce:build": "node ./scripts/build-durable-nonce",
