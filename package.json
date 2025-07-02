@@ -78,7 +78,11 @@
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
     "yup": "0.32.11",
+<<<<<<< Updated upstream
     "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#b721234e85cd24fd6ed1af2fdc0c3cdcd916416a"
+=======
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#ce9fe9b917fcf7ee2b220cd78d236720d5757575"
+>>>>>>> Stashed changes
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
@@ -102,7 +106,11 @@
     "cheerio": "1.0.0-rc.12",
     "commander": "9.4.1",
     "concurrently": "7.6.0",
+<<<<<<< Updated upstream
     "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#b721234e85cd24fd6ed1af2fdc0c3cdcd916416a",
+=======
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#ce9fe9b917fcf7ee2b220cd78d236720d5757575",
+>>>>>>> Stashed changes
     "electron": "22.3.25",
     "electron-builder": "24.9.1",
     "electron-playwright-helpers": "1.2.0",
