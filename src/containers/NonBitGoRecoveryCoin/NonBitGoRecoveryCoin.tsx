@@ -362,6 +362,8 @@ function Form() {
     case 'twemix':
     case 'xdc':
     case 'txdc':
+    case 'soneium':
+    case 'tsoneium':
       return (
         <EthereumForm
           key={coin}
@@ -1106,7 +1108,7 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = tokenParentCoins[coin];
-              let chainData = await getTokenChain(values.tokenAddress, parentCoin);
+              const chainData = await getTokenChain(values.tokenAddress, parentCoin);
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),

@@ -139,6 +139,8 @@ function Form() {
     case 'toas':
     case 'coredao':
     case 'tcoredao':
+    case 'soneium':
+    case 'tsoneium':
       return (
         <EthLikeForm
           key={coin}
