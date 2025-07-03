@@ -134,7 +134,7 @@
   "private": true,
   "scripts": {
     "build": "tsc && vite build && electron-builder --publish never",
-    "dev": "tsc && vite",
+    "dev": "vite",
     "durable-nonce:build": "node ./scripts/build-durable-nonce",
     "eth-eip1559:decode": "node ./scripts/decode-eth-eip1559",
     "format:write": "prettier --ignore-path .gitignore --write .",
