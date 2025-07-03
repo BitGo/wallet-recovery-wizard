@@ -17,7 +17,7 @@ export function CryptocurrencyDynamicIcon({Name, Size, ...hostProps }: Cryptocur
       iconName = 'thor';
     }
 
-    import(`/node_modules/cryptocurrency-icons/react/${iconName}`)
+    import(`cryptocurrency-icons/react/${iconName}.js`)
       .then((mod) => {
         if (isMounted) {
           setComponent(() => mod.default ?? mod);
