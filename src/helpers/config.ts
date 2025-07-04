@@ -435,6 +435,16 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'cronos',
     value: 'cronos',
   },
+  soneium: {
+    Title: 'SONEIUM',
+    Description: 'Soneium',
+    Icon: 'soneium',
+    value: 'soneium',
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+  },
   suiToken: {
     Title: 'SUI Token',
     Description: 'Sui Token',
@@ -695,6 +705,16 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'sol',
     value: 'tsolToken',
   },
+  tsoneium: {
+    Title: 'TSONEIUM',
+    Description: 'Testnet Soneium',
+    Icon: 'soneium',
+    value: 'tsoneium',
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
+  },
   tpolygon: {
     Title: 'TPOLYGON',
     Description: 'Polygon Mumbai Testnet',
@@ -946,6 +966,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.oas,
     allCoinMetas.stx,
     allCoinMetas.sip10Token,
+    allCoinMetas.soneium,
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -988,6 +1009,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.toas,
     allCoinMetas.tstx,
     allCoinMetas.tsip10Token,
+    allCoinMetas.tsoneium,
   ] as const,
 };
 
@@ -1054,6 +1076,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.initia,
       allCoinMetas.stx,
       allCoinMetas.sip10Token,
+      allCoinMetas.soneium,
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1110,6 +1133,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tinitia,
       allCoinMetas.tstx,
       allCoinMetas.tsip10Token,
+      allCoinMetas.tsoneium,
     ] as const,
   };
 

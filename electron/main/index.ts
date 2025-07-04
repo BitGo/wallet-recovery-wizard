@@ -76,6 +76,7 @@ import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
+import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -195,6 +196,8 @@ sdk.register('icp', Icp.createInstance);
 sdk.register('ticp', Ticp.createInstance);
 sdk.register('stx', Stx.createInstance);
 sdk.register('tstx', Tstx.createInstance);
+sdk.register('soneium', Soneium.createInstance);
+sdk.register('tsoneium', Tsoneium.createInstance);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
@@ -372,7 +375,10 @@ async function createWindow() {
         case 'baseeth':
         case 'tbaseeth':
           sdk = new BitGoAPI({ env: environment, baseethApiToken: apiKey });
-
+        case 'soneium':
+        case 'tsoneium':
+          sdk = new BitGoAPI({ env: environment, soneiumExplorerApiToken: apiKey });
+          break;
         default:
           sdk = new BitGoAPI({ env: environment });
       }
