@@ -362,6 +362,8 @@ function Form() {
     case 'twemix':
     case 'xdc':
     case 'txdc':
+    case 'soneium':
+    case 'tsoneium':
       return (
         <EthereumForm
           key={coin}
