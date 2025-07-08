@@ -517,76 +517,8 @@ async function createWindow() {
   ipcMain.handle(
     'createBroadcastableSweepTransaction',
     async (event, coin, parameters) => {
-      switch (coin) {
-        // Temporary measure till this is refactored into Basecoin
-        case 'ada':
-        case 'tada':
-        case 'dot':
-        case 'tdot':
-        case 'tao':
-        case 'ttao':
-        case 'sol':
-        case 'tsol':
-        case 'sui':
-        case 'tsui':
-        case 'icp':
-        case 'ticp':
-        case 'tnear':
-        case 'near':
-        case 'flr':
-        case 'tflr':
-        case 'wemix':
-        case 'twemix':
-        case 'sgb':
-        case 'tsgb':
-        case 'xdc':
-        case 'txdc':
-        case 'oas':
-        case 'toas':
-        case 'coredao':
-        case 'tcoredao':
-        case 'eth':
-        case 'hteth':
-        case 'polygon':
-        case 'tpolygon':{
-          const coinInstance = sdk.coin(coin) as
-            | Ada
-            | Tada
-            | Dot
-            | Tdot
-            | Tao
-            | Ttao
-            | Sol
-            | Tsol
-            | Sui
-            | Tsui
-            | Icp
-            | Ticp
-            | Near
-            | TNear
-            | Eth
-            | Hteth
-            | Flr
-            | Tflr
-            | Wemix
-            | Twemix
-            | Sgb
-            | Tsgb
-            | Xdc
-            | Txdc
-            | Oas
-            | Toas
-            | Coredao
-            | Tcoredao
-            | Polygon
-            | Tpolygon;
-          return coinInstance.createBroadcastableSweepTransaction(parameters);
-        }
-        default:
-          return new Error(
-            `Coin: ${coin} does not support creating a broadcastable creation`
-          );
-      }
+      const coinInstance = sdk.coin(coin) as BaseCoin;
+      return coinInstance.createBroadcastableSweepTransaction(parameters);
     }
   );
 
