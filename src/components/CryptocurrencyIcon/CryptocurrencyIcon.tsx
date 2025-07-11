@@ -45,7 +45,7 @@ export interface CryptocurrencyIconProps {
     | 'sui'
     | 'wemix'
     | 'xdc'
-    | 'thorchain:rune'
+    | 'thor'
     | 'baby'
     | 'icp'
     | 'stx'
@@ -1828,7 +1828,7 @@ export function CryptocurrencyIcon({
           />
         </svg>
       );
-    case 'thorchain:rune':
+    case 'thor':
       return (
         <svg
           version="1.2"

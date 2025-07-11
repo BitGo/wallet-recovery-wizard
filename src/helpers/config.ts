@@ -5,7 +5,7 @@ export type CoinMetadata = {
   Title: string;
   Description: string;
   value: string;
-  Icon: CryptocurrencyIconProps['Name'];
+  Icon: string;
   ApiKeyProvider?: string;
   isTssSupported?: boolean;
   minGasLimit?: string;
@@ -408,7 +408,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   'thorchain:rune': {
     Title: 'THORCHAIN:RUNE',
     Description: 'Thorchain:rune',
-    Icon: 'thorchain:rune',
+    Icon: 'thor',
     value: 'thorchain:rune'
   },
   baby: {
@@ -816,7 +816,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   'tthorchain:rune': {
     Title: 'TTHORCHAIN:RUNE',
     Description: 'Thorchain:rune Testnet',
-    Icon: 'thorchain:rune',
+    Icon: 'thor',
     value: 'tthorchain:rune'
   },
   tbaby: {
