@@ -8,56 +8,13 @@ process.env.PUBLIC = app.isPackaged
   : join(process.env.DIST_ELECTRON, '../public');
 
 /* eslint-disable @typescript-eslint/unbound-method */
-import { Atom, Tatom } from '@bitgo/sdk-coin-atom';
-import { Asi, Tasi } from '@bitgo/sdk-coin-asi';
-import { Arbeth, Tarbeth, ArbethToken } from '@bitgo/sdk-coin-arbeth';
-import { Bld, Tbld } from '@bitgo/sdk-coin-bld';
-import { Coreum, Tcoreum } from '@bitgo/sdk-coin-coreum';
-import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
-import { Cronos, Tcronos } from '@bitgo/sdk-coin-cronos';
-import { Hash, Thash } from '@bitgo/sdk-coin-hash';
-import { Injective, Tinjective } from '@bitgo/sdk-coin-injective';
-import { Initia, Tinitia } from '@bitgo/sdk-coin-initia';
-import { Sei, Tsei } from '@bitgo/sdk-coin-sei';
-import { Tia, Ttia } from '@bitgo/sdk-coin-tia';
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
-import { AvaxC, TavaxC, AvaxCToken } from '@bitgo/sdk-coin-avaxc';
-import { Bch } from '@bitgo/sdk-coin-bch';
-import { Bcha } from '@bitgo/sdk-coin-bcha';
-import { Bsv } from '@bitgo/sdk-coin-bsv';
-import { Btc, Tbtc } from '@bitgo/sdk-coin-btc';
-import { Btg } from '@bitgo/sdk-coin-btg';
-import { Dash } from '@bitgo/sdk-coin-dash';
-import { Doge, Tdoge } from '@bitgo/sdk-coin-doge';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
-import { Eos, Teos } from '@bitgo/sdk-coin-eos';
-import {
-  AbstractEthLikeNewCoins,
-  Erc20Token,
-  Eth,
-  Hteth,
-} from '@bitgo/sdk-coin-eth';
-import { Ethw } from '@bitgo/sdk-coin-ethw';
-import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
-import { Flr,Tflr } from '@bitgo/sdk-coin-flr'
-import { Ltc } from '@bitgo/sdk-coin-ltc';
-import { Near, TNear } from '@bitgo/sdk-coin-near';
-import { Oas, Toas } from '@bitgo/sdk-coin-oas';
-import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
-import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
-import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
-import { Rune, Trune } from '@bitgo/sdk-coin-rune';
-import { Baby, Tbaby } from '@bitgo/sdk-coin-baby';
+import { AbstractEthLikeNewCoins } from '@bitgo/sdk-coin-eth';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
-import { Sgb,Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
-import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
-import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
-import { Zec } from '@bitgo/sdk-coin-zec';
-import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
-import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
 import { BaseCoin } from '@bitgo/sdk-core';
 import assert from 'assert';
 import BIP32Factory from 'bip32';
@@ -66,17 +23,10 @@ import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
-import { Hbar, Thbar , HbarToken} from '@bitgo/sdk-coin-hbar';
-import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
-import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
-import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
-import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
-import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
-import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
-import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
-import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
+import { registerCoinConstructors } from 'bitgo';
+import { GlobalCoinFactory } from '@bitgo/sdk-core'
 
 const bip32 = BIP32Factory(ecc);
 
@@ -100,135 +50,8 @@ const indexHtml = join(process.env.DIST, 'index.html');
 let sdk = new BitGoAPI({
   env: 'test',
 });
-sdk.register('btc', Btc.createInstance);
-sdk.register('tbtc', Tbtc.createInstance);
-sdk.register('eth', Eth.createInstance);
-sdk.register('hteth', Hteth.createInstance);
-sdk.register('ethw', Ethw.createInstance);
-sdk.register('etc', Etc.createInstance);
-sdk.register('tetc', Tetc.createInstance);
-sdk.register('eos', Eos.createInstance);
-sdk.register('teos', Teos.createInstance);
-sdk.register('xlm', Xlm.createInstance);
-sdk.register('txlm', Txlm.createInstance);
-sdk.register('xrp', Xrp.createInstance);
-sdk.register('txrp', Txrp.createInstance);
-sdk.register('bch', Bch.createInstance);
-sdk.register('ltc', Ltc.createInstance);
-sdk.register('btg', Btg.createInstance);
-sdk.register('dash', Dash.createInstance);
-sdk.register('zec', Zec.createInstance);
-sdk.register('bcha', Bcha.createInstance);
-sdk.register('bsv', Bsv.createInstance);
-sdk.register('trx', Trx.createInstance);
-sdk.register('ttrx', Ttrx.createInstance);
-sdk.register('avaxc', AvaxC.createInstance);
-sdk.register('tavaxc', TavaxC.createInstance);
-sdk.register('arbeth', Arbeth.createInstance);
-sdk.register('tarbeth', Tarbeth.createInstance);
-sdk.register('opeth', Opeth.createInstance);
-sdk.register('topeth', Topeth.createInstance);
-sdk.register('near', Near.createInstance);
-sdk.register('tnear', TNear.createInstance);
-sdk.register('dot', Dot.createInstance);
-sdk.register('tdot', Tdot.createInstance);
-sdk.register('tao', Tao.createInstance);
-sdk.register('ttao', Ttao.createInstance);
-sdk.register('sol', Sol.createInstance);
-sdk.register('tsol', Tsol.createInstance);
-sdk.register('polygon', Polygon.createInstance);
-sdk.register('tpolygon', Tpolygon.createInstance);
-sdk.register('bsc', Bsc.createInstance);
-sdk.register('tbsc', Tbsc.createInstance);
-sdk.register('doge', Doge.createInstance);
-sdk.register('tdoge', Tdoge.createInstance);
-sdk.register('ada', Ada.createInstance);
-sdk.register('tada', Tada.createInstance);
-sdk.register('atom', Atom.createInstance);
-sdk.register('tatom', Tatom.createInstance);
-sdk.register('asi', Asi.createInstance);
-sdk.register('tasi', Tasi.createInstance);
-sdk.register('osmo', Osmo.createInstance);
-sdk.register('tosmo', Tosmo.createInstance);
-sdk.register('tia', Tia.createInstance);
-sdk.register('ttia', Ttia.createInstance);
-sdk.register('injective', Injective.createInstance);
-sdk.register('tinjective', Tinjective.createInstance);
-sdk.register('initia', Initia.createInstance);
-sdk.register('tinitia', Tinitia.createInstance);
-sdk.register('bld', Bld.createInstance);
-sdk.register('tbld', Tbld.createInstance);
-sdk.register('hash', Hash.createInstance);
-sdk.register('thash', Thash.createInstance);
-sdk.register('sei', Sei.createInstance);
-sdk.register('tsei', Tsei.createInstance);
-sdk.register('zeta', Zeta.createInstance);
-sdk.register('tzeta', Tzeta.createInstance);
-sdk.register('coreum', Coreum.createInstance);
-sdk.register('tcoreum', Tcoreum.createInstance);
-sdk.register('cronos', Cronos.createInstance);
-sdk.register('tcronos', Tcronos.createInstance);
-sdk.register('hbar', Hbar.createInstance);
-sdk.register('thbar', Thbar.createInstance);
-sdk.register('algo', Algo.createInstance);
-sdk.register('talgo', Talgo.createInstance);
-sdk.register('baseeth', EthLikeCoin.createInstance);
-sdk.register('tbaseeth', TethLikeCoin.createInstance);
-sdk.register('sui', Sui.createInstance);
-sdk.register('tsui', Tsui.createInstance);
-sdk.register('thorchain:rune', Rune.createInstance);
-sdk.register('tthorchain:rune', Trune.createInstance);
-sdk.register('baby', Baby.createInstance);
-sdk.register('tbaby', Tbaby.createInstance);
-sdk.register('coredao', Coredao.createInstance);
-sdk.register('tcoredao', Tcoredao.createInstance);
-sdk.register('oas', Oas.createInstance);
-sdk.register('toas', Toas.createInstance);
-sdk.register('flr', Flr.createInstance);
-sdk.register('tflr', Tflr.createInstance);
-sdk.register('sgb', Sgb.createInstance);
-sdk.register('tsgb', Tsgb.createInstance);
-sdk.register('xdc', Xdc.createInstance);
-sdk.register('txdc', Txdc.createInstance);
-sdk.register('wemix', Wemix.createInstance);
-sdk.register('twemix', Twemix.createInstance);
-sdk.register('icp', Icp.createInstance);
-sdk.register('ticp', Ticp.createInstance);
-sdk.register('stx', Stx.createInstance);
-sdk.register('tstx', Tstx.createInstance);
-sdk.register('soneium', Soneium.createInstance);
-sdk.register('tsoneium', Tsoneium.createInstance);
 
-Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-AvaxCToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-ArbethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-OpethToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-PolygonToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-SolToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-TrxToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-XrpToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-HbarToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
-Sip10Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
-  sdk.register(name, coinConstructor);
-});
+registerCoinConstructors(GlobalCoinFactory);
 
 function handleSdkError(e: unknown): string {
   if (typeof e === 'string' && e !== null) {
