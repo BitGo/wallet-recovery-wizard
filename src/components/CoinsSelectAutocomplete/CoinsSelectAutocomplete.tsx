@@ -1,5 +1,5 @@
 import { CoinMetadata } from '~/helpers/config';
-import { CryptocurrencyIcon } from '../CryptocurrencyIcon';
+import { CryptocurrencyDynamicIcon } from '../CryptocurrencyIcon';
 import { SelectAutocomplete } from '../SelectAutocomplete';
 import { SelectAutocompleteItem } from '../SelectAutocomplete/SelectAutocompleteItem';
 
@@ -23,7 +23,7 @@ export function CoinsSelectAutocomplete({
       Description={coin.Description}
       IconLeft={
         coin.Icon ? (
-          <CryptocurrencyIcon Name={coin.Icon} Size="large" />
+          <CryptocurrencyDynamicIcon Name={coin.Icon} Size="large" />
         ) : undefined
       }
       value={coin.value}
