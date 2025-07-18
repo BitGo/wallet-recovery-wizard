@@ -36,6 +36,16 @@ Besides the BitGo SDK, the WRW also depends on third-party nodes or block explor
 npm run bump-bitgo-versions 
 ```
 
+#### Upgrade the Cryptocurrency Icons dependencies
+WRW uses coin icons from [cryptocurrency-icons](https://github.com/BitGo/cryptocurrency-icons) repo. In order to add the icons for the new coin, you'll need to follow the following steps.
+- Ensure that the new coin icon is added in cryptocurrency-icons repo.
+- Update the latest commit hash from cryptocurrency-icons into package.json.
+- Run following commands to update get-dynamic-icons 
+```bash
+npm i
+npm run generate-icons
+```
+
 ### Changes to the WRW
 
 - Once the changes are merged in the SDK and a new SDK is released, you now can update the SDK version in the WRW, and start to build out the WRW’s front end features.
