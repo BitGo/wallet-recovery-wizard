@@ -68,6 +68,7 @@
     "@bitgo/sdk-coin-xrp": "3.9.5",
     "@bitgo/sdk-coin-zec": "2.2.5",
     "@bitgo/sdk-coin-zeta": "3.1.5",
+    "@bitgo/sdk-coin-ton": "3.5.2",
     "@bitgo/sdk-opensslbytes": "2.0.0",
     "@bitgo/utxo-lib": "11.6.1",
     "@ethereumjs/common": "2.6.5",

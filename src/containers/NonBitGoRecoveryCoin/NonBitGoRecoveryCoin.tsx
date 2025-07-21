@@ -36,6 +36,7 @@ import { RippleTokenForm } from './RippleTokenForm';
 import { HederaTokenForm } from './HederaTokenForm';
 import { StacksForm } from './StacksForm';
 import { IcpForm } from './IcpForm';
+import { TonForm } from './TonForm';
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -1543,7 +1544,75 @@ function Form() {
           }}
         />
       );
-    default:
+    case 'ton':
+    case 'tton':
+      return (
+        <TonForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              // Set the BitGo environment for TON Coin
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                coin,
+                values.apiKey
+              );
+
+              // Fetch chain data for TON Coin
+              const chainData = await window.queries.getChain(coin);
+
+              // Perform the recovery process
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: values.bitgoKey?.replace(/\s+/g, '') || '',
+                ignoreAddressTypes: [],
+              });
+
+              // Ensure the recovery data is valid
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              // Show a save dialog to save the recovery data
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              // Write the recovery data to the selected file
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              // Navigate to the success page
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+            } finally {
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+  default:
       throw new Error(`Unsupported coin: ${String(coin)}`);
   }
 }

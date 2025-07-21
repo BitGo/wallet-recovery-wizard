@@ -19,6 +19,56 @@ import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
+import { Ton, Tton } from '@bitgo/sdk-coin-ton';
+
+export type createAdaBroadcastableSweepTransactionParameters =
+  | Parameters<Ada['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tada['createBroadcastableSweepTransaction']>[0];
+export type createDotBroadcastableSweepTransactionParameters =
+  | Parameters<Dot['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tdot['createBroadcastableSweepTransaction']>[0];
+export type createTaoBroadcastableSweepTransactionParameters =
+  | Parameters<Tao['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Ttao['createBroadcastableSweepTransaction']>[0];
+export type createSolBroadcastableSweepTransactionParameters =
+  | Parameters<Sol['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tsol['createBroadcastableSweepTransaction']>[0];
+export type createSuiBroadcastableSweepTransactionParameters =
+  | Parameters<Sui['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tsui['createBroadcastableSweepTransaction']>[0];
+export type createIcpBroadcastableSweepTransactionParameters =
+  | Parameters<Icp['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Ticp['createBroadcastableSweepTransaction']>[0];
+export type createNearBroadcastableSweepTransactionParameters =
+  | Parameters<Near['createBroadcastableSweepTransaction']>[0]
+  | Parameters<TNear['createBroadcastableSweepTransaction']>[0];
+export type createEthBroadcastableSweepTransactionParameters =
+  | Parameters<Eth['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Hteth['createBroadcastableSweepTransaction']>[0];
+export type createFlrBroadcastableSweepTransactionParameters =
+  | Parameters<Flr['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tflr['createBroadcastableSweepTransaction']>[0];
+export type createWemixBroadcastableSweepTransactionParameters =
+  | Parameters<Wemix['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Twemix['createBroadcastableSweepTransaction']>[0];
+export type createSgbBroadcastableSweepTransactionParameters =
+  | Parameters<Sgb['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tsgb['createBroadcastableSweepTransaction']>[0];
+export type createXdcBroadcastableSweepTransactionParameters =
+  | Parameters<Xdc['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Txdc['createBroadcastableSweepTransaction']>[0];
+export type createOasBroadcastableSweepTransactionParameters =
+  | Parameters<Oas['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Toas['createBroadcastableSweepTransaction']>[0];
+export type createCoredaoBroadcastableSweepTransactionParameters =
+  | Parameters<Coredao['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tcoredao['createBroadcastableSweepTransaction']>[0];
+export type createpolygonBroadcastableSweepTransactionParameters =
+  | Parameters<Polygon['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tpolygon['createBroadcastableSweepTransaction']>[0];
+export type createTonBroadcastableSweepTransactionParameters =
+  | Parameters<Ton['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tton['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -46,6 +96,8 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<TNear['broadcastTransaction']>[0]
   | Parameters<Icp['broadcastTransaction']>[0]
   | Parameters<Ticp['broadcastTransaction']>[0]
+  | Parameters<Ton['broadcastTransaction']>[0]
+  | Parameters<Tton['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
