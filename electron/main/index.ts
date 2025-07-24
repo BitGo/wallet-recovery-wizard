@@ -9,7 +9,7 @@ process.env.PUBLIC = app.isPackaged
 
 /* eslint-disable @typescript-eslint/unbound-method */
 import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
-import { BitGoAPI } from '@bitgo/sdk-api';
+import { BitGoAPI } from '@bitgo-beta/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { AbstractEthLikeNewCoins } from '@bitgo/sdk-coin-eth';
@@ -25,8 +25,8 @@ import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
-import { registerCoinConstructors } from 'bitgo';
-import { GlobalCoinFactory } from '@bitgo/sdk-core'
+import { registerCoinConstructors } from '@bitgo-beta/bitgo';
+import { GlobalCoinFactory } from '@bitgo-beta/sdk-core'
 import { CoinFeature, coins } from '@bitgo/statics';
 
 const bip32 = BIP32Factory(ecc);

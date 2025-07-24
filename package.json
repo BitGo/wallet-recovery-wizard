@@ -9,13 +9,13 @@
     }
   },
   "dependencies": {
-    "bitgo": "48.3.0",
+    "@bitgo-beta/bitgo": "14.2.1-beta.1259",
     "@bitgo/statics": "55.1.0",
     "@bitgo/abstract-cosmos": "11.9.5",
     "@bitgo/abstract-substrate": "1.8.3",
     "@bitgo/abstract-utxo": "9.21.5",
-    "@bitgo/sdk-api": "1.65.1",
-    "@bitgo/sdk-core": "35.5.0",
+    "@bitgo-beta/sdk-api": "1.10.1-beta.1037",
+    "@bitgo-beta/sdk-core": "8.2.1-beta.1038",
     "@bitgo/sdk-coin-ada": "4.11.5",
     "@bitgo/sdk-coin-algo": "2.3.5",
     "@bitgo/sdk-coin-arbeth": "21.6.5",
