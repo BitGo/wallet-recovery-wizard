@@ -10,10 +10,11 @@
   },
   "dependencies": {
     "bitgo": "48.3.0",
+    "@bitgo/statics": "55.1.0",
     "@bitgo/abstract-cosmos": "11.9.5",
     "@bitgo/abstract-substrate": "1.8.3",
     "@bitgo/abstract-utxo": "9.21.5",
-    "@bitgo/sdk-api": "1.64.3",
+    "@bitgo/sdk-api": "1.65.1",
     "@bitgo/sdk-core": "35.5.0",
     "@bitgo/sdk-coin-ada": "4.11.5",
     "@bitgo/sdk-coin-algo": "2.3.5",

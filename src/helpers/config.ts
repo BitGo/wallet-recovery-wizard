@@ -1,5 +1,6 @@
 import { CryptocurrencyIconProps } from '~/components';
 import { BitgoEnv } from '.';
+import { CoinFeature, NetworkType, coins } from '@bitgo/statics';
 
 export type CoinMetadata = {
   Title: string;
@@ -885,7 +886,60 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'stx',
     value: 'tsip10Token',
   },
+  tmon: {
+    Title: 'TMONAD',
+    Description: 'Testnet Monad',
+    Icon: 'mon',
+    value: 'tmon',
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
+  }
 } as const;
+
+function assertMetadata(coin: string): void {
+  if (!allCoinMetas.hasOwnProperty(coin)) {
+    throw new Error(`No metadata found for coin: ${coin}`);
+  }
+}
+
+// Filter and map coins in a single pass for better performance
+export const testEvmUnsignedSweepCoins: string[] = [];
+export const prodEvmUnsignedSweepCoins: string[] = [];
+export const testEvmNonBitgoRecoveryCoins: string[] = [];
+export const prodEvmNonBitgoRecoveryCoins: string[] = [];
+
+//Process all coins in a single loop rather than multiple filter operations
+coins.forEach(coin => {
+  if (coin.isToken) return;
+
+  const name = coin.name;
+  const isTestnet = coin.network.type === NetworkType.TESTNET;
+  let checkForMetadata = false;
+
+  if (coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY)) {
+    checkForMetadata = true;
+    if (isTestnet) {
+      testEvmUnsignedSweepCoins.push(name);
+    } else {
+      prodEvmUnsignedSweepCoins.push(name);
+    }
+  }
+
+  if (coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY)) {
+    checkForMetadata = true;
+    if (isTestnet) {
+      testEvmNonBitgoRecoveryCoins.push(name);
+    } else {
+      prodEvmNonBitgoRecoveryCoins.push(name);
+    }
+  }
+
+  if (checkForMetadata) {
+    assertMetadata(name);
+  }
+});
 
 export const buildUnsignedConsolidationCoins: Record<
   BitgoEnv,
@@ -967,6 +1021,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.stx,
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
+    ...prodEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -1010,6 +1065,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tstx,
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
+    ...testEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
   ] as const,
 };
 
@@ -1077,6 +1133,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.stx,
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
+      ...prodEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1134,6 +1191,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tstx,
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
+      ...testEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
     ] as const,
   };
 
