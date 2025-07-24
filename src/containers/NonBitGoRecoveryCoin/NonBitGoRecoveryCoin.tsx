@@ -993,6 +993,7 @@ function Form() {
                 scan: Number(values.scan),
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
                 ignoreAddressTypes: [],
+                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
               });
               assert(
                 isRecoveryTransaction(recoverData),

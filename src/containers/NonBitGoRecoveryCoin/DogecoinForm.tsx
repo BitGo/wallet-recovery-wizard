@@ -17,6 +17,7 @@ const validationSchema = Yup.object({
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
+  feeRate: Yup.number().nullable().optional(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
 }).required();
@@ -42,6 +43,7 @@ export function DogecoinForm({ onSubmit }: DogecoinFormProps) {
       recoveryDestination: '',
       scan: 20,
       krsProvider: '',
+      feeRate: null,
     },
     validationSchema,
   });
@@ -97,6 +99,14 @@ export function DogecoinForm({ onSubmit }: DogecoinFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
+            Label="Fee Rate"
+            name="feeRate"
             Width="fill"
           />
         </div>
