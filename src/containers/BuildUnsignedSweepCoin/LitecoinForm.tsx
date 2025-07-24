@@ -12,6 +12,7 @@ const validationSchema = Yup.object({
   scan: Yup.number().required(),
   userKey: Yup.string().required(),
   userKeyId: Yup.string(),
+  feeRate: Yup.number().nullable().optional(),
 }).required();
 
 export type LitecoinFormProps = {
@@ -35,6 +36,7 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
       scan: 20,
       userKey: '',
       userKeyId: '',
+      feeRate: null,
     },
     validationSchema,
   });
@@ -90,6 +92,14 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
             HelperText="The address your recovery transaction will send to."
             Label="Destination Address"
             name="recoveryDestination"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
+            Label="Fee Rate"
+            name="feeRate"
             Width="fill"
           />
         </div>
