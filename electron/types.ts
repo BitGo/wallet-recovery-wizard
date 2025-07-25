@@ -11,14 +11,6 @@ import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Near, TNear } from '@bitgo/sdk-coin-near';
-import { Eth, Hteth } from '@bitgo/sdk-coin-eth';
-import { Flr, Tflr } from '@bitgo/sdk-coin-flr';
-import { Wemix, Twemix } from '@bitgo/sdk-coin-wemix';
-import { Xdc, Txdc } from '@bitgo/sdk-coin-xdc';
-import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
-import { Oas, Toas } from '@bitgo/sdk-coin-oas';
-import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
-import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
