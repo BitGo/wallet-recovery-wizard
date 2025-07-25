@@ -43,6 +43,7 @@ import { HederaTokenForm } from './HederaTokenForm';
 import { NearForm } from './NearForm';
 import { IcpForm } from './IcpForm';
 import { StacksForm } from './StacksForm';
+import { CoinFeature, coins } from '@bitgo/statics';
 
 const evmCoins = [
   'eth',
@@ -67,6 +68,8 @@ const evmCoins = [
   'tcoredao',
   'soneium',
   'tsoneium',
+  'bsc',
+  'tbsc',
   ...testEvmUnsignedSweepCoins,
   ...prodEvmUnsignedSweepCoins
 ];
@@ -900,8 +903,6 @@ function Form() {
       );
     case 'polygon':
     case 'tpolygon':
-    case 'bsc':
-    case 'tbsc':
       return (
         <PolygonForm
           key={coin}
@@ -1741,17 +1742,19 @@ function Form() {
 
                 const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                   await updateKeysFromIds(coin, values);
+                const supportsEip1559 = coins.get(coin)?.features.includes(CoinFeature.EIP1559);
                 const recoverData = await window.commands.recover(coin, {
-                  ...rest,
-                  eip1559: getEip1559Params(
-                    coin,
-                    maxFeePerGas,
-                    maxPriorityFeePerGas
-                  ),
-                  replayProtectionOptions: {
-                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                    hardfork: 'london',
-                  },
+                    ...rest,
+                    gasPrice: toWei(maxFeePerGas),
+                    eip1559: supportsEip1559 ? getEip1559Params(
+                      coin,
+                      maxFeePerGas,
+                      maxPriorityFeePerGas
+                    ) : undefined,
+                    replayProtectionOptions: {
+                      chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                      hardfork: supportsEip1559 ? 'london' : 'petersburg',
+                    },
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 });

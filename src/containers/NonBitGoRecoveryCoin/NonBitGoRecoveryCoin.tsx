@@ -41,6 +41,7 @@ import { RippleTokenForm } from './RippleTokenForm';
 import { HederaTokenForm } from './HederaTokenForm';
 import { StacksForm } from './StacksForm';
 import { IcpForm } from './IcpForm';
+import { CoinFeature, coins } from '@bitgo/statics';
 
 const evmCoins = [
   'eth',
@@ -1502,16 +1503,17 @@ function Form() {
 
 
                 const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
-
+                const supportsEip1559 = coins.get(coin)?.features.includes(CoinFeature.EIP1559);
                 const recoverData = await window.commands.recover(coin, {
                   ...rest,
-                  eip1559: {
+                  gasPrice: toWei(maxFeePerGas),
+                  eip1559: supportsEip1559 ? {
                     maxFeePerGas: toWei(maxFeePerGas),
                     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                  },
+                  } : undefined,
                   replayProtectionOptions: {
                     chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                    hardfork: 'london',
+                    hardfork: supportsEip1559 ? 'london' : 'petersburg',
                   },
                   bitgoKey: '',
                   ignoreAddressTypes: [],
