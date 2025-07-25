@@ -27,6 +27,7 @@ import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { registerCoinConstructors } from 'bitgo';
 import { GlobalCoinFactory } from '@bitgo/sdk-core'
+import { CoinFeature, coins } from '@bitgo/statics';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -203,7 +204,11 @@ async function createWindow() {
           sdk = new BitGoAPI({ env: environment, soneiumExplorerApiToken: apiKey });
           break;
         default:
-          sdk = new BitGoAPI({ env: environment });
+          if (coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)) {
+            sdk = new BitGoAPI({ env: environment, evm: { [coin]: { apiToken: apiKey} } });
+          } else {
+            sdk = new BitGoAPI({ env: environment });
+          }
       }
       return await Promise.resolve();
     }
