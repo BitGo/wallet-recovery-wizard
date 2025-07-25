@@ -69,6 +69,10 @@ export type SuiRecoveryConsolidationRecoveryOptions =
   | Parameters<Tsui['recoverConsolidations']>[0];
 export type TrxConsolidationRecoveryOptions = ConsolidationRecoveryOptions;
 
+export type EthRecoveryConsolidationRecoveryOptions =
+  | Parameters<Eth['recoverConsolidations']>[0]
+  | Parameters<Hteth['recoverConsolidations']>[0];
+
 export type AdaRecoveryConsolidationRecoveryBatch = Awaited<
   ReturnType<Ada['recoverConsolidations'] | Tada['recoverConsolidations']>
 >;
@@ -85,3 +89,7 @@ export type SuiRecoverConsolidationRecoveryBatch = Awaited<
   ReturnType<Sui['recoverConsolidations'] | Tsui['recoverConsolidations']>
 >;
 export type TrxConsolidationRecoveryBatch = ConsolidationRecoveryBatch;
+
+export type EthRecoverConsolidationRecoveryBatch = Awaited<
+  ReturnType<Eth['recoverConsolidations'] | Hteth['recoverConsolidations']>
+>;

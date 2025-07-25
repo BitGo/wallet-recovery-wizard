@@ -901,6 +901,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.solToken,
     allCoinMetas.sui,
     allCoinMetas.suiToken,
+    allCoinMetas.eth,
   ],
   test: [
     allCoinMetas.ttrx,
@@ -912,6 +913,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.tsolToken,
     allCoinMetas.tsui,
     allCoinMetas.tsuiToken,
+    allCoinMetas.hteth,
   ],
 };
 
