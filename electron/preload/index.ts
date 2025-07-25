@@ -33,6 +33,8 @@ import {
   SolRecoveryConsolidationRecoveryOptions,
   SuiRecoverConsolidationRecoveryBatch,
   SuiRecoveryConsolidationRecoveryOptions,
+  EthRecoveryConsolidationRecoveryOptions,
+  EthRecoverConsolidationRecoveryBatch,
 } from '../types';
 
 import type * as EthLikeCommon from '@ethereumjs/common';
@@ -61,6 +63,7 @@ type Commands = {
       | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
+      | EthRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
@@ -69,6 +72,7 @@ type Commands = {
     | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
+    | EthRecoverConsolidationRecoveryBatch
   >;
   writeFile(
     file: string,
@@ -185,6 +189,7 @@ const commands: Commands = {
       | DotRecoveryConsolidationRecoveryOptions
       | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | EthRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
@@ -192,6 +197,7 @@ const commands: Commands = {
     | DotRecoverConsolidationRecoveryBatch
     | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | EthRecoverConsolidationRecoveryBatch
   > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
