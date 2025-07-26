@@ -1,4 +1,5 @@
 import { TrxConsolidationRecoveryOptions } from '../types';
+import coinFactory from '../coinFactory';
 import EthereumCommon from '@ethereumjs/common';
 
 process.env.DIST_ELECTRON = join(__dirname, '../..');
@@ -25,8 +26,6 @@ import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
-import { registerCoinConstructors } from 'bitgo';
-import { GlobalCoinFactory } from '@bitgo/sdk-core'
 
 const bip32 = BIP32Factory(ecc);
 
@@ -51,7 +50,7 @@ let sdk = new BitGoAPI({
   env: 'test',
 });
 
-registerCoinConstructors(GlobalCoinFactory);
+//registerCoinConstructors(GlobalCoinFactory);
 
 function handleSdkError(e: unknown): string {
   if (typeof e === 'string' && e !== null) {
@@ -139,6 +138,7 @@ async function createWindow() {
   ipcMain.handle(
     'setBitGoEnvironment',
     async (event, environment, coin, apiKey) => {
+      await coinFactory.registerCoin(coin, sdk);
       switch (coin) {
         case 'eth':
         case 'hteth':

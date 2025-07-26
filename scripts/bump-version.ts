@@ -30,7 +30,7 @@ type DistTags = {
   tags: Tag;
 };
 
-const packageJsonPath = path.resolve(process.cwd(), 'package.json');
+const packageJsonPath = path.resolve(process.cwd(), '../package.json');
 const packageJson = require(packageJsonPath);
 const packageNames: BitGoPackageName[] = Object.keys(
   packageJson.dependencies
@@ -85,7 +85,7 @@ const bumpVersions = async () => {
   const targetDir = path.join(process.cwd());
 
   writeFileSync(
-    path.join(targetDir, 'package.json'),
+    path.join(targetDir, '../package.json'),
     JSON.stringify(packageJson, null, 2) + '\n'
   );
 
