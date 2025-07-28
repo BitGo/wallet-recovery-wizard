@@ -1,4 +1,4 @@
-import { TrxConsolidationRecoveryOptions } from '../types';
+import { EthRecoveryConsolidationRecoveryOptions, TrxConsolidationRecoveryOptions } from '../types';
 import EthereumCommon from '@ethereumjs/common';
 
 process.env.DIST_ELECTRON = join(__dirname, '../..');
@@ -12,7 +12,7 @@ import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
 import { BitGoAPI } from '@bitgo/sdk-api';
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
-import { AbstractEthLikeNewCoins } from '@bitgo/sdk-coin-eth';
+import { AbstractEthLikeNewCoins, Eth, Hteth } from '@bitgo/sdk-coin-eth';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { BaseCoin } from '@bitgo/sdk-core';
@@ -269,6 +269,11 @@ async function createWindow() {
           return await trxCoin.recoverConsolidations(
             params as TrxConsolidationRecoveryOptions
           );
+        }
+        case 'eth':
+        case 'hteth': {
+          const ethLikeCoin = sdk.coin(coin) as unknown as Eth | Hteth;
+          return await ethLikeCoin.recoverConsolidations(params as EthRecoveryConsolidationRecoveryOptions);
         }
         default:
           throw new Error(

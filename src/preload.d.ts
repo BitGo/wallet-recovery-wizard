@@ -38,6 +38,8 @@ import {
   SuiRecoveryConsolidationRecoveryOptions,
   TrxConsolidationRecoveryBatch,
   TrxConsolidationRecoveryOptions,
+  EthRecoveryConsolidationRecoveryOptions,
+  EthRecoverConsolidationRecoveryBatch,
 } from '~/utils/types';
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '~/helpers/config';
@@ -72,6 +74,7 @@ type Commands = {
       | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
+      | EthRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
@@ -80,6 +83,7 @@ type Commands = {
     | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
+    | EthRecoverConsolidationRecoveryBatch
   >;
   writeFile(
     file: string,
@@ -187,6 +191,7 @@ const commands: Commands = {
       | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
       | SuiRecoveryConsolidationRecoveryOptions
+      | EthRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
@@ -195,6 +200,7 @@ const commands: Commands = {
     | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
     | SuiRecoverConsolidationRecoveryBatch
+    | EthRecoveryConsolidationRecoveryOptions
   > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
