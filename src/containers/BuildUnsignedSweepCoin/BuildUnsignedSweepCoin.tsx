@@ -35,7 +35,7 @@ import { SolanaTokenForm } from './SolanaTokenForm';
 import { SuiTokenForm } from './SuiTokenForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { buildUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
+import { buildUnsignedSweepCoins, prodEvmUnsignedSweepCoins, testEvmUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 import { AlgorandForm } from './AlgorandForm';
 import { RippleTokenForm } from './RippleTokenForm';
@@ -43,6 +43,33 @@ import { HederaTokenForm } from './HederaTokenForm';
 import { NearForm } from './NearForm';
 import { IcpForm } from './IcpForm';
 import { StacksForm } from './StacksForm';
+
+const evmCoins = [
+  'eth',
+  'hteth',
+  'etc',
+  'tetc',
+  'arbeth',
+  'tarbeth',
+  'opeth',
+  'topeth',
+  'flr',
+  'tflr',
+  'wemix',
+  'twemix',
+  'xdc',
+  'txdc',
+  'sgb',
+  'tsgb',
+  'oas',
+  'toas',
+  'coredao',
+  'tcoredao',
+  'soneium',
+  'tsoneium',
+  ...testEvmUnsignedSweepCoins,
+  ...prodEvmUnsignedSweepCoins
+];
 
 function Form() {
   const { env, coin } = useParams<'env' | 'coin'>();
@@ -99,107 +126,6 @@ function Form() {
                     ...recoverData,
                     ...(await includePubsFor(coin, values)),
                   },
-                  null,
-                  2
-                ),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'eth':
-    case 'hteth':
-    case 'etc':
-    case 'tetc':
-    case 'arbeth':
-    case 'tarbeth':
-    case 'opeth':
-    case 'topeth':
-    case 'flr':
-    case 'tflr':
-    case 'wemix':
-    case 'twemix':
-    case 'xdc':
-    case 'txdc':
-    case 'sgb':
-    case 'tsgb':
-    case 'oas':
-    case 'toas':
-    case 'coredao':
-    case 'tcoredao':
-    case 'soneium':
-    case 'tsoneium':
-      return (
-        <EthLikeForm
-          key={coin}
-          coinName={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-
-              const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
-                await updateKeysFromIds(coin, values);
-              const recoverData = await window.commands.recover(coin, {
-                ...rest,
-                eip1559: getEip1559Params(
-                  coin,
-                  maxFeePerGas,
-                  maxPriorityFeePerGas
-                ),
-                replayProtectionOptions: {
-                  chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                  hardfork: 'london',
-                },
-                bitgoKey: '',
-                ignoreAddressTypes: [],
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(
-                  includePubsInUnsignedSweep
-                    ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
-                    : recoverData,
                   null,
                   2
                 ),
@@ -1796,8 +1722,89 @@ function Form() {
 />
       );
     default:
-      throw new Error(`Unsupported coin: ${String(coin)}`);
+      if (coin && evmCoins.includes(coin)) {
+        return (
+          <EthLikeForm
+            key={coin}
+            coinName={coin}
+            onSubmit={async (values, { setSubmitting }) => {
+              setAlert(undefined);
+              setSubmitting(true);
+              try {
+                await window.commands.setBitGoEnvironment(
+                  bitGoEnvironment,
+                  coin,
+                  values.apiKey
+                );
+                const chainData = await window.queries.getChain(coin);
+
+                const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
+                  await updateKeysFromIds(coin, values);
+                const recoverData = await window.commands.recover(coin, {
+                  ...rest,
+                  eip1559: getEip1559Params(
+                    coin,
+                    maxFeePerGas,
+                    maxPriorityFeePerGas
+                  ),
+                  replayProtectionOptions: {
+                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                    hardfork: 'london',
+                  },
+                  bitgoKey: '',
+                  ignoreAddressTypes: [],
+                });
+                assert(
+                  isRecoveryTransaction(recoverData),
+                  'Fully-signed recovery transaction not detected.'
+                );
+
+                const showSaveDialogData = await window.commands.showSaveDialog({
+                  filters: [
+                    {
+                      name: 'Custom File Type',
+                      extensions: ['json'],
+                    },
+                  ],
+                  defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+                });
+
+                if (!showSaveDialogData.filePath) {
+                  throw new Error('No file path selected');
+                }
+
+                await window.commands.writeFile(
+                  showSaveDialogData.filePath,
+                  JSON.stringify(
+                    includePubsInUnsignedSweep
+                      ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
+                      : recoverData,
+                    null,
+                    2
+                  ),
+                  { encoding: 'utf-8' }
+                );
+
+                navigate(
+                  `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+                );
+              } catch (err) {
+                if (err instanceof Error) {
+                  setAlert(err.message);
+                } else {
+                  console.error(err);
+                }
+                setSubmitting(false);
+              }
+            }}
+          />
+        );
+      }
   }
+  throw new Error(`Unsupported coin: ${String(coin)}`);
 }
 
 export function BuildUnsignedSweepCoin() {

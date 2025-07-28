@@ -26,6 +26,7 @@ import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
+import { CoinFeature, coins } from '@bitgo/statics';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -137,6 +138,12 @@ async function createWindow() {
     'setBitGoEnvironment',
     async (event, environment, coin, apiKey) => {
       await coinFactory.registerCoin(coin, sdk);
+
+      if (coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)) {
+        sdk = new BitGoAPI({ env: environment, evm: { [coin]: { apiToken: apiKey} } });
+        return await Promise.resolve();
+      }
+
       switch (coin) {
         case 'eth':
         case 'hteth':
