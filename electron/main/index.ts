@@ -139,7 +139,7 @@ async function createWindow() {
     async (event, environment, coin, apiKey) => {
       await coinFactory.registerCoin(coin, sdk);
 
-      if (coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)) {
+      if (coins.has(coin) && coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)) {
         sdk = new BitGoAPI({ env: environment, evm: { [coin]: { apiToken: apiKey} } });
         return await Promise.resolve();
       }
