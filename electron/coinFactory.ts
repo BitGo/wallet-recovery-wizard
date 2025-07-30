@@ -1,6 +1,30 @@
 import type { BitGoAPI } from '@bitgo/sdk-api';
 import { coins, CoinFeature } from '@bitgo/statics';
 
+const tokenParentCoins = {
+  erc20 : 'eth',
+  hterc20: 'eth',
+  trxToken: 'trx',
+  ttrxToken: 'trx',
+  avaxcToken: 'avaxc',
+  tavaxcToken: 'avaxc',
+  arbethToken: 'arbeth',
+  tarbethToken: 'arbeth',
+  opethToken: 'opeth',
+  topethToken: 'opeth',
+  solToken: 'sol',
+  tsolToken: 'sol',
+  polygonToken: 'polygon',
+  tpolygonToken: 'polygon',
+  hbarToken: 'hbar',
+  thbarToken: 'hbar',
+  suiToken: 'sui',
+  tsuiToken: 'sui',
+  sip10Token: 'stx',
+  tsip10Token: 'stx',
+  txrpToken: 'xrp',
+};
+
 const CoinFactory = () => {
   const registerCoin = async (
     coinName: string,
@@ -9,7 +33,7 @@ const CoinFactory = () => {
 
     const coinFamily = coins.has(coinName)
       ? coins.get(coinName).family
-      : undefined;
+      : coinName in tokenParentCoins ? tokenParentCoins[coinName] : undefined;
 
     if (!coinFamily) {
       throw new Error(`Coin not found. ${coinName}`);
@@ -18,7 +42,7 @@ const CoinFactory = () => {
     const baseCoin = coins.has(coinFamily) ? coins.get(coinFamily) : undefined;
     if (baseCoin?.features.includes(CoinFeature.SHARED_EVM_SDK)) {
       const { register } = await import('@bitgo/sdk-coin-evm');
-      return register(sdk);
+      return register(coinFamily, sdk);
     }
 
     switch (coinFamily) {
