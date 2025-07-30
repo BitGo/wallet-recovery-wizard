@@ -23,6 +23,8 @@ const tokenParentCoins = {
   sip10Token: 'stx',
   tsip10Token: 'stx',
   txrpToken: 'xrp',
+  nep141Token: 'near',
+  tnep141Token: 'near',
 };
 
 const CoinFactory = () => {

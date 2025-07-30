@@ -248,6 +248,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'near',
     value: 'near',
   },
+  nep141Token: {
+    Title: 'NEP141 Token',
+    Description: 'Near NEP141 Token',
+    Icon: 'near',
+    value: 'nep141Token',
+  },
   dot: {
     Title: 'DOT',
     Description: 'Polkadot',
@@ -676,6 +682,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'near',
     value: 'tnear',
   },
+  tnep141Token: {
+    Title: 'TNEP141 Token',
+    Description: 'Testnet NEP141 Token',
+    Icon: 'near',
+    value: 'tnep141Token',
+  },
   tdot: {
     Title: 'TDOT',
     Description: 'Testnet Polkadot',
@@ -996,6 +1008,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.opeth,
     allCoinMetas.opethToken,
     allCoinMetas.near,
+    allCoinMetas.nep141Token,
     allCoinMetas.polygon,
     allCoinMetas.polygonToken,
     allCoinMetas.bsc,
@@ -1041,6 +1054,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.topeth,
     allCoinMetas.topethToken,
     allCoinMetas.tnear,
+    allCoinMetas.tnep141Token,
     allCoinMetas.tpolygon,
     allCoinMetas.tpolygonToken,
     allCoinMetas.tdoge,
@@ -1100,6 +1114,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.opeth,
       allCoinMetas.opethToken,
       allCoinMetas.near,
+      allCoinMetas.nep141Token,
       allCoinMetas.dot,
       allCoinMetas.tao,
       allCoinMetas.icp,
@@ -1159,6 +1174,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.topeth,
       allCoinMetas.topethToken,
       allCoinMetas.tnear,
+      allCoinMetas.tnep141Token,
       allCoinMetas.tdot,
       allCoinMetas.ttao,
       allCoinMetas.ticp,
@@ -1372,6 +1388,8 @@ export const tokenParentCoins = {
   thbarToken: 'thbar',
   sip10Token: 'stx',
   tsip10Token: 'tstx',
+  nep141Token: 'near',
+  tnep141Token: 'tnear',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {
