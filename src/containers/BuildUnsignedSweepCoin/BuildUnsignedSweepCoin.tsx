@@ -1643,9 +1643,12 @@ function Form() {
       );
     case 'near':
     case 'tnear':
+    case 'nep141Token':
+    case 'tnep141Token':
       return (
         <NearForm
   key={coin}
+  isToken={coin === 'nep141Token' || coin === 'tnep141Token'}
   onSubmit={async (values, { setSubmitting }) => {
     setAlert(undefined);
     setSubmitting(true);
@@ -1653,14 +1656,20 @@ function Form() {
       // Set the BitGo environment for the selected coin
       await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
+      let parentCoin: string | undefined;
+      if (coin === 'nep141Token' || coin === 'tnep141Token') {
+        parentCoin = tokenParentCoins[coin];
+      }
+
       // Fetch chain-specific data
-      const chainData = await window.queries.getChain(coin);
+      const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+      const callerCoin = parentCoin ? parentCoin : coin;
 
       // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(coin, {
+      const recoverData = await window.commands.recover(callerCoin, {
           ...values,
-          userKey:(values.userKey ?? '').replace(/\s+/g, ''),
-          backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
+          userKey: (values.userKey ?? '').replace(/\s+/g, ''),
+          backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
           bitgoKey: values.bitgoKey, // Include the BitGo key
           recoveryDestination: values.recoveryDestination, // Include the recovery destination
           ignoreAddressTypes: [], // Update keys from IDs

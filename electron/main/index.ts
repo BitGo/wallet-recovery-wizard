@@ -43,7 +43,7 @@ import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
 import { Flr,Tflr } from '@bitgo/sdk-coin-flr'
 import { Ltc } from '@bitgo/sdk-coin-ltc';
-import { Near, TNear } from '@bitgo/sdk-coin-near';
+import { Near, TNear, Nep141Token } from '@bitgo/sdk-coin-near';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Opeth, Topeth, OpethToken } from '@bitgo/sdk-coin-opeth';
 import { Osmo, Tosmo } from '@bitgo/sdk-coin-osmo';
@@ -231,6 +231,9 @@ HbarToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 Sip10Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+Nep141Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 
