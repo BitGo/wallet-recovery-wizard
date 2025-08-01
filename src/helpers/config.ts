@@ -907,6 +907,16 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+  },
+  mon: {
+    Title: 'MONAD',
+    Description: 'Mainnet Monad',
+    Icon: 'mon',
+    value: 'mon',
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
   }
 } as const;
 
