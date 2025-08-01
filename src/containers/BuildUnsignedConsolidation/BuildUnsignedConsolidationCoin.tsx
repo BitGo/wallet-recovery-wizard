@@ -44,7 +44,7 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
           onSubmit={async (values, { setSubmitting }) => {
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(environment);
+              await window.commands.setBitGoEnvironment(environment, coin);
               const chainData = await window.queries.getChain(coin);
               const consolidateData =
                 await window.commands.recoverConsolidations(coin, {

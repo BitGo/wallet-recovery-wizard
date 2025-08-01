@@ -20,6 +20,15 @@ const validationSchema = Yup.object({
   recoveryDestination: Yup.string().required(),
   userKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
+  apiKey: Yup.string().test(
+    'not-url-or-alchemy', 
+    'API key should not be a URL', 
+    (value) => {
+      if (!value) return true; // Skip validation if empty
+      // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
+      return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
+    }
+  ),
 })
   .required()
   .shape(
@@ -61,6 +70,7 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
       secretKey: '',
       userKey: '',
       walletPassphrase: '',
+      apiKey: '',
     },
     validationSchema,
   });
@@ -157,6 +167,14 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
             Label="Durable Nonce: Secret Key"
             name="secretKey"
             rows={2}
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="An API Key Token from alchemy.com"
+            Label="API Key (optional)"
+            name="apiKey"
             Width="fill"
           />
         </div>
