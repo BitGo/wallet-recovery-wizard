@@ -118,7 +118,8 @@ export function isRecoveryTransaction(
     ('txid' in value && !!value['txid']) ||
     ('serializedTx' in value && !!value['serializedTx']) ||
     ('txRequests' in value && !!value['txRequests']) ||
-    ('transactions' in value && !!value['transactions'])
+    ('transactions' in value && !!value['transactions']) || 
+    ('signableHex' in value && !!value['signableHex'])
   );
 }
 
