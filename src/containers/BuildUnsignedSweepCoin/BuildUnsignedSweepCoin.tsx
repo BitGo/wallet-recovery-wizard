@@ -1110,6 +1110,7 @@ function Form() {
                 recoveryDestination: values.recoveryDestination,
                 seed: values.seed,
                 durableNonce,
+                apiKey: values.apiKey,
               });
               assert(
                 isRecoveryTransaction(recoverData),
@@ -1184,6 +1185,7 @@ function Form() {
                 programId: values.tokenProgramId,
                 seed: values.seed,
                 durableNonce,
+                apiKey: values.apiKey,
               });
               assert(
                 isRecoveryTransaction(recoverData),
