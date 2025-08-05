@@ -23,6 +23,7 @@ import {
   createAdaBroadcastableSweepTransactionParameters,
   createDotBroadcastableSweepTransactionParameters,
   createTaoBroadcastableSweepTransactionParameters,
+  createPolyxBroadcastableSweepTransactionParameters,
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   createIcpBroadcastableSweepTransactionParameters,
@@ -55,6 +56,7 @@ type Commands = {
       | createAdaBroadcastableSweepTransactionParameters
       | createDotBroadcastableSweepTransactionParameters
       | createTaoBroadcastableSweepTransactionParameters
+      | createPolyxBroadcastableSweepTransactionParameters
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
       | createIcpBroadcastableSweepTransactionParameters

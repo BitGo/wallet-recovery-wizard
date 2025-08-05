@@ -10,6 +10,7 @@ import type {
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   createTaoBroadcastableSweepTransactionParameters,
+  createPolyxBroadcastableSweepTransactionParameters,
   createIcpBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
@@ -35,6 +36,7 @@ function isSignedTransaction(
   | createAdaBroadcastableSweepTransactionParameters
   | createDotBroadcastableSweepTransactionParameters
   | createTaoBroadcastableSweepTransactionParameters
+  | createPolyxBroadcastableSweepTransactionParameters
   | createSolBroadcastableSweepTransactionParameters
   | createSuiBroadcastableSweepTransactionParameters
   | createSuiBroadcastableSweepTransactionParameters
@@ -43,6 +45,7 @@ function isSignedTransaction(
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
     | createTaoBroadcastableSweepTransactionParameters
+    | createPolyxBroadcastableSweepTransactionParameters
     | createSolBroadcastableSweepTransactionParameters
     | createSuiBroadcastableSweepTransactionParameters
     | createSuiBroadcastableSweepTransactionParameters
@@ -76,6 +79,7 @@ export function CreateBroadcastableTransactionIndex() {
               | createAdaBroadcastableSweepTransactionParameters
               | createDotBroadcastableSweepTransactionParameters
               | createTaoBroadcastableSweepTransactionParameters
+              | createPolyxBroadcastableSweepTransactionParameters
               | createSolBroadcastableSweepTransactionParameters
               | createSuiBroadcastableSweepTransactionParameters
               | createIcpBroadcastableSweepTransactionParameters;
