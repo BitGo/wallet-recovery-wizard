@@ -20,6 +20,7 @@ import { Oas, Toas } from '@bitgo/sdk-coin-oas';
 import { Coredao, Tcoredao } from '@bitgo/sdk-coin-coredao';
 import { Polygon, Tpolygon } from '@bitgo/sdk-coin-polygon';
 import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
+import { Ton, Tton } from '@bitgo/sdk-coin-ton';
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -65,6 +66,8 @@ export type BroadcastTransactionOptions = Awaited<
   | Parameters<Icp['broadcastTransaction']>[0]
   | Parameters<Ticp['broadcastTransaction']>[0]
   | Parameters<Tbsc['broadcastTransaction']>[0]
+  | Parameters<Ton['broadcastTransaction']>[0]
+  | Parameters<Tton['broadcastTransaction']>[0]
 >;
 
 export type BroadcastTransactionResult = Awaited<
