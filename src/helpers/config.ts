@@ -934,6 +934,20 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
   },
+  xtz: {
+    Title: 'XTZ',
+    Description: 'XTZ',
+    Icon: 'xtz',
+    value: 'xtz',
+    ApiKeyProvider: 'api.tzkt.io',
+  },
+  txtz: {
+    Title: 'TXTZ',
+    Description: 'TXTZ',
+    Icon: 'xtz',
+    value: 'txtz',
+    ApiKeyProvider: 'api.ghostnet.tzkt.io',
+  },
 } as const;
 
 function assertMetadata(coin: string): void {
@@ -1182,6 +1196,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
       allCoinMetas.ton,
+      allCoinMetas.xtz,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1243,6 +1258,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
       allCoinMetas.tton,
+      allCoinMetas.txtz,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
