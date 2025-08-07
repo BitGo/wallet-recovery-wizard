@@ -44,6 +44,7 @@ import { IcpForm } from './IcpForm';
 import { NearForm } from './NearForm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { TonForm } from './TonForm';
+import { TezosForm } from './TezosForm';
 
 const evmCoins = [
   'eth',
@@ -213,7 +214,9 @@ function Form() {
               if (coin === 'nep141Token' || coin === 'tnep141Token') {
                 parentCoin = tokenParentCoins[coin];
               }
-              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
               const callerCoin = parentCoin ? parentCoin : coin;
               const recoverData = await window.commands.recover(callerCoin, {
                 ...values,
@@ -750,7 +753,9 @@ function Form() {
               if (coin === 'sip10Token' || coin === 'tsip10Token') {
                 parentCoin = tokenParentCoins[coin];
               }
-              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
               const callerCoin = parentCoin ? parentCoin : coin;
               const recoverData = await window.commands.recover(callerCoin, {
                 ...values,
@@ -1110,7 +1115,10 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = tokenParentCoins[coin];
-              let chainData = await getTokenChain(values.tokenAddress, parentCoin);
+              let chainData = await getTokenChain(
+                values.tokenAddress,
+                parentCoin
+              );
               const recoverData = await window.commands.recover(parentCoin, {
                 ...values,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
@@ -1545,6 +1553,77 @@ function Form() {
           }}
         />
       );
+    case 'xtz':
+    case 'txtz':
+      return (
+        <TezosForm
+          key={coin}
+          coinName={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                coin,
+                values.apiKey
+              );
+
+              const chainData = await window.queries.getChain(coin);
+
+              // const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
+              // const recoverData = await window.commands.recover(coin, {
+              //   ...rest,
+              //   gasPrice: toWei(maxFeePerGas),
+              //   bitgoKey: '',
+              //   ignoreAddressTypes: [],
+              // });
+
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     case 'ton':
     case 'tton':
       return (
@@ -1600,7 +1679,9 @@ function Form() {
               );
 
               // Navigate to the success page
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
             } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
@@ -1631,16 +1712,19 @@ function Form() {
 
                 const chainData = await window.queries.getChain(coin);
 
-
                 const { maxFeePerGas, maxPriorityFeePerGas, ...rest } = values;
-                const supportsEip1559 = coins.get(coin)?.features.includes(CoinFeature.EIP1559);
+                const supportsEip1559 = coins
+                  .get(coin)
+                  ?.features.includes(CoinFeature.EIP1559);
                 const recoverData = await window.commands.recover(coin, {
                   ...rest,
                   gasPrice: toWei(maxFeePerGas),
-                  eip1559: supportsEip1559 ? {
-                    maxFeePerGas: toWei(maxFeePerGas),
-                    maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-                  } : undefined,
+                  eip1559: supportsEip1559
+                    ? {
+                        maxFeePerGas: toWei(maxFeePerGas),
+                        maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
+                      }
+                    : undefined,
                   replayProtectionOptions: {
                     chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
                     hardfork: supportsEip1559 ? 'london' : 'petersburg',
@@ -1654,15 +1738,17 @@ function Form() {
                   'Fully-signed recovery transaction not detected.'
                 );
 
-                const showSaveDialogData = await window.commands.showSaveDialog({
-                  filters: [
-                    {
-                      name: 'Custom File Type',
-                      extensions: ['json'],
-                    },
-                  ],
-                  defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-                });
+                const showSaveDialogData = await window.commands.showSaveDialog(
+                  {
+                    filters: [
+                      {
+                        name: 'Custom File Type',
+                        extensions: ['json'],
+                      },
+                    ],
+                    defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+                  }
+                );
 
                 if (!showSaveDialogData.filePath) {
                   throw new Error('No file path selected');

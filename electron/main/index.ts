@@ -79,6 +79,7 @@ import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
 import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
+import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -201,6 +202,8 @@ sdk.register('stx', Stx.createInstance);
 sdk.register('tstx', Tstx.createInstance);
 sdk.register('soneium', Soneium.createInstance);
 sdk.register('tsoneium', Tsoneium.createInstance);
+sdk.register('xtz', Xtz.createInstance);
+sdk.register('txtz', Txtz.createInstance);
 EVMCoinRegisterAll(sdk);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
