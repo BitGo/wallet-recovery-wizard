@@ -144,6 +144,8 @@ function Form() {
     case 'tdot':
     case 'tao':
     case 'ttao':
+    case 'polyx':
+    case 'tpolyx':
       return (
         <PolkadotForm
           key={coin}

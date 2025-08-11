@@ -77,6 +77,7 @@ import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
 import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
+import { Polyx, Tpolyx } from '@bitgo/sdk-coin-polyx';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
 
@@ -201,6 +202,8 @@ sdk.register('stx', Stx.createInstance);
 sdk.register('tstx', Tstx.createInstance);
 sdk.register('soneium', Soneium.createInstance);
 sdk.register('tsoneium', Tsoneium.createInstance);
+sdk.register('polyx', Polyx.createInstance);
+sdk.register('tpolyx', Tpolyx.createInstance);
 EVMCoinRegisterAll(sdk);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {

@@ -5,6 +5,7 @@ import {
 import { Ada, Tada } from '@bitgo/sdk-coin-ada';
 import { Dot, Tdot } from '@bitgo/sdk-coin-dot';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
+import { Polyx, Tpolyx } from '@bitgo/sdk-coin-polyx';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Hbar, Thbar } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
@@ -30,6 +31,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tdot['createBroadcastableSweepTransaction']
     | Tao['createBroadcastableSweepTransaction']
     | Ttao['createBroadcastableSweepTransaction']
+    | Polyx['createBroadcastableSweepTransaction']
+    | Tpolyx['createBroadcastableSweepTransaction']
     | Sol['createBroadcastableSweepTransaction']
     | Tsol['createBroadcastableSweepTransaction']
     | Sui['createBroadcastableSweepTransaction']

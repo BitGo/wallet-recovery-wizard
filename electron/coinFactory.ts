@@ -146,6 +146,10 @@ const CoinFactory = () => {
         const { register } = await import('@bitgo/sdk-coin-polygon');
         return register(sdk);
       }
+      case 'polyx': {
+        const { register } = await import('@bitgo/sdk-coin-polyx');
+        return register(sdk);
+      }
       case 'osmo': {
         const { register } = await import('@bitgo/sdk-coin-osmo');
         return register(sdk);
