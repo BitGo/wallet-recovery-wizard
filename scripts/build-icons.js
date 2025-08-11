@@ -56,6 +56,7 @@ const coins = [
   'cronos',
   'soneium',
   'ton',
+  'polyx',
 ];
 
 const paths = fs

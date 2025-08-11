@@ -1239,6 +1239,8 @@ function Form() {
     case 'tdot':
     case 'tao':
     case 'ttao':
+    case 'polyx':
+    case 'tpolyx':
     case 'sui':
     case 'tsui':
       return (
