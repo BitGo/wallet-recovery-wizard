@@ -41,7 +41,7 @@ import {
 } from '@bitgo/sdk-coin-eth';
 import { Ethw } from '@bitgo/sdk-coin-ethw';
 import { Etc, Tetc } from '@bitgo/sdk-coin-etc';
-import { Flr,Tflr } from '@bitgo/sdk-coin-flr'
+import { Flr, Tflr } from '@bitgo/sdk-coin-flr';
 import { Ltc } from '@bitgo/sdk-coin-ltc';
 import { Near, TNear, Nep141Token } from '@bitgo/sdk-coin-near';
 import { Oas, Toas } from '@bitgo/sdk-coin-oas';
@@ -51,7 +51,7 @@ import { Polygon, Tpolygon, PolygonToken } from '@bitgo/sdk-coin-polygon';
 import { Rune, Trune } from '@bitgo/sdk-coin-rune';
 import { Baby, Tbaby } from '@bitgo/sdk-coin-baby';
 import { Sol, Tsol, SolToken } from '@bitgo/sdk-coin-sol';
-import { Sgb,Tsgb } from '@bitgo/sdk-coin-sgb';
+import { Sgb, Tsgb } from '@bitgo/sdk-coin-sgb';
 import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
@@ -66,13 +66,13 @@ import fs from 'node:fs/promises';
 import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
-import { Hbar, Thbar , HbarToken} from '@bitgo/sdk-coin-hbar';
+import { Hbar, Thbar, HbarToken } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
 import { EthLikeCoin, TethLikeCoin } from '@bitgo/sdk-coin-ethlike';
 import { Sui, Tsui } from '@bitgo/sdk-coin-sui';
 import { loadWebAssembly } from '@bitgo/sdk-opensslbytes';
-import { Xdc,Txdc } from '@bitgo/sdk-coin-xdc';
-import { Wemix,Twemix } from '@bitgo/sdk-coin-wemix';
+import { Xdc, Txdc } from '@bitgo/sdk-coin-xdc';
+import { Wemix, Twemix } from '@bitgo/sdk-coin-wemix';
 import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
@@ -80,6 +80,7 @@ import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
 import { Polyx, Tpolyx } from '@bitgo/sdk-coin-polyx';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
+import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -204,6 +205,8 @@ sdk.register('soneium', Soneium.createInstance);
 sdk.register('tsoneium', Tsoneium.createInstance);
 sdk.register('polyx', Polyx.createInstance);
 sdk.register('tpolyx', Tpolyx.createInstance);
+sdk.register('xtz', Xtz.createInstance);
+sdk.register('txtz', Txtz.createInstance);
 EVMCoinRegisterAll(sdk);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
@@ -326,9 +329,14 @@ async function createWindow() {
   ipcMain.handle(
     'setBitGoEnvironment',
     async (event, environment, coin, apiKey) => {
-
-      if (coins.has(coin) && coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)) {
-        sdk = new BitGoAPI({ env: environment, evm: { [coin]: { apiToken: apiKey} } });
+      if (
+        coins.has(coin) &&
+        coins.get(coin).features.includes(CoinFeature.SHARED_EVM_SDK)
+      ) {
+        sdk = new BitGoAPI({
+          env: environment,
+          evm: { [coin]: { apiToken: apiKey } },
+        });
         return await Promise.resolve();
       }
 
@@ -352,7 +360,10 @@ async function createWindow() {
           break;
         case 'coredao':
         case 'tcoredao':
-          sdk = new BitGoAPI({ env: environment, coredaoExplorerApiToken: apiKey });
+          sdk = new BitGoAPI({
+            env: environment,
+            coredaoExplorerApiToken: apiKey,
+          });
           break;
         case 'oas':
         case 'toas':
@@ -387,13 +398,19 @@ async function createWindow() {
           sdk = new BitGoAPI({ env: environment, xdcExplorerApiToken: apiKey });
         case 'wemix':
         case 'twemix':
-          sdk = new BitGoAPI({ env: environment, wemixExplorerApiToken: apiKey});
+          sdk = new BitGoAPI({
+            env: environment,
+            wemixExplorerApiToken: apiKey,
+          });
         case 'baseeth':
         case 'tbaseeth':
           sdk = new BitGoAPI({ env: environment, baseethApiToken: apiKey });
         case 'soneium':
         case 'tsoneium':
-          sdk = new BitGoAPI({ env: environment, soneiumExplorerApiToken: apiKey });
+          sdk = new BitGoAPI({
+            env: environment,
+            soneiumExplorerApiToken: apiKey,
+          });
           break;
         default:
           sdk = new BitGoAPI({ env: environment });
@@ -435,7 +452,13 @@ async function createWindow() {
         case 'ttao':
         case 'sui':
         case 'tsui': {
-          const mpcCoin = sdk.coin(coin) as Ada | Tada | Dot | Tdot | Tao | Ttao;
+          const mpcCoin = sdk.coin(coin) as
+            | Ada
+            | Tada
+            | Dot
+            | Tdot
+            | Tao
+            | Ttao;
           return await mpcCoin.recoverConsolidations(params);
         }
         case 'sol':
