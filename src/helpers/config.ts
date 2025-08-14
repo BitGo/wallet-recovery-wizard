@@ -422,7 +422,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Title: 'THORCHAIN:RUNE',
     Description: 'Thorchain:rune',
     Icon: 'thor',
-    value: 'thorchain:rune'
+    value: 'thorchain:rune',
   },
   baby: {
     Title: 'BABY',
@@ -526,7 +526,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   hteth: {
     Title: 'HTETH',
-    Description: 'Holesky Testnet Ethereum',
+    Description: 'Hoodi Testnet Ethereum',
     Icon: 'eth',
     value: 'hteth',
     ApiKeyProvider: 'etherscan.io',
@@ -538,7 +538,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   hterc20: {
     Title: 'HTERC',
-    Description: 'Holesky Testnet ERC20 Token',
+    Description: 'Hoodi Testnet ERC20 Token',
     Icon: 'eth',
     value: 'hterc20',
     minGasLimit: '30,000',
@@ -842,7 +842,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Title: 'TTHORCHAIN:RUNE',
     Description: 'Thorchain:rune Testnet',
     Icon: 'thor',
-    value: 'tthorchain:rune'
+    value: 'tthorchain:rune',
   },
   tbaby: {
     Title: 'TBABY',
@@ -933,7 +933,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
-  }
+  },
 } as const;
 
 function assertMetadata(coin: string): void {
@@ -1063,7 +1063,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
     allCoinMetas.ton,
-    ...prodEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
+    ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
     allCoinMetas.tbtc,
@@ -1111,7 +1111,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
     allCoinMetas.tton,
-    ...testEvmUnsignedSweepCoins.map((coin) => allCoinMetas[coin]),
+    ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
 
@@ -1182,7 +1182,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
       allCoinMetas.ton,
-      ...prodEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
+      ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
       allCoinMetas.tbtc,
@@ -1243,7 +1243,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
       allCoinMetas.tton,
-      ...testEvmNonBitgoRecoveryCoins.map((coin) => allCoinMetas[coin]),
+      ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
 
@@ -1275,7 +1275,7 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.bsc,
       allCoinMetas.baseeth,
       allCoinMetas.arbeth,
-      allCoinMetas.avaxc
+      allCoinMetas.avaxc,
     ] as const,
     test: [
       allCoinMetas.tpolygon,
@@ -1284,7 +1284,7 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbsc,
       allCoinMetas.tbaseeth,
       allCoinMetas.tarbeth,
-      allCoinMetas.tavaxc
+      allCoinMetas.tavaxc,
     ] as const,
   };
 
@@ -1429,14 +1429,14 @@ export const tokenParentCoins = {
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {
-  name: string,
-  chainId: number,
-  networkId: number,
-  defaultHardfork: string,
+  name: string;
+  chainId: number;
+  networkId: number;
+  defaultHardfork: string;
 };
 
 export const evmCcrNonBitgoCoins = ['tbaseeth', 'baseeth'] as const;
-export type EvmCcrNonBitgoCoin = (typeof evmCcrNonBitgoCoins)[number]
+export type EvmCcrNonBitgoCoin = typeof evmCcrNonBitgoCoins[number];
 
 export const evmCcrNonBitgoCoinConfig = {
   baseeth: {
@@ -1450,3 +1450,6 @@ export const evmCcrNonBitgoCoinConfig = {
     defaultHardfork: 'london',
   },
 };
+
+export const ethMainnetChainId = 1;
+export const ethTestnetChainId = 560048; // Hoodi testnet

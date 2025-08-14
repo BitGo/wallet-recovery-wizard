@@ -15,7 +15,7 @@ import {
   updateKeysFromIds,
   updateKeysFromIdsWithToken,
   getTickerByCoinFamily,
-  } from '~/helpers';
+} from '~/helpers';
 import { useLocalStorageState } from '~/hooks';
 import { AvalancheCForm } from './AvalancheCForm';
 import { AvalancheCTokenForm } from './AvalancheCTokenForm';
@@ -35,7 +35,14 @@ import { SolanaTokenForm } from './SolanaTokenForm';
 import { SuiTokenForm } from './SuiTokenForm';
 import { CardanoForm } from './CardanoForm';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
-import { buildUnsignedSweepCoins, prodEvmUnsignedSweepCoins, testEvmUnsignedSweepCoins, tokenParentCoins } from '~/helpers/config';
+import {
+  buildUnsignedSweepCoins,
+  prodEvmUnsignedSweepCoins,
+  testEvmUnsignedSweepCoins,
+  tokenParentCoins,
+  ethMainnetChainId,
+  ethTestnetChainId,
+} from '~/helpers/config';
 import { HederaForm } from './HederaForm';
 import { AlgorandForm } from './AlgorandForm';
 import { RippleTokenForm } from './RippleTokenForm';
@@ -73,7 +80,7 @@ const evmCoins = [
   'bsc',
   'tbsc',
   ...testEvmUnsignedSweepCoins,
-  ...prodEvmUnsignedSweepCoins
+  ...prodEvmUnsignedSweepCoins,
 ];
 
 function Form() {
@@ -201,9 +208,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -267,9 +274,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -337,13 +344,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsForToken(
-                        values.tokenContractAddress.toLowerCase(),
-                        coin,
-                        values
-                      )),
-                    }
+                        ...recoverData,
+                        ...(await includePubsForToken(
+                          values.tokenContractAddress.toLowerCase(),
+                          coin,
+                          values
+                        )),
+                      }
                     : recoverData,
                   null,
                   2
@@ -408,9 +415,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -472,9 +479,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -513,7 +520,9 @@ function Form() {
               if (coin === 'sip10Token' || coin === 'tsip10Token') {
                 parentCoin = tokenParentCoins[coin];
               }
-              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
               const callerCoin = parentCoin ? parentCoin : coin;
               const recoverData = await window.commands.recover(callerCoin, {
                 ...(await updateKeysFromIds(coin, values)),
@@ -546,9 +555,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -959,9 +968,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -1031,7 +1040,10 @@ function Form() {
                     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
                   },
                   replayProtectionOptions: {
-                    chain: bitGoEnvironment === 'prod' ? 1 : 17000,
+                    chain:
+                      bitGoEnvironment === 'prod'
+                        ? ethMainnetChainId
+                        : ethTestnetChainId,
                     hardfork: 'london',
                   },
                   bitgoKey: '',
@@ -1062,13 +1074,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsForToken(
-                        values.tokenContractAddress.toLowerCase(),
-                        parentCoin,
-                        values
-                      )),
-                    }
+                        ...recoverData,
+                        ...(await includePubsForToken(
+                          values.tokenContractAddress.toLowerCase(),
+                          parentCoin,
+                          values
+                        )),
+                      }
                     : recoverData,
                   null,
                   2
@@ -1412,9 +1424,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -1477,9 +1489,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -1541,9 +1553,9 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, values)),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, values)),
+                      }
                     : recoverData,
                   null,
                   2
@@ -1569,83 +1581,85 @@ function Form() {
     case 'ticp':
       return (
         <IcpForm
-  key={coin}
-  onSubmit={async (values, { setSubmitting }) => {
-    setAlert(undefined);
-    setSubmitting(true);
-    try {
-      // Set the BitGo environment for the selected coin
-      await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              // Set the BitGo environment for the selected coin
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
-      // Fetch chain-specific data
-      const chainData = await window.queries.getChain(coin);
+              // Fetch chain-specific data
+              const chainData = await window.queries.getChain(coin);
 
-      // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(coin, {
-          ...values,
-          userKey:(values.userKey ?? '').replace(/\s+/g, ''),
-          backupKey:(values.backupKey ?? '').replace(/\s+/g, ''),
-          bitgoKey: values.bitgoKey, // Include the BitGo key
-          recoveryDestination: values.recoveryDestination, // Include the recovery destination
-          ignoreAddressTypes: [], // Update keys from IDs
-         // Ignore specific address types if needed
-      });
+              // Recover data for the unsigned sweep
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                userKey: (values.userKey ?? '').replace(/\s+/g, ''),
+                backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
+                bitgoKey: values.bitgoKey, // Include the BitGo key
+                recoveryDestination: values.recoveryDestination, // Include the recovery destination
+                ignoreAddressTypes: [], // Update keys from IDs
+                // Ignore specific address types if needed
+              });
 
-      // Ensure the recovery transaction is valid
-      assert(
-        isRecoveryTransaction(recoverData),
-        'Recovery transaction not detected.'
-      );
+              // Ensure the recovery transaction is valid
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
 
-      // Show a save dialog for the unsigned sweep JSON file
-      const showSaveDialogData = await window.commands.showSaveDialog({
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-      });
+              // Show a save dialog for the unsigned sweep JSON file
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
 
-      // Handle case where no file path is selected
-      if (!showSaveDialogData.filePath) {
-        throw new Error('No file path selected');
-      }
+              // Handle case where no file path is selected
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
 
-      // Write the unsigned sweep data to the selected file
-      await window.commands.writeFile(
-        showSaveDialogData.filePath,
-        JSON.stringify(
-          includePubsInUnsignedSweep
-            ? {
-                ...recoverData,
-                ...(await includePubsFor(coin, {
-                  ...values,
-                  userKey: values.userKey ?? '',
-                  backupKey: values.backupKey ?? '', // Include public keys if required
-              })),
+              // Write the unsigned sweep data to the selected file
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: values.userKey ?? '',
+                          backupKey: values.backupKey ?? '', // Include public keys if required
+                        })),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              // Navigate to the success page
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              // Handle errors and display alerts
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
             }
-            : recoverData,
-          null,
-          2
-        ),
-        { encoding: 'utf-8' }
-      );
-
-      // Navigate to the success page
-      navigate(`/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`);
-    } catch (err) {
-      // Handle errors and display alerts
-      if (err instanceof Error) {
-        setAlert(err.message);
-      } else {
-        console.error(err);
-      }
-      setSubmitting(false);
-    }
-  }}
-/>
+          }}
+        />
       );
     case 'near':
     case 'tnear':
@@ -1653,76 +1667,78 @@ function Form() {
     case 'tnep141Token':
       return (
         <NearForm
-  key={coin}
-  isToken={coin === 'nep141Token' || coin === 'tnep141Token'}
-  onSubmit={async (values, { setSubmitting }) => {
-    setAlert(undefined);
-    setSubmitting(true);
-    try {
-      // Set the BitGo environment for the selected coin
-      await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+          key={coin}
+          isToken={coin === 'nep141Token' || coin === 'tnep141Token'}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              // Set the BitGo environment for the selected coin
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
-      let parentCoin: string | undefined;
-      if (coin === 'nep141Token' || coin === 'tnep141Token') {
-        parentCoin = tokenParentCoins[coin];
-      }
+              let parentCoin: string | undefined;
+              if (coin === 'nep141Token' || coin === 'tnep141Token') {
+                parentCoin = tokenParentCoins[coin];
+              }
 
-      // Fetch chain-specific data
-      const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
-      const callerCoin = parentCoin ? parentCoin : coin;
+              // Fetch chain-specific data
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
+              const callerCoin = parentCoin ? parentCoin : coin;
 
-      // Recover data for the unsigned sweep
-      const recoverData = await window.commands.recover(callerCoin, {
-          ...values,
-          userKey: (values.userKey ?? '').replace(/\s+/g, ''),
-          backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
-          bitgoKey: values.bitgoKey, // Include the BitGo key
-          recoveryDestination: values.recoveryDestination, // Include the recovery destination
-          ignoreAddressTypes: [], // Update keys from IDs
-         // Ignore specific address types if needed
-      });
+              // Recover data for the unsigned sweep
+              const recoverData = await window.commands.recover(callerCoin, {
+                ...values,
+                userKey: (values.userKey ?? '').replace(/\s+/g, ''),
+                backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
+                bitgoKey: values.bitgoKey, // Include the BitGo key
+                recoveryDestination: values.recoveryDestination, // Include the recovery destination
+                ignoreAddressTypes: [], // Update keys from IDs
+                // Ignore specific address types if needed
+              });
 
-      // Ensure the recovery transaction is valid
-      assert(
-        isRecoveryTransaction(recoverData),
-        'Recovery transaction not detected.'
-      );
+              // Ensure the recovery transaction is valid
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
 
-      // Show a save dialog for the unsigned sweep JSON file
-      const showSaveDialogData = await window.commands.showSaveDialog({
-        filters: [
-          {
-            name: 'Custom File Type',
-            extensions: ['json'],
-          },
-        ],
-        defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-      });
+              // Show a save dialog for the unsigned sweep JSON file
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
 
-      // Handle case where no file path is selected
-      if (!showSaveDialogData.filePath) {
-        throw new Error('No file path selected');
-      }
+              // Handle case where no file path is selected
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
 
-      // Write the unsigned sweep data to the selected file
-      await window.commands.writeFile(
-        showSaveDialogData.filePath,
-        JSON.stringify(
-          includePubsInUnsignedSweep
-            ? {
-                ...recoverData,
-                ...(await includePubsFor(coin, {
-                  ...values,
-                  userKey: values.userKey ?? '',
-                  backupKey: values.backupKey ?? '', // Include public keys if required
-              })),
-            }
-            : recoverData,
-          null,
-          2
-        ),
-        { encoding: 'utf-8' }
-      );
+              // Write the unsigned sweep data to the selected file
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: values.userKey ?? '',
+                          backupKey: values.backupKey ?? '', // Include public keys if required
+                        })),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
 
               // Navigate to the success page
               navigate(
@@ -1917,19 +1933,19 @@ function Form() {
 
                 const { maxFeePerGas, maxPriorityFeePerGas, ...rest } =
                   await updateKeysFromIds(coin, values);
-                const supportsEip1559 = coins.get(coin)?.features.includes(CoinFeature.EIP1559);
+                const supportsEip1559 = coins
+                  .get(coin)
+                  ?.features.includes(CoinFeature.EIP1559);
                 const recoverData = await window.commands.recover(coin, {
-                    ...rest,
-                    gasPrice: toWei(maxFeePerGas),
-                    eip1559: supportsEip1559 ? getEip1559Params(
-                      coin,
-                      maxFeePerGas,
-                      maxPriorityFeePerGas
-                    ) : undefined,
-                    replayProtectionOptions: {
-                      chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
-                      hardfork: supportsEip1559 ? 'london' : 'petersburg',
-                    },
+                  ...rest,
+                  gasPrice: toWei(maxFeePerGas),
+                  eip1559: supportsEip1559
+                    ? getEip1559Params(coin, maxFeePerGas, maxPriorityFeePerGas)
+                    : undefined,
+                  replayProtectionOptions: {
+                    chain: getEthLikeRecoveryChainId(coin, bitGoEnvironment),
+                    hardfork: supportsEip1559 ? 'london' : 'petersburg',
+                  },
                   bitgoKey: '',
                   ignoreAddressTypes: [],
                 });
@@ -1938,15 +1954,17 @@ function Form() {
                   'Fully-signed recovery transaction not detected.'
                 );
 
-                const showSaveDialogData = await window.commands.showSaveDialog({
-                  filters: [
-                    {
-                      name: 'Custom File Type',
-                      extensions: ['json'],
-                    },
-                  ],
-                  defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
-                });
+                const showSaveDialogData = await window.commands.showSaveDialog(
+                  {
+                    filters: [
+                      {
+                        name: 'Custom File Type',
+                        extensions: ['json'],
+                      },
+                    ],
+                    defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+                  }
+                );
 
                 if (!showSaveDialogData.filePath) {
                   throw new Error('No file path selected');
@@ -1957,9 +1975,9 @@ function Form() {
                   JSON.stringify(
                     includePubsInUnsignedSweep
                       ? {
-                        ...recoverData,
-                        ...(await includePubsFor(coin, values)),
-                      }
+                          ...recoverData,
+                          ...(await includePubsFor(coin, values)),
+                        }
                       : recoverData,
                     null,
                     2
