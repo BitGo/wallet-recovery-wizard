@@ -8,6 +8,8 @@ import {
   evmCcrNonBitgoCoinConfig,
   EvmCcrNonBitgoCoinConfigType,
   evmCcrNonBitgoCoins,
+  ethMainnetChainId,
+  ethTestnetChainId,
 } from '~/helpers/config';
 
 const GWEI = 10 ** 9;
@@ -86,7 +88,7 @@ export function getEthLikeRecoveryChainId(
   }
 
   // default to eth
-  return bitGoEnvironment === 'prod' ? 1 : 17000;
+  return bitGoEnvironment === 'prod' ? ethMainnetChainId: ethTestnetChainId;
 }
 
 export type BitgoEnv = 'prod' | 'test';

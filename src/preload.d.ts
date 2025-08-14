@@ -62,7 +62,7 @@ type Commands = {
       | createSuiBroadcastableSweepTransactionParameters
       | createIcpBroadcastableSweepTransactionParameters
       | createNearBroadcastableSweepTransactionParameters
-      |createEthBroadcastableSweepTransactionParameters
+      | createEthBroadcastableSweepTransactionParameters
       | createTonBroadcastableSweepTransactionParameters
   ): Promise<Error | BroadcastableSweepTransaction>;
   unlock(otp: string);
@@ -107,7 +107,7 @@ type Commands = {
         maxPriorityFeePerGas: number;
       };
       replayProtectionOptions?: {
-        chain: 10001 | 17000 | typeof Chain[keyof typeof Chain];
+        chain: 10001 | 560048 | typeof Chain[keyof typeof Chain];
         hardfork: `${Hardfork}`;
       };
       walletContractAddress?: string;
@@ -120,12 +120,12 @@ type Commands = {
       seed?: string;
       common?: EthLikeCommon.default;
       ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
-      issuerAddress?: string, // eg. xrpl token
-      currencyCode?: string, // eg. xrpl token
-      tokenId?: string, // eg. hbar token
-      contractId?: string, // eg. stacks sip10 token
-      programId?: string, // eg. solana spl 2022 token
-      apiKey?: string, // eg. alchemy api key
+      issuerAddress?: string; // eg. xrpl token
+      currencyCode?: string; // eg. xrpl token
+      tokenId?: string; // eg. hbar token
+      contractId?: string; // eg. stacks sip10 token
+      programId?: string; // eg. solana spl 2022 token
+      apiKey?: string; // eg. alchemy api key
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(
