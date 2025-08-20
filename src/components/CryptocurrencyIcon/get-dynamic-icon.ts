@@ -7,6 +7,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/$edison'));
     case '$pac':
       return lazy(() => import('cryptocurrency-icons/react/$pac'));
+    case '0x0':
+      return lazy(() => import('cryptocurrency-icons/react/0x0'));
     case '0xbtc':
       return lazy(() => import('cryptocurrency-icons/react/0xbtc'));
     case '1inch':
@@ -15,6 +17,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/1up'));
     case '2give':
       return lazy(() => import('cryptocurrency-icons/react/2give'));
+    case '2z':
+      return lazy(() => import('cryptocurrency-icons/react/2z'));
+    case 'aaplon':
+      return lazy(() => import('cryptocurrency-icons/react/aaplon'));
+    case 'aau':
+      return lazy(() => import('cryptocurrency-icons/react/aau'));
     case 'aave':
       return lazy(() => import('cryptocurrency-icons/react/aave'));
     case 'abt':
@@ -27,6 +35,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/act'));
     case 'actn':
       return lazy(() => import('cryptocurrency-icons/react/actn'));
+    case 'acx':
+      return lazy(() => import('cryptocurrency-icons/react/acx'));
     case 'acxt':
       return lazy(() => import('cryptocurrency-icons/react/acxt'));
     case 'ada':
@@ -35,6 +45,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/adai'));
     case 'add':
       return lazy(() => import('cryptocurrency-icons/react/add'));
+    case 'ads':
+      return lazy(() => import('cryptocurrency-icons/react/ads'));
     case 'adx':
       return lazy(() => import('cryptocurrency-icons/react/adx'));
     case 'ae':
@@ -49,22 +61,40 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/aethos'));
     case 'aeur':
       return lazy(() => import('cryptocurrency-icons/react/aeur'));
+    case 'aeusdc':
+      return lazy(() => import('cryptocurrency-icons/react/aeusdc'));
+    case 'aevo':
+      return lazy(() => import('cryptocurrency-icons/react/aevo'));
+    case 'afsui':
+      return lazy(() => import('cryptocurrency-icons/react/afsui'));
     case 'agi':
       return lazy(() => import('cryptocurrency-icons/react/agi'));
     case 'agix':
       return lazy(() => import('cryptocurrency-icons/react/agix'));
     case 'agrs':
       return lazy(() => import('cryptocurrency-icons/react/agrs'));
+    case 'agwd':
+      return lazy(() => import('cryptocurrency-icons/react/agwd'));
+    case 'ai16z':
+      return lazy(() => import('cryptocurrency-icons/react/ai16z'));
     case 'aion':
       return lazy(() => import('cryptocurrency-icons/react/aion'));
+    case 'aitech':
+      return lazy(() => import('cryptocurrency-icons/react/aitech'));
     case 'akj':
       return lazy(() => import('cryptocurrency-icons/react/akj'));
     case 'akro':
       return lazy(() => import('cryptocurrency-icons/react/akro'));
+    case 'alch':
+      return lazy(() => import('cryptocurrency-icons/react/alch'));
     case 'alcx':
       return lazy(() => import('cryptocurrency-icons/react/alcx'));
+    case 'aleo':
+      return lazy(() => import('cryptocurrency-icons/react/aleo'));
     case 'aleph':
       return lazy(() => import('cryptocurrency-icons/react/aleph'));
+    case 'alex':
+      return lazy(() => import('cryptocurrency-icons/react/alex'));
     case 'algo':
       return lazy(() => import('cryptocurrency-icons/react/algo'));
     case 'ali':
@@ -77,10 +107,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/alpha'));
     case 'alpine':
       return lazy(() => import('cryptocurrency-icons/react/alpine'));
+    case 'alt':
+      return lazy(() => import('cryptocurrency-icons/react/alt'));
     case 'altlayer':
       return lazy(() => import('cryptocurrency-icons/react/altlayer'));
     case 'amb':
       return lazy(() => import('cryptocurrency-icons/react/amb'));
+    case 'amdon':
+      return lazy(() => import('cryptocurrency-icons/react/amdon'));
     case 'amkt':
       return lazy(() => import('cryptocurrency-icons/react/amkt'));
     case 'amn':
@@ -95,18 +129,26 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ampl'));
     case 'ampx':
       return lazy(() => import('cryptocurrency-icons/react/ampx'));
+    case 'amznon':
+      return lazy(() => import('cryptocurrency-icons/react/amznon'));
     case 'ana':
       return lazy(() => import('cryptocurrency-icons/react/ana'));
     case 'anc':
       return lazy(() => import('cryptocurrency-icons/react/anc'));
+    case 'anime':
+      return lazy(() => import('cryptocurrency-icons/react/anime'));
     case 'ankr':
       return lazy(() => import('cryptocurrency-icons/react/ankr'));
     case 'ant':
       return lazy(() => import('cryptocurrency-icons/react/ant'));
+    case 'antv2':
+      return lazy(() => import('cryptocurrency-icons/react/antv2'));
     case 'aoa':
       return lazy(() => import('cryptocurrency-icons/react/aoa'));
     case 'ape':
       return lazy(() => import('cryptocurrency-icons/react/ape'));
+    case 'apechain':
+      return lazy(() => import('cryptocurrency-icons/react/apechain'));
     case 'apex':
       return lazy(() => import('cryptocurrency-icons/react/apex'));
     case 'api3':
@@ -115,12 +157,26 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/apis'));
     case 'appc':
       return lazy(() => import('cryptocurrency-icons/react/appc'));
+    case 'apt':
+      return lazy(() => import('cryptocurrency-icons/react/apt'));
+    case 'aptpact':
+      return lazy(() => import('cryptocurrency-icons/react/aptpact'));
     case 'aqt':
       return lazy(() => import('cryptocurrency-icons/react/aqt'));
+    case 'aqua':
+      return lazy(() => import('cryptocurrency-icons/react/aqua'));
     case 'arb':
       return lazy(() => import('cryptocurrency-icons/react/arb'));
     case 'arbeth':
       return lazy(() => import('cryptocurrency-icons/react/arbeth'));
+    case 'arbethtbill':
+      return lazy(() => import('cryptocurrency-icons/react/arbethtbill'));
+    case 'arbethvchf':
+      return lazy(() => import('cryptocurrency-icons/react/arbethvchf'));
+    case 'arbethveur':
+      return lazy(() => import('cryptocurrency-icons/react/arbethveur'));
+    case 'arc':
+      return lazy(() => import('cryptocurrency-icons/react/arc'));
     case 'arct':
       return lazy(() => import('cryptocurrency-icons/react/arct'));
     case 'arcx':
@@ -145,6 +201,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ary'));
     case 'asd':
       return lazy(() => import('cryptocurrency-icons/react/asd'));
+    case 'asi':
+      return lazy(() => import('cryptocurrency-icons/react/asi'));
     case 'ast':
       return lazy(() => import('cryptocurrency-icons/react/ast'));
     case 'asto':
@@ -169,8 +227,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/audio'));
     case 'audr':
       return lazy(() => import('cryptocurrency-icons/react/audr'));
+    case 'audu':
+      return lazy(() => import('cryptocurrency-icons/react/audu'));
     case 'audx':
       return lazy(() => import('cryptocurrency-icons/react/audx'));
+    case 'aura':
+      return lazy(() => import('cryptocurrency-icons/react/aura'));
     case 'aury':
       return lazy(() => import('cryptocurrency-icons/react/aury'));
     case 'ausd':
@@ -185,8 +247,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/auto'));
     case 'ava':
       return lazy(() => import('cryptocurrency-icons/react/ava'));
+    case 'avail':
+      return lazy(() => import('cryptocurrency-icons/react/avail'));
     case 'avax':
       return lazy(() => import('cryptocurrency-icons/react/avax'));
+    case 'avaxc':
+      return lazy(() => import('cryptocurrency-icons/react/avaxc'));
+    case 'avaxceurc':
+      return lazy(() => import('cryptocurrency-icons/react/avaxceurc'));
+    case 'avaxp':
+      return lazy(() => import('cryptocurrency-icons/react/avaxp'));
+    case 'avaxx':
+      return lazy(() => import('cryptocurrency-icons/react/avaxx'));
     case 'axl':
       return lazy(() => import('cryptocurrency-icons/react/axl'));
     case 'axlv2':
@@ -195,18 +267,28 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/axpr'));
     case 'axs':
       return lazy(() => import('cryptocurrency-icons/react/axs'));
+    case 'axsv2':
+      return lazy(() => import('cryptocurrency-icons/react/axsv2'));
     case 'aywa':
       return lazy(() => import('cryptocurrency-icons/react/aywa'));
     case 'bab':
       return lazy(() => import('cryptocurrency-icons/react/bab'));
+    case 'babaon':
+      return lazy(() => import('cryptocurrency-icons/react/babaon'));
     case 'babb':
       return lazy(() => import('cryptocurrency-icons/react/babb'));
+    case 'baby':
+      return lazy(() => import('cryptocurrency-icons/react/baby'));
+    case 'babydoge':
+      return lazy(() => import('cryptocurrency-icons/react/babydoge'));
     case 'badger':
       return lazy(() => import('cryptocurrency-icons/react/badger'));
     case 'bake':
       return lazy(() => import('cryptocurrency-icons/react/bake'));
     case 'bal':
       return lazy(() => import('cryptocurrency-icons/react/bal'));
+    case 'banca':
+      return lazy(() => import('cryptocurrency-icons/react/banca'));
     case 'band':
       return lazy(() => import('cryptocurrency-icons/react/band'));
     case 'bao':
@@ -261,10 +343,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/bepro'));
     case 'bera':
       return lazy(() => import('cryptocurrency-icons/react/bera'));
+    case 'berahoney':
+      return lazy(() => import('cryptocurrency-icons/react/berahoney'));
+    case 'berry':
+      return lazy(() => import('cryptocurrency-icons/react/berry'));
     case 'beta':
       return lazy(() => import('cryptocurrency-icons/react/beta'));
     case 'bgb':
       return lazy(() => import('cryptocurrency-icons/react/bgb'));
+    case 'bgt':
+      return lazy(() => import('cryptocurrency-icons/react/bgt'));
     case 'bico':
       return lazy(() => import('cryptocurrency-icons/react/bico'));
     case 'bid':
@@ -277,6 +365,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/bird'));
     case 'bit':
       return lazy(() => import('cryptocurrency-icons/react/bit'));
+    case 'bito':
+      return lazy(() => import('cryptocurrency-icons/react/bito'));
     case 'bix':
       return lazy(() => import('cryptocurrency-icons/react/bix'));
     case 'blcn':
@@ -293,6 +383,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/blur'));
     case 'blz':
       return lazy(() => import('cryptocurrency-icons/react/blz'));
+    case 'bmx':
+      return lazy(() => import('cryptocurrency-icons/react/bmx'));
     case 'bnb':
       return lazy(() => import('cryptocurrency-icons/react/bnb'));
     case 'bnk':
@@ -317,6 +409,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/bond'));
     case 'bonk':
       return lazy(() => import('cryptocurrency-icons/react/bonk'));
+    case 'bonzo':
+      return lazy(() => import('cryptocurrency-icons/react/bonzo'));
     case 'booty':
       return lazy(() => import('cryptocurrency-icons/react/booty'));
     case 'borg':
@@ -343,6 +437,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/brz'));
     case 'bsc':
       return lazy(() => import('cryptocurrency-icons/react/bsc'));
+    case 'bscyfi':
+      return lazy(() => import('cryptocurrency-icons/react/bscyfi'));
     case 'bsd':
       return lazy(() => import('cryptocurrency-icons/react/bsd'));
     case 'bsgg':
@@ -383,6 +479,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/btu'));
     case 'btx':
       return lazy(() => import('cryptocurrency-icons/react/btx'));
+    case 'buidl':
+      return lazy(() => import('cryptocurrency-icons/react/buidl'));
     case 'bull':
       return lazy(() => import('cryptocurrency-icons/react/bull'));
     case 'burger':
@@ -397,6 +495,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/buy'));
     case 'bxx':
       return lazy(() => import('cryptocurrency-icons/react/bxx'));
+    case 'bxxv1':
+      return lazy(() => import('cryptocurrency-icons/react/bxxv1'));
     case 'bze':
       return lazy(() => import('cryptocurrency-icons/react/bze'));
     case 'bznt':
@@ -419,10 +519,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/call'));
     case 'carv':
       return lazy(() => import('cryptocurrency-icons/react/carv'));
+    case 'cat':
+      return lazy(() => import('cryptocurrency-icons/react/cat'));
     case 'cbat':
       return lazy(() => import('cryptocurrency-icons/react/cbat'));
     case 'cbc':
       return lazy(() => import('cryptocurrency-icons/react/cbc'));
+    case 'cbeth':
+      return lazy(() => import('cryptocurrency-icons/react/cbeth'));
+    case 'cbl':
+      return lazy(() => import('cryptocurrency-icons/react/cbl'));
     case 'cbrl':
       return lazy(() => import('cryptocurrency-icons/react/cbrl'));
     case 'cc':
@@ -445,8 +551,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/celr'));
     case 'cenz':
       return lazy(() => import('cryptocurrency-icons/react/cenz'));
+    case 'cet':
+      return lazy(() => import('cryptocurrency-icons/react/cet'));
+    case 'cetes':
+      return lazy(() => import('cryptocurrency-icons/react/cetes'));
     case 'ceth':
       return lazy(() => import('cryptocurrency-icons/react/ceth'));
+    case 'cetus':
+      return lazy(() => import('cryptocurrency-icons/react/cetus'));
+    case 'cfg':
+      return lazy(() => import('cryptocurrency-icons/react/cfg'));
     case 'cfx':
       return lazy(() => import('cryptocurrency-icons/react/cfx'));
     case 'cgld':
@@ -461,6 +575,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/chex'));
     case 'chfx':
       return lazy(() => import('cryptocurrency-icons/react/chfx'));
+    case 'chill':
+      return lazy(() => import('cryptocurrency-icons/react/chill'));
+    case 'chillguy':
+      return lazy(() => import('cryptocurrency-icons/react/chillguy'));
     case 'chips':
       return lazy(() => import('cryptocurrency-icons/react/chips'));
     case 'cho':
@@ -489,6 +607,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/cln'));
     case 'cloak':
       return lazy(() => import('cryptocurrency-icons/react/cloak'));
+    case 'cloud':
+      return lazy(() => import('cryptocurrency-icons/react/cloud'));
     case 'clt':
       return lazy(() => import('cryptocurrency-icons/react/clt'));
     case 'clv':
@@ -505,6 +625,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/cnd'));
     case 'cng':
       return lazy(() => import('cryptocurrency-icons/react/cng'));
+    case 'cnkt':
+      return lazy(() => import('cryptocurrency-icons/react/cnkt'));
     case 'cnx':
       return lazy(() => import('cryptocurrency-icons/react/cnx'));
     case 'cny':
@@ -513,6 +635,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/cnyx'));
     case 'cob':
       return lazy(() => import('cryptocurrency-icons/react/cob'));
+    case 'coinon':
+      return lazy(() => import('cryptocurrency-icons/react/coinon'));
     case 'colx':
       return lazy(() => import('cryptocurrency-icons/react/colx'));
     case 'combo':
@@ -527,14 +651,20 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/coqui'));
     case 'core':
       return lazy(() => import('cryptocurrency-icons/react/core'));
+    case 'coredao':
+      return lazy(() => import('cryptocurrency-icons/react/coredao'));
     case 'coreum':
       return lazy(() => import('cryptocurrency-icons/react/coreum'));
     case 'cos':
       return lazy(() => import('cryptocurrency-icons/react/cos'));
+    case 'coston':
+      return lazy(() => import('cryptocurrency-icons/react/coston'));
     case 'coti':
       return lazy(() => import('cryptocurrency-icons/react/coti'));
     case 'cover':
       return lazy(() => import('cryptocurrency-icons/react/cover'));
+    case 'cow':
+      return lazy(() => import('cryptocurrency-icons/react/cow'));
     case 'cpay':
       return lazy(() => import('cryptocurrency-icons/react/cpay'));
     case 'cplt':
@@ -543,8 +673,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/cpt'));
     case 'cqt':
       return lazy(() => import('cryptocurrency-icons/react/cqt'));
+    case 'cqx':
+      return lazy(() => import('cryptocurrency-icons/react/cqx'));
     case 'cra':
       return lazy(() => import('cryptocurrency-icons/react/cra'));
+    case 'crclon':
+      return lazy(() => import('cryptocurrency-icons/react/crclon'));
     case 'crdt':
       return lazy(() => import('cryptocurrency-icons/react/crdt'));
     case 'cre':
@@ -559,6 +693,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/crep'));
     case 'cro':
       return lazy(() => import('cryptocurrency-icons/react/cro'));
+    case 'cronos':
+      return lazy(() => import('cryptocurrency-icons/react/cronos'));
     case 'crown':
       return lazy(() => import('cryptocurrency-icons/react/crown'));
     case 'crpt':
@@ -571,14 +707,20 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/crw'));
     case 'cs':
       return lazy(() => import('cryptocurrency-icons/react/cs'));
+    case 'cslv':
+      return lazy(() => import('cryptocurrency-icons/react/cslv'));
     case 'csp':
       return lazy(() => import('cryptocurrency-icons/react/csp'));
     case 'cspr':
       return lazy(() => import('cryptocurrency-icons/react/cspr'));
+    case 'ctc':
+      return lazy(() => import('cryptocurrency-icons/react/ctc'));
     case 'ctk':
       return lazy(() => import('cryptocurrency-icons/react/ctk'));
     case 'ctr':
       return lazy(() => import('cryptocurrency-icons/react/ctr'));
+    case 'ctrl':
+      return lazy(() => import('cryptocurrency-icons/react/ctrl'));
     case 'ctsi':
       return lazy(() => import('cryptocurrency-icons/react/ctsi'));
     case 'ctx':
@@ -589,6 +731,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/cusd'));
     case 'cusdc':
       return lazy(() => import('cryptocurrency-icons/react/cusdc'));
+    case 'cusdo':
+      return lazy(() => import('cryptocurrency-icons/react/cusdo'));
+    case 'cvault':
+      return lazy(() => import('cryptocurrency-icons/react/cvault'));
     case 'cvc':
       return lazy(() => import('cryptocurrency-icons/react/cvc'));
     case 'cvx':
@@ -615,12 +761,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/dat'));
     case 'data':
       return lazy(() => import('cryptocurrency-icons/react/data'));
+    case 'dataecon':
+      return lazy(() => import('cryptocurrency-icons/react/dataecon'));
     case 'datav2':
       return lazy(() => import('cryptocurrency-icons/react/datav2'));
     case 'dawn':
       return lazy(() => import('cryptocurrency-icons/react/dawn'));
     case 'dbc':
       return lazy(() => import('cryptocurrency-icons/react/dbc'));
+    case 'dbusd':
+      return lazy(() => import('cryptocurrency-icons/react/dbusd'));
     case 'dcn':
       return lazy(() => import('cryptocurrency-icons/react/dcn'));
     case 'dcr':
@@ -643,6 +793,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/dent'));
     case 'dep':
       return lazy(() => import('cryptocurrency-icons/react/dep'));
+    case 'deuro':
+      return lazy(() => import('cryptocurrency-icons/react/deuro'));
+    case 'deusd':
+      return lazy(() => import('cryptocurrency-icons/react/deusd'));
     case 'dew':
       return lazy(() => import('cryptocurrency-icons/react/dew'));
     case 'dexa':
@@ -651,6 +805,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/dexe'));
     case 'dfd':
       return lazy(() => import('cryptocurrency-icons/react/dfd'));
+    case 'dfdvsol':
+      return lazy(() => import('cryptocurrency-icons/react/dfdvsol'));
     case 'dfi':
       return lazy(() => import('cryptocurrency-icons/react/dfi'));
     case 'dfx':
@@ -683,24 +839,38 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/dock'));
     case 'dodo':
       return lazy(() => import('cryptocurrency-icons/react/dodo'));
+    case 'dog':
+      return lazy(() => import('cryptocurrency-icons/react/dog'));
     case 'doge':
       return lazy(() => import('cryptocurrency-icons/react/doge'));
+    case 'dolo':
+      return lazy(() => import('cryptocurrency-icons/react/dolo'));
     case 'domi':
       return lazy(() => import('cryptocurrency-icons/react/domi'));
+    case 'dood':
+      return lazy(() => import('cryptocurrency-icons/react/dood'));
     case 'dot':
       return lazy(() => import('cryptocurrency-icons/react/dot'));
+    case 'dovu':
+      return lazy(() => import('cryptocurrency-icons/react/dovu'));
     case 'dpi':
       return lazy(() => import('cryptocurrency-icons/react/dpi'));
+    case 'dragonx':
+      return lazy(() => import('cryptocurrency-icons/react/dragonx'));
     case 'dram':
       return lazy(() => import('cryptocurrency-icons/react/dram'));
     case 'drgn':
       return lazy(() => import('cryptocurrency-icons/react/drgn'));
+    case 'drift':
+      return lazy(() => import('cryptocurrency-icons/react/drift'));
     case 'drop':
       return lazy(() => import('cryptocurrency-icons/react/drop'));
     case 'drpu':
       return lazy(() => import('cryptocurrency-icons/react/drpu'));
     case 'drv':
       return lazy(() => import('cryptocurrency-icons/react/drv'));
+    case 'dsync':
+      return lazy(() => import('cryptocurrency-icons/react/dsync'));
     case 'dta':
       return lazy(() => import('cryptocurrency-icons/react/dta'));
     case 'dth':
@@ -709,6 +879,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/dtr'));
     case 'duc':
       return lazy(() => import('cryptocurrency-icons/react/duc'));
+    case 'dupe':
+      return lazy(() => import('cryptocurrency-icons/react/dupe'));
     case 'dusk':
       return lazy(() => import('cryptocurrency-icons/react/dusk'));
     case 'dust':
@@ -733,10 +905,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/easy'));
     case 'ebst':
       return lazy(() => import('cryptocurrency-icons/react/ebst'));
+    case 'ebtcq':
+      return lazy(() => import('cryptocurrency-icons/react/ebtcq'));
     case 'eca':
       return lazy(() => import('cryptocurrency-icons/react/eca'));
+    case 'ecash':
+      return lazy(() => import('cryptocurrency-icons/react/ecash'));
     case 'echt':
       return lazy(() => import('cryptocurrency-icons/react/echt'));
+    case 'eco':
+      return lazy(() => import('cryptocurrency-icons/react/eco'));
     case 'ecox':
       return lazy(() => import('cryptocurrency-icons/react/ecox'));
     case 'eden':
@@ -789,6 +967,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/emc'));
     case 'emc2':
       return lazy(() => import('cryptocurrency-icons/react/emc2'));
+    case 'emdx':
+      return lazy(() => import('cryptocurrency-icons/react/emdx'));
     case 'emx':
       return lazy(() => import('cryptocurrency-icons/react/emx'));
     case 'ena':
@@ -797,8 +977,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/eng'));
     case 'enj':
       return lazy(() => import('cryptocurrency-icons/react/enj'));
+    case 'enron':
+      return lazy(() => import('cryptocurrency-icons/react/enron'));
     case 'ens':
       return lazy(() => import('cryptocurrency-icons/react/ens'));
+    case 'enso':
+      return lazy(() => import('cryptocurrency-icons/react/enso'));
     case 'entrp':
       return lazy(() => import('cryptocurrency-icons/react/entrp'));
     case 'eon':
@@ -819,10 +1003,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/eqo'));
     case 'equa':
       return lazy(() => import('cryptocurrency-icons/react/equa'));
+    case 'era':
+      return lazy(() => import('cryptocurrency-icons/react/era'));
     case 'erc':
       return lazy(() => import('cryptocurrency-icons/react/erc'));
     case 'erd':
       return lazy(() => import('cryptocurrency-icons/react/erd'));
+    case 'es':
+      return lazy(() => import('cryptocurrency-icons/react/es'));
     case 'ese':
       return lazy(() => import('cryptocurrency-icons/react/ese'));
     case 'eta':
@@ -831,12 +1019,40 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/etc'));
     case 'eth':
       return lazy(() => import('cryptocurrency-icons/react/eth'));
+    case 'ethausd':
+      return lazy(() => import('cryptocurrency-icons/react/ethausd'));
+    case 'ethblock':
+      return lazy(() => import('cryptocurrency-icons/react/ethblock'));
+    case 'ethchex':
+      return lazy(() => import('cryptocurrency-icons/react/ethchex'));
     case 'ethfi':
       return lazy(() => import('cryptocurrency-icons/react/ethfi'));
+    case 'ethfuel':
+      return lazy(() => import('cryptocurrency-icons/react/ethfuel'));
+    case 'ethfuelv1':
+      return lazy(() => import('cryptocurrency-icons/react/ethfuelv1'));
+    case 'ethmon':
+      return lazy(() => import('cryptocurrency-icons/react/ethmon'));
     case 'ethos':
       return lazy(() => import('cryptocurrency-icons/react/ethos'));
+    case 'ethpoe':
+      return lazy(() => import('cryptocurrency-icons/react/ethpoe'));
+    case 'ethpro':
+      return lazy(() => import('cryptocurrency-icons/react/ethpro'));
+    case 'ethpyr':
+      return lazy(() => import('cryptocurrency-icons/react/ethpyr'));
+    case 'ethsc':
+      return lazy(() => import('cryptocurrency-icons/react/ethsc'));
+    case 'ethsky':
+      return lazy(() => import('cryptocurrency-icons/react/ethsky'));
+    case 'ethstq':
+      return lazy(() => import('cryptocurrency-icons/react/ethstq'));
     case 'ethton':
       return lazy(() => import('cryptocurrency-icons/react/ethton'));
+    case 'ethuco':
+      return lazy(() => import('cryptocurrency-icons/react/ethuco'));
+    case 'ethusds':
+      return lazy(() => import('cryptocurrency-icons/react/ethusds'));
     case 'etn':
       return lazy(() => import('cryptocurrency-icons/react/etn'));
     case 'etp':
@@ -847,6 +1063,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/eul'));
     case 'eur':
       return lazy(() => import('cryptocurrency-icons/react/eur'));
+    case 'eurau':
+      return lazy(() => import('cryptocurrency-icons/react/eurau'));
     case 'eurc':
       return lazy(() => import('cryptocurrency-icons/react/eurc'));
     case 'eurcv':
@@ -857,10 +1075,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/eure'));
     case 'eurl':
       return lazy(() => import('cryptocurrency-icons/react/eurl'));
+    case 'eurob':
+      return lazy(() => import('cryptocurrency-icons/react/eurob'));
     case 'euroc':
       return lazy(() => import('cryptocurrency-icons/react/euroc'));
     case 'euroe':
       return lazy(() => import('cryptocurrency-icons/react/euroe'));
+    case 'europ':
+      return lazy(() => import('cryptocurrency-icons/react/europ'));
     case 'eurr':
       return lazy(() => import('cryptocurrency-icons/react/eurr'));
     case 'eurs':
@@ -889,10 +1111,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/exmo'));
     case 'exp':
       return lazy(() => import('cryptocurrency-icons/react/exp'));
+    case 'exrd':
+      return lazy(() => import('cryptocurrency-icons/react/exrd'));
+    case 'ez':
+      return lazy(() => import('cryptocurrency-icons/react/ez'));
     case 'fair':
       return lazy(() => import('cryptocurrency-icons/react/fair'));
     case 'farm':
       return lazy(() => import('cryptocurrency-icons/react/farm'));
+    case 'fartcoin':
+      return lazy(() => import('cryptocurrency-icons/react/fartcoin'));
     case 'fcd':
       return lazy(() => import('cryptocurrency-icons/react/fcd'));
     case 'fct':
@@ -907,10 +1135,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/fet'));
     case 'fet1':
       return lazy(() => import('cryptocurrency-icons/react/fet1'));
+    case 'fetchai':
+      return lazy(() => import('cryptocurrency-icons/react/fetchai'));
     case 'ff':
       return lazy(() => import('cryptocurrency-icons/react/ff'));
     case 'ff1':
       return lazy(() => import('cryptocurrency-icons/react/ff1'));
+    case 'fft':
+      return lazy(() => import('cryptocurrency-icons/react/fft'));
     case 'fida':
       return lazy(() => import('cryptocurrency-icons/react/fida'));
     case 'fil':
@@ -921,6 +1153,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/firo'));
     case 'fis':
       return lazy(() => import('cryptocurrency-icons/react/fis'));
+    case 'fiuaxrp':
+      return lazy(() => import('cryptocurrency-icons/react/fiuaxrp'));
+    case 'fixed':
+      return lazy(() => import('cryptocurrency-icons/react/fixed'));
     case 'fjc':
       return lazy(() => import('cryptocurrency-icons/react/fjc'));
     case 'fldc':
@@ -929,16 +1165,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/flo'));
     case 'floki':
       return lazy(() => import('cryptocurrency-icons/react/floki'));
+    case 'flr':
+      return lazy(() => import('cryptocurrency-icons/react/flr'));
     case 'flux':
       return lazy(() => import('cryptocurrency-icons/react/flux'));
     case 'fly':
       return lazy(() => import('cryptocurrency-icons/react/fly'));
+    case 'flz':
+      return lazy(() => import('cryptocurrency-icons/react/flz'));
     case 'fmf':
       return lazy(() => import('cryptocurrency-icons/react/fmf'));
     case 'fold':
       return lazy(() => import('cryptocurrency-icons/react/fold'));
     case 'for':
       return lazy(() => import('cryptocurrency-icons/react/for'));
+    case 'form':
+      return lazy(() => import('cryptocurrency-icons/react/form'));
     case 'fort':
       return lazy(() => import('cryptocurrency-icons/react/fort'));
     case 'forth':
@@ -953,20 +1195,28 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ftc'));
     case 'ftm':
       return lazy(() => import('cryptocurrency-icons/react/ftm'));
+    case 'ftn':
+      return lazy(() => import('cryptocurrency-icons/react/ftn'));
     case 'ftt':
       return lazy(() => import('cryptocurrency-icons/react/ftt'));
+    case 'fud':
+      return lazy(() => import('cryptocurrency-icons/react/fud'));
     case 'fuel':
       return lazy(() => import('cryptocurrency-icons/react/fuel'));
     case 'fun':
       return lazy(() => import('cryptocurrency-icons/react/fun'));
     case 'fwb':
       return lazy(() => import('cryptocurrency-icons/react/fwb'));
+    case 'fx':
+      return lazy(() => import('cryptocurrency-icons/react/fx'));
     case 'fxrt':
       return lazy(() => import('cryptocurrency-icons/react/fxrt'));
     case 'fxs':
       return lazy(() => import('cryptocurrency-icons/react/fxs'));
     case 'g':
       return lazy(() => import('cryptocurrency-icons/react/g'));
+    case 'gaia':
+      return lazy(() => import('cryptocurrency-icons/react/gaia'));
     case 'gal':
       return lazy(() => import('cryptocurrency-icons/react/gal'));
     case 'gala':
@@ -1011,12 +1261,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/gfi'));
     case 'gft':
       return lazy(() => import('cryptocurrency-icons/react/gft'));
+    case 'ghcn':
+      return lazy(() => import('cryptocurrency-icons/react/ghcn'));
+    case 'ghdo':
+      return lazy(() => import('cryptocurrency-icons/react/ghdo'));
+    case 'gho':
+      return lazy(() => import('cryptocurrency-icons/react/gho'));
     case 'ghst':
       return lazy(() => import('cryptocurrency-icons/react/ghst'));
     case 'ghub':
       return lazy(() => import('cryptocurrency-icons/react/ghub'));
+    case 'giga':
+      return lazy(() => import('cryptocurrency-icons/react/giga'));
     case 'gigdrop':
       return lazy(() => import('cryptocurrency-icons/react/gigdrop'));
+    case 'gilts':
+      return lazy(() => import('cryptocurrency-icons/react/gilts'));
     case 'gin':
       return lazy(() => import('cryptocurrency-icons/react/gin'));
     case 'gldx':
@@ -1037,36 +1297,66 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/gno'));
     case 'gnt':
       return lazy(() => import('cryptocurrency-icons/react/gnt'));
+    case 'go':
+      return lazy(() => import('cryptocurrency-icons/react/go'));
+    case 'goat':
+      return lazy(() => import('cryptocurrency-icons/react/goat'));
+    case 'god':
+      return lazy(() => import('cryptocurrency-icons/react/god'));
     case 'gods':
       return lazy(() => import('cryptocurrency-icons/react/gods'));
     case 'gog':
       return lazy(() => import('cryptocurrency-icons/react/gog'));
     case 'gohm':
       return lazy(() => import('cryptocurrency-icons/react/gohm'));
+    case 'gohome':
+      return lazy(() => import('cryptocurrency-icons/react/gohome'));
     case 'gold':
       return lazy(() => import('cryptocurrency-icons/react/gold'));
+    case 'gomining':
+      return lazy(() => import('cryptocurrency-icons/react/gomining'));
+    case 'googlon':
+      return lazy(() => import('cryptocurrency-icons/react/googlon'));
     case 'got':
       return lazy(() => import('cryptocurrency-icons/react/got'));
+    case 'gousd':
+      return lazy(() => import('cryptocurrency-icons/react/gousd'));
+    case 'grass':
+      return lazy(() => import('cryptocurrency-icons/react/grass'));
     case 'grc':
       return lazy(() => import('cryptocurrency-icons/react/grc'));
+    case 'grift':
+      return lazy(() => import('cryptocurrency-icons/react/grift'));
     case 'grin':
       return lazy(() => import('cryptocurrency-icons/react/grin'));
+    case 'grph':
+      return lazy(() => import('cryptocurrency-icons/react/grph'));
     case 'grs':
       return lazy(() => import('cryptocurrency-icons/react/grs'));
     case 'grt':
       return lazy(() => import('cryptocurrency-icons/react/grt'));
+    case 'gs':
+      return lazy(() => import('cryptocurrency-icons/react/gs'));
     case 'gsc':
       return lazy(() => import('cryptocurrency-icons/react/gsc'));
     case 'gt':
       return lazy(() => import('cryptocurrency-icons/react/gt'));
     case 'gtc':
       return lazy(() => import('cryptocurrency-icons/react/gtc'));
+    case 'gteth':
+      return lazy(() => import('cryptocurrency-icons/react/gteth'));
     case 'gto':
       return lazy(() => import('cryptocurrency-icons/react/gto'));
+    case 'guild':
+      return lazy(() => import('cryptocurrency-icons/react/guild'));
+    case 'gunz':
+      return lazy(() => import('cryptocurrency-icons/react/gunz'));
     case 'gup':
       return lazy(() => import('cryptocurrency-icons/react/gup'));
     case 'gusd':
       return lazy(() => import('cryptocurrency-icons/react/gusd'));
+    case 'gusdt':
+      return lazy(() => import('cryptocurrency-icons/react/gusdt'));
     case 'gvt':
       return lazy(() => import('cryptocurrency-icons/react/gvt'));
     case 'gxc':
@@ -1077,10 +1367,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/gyen'));
     case 'gzr':
       return lazy(() => import('cryptocurrency-icons/react/gzr'));
+    case 'h':
+      return lazy(() => import('cryptocurrency-icons/react/h'));
+    case 'h2o':
+      return lazy(() => import('cryptocurrency-icons/react/h2o'));
+    case 'hard':
+      return lazy(() => import('cryptocurrency-icons/react/hard'));
     case 'hash':
       return lazy(() => import('cryptocurrency-icons/react/hash'));
+    case 'hashylds':
+      return lazy(() => import('cryptocurrency-icons/react/hashylds'));
     case 'hbar':
       return lazy(() => import('cryptocurrency-icons/react/hbar'));
+    case 'hbarkarate':
+      return lazy(() => import('cryptocurrency-icons/react/hbarkarate'));
+    case 'hbb':
+      return lazy(() => import('cryptocurrency-icons/react/hbb'));
     case 'hbg':
       return lazy(() => import('cryptocurrency-icons/react/hbg'));
     case 'hcn':
@@ -1089,6 +1391,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/hdo'));
     case 'hedg':
       return lazy(() => import('cryptocurrency-icons/react/hedg'));
+    case 'hegic':
+      return lazy(() => import('cryptocurrency-icons/react/hegic'));
     case 'heth':
       return lazy(() => import('cryptocurrency-icons/react/heth'));
     case 'hex':
@@ -1117,6 +1421,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/hold'));
     case 'honey':
       return lazy(() => import('cryptocurrency-icons/react/honey'));
+    case 'hoodon':
+      return lazy(() => import('cryptocurrency-icons/react/hoodon'));
     case 'hook':
       return lazy(() => import('cryptocurrency-icons/react/hook'));
     case 'hop':
@@ -1125,14 +1431,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/hot'));
     case 'hpb':
       return lazy(() => import('cryptocurrency-icons/react/hpb'));
+    case 'hpp':
+      return lazy(() => import('cryptocurrency-icons/react/hpp'));
     case 'hqt':
       return lazy(() => import('cryptocurrency-icons/react/hqt'));
     case 'hrxo':
       return lazy(() => import('cryptocurrency-icons/react/hrxo'));
+    case 'hsk':
+      return lazy(() => import('cryptocurrency-icons/react/hsk'));
+    case 'hsol':
+      return lazy(() => import('cryptocurrency-icons/react/hsol'));
     case 'hsr':
       return lazy(() => import('cryptocurrency-icons/react/hsr'));
     case 'hst':
       return lazy(() => import('cryptocurrency-icons/react/hst'));
+    case 'hsuite':
+      return lazy(() => import('cryptocurrency-icons/react/hsuite'));
     case 'ht':
       return lazy(() => import('cryptocurrency-icons/react/ht'));
     case 'html':
@@ -1153,12 +1467,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/hyb'));
     case 'hydro':
       return lazy(() => import('cryptocurrency-icons/react/hydro'));
+    case 'hypeevm':
+      return lazy(() => import('cryptocurrency-icons/react/hypeevm'));
     case 'hyperlane':
       return lazy(() => import('cryptocurrency-icons/react/hyperlane'));
     case 'i8':
       return lazy(() => import('cryptocurrency-icons/react/i8'));
+    case 'iauon':
+      return lazy(() => import('cryptocurrency-icons/react/iauon'));
+    case 'ibera':
+      return lazy(() => import('cryptocurrency-icons/react/ibera'));
+    case 'ibtc':
+      return lazy(() => import('cryptocurrency-icons/react/ibtc'));
     case 'icn':
       return lazy(() => import('cryptocurrency-icons/react/icn'));
+    case 'icnt':
+      return lazy(() => import('cryptocurrency-icons/react/icnt'));
     case 'icp':
       return lazy(() => import('cryptocurrency-icons/react/icp'));
     case 'icx':
@@ -1175,8 +1499,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ignis'));
     case 'ilk':
       return lazy(() => import('cryptocurrency-icons/react/ilk'));
+    case 'ilv':
+      return lazy(() => import('cryptocurrency-icons/react/ilv'));
     case 'imx':
       return lazy(() => import('cryptocurrency-icons/react/imx'));
+    case 'imxv2':
+      return lazy(() => import('cryptocurrency-icons/react/imxv2'));
     case 'incx':
       return lazy(() => import('cryptocurrency-icons/react/incx'));
     case 'ind':
@@ -1187,6 +1515,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/indi'));
     case 'inf':
       return lazy(() => import('cryptocurrency-icons/react/inf'));
+    case 'initia':
+      return lazy(() => import('cryptocurrency-icons/react/initia'));
     case 'inj':
       return lazy(() => import('cryptocurrency-icons/react/inj'));
     case 'injective':
@@ -1199,6 +1529,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ins'));
     case 'inst':
       return lazy(() => import('cryptocurrency-icons/react/inst'));
+    case 'insur':
+      return lazy(() => import('cryptocurrency-icons/react/insur'));
     case 'inx':
       return lazy(() => import('cryptocurrency-icons/react/inx'));
     case 'io':
@@ -1211,8 +1543,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/iost'));
     case 'iotx':
       return lazy(() => import('cryptocurrency-icons/react/iotx'));
+    case 'ip':
+      return lazy(() => import('cryptocurrency-icons/react/ip'));
     case 'iq':
       return lazy(() => import('cryptocurrency-icons/react/iq'));
+    case 'iris':
+      return lazy(() => import('cryptocurrency-icons/react/iris'));
+    case 'irys':
+      return lazy(() => import('cryptocurrency-icons/react/irys'));
     case 'isei':
       return lazy(() => import('cryptocurrency-icons/react/isei'));
     case 'isf':
@@ -1223,8 +1561,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/isr'));
     case 'itc':
       return lazy(() => import('cryptocurrency-icons/react/itc'));
+    case 'ivvon':
+      return lazy(() => import('cryptocurrency-icons/react/ivvon'));
     case 'ivy':
       return lazy(() => import('cryptocurrency-icons/react/ivy'));
+    case 'jam':
+      return lazy(() => import('cryptocurrency-icons/react/jam'));
     case 'jasmy':
       return lazy(() => import('cryptocurrency-icons/react/jasmy'));
     case 'jbc':
@@ -1243,16 +1585,26 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/jito'));
     case 'jitosol':
       return lazy(() => import('cryptocurrency-icons/react/jitosol'));
+    case 'jlp':
+      return lazy(() => import('cryptocurrency-icons/react/jlp'));
     case 'jnt':
       return lazy(() => import('cryptocurrency-icons/react/jnt'));
     case 'joe':
       return lazy(() => import('cryptocurrency-icons/react/joe'));
+    case 'jpmon':
+      return lazy(() => import('cryptocurrency-icons/react/jpmon'));
     case 'jpy':
       return lazy(() => import('cryptocurrency-icons/react/jpy'));
     case 'jpyx':
       return lazy(() => import('cryptocurrency-icons/react/jpyx'));
+    case 'jto':
+      return lazy(() => import('cryptocurrency-icons/react/jto'));
     case 'jup':
       return lazy(() => import('cryptocurrency-icons/react/jup'));
+    case 'kaia':
+      return lazy(() => import('cryptocurrency-icons/react/kaia'));
+    case 'kal':
+      return lazy(() => import('cryptocurrency-icons/react/kal'));
     case 'kalk':
       return lazy(() => import('cryptocurrency-icons/react/kalk'));
     case 'kambria':
@@ -1263,6 +1615,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/kas'));
     case 'kat':
       return lazy(() => import('cryptocurrency-icons/react/kat'));
+    case 'kava':
+      return lazy(() => import('cryptocurrency-icons/react/kava'));
     case 'kcs':
       return lazy(() => import('cryptocurrency-icons/react/kcs'));
     case 'keep':
@@ -1285,6 +1639,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/klown'));
     case 'kmd':
       return lazy(() => import('cryptocurrency-icons/react/kmd'));
+    case 'kmno':
+      return lazy(() => import('cryptocurrency-icons/react/kmno'));
     case 'knc':
       return lazy(() => import('cryptocurrency-icons/react/knc'));
     case 'knc2':
@@ -1309,8 +1665,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/l3'));
     case 'l3usd':
       return lazy(() => import('cryptocurrency-icons/react/l3usd'));
+    case 'la':
+      return lazy(() => import('cryptocurrency-icons/react/la'));
     case 'lagrange':
       return lazy(() => import('cryptocurrency-icons/react/lagrange'));
+    case 'launchcoin':
+      return lazy(() => import('cryptocurrency-icons/react/launchcoin'));
     case 'layer':
       return lazy(() => import('cryptocurrency-icons/react/layer'));
     case 'lazio':
@@ -1329,12 +1689,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/leo'));
     case 'lever':
       return lazy(() => import('cryptocurrency-icons/react/lever'));
+    case 'lf':
+      return lazy(() => import('cryptocurrency-icons/react/lf'));
+    case 'lgct':
+      return lazy(() => import('cryptocurrency-icons/react/lgct'));
     case 'lgo':
       return lazy(() => import('cryptocurrency-icons/react/lgo'));
     case 'lif3':
       return lazy(() => import('cryptocurrency-icons/react/lif3'));
     case 'lina':
       return lazy(() => import('cryptocurrency-icons/react/lina'));
+    case 'lineaeth':
+      return lazy(() => import('cryptocurrency-icons/react/lineaeth'));
     case 'link':
       return lazy(() => import('cryptocurrency-icons/react/link'));
     case 'lion':
@@ -1345,16 +1711,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/litt'));
     case 'lkk':
       return lazy(() => import('cryptocurrency-icons/react/lkk'));
+    case 'llyon':
+      return lazy(() => import('cryptocurrency-icons/react/llyon'));
     case 'lmwr':
       return lazy(() => import('cryptocurrency-icons/react/lmwr'));
     case 'lnc':
       return lazy(() => import('cryptocurrency-icons/react/lnc'));
     case 'loka':
       return lazy(() => import('cryptocurrency-icons/react/loka'));
+    case 'lon':
+      return lazy(() => import('cryptocurrency-icons/react/lon'));
     case 'looks':
       return lazy(() => import('cryptocurrency-icons/react/looks'));
     case 'loom':
       return lazy(() => import('cryptocurrency-icons/react/loom'));
+    case 'loom1':
+      return lazy(() => import('cryptocurrency-icons/react/loom1'));
     case 'lovely':
       return lazy(() => import('cryptocurrency-icons/react/lovely'));
     case 'lp':
@@ -1363,6 +1735,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/lpt'));
     case 'lrc':
       return lazy(() => import('cryptocurrency-icons/react/lrc'));
+    case 'lrcv2':
+      return lazy(() => import('cryptocurrency-icons/react/lrcv2'));
+    case 'lsd':
+      return lazy(() => import('cryptocurrency-icons/react/lsd'));
     case 'lsk':
       return lazy(() => import('cryptocurrency-icons/react/lsk'));
     case 'ltc':
@@ -1379,6 +1755,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/maid'));
     case 'mana':
       return lazy(() => import('cryptocurrency-icons/react/mana'));
+    case 'maon':
+      return lazy(() => import('cryptocurrency-icons/react/maon'));
     case 'maps':
       return lazy(() => import('cryptocurrency-icons/react/maps'));
     case 'masa':
@@ -1387,6 +1765,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/mask'));
     case 'matic':
       return lazy(() => import('cryptocurrency-icons/react/matic'));
+    case 'matrix':
+      return lazy(() => import('cryptocurrency-icons/react/matrix'));
     case 'mav':
       return lazy(() => import('cryptocurrency-icons/react/mav'));
     case 'max':
@@ -1421,12 +1801,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/mdt'));
     case 'mdx':
       return lazy(() => import('cryptocurrency-icons/react/mdx'));
+    case 'me':
+      return lazy(() => import('cryptocurrency-icons/react/me'));
     case 'med':
       return lazy(() => import('cryptocurrency-icons/react/med'));
     case 'medx':
       return lazy(() => import('cryptocurrency-icons/react/medx'));
     case 'meetone':
       return lazy(() => import('cryptocurrency-icons/react/meetone'));
+    case 'melania':
+      return lazy(() => import('cryptocurrency-icons/react/melania'));
     case 'meme':
       return lazy(() => import('cryptocurrency-icons/react/meme'));
     case 'meow':
@@ -1435,6 +1819,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/met'));
     case 'meta':
       return lazy(() => import('cryptocurrency-icons/react/meta'));
+    case 'metaon':
+      return lazy(() => import('cryptocurrency-icons/react/metaon'));
     case 'mew':
       return lazy(() => import('cryptocurrency-icons/react/mew'));
     case 'mfg':
@@ -1483,10 +1869,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/mof'));
     case 'mog':
       return lazy(() => import('cryptocurrency-icons/react/mog'));
+    case 'mon':
+      return lazy(() => import('cryptocurrency-icons/react/mon'));
     case 'mona':
       return lazy(() => import('cryptocurrency-icons/react/mona'));
+    case 'moodeng':
+      return lazy(() => import('cryptocurrency-icons/react/moodeng'));
+    case 'morpho':
+      return lazy(() => import('cryptocurrency-icons/react/morpho'));
     case 'mother':
       return lazy(() => import('cryptocurrency-icons/react/mother'));
+    case 'move':
+      return lazy(() => import('cryptocurrency-icons/react/move'));
     case 'moveusd':
       return lazy(() => import('cryptocurrency-icons/react/moveusd'));
     case 'mpay':
@@ -1497,10 +1891,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/mplx'));
     case 'mrs':
       return lazy(() => import('cryptocurrency-icons/react/mrs'));
+    case 'msfton':
+      return lazy(() => import('cryptocurrency-icons/react/msfton'));
     case 'msn':
       return lazy(() => import('cryptocurrency-icons/react/msn'));
     case 'msr':
       return lazy(() => import('cryptocurrency-icons/react/msr'));
+    case 'mstron':
+      return lazy(() => import('cryptocurrency-icons/react/mstron'));
     case 'mta':
       return lazy(() => import('cryptocurrency-icons/react/mta'));
     case 'mtcn':
@@ -1515,16 +1913,26 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/musd'));
     case 'music':
       return lazy(() => import('cryptocurrency-icons/react/music'));
+    case 'muskit':
+      return lazy(() => import('cryptocurrency-icons/react/muskit'));
+    case 'mv':
+      return lazy(() => import('cryptocurrency-icons/react/mv'));
     case 'mvi':
       return lazy(() => import('cryptocurrency-icons/react/mvi'));
     case 'mvl':
       return lazy(() => import('cryptocurrency-icons/react/mvl'));
+    case 'mwt':
+      return lazy(() => import('cryptocurrency-icons/react/mwt'));
+    case 'mx':
+      return lazy(() => import('cryptocurrency-icons/react/mx'));
     case 'myrc':
       return lazy(() => import('cryptocurrency-icons/react/myrc'));
     case 'myth':
       return lazy(() => import('cryptocurrency-icons/react/myth'));
     case 'mzc':
       return lazy(() => import('cryptocurrency-icons/react/mzc'));
+    case 'naka':
+      return lazy(() => import('cryptocurrency-icons/react/naka'));
     case 'nano':
       return lazy(() => import('cryptocurrency-icons/react/nano'));
     case 'nas':
@@ -1533,6 +1941,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/natix'));
     case 'nav':
       return lazy(() => import('cryptocurrency-icons/react/nav'));
+    case 'navx':
+      return lazy(() => import('cryptocurrency-icons/react/navx'));
+    case 'nc':
+      return lazy(() => import('cryptocurrency-icons/react/nc'));
     case 'ncash':
       return lazy(() => import('cryptocurrency-icons/react/ncash'));
     case 'nct':
@@ -1545,14 +1957,24 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/near'));
     case 'nebl':
       return lazy(() => import('cryptocurrency-icons/react/nebl'));
+    case 'neiro':
+      return lazy(() => import('cryptocurrency-icons/react/neiro'));
+    case 'neiro2':
+      return lazy(() => import('cryptocurrency-icons/react/neiro2'));
     case 'neo':
       return lazy(() => import('cryptocurrency-icons/react/neo'));
     case 'neos':
       return lazy(() => import('cryptocurrency-icons/react/neos'));
     case 'neu':
       return lazy(() => import('cryptocurrency-icons/react/neu'));
+    case 'newt':
+      return lazy(() => import('cryptocurrency-icons/react/newt'));
     case 'nexo':
       return lazy(() => import('cryptocurrency-icons/react/nexo'));
+    case 'nflxon':
+      return lazy(() => import('cryptocurrency-icons/react/nflxon'));
+    case 'nft':
+      return lazy(() => import('cryptocurrency-icons/react/nft'));
     case 'nftfi':
       return lazy(() => import('cryptocurrency-icons/react/nftfi'));
     case 'nftx':
@@ -1577,38 +1999,58 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/nmr'));
     case 'nnn':
       return lazy(() => import('cryptocurrency-icons/react/nnn'));
+    case 'nos':
+      return lazy(() => import('cryptocurrency-icons/react/nos'));
     case 'nosana':
       return lazy(() => import('cryptocurrency-icons/react/nosana'));
     case 'note':
       return lazy(() => import('cryptocurrency-icons/react/note'));
+    case 'npc':
+      return lazy(() => import('cryptocurrency-icons/react/npc'));
     case 'npt':
       return lazy(() => import('cryptocurrency-icons/react/npt'));
     case 'npxs':
       return lazy(() => import('cryptocurrency-icons/react/npxs'));
     case 'ns2d':
       return lazy(() => import('cryptocurrency-icons/react/ns2d'));
+    case 'ns2drp':
+      return lazy(() => import('cryptocurrency-icons/react/ns2drp'));
     case 'ntbc':
       return lazy(() => import('cryptocurrency-icons/react/ntbc'));
     case 'nu':
       return lazy(() => import('cryptocurrency-icons/react/nu'));
     case 'nuls':
       return lazy(() => import('cryptocurrency-icons/react/nuls'));
+    case 'nvdaon':
+      return lazy(() => import('cryptocurrency-icons/react/nvdaon'));
     case 'nvm':
       return lazy(() => import('cryptocurrency-icons/react/nvm'));
+    case 'nxm':
+      return lazy(() => import('cryptocurrency-icons/react/nxm'));
+    case 'nxpc':
+      return lazy(() => import('cryptocurrency-icons/react/nxpc'));
     case 'nxs':
       return lazy(() => import('cryptocurrency-icons/react/nxs'));
     case 'nxt':
       return lazy(() => import('cryptocurrency-icons/react/nxt'));
+    case 'nyan':
+      return lazy(() => import('cryptocurrency-icons/react/nyan'));
     case 'nym':
       return lazy(() => import('cryptocurrency-icons/react/nym'));
     case 'nzdx':
       return lazy(() => import('cryptocurrency-icons/react/nzdx'));
+    case 'oas':
+      return lazy(() => import('cryptocurrency-icons/react/oas'));
     case 'oax':
       return lazy(() => import('cryptocurrency-icons/react/oax'));
     case 'ocean':
       return lazy(() => import('cryptocurrency-icons/react/ocean'));
     case 'oceanv2':
       return lazy(() => import('cryptocurrency-icons/react/oceanv2'));
+    case 'ocn':
+      return lazy(() => import('cryptocurrency-icons/react/ocn'));
+    case 'og':
+      return lazy(() => import('cryptocurrency-icons/react/og'));
     case 'ogn':
       return lazy(() => import('cryptocurrency-icons/react/ogn'));
     case 'ohm':
@@ -1641,6 +2083,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ont'));
     case 'ooki':
       return lazy(() => import('cryptocurrency-icons/react/ooki'));
+    case 'oort':
+      return lazy(() => import('cryptocurrency-icons/react/oort'));
     case 'oot':
       return lazy(() => import('cryptocurrency-icons/react/oot'));
     case 'op':
@@ -1651,14 +2095,20 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/openlayer'));
     case 'opeth':
       return lazy(() => import('cryptocurrency-icons/react/opeth'));
+    case 'opt':
+      return lazy(() => import('cryptocurrency-icons/react/opt'));
     case 'orai':
       return lazy(() => import('cryptocurrency-icons/react/orai'));
+    case 'orbr':
+      return lazy(() => import('cryptocurrency-icons/react/orbr'));
     case 'orbs':
       return lazy(() => import('cryptocurrency-icons/react/orbs'));
     case 'orbt':
       return lazy(() => import('cryptocurrency-icons/react/orbt'));
     case 'orca':
       return lazy(() => import('cryptocurrency-icons/react/orca'));
+    case 'orclon':
+      return lazy(() => import('cryptocurrency-icons/react/orclon'));
     case 'orn':
       return lazy(() => import('cryptocurrency-icons/react/orn'));
     case 'oseth':
@@ -1673,12 +2123,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/oxt'));
     case 'oxy':
       return lazy(() => import('cryptocurrency-icons/react/oxy'));
+    case 'paal':
+      return lazy(() => import('cryptocurrency-icons/react/paal'));
+    case 'pack':
+      return lazy(() => import('cryptocurrency-icons/react/pack'));
     case 'pact':
       return lazy(() => import('cryptocurrency-icons/react/pact'));
     case 'par':
       return lazy(() => import('cryptocurrency-icons/react/par'));
     case 'part':
       return lazy(() => import('cryptocurrency-icons/react/part'));
+    case 'parti':
+      return lazy(() => import('cryptocurrency-icons/react/parti'));
     case 'pasc':
       return lazy(() => import('cryptocurrency-icons/react/pasc'));
     case 'pasl':
@@ -1707,10 +2163,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/peaq'));
     case 'peg':
       return lazy(() => import('cryptocurrency-icons/react/peg'));
+    case 'pengu':
+      return lazy(() => import('cryptocurrency-icons/react/pengu'));
     case 'penky':
       return lazy(() => import('cryptocurrency-icons/react/penky'));
     case 'pepe':
       return lazy(() => import('cryptocurrency-icons/react/pepe'));
+    case 'perc':
+      return lazy(() => import('cryptocurrency-icons/react/perc'));
     case 'perl':
       return lazy(() => import('cryptocurrency-icons/react/perl'));
     case 'perp':
@@ -1725,6 +2185,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/pha'));
     case 'phnx':
       return lazy(() => import('cryptocurrency-icons/react/phnx'));
+    case 'phrs':
+      return lazy(() => import('cryptocurrency-icons/react/phrs'));
     case 'pie':
       return lazy(() => import('cryptocurrency-icons/react/pie'));
     case 'pink':
@@ -1747,6 +2209,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/plnx'));
     case 'plr':
       return lazy(() => import('cryptocurrency-icons/react/plr'));
+    case 'pltron':
+      return lazy(() => import('cryptocurrency-icons/react/pltron'));
+    case 'plume':
+      return lazy(() => import('cryptocurrency-icons/react/plume'));
     case 'plx':
       return lazy(() => import('cryptocurrency-icons/react/plx'));
     case 'pma':
@@ -1755,10 +2221,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/png'));
     case 'pnt':
       return lazy(() => import('cryptocurrency-icons/react/pnt'));
+    case 'pnut':
+      return lazy(() => import('cryptocurrency-icons/react/pnut'));
     case 'poa':
       return lazy(() => import('cryptocurrency-icons/react/poa'));
     case 'poe':
       return lazy(() => import('cryptocurrency-icons/react/poe'));
+    case 'pokt':
+      return lazy(() => import('cryptocurrency-icons/react/pokt'));
     case 'pol':
       return lazy(() => import('cryptocurrency-icons/react/pol'));
     case 'polis':
@@ -1769,6 +2239,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/poly'));
     case 'polygon':
       return lazy(() => import('cryptocurrency-icons/react/polygon'));
+    case 'polygonbid':
+      return lazy(() => import('cryptocurrency-icons/react/polygonbid'));
+    case 'polyx':
+      return lazy(() => import('cryptocurrency-icons/react/polyx'));
     case 'pond':
       return lazy(() => import('cryptocurrency-icons/react/pond'));
     case 'popcat':
@@ -1785,8 +2259,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ppp'));
     case 'ppt':
       return lazy(() => import('cryptocurrency-icons/react/ppt'));
+    case 'prdx':
+      return lazy(() => import('cryptocurrency-icons/react/prdx'));
     case 'pre':
       return lazy(() => import('cryptocurrency-icons/react/pre'));
+    case 'prime':
+      return lazy(() => import('cryptocurrency-icons/react/prime'));
+    case 'prints':
+      return lazy(() => import('cryptocurrency-icons/react/prints'));
     case 'prl':
       return lazy(() => import('cryptocurrency-icons/react/prl'));
     case 'pro':
@@ -1799,6 +2279,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/psg'));
     case 'pstake':
       return lazy(() => import('cryptocurrency-icons/react/pstake'));
+    case 'pump':
+      return lazy(() => import('cryptocurrency-icons/react/pump'));
     case 'pundix':
       return lazy(() => import('cryptocurrency-icons/react/pundix'));
     case 'pungo':
@@ -1835,6 +2317,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/qlc'));
     case 'qnt':
       return lazy(() => import('cryptocurrency-icons/react/qnt'));
+    case 'qqqon':
+      return lazy(() => import('cryptocurrency-icons/react/qqqon'));
     case 'qrdo':
       return lazy(() => import('cryptocurrency-icons/react/qrdo'));
     case 'qrl':
@@ -1887,6 +2371,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/rdn'));
     case 'rdnt':
       return lazy(() => import('cryptocurrency-icons/react/rdnt'));
+    case 'rdo':
+      return lazy(() => import('cryptocurrency-icons/react/rdo'));
     case 'reb':
       return lazy(() => import('cryptocurrency-icons/react/reb'));
     case 'rebl':
@@ -1929,16 +2415,24 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/rio'));
     case 'rise':
       return lazy(() => import('cryptocurrency-icons/react/rise'));
+    case 'rlb':
+      return lazy(() => import('cryptocurrency-icons/react/rlb'));
     case 'rlc':
       return lazy(() => import('cryptocurrency-icons/react/rlc'));
     case 'rlusd':
       return lazy(() => import('cryptocurrency-icons/react/rlusd'));
     case 'rly':
       return lazy(() => import('cryptocurrency-icons/react/rly'));
+    case 'rmg':
+      return lazy(() => import('cryptocurrency-icons/react/rmg'));
     case 'rn':
       return lazy(() => import('cryptocurrency-icons/react/rn'));
     case 'rndr':
       return lazy(() => import('cryptocurrency-icons/react/rndr'));
+    case 'rock':
+      return lazy(() => import('cryptocurrency-icons/react/rock'));
+    case 'rog':
+      return lazy(() => import('cryptocurrency-icons/react/rog'));
     case 'ron':
       return lazy(() => import('cryptocurrency-icons/react/ron'));
     case 'ronc':
@@ -1949,6 +2443,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/rook'));
     case 'rose':
       return lazy(() => import('cryptocurrency-icons/react/rose'));
+    case 'route':
+      return lazy(() => import('cryptocurrency-icons/react/route'));
     case 'rpk':
       return lazy(() => import('cryptocurrency-icons/react/rpk'));
     case 'rpl':
@@ -1959,6 +2455,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/rsr'));
     case 'rsweth':
       return lazy(() => import('cryptocurrency-icons/react/rsweth'));
+    case 'rtbl':
+      return lazy(() => import('cryptocurrency-icons/react/rtbl'));
     case 'rub':
       return lazy(() => import('cryptocurrency-icons/react/rub'));
     case 'rubx':
@@ -1971,6 +2469,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/rvn'));
     case 'ryo':
       return lazy(() => import('cryptocurrency-icons/react/ryo'));
+    case 'ryt':
+      return lazy(() => import('cryptocurrency-icons/react/ryt'));
     case 'safe':
       return lazy(() => import('cryptocurrency-icons/react/safe'));
     case 'safemoon':
@@ -1987,16 +2487,24 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/sand'));
     case 'santos':
       return lazy(() => import('cryptocurrency-icons/react/santos'));
+    case 'saros':
+      return lazy(() => import('cryptocurrency-icons/react/saros'));
     case 'sashimi':
       return lazy(() => import('cryptocurrency-icons/react/sashimi'));
+    case 'sauce':
+      return lazy(() => import('cryptocurrency-icons/react/sauce'));
     case 'savax':
       return lazy(() => import('cryptocurrency-icons/react/savax'));
+    case 'sb':
+      return lazy(() => import('cryptocurrency-icons/react/sb'));
     case 'sbc':
       return lazy(() => import('cryptocurrency-icons/react/sbc'));
     case 'sbd':
       return lazy(() => import('cryptocurrency-icons/react/sbd'));
     case 'sberbank':
       return lazy(() => import('cryptocurrency-icons/react/sberbank'));
+    case 'sbtc':
+      return lazy(() => import('cryptocurrency-icons/react/sbtc'));
     case 'sc':
       return lazy(() => import('cryptocurrency-icons/react/sc'));
     case 'sca':
@@ -2005,8 +2513,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/schz'));
     case 'sd':
       return lazy(() => import('cryptocurrency-icons/react/sd'));
+    case 'seda':
+      return lazy(() => import('cryptocurrency-icons/react/seda'));
     case 'sei':
       return lazy(() => import('cryptocurrency-icons/react/sei'));
+    case 'seievm':
+      return lazy(() => import('cryptocurrency-icons/react/seievm'));
+    case 'send':
+      return lazy(() => import('cryptocurrency-icons/react/send'));
     case 'ser':
       return lazy(() => import('cryptocurrency-icons/react/ser'));
     case 'seth2':
@@ -2017,6 +2531,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/sfp'));
     case 'sga':
       return lazy(() => import('cryptocurrency-icons/react/sga'));
+    case 'sgb':
+      return lazy(() => import('cryptocurrency-icons/react/sgb'));
     case 'sgdx':
       return lazy(() => import('cryptocurrency-icons/react/sgdx'));
     case 'sgr':
@@ -2035,8 +2551,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/shopx'));
     case 'shr':
       return lazy(() => import('cryptocurrency-icons/react/shr'));
+    case 'shrap':
+      return lazy(() => import('cryptocurrency-icons/react/shrap'));
     case 'sib':
       return lazy(() => import('cryptocurrency-icons/react/sib'));
+    case 'sign':
+      return lazy(() => import('cryptocurrency-icons/react/sign'));
     case 'sih':
       return lazy(() => import('cryptocurrency-icons/react/sih'));
     case 'sila':
@@ -2069,6 +2589,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/slr'));
     case 'sls':
       return lazy(() => import('cryptocurrency-icons/react/sls'));
+    case 'slt':
+      return lazy(() => import('cryptocurrency-icons/react/slt'));
+    case 'slvon':
+      return lazy(() => import('cryptocurrency-icons/react/slvon'));
     case 'slvx':
       return lazy(() => import('cryptocurrency-icons/react/slvx'));
     case 'smart':
@@ -2093,10 +2617,38 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/sohm'));
     case 'sol':
       return lazy(() => import('cryptocurrency-icons/react/sol'));
+    case 'solanacorn':
+      return lazy(() => import('cryptocurrency-icons/react/solanacorn'));
+    case 'solausd':
+      return lazy(() => import('cryptocurrency-icons/react/solausd'));
+    case 'solbenji':
+      return lazy(() => import('cryptocurrency-icons/react/solbenji'));
+    case 'soleurcv':
+      return lazy(() => import('cryptocurrency-icons/react/soleurcv'));
     case 'solink':
       return lazy(() => import('cryptocurrency-icons/react/solink'));
+    case 'sollayer':
+      return lazy(() => import('cryptocurrency-icons/react/sollayer'));
+    case 'solo':
+      return lazy(() => import('cryptocurrency-icons/react/solo'));
+    case 'soltbill':
+      return lazy(() => import('cryptocurrency-icons/react/soltbill'));
+    case 'solusdg':
+      return lazy(() => import('cryptocurrency-icons/react/solusdg'));
+    case 'solv':
+      return lazy(() => import('cryptocurrency-icons/react/solv'));
+    case 'solvchf':
+      return lazy(() => import('cryptocurrency-icons/react/solvchf'));
     case 'solve':
       return lazy(() => import('cryptocurrency-icons/react/solve'));
+    case 'solveur':
+      return lazy(() => import('cryptocurrency-icons/react/solveur'));
+    case 'somi':
+      return lazy(() => import('cryptocurrency-icons/react/somi'));
+    case 'soneium':
+      return lazy(() => import('cryptocurrency-icons/react/soneium'));
+    case 'sonic':
+      return lazy(() => import('cryptocurrency-icons/react/sonic'));
     case 'sos':
       return lazy(() => import('cryptocurrency-icons/react/sos'));
     case 'spacehbit':
@@ -2107,10 +2659,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/sparrow'));
     case 'spell':
       return lazy(() => import('cryptocurrency-icons/react/spell'));
+    case 'spgion':
+      return lazy(() => import('cryptocurrency-icons/react/spgion'));
     case 'sphtx':
       return lazy(() => import('cryptocurrency-icons/react/sphtx'));
     case 'spo':
       return lazy(() => import('cryptocurrency-icons/react/spo'));
+    case 'sprw':
+      return lazy(() => import('cryptocurrency-icons/react/sprw'));
+    case 'spx':
+      return lazy(() => import('cryptocurrency-icons/react/spx'));
+    case 'spyon':
+      return lazy(() => import('cryptocurrency-icons/react/spyon'));
     case 'sqd':
       return lazy(() => import('cryptocurrency-icons/react/sqd'));
     case 'squig':
@@ -2121,6 +2681,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/srn'));
     case 'srnt':
       return lazy(() => import('cryptocurrency-icons/react/srnt'));
+    case 'ssol':
+      return lazy(() => import('cryptocurrency-icons/react/ssol'));
     case 'ssv':
       return lazy(() => import('cryptocurrency-icons/react/ssv'));
     case 'stak':
@@ -2131,10 +2693,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/stbu'));
     case 'stc':
       return lazy(() => import('cryptocurrency-icons/react/stc'));
+    case 'stcv2':
+      return lazy(() => import('cryptocurrency-icons/react/stcv2'));
     case 'steem':
       return lazy(() => import('cryptocurrency-icons/react/steem'));
+    case 'steth':
+      return lazy(() => import('cryptocurrency-icons/react/steth'));
     case 'stg':
       return lazy(() => import('cryptocurrency-icons/react/stg'));
+    case 'stik':
+      return lazy(() => import('cryptocurrency-icons/react/stik'));
     case 'stkaave':
       return lazy(() => import('cryptocurrency-icons/react/stkaave'));
     case 'stmx':
@@ -2157,8 +2725,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/strk'));
     case 'strong':
       return lazy(() => import('cryptocurrency-icons/react/strong'));
+    case 'ststx':
+      return lazy(() => import('cryptocurrency-icons/react/ststx'));
     case 'stx':
       return lazy(() => import('cryptocurrency-icons/react/stx'));
+    case 'stzen':
+      return lazy(() => import('cryptocurrency-icons/react/stzen'));
     case 'sub':
       return lazy(() => import('cryptocurrency-icons/react/sub'));
     case 'sui':
@@ -2171,58 +2743,100 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/sun'));
     case 'super':
       return lazy(() => import('cryptocurrency-icons/react/super'));
+    case 'superbonds':
+      return lazy(() => import('cryptocurrency-icons/react/superbonds'));
     case 'susd':
       return lazy(() => import('cryptocurrency-icons/react/susd'));
     case 'susde':
       return lazy(() => import('cryptocurrency-icons/react/susde'));
+    case 'susdh':
+      return lazy(() => import('cryptocurrency-icons/react/susdh'));
     case 'sushi':
       return lazy(() => import('cryptocurrency-icons/react/sushi'));
     case 'swap':
       return lazy(() => import('cryptocurrency-icons/react/swap'));
+    case 'swarms':
+      return lazy(() => import('cryptocurrency-icons/react/swarms'));
     case 'sweth':
       return lazy(() => import('cryptocurrency-icons/react/sweth'));
+    case 'swftc':
+      return lazy(() => import('cryptocurrency-icons/react/swftc'));
     case 'swise':
       return lazy(() => import('cryptocurrency-icons/react/swise'));
     case 'sxp':
       return lazy(() => import('cryptocurrency-icons/react/sxp'));
+    case 'sxt':
+      return lazy(() => import('cryptocurrency-icons/react/sxt'));
     case 'syn':
       return lazy(() => import('cryptocurrency-icons/react/syn'));
+    case 'syrup':
+      return lazy(() => import('cryptocurrency-icons/react/syrup'));
     case 'sys':
       return lazy(() => import('cryptocurrency-icons/react/sys'));
     case 't':
       return lazy(() => import('cryptocurrency-icons/react/t'));
     case 'taas':
       return lazy(() => import('cryptocurrency-icons/react/taas'));
+    case 'tai':
+      return lazy(() => import('cryptocurrency-icons/react/tai'));
+    case 'tank':
+      return lazy(() => import('cryptocurrency-icons/react/tank'));
+    case 'tao':
+      return lazy(() => import('cryptocurrency-icons/react/tao'));
     case 'tau':
       return lazy(() => import('cryptocurrency-icons/react/tau'));
     case 'taud':
       return lazy(() => import('cryptocurrency-icons/react/taud'));
     case 'tbtc':
       return lazy(() => import('cryptocurrency-icons/react/tbtc'));
+    case 'tbtc1':
+      return lazy(() => import('cryptocurrency-icons/react/tbtc1'));
     case 'tbx':
       return lazy(() => import('cryptocurrency-icons/react/tbx'));
     case 'tcad':
       return lazy(() => import('cryptocurrency-icons/react/tcad'));
     case 'tco':
       return lazy(() => import('cryptocurrency-icons/react/tco'));
+    case 'tcs':
+      return lazy(() => import('cryptocurrency-icons/react/tcs'));
+    case 'tdai':
+      return lazy(() => import('cryptocurrency-icons/react/tdai'));
     case 'tel':
       return lazy(() => import('cryptocurrency-icons/react/tel'));
+    case 'telos':
+      return lazy(() => import('cryptocurrency-icons/react/telos'));
     case 'ten':
       return lazy(() => import('cryptocurrency-icons/react/ten'));
     case 'tenx':
       return lazy(() => import('cryptocurrency-icons/react/tenx'));
+    case 'terc':
+      return lazy(() => import('cryptocurrency-icons/react/terc'));
+    case 'terc18dp':
+      return lazy(() => import('cryptocurrency-icons/react/terc18dp'));
+    case 'terc2dp':
+      return lazy(() => import('cryptocurrency-icons/react/terc2dp'));
+    case 'terc6dp':
+      return lazy(() => import('cryptocurrency-icons/react/terc6dp'));
     case 'term':
       return lazy(() => import('cryptocurrency-icons/react/term'));
     case 'tern':
       return lazy(() => import('cryptocurrency-icons/react/tern'));
+    case 'tesouro':
+      return lazy(() => import('cryptocurrency-icons/react/tesouro'));
+    case 'testcopm':
+      return lazy(() => import('cryptocurrency-icons/react/testcopm'));
     case 'tgbp':
       return lazy(() => import('cryptocurrency-icons/react/tgbp'));
     case 'tgch':
       return lazy(() => import('cryptocurrency-icons/react/tgch'));
+    case 'thashylds':
+      return lazy(() => import('cryptocurrency-icons/react/thashylds'));
     case 'theta':
       return lazy(() => import('cryptocurrency-icons/react/theta'));
     case 'thkd':
       return lazy(() => import('cryptocurrency-icons/react/thkd'));
+    case 'thor':
+      return lazy(() => import('cryptocurrency-icons/react/thor'));
     case 'threshold':
       return lazy(() => import('cryptocurrency-icons/react/threshold'));
     case 'thunder':
@@ -2231,6 +2845,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/tia'));
     case 'tico':
       return lazy(() => import('cryptocurrency-icons/react/tico'));
+    case 'ticov2':
+      return lazy(() => import('cryptocurrency-icons/react/ticov2'));
+    case 'times':
+      return lazy(() => import('cryptocurrency-icons/react/times'));
     case 'tiox':
       return lazy(() => import('cryptocurrency-icons/react/tiox'));
     case 'tix':
@@ -2251,12 +2869,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/tlab'));
     case 'tlm':
       return lazy(() => import('cryptocurrency-icons/react/tlm'));
+    case 'tlos':
+      return lazy(() => import('cryptocurrency-icons/react/tlos'));
     case 'tm':
       return lazy(() => import('cryptocurrency-icons/react/tm'));
     case 'tnb':
       return lazy(() => import('cryptocurrency-icons/react/tnb'));
     case 'tnc':
       return lazy(() => import('cryptocurrency-icons/react/tnc'));
+    case 'tnsr':
+      return lazy(() => import('cryptocurrency-icons/react/tnsr'));
     case 'tnt':
       return lazy(() => import('cryptocurrency-icons/react/tnt'));
     case 'tok':
@@ -2269,6 +2891,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/tomoe'));
     case 'ton':
       return lazy(() => import('cryptocurrency-icons/react/ton'));
+    case 'towns':
+      return lazy(() => import('cryptocurrency-icons/react/towns'));
     case 'tpay':
       return lazy(() => import('cryptocurrency-icons/react/tpay'));
     case 'trac':
@@ -2289,6 +2913,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/trittium'));
     case 'trl':
       return lazy(() => import('cryptocurrency-icons/react/trl'));
+    case 'trn':
+      return lazy(() => import('cryptocurrency-icons/react/trn'));
     case 'troy':
       return lazy(() => import('cryptocurrency-icons/react/troy'));
     case 'trst':
@@ -2299,22 +2925,44 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/tru'));
     case 'truf':
       return lazy(() => import('cryptocurrency-icons/react/truf'));
+    case 'trufv2':
+      return lazy(() => import('cryptocurrency-icons/react/trufv2'));
+    case 'trump':
+      return lazy(() => import('cryptocurrency-icons/react/trump'));
     case 'trx':
       return lazy(() => import('cryptocurrency-icons/react/trx'));
+    case 'trxs':
+      return lazy(() => import('cryptocurrency-icons/react/trxs'));
     case 'tryb':
       return lazy(() => import('cryptocurrency-icons/react/tryb'));
     case 'tryx':
       return lazy(() => import('cryptocurrency-icons/react/tryx'));
+    case 'tsbtc':
+      return lazy(() => import('cryptocurrency-icons/react/tsbtc'));
+    case 'tslaon':
+      return lazy(() => import('cryptocurrency-icons/react/tslaon'));
+    case 'tsmon':
+      return lazy(() => import('cryptocurrency-icons/react/tsmon'));
     case 'tst':
       return lazy(() => import('cryptocurrency-icons/react/tst'));
+    case 'tsteth':
+      return lazy(() => import('cryptocurrency-icons/react/tsteth'));
     case 'tt':
       return lazy(() => import('cryptocurrency-icons/react/tt'));
+    case 'turbo':
+      return lazy(() => import('cryptocurrency-icons/react/turbo'));
     case 'tusd':
       return lazy(() => import('cryptocurrency-icons/react/tusd'));
+    case 'tvetvtho':
+      return lazy(() => import('cryptocurrency-icons/react/tvetvtho'));
     case 'twt':
       return lazy(() => import('cryptocurrency-icons/react/twt'));
     case 'txl':
       return lazy(() => import('cryptocurrency-icons/react/txl'));
+    case 'txrplxsgd':
+      return lazy(() => import('cryptocurrency-icons/react/txrplxsgd'));
+    case 'txsgd':
+      return lazy(() => import('cryptocurrency-icons/react/txsgd'));
     case 'txusd':
       return lazy(() => import('cryptocurrency-icons/react/txusd'));
     case 'tzc':
@@ -2329,24 +2977,44 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/uco'));
     case 'uft':
       return lazy(() => import('cryptocurrency-icons/react/uft'));
+    case 'ugold':
+      return lazy(() => import('cryptocurrency-icons/react/ugold'));
+    case 'uhu':
+      return lazy(() => import('cryptocurrency-icons/react/uhu'));
     case 'ukg':
       return lazy(() => import('cryptocurrency-icons/react/ukg'));
+    case 'ultra':
+      return lazy(() => import('cryptocurrency-icons/react/ultra'));
     case 'uma':
       return lazy(() => import('cryptocurrency-icons/react/uma'));
     case 'umee':
       return lazy(() => import('cryptocurrency-icons/react/umee'));
+    case 'umint':
+      return lazy(() => import('cryptocurrency-icons/react/umint'));
+    case 'una':
+      return lazy(() => import('cryptocurrency-icons/react/una'));
     case 'unb':
       return lazy(() => import('cryptocurrency-icons/react/unb'));
     case 'unfi':
       return lazy(() => import('cryptocurrency-icons/react/unfi'));
+    case 'unhon':
+      return lazy(() => import('cryptocurrency-icons/react/unhon'));
     case 'uni':
       return lazy(() => import('cryptocurrency-icons/react/uni'));
+    case 'unio':
+      return lazy(() => import('cryptocurrency-icons/react/unio'));
     case 'unity':
       return lazy(() => import('cryptocurrency-icons/react/unity'));
+    case 'unsteth':
+      return lazy(() => import('cryptocurrency-icons/react/unsteth'));
+    case 'unx':
+      return lazy(() => import('cryptocurrency-icons/react/unx'));
     case 'up':
       return lazy(() => import('cryptocurrency-icons/react/up'));
     case 'upbtc':
       return lazy(() => import('cryptocurrency-icons/react/upbtc'));
+    case 'upc':
+      return lazy(() => import('cryptocurrency-icons/react/upc'));
     case 'upp':
       return lazy(() => import('cryptocurrency-icons/react/upp'));
     case 'upt':
@@ -2359,32 +3027,62 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/urhd'));
     case 'usd':
       return lazy(() => import('cryptocurrency-icons/react/usd'));
+    case 'usd0':
+      return lazy(() => import('cryptocurrency-icons/react/usd0'));
+    case 'usd1':
+      return lazy(() => import('cryptocurrency-icons/react/usd1'));
     case 'usdc':
       return lazy(() => import('cryptocurrency-icons/react/usdc'));
+    case 'usdcv':
+      return lazy(() => import('cryptocurrency-icons/react/usdcv'));
     case 'usdcv2':
       return lazy(() => import('cryptocurrency-icons/react/usdcv2'));
     case 'usdd':
       return lazy(() => import('cryptocurrency-icons/react/usdd'));
     case 'usde':
       return lazy(() => import('cryptocurrency-icons/react/usde'));
+    case 'usdf':
+      return lazy(() => import('cryptocurrency-icons/react/usdf'));
+    case 'usdg':
+      return lazy(() => import('cryptocurrency-icons/react/usdg'));
     case 'usdglo':
       return lazy(() => import('cryptocurrency-icons/react/usdglo'));
+    case 'usdh':
+      return lazy(() => import('cryptocurrency-icons/react/usdh'));
+    case 'usdk':
+      return lazy(() => import('cryptocurrency-icons/react/usdk'));
+    case 'usdky':
+      return lazy(() => import('cryptocurrency-icons/react/usdky'));
+    case 'usdo':
+      return lazy(() => import('cryptocurrency-icons/react/usdo'));
     case 'usdp':
       return lazy(() => import('cryptocurrency-icons/react/usdp'));
+    case 'usds':
+      return lazy(() => import('cryptocurrency-icons/react/usds'));
     case 'usdt':
       return lazy(() => import('cryptocurrency-icons/react/usdt'));
+    case 'usdtb':
+      return lazy(() => import('cryptocurrency-icons/react/usdtb'));
     case 'usdx':
       return lazy(() => import('cryptocurrency-icons/react/usdx'));
     case 'usdy':
       return lazy(() => import('cryptocurrency-icons/react/usdy'));
+    case 'useless':
+      return lazy(() => import('cryptocurrency-icons/react/useless'));
     case 'usg':
       return lazy(() => import('cryptocurrency-icons/react/usg'));
+    case 'uson':
+      return lazy(() => import('cryptocurrency-icons/react/uson'));
     case 'uspx':
       return lazy(() => import('cryptocurrency-icons/react/uspx'));
     case 'ust':
       return lazy(() => import('cryptocurrency-icons/react/ust'));
     case 'ustb':
       return lazy(() => import('cryptocurrency-icons/react/ustb'));
+    case 'ustry':
+      return lazy(() => import('cryptocurrency-icons/react/ustry'));
+    case 'usual':
+      return lazy(() => import('cryptocurrency-icons/react/usual'));
     case 'usx':
       return lazy(() => import('cryptocurrency-icons/react/usx'));
     case 'usyc':
@@ -2395,8 +3093,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/utk1'));
     case 'valor':
       return lazy(() => import('cryptocurrency-icons/react/valor'));
+    case 'vana':
+      return lazy(() => import('cryptocurrency-icons/react/vana'));
     case 'vanry':
       return lazy(() => import('cryptocurrency-icons/react/vanry'));
+    case 'vaulta':
+      return lazy(() => import('cryptocurrency-icons/react/vaulta'));
+    case 'vbill':
+      return lazy(() => import('cryptocurrency-icons/react/vbill'));
+    case 'vcad':
+      return lazy(() => import('cryptocurrency-icons/react/vcad'));
     case 'vcnt':
       return lazy(() => import('cryptocurrency-icons/react/vcnt'));
     case 'vcore':
@@ -2413,6 +3119,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/veri'));
     case 'vet':
       return lazy(() => import('cryptocurrency-icons/react/vet'));
+    case 'vetvtho':
+      return lazy(() => import('cryptocurrency-icons/react/vetvtho'));
+    case 'vgbp':
+      return lazy(() => import('cryptocurrency-icons/react/vgbp'));
     case 'vgx':
       return lazy(() => import('cryptocurrency-icons/react/vgx'));
     case 'via':
@@ -2423,8 +3133,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/vibe'));
     case 'vic':
       return lazy(() => import('cryptocurrency-icons/react/vic'));
+    case 'vice':
+      return lazy(() => import('cryptocurrency-icons/react/vice'));
     case 'vidt':
       return lazy(() => import('cryptocurrency-icons/react/vidt'));
+    case 'virtual':
+      return lazy(() => import('cryptocurrency-icons/react/virtual'));
     case 'virtuese':
       return lazy(() => import('cryptocurrency-icons/react/virtuese'));
     case 'visr':
@@ -2435,6 +3149,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/vivo'));
     case 'volt':
       return lazy(() => import('cryptocurrency-icons/react/volt'));
+    case 'von':
+      return lazy(() => import('cryptocurrency-icons/react/von'));
     case 'voxel':
       return lazy(() => import('cryptocurrency-icons/react/voxel'));
     case 'vp':
@@ -2447,12 +3163,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/vrgx'));
     case 'vrsc':
       return lazy(() => import('cryptocurrency-icons/react/vrsc'));
+    case 'vrtx':
+      return lazy(() => import('cryptocurrency-icons/react/vrtx'));
     case 'vsp':
       return lazy(() => import('cryptocurrency-icons/react/vsp'));
+    case 'vsui':
+      return lazy(() => import('cryptocurrency-icons/react/vsui'));
     case 'vtc':
       return lazy(() => import('cryptocurrency-icons/react/vtc'));
     case 'vtho':
       return lazy(() => import('cryptocurrency-icons/react/vtho'));
+    case 'vvs':
+      return lazy(() => import('cryptocurrency-icons/react/vvs'));
     case 'vxc':
       return lazy(() => import('cryptocurrency-icons/react/vxc'));
     case 'w':
@@ -2463,8 +3185,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/wadztoken'));
     case 'wafl':
       return lazy(() => import('cryptocurrency-icons/react/wafl'));
+    case 'wal':
+      return lazy(() => import('cryptocurrency-icons/react/wal'));
     case 'wan':
       return lazy(() => import('cryptocurrency-icons/react/wan'));
+    case 'wave':
+      return lazy(() => import('cryptocurrency-icons/react/wave'));
     case 'waves':
       return lazy(() => import('cryptocurrency-icons/react/waves'));
     case 'wax':
@@ -2473,10 +3199,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/waxp'));
     case 'wbnb':
       return lazy(() => import('cryptocurrency-icons/react/wbnb'));
+    case 'wbt':
+      return lazy(() => import('cryptocurrency-icons/react/wbt'));
     case 'wbtc':
       return lazy(() => import('cryptocurrency-icons/react/wbtc'));
     case 'wcfg':
       return lazy(() => import('cryptocurrency-icons/react/wcfg'));
+    case 'wct':
+      return lazy(() => import('cryptocurrency-icons/react/wct'));
     case 'wdoge':
       return lazy(() => import('cryptocurrency-icons/react/wdoge'));
     case 'wec':
@@ -2485,16 +3215,24 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/wecan'));
     case 'weeth':
       return lazy(() => import('cryptocurrency-icons/react/weeth'));
+    case 'welsh':
+      return lazy(() => import('cryptocurrency-icons/react/welsh'));
+    case 'wemix':
+      return lazy(() => import('cryptocurrency-icons/react/wemix'));
     case 'wet':
       return lazy(() => import('cryptocurrency-icons/react/wet'));
     case 'weth':
       return lazy(() => import('cryptocurrency-icons/react/weth'));
     case 'wflow':
       return lazy(() => import('cryptocurrency-icons/react/wflow'));
+    case 'wgbera':
+      return lazy(() => import('cryptocurrency-icons/react/wgbera'));
     case 'wgr':
       return lazy(() => import('cryptocurrency-icons/react/wgr'));
     case 'whale':
       return lazy(() => import('cryptocurrency-icons/react/whale'));
+    case 'white':
+      return lazy(() => import('cryptocurrency-icons/react/white'));
     case 'wht':
       return lazy(() => import('cryptocurrency-icons/react/wht'));
     case 'wicc':
@@ -2513,14 +3251,22 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/witness'));
     case 'wld':
       return lazy(() => import('cryptocurrency-icons/react/wld'));
+    case 'wlfi':
+      return lazy(() => import('cryptocurrency-icons/react/wlfi'));
     case 'wluna':
       return lazy(() => import('cryptocurrency-icons/react/wluna'));
     case 'wlxt':
       return lazy(() => import('cryptocurrency-icons/react/wlxt'));
+    case 'wmtx':
+      return lazy(() => import('cryptocurrency-icons/react/wmtx'));
     case 'wnxm':
       return lazy(() => import('cryptocurrency-icons/react/wnxm'));
     case 'woo':
       return lazy(() => import('cryptocurrency-icons/react/woo'));
+    case 'world':
+      return lazy(() => import('cryptocurrency-icons/react/world'));
+    case 'would':
+      return lazy(() => import('cryptocurrency-icons/react/would'));
     case 'wpr':
       return lazy(() => import('cryptocurrency-icons/react/wpr'));
     case 'wpx':
@@ -2533,28 +3279,40 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/wsohm'));
     case 'wsteth':
       return lazy(() => import('cryptocurrency-icons/react/wsteth'));
+    case 'wtao':
+      return lazy(() => import('cryptocurrency-icons/react/wtao'));
     case 'wtc':
       return lazy(() => import('cryptocurrency-icons/react/wtc'));
+    case 'wtgxx':
+      return lazy(() => import('cryptocurrency-icons/react/wtgxx'));
     case 'wtk':
       return lazy(() => import('cryptocurrency-icons/react/wtk'));
     case 'wusdc':
       return lazy(() => import('cryptocurrency-icons/react/wusdc'));
+    case 'wusdm':
+      return lazy(() => import('cryptocurrency-icons/react/wusdm'));
     case 'wxrp':
       return lazy(() => import('cryptocurrency-icons/react/wxrp'));
     case 'wxt':
       return lazy(() => import('cryptocurrency-icons/react/wxt'));
     case 'x':
       return lazy(() => import('cryptocurrency-icons/react/x'));
+    case 'xai':
+      return lazy(() => import('cryptocurrency-icons/react/xai'));
     case 'xas':
       return lazy(() => import('cryptocurrency-icons/react/xas'));
     case 'xaud':
       return lazy(() => import('cryptocurrency-icons/react/xaud'));
+    case 'xaum':
+      return lazy(() => import('cryptocurrency-icons/react/xaum'));
     case 'xaut':
       return lazy(() => import('cryptocurrency-icons/react/xaut'));
     case 'xava':
       return lazy(() => import('cryptocurrency-icons/react/xava'));
     case 'xbc':
       return lazy(() => import('cryptocurrency-icons/react/xbc'));
+    case 'xbgold':
+      return lazy(() => import('cryptocurrency-icons/react/xbgold'));
     case 'xbp':
       return lazy(() => import('cryptocurrency-icons/react/xbp'));
     case 'xby':
@@ -2563,8 +3321,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/xcd'));
     case 'xchng':
       return lazy(() => import('cryptocurrency-icons/react/xchng'));
+    case 'xcn':
+      return lazy(() => import('cryptocurrency-icons/react/xcn'));
     case 'xcp':
       return lazy(() => import('cryptocurrency-icons/react/xcp'));
+    case 'xdc':
+      return lazy(() => import('cryptocurrency-icons/react/xdc'));
     case 'xdn':
       return lazy(() => import('cryptocurrency-icons/react/xdn'));
     case 'xec':
@@ -2581,6 +3343,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/xmcc'));
     case 'xmg':
       return lazy(() => import('cryptocurrency-icons/react/xmg'));
+    case 'xmn':
+      return lazy(() => import('cryptocurrency-icons/react/xmn'));
     case 'xmo':
       return lazy(() => import('cryptocurrency-icons/react/xmo'));
     case 'xmr':
@@ -2591,18 +3355,32 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/xp'));
     case 'xpa':
       return lazy(() => import('cryptocurrency-icons/react/xpa'));
+    case 'xpl':
+      return lazy(() => import('cryptocurrency-icons/react/xpl'));
     case 'xpm':
       return lazy(() => import('cryptocurrency-icons/react/xpm'));
     case 'xpr':
       return lazy(() => import('cryptocurrency-icons/react/xpr'));
+    case 'xreth':
+      return lazy(() => import('cryptocurrency-icons/react/xreth'));
     case 'xrl':
       return lazy(() => import('cryptocurrency-icons/react/xrl'));
     case 'xrp':
       return lazy(() => import('cryptocurrency-icons/react/xrp'));
+    case 'xrplvchf':
+      return lazy(() => import('cryptocurrency-icons/react/xrplvchf'));
+    case 'xrplveur':
+      return lazy(() => import('cryptocurrency-icons/react/xrplveur'));
+    case 'xrptbill':
+      return lazy(() => import('cryptocurrency-icons/react/xrptbill'));
+    case 'xrpxsgd':
+      return lazy(() => import('cryptocurrency-icons/react/xrpxsgd'));
     case 'xsg':
       return lazy(() => import('cryptocurrency-icons/react/xsg'));
     case 'xsgd':
       return lazy(() => import('cryptocurrency-icons/react/xsgd'));
+    case 'xsgdv2':
+      return lazy(() => import('cryptocurrency-icons/react/xsgdv2'));
     case 'xsushi':
       return lazy(() => import('cryptocurrency-icons/react/xsushi'));
     case 'xterio':
@@ -2621,6 +3399,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/xvg'));
     case 'xvs':
       return lazy(() => import('cryptocurrency-icons/react/xvs'));
+    case 'xy':
+      return lazy(() => import('cryptocurrency-icons/react/xy'));
+    case 'xyo':
+      return lazy(() => import('cryptocurrency-icons/react/xyo'));
     case 'xzc':
       return lazy(() => import('cryptocurrency-icons/react/xzc'));
     case 'xzk':
@@ -2643,8 +3425,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/ysey'));
     case 'zarx':
       return lazy(() => import('cryptocurrency-icons/react/zarx'));
+    case 'zbcn':
+      return lazy(() => import('cryptocurrency-icons/react/zbcn'));
     case 'zbu':
       return lazy(() => import('cryptocurrency-icons/react/zbu'));
+    case 'zbuv2':
+      return lazy(() => import('cryptocurrency-icons/react/zbuv2'));
     case 'zcl':
       return lazy(() => import('cryptocurrency-icons/react/zcl'));
     case 'zco':
@@ -2655,6 +3441,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/zel'));
     case 'zen':
       return lazy(() => import('cryptocurrency-icons/react/zen'));
+    case 'zerebro':
+      return lazy(() => import('cryptocurrency-icons/react/zerebro'));
     case 'zest':
       return lazy(() => import('cryptocurrency-icons/react/zest'));
     case 'zeta':
@@ -2663,6 +3451,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('cryptocurrency-icons/react/zetachain'));
     case 'zetaevm':
       return lazy(() => import('cryptocurrency-icons/react/zetaevm'));
+    case 'zeus':
+      return lazy(() => import('cryptocurrency-icons/react/zeus'));
+    case 'zig':
+      return lazy(() => import('cryptocurrency-icons/react/zig'));
     case 'zil':
       return lazy(() => import('cryptocurrency-icons/react/zil'));
     case 'zilla':
