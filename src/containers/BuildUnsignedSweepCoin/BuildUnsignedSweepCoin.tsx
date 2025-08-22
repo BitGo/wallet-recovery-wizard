@@ -53,6 +53,7 @@ import { StacksForm } from './StacksForm';
 import { TonForm } from './TonForm';
 import { CosmosForm } from './CosmosForm';
 import { CoinFeature, coins } from '@bitgo/statics';
+import { TezosForm } from './TezosForm';
 
 const evmCoins = [
   'eth',
@@ -1902,6 +1903,70 @@ function Form() {
 
               navigate(
                 `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'xtz':
+    case 'txtz':
+      return (
+        <TezosForm
+          key={coin}
+          coinName={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                coin,
+                values.apiKey
+              );
+
+              const chainData = await window.queries.getChain(coin);
+
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                isUnsignedSweep: true,
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+              });
+
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
               );
             } catch (err) {
               if (err instanceof Error) {
