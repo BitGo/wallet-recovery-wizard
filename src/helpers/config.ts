@@ -1077,6 +1077,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
     allCoinMetas.ton,
+    allCoinMetas.xtz,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1125,6 +1126,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
     allCoinMetas.tton,
+    allCoinMetas.txtz,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };

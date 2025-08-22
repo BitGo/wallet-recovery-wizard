@@ -120,6 +120,7 @@ type Commands = {
       seed?: string;
       common?: EthLikeCommon.default;
       ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
+      isUnsignedSweep?: boolean;
       issuerAddress?: string; // eg. xrpl token
       currencyCode?: string; // eg. xrpl token
       tokenId?: string; // eg. hbar token
