@@ -948,6 +948,28 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'txtz',
     ApiKeyProvider: 'api.ghostnet.tzkt.io',
   },
+  lineaeth: {
+    Title: 'LineaETH',
+    Description: 'Linea Ethereum',
+    Icon: 'lineaeth',
+    value: 'lineaeth',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1000000',
+    defaultGasLimitNum: 1000000,
+  },
+  tlineaeth: {
+    Title: 'TLineaETH',
+    Description: 'Linea Ethereum Testnet',
+    Icon: 'lineaeth',
+    value: 'lineaeth',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1000000',
+    defaultGasLimitNum: 1000000,
+  },
 } as const;
 
 function assertMetadata(coin: string): void {
