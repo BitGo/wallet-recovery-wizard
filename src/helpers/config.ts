@@ -965,6 +965,8 @@ export const prodEvmNonBitgoRecoveryCoins: string[] = [];
 //Process all coins in a single loop rather than multiple filter operations
 coins.forEach(coin => {
   if (coin.isToken) return;
+  // TODO:: https://bitgoinc.atlassian.net/browse/WIN-6808 Will be removed as part of this ticket
+  if (coin.name === 'tog' || coin.name === 'og' || coin.name === 'lineaeth' || coin.name === 'tlineaeth' || coin.name === 'ip' || coin.name === 'tip' || coin.name === 'seievm' || coin.name === 'tseievm' || coin.name === 'sonic' || coin.name === 'tsonic' || coin.name === 'kaia' || coin.name === 'tkaia' || coin.name === 'irys' || coin.name === 'tirys') return;
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
