@@ -1846,6 +1846,32 @@ function Form() {
       );
     case 'atom':
     case 'tatom':
+    case 'baby':
+    case 'tbaby':
+    case 'bld':
+    case 'tbld':
+    case 'coreum':
+    case 'tcoreum':
+    case 'hash':
+    case 'thash':
+    case 'injective':
+    case 'tinjective':
+    case 'osmo':
+    case 'tosmo':
+    case 'thorchain:rune':
+    case 'tthorchain:rune':
+    case 'sei':
+    case 'tsei':
+    case 'tia':
+    case 'ttia':
+    case 'zeta':
+    case 'tzeta':
+    case 'asi':
+    case 'tasi':
+    case 'cronos':
+    case 'tcronos':
+    case 'initia':
+    case 'tinitia':
       return (
         <CosmosForm
           key={coin}
