@@ -81,7 +81,7 @@
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
     "yup": "0.32.11",
-    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#17700ceaee767ebd5e9e3e36d704b1533ac0ce1c"
+    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#6e66f163a60acf876b576ba54981c7d4583ffd30"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
