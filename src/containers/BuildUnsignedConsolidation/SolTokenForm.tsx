@@ -4,6 +4,7 @@ import * as Yup from 'yup';
 import {
   Button,
   FormikPasswordfield,
+  FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
@@ -33,6 +34,7 @@ const validationSchema = Yup.object({
     Yup.ref('startingScanIndex'),
     'Ending scan index must be greater than starting scan index'
   ),
+  tokenProgramId: Yup.string().required(),
   seed: Yup.string(),
 }).required();
 
@@ -61,6 +63,7 @@ export function SolTokenForm({ onSubmit }: SolFormProps) {
       tokenContractAddress: '',
       startingScanIndex: 1,
       endingScanIndex: 21,
+      tokenProgramId: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
       seed: undefined,
     },
   });
@@ -135,6 +138,17 @@ export function SolTokenForm({ onSubmit }: SolFormProps) {
             name="tokenContractAddress"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4">
+          <FormikSelectfield
+            HelperText="The programId for smart contract of the token to recover."
+            Label="Token ProgramId"
+            name="tokenProgramId"
+            Width="fill"
+          >
+            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">SOL SPL Token</option>
+            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">Sol SPL 2022 Token</option>
+          </FormikSelectfield>
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
