@@ -1,0 +1,12 @@
+---
+name: Prevent lockfile modifications
+
+on:
+  pull_request:
+
+jobs:
+  prevent-lockfile-modifications:
+    name: Prevent Lockfile Modifications
+    uses: BitGo/static-analysis/.github/workflows/prevent-lockfile-modifications.yaml@v1
+    secrets:
+      vault-cf-access-client-secret: ${{ secrets.VAULT_CF_ACCESS_CLIENT_SECRET }}
