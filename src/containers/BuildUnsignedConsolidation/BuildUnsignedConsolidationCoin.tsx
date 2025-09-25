@@ -109,7 +109,8 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
                   durableNonces: {
                     ...values.durableNonces,
                     publicKeys: values.durableNonces.publicKeys.split(',').map((v) => v.trim()),
-                  }
+                  },
+                  programId: values.tokenProgramId,
                 });
 
               if (consolidateData instanceof Error) {
