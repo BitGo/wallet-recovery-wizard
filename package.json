@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@bitgo/statics": "58.0.0",
+    "@bitgo-forks/cryptocurrency-icons": "^0.19.0",
     "@bitgo/abstract-cosmos": "11.15.0",
     "@bitgo/abstract-substrate": "1.11.0",
     "@bitgo/abstract-utxo": "9.27.0",
@@ -71,6 +71,7 @@
     "@bitgo/sdk-coin-zec": "2.4.0",
     "@bitgo/sdk-coin-zeta": "3.5.0",
     "@bitgo/sdk-opensslbytes": "2.0.0",
+    "@bitgo/statics": "58.0.0",
     "@bitgo/utxo-lib": "11.11.0",
     "@ethereumjs/common": "2.6.5",
     "@lottiefiles/react-lottie-player": "3.4.9",
@@ -80,8 +81,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
-    "yup": "0.32.11",
-    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#17700ceaee767ebd5e9e3e36d704b1533ac0ce1c"
+    "yup": "0.32.11"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
