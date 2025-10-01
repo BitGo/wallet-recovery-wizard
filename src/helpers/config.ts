@@ -948,6 +948,48 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'txtz',
     ApiKeyProvider: 'api.ghostnet.tzkt.io',
   },
+  flow: {
+    Title: 'FLOW',
+    Description: 'Flow Mainnet',
+    Icon: 'flow',
+    value: 'flow',
+    ApiKeyProvider: 'evm.flowscan.io',
+  },
+  tflow: {
+    Title: 'TFLOW',
+    Description: 'Flow Testnet',
+    Icon: 'flow',
+    value: 'tflow',
+    ApiKeyProvider: 'evm-testnet.flowscan.io',
+  },
+  plume: {
+    Title: 'PLUME',
+    Description: 'Plume Mainnet',
+    Icon: 'plume',
+    value: 'plume',
+    ApiKeyProvider: 'explorer.plume.org',
+  },
+  tplume: {
+    Title: 'TPLUME',
+    Description: 'Plume Testnet',
+    Icon: 'plume',
+    value: 'tplume',
+    ApiKeyProvider: 'testnet-explorer.plume.org',
+  },
+  kavaevm: {
+    Title: 'KAVAEVM',
+    Description: 'Kavaevm Mainnet',
+    Icon: 'kavaevm',
+    value: 'kavaevm',
+    ApiKeyProvider: 'kavascan.com',
+  },
+  tkavaevm: {
+    Title: 'TKAVAEVM',
+    Description: 'Kavaevm Testnet',
+    Icon: 'kavaevm',
+    value: 'tkavaevm',
+    ApiKeyProvider: 'testnet.kavascan.com',
+  },
 } as const;
 
 function assertMetadata(coin: string): void {
@@ -966,7 +1008,23 @@ export const prodEvmNonBitgoRecoveryCoins: string[] = [];
 coins.forEach(coin => {
   if (coin.isToken) return;
   // TODO:: https://bitgoinc.atlassian.net/browse/WIN-6808 Will be removed as part of this ticket
-  if (coin.name === 'tog' || coin.name === 'og' || coin.name === 'lineaeth' || coin.name === 'tlineaeth' || coin.name === 'ip' || coin.name === 'tip' || coin.name === 'seievm' || coin.name === 'tseievm' || coin.name === 'sonic' || coin.name === 'tsonic' || coin.name === 'kaia' || coin.name === 'tkaia' || coin.name === 'irys' || coin.name === 'tirys') return;
+  if (
+    coin.name === 'tog' ||
+    coin.name === 'og' ||
+    coin.name === 'lineaeth' ||
+    coin.name === 'tlineaeth' ||
+    coin.name === 'ip' ||
+    coin.name === 'tip' ||
+    coin.name === 'seievm' ||
+    coin.name === 'tseievm' ||
+    coin.name === 'sonic' ||
+    coin.name === 'tsonic' ||
+    coin.name === 'kaia' ||
+    coin.name === 'tkaia' ||
+    coin.name === 'irys' ||
+    coin.name === 'tirys'
+  )
+    return;
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
@@ -1093,6 +1151,9 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.soneium,
     allCoinMetas.ton,
     allCoinMetas.xtz,
+    allCoinMetas.flow,
+    allCoinMetas.plume,
+    allCoinMetas.kavaevm,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1155,6 +1216,9 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsoneium,
     allCoinMetas.tton,
     allCoinMetas.txtz,
+    allCoinMetas.tflow,
+    allCoinMetas.tplume,
+    allCoinMetas.tkavaevm,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1227,6 +1291,9 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.soneium,
       allCoinMetas.ton,
       allCoinMetas.xtz,
+      allCoinMetas.flow,
+      allCoinMetas.plume,
+      allCoinMetas.kavaevm,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1289,6 +1356,9 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsoneium,
       allCoinMetas.tton,
       allCoinMetas.txtz,
+      allCoinMetas.tflow,
+      allCoinMetas.tplume,
+      allCoinMetas.tkavaevm,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
