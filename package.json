@@ -9,6 +9,7 @@
     }
   },
   "dependencies": {
+    "@bitgo-forks/cryptocurrency-icons": "0.19.0",
     "@bitgo/statics": "58.1.0",
     "@bitgo/abstract-cosmos": "11.15.1",
     "@bitgo/abstract-substrate": "1.11.1",
@@ -80,8 +81,7 @@
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.4",
     "tiny-secp256k1": "^2.2.1",
-    "yup": "0.32.11",
-    "cryptocurrency-icons": "git+https://github.com/BitGo/cryptocurrency-icons.git#17700ceaee767ebd5e9e3e36d704b1533ac0ce1c"
+    "yup": "0.32.11"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
