@@ -80,6 +80,12 @@ const evmCoins = [
   'tsoneium',
   'bsc',
   'tbsc',
+  'flow',
+  'tflow',
+  'plume',
+  'tplume',
+  'kavaevm',
+  'tkavaevm',
   ...testEvmUnsignedSweepCoins,
   ...prodEvmUnsignedSweepCoins,
 ];
