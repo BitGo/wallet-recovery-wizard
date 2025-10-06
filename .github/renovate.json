@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>BitGo/gha-renovate-bot//presets/default"],
+  "baseBranches": ["master"],
+  "enabledManagers": ["github-actions", "regex", "npm"],
+  "packageRules": [
+    {
+      "description": "Disable all npm dependencies by default",
+      "matchManagers": ["npm"],
+      "enabled": false
+    },
+    {
+      "description": "Enable updates only for @bitgo-forks/cryptocurrency-icons",
+      "matchPackageNames": ["@bitgo-forks/cryptocurrency-icons"],
+      "enabled": true
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+name: trigger-renovate-scan
+run-name: "trigger-renovate-scan: ${{ github.ref_name }}"
+
+on:
+  issues:
+    types: [edited]
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  id-token: write
+  contents: read
+  actions: write
+  pull-requests: write
+
+jobs:
+  validate-renovate-action:
+    uses: BitGo/gha-renovate-bot/.github/workflows/detect-renovate-action.yaml@master
+    with:
+      vault-cf-access-client-id: ${{ vars.VAULT_CF_ACCESS_CLIENT_ID }}
+    secrets:
+      vault-cf-access-client-secret: ${{ secrets.VAULT_CF_ACCESS_CLIENT_SECRET }}
