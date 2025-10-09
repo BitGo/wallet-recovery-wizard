@@ -448,6 +448,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'cronos',
     value: 'cronos',
   },
+  mantra: {
+    Title: 'MANTRA',
+    Description: 'Mantra',
+    Icon: 'mantra',
+    value: 'mantra',
+  },
   soneium: {
     Title: 'SONEIUM',
     Description: 'Soneium',
@@ -868,6 +874,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'initia',
     value: 'tinitia',
   },
+  tmantra: {
+    Title: 'TMANTRA',
+    Description: 'Mantra Testnet',
+    Icon: 'mantra',
+    value: 'tmantra',
+  },
   thbar: {
     Title: 'THBAR',
     Description: 'Hedera Testnet',
@@ -1154,6 +1166,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.flow,
     allCoinMetas.plume,
     allCoinMetas.kavaevm,
+    allCoinMetas.mantra,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1219,6 +1232,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tflow,
     allCoinMetas.tplume,
     allCoinMetas.tkavaevm,
+    allCoinMetas.tmantra,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1294,6 +1308,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.flow,
       allCoinMetas.plume,
       allCoinMetas.kavaevm,
+      allCoinMetas.mantra,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1359,6 +1374,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tflow,
       allCoinMetas.tplume,
       allCoinMetas.tkavaevm,
+      allCoinMetas.tmantra,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
