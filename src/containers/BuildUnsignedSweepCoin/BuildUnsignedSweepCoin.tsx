@@ -1878,6 +1878,8 @@ function Form() {
     case 'tcronos':
     case 'initia':
     case 'tinitia':
+    case 'mantra':
+    case 'tmantra':
       return (
         <CosmosForm
           key={coin}
