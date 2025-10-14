@@ -1002,12 +1002,21 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'tkavaevm',
     ApiKeyProvider: 'testnet.kavascan.com',
   },
+  tmegaeth: {
+    Title: 'TMEGAETH',
+    Description: 'Megaeth Testnet',
+    Icon: 'megaeth',
+    value: 'tmegaeth',
+    ApiKeyProvider: 'megaexplorer.xyz',
+  },
 } as const;
 
-function assertMetadata(coin: string): void {
-  if (!allCoinMetas.hasOwnProperty(coin)) {
-    throw new Error(`No metadata found for coin: ${coin}`);
+function assertMetadata(coin: string): boolean {
+  if (!Object.prototype.hasOwnProperty.call(allCoinMetas, coin)) {
+    console.error(`No metadata found for coin: ${coin}`);
+    return false;
   }
+  return true;
 }
 
 // Filter and map coins in a single pass for better performance
@@ -1040,28 +1049,21 @@ coins.forEach(coin => {
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
-  let checkForMetadata = false;
 
   if (coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY)) {
-    checkForMetadata = true;
-    if (isTestnet) {
+    if (isTestnet && assertMetadata(name)) {
       testEvmUnsignedSweepCoins.push(name);
-    } else {
+    } else if (assertMetadata(name)) {
       prodEvmUnsignedSweepCoins.push(name);
     }
   }
 
   if (coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY)) {
-    checkForMetadata = true;
-    if (isTestnet) {
+    if (isTestnet && assertMetadata(name)) {
       testEvmNonBitgoRecoveryCoins.push(name);
-    } else {
+    } else if (assertMetadata(name)) {
       prodEvmNonBitgoRecoveryCoins.push(name);
     }
-  }
-
-  if (checkForMetadata) {
-    assertMetadata(name);
   }
 });
 
