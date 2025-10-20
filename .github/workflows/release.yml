@@ -57,7 +57,7 @@ jobs:
 
   mac-build:
     name: Create Mac release
-    runs-on: macos-14
+    runs-on: macos-15
     needs:
       - get-current-state
     env:
@@ -82,7 +82,7 @@ jobs:
 
   mac-build_intel:
     name: Create Mac Intel release
-    runs-on: macos-13
+    runs-on: macos-15
     needs:
       - get-current-state
     env:
