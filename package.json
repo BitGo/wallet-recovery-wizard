@@ -120,7 +120,7 @@
     "tailwindcss": "3.2.4",
     "ts-node": "10.9.1",
     "typescript": "4.9.3",
-    "vite": "3.2.8",
+    "vite": "5.4.20",
     "vite-electron-plugin": "0.5.2",
     "vite-plugin-electron": "0.10.4",
     "vite-plugin-electron-renderer": "0.11.3",
