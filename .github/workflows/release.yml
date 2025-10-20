@@ -64,8 +64,8 @@ jobs:
       DMG_FILENAME: "${{ needs.get-current-state.outputs.dmg_filename }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: 'npm'
@@ -89,8 +89,8 @@ jobs:
       DMG_FILENAME_INTEL: "${{ needs.get-current-state.outputs.dmg_filename_intel }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: 'npm'
@@ -117,7 +117,7 @@ jobs:
     container:
       image: docker.io/electronuserland/builder:16-wine@sha256:a067f3efbc83d41f8a92f4bb347803e11ae0b29204520497edb3d34522d8d458
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: |
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package.json"
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
@@ -149,7 +149,7 @@ jobs:
       DEB_FILENAME: "${{ needs.get-current-state.outputs.deb_filename }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v5
         with:
           # We don't want to download the artifacts to separate directories,
           # we want to download them to the same directory instead.
