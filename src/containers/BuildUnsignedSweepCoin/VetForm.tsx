@@ -11,23 +11,38 @@ const validationSchema = Yup.object({
   backupKey: Yup.string(),
 }).required();
 
+type VetFormValues = {
+  bitgoKey: string;
+  recoveryDestination: string;
+  tokenContractAddress?: string;  // optional based on isToken
+}
+
 export type VetFormProps = {
+  isToken: boolean;
   onSubmit: (
     values: VetFormValues,
     formikHelpers: FormikHelpers<VetFormValues>
   ) => void | Promise<void>;
 };
 
-type VetFormValues = Yup.Asserts<typeof validationSchema>;
+export function VetForm({ onSubmit, isToken }: VetFormProps) {
+  const schemaFields: Record<keyof VetFormValues, Yup.AnySchema> = {
+    bitgoKey: Yup.string().required('BitGo Key is required'),
+    recoveryDestination: Yup.string().required('Recovery Destination is required'),
+    tokenContractAddress: isToken
+      ? Yup.string().required('Token contract address is required')
+      : Yup.string().notRequired(),
+  };
 
-export function VetForm({ onSubmit }: VetFormProps) {
+  const validationSchema = Yup.object(schemaFields);
+  const initialValues: VetFormValues = {
+    bitgoKey: '',
+    recoveryDestination: '',
+    ...(isToken ? { tokenContractAddress: '' } : {}),
+  };
+
   const formik = useFormik<VetFormValues>({
-    initialValues: {
-      bitgoKey: '',
-      recoveryDestination: '',
-      userKey: '', // Optional
-      backupKey: '', // Optional
-    },
+    initialValues,
     validationSchema,
     onSubmit,
   });
@@ -55,6 +70,17 @@ export function VetForm({ onSubmit }: VetFormProps) {
             Width="fill"
           />
         </div>
+        { isToken && (
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText="The contract address of the token to recover. This is unique to each token"
+              Label="Token Contract Address"
+              name="tokenContractAddress"
+              Width="fill"
+            />
+          </div>
+        )
+        }
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

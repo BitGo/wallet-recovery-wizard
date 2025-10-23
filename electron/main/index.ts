@@ -79,7 +79,7 @@ import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
 import { Stx, Tstx, Sip10Token } from '@bitgo/sdk-coin-stx';
 import { Soneium, Tsoneium } from '@bitgo/sdk-coin-soneium';
 import { Polyx, Tpolyx } from '@bitgo/sdk-coin-polyx';
-import { Vet, Tvet } from '@bitgo-beta/sdk-coin-vet';
+import { Vet, Tvet, VetToken } from '@bitgo-beta/sdk-coin-vet';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
@@ -246,6 +246,9 @@ Sip10Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 Nep141Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+VetToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 

@@ -9,37 +9,54 @@ import {
   FormikTextfield,
 } from '~/components';
 
-const validationSchema = Yup.object({
-  backupKey: Yup.string().required(),
-  bitgoKey: Yup.string().required(),
-  krsProvider: Yup.string()
-    .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
-    .label('Key Recovery Service'),
-  recoveryDestination: Yup.string().required(),
-  userKey: Yup.string().required(),
-  walletPassphrase: Yup.string().required(),
-}).required();
+type VetFormValues = {
+  backupKey: string;
+  bitgoKey: string;
+  krsProvider: string;
+  recoveryDestination: string;
+  userKey: string;
+  walletPassphrase: string;
+  tokenContractAddress?: string;  // optional based on isToken
+}
 
 export type VetFormProps = {
+  isToken: boolean;
   onSubmit: (
     values: VetFormValues,
     formikHelpers: FormikHelpers<VetFormValues>
   ) => void | Promise<void>;
 };
 
-type VetFormValues = Yup.Asserts<typeof validationSchema>;
+export function VetForm({ onSubmit, isToken }: VetFormProps) {
+  const schemaFields: Record<keyof VetFormValues, Yup.AnySchema> = {
+    backupKey: Yup.string().required('Backup Key is required'),
+    bitgoKey: Yup.string().required('BitGo Key is required'),
+    krsProvider: Yup.string()
+      .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
+      .label('Key Recovery Service'),
+    recoveryDestination: Yup.string().required('Recovery Destination is required'),
+    userKey: Yup.string().required('User Key is required'),
+    walletPassphrase: Yup.string().required('WalletPassphrase is required'),
+    tokenContractAddress: isToken
+      ? Yup.string().required('Token contract address is required')
+      : Yup.string().notRequired(),
+  };
 
-export function VetForm({ onSubmit }: VetFormProps) {
+  const validationSchema = Yup.object(schemaFields);
+
+  const initialValues: VetFormValues = {
+    backupKey: '',
+    bitgoKey: '',
+    krsProvider: '',
+    recoveryDestination: '',
+    userKey: '',
+    walletPassphrase: '',
+    ...(isToken ? { tokenContractAddress: '' } : {}),
+  };
+
   const formik = useFormik<VetFormValues>({
     onSubmit,
-    initialValues: {
-      backupKey: '',
-      bitgoKey: '',
-      krsProvider: '',
-      recoveryDestination: '',
-      userKey: '',
-      walletPassphrase: '',
-    },
+    initialValues,
     validationSchema,
   });
 
@@ -110,6 +127,17 @@ export function VetForm({ onSubmit }: VetFormProps) {
             Width="fill"
           />
         </div>
+        { isToken && (
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText="The contract address of the token to recover. This is unique to each token"
+              Label="Token Contract Address"
+              name="tokenContractAddress"
+              Width="fill"
+            />
+          </div>
+        )
+        }
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

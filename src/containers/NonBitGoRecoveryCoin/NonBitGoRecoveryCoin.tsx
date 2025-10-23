@@ -1571,16 +1571,31 @@ function Form() {
       );
     case 'vet':
     case 'tvet':
+    case 'vetToken':
+    case 'tvetToken':
       return (
         <VetForm
           key={coin}
+          isToken={coin === 'vetToken' || coin === 'tvetToken'}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
+            const mainnetTokenMap = {
+              '0x0000000000000000000000000000456e65726779': 'vet:vtho',
+            }
+            const testnetTokenMap = {
+              '0x0000000000000000000000000000546573746e6574': 'tvet:vtho',
+            }
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
+              let parentCoin: string | undefined;
+              if (coin === 'vetToken' || coin === 'tvetToken') {
+                parentCoin = tokenParentCoins[coin];
+              }
+              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              let callerCoin = parentCoin ? parentCoin : coin;
+
+              const recoverData = await window.commands.recover(callerCoin, {
                 ...values,
                 ignoreAddressTypes: [],
               });

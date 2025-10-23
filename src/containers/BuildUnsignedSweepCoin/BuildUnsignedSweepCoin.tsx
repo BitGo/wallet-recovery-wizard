@@ -1853,9 +1853,12 @@ function Form() {
       );
     case 'vet':
     case 'tvet':
+    case 'vetToken':
+    case 'tvetToken':
       return (
         <VetForm
           key={coin}
+          isToken={coin === 'vetToken' || coin === 'tvetToken'}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -1863,14 +1866,22 @@ function Form() {
               // Set the BitGo environment for the selected coin
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
 
+              let parentCoin: string | undefined;
+              if (coin === 'vetToken' || coin === 'tvetToken') {
+                parentCoin = tokenParentCoins[coin];
+              }
+
               // Fetch chain-specific data
-              const chainData = await window.queries.getChain(coin);
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
+              const callerCoin = parentCoin ? parentCoin : coin;
 
               // Recover data for the unsigned sweep
-              const recoverData = await window.commands.recover(coin, {
+              const recoverData = await window.commands.recover(callerCoin, {
                 ...values,
-                userKey: (values.userKey ?? '').replace(/\s+/g, ''),
-                backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
+                userKey: '',
+                backupKey: '',
                 bitgoKey: values.bitgoKey, // Include the BitGo key
                 recoveryDestination: values.recoveryDestination, // Include the recovery destination
                 ignoreAddressTypes: [], // Update keys from IDs
@@ -1908,8 +1919,8 @@ function Form() {
                       ...recoverData,
                       ...(await includePubsFor(coin, {
                         ...values,
-                        userKey: values.userKey ?? '',
-                        backupKey: values.backupKey ?? '', // Include public keys if required
+                        userKey: '',
+                        backupKey: '',
                       })),
                     }
                     : recoverData,
