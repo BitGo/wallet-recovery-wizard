@@ -65,6 +65,7 @@
     "@bitgo/sdk-coin-tao": "1.12.7",
     "@bitgo/sdk-coin-tia": "3.5.7",
     "@bitgo/sdk-coin-trx": "3.7.4",
+    "@bitgo-beta/sdk-coin-vet": "1.0.0-alpha.90",
     "@bitgo/sdk-coin-wemix": "1.5.7",
     "@bitgo/sdk-coin-xdc": "1.5.7",
     "@bitgo/sdk-coin-xlm": "3.7.5",

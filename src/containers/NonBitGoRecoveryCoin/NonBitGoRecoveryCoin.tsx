@@ -43,6 +43,7 @@ import { RippleTokenForm } from './RippleTokenForm';
 import { HederaTokenForm } from './HederaTokenForm';
 import { StacksForm } from './StacksForm';
 import { IcpForm } from './IcpForm';
+import { VetForm } from './VetForm';
 import { NearForm } from './NearForm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { TonForm } from './TonForm';
@@ -1518,6 +1519,60 @@ function Form() {
     case 'ticp':
       return (
         <IcpForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'vet':
+    case 'tvet':
+      return (
+        <VetForm
           key={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
