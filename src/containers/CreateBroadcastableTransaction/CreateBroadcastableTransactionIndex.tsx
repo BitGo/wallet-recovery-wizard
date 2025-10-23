@@ -12,6 +12,7 @@ import type {
   createTaoBroadcastableSweepTransactionParameters,
   createPolyxBroadcastableSweepTransactionParameters,
   createIcpBroadcastableSweepTransactionParameters,
+  createVetBroadcastableSweepTransactionParameters,
 } from '~/utils/types';
 import { assert, safeEnv } from '~/helpers';
 import { useAlertBanner } from '~/contexts';
@@ -39,8 +40,9 @@ function isSignedTransaction(
   | createPolyxBroadcastableSweepTransactionParameters
   | createSolBroadcastableSweepTransactionParameters
   | createSuiBroadcastableSweepTransactionParameters
-  | createSuiBroadcastableSweepTransactionParameters
-  | createIcpBroadcastableSweepTransactionParameters {
+  | createIcpBroadcastableSweepTransactionParameters
+  | createVetBroadcastableSweepTransactionParameters
+{
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters
@@ -48,8 +50,8 @@ function isSignedTransaction(
     | createPolyxBroadcastableSweepTransactionParameters
     | createSolBroadcastableSweepTransactionParameters
     | createSuiBroadcastableSweepTransactionParameters
-    | createSuiBroadcastableSweepTransactionParameters
-    | createIcpBroadcastableSweepTransactionParameters;
+    | createIcpBroadcastableSweepTransactionParameters
+    | createVetBroadcastableSweepTransactionParameters;
   return (
     signedTransaction &&
     signedTransaction.signatureShares !== undefined &&
@@ -82,7 +84,8 @@ export function CreateBroadcastableTransactionIndex() {
               | createPolyxBroadcastableSweepTransactionParameters
               | createSolBroadcastableSweepTransactionParameters
               | createSuiBroadcastableSweepTransactionParameters
-              | createIcpBroadcastableSweepTransactionParameters;
+              | createIcpBroadcastableSweepTransactionParameters
+              | createVetBroadcastableSweepTransactionParameters;
 
             assert(isSignedTransaction(tx), 'Signed transaction not found');
 

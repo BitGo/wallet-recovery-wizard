@@ -27,6 +27,7 @@ import {
   createSolBroadcastableSweepTransactionParameters,
   createSuiBroadcastableSweepTransactionParameters,
   createIcpBroadcastableSweepTransactionParameters,
+  createVetBroadcastableSweepTransactionParameters,
   createNearBroadcastableSweepTransactionParameters,
   createEthBroadcastableSweepTransactionParameters,
   createTonBroadcastableSweepTransactionParameters,
@@ -61,6 +62,7 @@ type Commands = {
       | createSolBroadcastableSweepTransactionParameters
       | createSuiBroadcastableSweepTransactionParameters
       | createIcpBroadcastableSweepTransactionParameters
+      | createVetBroadcastableSweepTransactionParameters
       | createNearBroadcastableSweepTransactionParameters
       | createEthBroadcastableSweepTransactionParameters
       | createTonBroadcastableSweepTransactionParameters
