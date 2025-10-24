@@ -25,6 +25,8 @@ const tokenParentCoins = {
   txrpToken: 'xrp',
   nep141Token: 'near',
   tnep141Token: 'near',
+  vetToken: 'vet',
+  tvetToken: 'vet',
 };
 
 const CoinFactory = () => {

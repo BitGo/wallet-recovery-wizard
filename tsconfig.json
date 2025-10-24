@@ -10,6 +10,9 @@
       "./node_modules/@types",
       "./src/@types"
     ],
+    "types": [
+      "node"
+    ],
     "baseUrl": ".",
     "target": "ESNext",
     "useDefineForClassFields": true,
