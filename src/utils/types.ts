@@ -4,6 +4,7 @@ import { Tao, Ttao } from '@bitgo/sdk-coin-tao';
 import { Polyx, Tpolyx } from '@bitgo/sdk-coin-polyx';
 import { Sol, Tsol } from '@bitgo/sdk-coin-sol';
 import { Icp, Ticp } from '@bitgo/sdk-coin-icp';
+import { Vet, Tvet } from '@bitgo/sdk-coin-vet';
 import {
   ConsolidationRecoveryBatch,
   ConsolidationRecoveryOptions,
@@ -33,6 +34,9 @@ export type createSuiBroadcastableSweepTransactionParameters =
 export type createIcpBroadcastableSweepTransactionParameters =
   | Parameters<Icp['createBroadcastableSweepTransaction']>[0]
   | Parameters<Ticp['createBroadcastableSweepTransaction']>[0];
+export type createVetBroadcastableSweepTransactionParameters =
+  | Parameters<Vet['createBroadcastableSweepTransaction']>[0]
+  | Parameters<Tvet['createBroadcastableSweepTransaction']>[0];
 
 export type BroadcastableSweepTransaction = Awaited<
   ReturnType<
@@ -50,6 +54,8 @@ export type BroadcastableSweepTransaction = Awaited<
     | Tsui['createBroadcastableSweepTransaction']
     | Icp['createBroadcastableSweepTransaction']
     | Ticp['createBroadcastableSweepTransaction']
+    | Vet['createBroadcastableSweepTransaction']
+    | Tvet['createBroadcastableSweepTransaction']
   >
 >;
 

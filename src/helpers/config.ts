@@ -278,6 +278,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'icp',
     value: 'icp',
   },
+  vet: {
+    Title: 'VET',
+    Description: 'Vechain',
+    Icon: 'vet',
+    value: 'vet',
+  },
+  vetToken: {
+    Title: 'Vechain Token',
+    Description: 'Vechain VIP180 Token',
+    Icon: 'vet',
+    value: 'vetToken',
+  },
   sol: {
     Title: 'SOL',
     Description: 'Solana',
@@ -724,6 +736,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'icp',
     value: 'ticp',
   },
+  tvet: {
+    Title: 'TVET',
+    Description: 'Testnet Vechain',
+    Icon: 'vet',
+    value: 'tvet',
+  },
+  tvetToken: {
+    Title: 'Testnet Vechain Token',
+    Description: 'Testnet Vechain VIP180 Token',
+    Icon: 'vet',
+    value: 'tvetToken',
+  },
   tsol: {
     Title: 'TSOL',
     Description: 'Testnet Solana',
@@ -1149,6 +1173,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tao,
     allCoinMetas.polyx,
     allCoinMetas.icp,
+    allCoinMetas.vet,
+    allCoinMetas.vetToken,
     allCoinMetas.hbar,
     allCoinMetas.hbarToken,
     allCoinMetas.algo,
@@ -1214,6 +1240,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.ttao,
     allCoinMetas.tpolyx,
     allCoinMetas.ticp,
+    allCoinMetas.tvet,
+    allCoinMetas.tvetToken,
     allCoinMetas.thbar,
     allCoinMetas.thbarToken,
     allCoinMetas.talgo,
@@ -1275,6 +1303,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tao,
       allCoinMetas.polyx,
       allCoinMetas.icp,
+      allCoinMetas.vet,
+      allCoinMetas.vetToken,
       allCoinMetas.sol,
       allCoinMetas.solToken,
       allCoinMetas.polygon,
@@ -1342,6 +1372,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.ttao,
       allCoinMetas.tpolyx,
       allCoinMetas.ticp,
+      allCoinMetas.tvet,
+      allCoinMetas.tvetToken,
       allCoinMetas.tsol,
       allCoinMetas.tsolToken,
       allCoinMetas.tpolygon,
@@ -1560,6 +1592,8 @@ export const tokenParentCoins = {
   tsip10Token: 'tstx',
   nep141Token: 'near',
   tnep141Token: 'tnear',
+  vetToken: 'vet',
+  tvetToken: 'tvet',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {
