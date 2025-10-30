@@ -76,12 +76,6 @@ const evmCoins = [
   'txdc',
   'soneium',
   'tsoneium',
-  'flow',
-  'tflow',
-  'plume',
-  'tplume',
-  'kavaevm',
-  'tkavaevm',
   ...testEvmNonBitgoRecoveryCoins,
   ...prodEvmNonBitgoRecoveryCoins,
 ];
