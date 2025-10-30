@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@bitgo-forks/cryptocurrency-icons": "0.25.3",
+    "@bitgo-forks/cryptocurrency-icons": "0.29.0",
     "@bitgo/statics": "58.7.0",
     "@bitgo/abstract-cosmos": "11.15.7",
     "@bitgo/abstract-substrate": "1.11.7",
