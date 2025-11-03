@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
   Button,
-  FormikPasswordfield,
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
@@ -50,12 +49,12 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-managed cold or Hot wallet details
+          Self-managed cold wallet details
         </h4>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your user public key, as found on your recovery KeyCard. Required for hot wallets."
-            Label="User Public Key (optional)"
+            HelperText="Your user public key, as found on your recovery KeyCard."
+            Label="User Public Key"
             name="userKey"
             Width="fill"
           />
@@ -70,17 +69,9 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard. Required for hot wallets."
-            Label="Backup Public Key (optional)"
+            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
+            Label="Backup Public Key"
             name="backupKey"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikPasswordfield
-            HelperText="Your wallet passphrase, required for hot wallets."
-            Label="Wallet Passphrase (optional)"
-            name="walletPassphrase"
             Width="fill"
           />
         </div>
