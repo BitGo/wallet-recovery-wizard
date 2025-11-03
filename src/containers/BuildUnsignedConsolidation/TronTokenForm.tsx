@@ -1,14 +1,18 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
-import { Button, FormikTextfield } from '~/components';
+import { Button, FormikPasswordfield, FormikTextfield } from '~/components';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
+import { getWalletTypeLabels, WalletType } from './useWalletTypeLabels';
+import { WalletTypeSelector } from './WalletTypeSelector';
 
-const validationSchema = Yup.object({
+const getValidationSchema = (walletType: WalletType) => Yup.object({
+  walletType: Yup.string().oneOf(['cold', 'hot']).required(),
   userKey: Yup.string().required(),
   userKeyId: Yup.string(), // seed
   backupKey: Yup.string().required(),
   backupKeyId: Yup.string(),
   bitgoKey: Yup.string().required(),
+  walletPassphrase: walletType === 'hot' ? Yup.string().required() : Yup.string(),
   tokenContractAddress: Yup.string().required(),
   startingScanIndex: Yup.number().required(),
   endingScanIndex: Yup.number().required().moreThan(
@@ -17,7 +21,7 @@ const validationSchema = Yup.object({
   ),
 }).required();
 
-export type TronFormValues =  Yup.Asserts<typeof validationSchema>;
+export type TronFormValues =  Yup.Asserts<ReturnType<typeof getValidationSchema>>;
 
 export type TronFormProps = {
   onSubmit: (
@@ -27,31 +31,57 @@ export type TronFormProps = {
 }
 
 export function TronTokenForm({ onSubmit }: TronFormProps) {
-
   const formik = useFormik<TronFormValues>({
     onSubmit,
     initialValues: {
+      walletType: 'cold' as WalletType,
       backupKey: '',
       backupKeyId: '',
       bitgoKey: '',
+      walletPassphrase: '',
       startingScanIndex: 1,
       tokenContractAddress: '',
       endingScanIndex: 21,
       userKey: '',
       userKeyId: '',
-    }
-  })
+    },
+    validate: (values) => {
+      try {
+        getValidationSchema(values.walletType as WalletType).validateSync(values, { abortEarly: false });
+        return {};
+      } catch (error: any) {
+        const errors: Record<string, string> = {};
+        error.inner?.forEach((err: any) => {
+          if (err.path) {
+            errors[err.path] = err.message;
+          }
+        });
+        return errors;
+      }
+    },
+  });
+
+  const {
+    userKeyLabel,
+    userKeyHelperText,
+    backupKeyLabel,
+    backupKeyHelperText,
+    bitgoKeyLabel,
+    bitgoKeyHelperText,
+    showWalletPassphrase,
+  } = getWalletTypeLabels(formik.values.walletType as WalletType);
 
   return (
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
-          Self-managed cold wallet details
+          Self-managed cold or Hot wallet details
         </h4>
+        <WalletTypeSelector />
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Your user public key, as found on your recovery KeyCard."
-            Label="User Public Key"
+            HelperText={userKeyHelperText}
+            Label={userKeyLabel}
             name="userKey"
             Width="fill"
           />
@@ -66,8 +96,8 @@ export function TronTokenForm({ onSubmit }: TronFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
-            Label="Backup Public Key"
+            HelperText={backupKeyHelperText}
+            Label={backupKeyLabel}
             name="backupKey"
             Width="fill"
           />
@@ -82,12 +112,22 @@ export function TronTokenForm({ onSubmit }: TronFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The BitGo public key for the wallet, as found on your recovery KeyCard."
-            Label="BitGo Public Key"
+            HelperText={bitgoKeyHelperText}
+            Label={bitgoKeyLabel}
             name="bitgoKey"
             Width="fill"
           />
         </div>
+        {showWalletPassphrase && (
+          <div className="tw-mb-4">
+            <FormikPasswordfield
+              HelperText="The wallet passphrase that you set when creating the wallet."
+              Label="Wallet Passphrase"
+              name="walletPassphrase"
+              Width="fill"
+            />
+          </div>
+        )}
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The address of the smart contract of the token to consolidate. This is unique to each token, and is NOT your wallet address."
