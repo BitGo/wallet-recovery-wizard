@@ -11,12 +11,16 @@ import {
 import { getWalletTypeLabels, WalletType } from './useWalletTypeLabels';
 import { WalletTypeSelector } from './WalletTypeSelector';
 
-const getValidationSchema = (walletType: WalletType) => Yup.object({
+const validationSchema = Yup.object({
   walletType: Yup.string().oneOf(['cold', 'hot']).required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
-  walletPassphrase: walletType === 'hot' ? Yup.string().required() : Yup.string(),
+  walletPassphrase: Yup.string().when('walletType', {
+    is: 'hot',
+    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: (schema) => schema,
+  }),
   apiKey: Yup.string().test(
     'not-url-or-alchemy', 
     'API key should not be a URL', 
@@ -41,7 +45,7 @@ const getValidationSchema = (walletType: WalletType) => Yup.object({
   seed: Yup.string(),
 }).required();
 
-export type SolFormValues = Yup.Asserts<ReturnType<typeof getValidationSchema>>;
+export type SolFormValues = Yup.Asserts<typeof validationSchema>;
 
 export type SolFormProps = {
   onSubmit: (
@@ -70,20 +74,7 @@ export function SolTokenForm({ onSubmit }: SolFormProps) {
       tokenProgramId: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
       seed: undefined,
     },
-    validate: (values) => {
-      try {
-        getValidationSchema(values.walletType as WalletType).validateSync(values, { abortEarly: false });
-        return {};
-      } catch (error: any) {
-        const errors: Record<string, string> = {};
-        error.inner?.forEach((err: any) => {
-          if (err.path) {
-            errors[err.path] = err.message;
-          }
-        });
-        return errors;
-      }
-    },
+    validationSchema,
   });
 
   const {

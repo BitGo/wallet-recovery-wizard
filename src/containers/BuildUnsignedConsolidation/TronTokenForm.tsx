@@ -5,14 +5,18 @@ import * as Yup from 'yup';
 import { getWalletTypeLabels, WalletType } from './useWalletTypeLabels';
 import { WalletTypeSelector } from './WalletTypeSelector';
 
-const getValidationSchema = (walletType: WalletType) => Yup.object({
+const validationSchema = Yup.object({
   walletType: Yup.string().oneOf(['cold', 'hot']).required(),
   userKey: Yup.string().required(),
   userKeyId: Yup.string(), // seed
   backupKey: Yup.string().required(),
   backupKeyId: Yup.string(),
   bitgoKey: Yup.string().required(),
-  walletPassphrase: walletType === 'hot' ? Yup.string().required() : Yup.string(),
+  walletPassphrase: Yup.string().when('walletType', {
+    is: 'hot',
+    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: (schema) => schema,
+  }),
   tokenContractAddress: Yup.string().required(),
   startingScanIndex: Yup.number().required(),
   endingScanIndex: Yup.number().required().moreThan(
@@ -21,7 +25,7 @@ const getValidationSchema = (walletType: WalletType) => Yup.object({
   ),
 }).required();
 
-export type TronFormValues =  Yup.Asserts<ReturnType<typeof getValidationSchema>>;
+export type TronFormValues =  Yup.Asserts<typeof validationSchema>;
 
 export type TronFormProps = {
   onSubmit: (
@@ -45,20 +49,7 @@ export function TronTokenForm({ onSubmit }: TronFormProps) {
       userKey: '',
       userKeyId: '',
     },
-    validate: (values) => {
-      try {
-        getValidationSchema(values.walletType as WalletType).validateSync(values, { abortEarly: false });
-        return {};
-      } catch (error: any) {
-        const errors: Record<string, string> = {};
-        error.inner?.forEach((err: any) => {
-          if (err.path) {
-            errors[err.path] = err.message;
-          }
-        });
-        return errors;
-      }
-    },
+    validationSchema,
   });
 
   const {

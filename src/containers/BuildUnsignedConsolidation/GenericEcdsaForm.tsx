@@ -10,12 +10,16 @@ import {
 import { getWalletTypeLabels, WalletType } from './useWalletTypeLabels';
 import { WalletTypeSelector } from './WalletTypeSelector';
 
-const getValidationSchema = (walletType: WalletType) => Yup.object({
+const validationSchema = Yup.object({
   walletType: Yup.string().oneOf(['cold', 'hot']).required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
-  walletPassphrase: walletType === 'hot' ? Yup.string().required() : Yup.string(),
+  walletPassphrase: Yup.string().when('walletType', {
+    is: 'hot',
+    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: (schema) => schema,
+  }),
   startingScanIndex: Yup.number(),
   endingScanIndex: Yup.number().moreThan(
     Yup.ref('startingScanIndex'),
@@ -24,7 +28,7 @@ const getValidationSchema = (walletType: WalletType) => Yup.object({
   seed: Yup.string(),
 }).required();
 
-export type EcdsaFormValues = Yup.Asserts<ReturnType<typeof getValidationSchema>>;
+export type EcdsaFormValues = Yup.Asserts<typeof validationSchema>;
 
 export type GenericEcdsaFormValues = {
   onSubmit: (
@@ -46,20 +50,7 @@ export function GenericEcdsaForm({ onSubmit }: GenericEcdsaFormValues) {
       endingScanIndex: 21,
       seed: undefined,
     },
-    validate: (values) => {
-      try {
-        getValidationSchema(values.walletType as WalletType).validateSync(values, { abortEarly: false });
-        return {};
-      } catch (error: any) {
-        const errors: Record<string, string> = {};
-        error.inner?.forEach((err: any) => {
-          if (err.path) {
-            errors[err.path] = err.message;
-          }
-        });
-        return errors;
-      }
-    },
+    validationSchema,
   });
 
   const {
