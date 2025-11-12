@@ -83,6 +83,7 @@ import { Vet, Tvet, VetToken } from '@bitgo/sdk-coin-vet';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
+import { Ton, Tton } from '@bitgo/sdk-coin-ton';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -213,6 +214,8 @@ sdk.register('polyx', Polyx.createInstance);
 sdk.register('tpolyx', Tpolyx.createInstance);
 sdk.register('xtz', Xtz.createInstance);
 sdk.register('txtz', Txtz.createInstance);
+sdk.register('ton', Ton.createInstance);
+sdk.register('tton', Tton.createInstance);
 EVMCoinRegisterAll(sdk);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
