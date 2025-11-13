@@ -927,12 +927,174 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Base Chain Mainnet',
     Icon: 'baseeth',
     value: 'baseeth',
+    isTssSupported: true,
   },
   tbaseeth: {
     Title: 'TBASEETH',
     Description: 'Base Sepolia Testnet',
     Icon: 'baseeth',
     value: 'tbaseeth',
+    isTssSupported: true,
+  },
+  hypeevm: {
+    Title: 'HYPEEVM',
+    Description: 'Hype EVM Mainnet',
+    Icon: 'hypeevm',
+    value: 'hypeevm',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  thypeevm: {
+    Title: 'THYPEEVM',
+    Description: 'Hype EVM Testnet',
+    Icon: 'hypeevm',
+    value: 'thypeevm',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  apechain: {
+    Title: 'APECHAIN',
+    Description: 'Ape Chain Mainnet',
+    Icon: 'apechain',
+    value: 'apechain',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  tapechain: {
+    Title: 'TAPECHAIN',
+    Description: 'Ape Chain Testnet',
+    Icon: 'apechain',
+    value: 'tapechain',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  ctc: {
+    Title: 'CTC',
+    Description: 'Creditcoin Mainnet',
+    Icon: 'ctc',
+    value: 'ctc',
+    isTssSupported: true,
+    ApiKeyProvider: 'creditcoin.blockscout.com',
+  },
+  tctc: {
+    Title: 'TCTC',
+    Description: 'Creditcoin Testnet',
+    Icon: 'ctc',
+    value: 'tctc',
+    isTssSupported: true,
+    ApiKeyProvider: 'creditcoin-testnet.blockscout.com',
+  },
+  ip: {
+    Title: 'IP',
+    Description: 'Story Mainnet',
+    Icon: 'ip',
+    value: 'ip',
+    isTssSupported: true,
+    ApiKeyProvider: 'storyscan.io',
+  },
+  tip: {
+    Title: 'TIP',
+    Description: 'Story Testnet',
+    Icon: 'ip',
+    value: 'tip',
+    isTssSupported: true,
+    ApiKeyProvider: 'aeneid.storyscan.io',
+  },
+  og: {
+    Title: 'OG',
+    Description: 'Zero Gravity Mainnet',
+    Icon: 'og',
+    value: 'og',
+    isTssSupported: true,
+    ApiKeyProvider: 'chainscan.0g.ai',
+  },
+  tog: {
+    Title: 'TOG',
+    Description: 'Zero Gravity Testnet',
+    Icon: 'og',
+    value: 'tog',
+    isTssSupported: true,
+    ApiKeyProvider: 'chainscan-test.0g.ai',
+  },
+  lineaeth: {
+    Title: 'LINEAETH',
+    Description: 'Linea Ethereum Mainnet',
+    Icon: 'lineaeth',
+    value: 'lineaeth',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  tlineaeth: {
+    Title: 'TLINEAETH',
+    Description: 'Linea Ethereum Testnet',
+    Icon: 'lineaeth',
+    value: 'tlineaeth',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  sonic: {
+    Title: 'SONIC',
+    Description: 'Sonic Mainnet',
+    Icon: 'sonic',
+    value: 'sonic',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  tsonic: {
+    Title: 'TSONIC',
+    Description: 'Sonic Testnet',
+    Icon: 'sonic',
+    value: 'tsonic',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  seievm: {
+    Title: 'SEIEVM',
+    Description: 'Sei EVM Mainnet',
+    Icon: 'seievm',
+    value: 'seievm',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  tseievm: {
+    Title: 'TSEIEVM',
+    Description: 'Sei EVM Testnet',
+    Icon: 'seievm',
+    value: 'tseievm',
+    isTssSupported: true,
+    ApiKeyProvider: 'etherscan.io',
+  },
+  kaia: {
+    Title: 'KAIA',
+    Description: 'Kaia Mainnet',
+    Icon: 'kaia',
+    value: 'kaia',
+    isTssSupported: true,
+    ApiKeyProvider: 'mainnet-oapi.kaiascan.io',
+  },
+  tkaia: {
+    Title: 'TKAIA',
+    Description: 'Kaia Testnet',
+    Icon: 'kaia',
+    value: 'tkaia',
+    isTssSupported: true,
+    ApiKeyProvider: 'kairos-oapi.kaiascan.io',
+  },
+  irys: {
+    Title: 'IRYS',
+    Description: 'Irys Mainnet',
+    Icon: 'irys',
+    value: 'irys',
+    isTssSupported: true,
+    ApiKeyProvider: 'inst-1.cloud.blockscout',
+  },
+  tirys: {
+    Title: 'TIRYS',
+    Description: 'Irys Testnet',
+    Icon: 'irys',
+    value: 'tirys',
+    isTssSupported: true,
+    ApiKeyProvider: 'inst-1.cloud.blockscout',
   },
   tstx: {
     Title: 'TSTX',
@@ -966,6 +1128,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'mon',
     value: 'tmon',
     ApiKeyProvider: 'etherscan.io',
+    isTssSupported: true,
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
@@ -990,6 +1153,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'flow',
     value: 'flow',
     ApiKeyProvider: 'evm.flowscan.io',
+    isTssSupported: true,
   },
   tflow: {
     Title: 'TFLOW',
@@ -997,6 +1161,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'flow',
     value: 'tflow',
     ApiKeyProvider: 'evm-testnet.flowscan.io',
+    isTssSupported: true,
   },
   plume: {
     Title: 'PLUME',
@@ -1004,6 +1169,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'plume',
     value: 'plume',
     ApiKeyProvider: 'explorer.plume.org',
+    isTssSupported: true,
   },
   tplume: {
     Title: 'TPLUME',
@@ -1011,6 +1177,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'plume',
     value: 'tplume',
     ApiKeyProvider: 'testnet-explorer.plume.org',
+    isTssSupported: true,
   },
   kavaevm: {
     Title: 'KAVAEVM',
@@ -1018,6 +1185,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'kavaevm',
     value: 'kavaevm',
     ApiKeyProvider: 'kavascan.com',
+    isTssSupported: true,
   },
   tkavaevm: {
     Title: 'TKAVAEVM',
@@ -1025,6 +1193,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'kavaevm',
     value: 'tkavaevm',
     ApiKeyProvider: 'testnet.kavascan.com',
+    isTssSupported: true,
   },
   tmegaeth: {
     Title: 'TMEGAETH',
@@ -1052,24 +1221,6 @@ export const prodEvmNonBitgoRecoveryCoins: string[] = [];
 //Process all coins in a single loop rather than multiple filter operations
 coins.forEach(coin => {
   if (coin.isToken) return;
-  // TODO:: https://bitgoinc.atlassian.net/browse/WIN-6808 Will be removed as part of this ticket
-  if (
-    coin.name === 'tog' ||
-    coin.name === 'og' ||
-    coin.name === 'lineaeth' ||
-    coin.name === 'tlineaeth' ||
-    coin.name === 'ip' ||
-    coin.name === 'tip' ||
-    coin.name === 'seievm' ||
-    coin.name === 'tseievm' ||
-    coin.name === 'sonic' ||
-    coin.name === 'tsonic' ||
-    coin.name === 'kaia' ||
-    coin.name === 'tkaia' ||
-    coin.name === 'irys' ||
-    coin.name === 'tirys'
-  )
-    return;
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
