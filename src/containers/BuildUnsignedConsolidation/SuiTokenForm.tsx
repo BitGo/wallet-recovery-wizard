@@ -7,13 +7,20 @@ import {
   FormikTextarea,
   FormikTextfield,
 } from '~/components';
+import { getWalletTypeLabels, WalletType } from './useWalletTypeLabels';
+import { WalletTypeSelector } from './WalletTypeSelector';
 
 const validationSchema = Yup.object({
+  walletType: Yup.string().oneOf(['cold', 'hot']).required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
   packageId: Yup.string().required(),
-  walletPassphrase: Yup.string(),
+  walletPassphrase: Yup.string().when('walletType', {
+    is: 'hot',
+    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: (schema) => schema,
+  }),
   startingScanIndex: Yup.number(),
   endingScanIndex: Yup.number().moreThan(
     Yup.ref('startingScanIndex'),
@@ -35,6 +42,7 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
   const formik = useFormik<SuiFormValues>({
     onSubmit,
     initialValues: {
+      walletType: 'cold' as WalletType,
       userKey: '',
       backupKey: '',
       bitgoKey: '',
@@ -44,7 +52,18 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
       endingScanIndex: 21,
       seed: undefined,
     },
+    validationSchema,
   });
+
+  const {
+    userKeyLabel,
+    userKeyHelperText,
+    backupKeyLabel,
+    backupKeyHelperText,
+    bitgoKeyLabel,
+    bitgoKeyHelperText,
+    showWalletPassphrase,
+  } = getWalletTypeLabels(formik.values.walletType as WalletType);
 
   return (
     <FormikProvider value={formik}>
@@ -52,10 +71,11 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed cold or Hot wallet details
         </h4>
+        <WalletTypeSelector />
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="Your user public key, as found on your recovery KeyCard. Required for hot wallets."
-            Label="User Public Key (optional)"
+            HelperText={userKeyHelperText}
+            Label={userKeyLabel}
             name="userKey"
             Width="fill"
           />
@@ -70,28 +90,30 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormValues) {
         </div>
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard. Required for hot wallets."
-            Label="Backup Public Key (optional)"
+            HelperText={backupKeyHelperText}
+            Label={backupKeyLabel}
             name="backupKey"
             Width="fill"
           />
         </div>
         <div className="tw-mb-4">
-          <FormikPasswordfield
-            HelperText="Your wallet passphrase, required for hot wallets."
-            Label="Wallet Passphrase (optional)"
-            name="walletPassphrase"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="The BitGo public key for the wallet, as found on your recovery KeyCard."
-            Label="BitGo Public Key"
+            HelperText={bitgoKeyHelperText}
+            Label={bitgoKeyLabel}
             name="bitgoKey"
             Width="fill"
           />
         </div>
+        {showWalletPassphrase && (
+          <div className="tw-mb-4">
+            <FormikPasswordfield
+              HelperText="The wallet passphrase that you set when creating the wallet."
+              Label="Wallet Passphrase"
+              name="walletPassphrase"
+              Width="fill"
+            />
+          </div>
+        )}
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The package ID of the SUI token to recover. This is unique to each token, and is NOT your wallet address."
