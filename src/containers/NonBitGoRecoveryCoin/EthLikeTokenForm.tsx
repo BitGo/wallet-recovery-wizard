@@ -157,7 +157,9 @@ export function EthLikeTokenForm({
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Max fee per gas for the ETH transaction. The default is 20 Gwei."
+            HelperText={`Max fee per gas for the ETH transaction. The default is ${
+              allCoinMetas[coinName].defaultMaxFeePerGas ?? 20
+            } Gwei.`}
             Label="Max Fee Per Gas (Gwei)"
             name="maxFeePerGas"
             Width="fill"
@@ -165,7 +167,9 @@ export function EthLikeTokenForm({
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText='"Tip" to the ETH miner. This is by default 10 Gwei.'
+            HelperText={`"Tip" to the ETH miner. This is by default ${
+              allCoinMetas[coinName].defaultMaxPriorityFeePerGas ?? 10
+            } Gwei.`}
             Label="Max Priority Fee Per Gas (Gwei)"
             name="maxPriorityFeePerGas"
             Width="fill"
