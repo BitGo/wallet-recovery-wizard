@@ -1202,6 +1202,20 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'tmegaeth',
     ApiKeyProvider: 'megaexplorer.xyz',
   },
+  hbarevm: {
+    Title: 'HBAREVM',
+    Description: 'HederaEVM Mainnet',
+    Icon: 'hbarevm',
+    value: 'hbarevm',
+    isTssSupported: true,
+  },
+  thbarevm: {
+    Title: 'THBAREVM',
+    Description: 'HederaEVM Testnet',
+    Icon: 'hbarevm',
+    value: 'thbarevm',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
