@@ -1115,12 +1115,26 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'toncenter.com',
     value: 'ton',
   },
+  tonToken: {
+    Title: 'TON Token',
+    Description: 'Ton Token',
+    Icon: 'ton',
+    ApiKeyProvider: 'toncenter.com',
+    value: 'tonToken',
+  },
   tton: {
     Title: 'TTON',
     Description: 'Ton Testnet',
     ApiKeyProvider: 'testnet.toncenter.com',
     Icon: 'ton',
     value: 'tton',
+  },
+  ttonToken: {
+    Title: 'TTON Token',
+    Description: 'Ton Testnet Token',
+    ApiKeyProvider: 'testnet.toncenter.com',
+    Icon: 'ton',
+    value: 'ttonToken',
   },
   tmon: {
     Title: 'TMONAD',
@@ -1341,6 +1355,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.sip10Token,
     allCoinMetas.soneium,
     allCoinMetas.ton,
+    allCoinMetas.tonToken,
     allCoinMetas.xtz,
     allCoinMetas.mantra,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
@@ -1406,6 +1421,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tsip10Token,
     allCoinMetas.tsoneium,
     allCoinMetas.tton,
+    allCoinMetas.ttonToken,
     allCoinMetas.txtz,
     allCoinMetas.tmantra,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
@@ -1481,6 +1497,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.sip10Token,
       allCoinMetas.soneium,
       allCoinMetas.ton,
+      allCoinMetas.tonToken,
       allCoinMetas.xtz,
       allCoinMetas.mantra,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
@@ -1546,6 +1563,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tsip10Token,
       allCoinMetas.tsoneium,
       allCoinMetas.tton,
+      allCoinMetas.ttonToken,
       allCoinMetas.txtz,
       allCoinMetas.tmantra,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
@@ -1733,6 +1751,8 @@ export const tokenParentCoins = {
   tnep141Token: 'tnear',
   vetToken: 'vet',
   tvetToken: 'tvet',
+  tonToken: 'ton',
+  ttonToken: 'tton',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {

@@ -47,6 +47,7 @@ import { VetForm } from './VetForm';
 import { NearForm } from './NearForm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { TonForm } from './TonForm';
+import { TonTokenForm } from './TonTokenForm';
 import { TezosForm } from './TezosForm';
 
 const evmCoins = [
@@ -1580,7 +1581,9 @@ function Form() {
               if (coin === 'vetToken' || coin === 'tvetToken') {
                 parentCoin = tokenParentCoins[coin];
               }
-              const chainData = parentCoin ? parentCoin : await window.queries.getChain(coin);
+              const chainData = parentCoin
+                ? parentCoin
+                : await window.queries.getChain(coin);
               let callerCoin = parentCoin ? parentCoin : coin;
 
               const recoverData = await window.commands.recover(callerCoin, {
@@ -1754,6 +1757,75 @@ function Form() {
                 console.error(err);
               }
             } finally {
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'tonToken':
+    case 'ttonToken':
+      return (
+        <TonTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              const parentCoin = env === 'test' ? 'tton' : 'ton';
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                parentCoin,
+                values.apiKey
+              );
+              const chainData = await getTokenChain(
+                values.jettonMasterContract,
+                parentCoin
+              );
+              const recoverData = await window.commands.recover(parentCoin, {
+                userKey: values.userKey,
+                backupKey: values.backupKey,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                walletPassphrase: values.walletPassphrase,
+                recoveryDestination: values.recoveryDestination,
+                tokenContractAddress: values.jettonMasterContract,
+                krsProvider: values.krsProvider,
+                apiKey: values.apiKey,
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
               setSubmitting(false);
             }
           }}

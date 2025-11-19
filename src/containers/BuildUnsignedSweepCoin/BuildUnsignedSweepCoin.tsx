@@ -52,6 +52,7 @@ import { IcpForm } from './IcpForm';
 import { VetForm } from './VetForm';
 import { StacksForm } from './StacksForm';
 import { TonForm } from './TonForm';
+import { TonTokenForm } from './TonTokenForm';
 import { CosmosForm } from './CosmosForm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { TezosForm } from './TezosForm';
@@ -1845,6 +1846,74 @@ function Form() {
           }}
         />
       );
+    case 'tonToken':
+    case 'ttonToken':
+      return (
+        <TonTokenForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              const parentCoin = env === 'test' ? 'tton' : 'ton';
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment,
+                parentCoin,
+                values.apiKey
+              );
+              const chainData = await getTokenChain(
+                values.jettonMasterContract,
+                parentCoin
+              );
+              const recoverData = await window.commands.recover(parentCoin, {
+                bitgoKey: values.bitgoKey,
+                ignoreAddressTypes: [],
+                userKey: '',
+                backupKey: '',
+                recoveryDestination: values.recoveryDestination,
+                tokenContractAddress: values.jettonMasterContract,
+                seed: values.seed,
+                apiKey: values.apiKey,
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     case 'vet':
     case 'tvet':
     case 'vetToken':
@@ -1910,13 +1979,13 @@ function Form() {
                 JSON.stringify(
                   includePubsInUnsignedSweep
                     ? {
-                      ...recoverData,
-                      ...(await includePubsFor(coin, {
-                        ...values,
-                        userKey: '',
-                        backupKey: '',
-                      })),
-                    }
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: '',
+                          backupKey: '',
+                        })),
+                      }
                     : recoverData,
                   null,
                   2

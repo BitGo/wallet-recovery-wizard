@@ -83,7 +83,7 @@ import { Vet, Tvet, VetToken } from '@bitgo/sdk-coin-vet';
 import { registerAll as EVMCoinRegisterAll } from '@bitgo/sdk-coin-evm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
-import { Ton, Tton } from '@bitgo/sdk-coin-ton';
+import { Ton, Tton, JettonToken } from '@bitgo/sdk-coin-ton';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -252,6 +252,9 @@ Nep141Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 VetToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
+JettonToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
 

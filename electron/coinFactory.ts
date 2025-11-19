@@ -2,7 +2,7 @@ import type { BitGoAPI } from '@bitgo/sdk-api';
 import { coins, CoinFeature } from '@bitgo/statics';
 
 const tokenParentCoins = {
-  erc20 : 'eth',
+  erc20: 'eth',
   hterc20: 'eth',
   trxToken: 'trx',
   ttrxToken: 'trx',
@@ -27,17 +27,20 @@ const tokenParentCoins = {
   tnep141Token: 'near',
   vetToken: 'vet',
   tvetToken: 'vet',
+  tonToken: 'ton',
+  ttonToken: 'ton',
 };
 
 const CoinFactory = () => {
   const registerCoin = async (
     coinName: string,
-    sdk: BitGoAPI,
+    sdk: BitGoAPI
   ): Promise<void> => {
-
     const coinFamily = coins.has(coinName)
       ? coins.get(coinName).family
-      : coinName in tokenParentCoins ? tokenParentCoins[coinName] : undefined;
+      : coinName in tokenParentCoins
+      ? tokenParentCoins[coinName]
+      : undefined;
 
     if (!coinFamily) {
       throw new Error(`Coin not found. ${coinName}`);
@@ -67,7 +70,9 @@ const CoinFactory = () => {
         return register(sdk);
       }
       case 'baseeth': {
-        const { EthLikeCoin, TethLikeCoin } = await import('@bitgo/sdk-coin-ethlike');
+        const { EthLikeCoin, TethLikeCoin } = await import(
+          '@bitgo/sdk-coin-ethlike'
+        );
         sdk.register('baseeth', EthLikeCoin.createInstance);
         sdk.register('tbaseeth', TethLikeCoin.createInstance);
         return;
