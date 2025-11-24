@@ -64,7 +64,7 @@ jobs:
       DMG_FILENAME: "${{ needs.get-current-state.outputs.dmg_filename }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -89,7 +89,7 @@ jobs:
       DMG_FILENAME_INTEL: "${{ needs.get-current-state.outputs.dmg_filename_intel }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
@@ -117,7 +117,7 @@ jobs:
     container:
       image: docker.io/electronuserland/builder:22-wine@sha256:8bb6fa0f99a00a5b845521910508958ebbb682b59221f0aa4b82102c22174164
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - run: |
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package.json"
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
