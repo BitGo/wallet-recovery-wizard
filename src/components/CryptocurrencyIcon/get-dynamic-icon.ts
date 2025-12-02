@@ -1187,6 +1187,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethmeme'));
     case 'ethmon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethmon'));
+    case 'ethokb':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethokb'));
     case 'ethopen':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethopen'));
     case 'ethos':
@@ -1829,6 +1831,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jobchain'));
     case 'joe':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/joe'));
+    case 'jovayeth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jovayeth'));
     case 'jpmon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jpmon'));
     case 'jpy':

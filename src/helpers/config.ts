@@ -1236,6 +1236,38 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultMaxFeePerGas: 600,
     defaultMaxPriorityFeePerGas: 0,
   },
+  okb: {
+    Title: 'OKB',
+    Description: 'X Layer Mainnet',
+    Icon: 'okb',
+    value: 'okb',
+    ApiKeyProvider: 'www.oklink.com/x-layer',
+    isTssSupported: true,
+  },
+  tokb: {
+    Title: 'TOKB',
+    Description: 'X Layer Testnet',
+    Icon: 'okb',
+    value: 'tokb',
+    ApiKeyProvider: 'www.oklink.com/x-layer-testnet',
+    isTssSupported: true,
+  },
+  jovayeth: {
+    Title: 'JOVAYETH',
+    Description: 'Jovay Ethereum Mainnet',
+    Icon: 'jovayeth',
+    value: 'jovayeth',
+    ApiKeyProvider: 'explorer.jovay.io',
+    isTssSupported: true,
+  },
+  tjovayeth: {
+    Title: 'TJOVAYETH',
+    Description: 'Jovay Ethereum Testnet',
+    Icon: 'jovayeth',
+    value: 'tjovayeth',
+    ApiKeyProvider: 'sepolia-explorer.jovay.io',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
