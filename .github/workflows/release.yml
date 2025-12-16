@@ -74,7 +74,7 @@ jobs:
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: "${{ env.DMG_FILENAME }}"
           path: "release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME }}"
@@ -99,7 +99,7 @@ jobs:
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
       - run: npm ci
       - run: npm run build
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: "${{ env.DMG_FILENAME_INTEL }}"
           path: "release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME_INTEL }}"
@@ -123,12 +123,12 @@ jobs:
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
       - run: npm ci
       - run: npm run build -- -wl
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: "${{ env.EXE_FILENAME }}"
           path: "release/${{ env.NEXT_VERSION }}/${{ env.EXE_FILENAME }}"
           if-no-files-found: "error"
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         with:
           name: "${{ env.DEB_FILENAME }}"
           path: "release/${{ env.NEXT_VERSION }}/${{ env.DEB_FILENAME }}"
@@ -149,7 +149,7 @@ jobs:
       DEB_FILENAME: "${{ needs.get-current-state.outputs.deb_filename }}"
       NEXT_VERSION: "${{ inputs.next-version }}"
     steps:
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           # We don't want to download the artifacts to separate directories,
           # we want to download them to the same directory instead.
