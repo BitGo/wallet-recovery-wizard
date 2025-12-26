@@ -1268,6 +1268,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'sepolia-explorer.jovay.io',
     isTssSupported: true,
   },
+  dogeos: {
+    Title: 'DOGEOS',
+    Description: 'Dogeos Mainnet',
+    Icon: 'dogeos',
+    value: 'dogeos',
+    ApiKeyProvider: 'blockscout.testnet.dogeos.com', //todo: update when mainnet explorer is available
+    isTssSupported: true,
+  },
+  tdogeos: {
+    Title: 'TDOGEOS',
+    Description: 'Dogeos Testnet',
+    Icon: 'dogeos',
+    value: 'tdogeos',
+    ApiKeyProvider: 'blockscout.testnet.dogeos.com',
+    isTssSupported: true,
+  }
 } as const;
 
 function assertMetadata(coin: string): boolean {
