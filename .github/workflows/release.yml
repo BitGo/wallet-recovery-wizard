@@ -82,7 +82,7 @@ jobs:
 
   mac-build_intel:
     name: Create Mac Intel release
-    runs-on: macos-13
+    runs-on: macos-15-intel
     needs:
       - get-current-state
     env:
