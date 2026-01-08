@@ -1283,6 +1283,38 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'tdogeos',
     ApiKeyProvider: 'blockscout.testnet.dogeos.com',
     isTssSupported: true,
+  },
+  fluenteth: {
+    Title: 'FLUENTETH',
+    Description: 'Fluent Ethereum Mainnet',
+    Icon: 'fluenteth',
+    value: 'fluenteth',
+    ApiKeyProvider: 'testnet.fluentscan.xyz', //todo: update when mainnet explorer is available
+    isTssSupported: true,
+  },
+  tfluenteth: {
+    Title: 'TFLUENTETH',
+    Description: 'Fluent Ethereum Testnet',
+    Icon: 'fluenteth',
+    value: 'tfluenteth',
+    ApiKeyProvider: 'testnet.fluentscan.xyz',
+    isTssSupported: true,
+  },
+  mantle: {
+    Title: 'MANTLE',
+    Description: 'Mantle Native Mainnet',
+    Icon: 'mantle',
+    value: 'mantle',
+    ApiKeyProvider: 'mantlescan.xyz',
+    isTssSupported: true,
+  },
+  tmantle: {
+    Title: 'TMANTLE',
+    Description: 'Mantle NativeTestnet',
+    Icon: 'mantle',
+    value: 'tmantle',
+    ApiKeyProvider: 'sepolia.mantlescan.xyz',
+    isTssSupported: true,
   }
 } as const;
 
