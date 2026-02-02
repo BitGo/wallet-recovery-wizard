@@ -8,6 +8,11 @@ on:
         type: string
         description: Semantic version of the new release to publish
         required: true
+      skip-windows-build:
+        type: boolean
+        description: Skip building the Windows version
+        default: false
+        required: false
 
 permissions:
   id-token: write
@@ -122,8 +127,14 @@ jobs:
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package.json"
           sed -i -e 's/0.0.0-placeholder-version/${{ env.NEXT_VERSION }}/g' "package-lock.json"
       - run: npm ci
-      - run: npm run build -- -wl
+      - name: Build Windows and Linux
+        if: ${{ inputs.skip-windows-build == false }}
+        run: npm run build -- -wl
+      - name: Build Linux only
+        if: ${{ inputs.skip-windows-build == true }}
+        run: npm run build -- -l
       - uses: actions/upload-artifact@v6
+        if: ${{ inputs.skip-windows-build == false }}
         with:
           name: "${{ env.EXE_FILENAME }}"
           path: "release/${{ env.NEXT_VERSION }}/${{ env.EXE_FILENAME }}"
@@ -159,7 +170,9 @@ jobs:
           sha256sum "${{ env.DMG_FILENAME }}" > "${{ env.DMG_FILENAME }}.sha256sum"
           sha256sum "${{ env.DMG_FILENAME_INTEL }}" > "${{ env.DMG_FILENAME_INTEL }}.sha256sum"
           sha256sum "${{ env.DEB_FILENAME }}" > "${{ env.DEB_FILENAME }}.sha256sum"
-          sha256sum "${{ env.EXE_FILENAME }}" > "${{ env.EXE_FILENAME }}.sha256sum"
+          if [ "${{ inputs.skip-windows-build }}" != "true" ]; then
+            sha256sum "${{ env.EXE_FILENAME }}" > "${{ env.EXE_FILENAME }}.sha256sum"
+          fi
 
       - name: Get the ID of the new release
         id: get-new-release-id
@@ -254,6 +267,7 @@ jobs:
             --data-binary "@${{ env.DEB_FILENAME }}.sha256sum"
 
       - name: Add the Windows assets to the release
+        if: ${{ inputs.skip-windows-build == false }}
         run: |
           target_exe_filename=$(echo "${{ env.EXE_FILENAME }}" | sed 's/\ /\./g')
 

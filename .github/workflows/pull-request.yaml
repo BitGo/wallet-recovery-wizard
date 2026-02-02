@@ -1,0 +1,34 @@
+name: PR Build Check
+run-name: 'PR Build Check: ${{ github.event.pull_request.title }}'
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  windows-linux-build:
+    name: Test Windows and Linux builds
+    runs-on: ubuntu-latest
+    container:
+      image: docker.io/electronuserland/builder:16-wine@sha256:a067f3efbc83d41f8a92f4bb347803e11ae0b29204520497edb3d34522d8d458
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Windows and Linux versions
+        run: npm run build -- -wl
+
+      - name: Verify build artifacts
+        run: |
+          ls -la release/
+          # Check that both Windows and Linux artifacts were created
+          find release/ -name "*.exe" | grep -q . || exit 1
+          find release/ -name "*.deb" | grep -q . || exit 1
