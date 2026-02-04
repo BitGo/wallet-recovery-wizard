@@ -2413,8 +2413,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ohm'));
     case 'ok':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ok'));
-    case 'okb':
-      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/okb'));
+    case 'okbxlayer':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/okbxlayer'));
     case 'om':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/om'));
     case 'omg':
