@@ -23,7 +23,14 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Prepare Wine prefix
+        run: |
+          export WINEPREFIX="${GITHUB_WORKSPACE}/.wine"
+          mkdir -p "$WINEPREFIX"
+
       - name: Build Windows and Linux versions
+        env:
+          WINEPREFIX: ${{ github.workspace }}/.wine
         run: npm run build -- -wl
 
       - name: Verify build artifacts

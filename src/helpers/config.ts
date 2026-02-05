@@ -1236,19 +1236,19 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultMaxFeePerGas: 600,
     defaultMaxPriorityFeePerGas: 0,
   },
-  okb: {
-    Title: 'OKB',
+  okbxlayer: {
+    Title: 'OKBXLAYER',
     Description: 'X Layer Mainnet',
-    Icon: 'okb',
-    value: 'okb',
+    Icon: 'okbxlayer',
+    value: 'okbxlayer',
     ApiKeyProvider: 'www.oklink.com/x-layer',
     isTssSupported: true,
   },
-  tokb: {
-    Title: 'TOKB',
+  tokbxlayer: {
+    Title: 'TOKBXLAYER',
     Description: 'X Layer Testnet',
-    Icon: 'okb',
-    value: 'tokb',
+    Icon: 'okbxlayer',
+    value: 'tokbxlayer',
     ApiKeyProvider: 'www.oklink.com/x-layer-testnet',
     isTssSupported: true,
   },
