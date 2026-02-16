@@ -1315,7 +1315,23 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'tmantle',
     ApiKeyProvider: 'sepolia.mantlescan.xyz',
     isTssSupported: true,
-  }
+  },
+  chiliz: {
+    Title: 'CHILIZ',
+    Description: 'Chiliz Mainnet',
+    Icon: 'chiliz',
+    value: 'chiliz',
+    ApiKeyProvider: 'scan.chiliz.com',
+    isTssSupported: true,
+  },
+  tchiliz: {
+    Title: 'TCHILIZ',
+    Description: 'Chiliz Testnet',
+    Icon: 'chiliz',
+    value: 'tchiliz',
+    ApiKeyProvider: 'testnet.chiliz.com',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
