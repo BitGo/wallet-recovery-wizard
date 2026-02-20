@@ -163,6 +163,8 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
     case 'ttao':
     case 'sui':
     case 'tsui':
+    case 'iota':
+    case 'tiota':
       return (
         <GenericEcdsaForm
           onSubmit={async (values, { setSubmitting }) => {

@@ -129,6 +129,7 @@ type Commands = {
       contractId?: string; // eg. stacks sip10 token
       programId?: string; // eg. solana spl 2022 token
       apiKey?: string; // eg. alchemy api key
+      fullnodeRpcUrl?: string; // eg. custom fullnode rpc url
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(

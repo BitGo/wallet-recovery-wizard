@@ -54,6 +54,7 @@ import { StacksForm } from './StacksForm';
 import { TonForm } from './TonForm';
 import { TonTokenForm } from './TonTokenForm';
 import { CosmosForm } from './CosmosForm';
+import { IotaForm } from './IotaForm';
 import { CoinFeature, coins } from '@bitgo/statics';
 import { TezosForm } from './TezosForm';
 
@@ -1303,6 +1304,68 @@ function Form() {
                   null,
                   2
                 ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'iota':
+    case 'tiota':
+      return (
+        <IotaForm
+          key={coin}
+          coinName={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                userKey: '',
+                backupKey: '',
+                recoveryDestination: values.recoveryDestination,
+                seed: values.seed?.trim() || undefined,
+                fullnodeRpcUrl: values.fullnodeRpcUrl || undefined,
+                ignoreAddressTypes: [],
+                scan: Number(values.scan),
+                startingScanIndex: Number(values.startingScanIndex),
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Unsigned sweep transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
                 { encoding: 'utf-8' }
               );
 

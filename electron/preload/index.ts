@@ -104,6 +104,7 @@ type Commands = {
       startingScanIndex?: number;
       common?: EthLikeCommon.default;
       ethCommonParams?: EvmCcrNonBitgoCoinConfigType | undefined;
+      fullnodeRpcUrl?: string;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
   wrongChainRecover(
