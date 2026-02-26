@@ -1348,6 +1348,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'testnet.chiliz.com',
     isTssSupported: true,
   },
+  zksyncera: {
+    Title: 'ZKSYNCERA',
+    Description: 'ZK Sync Era Mainnet',
+    Icon: 'zksyncera',
+    value: 'zksyncera',
+    ApiKeyProvider: 'explorer.zksync.io/api',
+    isTssSupported: true,
+  },
+  tzksyncera: {
+    Title: 'TZKSYNCERA',
+    Description: 'ZK Sync Era Testnet',
+    Icon: 'zksyncera',
+    value: 'tzksyncera',
+    ApiKeyProvider: 'sepolia.explorer.zksync.io/api',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
