@@ -1316,6 +1316,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'sepolia.mantlescan.xyz',
     isTssSupported: true,
   },
+  arcusdc: {
+    Title: 'ARCUSDC',
+    Description: 'USDC (ARC)',
+    Icon: 'arcusdc',
+    value: 'arcusdc',
+    ApiKeyProvider: 'testnet.arcscan.app/api', //TODO: WIN-8844 update when mainnet explorer is available
+    isTssSupported: true,
+  },
+  tarcusdc: {
+    Title: 'TARCUSDC',
+    Description: 'USDC (ARC) Testnet',
+    Icon: 'arcusdc',
+    value: 'tarcusdc',
+    ApiKeyProvider: 'testnet.arcscan.app/api',
+    isTssSupported: true,
+  },
   chiliz: {
     Title: 'CHILIZ',
     Description: 'Chiliz Mainnet',
