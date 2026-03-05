@@ -253,6 +253,10 @@ const CoinFactory = () => {
         const { register } = await import('@bitgo/sdk-coin-icp');
         return register(sdk);
       }
+      case 'iota': {
+        const { register } = await import('@bitgo/sdk-coin-iota');
+        return register(sdk);
+      }
       case 'flr': {
         const { register } = await import('@bitgo/sdk-coin-flr');
         return register(sdk);

@@ -352,6 +352,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'ada',
     value: 'ada',
   },
+  iota: {
+    Title: 'IOTA',
+    Description: 'IOTA',
+    Icon: 'iota',
+    value: 'iota',
+    isTssSupported: true,
+  },
   atom: {
     Title: 'ATOM',
     Description: 'Atom',
@@ -813,6 +820,13 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Cardano Testnet',
     Icon: 'ada',
     value: 'tada',
+  },
+  tiota: {
+    Title: 'TIOTA',
+    Description: 'IOTA Testnet',
+    Icon: 'iota',
+    value: 'tiota',
+    isTssSupported: true,
   },
   tatom: {
     Title: 'TATOM',
@@ -1418,6 +1432,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.solToken,
     allCoinMetas.sui,
     allCoinMetas.suiToken,
+    allCoinMetas.iota,
   ],
   test: [
     allCoinMetas.ttrx,
@@ -1429,6 +1444,7 @@ export const buildUnsignedConsolidationCoins: Record<
     allCoinMetas.tsolToken,
     allCoinMetas.tsui,
     allCoinMetas.tsuiToken,
+    allCoinMetas.tiota,
   ],
 };
 
@@ -1493,6 +1509,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.algo,
     allCoinMetas.sui,
     allCoinMetas.suiToken,
+    allCoinMetas.iota,
     allCoinMetas.flr,
     allCoinMetas.sgb,
     allCoinMetas.xdc,
@@ -1559,6 +1576,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tbsc,
     allCoinMetas.tsui,
     allCoinMetas.tsuiToken,
+    allCoinMetas.tiota,
     allCoinMetas.tflr,
     allCoinMetas.tsgb,
     allCoinMetas.txdc,
@@ -1622,6 +1640,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.bcha,
       allCoinMetas.doge,
       allCoinMetas.ada,
+      allCoinMetas.iota,
       allCoinMetas.atom,
       allCoinMetas.osmo,
       allCoinMetas.tia,
@@ -1688,6 +1707,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbsc,
       allCoinMetas.tdoge,
       allCoinMetas.tada,
+      allCoinMetas.tiota,
       allCoinMetas.tatom,
       allCoinMetas.tosmo,
       allCoinMetas.ttia,
