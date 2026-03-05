@@ -1354,6 +1354,10 @@ function Form() {
     case 'tasi':
     case 'mantra':
     case 'tmantra':
+    case 'kavacosmos':
+    case 'tkavacosmos':
+    case 'dydxcosmos':
+    case 'tdydxcosmos':
       return (
         <CosmosForm
           key={coin}
