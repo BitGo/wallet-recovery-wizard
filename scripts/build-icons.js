@@ -58,6 +58,8 @@ const coins = [
   'ton',
   'polyx',
   'mantra',
+  'kavacosmos',
+  'dydxcosmos',
   'vet'
 ];
 

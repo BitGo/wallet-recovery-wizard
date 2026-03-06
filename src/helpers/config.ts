@@ -473,6 +473,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'mantra',
     value: 'mantra',
   },
+  kavacosmos: {
+    Title: 'KAVACOSMOS',
+    Description: 'Kava Cosmos',
+    Icon: 'kavacosmos',
+    value: 'kavacosmos',
+  },
+  dydxcosmos: {
+    Title: 'DYDXCOSMOS',
+    Description: 'dYdX Cosmos',
+    Icon: 'dydxcosmos',
+    value: 'dydxcosmos',
+  },
   soneium: {
     Title: 'SONEIUM',
     Description: 'Soneium',
@@ -917,6 +929,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Mantra Testnet',
     Icon: 'mantra',
     value: 'tmantra',
+  },
+  tkavacosmos: {
+    Title: 'TKAVACOSMOS',
+    Description: 'Kava Cosmos Testnet',
+    Icon: 'kavacosmos',
+    value: 'tkavacosmos',
+  },
+  tdydxcosmos: {
+    Title: 'TDYDXCOSMOS',
+    Description: 'dYdX Cosmos Testnet',
+    Icon: 'dydxcosmos',
+    value: 'tdydxcosmos',
   },
   thbar: {
     Title: 'THBAR',
@@ -1523,6 +1547,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tonToken,
     allCoinMetas.xtz,
     allCoinMetas.mantra,
+    allCoinMetas.kavacosmos,
+    allCoinMetas.dydxcosmos,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1590,6 +1616,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.ttonToken,
     allCoinMetas.txtz,
     allCoinMetas.tmantra,
+    allCoinMetas.tkavacosmos,
+    allCoinMetas.tdydxcosmos,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1667,6 +1695,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tonToken,
       allCoinMetas.xtz,
       allCoinMetas.mantra,
+      allCoinMetas.kavacosmos,
+      allCoinMetas.dydxcosmos,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1734,6 +1764,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.ttonToken,
       allCoinMetas.txtz,
       allCoinMetas.tmantra,
+      allCoinMetas.tkavacosmos,
+      allCoinMetas.tdydxcosmos,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
