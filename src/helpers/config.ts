@@ -1402,6 +1402,72 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'sepolia.explorer.zksync.io/api',
     isTssSupported: true,
   },
+  // CGARD-454 / BitGoJS#8251 — unieth, hppeth, h, hoodeth + testnets
+  unieth: {
+    Title: 'UNIETH',
+    Description: 'Unichain',
+    Icon: 'unieth',
+    value: 'unieth',
+    ApiKeyProvider: 'unichain.blockscout.com/api',
+    isTssSupported: true,
+  },
+  tunieth: {
+    Title: 'TUNIETH',
+    Description: 'Testnet Unichain',
+    Icon: 'unieth',
+    value: 'tunieth',
+    ApiKeyProvider: 'unichain-sepolia.blockscout.com/api',
+    isTssSupported: true,
+  },
+  hppeth: {
+    Title: 'HPPETH',
+    Description: 'House Party Protocol',
+    Icon: 'hppeth',
+    value: 'hppeth',
+    ApiKeyProvider: 'explorer.hpp.io/api',
+    isTssSupported: true,
+  },
+  thppeth: {
+    Title: 'THPPETH',
+    Description: 'Testnet House Party Protocol',
+    Icon: 'hppeth',
+    value: 'thppeth',
+    ApiKeyProvider: 'sepolia-explorer.hpp.io/api',
+    isTssSupported: true,
+  },
+  h: {
+    Title: 'H',
+    Description: 'Humanity Protocol',
+    Icon: 'h',
+    value: 'h',
+    ApiKeyProvider: 'humanity-mainnet.explorer.alchemy.com/api',
+    isTssSupported: true,
+  },
+  th: {
+    Title: 'TH',
+    Description: 'Testnet Humanity Protocol',
+    Icon: 'h',
+    value: 'th',
+    ApiKeyProvider: 'humanity-testnet.explorer.alchemy.com/api',
+    isTssSupported: true,
+  },
+  hoodeth: {
+    Title: 'HOODETH',
+    Description: 'Robinhood Chain',
+    Icon: 'hoodeth',
+    value: 'hoodeth',
+    // Mainnet API TBD in BitGoJS environments; same endpoint as test until updated
+    ApiKeyProvider: 'explorer.testnet.chain.robinhood.com/api',
+    isTssSupported: true,
+  },
+  thoodeth: {
+    Title: 'THOODETH',
+    Description: 'Testnet Robinhood Chain',
+    Icon: 'hoodeth',
+    value: 'thoodeth',
+    ApiKeyProvider: 'explorer.testnet.chain.robinhood.com/api',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {

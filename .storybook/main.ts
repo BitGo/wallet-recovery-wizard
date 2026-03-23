@@ -1,5 +1,6 @@
 import type { StorybookViteConfig } from '@storybook/builder-vite';
-import { loadConfigFromFile, mergeConfig } from 'vite';
+import { resolve as pathResolve } from 'path';
+import { mergeConfig } from 'vite';
 
 const config: StorybookViteConfig = {
   stories: [
@@ -22,16 +23,9 @@ const config: StorybookViteConfig = {
     interactionsDebugger: true,
     storyStoreV7: true,
   },
-  async viteFinal(config, { configType }) {
-    // @ts-ignore
-    const { config: userConfig } = await loadConfigFromFile(
-      // @ts-ignore
-      '../vite.config.ts'
-    );
-
+  async viteFinal(config) {
     return mergeConfig(config, {
-      ...userConfig,
-      // manually specify plugins to avoid conflict
+      resolve: { alias: { '~': pathResolve(__dirname, '../src') } },
       plugins: [],
     });
   },
