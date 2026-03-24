@@ -1468,6 +1468,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'explorer.testnet.chain.robinhood.com/api',
     isTssSupported: true,
   },
+  morpheth: {
+    Title: 'MORPHETH',
+    Description: 'Morpheth Mainnet',
+    Icon: 'morpheth',
+    value: 'morpheth',
+    ApiKeyProvider: 'explorer.morph.network',
+    isTssSupported: true,
+  },
+  tmorpheth: {
+    Title: 'TMORPHETH',
+    Description: 'Morpheth Testnet',
+    Icon: 'morpheth',
+    value: 'tmorpheth',
+    ApiKeyProvider: 'explorer-hoodi.morph.network',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
