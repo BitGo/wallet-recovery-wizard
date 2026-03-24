@@ -49,8 +49,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/acxt'));
     case 'ada':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ada'));
+    case 'adaasnek':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adaasnek'));
+    case 'adaawlf':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adaawlf'));
     case 'adai':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adai'));
+    case 'adalcc':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adalcc'));
+    case 'adausdcx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adausdcx'));
     case 'adbeon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/adbeon'));
     case 'add':
@@ -223,6 +231,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/arbethrdnt'));
     case 'arbethtbill':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/arbethtbill'));
+    case 'arbethtt':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/arbethtt'));
     case 'arbethvchf':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/arbethvchf'));
     case 'arbethveur':
@@ -397,6 +407,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/baseethusde'));
     case 'baseethwave':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/baseethwave'));
+    case 'baseethxsgd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/baseethxsgd'));
+    case 'baseethxusd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/baseethxusd'));
     case 'basic':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/basic'));
     case 'bat':
@@ -571,8 +585,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bscff'));
     case 'bschome':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bschome'));
+    case 'bsckgen':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bsckgen'));
     case 'bscm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bscm'));
+    case 'bscptcusdo29oct2026':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bscptcusdo29oct2026'));
     case 'bscsoon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/bscsoon'));
     case 'bscsto':
@@ -609,6 +627,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/btg'));
     case 'btm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/btm'));
+    case 'btr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/btr'));
     case 'btrs':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/btrs'));
     case 'btrst':
@@ -667,6 +687,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/canton'));
     case 'carv':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/carv'));
+    case 'cashplus':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cashplus'));
     case 'cat':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cat'));
     case 'cati':
@@ -681,6 +703,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cbl'));
     case 'cbrl':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cbrl'));
+    case 'cbtc':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cbtc'));
     case 'cc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cc'));
     case 'cct':
@@ -799,6 +823,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cnyx'));
     case 'cob':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/cob'));
+    case 'codexeth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/codexeth'));
     case 'coin':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/coin'));
     case 'coinon':
@@ -807,12 +833,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/colx'));
     case 'combo':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/combo'));
+    case 'common':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/common'));
     case 'comp':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/comp'));
     case 'conv':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/conv'));
     case 'copm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/copm'));
+    case 'copr3':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/copr3'));
     case 'coqui':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/coqui'));
     case 'core':
@@ -1197,6 +1227,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/eos'));
     case 'eos_box':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/eos_box'));
+    case 'epic':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/epic'));
     case 'epx':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/epx'));
     case 'eqixon':
@@ -1225,14 +1257,28 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/eth'));
     case 'ethaeur':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethaeur'));
+    case 'ethapxusd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethapxusd'));
+    case 'ethaudx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethaudx'));
     case 'ethausd':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethausd'));
     case 'ethbard':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethbard'));
     case 'ethblock':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethblock'));
+    case 'ethbtr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethbtr'));
     case 'ethchex':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethchex'));
+    case 'ethchfau':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethchfau'));
+    case 'ethctusd1cx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethctusd1cx'));
+    case 'ethcusd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethcusd'));
+    case 'ethdxi':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethdxi'));
     case 'etheden':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/etheden'));
     case 'ethenastakedusdearm':
@@ -1271,14 +1317,20 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethpro'));
     case 'ethprompt':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethprompt'));
+    case 'ethptcusdo28may2026':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethptcusdo28may2026'));
     case 'ethpyr':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethpyr'));
+    case 'ethq':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethq'));
     case 'ethresolv':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethresolv'));
     case 'ethsc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethsc'));
     case 'ethsfp':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethsfp'));
+    case 'ethshvon':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethshvon'));
     case 'ethsix':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethsix'));
     case 'ethsky':
@@ -1293,6 +1345,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethton'));
     case 'ethuco':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethuco'));
+    case 'ethusd1cx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethusd1cx'));
     case 'ethusds':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ethusds'));
     case 'ethyb':
@@ -1491,6 +1545,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/fxrt'));
     case 'fxs':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/fxs'));
+    case 'fyusd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/fyusd'));
     case 'g':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/g'));
     case 'gaia':
@@ -1667,6 +1723,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/h'));
     case 'h2o':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/h2o'));
+    case 'haedal':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/haedal'));
     case 'hard':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hard'));
     case 'hash':
@@ -1687,12 +1745,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hbg'));
     case 'hcn':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hcn'));
+    case 'hcoin':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hcoin'));
     case 'hdo':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hdo'));
     case 'hedg':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hedg'));
     case 'hegic':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hegic'));
+    case 'hemieth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hemieth'));
     case 'heth':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/heth'));
     case 'hex':
@@ -1725,6 +1787,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/home'));
     case 'honey':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/honey'));
+    case 'hoodeth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hoodeth'));
     case 'hoodon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hoodon'));
     case 'hook':
@@ -1737,6 +1801,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hpb'));
     case 'hpp':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hpp'));
+    case 'hppeth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hppeth'));
     case 'hqt':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hqt'));
     case 'hrxo':
@@ -1753,6 +1819,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hsuite'));
     case 'ht':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ht'));
+    case 'htethgrtxp':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/htethgrtxp'));
     case 'html':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/html'));
     case 'htx':
@@ -1761,6 +1829,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/huc'));
     case 'hum':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hum'));
+    case 'huma':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/huma'));
     case 'humidifi':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/humidifi'));
     case 'husd':
@@ -1781,6 +1851,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hygon'));
     case 'hypeevm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hypeevm'));
+    case 'hyper':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hyper'));
     case 'hyperlane':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/hyperlane'));
     case 'hyperliquid':
@@ -1877,6 +1949,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ip'));
     case 'iq':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/iq'));
+    case 'ir':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ir'));
     case 'iris':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/iris'));
     case 'irys':
@@ -1885,6 +1959,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/isei'));
     case 'isf':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/isf'));
+    case 'island':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/island'));
     case 'islm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/islm'));
     case 'isr':
@@ -1939,6 +2015,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jovayeth'));
     case 'jovayethjft':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jovayethjft'));
+    case 'jovayethusdce':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jovayethusdce'));
     case 'jpmon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/jpmon'));
     case 'jpy':
@@ -1989,6 +2067,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kinto'));
     case 'kiro':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kiro'));
+    case 'kite':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kite'));
     case 'klaytn':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/klaytn'));
     case 'klo':
@@ -2013,6 +2093,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kp3r'));
     case 'kpk':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kpk'));
+    case 'kprme-cash':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kprme-cash'));
     case 'krb':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/krb'));
     case 'kro':
@@ -2023,6 +2105,10 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ksm'));
     case 'kub':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kub'));
+    case 'kwyld-cash':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kwyld-cash'));
+    case 'kwyld-usdc':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kwyld-usdc'));
     case 'kze':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/kze'));
     case 'l3':
@@ -2265,6 +2351,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/mkr'));
     case 'mln':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/mln'));
+    case 'mmt':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/mmt'));
     case 'mmt54':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/mmt54'));
     case 'mnde':
@@ -2373,6 +2461,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/myrc'));
     case 'myth':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/myth'));
+    case 'myx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/myx'));
     case 'mzc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/mzc'));
     case 'naka':
@@ -2449,6 +2539,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/nmr'));
     case 'nnn':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/nnn'));
+    case 'nom':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/nom'));
     case 'nos':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/nos'));
     case 'nosana':
@@ -2735,6 +2827,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/polis'));
     case 'pols':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/pols'));
+    case 'polstg':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/polstg'));
     case 'poly':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/poly'));
     case 'polygon':
@@ -2753,6 +2847,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ponke'));
     case 'popcat':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/popcat'));
+    case 'portals':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/portals'));
     case 'porto':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/porto'));
     case 'pot':
@@ -2991,6 +3087,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/rsweth'));
     case 'rtbl':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/rtbl'));
+    case 'rtest':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/rtest'));
     case 'rub':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/rub'));
     case 'rubx':
@@ -3009,6 +3107,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/safe'));
     case 'safemoon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/safemoon'));
+    case 'sahara':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/sahara'));
     case 'sai':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/sai'));
     case 'sail':
@@ -3199,12 +3299,18 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/sollayer'));
     case 'solmet':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solmet'));
+    case 'solmeta':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solmeta'));
     case 'solnpc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solnpc'));
     case 'solo':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solo'));
     case 'solprcl':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solprcl'));
+    case 'solprime':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solprime'));
+    case 'solskr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solskr'));
     case 'solsoon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/solsoon'));
     case 'soltbill':
@@ -3353,6 +3459,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/suins'));
     case 'suiusde':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/suiusde'));
+    case 'suiusdsui':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/suiusdsui'));
     case 'sumo':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/sumo'));
     case 'sun':
@@ -3405,6 +3513,14 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tau'));
     case 'taud':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/taud'));
+    case 'tbaseethctusd1cx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tbaseethctusd1cx'));
+    case 'tbaseethusd1cx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tbaseethusd1cx'));
+    case 'tbaseethxsgd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tbaseethxsgd'));
+    case 'tbaseethxusd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tbaseethxusd'));
     case 'tbtc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tbtc'));
     case 'tbtc1':
@@ -3415,6 +3531,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tcad'));
     case 'tco':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tco'));
+    case 'tcoreum':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tcoreum'));
     case 'tcs':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tcs'));
     case 'tdai':
@@ -3445,8 +3563,16 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tern'));
     case 'tesouro':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tesouro'));
+    case 'testamzn':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/testamzn'));
     case 'testcopm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/testcopm'));
+    case 'testnflx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/testnflx'));
+    case 'testpltr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/testpltr'));
+    case 'testtsla':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/testtsla'));
     case 'tgbp':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/tgbp'));
     case 'tgch':
@@ -3647,8 +3773,12 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/unhon'));
     case 'uni':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/uni'));
+    case 'unieth':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/unieth'));
     case 'unio':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/unio'));
+    case 'unite':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/unite'));
     case 'unity':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/unity'));
     case 'unsteth':
@@ -3687,6 +3817,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdcv'));
     case 'usdcv2':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdcv2'));
+    case 'usdcx':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdcx'));
     case 'usdd':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdd'));
     case 'usde':
@@ -3723,6 +3855,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdto'));
     case 'usdx':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdx'));
+    case 'usdxlr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdxlr'));
     case 'usdy':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/usdy'));
     case 'useless':
@@ -3949,6 +4083,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/wrose'));
     case 'wrx':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/wrx'));
+    case 'wsei':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/wsei'));
     case 'wsohm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/wsohm'));
     case 'wsteth':
@@ -4005,6 +4141,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xcp'));
     case 'xdc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xdc'));
+    case 'xdcaudd':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xdcaudd'));
     case 'xdccre':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xdccre'));
     case 'xdcgama':
@@ -4087,6 +4225,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xtp'));
     case 'xtz':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xtz'));
+    case 'xtzevm':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xtzevm'));
     case 'xuc':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/xuc'));
     case 'xusd':
@@ -4155,8 +4295,6 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/zest'));
     case 'zeta':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/zeta'));
-    case 'zetachain':
-      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/zetachain'));
     case 'zetaevm':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/zetaevm'));
     case 'zeus':
