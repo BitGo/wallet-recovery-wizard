@@ -155,7 +155,7 @@
     "storybook:build": "build-storybook",
     "storybook:preview": "http-server storybook-static --port 6006 --silent",
     "storybook:test": "test-storybook",
-    "storybook:test:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx start-storybook --ci -p 6006\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
+    "storybook:test:ci": "build-storybook && concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"http-server storybook-static --port 6006 --silent\" \"wait-on http-get://localhost:6006/ && npx test-storybook\"",
     "test": "vitest",
     "bump-bitgo-versions": "npm exec ts-node ./scripts/bump-version"
   },
