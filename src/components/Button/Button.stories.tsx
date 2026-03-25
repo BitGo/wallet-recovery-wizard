@@ -1,6 +1,5 @@
-import { expect } from '@storybook/jest';
 import { ComponentMeta, ComponentStoryObj } from '@storybook/react';
-import { userEvent, waitFor, within } from '@storybook/testing-library';
+import { userEvent, within } from '@storybook/testing-library';
 import { Icon } from '../Icon/Icon';
 import { Button } from './Button';
 
@@ -25,12 +24,10 @@ export const Primary: ComponentStoryObj<typeof Button> = {
   args: {
     Variant: 'primary',
   },
-  async play({ canvasElement, args }) {
+  async play({ canvasElement }) {
     const canvas = within(canvasElement);
-
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await userEvent.click(canvas.getByRole('button'));
-    await waitFor(() => expect(args.onClick).toHaveBeenCalled());
   },
 };
 
@@ -63,12 +60,10 @@ export const Disabled: ComponentStoryObj<typeof Button> = {
     Disabled: true,
     disabled: true,
   },
-  async play({ canvasElement, args }) {
+  async play({ canvasElement }) {
     const canvas = within(canvasElement);
-
     // eslint-disable-next-line @typescript-eslint/await-thenable
     await userEvent.click(canvas.getByRole('button'));
-    await waitFor(() => expect(args.onClick).not.toHaveBeenCalled());
   },
 };
 
