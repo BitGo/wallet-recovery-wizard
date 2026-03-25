@@ -157,6 +157,67 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
     }
     case 'ada':
     case 'tada':
+      return (
+        <GenericEcdsaForm
+          onSubmit={async (values, { setSubmitting }) => {
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(environment);
+              const chainData = await window.queries.getChain(coin);
+              // Exclude userKey, backupKey and walletPassphrase so recoverConsolidations
+              // takes the unsigned sweep path (isUnsignedSweep = !userKey && !backupKey && !walletPassphrase)
+              const { walletPassphrase, userKey, backupKey, ...recoveryParams } = values;
+              const consolidateData =
+                await window.commands.recoverConsolidations(coin, recoveryParams);
+
+              if (consolidateData instanceof Error) {
+                throw consolidateData;
+              }
+
+              // OVC keys signers by txRequestId. WRW recovery files don't have one,
+              // so assign a unique ID per txRequest to prevent multiple consolidation
+              // transactions from colliding on the same undefined key in OVC's signer map.
+              const consolidateDataWithIds = {
+                ...(consolidateData as any),
+                txRequests: ((consolidateData as any).txRequests ?? []).map((txReq: any) => ({
+                  ...txReq,
+                  txRequestId: txReq.txRequestId ?? crypto.randomUUID(),
+                })),
+              };
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-consolidation-${Date.now()}.json`,
+              });
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(consolidateDataWithIds, null, 2),
+                { encoding: 'utf8' }
+              );
+              navigate(
+                `/${environment}/build-unsigned-consolidation/${coin}/success`
+              );
+            } catch (e) {
+              if (e instanceof Error) {
+                setAlert(e.message);
+              } else {
+                console.log(e);
+              }
+
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     case 'dot':
     case 'tdot':
     case 'tao':
