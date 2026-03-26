@@ -1327,7 +1327,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Fluent Ethereum Mainnet',
     Icon: 'fluenteth',
     value: 'fluenteth',
-    ApiKeyProvider: 'testnet.fluentscan.xyz', //todo: update when mainnet explorer is available
+    ApiKeyProvider: 'fluentscan.xyz',
     isTssSupported: true,
   },
   tfluenteth: {
