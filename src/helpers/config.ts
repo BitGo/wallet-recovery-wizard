@@ -91,6 +91,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'erc20',
     minGasLimit: '30,000',
     defaultGasLimit: '500,000',
+    isTssSupported: true,
   },
   trx: {
     Title: 'TRX',
@@ -153,6 +154,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '1,000,000',
     defaultGasLimitNum: 1000000,
+    isTssSupported: true,
   },
   coredao: {
     Title: 'COREDAO',
@@ -241,6 +243,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+    isTssSupported: true,
   },
   near: {
     Title: 'NEAR',
@@ -333,6 +336,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultGasLimitNum: 500000,
     defaultMaxPriorityFeePerGas: 30,
     defaultMaxFeePerGas: 50,
+    isTssSupported: true,
   },
   bcha: {
     Title: 'BCHA',
@@ -580,6 +584,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     value: 'hterc20',
     minGasLimit: '30,000',
     defaultGasLimit: '500,000',
+    isTssSupported: true,
   },
   ttrx: {
     Title: 'TTRX',
@@ -630,6 +635,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+    isTssSupported: true,
   },
   tcoredao: {
     Title: 'TCOREDAO',
@@ -718,6 +724,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     minGasLimit: '400,000',
     defaultGasLimit: '500,000',
     defaultGasLimitNum: 500000,
+    isTssSupported: true,
   },
   tnear: {
     Title: 'TNEAR',
@@ -820,6 +827,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultGasLimitNum: 500000,
     defaultMaxPriorityFeePerGas: 30,
     defaultMaxFeePerGas: 50,
+    isTssSupported: true,
   },
   tdoge: {
     Title: 'TDOGE',

@@ -1,4 +1,4 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
@@ -13,6 +13,7 @@ const validationSchema = Yup.object({
     .integer()
     .positive('Gas limit must be a positive integer')
     .required(),
+  isTss: Yup.boolean(),
   maxFeePerGas: Yup.number().required(),
   maxPriorityFeePerGas: Yup.number().required(),
   recoveryDestination: Yup.string().required(),
@@ -43,6 +44,7 @@ export function EthLikeTokenForm({
       backupKey: '',
       backupKeyId: '',
       gasLimit: allCoinMetas[coinName]?.defaultGasLimitNum ?? 500000,
+      isTss: false,
       maxFeePerGas: allCoinMetas[coinName]?.defaultMaxFeePerGas ?? 20,
       maxPriorityFeePerGas:
         allCoinMetas[coinName]?.defaultMaxPriorityFeePerGas ?? 10,
@@ -155,6 +157,14 @@ export function EthLikeTokenForm({
             Width="fill"
           />
         </div>
+        {allCoinMetas[coinName].isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
