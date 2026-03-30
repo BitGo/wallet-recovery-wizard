@@ -38,6 +38,7 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 12. **Broadcast the signed transactions:**
     - Copy the fully-signed (or half-signed for TRON) transaction file to an internet-connected machine.
     - Use the appropriate broadcast method for your coin.
+    - **For Cardano (ADA / TADA):** See the [Cardano broadcast instructions](#cardano-ada--tada) section below.
 
 ## What coins are supported?
 
@@ -56,3 +57,61 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 - **Test Bittensor (TTAO)**
 - **Test Solana (TSOL)** and test SPL tokens
 - **Test Sui (TSUI)** and test Sui tokens
+
+---
+
+## Cardano (ADA / TADA)
+
+### Supported assets
+
+- **ADA** (mainnet) and **TADA** (Preprod testnet)
+- Native tokens (e.g. fungible tokens on the Cardano blockchain)
+
+When a receive address holds native tokens alongside ADA, the consolidation transaction for that address produces **two outputs**:
+- Token output: root address + tokens + 1.5 ADA (minimum UTXO requirement)
+- ADA remainder: root address + remaining ADA after fee
+
+### Signing with OVC (6-step EdDSA)
+
+Cardano uses **EdDSA (Ed25519)**, so signing takes **6 steps** in OVC.
+
+> **Important:** Select **Sign TSS Recoveries** in OVC — not "Sign Transactions" or "Sign TSS Transactions".
+
+| Step | OVC role   | Action |
+|------|------------|--------|
+| 1    | User OVC   | Upload unsigned consolidation file → download share file |
+| 2    | Backup OVC | Upload user share → download backup share |
+| 3    | User OVC   | Upload backup share → download user signature share |
+| 4    | Backup OVC | Upload user signature share → download backup signature share |
+| 5    | User OVC   | Upload backup signature share → download final signed file |
+| 6    | —          | Broadcast each transaction in the signed file |
+
+### Multiple transactions per file
+
+WRW produces **one unsigned transaction per funded receive address**. If two addresses have funds, the signed file will contain two `signatureShares` entries. You must **broadcast each transaction separately** — they are independent on-chain transactions.
+
+### Broadcast using `broadcast_ada.py`
+
+`broadcast_ada.py` (included in this repository) assembles and submits all transactions in the signed file automatically, in order.
+
+**Requirements:**
+```bash
+pip install cbor2
+```
+
+**Broadcast to testnet (TADA / Preprod):**
+```bash
+python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json
+```
+
+**Broadcast to mainnet (ADA):**
+```bash
+python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --network mainnet
+```
+
+**Dry run (inspect assembled CBOR without broadcasting):**
+```bash
+python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --dry-run
+```
+
+The script iterates over every `signatureShares` entry, prints the transaction details, broadcasts each one, and prints the Cardanoscan explorer link for each successful submission.
