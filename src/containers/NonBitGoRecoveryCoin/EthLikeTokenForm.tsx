@@ -1,4 +1,4 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
@@ -14,6 +14,7 @@ const validationSchema = Yup.object({
   apiKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   gasLimit: Yup.number().required(),
+  isTss: Yup.boolean(),
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
@@ -46,6 +47,7 @@ export function EthLikeTokenForm({
       apiKey: '',
       userKey: '',
       backupKey: '',
+      isTss: false,
       tokenContractAddress: '',
       walletContractAddress: '',
       walletPassphrase: '',
@@ -175,6 +177,14 @@ export function EthLikeTokenForm({
             Width="fill"
           />
         </div>
+        {allCoinMetas[coinName].isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              Is TSS recovery?
+            </label>
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
