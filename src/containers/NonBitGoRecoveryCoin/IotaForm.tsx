@@ -69,9 +69,9 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
         <div className="tw-mb-4">
           <FormikTextarea
             Label="Box A Value (User Key)"
-            HelperText="Enter the encrypted user key from Box A of your keycard (JSON format with iv, cipher, ct fields)"
+            HelperText="Enter the encrypted user key from Box A of your KeyCard (JSON format with iv, cipher, ct fields)"
             name="userKey"
-            placeholder="Encrypted User Key from Keycard (JSON)"
+            placeholder="Encrypted User Key from KeyCard (JSON)"
             rows={3}
             Width="fill"
           />
@@ -80,9 +80,9 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
         <div className="tw-mb-4">
           <FormikTextarea
             Label="Box B Value (Backup Key)"
-            HelperText="Enter the encrypted backup key from Box B of your keycard (JSON format with iv, cipher, ct fields)"
+            HelperText="Enter the encrypted backup key from Box B of your KeyCard (JSON format with iv, cipher, ct fields)"
             name="backupKey"
-            placeholder="Encrypted Backup Key from Keycard (JSON)"
+            placeholder="Encrypted Backup Key from KeyCard (JSON)"
             rows={3}
             Width="fill"
           />
@@ -102,7 +102,7 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
         <div className="tw-mb-4">
           <FormikPasswordfield
             Label="Wallet Passphrase"
-            HelperText="Required to decrypt user and backup keys from the keycard"
+            HelperText="Required to decrypt user and backup keys from the KeyCard"
             name="walletPassphrase"
             placeholder="Enter wallet passphrase to decrypt keys"
             Width="fill"

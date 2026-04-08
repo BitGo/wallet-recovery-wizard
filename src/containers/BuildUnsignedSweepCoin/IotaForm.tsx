@@ -64,7 +64,7 @@ export function IotaForm({ onSubmit, coinName }: IotaUnsignedSweepFormProps) {
           <FormikTextarea
             Label="Box C Value (BitGo Key / Common Keychain)"
             name="bitgoKey"
-            HelperText="Enter the raw public key (commonKeychain) from Box C of your keycard. This should be a 128-character hex string."
+            HelperText="Enter the raw public key (commonKeychain) from Box C of your KeyCard. This should be a 128-character hex string."
             rows={3}
             Width="fill"
           />

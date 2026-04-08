@@ -62,8 +62,8 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
 
   const backupKeyHelperText =
     formik.values.krsProvider === ''
-      ? 'Your encrypted backup key, as found on your BitGo recovery keycard.'
-      : 'The backup public key for the wallet, as found on your BitGo recovery keycard.';
+      ? 'Your encrypted backup key, as found on your BitGo recovery KeyCard.'
+      : 'The backup public key for the wallet, as found on your BitGo recovery KeyCard.';
 
   return (
     <FormikProvider value={formik}>
