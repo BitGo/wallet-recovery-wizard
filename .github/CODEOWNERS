@@ -5,6 +5,7 @@
 * @BitGo/ethalt-team
 
 /e2e/utxo/ @BitGo/btc-team
- 
+/src/containers/NonBitGoRecoveryCoin/UtxoForm.tsx @BitGo/btc-team
+
 ## THIS SHOULD ALWAYS BE LAST ##
 /.github/CODEOWNERS @BitGo/git-admins
