@@ -208,6 +208,9 @@ const commands: Commands = {
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
   },
+  signPsbt(coin, params) {
+    return ipcRenderer.invoke('signPsbt', coin, params);
+  },
   wrongChainRecover(sourceCoin, destinationCoin, parameters) {
     return ipcRenderer.invoke(
       'wrongChainRecover',
