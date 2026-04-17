@@ -18,12 +18,18 @@ const validationSchema = Yup.object({
   psbt: Yup.string().required(),
   userKey: Yup.string().required(),
   walletPassphrase: Yup.string().optional(),
-  recipientAddress: Yup.string().optional(),
-  recipientAmount: Yup.string().optional(),
-  feeRate: Yup.string().optional(),
+  recipientAddress: Yup.string().required(),
+  feeRateSatVB: Yup.number().positive().required(),
 }).required();
 
-export type SignPsbtFormValues = Yup.Asserts<typeof validationSchema>;
+export type SignPsbtFormValues = {
+  coin: string;
+  psbt: string;
+  userKey: string;
+  walletPassphrase: string;
+  recipientAddress: string;
+  feeRateSatVB: number | '';
+};
 
 export type SignPsbtFormProps = {
   onSubmit: (
@@ -41,8 +47,7 @@ export function SignPsbtForm({ onSubmit }: SignPsbtFormProps) {
       userKey: '',
       walletPassphrase: '',
       recipientAddress: '',
-      recipientAmount: '',
-      feeRate: '',
+      feeRateSatVB: '',
     },
     validationSchema,
   });
@@ -73,7 +78,7 @@ export function SignPsbtForm({ onSubmit }: SignPsbtFormProps) {
 
         <div className="tw-mb-4">
           <FormikTextarea
-            HelperText="The unsigned PSBT, as hex or base64 string."
+            HelperText="The unsigned PSBT (inputs only, no outputs), as hex or base64."
             Label="Unsigned PSBT"
             name="psbt"
             rows={6}
@@ -104,29 +109,18 @@ export function SignPsbtForm({ onSubmit }: SignPsbtFormProps) {
 
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="(optional) Recipient address to add as an output to the PSBT before signing."
+            HelperText="Address to receive all funds minus the fee."
             Label="Recipient Address"
             name="recipientAddress"
             Width="fill"
           />
         </div>
 
-        {formik.values.recipientAddress && (
-          <div className="tw-mb-4">
-            <FormikTextfield
-              HelperText="(optional) Amount in satoshis for the recipient output."
-              Label="Recipient Amount (satoshis)"
-              name="recipientAmount"
-              Width="fill"
-            />
-          </div>
-        )}
-
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="(optional) Fee rate in satoshis per vbyte. Informational only."
-            Label="Fee Rate"
-            name="feeRate"
+            HelperText="Fee rate in satoshis per vbyte. Used to calculate the output amount."
+            Label="Fee Rate (sat/vbyte)"
+            name="feeRateSatVB"
             Width="fill"
           />
         </div>

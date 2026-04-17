@@ -129,8 +129,8 @@ export type SignPsbtParams = {
   psbt: string;
   userKey: string;
   walletPassphrase?: string;
-  recipient?: { address: string; amountSatoshi: string };
-  feeRate?: number;
+  recipientAddress: string;
+  feeRateSatVB: number;
 };
 
 export type SignPsbtResult = {

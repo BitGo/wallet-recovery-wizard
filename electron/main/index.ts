@@ -1,5 +1,5 @@
 import { TrxConsolidationRecoveryOptions, RecoverWithPsbtParams, SignPsbtParams } from '../types';
-import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys, withRecipient } from '../utxo/psbt';
+import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys } from '../utxo/psbt';
 import EthereumCommon from '@ethereumjs/common';
 
 process.env.DIST_ELECTRON = join(__dirname, '../..');
@@ -619,15 +619,14 @@ async function createWindow() {
     return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv);
   });
 
-  ipcMain.handle('signPsbt', async (_event, coin: string, params: SignPsbtParams) => {
+  ipcMain.handle('signPsbt', (_event, coin: string, params: SignPsbtParams) => {
     if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     const userXprv = isXprv(params.userKey)
       ? params.userKey
       : sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
-    let psbtHex = psbtToHex(params.psbt);
-    if (params.recipient) psbtHex = withRecipient(psbtHex, baseCoin, params.recipient);
-    const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv);
+    const psbtHex = psbtToHex(params.psbt);
+    const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv, params.recipientAddress, params.feeRateSatVB);
     return { halfSignedPsbt: halfSignedHex, coin };
   });
 }

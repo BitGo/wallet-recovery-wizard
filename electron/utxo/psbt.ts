@@ -1,5 +1,5 @@
-import { AbstractUtxoCoin, transaction } from '@bitgo/abstract-utxo';
-import { fixedScriptWallet, BIP32 } from '@bitgo/wasm-utxo';
+import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
+import { fixedScriptWallet, BIP32, Dimensions, type CoinName } from '@bitgo/wasm-utxo';
 
 export const UTXO_COINS = [
   'btc', 'tbtc', 'ltc', 'tltc', 'doge', 'tdoge',
@@ -22,23 +22,51 @@ export function psbtToHex(psbt: string): string {
   return Buffer.from(psbt, 'base64').toString('hex');
 }
 
-type Recipient = { address: string; amountSatoshi: string };
+// Validate the PSBT has no outputs, then compute and add the single recipient output.
+// Output value = totalInputValue - (feeRate * estimatedVsize).
+function buildOutput(
+  psbtHex: string,
+  coinName: string,
+  recipientAddress: string,
+  feeRateSatVB: number,
+): string {
+  const bytes = Buffer.from(psbtHex, 'hex');
+  const psbt = fixedScriptWallet.BitGoPsbt.fromBytes(bytes, coinName as CoinName);
 
-// If a recipient is given, decode the PSBT, append the output, re-serialize.
-export function withRecipient(psbtHex: string, coin: AbstractUtxoCoin, recipient: Recipient): string {
-  const psbt = transaction.decodePsbt(psbtHex, coin.getChain());
-  psbt.addOutput(recipient.address, BigInt(recipient.amountSatoshi));
+  const existingDims = Dimensions.fromPsbt(psbt);
+  if (existingDims.getOutputVSize() > 0) {
+    throw new Error('PSBT must have no outputs. Remove all outputs before signing.');
+  }
+
+  const inputs = psbt.getInputs();
+  const totalInput = inputs.reduce((sum, inp) => {
+    if (!inp.witnessUtxo) throw new Error('Must use psbt-lite format with witnessUtxo for fee calculation');
+    return sum + inp.witnessUtxo.value;
+  }, BigInt(0));
+
+  const outputDims = Dimensions.fromOutput(recipientAddress, coinName as CoinName);
+  const vsize = existingDims.plus(outputDims).getVSize('max');
+
+  const fee = BigInt(feeRateSatVB) * BigInt(vsize);
+  const outputValue = totalInput - fee;
+  if (outputValue <= BigInt(0)) {
+    throw new Error(`Fee (${fee} sat) exceeds total input value (${totalInput} sat)`);
+  }
+
+  psbt.addOutput(recipientAddress, outputValue);
   return Buffer.from(psbt.serialize()).toString('hex');
 }
 
-// Sign the PSBT with the user key only → half-signed PSBT (hex).
-// Uses the wasm-utxo BitGoPsbt API directly to avoid abstract-utxo version skew.
+// Add the recipient output, then sign with the user key → half-signed PSBT (hex).
 export function signPsbt(
   coin: AbstractUtxoCoin,
   psbtHex: string,
   xprv: string,
+  recipientAddress: string,
+  feeRateSatVB: number,
 ): string {
-  const bytes = Buffer.from(psbtHex, 'hex');
+  const withOutput = buildOutput(psbtHex, coin.getChain(), recipientAddress, feeRateSatVB);
+  const bytes = Buffer.from(withOutput, 'hex');
   const psbt = fixedScriptWallet.BitGoPsbt.fromBytes(bytes, coin.getChain());
   psbt.sign(BIP32.fromBase58(xprv));
   return Buffer.from(psbt.serialize()).toString('hex');

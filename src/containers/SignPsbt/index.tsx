@@ -35,11 +35,8 @@ export default function SignPsbt() {
         psbt: values.psbt,
         userKey: values.userKey.trim(),
         walletPassphrase: values.walletPassphrase,
-        recipient:
-          values.recipientAddress && values.recipientAmount
-            ? { address: values.recipientAddress, amountSatoshi: values.recipientAmount }
-            : undefined,
-        feeRate: values.feeRate ? Number(values.feeRate) : undefined,
+        recipientAddress: values.recipientAddress,
+        feeRateSatVB: Number(values.feeRateSatVB),
       });
 
       const defaultFilename = `${values.coin}-half-signed-psbt-${Date.now()}.json`;
