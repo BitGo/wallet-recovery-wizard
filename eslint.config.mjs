@@ -19,6 +19,8 @@ export default tseslint.config(
       '.vscode/**',
       '.storybook/**',
       'eslint.config.mjs',
+      'playwright-report/**',
+      'test-results/**',
       // Fails at the parser level — must use ignores, not per-file overrides
       'src/components/Title/Title.test.tsx',
     ],
@@ -39,7 +41,7 @@ export default tseslint.config(
     extends: tseslint.configs.recommendedTypeChecked,
     languageOptions: {
       parserOptions: {
-        projectService: true,
+        project: ['./tsconfig.json', './tsconfig.test.json', './tsconfig.node.json'],
         tsconfigRootDir: __dirname,
       },
     },
