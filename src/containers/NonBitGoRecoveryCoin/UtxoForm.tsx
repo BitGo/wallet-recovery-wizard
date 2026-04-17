@@ -13,6 +13,7 @@ import {
 } from '~/components';
 
 const validationSchema = Yup.object({
+  recoverySource: Yup.string().oneOf(['blockchain', 'psbt']).required(),
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
@@ -21,9 +22,26 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   feeRate: Yup.number().nullable().optional(),
-  apiKey: Yup.string().required(),
-  recoveryDestination: Yup.string().required(),
-  scan: Yup.number().required(),
+  apiKey: Yup.string().when('recoverySource', {
+    is: 'blockchain',
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }),
+  recoveryDestination: Yup.string().when('recoverySource', {
+    is: 'blockchain',
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }),
+  scan: Yup.number().when('recoverySource', {
+    is: 'blockchain',
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }),
+  psbt: Yup.string().when('recoverySource', {
+    is: 'psbt',
+    then: (s) => s.required(),
+    otherwise: (s) => s.optional(),
+  }),
 }).required();
 
 export type UtxoFormConfig = {
@@ -104,6 +122,7 @@ export function UtxoForm({
   const formik = useFormik<UtxoFormValues>({
     onSubmit,
     initialValues: {
+      recoverySource: 'blockchain',
       krsProvider: '',
       userKey: '',
       backupKey: '',
@@ -113,6 +132,7 @@ export function UtxoForm({
       apiKey: '',
       recoveryDestination: '',
       scan: 20,
+      psbt: '',
     },
     validationSchema,
   });
@@ -180,37 +200,63 @@ export function UtxoForm({
           />
         </div>
         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The address your recovery transaction will send to."
-            Label="Destination Address"
-            name="recoveryDestination"
+          <FormikSelectfield
+            HelperText="Choose how to provide the transaction inputs: scan the blockchain with Blockchair, or provide an unsigned PSBT."
+            Label="Recovery Source"
+            name="recoverySource"
             Width="fill"
-          />
+          >
+            <option value="blockchain">Scan Blockchain</option>
+            <option value="psbt">Provide Unsigned PSBT</option>
+          </FormikSelectfield>
         </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
-            Label="Fee Rate"
-            name="feeRate"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Label="Address Scanning Factor"
-            name="scan"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin."
-            Label="API Key"
-            name="apiKey"
-            Width="fill"
-          />
-        </div>
+        {formik.values.recoverySource === 'psbt' && (
+          <div className="tw-mb-4">
+            <FormikTextarea
+              HelperText="The unsigned PSBT (hex or base64 format) containing the inputs and outputs."
+              Label="Unsigned PSBT"
+              name="psbt"
+              rows={6}
+              Width="fill"
+            />
+          </div>
+        )}
+        {formik.values.recoverySource === 'blockchain' && (
+          <>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="The address your recovery transaction will send to."
+                Label="Destination Address"
+                name="recoveryDestination"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
+                Label="Fee Rate"
+                name="feeRate"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="The amount of addresses without transactions to scan before stopping the tool."
+                Label="Address Scanning Factor"
+                name="scan"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin."
+                Label="API Key"
+                name="apiKey"
+                Width="fill"
+              />
+            </div>
+          </>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

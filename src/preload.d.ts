@@ -41,6 +41,9 @@ import {
   SuiRecoveryConsolidationRecoveryOptions,
   TrxConsolidationRecoveryBatch,
   TrxConsolidationRecoveryOptions,
+  RecoverWithPsbtParams,
+  SignPsbtParams,
+  SignPsbtResult,
 } from '~/utils/types';
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '~/helpers/config';
@@ -144,6 +147,14 @@ type Commands = {
   ): Promise<void>;
   login(username: string, password: string, otp: string): Promise<Error | User>;
   logout(): Promise<Error | undefined>;
+  recoverWithPsbt(
+    coin: string,
+    params: RecoverWithPsbtParams
+  ): Promise<{ txHex: string }>;
+  signPsbt(
+    coin: string,
+    params: SignPsbtParams
+  ): Promise<SignPsbtResult>;
 };
 
 type Queries = {
@@ -235,6 +246,12 @@ const commands: Commands = {
   },
   logout() {
     return ipcRenderer.invoke('logout');
+  },
+  recoverWithPsbt(coin, params) {
+    return ipcRenderer.invoke('recoverWithPsbt', coin, params);
+  },
+  signPsbt(coin, params) {
+    return ipcRenderer.invoke('signPsbt', coin, params);
   },
 };
 
