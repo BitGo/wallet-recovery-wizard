@@ -90,7 +90,7 @@ function Form() {
     case 'ltc': case 'btg': case 'dash': case 'zec':
     case 'doge': case 'tdoge':
     case 'bch': case 'bcha': {
-      const { form: formConfig, passApiKeyToEnv, bigintSerialization } = UTXO_COIN_CONFIGS[coin!];
+      const { form: formConfig, passApiKeyToEnv, bigintSerialization } = UTXO_COIN_CONFIGS[coin];
       return (
         <UtxoForm
           key={coin}
@@ -123,7 +123,7 @@ function Form() {
               });
               if (!filePath) throw new Error('No file path selected');
               const serialized = bigintSerialization
-                ? JSON.stringify(recoverData, (_, v) => typeof v === 'bigint' ? v.toString() : v, 2)
+                ? JSON.stringify(recoverData, (_: string, v: unknown): unknown => typeof v === 'bigint' ? String(v) : v, 2)
                 : JSON.stringify(recoverData, null, 2);
               await window.commands.writeFile(filePath, serialized, { encoding: 'utf-8' });
               navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
@@ -930,7 +930,7 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = tokenParentCoins[coin];
-              let chainData = await getTokenChain(
+              const chainData = await getTokenChain(
                 values.tokenAddress,
                 parentCoin
               );
@@ -1397,7 +1397,7 @@ function Form() {
               const chainData = parentCoin
                 ? parentCoin
                 : await window.queries.getChain(coin);
-              let callerCoin = parentCoin ? parentCoin : coin;
+              const callerCoin = parentCoin ? parentCoin : coin;
 
               const recoverData = await window.commands.recover(callerCoin, {
                 ...values,
