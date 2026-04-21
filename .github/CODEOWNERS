@@ -4,5 +4,7 @@
 # These owners and first officers will be the default owners for everything in the repo.
 * @BitGo/ethalt-team
 
+/e2e/utxo/ @BitGo/btc-team
+ 
 ## THIS SHOULD ALWAYS BE LAST ##
 /.github/CODEOWNERS @BitGo/git-admins

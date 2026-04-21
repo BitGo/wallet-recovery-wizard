@@ -152,6 +152,7 @@
     "lint:fix": "eslint --fix .",
     "playwright:show-report": "playwright show-report",
     "playwright:test": "playwright test",
+    "playwright:test:utxo": "playwright test e2e/utxo",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "storybook:preview": "http-server storybook-static --port 6006 --silent",
