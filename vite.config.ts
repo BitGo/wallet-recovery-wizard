@@ -1,5 +1,6 @@
 import { rmSync } from 'fs';
 import path from 'path';
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import electron from 'vite-electron-plugin';
@@ -11,6 +12,11 @@ rmSync(path.join(__dirname, 'dist-electron'), { recursive: true, force: true });
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    exclude: ['**/node_modules/**', 'e2e/**'],
+  },
   server: {
     port: 5173,
   },
