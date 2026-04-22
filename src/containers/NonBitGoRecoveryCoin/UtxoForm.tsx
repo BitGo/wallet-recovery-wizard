@@ -27,9 +27,8 @@ const validationSchema = Yup.object({
 }).required();
 
 export type UtxoFormConfig = {
-  showKrsProvider?: boolean;   // defaults true; pass false for coins without KRS support
-  feeRateHelperText?: string;  // if set, renders the feeRate field with this helper text
-  notice?: ReactNode;          // optional notice rendered above the form heading (e.g. BCH)
+  showKrsProvider?: boolean;  // defaults true; pass false for coins without KRS support
+  notice?: ReactNode;         // optional notice rendered above the form heading (e.g. BCH)
 };
 
 export type UtxoCoinHandlerConfig = {
@@ -55,7 +54,7 @@ const BCHA_NOTICE = (
 );
 
 const BTC_CONFIG: UtxoCoinHandlerConfig = {
-  form: { feeRateHelperText: '(optional) The fee rate in satoshis per byte to use for the recovery transaction.' },
+  form: {},
   passApiKeyToEnv: false,
   bigintSerialization: false,
 };
@@ -65,7 +64,7 @@ const LTC_CONFIG: UtxoCoinHandlerConfig = {
   bigintSerialization: false,
 };
 const DOGE_CONFIG: UtxoCoinHandlerConfig = {
-  form: { showKrsProvider: false, feeRateHelperText: '(optional) The fee rate in base units per byte to use for the recovery transaction.' },
+  form: { showKrsProvider: false },
   passApiKeyToEnv: true,
   bigintSerialization: true,
 };
@@ -99,7 +98,6 @@ export type UtxoFormProps = UtxoFormConfig & {
 
 export function UtxoForm({
   showKrsProvider = true,
-  feeRateHelperText,
   notice,
   onSubmit,
 }: UtxoFormProps) {
@@ -189,16 +187,14 @@ export function UtxoForm({
             Width="fill"
           />
         </div>
-        {feeRateHelperText && (
-          <div className="tw-mb-4">
-            <FormikTextfield
-              HelperText={feeRateHelperText}
-              Label="Fee Rate"
-              name="feeRate"
-              Width="fill"
-            />
-          </div>
-        )}
+        <div className="tw-mb-4">
+          <FormikTextfield
+            HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
+            Label="Fee Rate"
+            name="feeRate"
+            Width="fill"
+          />
+        </div>
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
