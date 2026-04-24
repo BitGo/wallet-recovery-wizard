@@ -20,16 +20,12 @@ import {
   ethTestnetChainId,
 } from '~/helpers/config';
 import { AvalancheCForm } from './AvalancheCForm';
-import { BitcoinABCForm } from './BitcoinABCForm';
-import { BitcoinCashForm } from './BitcoinCashForm';
-import { BitcoinForm } from './BitcoinForm';
 import { CardanoForm } from './CardanoForm';
 import { CosmosForm } from './CosmosForm';
-import { DogecoinForm } from './DogecoinForm';
 import { EthLikeTokenForm } from './EthLikeTokenForm';
 import { EthereumForm } from './EthLikeForm';
 import { EthereumWForm } from './EthereumWForm';
-import { LitecoinForm } from './LitecoinForm';
+import { UtxoForm, UTXO_COIN_CONFIGS } from './UtxoForm';
 import { PolkadotForm } from './PolkadotForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
@@ -50,6 +46,7 @@ import { TonForm } from './TonForm';
 import { TonTokenForm } from './TonTokenForm';
 import { IotaForm } from './IotaForm';
 import { TezosForm } from './TezosForm';
+
 
 const evmCoins = [
   'eth',
@@ -89,63 +86,56 @@ function Form() {
   const navigate = useNavigate();
 
   switch (coin) {
-    case 'btc':
-    case 'tbtc':
+    case 'btc': case 'tbtc':
+    case 'ltc': case 'btg': case 'dash': case 'zec':
+    case 'doge': case 'tdoge':
+    case 'bch': case 'bcha': {
+      const { form: formConfig, passApiKeyToEnv, bigintSerialization } = UTXO_COIN_CONFIGS[coin];
       return (
-        <BitcoinForm
+        <UtxoForm
           key={coin}
+          {...formConfig}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
             try {
-              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              await window.commands.setBitGoEnvironment(
+                bitGoEnvironment, coin,
+                passApiKeyToEnv ? values.apiKey : undefined
+              );
               const chainData = await window.queries.getChain(coin);
               const recoverData = await window.commands.recover(coin, {
-                ...values,
-                scan: Number(values.scan),
-                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
+                apiKey: values.apiKey,
+                backupKey: values.backupKey,
                 bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                krsProvider: values.krsProvider,
+                recoveryDestination: values.recoveryDestination,
+                scan: Number(values.scan),
+                userKey: values.userKey,
+                walletPassphrase: values.walletPassphrase,
+                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
                 ignoreAddressTypes: [],
               });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
+              assert(isRecoveryTransaction(recoverData), 'Fully-signed recovery transaction not detected.');
+              const { filePath } = await window.commands.showSaveDialog({
+                filters: [{ name: 'Custom File Type', extensions: ['json'] }],
                 defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
               });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
-              );
+              if (!filePath) throw new Error('No file path selected');
+              const serialized = bigintSerialization
+                ? JSON.stringify(recoverData, (_: string, v: unknown): unknown => typeof v === 'bigint' ? String(v) : v, 2)
+                : JSON.stringify(recoverData, null, 2);
+              await window.commands.writeFile(filePath, serialized, { encoding: 'utf-8' });
+              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
             } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
+              if (err instanceof Error) setAlert(err.message);
+              else console.error(err);
               setSubmitting(false);
             }
           }}
         />
       );
+    }
     case 'dot':
     case 'tdot':
     case 'tao':
@@ -872,252 +862,6 @@ function Form() {
           }}
         />
       );
-    case 'bch':
-      return (
-        <BitcoinCashForm
-          key={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                scan: Number(values.scan),
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: [],
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'bcha':
-      return (
-        <BitcoinABCForm
-          key={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                scan: Number(values.scan),
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: [],
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'ltc':
-    case 'btg':
-    case 'dash':
-    case 'zec':
-      return (
-        <LitecoinForm
-          key={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                scan: Number(values.scan),
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: [],
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(recoverData, null, 2),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
-    case 'doge':
-    case 'tdoge':
-      return (
-        <DogecoinForm
-          key={coin}
-          onSubmit={async (values, { setSubmitting }) => {
-            setAlert(undefined);
-            setSubmitting(true);
-            try {
-              await window.commands.setBitGoEnvironment(
-                bitGoEnvironment,
-                coin,
-                values.apiKey
-              );
-              const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                ...values,
-                scan: Number(values.scan),
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                ignoreAddressTypes: [],
-                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
-              });
-              assert(
-                isRecoveryTransaction(recoverData),
-                'Fully-signed recovery transaction not detected.'
-              );
-
-              const showSaveDialogData = await window.commands.showSaveDialog({
-                filters: [
-                  {
-                    name: 'Custom File Type',
-                    extensions: ['json'],
-                  },
-                ],
-                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
-              });
-
-              if (!showSaveDialogData.filePath) {
-                throw new Error('No file path selected');
-              }
-
-              await window.commands.writeFile(
-                showSaveDialogData.filePath,
-                JSON.stringify(
-                  recoverData,
-                  (key, value) =>
-                    typeof value === 'bigint' ? value.toString() : value,
-                  2
-                ),
-                { encoding: 'utf-8' }
-              );
-
-              navigate(
-                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
-              );
-            } catch (err) {
-              if (err instanceof Error) {
-                setAlert(err.message);
-              } else {
-                console.error(err);
-              }
-              setSubmitting(false);
-            }
-          }}
-        />
-      );
     case 'trx':
     case 'ttrx':
       return (
@@ -1186,7 +930,7 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
               const parentCoin = tokenParentCoins[coin];
-              let chainData = await getTokenChain(
+              const chainData = await getTokenChain(
                 values.tokenAddress,
                 parentCoin
               );
@@ -1653,7 +1397,7 @@ function Form() {
               const chainData = parentCoin
                 ? parentCoin
                 : await window.queries.getChain(coin);
-              let callerCoin = parentCoin ? parentCoin : coin;
+              const callerCoin = parentCoin ? parentCoin : coin;
 
               const recoverData = await window.commands.recover(callerCoin, {
                 ...values,

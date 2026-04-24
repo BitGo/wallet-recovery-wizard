@@ -1,4 +1,5 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import {
@@ -7,42 +8,111 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
+  Icon,
+  Notice,
 } from '~/components';
 
 const validationSchema = Yup.object({
   krsProvider: Yup.string()
     .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
     .label('Key Recovery Service'),
-  apiKey: Yup.string().required(),
   userKey: Yup.string().required(),
   backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
+  feeRate: Yup.number().nullable().optional(),
+  apiKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
 }).required();
 
-export type LitecoinFormProps = {
+export type UtxoFormConfig = {
+  showKrsProvider?: boolean;  // defaults true; pass false for coins without KRS support
+  notice?: ReactNode;         // optional notice rendered above the form heading (e.g. BCH)
+};
+
+export type UtxoCoinHandlerConfig = {
+  form: UtxoFormConfig;
+  passApiKeyToEnv: boolean;
+  bigintSerialization: boolean;
+};
+
+const BCH_NOTICE = (
+  <Notice Variant="Secondary" IconLeft={<Icon Name="warning-sign" Size="small" />}>
+    Bitcoin Cash transactions are replayable on Bitcoin SV and Bitcoin ABC.
+    Please make sure you are the owner of the Destination Address to avoid
+    accidentally sending your Bitcoin Cash to an address you do not own.
+  </Notice>
+);
+
+const BCHA_NOTICE = (
+  <Notice Variant="Secondary" IconLeft={<Icon Name="warning-sign" Size="small" />}>
+    BCHA (aka XEC) transactions are replayable on Bitcoin Cash. Please make
+    sure you are the owner of the Destination Address to avoid accidentally
+    sending your XEC to an address you do not own.
+  </Notice>
+);
+
+const BTC_CONFIG: UtxoCoinHandlerConfig = {
+  form: {},
+  passApiKeyToEnv: false,
+  bigintSerialization: false,
+};
+const LTC_CONFIG: UtxoCoinHandlerConfig = {
+  form: {},
+  passApiKeyToEnv: true,
+  bigintSerialization: false,
+};
+const DOGE_CONFIG: UtxoCoinHandlerConfig = {
+  form: { showKrsProvider: false },
+  passApiKeyToEnv: true,
+  bigintSerialization: true,
+};
+const BCH_CONFIG: UtxoCoinHandlerConfig = {
+  form: { notice: BCH_NOTICE },
+  passApiKeyToEnv: true,
+  bigintSerialization: false,
+};
+const BCHA_CONFIG: UtxoCoinHandlerConfig = {
+  form: { notice: BCHA_NOTICE },
+  passApiKeyToEnv: true,
+  bigintSerialization: false,
+};
+
+export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
+  btc: BTC_CONFIG, tbtc: BTC_CONFIG,
+  ltc: LTC_CONFIG, btg: LTC_CONFIG, dash: LTC_CONFIG, zec: LTC_CONFIG,
+  doge: DOGE_CONFIG, tdoge: DOGE_CONFIG,
+  bch: BCH_CONFIG,
+  bcha: BCHA_CONFIG,
+};
+
+export type UtxoFormValues = Yup.Asserts<typeof validationSchema>;
+
+export type UtxoFormProps = UtxoFormConfig & {
   onSubmit: (
-    values: LitecoinFormValues,
-    formikHelpers: FormikHelpers<LitecoinFormValues>
+    values: UtxoFormValues,
+    helpers: FormikHelpers<UtxoFormValues>
   ) => void | Promise<void>;
 };
 
-type LitecoinFormValues = Yup.Asserts<typeof validationSchema>;
-
-export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
-  const formik = useFormik<LitecoinFormValues>({
+export function UtxoForm({
+  showKrsProvider = true,
+  notice,
+  onSubmit,
+}: UtxoFormProps) {
+  const formik = useFormik<UtxoFormValues>({
     onSubmit,
     initialValues: {
-      apiKey: '',
+      krsProvider: '',
       userKey: '',
       backupKey: '',
       bitgoKey: '',
       walletPassphrase: '',
+      feeRate: null,
+      apiKey: '',
       recoveryDestination: '',
       scan: 20,
-      krsProvider: '',
     },
     validationSchema,
   });
@@ -55,22 +125,25 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form>
+        {notice && <div className="tw-mb-8">{notice}</div>}
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed hot wallet details
         </h4>
-        <div className="tw-mb-4">
-          <FormikSelectfield
-            HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
-            Label="Key Recovery Service"
-            name="krsProvider"
-            Width="fill"
-          >
-            <option value="">None</option>
-            <option value="keyternal">Keyternal</option>
-            <option value="bitgoKRSv2">BitGo KRS</option>
-            <option value="dai">Coincover</option>
-          </FormikSelectfield>
-        </div>
+        {showKrsProvider && (
+          <div className="tw-mb-4">
+            <FormikSelectfield
+              HelperText="The Key Recovery Service that you chose to manage your backup key. If you have the encrypted backup key, you may leave this blank."
+              Label="Key Recovery Service"
+              name="krsProvider"
+              Width="fill"
+            >
+              <option value="">None</option>
+              <option value="keyternal">Keyternal</option>
+              <option value="bitgoKRSv2">BitGo KRS</option>
+              <option value="dai">Coincover</option>
+            </FormikSelectfield>
+          </div>
+        )}
         <div className="tw-mb-4">
           <FormikTextarea
             HelperText="Your encrypted user key, as found on your recovery KeyCard."
@@ -116,6 +189,14 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
+            HelperText="(optional) The fee rate in base units per byte to use for the recovery transaction."
+            Label="Fee Rate"
+            name="feeRate"
+            Width="fill"
+          />
+        </div>
+        <div className="tw-mb-4">
+          <FormikTextfield
             HelperText="The amount of addresses without transactions to scan before stopping the tool."
             Label="Address Scanning Factor"
             name="scan"
@@ -124,7 +205,7 @@ export function LitecoinForm({ onSubmit }: LitecoinFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin"
+            HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin."
             Label="API Key"
             name="apiKey"
             Width="fill"
