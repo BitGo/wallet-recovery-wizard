@@ -83,6 +83,10 @@ const evmCoins = [
   'tsoneium',
   'bsc',
   'tbsc',
+  'hemieth',
+  'themieth',
+  'usdt0',
+  'tusdt0',
   ...testEvmUnsignedSweepCoins,
   ...prodEvmUnsignedSweepCoins,
 ];
