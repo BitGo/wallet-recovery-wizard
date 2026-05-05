@@ -1492,6 +1492,38 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'explorer-hoodi.morph.network',
     isTssSupported: true,
   },
+  hemieth: {
+    Title: 'HEMIETH',
+    Description: 'Hemi Ethereum Mainnet',
+    Icon: 'hemieth',
+    value: 'hemieth',
+    ApiKeyProvider: 'explorer.hemi.xyz',
+    isTssSupported: true,
+  },
+  themieth: {
+    Title: 'THEMIETH',
+    Description: 'Hemi Ethereum Testnet',
+    Icon: 'hemieth',
+    value: 'themieth',
+    ApiKeyProvider: 'testnet.explorer.hemi.xyz',
+    isTssSupported: true,
+  },
+  usdt0: {
+    Title: 'USDT0',
+    Description: 'USDT0 Mainnet',
+    Icon: 'usdt0',
+    value: 'usdt0',
+    ApiKeyProvider: 'stablescan.xyz',
+    isTssSupported: true,
+  },
+  tusdt0: {
+    Title: 'TUSDT0',
+    Description: 'USDT0 Testnet',
+    Icon: 'usdt0',
+    value: 'tusdt0',
+    ApiKeyProvider: 'testnet.stablescan.xyz',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
@@ -1639,6 +1671,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.mantra,
     allCoinMetas.kavacosmos,
     allCoinMetas.dydxcosmos,
+    allCoinMetas.hemieth,
+    allCoinMetas.usdt0,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1708,6 +1742,8 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tmantra,
     allCoinMetas.tkavacosmos,
     allCoinMetas.tdydxcosmos,
+    allCoinMetas.themieth,
+    allCoinMetas.tusdt0,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1787,6 +1823,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.mantra,
       allCoinMetas.kavacosmos,
       allCoinMetas.dydxcosmos,
+      allCoinMetas.hemieth,
+      allCoinMetas.usdt0,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1856,6 +1894,8 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tmantra,
       allCoinMetas.tkavacosmos,
       allCoinMetas.tdydxcosmos,
+      allCoinMetas.themieth,
+      allCoinMetas.tusdt0,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
