@@ -1464,8 +1464,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Robinhood Chain',
     Icon: 'hoodeth',
     value: 'hoodeth',
-    // Mainnet API TBD in BitGoJS environments; same endpoint as test until updated
-    ApiKeyProvider: 'explorer.testnet.chain.robinhood.com/api',
+    ApiKeyProvider: '8crv4vmq6tiu1yqr.blockscout.com/api',
     isTssSupported: true,
   },
   thoodeth: {
@@ -1690,6 +1689,10 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.hemieth,
     allCoinMetas.usdt0,
     allCoinMetas.inketh,
+    allCoinMetas.hoodeth,
+    allCoinMetas.hppeth,
+    allCoinMetas.unieth,
+    allCoinMetas.h,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1762,6 +1765,10 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.themieth,
     allCoinMetas.tusdt0,
     allCoinMetas.tinketh,
+    allCoinMetas.thoodeth,
+    allCoinMetas.thppeth,
+    allCoinMetas.tunieth,
+    allCoinMetas.th,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1844,6 +1851,10 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.hemieth,
       allCoinMetas.usdt0,
       allCoinMetas.inketh,
+      allCoinMetas.hoodeth,
+      allCoinMetas.hppeth,
+      allCoinMetas.unieth,
+      allCoinMetas.h,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1916,6 +1927,10 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.themieth,
       allCoinMetas.tusdt0,
       allCoinMetas.tinketh,
+      allCoinMetas.thoodeth,
+      allCoinMetas.thppeth,
+      allCoinMetas.tunieth,
+      allCoinMetas.th,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
