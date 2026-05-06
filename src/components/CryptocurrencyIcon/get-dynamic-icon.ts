@@ -1967,6 +1967,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/injv2'));
     case 'ink':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ink'));
+    case 'inketh':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/inketh'));
     case 'ins':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/ins'));
     case 'inst':
