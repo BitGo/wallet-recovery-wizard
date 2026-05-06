@@ -87,6 +87,8 @@ const evmCoins = [
   'themieth',
   'usdt0',
   'tusdt0',
+  'inketh',
+  'tinketh',
   ...testEvmUnsignedSweepCoins,
   ...prodEvmUnsignedSweepCoins,
 ];

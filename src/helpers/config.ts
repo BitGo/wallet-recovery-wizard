@@ -1524,6 +1524,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'testnet.stablescan.xyz',
     isTssSupported: true,
   },
+  inketh: {
+    Title: 'INKETH',
+    Description: 'INK Ethereum Mainnet',
+    Icon: 'inketh',
+    value: 'inketh',
+    ApiKeyProvider: 'explorer.inkonchain.com',
+    isTssSupported: true,
+  },
+  tinketh: {
+    Title: 'TINKETH',
+    Description: 'INK Ethereum Testnet',
+    Icon: 'inketh',
+    value: 'tinketh',
+    ApiKeyProvider: 'explorer-sepolia.inkonchain.com',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {
@@ -1673,6 +1689,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.dydxcosmos,
     allCoinMetas.hemieth,
     allCoinMetas.usdt0,
+    allCoinMetas.inketh,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1744,6 +1761,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tdydxcosmos,
     allCoinMetas.themieth,
     allCoinMetas.tusdt0,
+    allCoinMetas.tinketh,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1825,6 +1843,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.dydxcosmos,
       allCoinMetas.hemieth,
       allCoinMetas.usdt0,
+      allCoinMetas.inketh,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1896,6 +1915,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tdydxcosmos,
       allCoinMetas.themieth,
       allCoinMetas.tusdt0,
+      allCoinMetas.tinketh,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
