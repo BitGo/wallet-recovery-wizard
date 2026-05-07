@@ -769,6 +769,48 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chfx'));
     case 'chiliz':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chiliz'));
+    case 'chilizacm':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizacm'));
+    case 'chilizafc':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizafc'));
+    case 'chilizarg':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizarg'));
+    case 'chilizasr':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizasr'));
+    case 'chilizatm':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizatm'));
+    case 'chilizavl':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizavl'));
+    case 'chilizbar':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizbar'));
+    case 'chilizbenfica':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizbenfica'));
+    case 'chilizcity':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizcity'));
+    case 'chilizgal':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizgal'));
+    case 'chilizinter':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizinter'));
+    case 'chilizita':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizita'));
+    case 'chilizjuv':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizjuv'));
+    case 'chilizmengo':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizmengo'));
+    case 'chiliznap':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chiliznap'));
+    case 'chilizog':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizog'));
+    case 'chilizpepper':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizpepper'));
+    case 'chilizpor':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizpor'));
+    case 'chilizpsg':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizpsg'));
+    case 'chilizspurs':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chilizspurs'));
+    case 'chiliztra':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chiliztra'));
     case 'chill':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/chill'));
     case 'chillguy':
@@ -1701,6 +1743,8 @@ export const getDynamicIcon = (name: string) => {
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/gomining'));
     case 'googlon':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/googlon'));
+    case 'goqxmp':
+      return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/goqxmp'));
     case 'got':
       return lazy(() => import('@bitgo-forks/cryptocurrency-icons/react/got'));
     case 'gousd':
