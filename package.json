@@ -76,6 +76,7 @@
     "@bitgo/sdk-coin-zec": "2.8.7",
     "@bitgo/sdk-coin-zeta": "3.7.7",
     "@bitgo/sdk-opensslbytes": "2.1.0",
+    "@bitgo/sdk-coin-tempo": "^1.12.4",
     "@bitgo/statics": "58.39.0",
     "@bitgo/utxo-lib": "11.22.1",
     "@ethereumjs/common": "2.6.5",

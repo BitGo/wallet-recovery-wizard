@@ -89,6 +89,8 @@ const evmCoins = [
   'tunieth',
   'h',
   'th',
+  'tempoPathusd',
+  'ttempoPathusd',
   ...testEvmNonBitgoRecoveryCoins,
   ...prodEvmNonBitgoRecoveryCoins,
 ];
@@ -1001,6 +1003,8 @@ function Form() {
     case 'topethToken':
     case 'polygonToken':
     case 'tpolygonToken':
+    case 'tempoPathusd':
+    case 'ttempoPathusd':
       return (
         <EthLikeTokenForm
           key={coin}
