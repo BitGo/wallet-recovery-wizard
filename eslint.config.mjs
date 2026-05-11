@@ -21,6 +21,7 @@ export default tseslint.config(
       'eslint.config.mjs',
       // Fails at the parser level — must use ignores, not per-file overrides
       'src/components/Title/Title.test.tsx',
+      'src/containers/NonBitGoRecoveryCoin/NestedATAForm.test.tsx',
     ],
   },
 

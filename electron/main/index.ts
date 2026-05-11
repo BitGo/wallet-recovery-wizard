@@ -458,6 +458,12 @@ async function createWindow() {
     );
   });
 
+  ipcMain.handle('recoverNestedAta', async (event, coin, parameters) => {
+    const baseCoin = sdk.coin(coin) as Sol;
+    const openSSLBytes = loadWebAssembly().buffer;
+    return await baseCoin.recoverNestedAta({ ...parameters, openSSLBytes });
+  });
+
   ipcMain.handle('broadcastTransaction', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin);
     return await baseCoin.broadcastTransaction(parameters);
