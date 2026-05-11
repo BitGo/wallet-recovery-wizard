@@ -156,6 +156,105 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     defaultGasLimitNum: 1000000,
     isTssSupported: true,
   },
+  tempoPathusd: {
+    Title: 'pathUSD',
+    Description: 'pathUSD on Tempo',
+    Icon: 'tempo',
+    value: 'tempoPathusd',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoPathusd: {
+    Title: 'pathUSD',
+    Description: 'pathUSD on Tempo (Testnet)',
+    Icon: 'tempo',
+    value: 'ttempoPathusd',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  tempoUsdc: {
+    Title: 'USDC',
+    Description: 'USDC on Tempo',
+    Icon: 'usdc',
+    value: 'tempoUsdc',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  tempoUsd1: {
+    Title: 'USD1',
+    Description: 'USD1 on Tempo',
+    Icon: 'usd1',
+    value: 'tempoUsd1',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoAlphausd: {
+    Title: 'AlphaUSD',
+    Description: 'AlphaUSD on Tempo (Testnet)',
+    Icon: 'tempo',
+    value: 'ttempoAlphausd',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoBetausd: {
+    Title: 'BetaUSD',
+    Description: 'BetaUSD on Tempo (Testnet)',
+    Icon: 'tempo',
+    value: 'ttempoBetausd',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoThetausd: {
+    Title: 'ThetaUSD',
+    Description: 'ThetaUSD on Tempo (Testnet)',
+    Icon: 'tempo',
+    value: 'ttempoThetausd',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoUsd1: {
+    Title: 'USD1',
+    Description: 'USD1 on Tempo (Testnet)',
+    Icon: 'usd1',
+    value: 'ttempoUsd1',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
+  ttempoStgusd1: {
+    Title: 'stgUSD1',
+    Description: 'stgUSD1 on Tempo (Testnet)',
+    Icon: 'tempo',
+    value: 'ttempoStgusd1',
+    ApiKeyProvider: 'dashboard.alchemy.com',
+    minGasLimit: '400,000',
+    defaultGasLimit: '1,000,000',
+    defaultGasLimitNum: 1000000,
+    isTssSupported: true,
+  },
   coredao: {
     Title: 'COREDAO',
     Description: 'Core BlockChain',
@@ -1541,44 +1640,62 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
 } as const;
 
-function assertMetadata(coin: string): boolean {
-  if (!Object.prototype.hasOwnProperty.call(allCoinMetas, coin)) {
-    console.error(`No metadata found for coin: ${coin}`);
-    return false;
-  }
-  return true;
+function generateEvmCoinMeta(coin: {
+  name: string;
+  fullName: string;
+  network: { type: NetworkType; explorerUrl?: string };
+  features: CoinFeature[];
+}): CoinMetadata {
+  const isTestnet = coin.network.type === NetworkType.TESTNET;
+  const iconName =
+    isTestnet && coin.name.startsWith('t') ? coin.name.slice(1) : coin.name;
+  const apiKeyProvider = coin.network.explorerUrl
+    ? new URL(coin.network.explorerUrl).hostname
+    : undefined;
+  const isTssSupported = coin.features.includes(CoinFeature.TSS);
+  return {
+    Title: coin.name.toUpperCase(),
+    Description: coin.fullName,
+    value: coin.name,
+    Icon: iconName,
+    ...(apiKeyProvider && { ApiKeyProvider: apiKeyProvider }),
+    defaultGasLimit: '500,000',
+    defaultGasLimitNum: 500000,
+    defaultMaxFeePerGas: 20,
+    defaultMaxPriorityFeePerGas: 10,
+    isTssSupported,
+  };
 }
 
-// Filter and map coins in a single pass for better performance
 export const testEvmUnsignedSweepCoins: string[] = [];
 export const prodEvmUnsignedSweepCoins: string[] = [];
 export const testEvmNonBitgoRecoveryCoins: string[] = [];
 export const prodEvmNonBitgoRecoveryCoins: string[] = [];
 
-//Process all coins in a single loop rather than multiple filter operations
 coins.forEach(coin => {
   if (coin.isToken) return;
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
+  const hasUnsignedSweep = coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY);
+  const hasNonBitgo = coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY);
 
-  if (coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY)) {
-    if (isTestnet && assertMetadata(name)) {
-      testEvmUnsignedSweepCoins.push(name);
-    } else if (assertMetadata(name)) {
-      prodEvmUnsignedSweepCoins.push(name);
-    }
+  if (!hasUnsignedSweep && !hasNonBitgo) return;
+
+  if (!Object.prototype.hasOwnProperty.call(allCoinMetas, name)) {
+    allCoinMetas[name] = generateEvmCoinMeta(coin);
   }
 
-  if (coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY)) {
-    if (isTestnet && assertMetadata(name)) {
-      testEvmNonBitgoRecoveryCoins.push(name);
-    } else if (assertMetadata(name)) {
-      prodEvmNonBitgoRecoveryCoins.push(name);
-    }
+  if (hasUnsignedSweep) {
+    if (isTestnet) testEvmUnsignedSweepCoins.push(name);
+    else prodEvmUnsignedSweepCoins.push(name);
+  }
+
+  if (hasNonBitgo) {
+    if (isTestnet) testEvmNonBitgoRecoveryCoins.push(name);
+    else prodEvmNonBitgoRecoveryCoins.push(name);
   }
 });
-
 export const buildUnsignedConsolidationCoins: Record<
   BitgoEnv,
   readonly CoinMetadata[]
@@ -1693,6 +1810,9 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.hppeth,
     allCoinMetas.unieth,
     allCoinMetas.h,
+    allCoinMetas.tempoPathusd,
+    allCoinMetas.tempoUsdc,
+    allCoinMetas.tempoUsd1,
     ...prodEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
   test: [
@@ -1769,6 +1889,12 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.thppeth,
     allCoinMetas.tunieth,
     allCoinMetas.th,
+    allCoinMetas.ttempoPathusd,
+    allCoinMetas.ttempoAlphausd,
+    allCoinMetas.ttempoBetausd,
+    allCoinMetas.ttempoThetausd,
+    allCoinMetas.ttempoUsd1,
+    allCoinMetas.ttempoStgusd1,
     ...testEvmUnsignedSweepCoins.map(coin => allCoinMetas[coin]),
   ] as const,
 };
@@ -1855,6 +1981,9 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.hppeth,
       allCoinMetas.unieth,
       allCoinMetas.h,
+      allCoinMetas.tempoPathusd,
+      allCoinMetas.tempoUsdc,
+      allCoinMetas.tempoUsd1,
       ...prodEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
     test: [
@@ -1931,6 +2060,12 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.thppeth,
       allCoinMetas.tunieth,
       allCoinMetas.th,
+      allCoinMetas.ttempoPathusd,
+      allCoinMetas.ttempoAlphausd,
+      allCoinMetas.ttempoBetausd,
+      allCoinMetas.ttempoThetausd,
+      allCoinMetas.ttempoUsd1,
+      allCoinMetas.ttempoStgusd1,
       ...testEvmNonBitgoRecoveryCoins.map(coin => allCoinMetas[coin]),
     ] as const,
   };
@@ -2118,6 +2253,15 @@ export const tokenParentCoins = {
   tvetToken: 'tvet',
   tonToken: 'ton',
   ttonToken: 'tton',
+  tempoPathusd: 'tempo',
+  ttempoPathusd: 'ttempo',
+  tempoUsdc: 'tempo',
+  tempoUsd1: 'tempo',
+  ttempoAlphausd: 'ttempo',
+  ttempoBetausd: 'ttempo',
+  ttempoThetausd: 'ttempo',
+  ttempoUsd1: 'ttempo',
+  ttempoStgusd1: 'ttempo',
 };
 
 export type EvmCcrNonBitgoCoinConfigType = {
