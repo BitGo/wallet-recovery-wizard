@@ -1,6 +1,13 @@
 import { TrxConsolidationRecoveryOptions } from '../types';
 import EthereumCommon from '@ethereumjs/common';
 
+// Allow self-signed / intermediate-CA certs when running in dev mode.
+// This is needed for testnet rippled nodes (s.altnet.rippletest.net) whose
+// certificate chain is not in Node's default CA bundle.
+if (process.env.NODE_ENV !== 'production') {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 process.env.DIST_ELECTRON = join(__dirname, '../..');
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist');
 process.env.PUBLIC = app.isPackaged
