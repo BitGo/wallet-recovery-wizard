@@ -125,6 +125,7 @@ type Commands = {
       isUnsignedSweep?: boolean;
       issuerAddress?: string; // eg. xrpl token
       currencyCode?: string; // eg. xrpl token
+      reserveWithdrawal?: boolean; // xrp: delete the account and recover the full balance including reserve
       tokenId?: string; // eg. hbar token
       contractId?: string; // eg. stacks sip10 token
       programId?: string; // eg. solana spl 2022 token
