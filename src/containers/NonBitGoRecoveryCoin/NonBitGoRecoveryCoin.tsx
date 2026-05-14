@@ -30,6 +30,7 @@ import { PolkadotForm } from './PolkadotForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { SolanaTokenForm } from './SolanaTokenForm';
+import { NestedATAForm } from './NestedATAForm';
 import { TronForm } from './TronForm';
 import { TronTokenForm } from './TronTokenForm';
 import { AvalancheCTokenForm } from './AvalancheCTokenForm';
@@ -515,6 +516,44 @@ function Form() {
           }}
         />
       );
+    case 'solNestedATA':
+    case 'tsolNestedATA': {
+      const parentCoin = coin === 'solNestedATA' ? 'sol' : 'tsol';
+      return (
+        <NestedATAForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const result = await window.commands.recoverNestedAta(parentCoin, {
+                userKey: values.userKey,
+                backupKey: values.backupKey,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                walletPassphrase: values.walletPassphrase,
+                recoveryDestination: values.recoveryDestination,
+                nestedAtaAddress: values.nestedAtaAddress,
+                ownerAtaAddress: values.ownerAtaAddress,
+                tokenMintAddress: values.tokenMintAddress,
+                apiKey: values.apiKey || undefined,
+              });
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`,
+                { state: { txId: result.txId } }
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    }
     case 'ethw':
       return (
         <EthereumWForm
