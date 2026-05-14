@@ -1551,6 +1551,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'explorer-sepolia.inkonchain.com',
     isTssSupported: true,
   },
+  xtzevm: {
+    Title: 'XTZEVM',
+    Description: 'Etherlink Mainnet',
+    Icon: 'xtzevm',
+    value: 'xtzevm',
+    ApiKeyProvider: 'explorer.etherlink.com',
+    isTssSupported: true,
+  },
+  txtzevm: {
+    Title: 'TXTZEVM',
+    Description: 'Etherlink Testnet',
+    Icon: 'xtzevm',
+    value: 'txtzevm',
+    ApiKeyProvider: 'shadownet.explorer.etherlink.com',
+    isTssSupported: true,
+  },
 } as const;
 
 function assertMetadata(coin: string): boolean {

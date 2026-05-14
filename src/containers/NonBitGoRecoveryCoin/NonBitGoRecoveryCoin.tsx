@@ -82,6 +82,8 @@ const evmCoins = [
   'tusdt0',
   'inketh',
   'tinketh',
+  'xtzevm',
+  'txtzevm',
   'hoodeth',
   'thoodeth',
   'hppeth',
