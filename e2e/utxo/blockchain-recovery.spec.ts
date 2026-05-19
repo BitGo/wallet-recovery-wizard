@@ -1,5 +1,6 @@
-import { test, expect, _electron as electron } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import type { ElectronApplication, Page } from '@playwright/test';
+import { launchApp } from './helpers';
 
 function stubRecoveryHandlers(app: ElectronApplication) {
   return app.evaluate(({ ipcMain }) => {
@@ -18,9 +19,7 @@ test.describe('UTXO blockchain recovery', () => {
   let page: Page;
 
   test.beforeEach(async () => {
-    app = await electron.launch({ args: ['.', '--no-sandbox'] });
-    page = await app.firstWindow();
-    await page.waitForSelector('#root');
+    ({ app, page } = await launchApp());
     await stubRecoveryHandlers(app);
   });
 

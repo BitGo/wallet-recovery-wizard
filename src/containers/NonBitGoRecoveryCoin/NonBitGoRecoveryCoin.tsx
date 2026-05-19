@@ -11,6 +11,10 @@ import {
   safeEnv,
   toWei,
 } from '~/helpers';
+import type {
+  BackupKeyRecoveryTransansaction,
+  FormattedOfflineVaultTxInfo,
+} from '@bitgo/abstract-utxo';
 import {
   nonBitgoRecoveryCoins,
   prodEvmNonBitgoRecoveryCoins,
@@ -118,21 +122,34 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment, coin,
-                passApiKeyToEnv ? values.apiKey : undefined
+                passApiKeyToEnv && values.recoverySource === 'blockchain' ? values.apiKey : undefined
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                apiKey: values.apiKey,
-                backupKey: values.backupKey,
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                krsProvider: values.krsProvider,
-                recoveryDestination: values.recoveryDestination,
-                scan: Number(values.scan),
-                userKey: values.userKey,
-                walletPassphrase: values.walletPassphrase,
-                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
-                ignoreAddressTypes: [],
-              });
+              let recoverData: BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo;
+              if (values.recoverySource === 'psbt') {
+                const { txHex } = await window.commands.recoverWithPsbt(coin, {
+                  psbt: values.psbt!,
+                  userKey: values.userKey,
+                  backupKey: values.backupKey,
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  walletPassphrase: values.walletPassphrase,
+                  krsProvider: values.krsProvider || undefined,
+                });
+                recoverData = { txHex } as unknown as BackupKeyRecoveryTransansaction;
+              } else {
+                recoverData = await window.commands.recover(coin, {
+                  apiKey: values.apiKey!,
+                  backupKey: values.backupKey,
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  krsProvider: values.krsProvider,
+                  recoveryDestination: values.recoveryDestination!,
+                  scan: Number(values.scan),
+                  userKey: values.userKey,
+                  walletPassphrase: values.walletPassphrase,
+                  feeRate: values.feeRate ? Number(values.feeRate) : undefined,
+                  ignoreAddressTypes: [],
+                });
+              }
               assert(isRecoveryTransaction(recoverData), 'Fully-signed recovery transaction not detected.');
               const { filePath } = await window.commands.showSaveDialog({
                 filters: [{ name: 'Custom File Type', extensions: ['json'] }],
