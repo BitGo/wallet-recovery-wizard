@@ -1,4 +1,5 @@
-import { TrxConsolidationRecoveryOptions } from '../types';
+import { TrxConsolidationRecoveryOptions, RecoverWithPsbtParams, SignPsbtParams } from '../types';
+import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys } from '../utxo/psbt';
 import EthereumCommon from '@ethereumjs/common';
 
 // Allow self-signed / intermediate-CA certs when running in dev mode.
@@ -611,6 +612,35 @@ async function createWindow() {
       default:
         return new Error(`Coin: ${coin} does not support v1 wallets sweep`);
     }
+  });
+
+  ipcMain.handle('recoverWithPsbt', async (event, coin: string, params: RecoverWithPsbtParams) => {
+    if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
+    if (params.krsProvider) throw new Error('KRS is not supported in PSBT recovery mode');
+
+    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+
+    const userXprv = isXprv(params.userKey)
+      ? params.userKey
+      : sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
+
+    const backupXprv = isXprv(params.backupKey)
+      ? params.backupKey
+      : sdk.decrypt({ password: params.walletPassphrase, input: params.backupKey });
+
+    const psbtHex = psbtToHex(params.psbt);
+    return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv);
+  });
+
+  ipcMain.handle('signPsbt', (_event, coin: string, params: SignPsbtParams) => {
+    if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
+    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+    const userXprv = isXprv(params.userKey)
+      ? params.userKey
+      : sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
+    const psbtHex = psbtToHex(params.psbt);
+    const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv, params.recipientAddress, params.feeRateSatVB);
+    return { halfSignedPsbt: halfSignedHex, coin };
   });
 }
 
