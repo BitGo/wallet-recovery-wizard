@@ -41,6 +41,9 @@ import {
   SuiRecoveryConsolidationRecoveryOptions,
   TrxConsolidationRecoveryBatch,
   TrxConsolidationRecoveryOptions,
+  RecoverWithPsbtParams,
+  SignPsbtParams,
+  SignPsbtResult,
 } from '~/utils/types';
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '~/helpers/config';
@@ -98,6 +101,21 @@ type Commands = {
   showSaveDialog(
     options: Electron.SaveDialogOptions
   ): Promise<Electron.SaveDialogReturnValue>;
+  recoverNestedAta(
+    coin: string,
+    parameters: {
+      userKey: string;
+      backupKey: string;
+      bitgoKey: string;
+      walletPassphrase: string;
+      recoveryDestination: string;
+      nestedAtaAddress: string;
+      ownerAtaAddress: string;
+      tokenMintAddress: string;
+      apiKey?: string;
+      seed?: string;
+    }
+  ): Promise<{ txId?: string }>;
   recover(
     coin: string,
     parameters: RecoverParams & {
@@ -125,6 +143,7 @@ type Commands = {
       isUnsignedSweep?: boolean;
       issuerAddress?: string; // eg. xrpl token
       currencyCode?: string; // eg. xrpl token
+      reserveWithdrawal?: boolean; // xrp: delete the account and recover the full balance including reserve
       tokenId?: string; // eg. hbar token
       contractId?: string; // eg. stacks sip10 token
       programId?: string; // eg. solana spl 2022 token
@@ -144,6 +163,14 @@ type Commands = {
   ): Promise<void>;
   login(username: string, password: string, otp: string): Promise<Error | User>;
   logout(): Promise<Error | undefined>;
+  recoverWithPsbt(
+    coin: string,
+    params: RecoverWithPsbtParams
+  ): Promise<{ txHex: string }>;
+  signPsbt(
+    coin: string,
+    params: SignPsbtParams
+  ): Promise<SignPsbtResult>;
 };
 
 type Queries = {
@@ -235,6 +262,12 @@ const commands: Commands = {
   },
   logout() {
     return ipcRenderer.invoke('logout');
+  },
+  recoverWithPsbt(coin, params) {
+    return ipcRenderer.invoke('recoverWithPsbt', coin, params);
+  },
+  signPsbt(coin, params) {
+    return ipcRenderer.invoke('signPsbt', coin, params);
   },
 };
 

@@ -11,6 +11,10 @@ import {
   safeEnv,
   toWei,
 } from '~/helpers';
+import type {
+  BackupKeyRecoveryTransansaction,
+  FormattedOfflineVaultTxInfo,
+} from '@bitgo/abstract-utxo';
 import {
   nonBitgoRecoveryCoins,
   prodEvmNonBitgoRecoveryCoins,
@@ -30,6 +34,7 @@ import { PolkadotForm } from './PolkadotForm';
 import { RippleForm } from './RippleForm';
 import { SolanaForm } from './SolanaForm';
 import { SolanaTokenForm } from './SolanaTokenForm';
+import { NestedATAForm } from './NestedATAForm';
 import { TronForm } from './TronForm';
 import { TronTokenForm } from './TronTokenForm';
 import { AvalancheCTokenForm } from './AvalancheCTokenForm';
@@ -81,6 +86,8 @@ const evmCoins = [
   'tusdt0',
   'inketh',
   'tinketh',
+  'xtzevm',
+  'txtzevm',
   'hoodeth',
   'thoodeth',
   'hppeth',
@@ -124,21 +131,34 @@ function Form() {
             try {
               await window.commands.setBitGoEnvironment(
                 bitGoEnvironment, coin,
-                passApiKeyToEnv ? values.apiKey : undefined
+                passApiKeyToEnv && values.recoverySource === 'blockchain' ? values.apiKey : undefined
               );
               const chainData = await window.queries.getChain(coin);
-              const recoverData = await window.commands.recover(coin, {
-                apiKey: values.apiKey,
-                backupKey: values.backupKey,
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                krsProvider: values.krsProvider,
-                recoveryDestination: values.recoveryDestination,
-                scan: Number(values.scan),
-                userKey: values.userKey,
-                walletPassphrase: values.walletPassphrase,
-                feeRate: values.feeRate ? Number(values.feeRate) : undefined,
-                ignoreAddressTypes: [],
-              });
+              let recoverData: BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo;
+              if (values.recoverySource === 'psbt') {
+                const { txHex } = await window.commands.recoverWithPsbt(coin, {
+                  psbt: values.psbt!,
+                  userKey: values.userKey,
+                  backupKey: values.backupKey,
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  walletPassphrase: values.walletPassphrase,
+                  krsProvider: values.krsProvider || undefined,
+                });
+                recoverData = { txHex } as unknown as BackupKeyRecoveryTransansaction;
+              } else {
+                recoverData = await window.commands.recover(coin, {
+                  apiKey: values.apiKey!,
+                  backupKey: values.backupKey,
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  krsProvider: values.krsProvider,
+                  recoveryDestination: values.recoveryDestination!,
+                  scan: Number(values.scan),
+                  userKey: values.userKey,
+                  walletPassphrase: values.walletPassphrase,
+                  feeRate: values.feeRate ? Number(values.feeRate) : undefined,
+                  ignoreAddressTypes: [],
+                });
+              }
               assert(isRecoveryTransaction(recoverData), 'Fully-signed recovery transaction not detected.');
               const { filePath } = await window.commands.showSaveDialog({
                 filters: [{ name: 'Custom File Type', extensions: ['json'] }],
@@ -524,6 +544,44 @@ function Form() {
           }}
         />
       );
+    case 'solNestedATA':
+    case 'tsolNestedATA': {
+      const parentCoin = coin === 'solNestedATA' ? 'sol' : 'tsol';
+      return (
+        <NestedATAForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const result = await window.commands.recoverNestedAta(parentCoin, {
+                userKey: values.userKey,
+                backupKey: values.backupKey,
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                walletPassphrase: values.walletPassphrase,
+                recoveryDestination: values.recoveryDestination,
+                nestedAtaAddress: values.nestedAtaAddress,
+                ownerAtaAddress: values.ownerAtaAddress,
+                tokenMintAddress: values.tokenMintAddress,
+                apiKey: values.apiKey || undefined,
+              });
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`,
+                { state: { txId: result.txId } }
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    }
     case 'ethw':
       return (
         <EthereumWForm
@@ -708,6 +766,60 @@ function Form() {
       );
     case 'xrp':
     case 'txrp':
+      return (
+        <RippleForm
+          key={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                bitgoKey: '',
+                ignoreAddressTypes: [],
+                reserveWithdrawal: values.reserveWithdrawal,
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(recoverData, null, 2),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`
+              );
+            } catch (err) {
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
     case 'xlm':
     case 'txlm':
     case 'eos':

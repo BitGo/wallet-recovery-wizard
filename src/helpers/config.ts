@@ -404,6 +404,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'sol',
     value: 'solToken',
   },
+  solNestedATA: {
+    Title: 'SOL Nested ATA',
+    Description: 'Recover tokens stuck in a Solana nested Associated Token Account',
+    Icon: 'sol',
+    value: 'solNestedATA',
+  },
   polygon: {
     Title: 'POLYGON',
     Description: 'POLYGON Chain',
@@ -884,6 +890,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Testnet Solana Token',
     Icon: 'sol',
     value: 'tsolToken',
+  },
+  tsolNestedATA: {
+    Title: 'TSOL Nested ATA',
+    Description: 'Recover tokens stuck in a Solana nested Associated Token Account (Testnet)',
+    Icon: 'sol',
+    value: 'tsolNestedATA',
   },
   tsoneium: {
     Title: 'TSONEIUM',
@@ -1638,6 +1650,22 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'explorer-sepolia.inkonchain.com',
     isTssSupported: true,
   },
+  xtzevm: {
+    Title: 'XTZEVM',
+    Description: 'Etherlink Mainnet',
+    Icon: 'xtzevm',
+    value: 'xtzevm',
+    ApiKeyProvider: 'explorer.etherlink.com',
+    isTssSupported: true,
+  },
+  txtzevm: {
+    Title: 'TXTZEVM',
+    Description: 'Etherlink Testnet',
+    Icon: 'xtzevm',
+    value: 'txtzevm',
+    ApiKeyProvider: 'shadownet.explorer.etherlink.com',
+    isTssSupported: true,
+  },
 } as const;
 
 function generateEvmCoinMeta(coin: {
@@ -1939,6 +1967,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.vetToken,
       allCoinMetas.sol,
       allCoinMetas.solToken,
+      allCoinMetas.solNestedATA,
       allCoinMetas.polygon,
       allCoinMetas.polygonToken,
       allCoinMetas.bsc,
@@ -2019,6 +2048,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tvetToken,
       allCoinMetas.tsol,
       allCoinMetas.tsolToken,
+      allCoinMetas.tsolNestedATA,
       allCoinMetas.tpolygon,
       allCoinMetas.tpolygonToken,
       allCoinMetas.tbsc,

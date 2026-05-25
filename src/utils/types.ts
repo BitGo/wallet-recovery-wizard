@@ -115,3 +115,25 @@ export type SuiRecoverConsolidationRecoveryBatch = Awaited<
   ReturnType<Sui['recoverConsolidations'] | Tsui['recoverConsolidations']>
 >;
 export type TrxConsolidationRecoveryBatch = ConsolidationRecoveryBatch;
+
+export type RecoverWithPsbtParams = {
+  psbt: string;
+  userKey: string;
+  backupKey: string;
+  bitgoKey: string;
+  walletPassphrase: string;
+  krsProvider?: string;
+};
+
+export type SignPsbtParams = {
+  psbt: string;
+  userKey: string;
+  walletPassphrase?: string;
+  recipientAddress: string;
+  feeRateSatVB: number;
+};
+
+export type SignPsbtResult = {
+  halfSignedPsbt: string;
+  coin: string;
+};

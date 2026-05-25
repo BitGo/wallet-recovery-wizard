@@ -21,3 +21,4 @@ playwright/.cache/
 
 # Idea IntelliJ
 .idea/
+*.tsbuildinfo

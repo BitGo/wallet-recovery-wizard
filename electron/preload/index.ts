@@ -81,6 +81,21 @@ type Commands = {
   showSaveDialog(
     options: Electron.SaveDialogOptions
   ): Promise<Electron.SaveDialogReturnValue>;
+  recoverNestedAta(
+    coin: string,
+    parameters: {
+      userKey: string;
+      backupKey: string;
+      bitgoKey: string;
+      walletPassphrase: string;
+      recoveryDestination: string;
+      nestedAtaAddress: string;
+      ownerAtaAddress: string;
+      tokenMintAddress: string;
+      apiKey?: string;
+      seed?: string;
+    }
+  ): Promise<{ txId?: string }>;
   recover(
     coin: string,
     parameters: RecoverParams & {
@@ -205,8 +220,14 @@ const commands: Commands = {
   showSaveDialog(options) {
     return ipcRenderer.invoke('showSaveDialog', options);
   },
+  recoverNestedAta(coin, parameters) {
+    return ipcRenderer.invoke('recoverNestedAta', coin, parameters);
+  },
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
+  },
+  signPsbt(coin, params) {
+    return ipcRenderer.invoke('signPsbt', coin, params);
   },
   wrongChainRecover(sourceCoin, destinationCoin, parameters) {
     return ipcRenderer.invoke(

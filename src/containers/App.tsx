@@ -16,6 +16,7 @@ import { BroadcastTransactionIndex } from './BroadcastTransactionIndex';
 import { SuccessfulBroadcastTransaction } from './SuccessfulBroadcastTransaction';
 import { BroadcastTransactionCoin } from './BroadcastTransactionCoin';
 import {V1BtcSweep} from "~/containers/V1BtcSweep";
+import SignPsbt from '~/containers/SignPsbt';
 
 export default function App() {
   return (
@@ -126,6 +127,18 @@ export default function App() {
       >
         <Route index element={<V1BtcSweep />} />
         <Route path=":coin/success" element={<SuccessfulRecovery />} />
+      </Route>
+      <Route
+        path="/:env/sign-psbt/*"
+        element={
+          <UnauthenticatedPageLayout
+            Title="Sign Unsigned PSBT"
+            Description="Sign an unsigned PSBT with your user key."
+          />
+        }
+      >
+        <Route index element={<SignPsbt />} />
+        <Route path="success" element={<SuccessfulRecovery />} />
       </Route>
     </Routes>
   );

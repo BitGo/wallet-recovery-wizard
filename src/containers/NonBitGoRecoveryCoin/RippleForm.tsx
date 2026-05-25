@@ -18,6 +18,7 @@ const validationSchema = Yup.object({
   rootAddress: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
+  reserveWithdrawal: Yup.boolean(),
 }).required();
 
 export type RippleFormProps = {
@@ -39,6 +40,7 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
       walletPassphrase: '',
       recoveryDestination: '',
       krsProvider: '',
+      reserveWithdrawal: false,
     },
     validationSchema,
   });
@@ -108,6 +110,26 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             name="recoveryDestination"
             Width="fill"
           />
+        </div>
+        <div className="tw-mb-4 tw-flex tw-items-start tw-gap-2">
+          <input
+            type="checkbox"
+            id="reserveWithdrawal"
+            name="reserveWithdrawal"
+            checked={formik.values.reserveWithdrawal}
+            onChange={formik.handleChange}
+            className="tw-mt-1"
+          />
+          <label htmlFor="reserveWithdrawal" className="tw-text-sm">
+            <span className="tw-font-semibold">Withdraw full balance including reserve (AccountDelete)</span>
+            <br />
+            <span className="tw-text-gray-500">
+              Permanently deletes the XRP account and sends the entire balance — including the 10 XRP
+              base reserve — to the destination. The account cannot be reused afterwards. Requires: no
+              trustlines with non-zero balances, no open offers/escrows/checks, and the account must be
+              at least 256 ledgers old. A 2 XRP deletion fee is charged by the network.
+            </span>
+          </label>
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
