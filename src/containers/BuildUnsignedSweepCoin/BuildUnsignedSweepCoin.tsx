@@ -99,6 +99,15 @@ const evmCoins = [
   'tunieth',
   'h',
   'th',
+  'tempoPathusd',
+  'ttempoPathusd',
+  'tempoUsdc',
+  'tempoUsd1',
+  'ttempoAlphausd',
+  'ttempoBetausd',
+  'ttempoThetausd',
+  'ttempoUsd1',
+  'ttempoStgusd1',
   ...testEvmUnsignedSweepCoins,
   ...prodEvmUnsignedSweepCoins,
 ];
@@ -1083,6 +1092,15 @@ function Form() {
     case 'topethToken':
     case 'polygonToken':
     case 'tpolygonToken':
+    case 'tempoPathusd':
+    case 'ttempoPathusd':
+    case 'tempoUsdc':
+    case 'tempoUsd1':
+    case 'ttempoAlphausd':
+    case 'ttempoBetausd':
+    case 'ttempoThetausd':
+    case 'ttempoUsd1':
+    case 'ttempoStgusd1':
       return (
         <EthLikeTokenForm
           key={coin}
