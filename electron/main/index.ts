@@ -628,22 +628,22 @@ async function createWindow() {
 
     const userXprv = isXprv(params.userKey)
       ? params.userKey
-      : sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
+      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.userKey });
 
     const backupXprv = isXprv(params.backupKey)
       ? params.backupKey
-      : sdk.decrypt({ password: params.walletPassphrase, input: params.backupKey });
+      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.backupKey });
 
     const psbtHex = psbtToHex(params.psbt);
     return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv);
   });
 
-  ipcMain.handle('signPsbt', (_event, coin: string, params: SignPsbtParams) => {
+  ipcMain.handle('signPsbt', async (_event, coin: string, params: SignPsbtParams) => {
     if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     const userXprv = isXprv(params.userKey)
       ? params.userKey
-      : sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
+      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.userKey });
     const psbtHex = psbtToHex(params.psbt);
     const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv, params.recipientAddress, params.feeRateSatVB);
     return { halfSignedPsbt: halfSignedHex, coin };
