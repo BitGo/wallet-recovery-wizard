@@ -46,14 +46,12 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
             try {
               await window.commands.setBitGoEnvironment(environment, coin);
               const chainData = await window.queries.getChain(coin);
-              // Exclude walletPassphrase to ensure unsigned transaction
-              const { walletPassphrase, ...recoveryParams } = values;
               const consolidateData =
                 await window.commands.recoverConsolidations(coin, {
-                  ...recoveryParams,
+                  ...values,
                   durableNonces: {
-                    ...recoveryParams.durableNonces,
-                    publicKeys: recoveryParams.durableNonces.publicKeys.split(',').map((v) => v.trim()),
+                    ...values.durableNonces,
+                    publicKeys: values.durableNonces.publicKeys.split(',').map((v) => v.trim()),
                   }
                 });
 
@@ -105,16 +103,14 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               await window.commands.setBitGoEnvironment(environment);
               const parentCoin = coin === 'tsolToken' ? 'tsol' : 'sol';
               const chainData = await window.queries.getChain(parentCoin);
-              // Exclude walletPassphrase to ensure unsigned transaction
-              const { walletPassphrase, ...recoveryParams } = values;
               const consolidateData =
                 await window.commands.recoverConsolidations(parentCoin, {
-                  ...recoveryParams,
+                  ...values,
                   durableNonces: {
-                    ...recoveryParams.durableNonces,
-                    publicKeys: recoveryParams.durableNonces.publicKeys.split(',').map((v) => v.trim()),
+                    ...values.durableNonces,
+                    publicKeys: values.durableNonces.publicKeys.split(',').map((v) => v.trim()),
                   },
-                  programId: recoveryParams.tokenProgramId,
+                  programId: values.tokenProgramId,
                 });
 
               if (consolidateData instanceof Error) {
@@ -233,10 +229,8 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
             try {
               await window.commands.setBitGoEnvironment(environment);
               const chainData = await window.queries.getChain(coin);
-              // Exclude walletPassphrase to ensure unsigned transaction
-              const { walletPassphrase, ...recoveryParams } = values;
               const consolidateData =
-                await window.commands.recoverConsolidations(coin, recoveryParams);
+                await window.commands.recoverConsolidations(coin, values);
 
               if (consolidateData instanceof Error) {
                 throw consolidateData;
@@ -284,7 +278,6 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
             try {
               await window.commands.setBitGoEnvironment(environment);
               const chainData = await window.queries.getChain(coin);
-              // TronForm doesn't have walletPassphrase, pass values as-is
               const pubsForOvc = await includePubsFor(coin, values);
               const consolidateData =
                 (await window.commands.recoverConsolidations(coin, {
@@ -358,7 +351,6 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               await window.commands.setBitGoEnvironment(environment);
               const parentCoin = coin === 'ttrxToken' ? 'ttrx' : 'trx';
               const chainData = await window.queries.getChain(parentCoin);
-              // TronTokenForm doesn't have walletPassphrase, pass values as-is
               const pubsForOvc = await includePubsFor(parentCoin, values);
               const consolidateData =
                 (await window.commands.recoverConsolidations(parentCoin, {
@@ -432,13 +424,11 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               await window.commands.setBitGoEnvironment(environment);
               const parentCoin = tokenParentCoins[coin];
               const chainData = await window.queries.getChain(parentCoin);
-              // Exclude walletPassphrase to ensure unsigned transaction
-              const { walletPassphrase, ...recoveryParams } = values;
               const consolidateData = await window.commands.recoverConsolidations(parentCoin, {
-                ...(await updateKeysFromIds(parentCoin, recoveryParams)),
-                bitgoKey: recoveryParams.bitgoKey.replace(/\s+/g, ''),
-                tokenContractAddress: recoveryParams.packageId,
-                seed: recoveryParams.seed,
+                ...(await updateKeysFromIds(parentCoin, values)),
+                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                tokenContractAddress: values.packageId,
+                seed: values.seed,
               });
 
               if (consolidateData instanceof Error) {
