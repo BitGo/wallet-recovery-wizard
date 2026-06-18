@@ -4,8 +4,6 @@ import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
-  userKey: Yup.string().required(),
-  backupKey: Yup.string().required(),
   bitgoKey: Yup.string().required(),
   packageId: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
@@ -25,8 +23,6 @@ export function SuiTokenForm({ onSubmit }: SuiTokenFormProps) {
   const formik = useFormik<SuiFormValues>({
     onSubmit,
     initialValues: {
-      userKey: '',
-      backupKey: '',
       bitgoKey: '',
       packageId: '',
       recoveryDestination: '',

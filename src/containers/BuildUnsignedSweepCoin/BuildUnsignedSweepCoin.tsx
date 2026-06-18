@@ -1525,7 +1525,6 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(coin, values)),
                   },
                   null,
                   2
