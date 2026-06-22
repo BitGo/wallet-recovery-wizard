@@ -1478,7 +1478,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'USDC (ARC)',
     Icon: 'arcusdc',
     value: 'arcusdc',
-    ApiKeyProvider: 'testnet.arcscan.app/api', //TODO: WIN-8844 update when mainnet explorer is available
+    ApiKeyProvider: 'explorer.arc.io/api',
     isTssSupported: true,
   },
   tarcusdc: {
