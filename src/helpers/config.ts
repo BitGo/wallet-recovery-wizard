@@ -98,6 +98,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Tron',
     Icon: 'trx',
     value: 'trx',
+    isTssSupported: true,
   },
   trxToken: {
     Title: 'TRX Token',
@@ -696,6 +697,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Testnet Tron',
     Icon: 'trx',
     value: 'ttrx',
+    isTssSupported: true,
   },
   ttrxToken: {
     Title: 'TTRX Token',

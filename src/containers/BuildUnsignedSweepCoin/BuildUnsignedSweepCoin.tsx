@@ -880,6 +880,7 @@ function Form() {
       return (
         <TronForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -915,7 +916,7 @@ function Form() {
                 JSON.stringify(
                   {
                     ...recoverData,
-                    ...(await includePubsFor(coin, values)),
+                    ...(!values.isTss && await includePubsFor(coin, values)),
                   },
                   null,
                   2

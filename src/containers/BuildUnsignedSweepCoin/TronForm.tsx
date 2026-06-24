@@ -1,16 +1,34 @@
-import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
+import { Field, Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikTextfield } from '~/components';
+import { allCoinMetas } from '~/helpers/config';
 
 const validationSchema = Yup.object({
-  backupKey: Yup.string().required(),
-  backupKeyId: Yup.string(),
+  isTss: Yup.boolean().default(false),
+  backupKey: Yup.string()
+    .default('')
+    .when('isTss', {
+      is: true,
+      then: (schema) => schema,
+      otherwise: (schema) => schema.required(),
+    }),
+  backupKeyId: Yup.string().default(''),
   bitgoKey: Yup.string().required(),
   recoveryDestination: Yup.string().required(),
-  scan: Yup.number().required(),
-  userKey: Yup.string().required(),
-  userKeyId: Yup.string(),
+  scan: Yup.number().when('isTss', {
+    is: true,
+    then: (schema) => schema,
+    otherwise: (schema) => schema.required(),
+  }),
+  userKey: Yup.string()
+    .default('')
+    .when('isTss', {
+      is: true,
+      then: (schema) => schema,
+      otherwise: (schema) => schema.required(),
+    }),
+  userKeyId: Yup.string().default(''),
 }).required();
 
 export type TronFormProps = {
@@ -18,14 +36,16 @@ export type TronFormProps = {
     values: TronFormValues,
     formikHelpers: FormikHelpers<TronFormValues>
   ) => void | Promise<void>;
+  coinName: string;
 };
 
 type TronFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function TronForm({ onSubmit }: TronFormProps) {
+export function TronForm({ onSubmit, coinName }: TronFormProps) {
   const formik = useFormik<TronFormValues>({
     onSubmit,
     initialValues: {
+      isTss: false,
       backupKey: '',
       backupKeyId: '',
       bitgoKey: '',
@@ -37,48 +57,66 @@ export function TronForm({ onSubmit }: TronFormProps) {
     validationSchema,
   });
 
+  const isTss = formik.values.isTss;
+
   return (
     <FormikProvider value={formik}>
       <Form>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed cold wallet details
         </h4>
+        {allCoinMetas[coinName]?.isTssSupported && (
+          <div className="tw-mb-4" role="group">
+            <label>
+              <Field type="checkbox" name="isTss" />
+              {' '}Is TSS recovery?
+            </label>
+          </div>
+        )}
+        {!isTss && (
+          <>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your user public key, as found on your recovery KeyCard."
+                Label="User Public Key"
+                name="userKey"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+                Label="User Key ID (optional)"
+                name="userKeyId"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
+                Label="Backup Public Key"
+                name="backupKey"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
+                Label="Backup Key ID (optional)"
+                name="backupKeyId"
+                Width="fill"
+              />
+            </div>
+          </>
+        )}
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Your user public key, as found on your recovery KeyCard."
-            Label="User Public Key"
-            name="userKey"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="Your user Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
-            Label="User Key ID (optional)"
-            name="userKeyId"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The backup public key for the wallet, as found on your recovery KeyCard."
-            Label="Backup Public Key"
-            name="backupKey"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="Your backup Key ID, as found on your KeyCard. Most wallets will not have this and you can leave it blank."
-            Label="Backup Key ID (optional)"
-            name="backupKeyId"
-            Width="fill"
-          />
-        </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The BitGo public key for the wallet, as found on your recovery KeyCard."
-            Label="BitGo Public Key"
+            HelperText={
+              isTss
+                ? 'The common keychain (compressed secp256k1 public key, 66 hex chars) from Box C of your recovery KeyCard.'
+                : 'The BitGo public key for the wallet, as found on your recovery KeyCard.'
+            }
+            Label={isTss ? 'Common Keychain (Box C)' : 'BitGo Public Key'}
             name="bitgoKey"
             Width="fill"
           />
@@ -91,14 +129,16 @@ export function TronForm({ onSubmit }: TronFormProps) {
             Width="fill"
           />
         </div>
-        <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText="The amount of addresses without transactions to scan before stopping the tool."
-            Label="Address Scanning Factor"
-            name="scan"
-            Width="fill"
-          />
-        </div>
+        {!isTss && (
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText="The amount of addresses without transactions to scan before stopping the tool."
+              Label="Address Scanning Factor"
+              name="scan"
+              Width="fill"
+            />
+          </div>
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
