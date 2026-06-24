@@ -1002,6 +1002,7 @@ function Form() {
       return (
         <TronForm
           key={coin}
+          coinName={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
