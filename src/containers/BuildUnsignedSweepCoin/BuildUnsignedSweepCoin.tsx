@@ -49,6 +49,7 @@ import { RippleTokenForm } from './RippleTokenForm';
 import { HederaTokenForm } from './HederaTokenForm';
 import { NearForm } from './NearForm';
 import { IcpForm } from './IcpForm';
+import { StarknetForm } from './StarknetForm';
 import { VetForm } from './VetForm';
 import { StacksForm } from './StacksForm';
 import { TonForm } from './TonForm';
@@ -1814,6 +1815,78 @@ function Form() {
               );
             } catch (err) {
               // Handle errors and display alerts
+              if (err instanceof Error) {
+                setAlert(err.message);
+              } else {
+                console.error(err);
+              }
+              setSubmitting(false);
+            }
+          }}
+        />
+      );
+    case 'starknet':
+    case 'tstarknet':
+      return (
+        <StarknetForm
+          key={coin}
+          coin={coin}
+          onSubmit={async (values, { setSubmitting }) => {
+            setAlert(undefined);
+            setSubmitting(true);
+            try {
+              await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
+              const chainData = await window.queries.getChain(coin);
+              const recoverData = await window.commands.recover(coin, {
+                ...values,
+                userKey: (values.userKey ?? '').replace(/\s+/g, ''),
+                backupKey: (values.backupKey ?? '').replace(/\s+/g, ''),
+                bitgoKey: values.bitgoKey,
+                recoveryDestination: values.recoveryDestination,
+                ignoreAddressTypes: [],
+              });
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Recovery transaction not detected.'
+              );
+
+              const showSaveDialogData = await window.commands.showSaveDialog({
+                filters: [
+                  {
+                    name: 'Custom File Type',
+                    extensions: ['json'],
+                  },
+                ],
+                defaultPath: `~/${chainData}-unsigned-sweep-${Date.now()}.json`,
+              });
+
+              if (!showSaveDialogData.filePath) {
+                throw new Error('No file path selected');
+              }
+
+              await window.commands.writeFile(
+                showSaveDialogData.filePath,
+                JSON.stringify(
+                  includePubsInUnsignedSweep
+                    ? {
+                        ...recoverData,
+                        ...(await includePubsFor(coin, {
+                          ...values,
+                          userKey: values.userKey ?? '',
+                          backupKey: values.backupKey ?? '',
+                        })),
+                      }
+                    : recoverData,
+                  null,
+                  2
+                ),
+                { encoding: 'utf-8' }
+              );
+
+              navigate(
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+              );
+            } catch (err) {
               if (err instanceof Error) {
                 setAlert(err.message);
               } else {

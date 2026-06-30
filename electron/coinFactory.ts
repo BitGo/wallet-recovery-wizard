@@ -277,6 +277,10 @@ const CoinFactory = () => {
         const { register } = await import('@bitgo/sdk-coin-soneium');
         return register(sdk);
       }
+      case 'starknet': {
+        const { register } = await import('@bitgo-beta/sdk-coin-starknet');
+        return register(sdk);
+      }
       default: {
         throw new Error(`Unsupported Coin. ${coinName}`);
       }

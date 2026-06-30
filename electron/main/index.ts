@@ -94,6 +94,7 @@ import { CoinFeature, coins } from '@bitgo/statics';
 import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
 import { Ton, Tton, JettonToken } from '@bitgo/sdk-coin-ton';
 import { Tempo, Tip20Token } from '@bitgo/sdk-coin-tempo';
+import { Starknet } from '@bitgo-beta/sdk-coin-starknet';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -234,6 +235,8 @@ sdk.register('ton', Ton.createInstance);
 sdk.register('tton', Tton.createInstance);
 sdk.register('tempo', Tempo.createInstance);
 sdk.register('ttempo', Tempo.createInstance);
+sdk.register('starknet', Starknet.createInstance);
+sdk.register('tstarknet', Starknet.createInstance);
 EVMCoinRegisterAll(sdk);
 
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
