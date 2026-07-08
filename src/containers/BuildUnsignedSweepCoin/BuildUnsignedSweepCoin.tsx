@@ -81,6 +81,8 @@ const evmCoins = [
   'tcoredao',
   'soneium',
   'tsoneium',
+  'katanaeth',
+  'tkatanaeth',
   'bsc',
   'tbsc',
   'hemieth',

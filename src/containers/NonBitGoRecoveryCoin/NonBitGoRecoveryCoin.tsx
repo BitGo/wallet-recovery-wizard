@@ -80,6 +80,8 @@ const evmCoins = [
   'txdc',
   'soneium',
   'tsoneium',
+  'katanaeth',
+  'tkatanaeth',
   'hemieth',
   'themieth',
   'usdt0',
