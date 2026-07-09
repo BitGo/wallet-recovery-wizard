@@ -12,4 +12,4 @@ spec:
   # role is most significant. Valid values: service, library, website, documentation, other.
   type: website
   lifecycle: production
-  owner: group:ethalt-team
+  owner: group:ecosystem
