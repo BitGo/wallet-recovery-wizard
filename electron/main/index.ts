@@ -628,11 +628,11 @@ async function createWindow() {
 
     const userXprv = isXprv(params.userKey)
       ? params.userKey
-      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.userKey });
+      : await sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
 
     const backupXprv = isXprv(params.backupKey)
       ? params.backupKey
-      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.backupKey });
+      : await sdk.decrypt({ password: params.walletPassphrase, input: params.backupKey });
 
     const psbtHex = psbtToHex(params.psbt);
     return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv);
@@ -643,7 +643,7 @@ async function createWindow() {
     const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
     const userXprv = isXprv(params.userKey)
       ? params.userKey
-      : await sdk.decryptAsync({ password: params.walletPassphrase, input: params.userKey });
+      : await sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
     const psbtHex = psbtToHex(params.psbt);
     const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv, params.recipientAddress, params.feeRateSatVB);
     return { halfSignedPsbt: halfSignedHex, coin };
