@@ -1,5 +1,6 @@
 import { TrxConsolidationRecoveryOptions, RecoverWithPsbtParams, SignPsbtParams } from '../types';
 import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys } from '../utxo/psbt';
+import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
 import EthereumCommon from '@ethereumjs/common';
 
@@ -312,12 +313,15 @@ function assertsIsAbstractUtxoCoin(
 }
 
 /**
- * Resolve a coin name to a unified RecoveryCoin.  SDK coins are wrapped so
+ * Resolve a coin name to a unified RecoveryCoin.  Non-SDK UTXO coins (e.g.
+ * ECX) are handled by their strategy module; SDK coins are wrapped so
  * the IPC handlers can call recover/broadcast/deriveKeyWithSeed/getChain
- * uniformly without branching on coin type.  Non-SDK coins (added in a
- * follow-up) provide their own RecoveryCoin implementation.
+ * uniformly without branching on coin type.
  */
 function getRecoveryCoin(coinName: string): RecoveryCoin {
+  if (utxoRecovery.isNonSdkUtxoCoin(coinName)) {
+    return utxoRecovery.getNonSdkUtxoCoin(sdk, coinName);
+  }
   const baseCoin = sdk.coin(coinName);
   return {
     deriveKeyWithSeed: (key, seed) =>
