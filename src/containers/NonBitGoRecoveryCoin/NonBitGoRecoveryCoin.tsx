@@ -107,6 +107,8 @@ const evmCoins = [
   'ttempoThetausd',
   'ttempoUsd1',
   'ttempoStgusd1',
+  'erc7984',
+  'hterc7984',
   ...testEvmNonBitgoRecoveryCoins,
   ...prodEvmNonBitgoRecoveryCoins,
 ];
@@ -1133,6 +1135,8 @@ function Form() {
     case 'ttempoThetausd':
     case 'ttempoUsd1':
     case 'ttempoStgusd1':
+    case 'erc7984':
+    case 'hterc7984':
       return (
         <EthLikeTokenForm
           key={coin}

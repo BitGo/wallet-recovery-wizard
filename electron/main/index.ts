@@ -45,6 +45,7 @@ import { Eos, Teos } from '@bitgo/sdk-coin-eos';
 import {
   AbstractEthLikeNewCoins,
   Erc20Token,
+  Erc7984Token,
   Eth,
   Hteth,
 } from '@bitgo/sdk-coin-eth';
@@ -239,6 +240,9 @@ EVMCoinRegisterAll(sdk);
 Erc20Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
+Erc7984Token.createTokenConstructors().forEach(({ name, coinConstructor }) => {
+  sdk.register(name, coinConstructor);
+});
 AvaxCToken.createTokenConstructors().forEach(({ name, coinConstructor }) => {
   sdk.register(name, coinConstructor);
 });
@@ -382,6 +386,8 @@ async function createWindow() {
         case 'ethw':
         case 'erc20':
         case 'hterc20':
+        case 'erc7984':
+        case 'hterc7984':
           sdk = new BitGoAPI({ env: environment, etherscanApiToken: apiKey });
           break;
         case 'avaxc':
