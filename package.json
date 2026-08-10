@@ -13,6 +13,7 @@
     "@bitgo/abstract-cosmos": "11.19.18",
     "@bitgo/abstract-substrate": "2.0.8",
     "@bitgo/abstract-utxo": "12.2.2",
+    "@bitgo/blockapis": "1.13.9",
     "@bitgo/sdk-api": "2.2.4",
     "@bitgo/sdk-coin-ada": "5.0.8",
     "@bitgo/sdk-coin-algo": "3.0.8",
@@ -63,6 +64,7 @@
     "@bitgo/sdk-coin-stx": "4.0.8",
     "@bitgo/sdk-coin-sui": "6.2.3",
     "@bitgo/sdk-coin-tao": "1.16.18",
+    "@bitgo/sdk-coin-tempo": "1.15.14",
     "@bitgo/sdk-coin-tia": "3.7.30",
     "@bitgo/sdk-coin-ton": "4.1.0",
     "@bitgo/sdk-coin-trx": "4.0.8",
@@ -74,8 +76,8 @@
     "@bitgo/sdk-coin-xtz": "3.0.8",
     "@bitgo/sdk-coin-zec": "2.8.31",
     "@bitgo/sdk-coin-zeta": "3.7.30",
+    "@bitgo/sdk-core": "38.6.0",
     "@bitgo/sdk-opensslbytes": "2.1.0",
-    "@bitgo/sdk-coin-tempo": "1.15.14",
     "@bitgo/statics": "59.4.0",
     "@bitgo/utxo-lib": "11.24.2",
     "@ethereumjs/common": "2.6.5",
@@ -88,8 +90,7 @@
     "react-router-dom": "6.4.4",
     "stellar-base": "^13.1.0",
     "tiny-secp256k1": "^2.2.1",
-    "yup": "0.32.11",
-    "@bitgo/sdk-core": "38.6.0"
+    "yup": "0.32.11"
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
