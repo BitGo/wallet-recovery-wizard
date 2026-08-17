@@ -83,7 +83,7 @@ export function createEcxCoin(sdk: BitGoAPI): RecoveryCoin {
     // ECX unsigned sweeps are written to a file and signed/broadcast outside
     // WRW (see BuildUnsignedSweepCoin.tsx) — 'tecx' is not in
     // broadcastTransactionCoins, so this is unreachable from the UI.
-    async broadcast() {
+    broadcast() {
       throw new Error(
         'ECX recovery does not support broadcasting through WRW; sign and broadcast the unsigned sweep externally.'
       );
