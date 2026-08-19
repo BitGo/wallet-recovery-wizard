@@ -1,5 +1,7 @@
 import { TrxConsolidationRecoveryOptions, RecoverWithPsbtParams, SignPsbtParams } from '../types';
 import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys } from '../utxo/psbt';
+import * as utxoRecovery from '../utxo';
+import type { RecoveryCoin } from '../recoveryCoin';
 import EthereumCommon from '@ethereumjs/common';
 
 // Allow self-signed / intermediate-CA certs when running in dev mode.
@@ -310,6 +312,42 @@ function assertsIsAbstractUtxoCoin(
   );
 }
 
+/**
+ * Resolve a coin name to a unified RecoveryCoin.  Non-SDK UTXO coins (e.g.
+ * ECX) are handled by their strategy module; SDK coins are wrapped so
+ * the IPC handlers can call recover/broadcast/deriveKeyWithSeed/getChain
+ * uniformly without branching on coin type.
+ */
+function getRecoveryCoin(coinName: string): RecoveryCoin {
+  if (utxoRecovery.isNonSdkUtxoCoin(coinName)) {
+    return utxoRecovery.getNonSdkUtxoCoin(sdk, coinName);
+  }
+  const baseCoin = sdk.coin(coinName);
+  return {
+    deriveKeyWithSeed: (key, seed) =>
+      baseCoin.deriveKeyWithSeed({ key, seed }),
+    getChain: () => baseCoin.getChain(),
+    async recover(parameters) {
+      const params = parameters as {
+        ethCommonParams?: Partial<Record<string, unknown>>;
+        common?: unknown;
+        [key: string]: unknown;
+      };
+      if (params.ethCommonParams) {
+        params.common = EthereumCommon.custom(params.ethCommonParams);
+      }
+      const openSSLBytes = loadWebAssembly().buffer;
+      return await (baseCoin as AbstractEthLikeNewCoins).recover(
+        { ...params, openSSLBytes },
+        openSSLBytes
+      );
+    },
+    async broadcast(parameters) {
+      return await baseCoin.broadcastTransaction(parameters);
+    },
+  };
+}
+
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Wallet Recovery Wizard',
@@ -462,20 +500,7 @@ async function createWindow() {
   );
 
   ipcMain.handle('recover', async (event, coin, parameters) => {
-    const baseCoin = sdk.coin(coin) as AbstractEthLikeNewCoins;
-    if (parameters.ethCommonParams) {
-      parameters.common = EthereumCommon.custom({
-        ...parameters.ethCommonParams,
-      });
-    }
-    const openSSLBytes = loadWebAssembly().buffer;
-    return await baseCoin.recover(
-      {
-        ...parameters,
-        openSSLBytes,
-      },
-      openSSLBytes
-    );
+    return getRecoveryCoin(coin).recover(parameters);
   });
 
   ipcMain.handle('recoverNestedAta', async (event, coin, parameters) => {
@@ -485,8 +510,7 @@ async function createWindow() {
   });
 
   ipcMain.handle('broadcastTransaction', async (event, coin, parameters) => {
-    const baseCoin = sdk.coin(coin);
-    return await baseCoin.broadcastTransaction(parameters);
+    return getRecoveryCoin(coin).broadcast(parameters);
   });
 
   ipcMain.handle('recoverConsolidations', async (event, coin, params) => {
@@ -575,7 +599,7 @@ async function createWindow() {
   });
 
   ipcMain.handle('deriveKeyWithSeed', (event, coin, key, seed) => {
-    return sdk.coin(coin).deriveKeyWithSeed({ key, seed });
+    return getRecoveryCoin(coin).deriveKeyWithSeed(key, seed);
   });
 
   ipcMain.handle('deriveKeyByPath', (event, key, id) => {
@@ -585,7 +609,7 @@ async function createWindow() {
   });
 
   ipcMain.handle('getChain', (event, coin) => {
-    return sdk.coin(coin).getChain();
+    return getRecoveryCoin(coin).getChain();
   });
 
   ipcMain.handle('getUser', () => {

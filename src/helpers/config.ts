@@ -1704,6 +1704,21 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     ApiKeyProvider: 'shadownet.explorer.etherlink.com',
     isTssSupported: true,
   },
+  // WAL-1716 — ECX self-custody recovery via WRW (light path, no new coin).
+  // ECX shares Bitcoin params (bc HRP, coin-type 0', same script types), so the
+  // recovery flow is the BTC path routed through an ECX esplora endpoint with a
+  // replay-protection nLockTime marker. The 'tecx' value is remapped to 'btc'
+  // before sdk.coin(...) — see electron/utxo/ecx.ts for the implementation.
+  //
+  // Only listed in buildUnsignedSweepCoins.test, never .prod: ECX mainnet
+  // hasn't forked yet and this points at the drynet3 pre-launch test network.
+  // Revisit once real mainnet endpoints are published (drivechain.info/dev.txt).
+  tecx: {
+    Title: 'ECX (drynet3 test network)',
+    Description: 'eCash pre-launch test network (self-custody recovery)',
+    Icon: 'btc',
+    value: 'tecx',
+  },
 } as const;
 
 function generateEvmCoinMeta(coin: {
@@ -1884,6 +1899,7 @@ export const buildUnsignedSweepCoins: Record<
   ] as const,
   test: [
     allCoinMetas.tbtc,
+    allCoinMetas.tecx,
     allCoinMetas.txrp,
     allCoinMetas.txrpToken,
     allCoinMetas.txlm,
