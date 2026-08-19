@@ -419,7 +419,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   solNestedATA: {
     Title: 'SOL Nested ATA',
-    Description: 'Recover tokens stuck in a Solana nested Associated Token Account',
+    Description:
+      'Recover tokens stuck in a Solana nested Associated Token Account',
     Icon: 'sol',
     value: 'solNestedATA',
   },
@@ -925,7 +926,8 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   tsolNestedATA: {
     Title: 'TSOL Nested ATA',
-    Description: 'Recover tokens stuck in a Solana nested Associated Token Account (Testnet)',
+    Description:
+      'Recover tokens stuck in a Solana nested Associated Token Account (Testnet)',
     Icon: 'sol',
     value: 'tsolNestedATA',
   },
@@ -1707,12 +1709,17 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   // WAL-1716 — ECX self-custody recovery via WRW (light path, no new coin).
   // ECX shares Bitcoin params (bc HRP, coin-type 0', same script types), so the
   // recovery flow is the BTC path routed through an ECX esplora endpoint with a
-  // replay-protection nLockTime marker. The 'tecx' value is remapped to 'btc'
+  // replay-protection nLockTime marker. Both values are remapped to 'btc'
   // before sdk.coin(...) — see electron/utxo/ecx.ts for the implementation.
   //
-  // Only listed in buildUnsignedSweepCoins.test, never .prod: ECX mainnet
-  // hasn't forked yet and this points at the drynet3 pre-launch test network.
-  // Revisit once real mainnet endpoints are published (drivechain.info/dev.txt).
+  // The mainnet and testnet aliases share the ECX recovery implementation.
+  // Revisit the provider choice once a trusted, launched ECX esplora exists.
+  ecx: {
+    Title: 'ECX',
+    Description: 'eCash mainnet (self-custody recovery)',
+    Icon: 'btc',
+    value: 'ecx',
+  },
   tecx: {
     Title: 'ECX (drynet3 test network)',
     Description: 'eCash pre-launch test network (self-custody recovery)',
@@ -1758,8 +1765,12 @@ coins.forEach(coin => {
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
-  const hasUnsignedSweep = coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY);
-  const hasNonBitgo = coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY);
+  const hasUnsignedSweep = coin.features.includes(
+    CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY
+  );
+  const hasNonBitgo = coin.features.includes(
+    CoinFeature.EVM_NON_BITGO_RECOVERY
+  );
 
   if (!hasUnsignedSweep && !hasNonBitgo) return;
 
@@ -1813,6 +1824,7 @@ export const buildUnsignedSweepCoins: Record<
 > = {
   prod: [
     allCoinMetas.btc,
+    allCoinMetas.ecx,
     allCoinMetas.bch,
     allCoinMetas.ltc,
     allCoinMetas.xrp,

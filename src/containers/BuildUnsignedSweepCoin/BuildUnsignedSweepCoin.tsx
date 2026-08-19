@@ -127,6 +127,7 @@ function Form() {
   switch (coin) {
     case 'btc':
     case 'tbtc':
+    case 'ecx':
     case 'tecx':
       return (
         <BitcoinForm
