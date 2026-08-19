@@ -52,6 +52,14 @@ import { TonTokenForm } from './TonTokenForm';
 import { IotaForm } from './IotaForm';
 import { TezosForm } from './TezosForm';
 
+function getTxHex(value: unknown): string | undefined {
+  if (typeof value !== 'object' || value === null || !('txHex' in value)) {
+    return undefined;
+  }
+
+  const txHex = value.txHex;
+  return typeof txHex === 'string' && txHex.length > 0 ? txHex : undefined;
+}
 
 const evmCoins = [
   'eth',
@@ -173,7 +181,10 @@ function Form() {
                 ? JSON.stringify(recoverData, (_: string, v: unknown): unknown => typeof v === 'bigint' ? String(v) : v, 2)
                 : JSON.stringify(recoverData, null, 2);
               await window.commands.writeFile(filePath, serialized, { encoding: 'utf-8' });
-              navigate(`/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`);
+              const txHex = getTxHex(recoverData);
+              const successPath = `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`;
+              if (txHex) navigate(successPath, { state: { txHex } });
+              else navigate(successPath);
             } catch (err) {
               if (err instanceof Error) setAlert(err.message);
               else console.error(err);
