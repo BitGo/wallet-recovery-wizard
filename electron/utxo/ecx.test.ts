@@ -32,7 +32,7 @@ const UNSPENT_VALUE = 100_000_000;
 type WasmWalletKeys = ReturnType<typeof buildWalletKeys>;
 
 function buildWalletKeys() {
-  const xpubs = KEYCHAINS.map((k) => BIP32.from(k.pub));
+  const xpubs = KEYCHAINS.map(k => BIP32.from(k.pub));
   return RootWalletKeys.from({
     triple: xpubs,
     derivationPrefixes: ['m/0/0', 'm/0/0', 'm/0/0'],
@@ -53,12 +53,11 @@ function createMockRecoveryProvider(unspentAddress: string): RecoveryProvider {
 
   return {
     async getAddressInfo(a: string) {
-      if (a === unspentAddress)
-        return { txCount: 1, balance: UNSPENT_VALUE };
+      if (a === unspentAddress) return { txCount: 1, balance: UNSPENT_VALUE };
       return { txCount: 0, balance: 0 };
     },
     async getUnspentsForAddresses(addresses: string[]) {
-      return [unspent].filter((u) => addresses.includes(u.address));
+      return [unspent].filter(u => addresses.includes(u.address));
     },
     async getTransactionHex(): Promise<string> {
       throw new Error('not needed for segwit inputs');
@@ -71,7 +70,7 @@ function createMockRecoveryProvider(unspentAddress: string): RecoveryProvider {
 
 function buildRecoverParams(
   walletKeys: WasmWalletKeys,
-  lockTime: number,
+  lockTime: number
 ): RecoverParams {
   const addr = deriveP2wshAddress(walletKeys);
   return {
@@ -104,7 +103,7 @@ describe('createEcxCoin', () => {
       getEnv: vi.fn().mockReturnValue('prod'),
     };
 
-    const ecxCoin = createEcxCoin(mockSdk as any);
+    const ecxCoin = createEcxCoin(mockSdk as any, 'tecx');
 
     await ecxCoin.recover({
       userKey: 'xpub-user',
@@ -114,8 +113,17 @@ describe('createEcxCoin', () => {
     });
 
     expect(mockRecover).toHaveBeenCalledTimes(1);
-    const recoverParams = mockRecover.mock.calls[0][0] as Record<string, unknown>;
+    const recoverParams = mockRecover.mock.calls[0][0] as Record<
+      string,
+      unknown
+    >;
     expect(recoverParams.lockTime).toBe(ECX_REPLAY_LOCK_TIME);
+  });
+
+  it.each(['ecx', 'tecx'] as const)('uses %s as the chain', chain => {
+    const mockSdk = { coin: vi.fn(), getEnv: vi.fn() };
+
+    expect(createEcxCoin(mockSdk as any, chain).getChain()).toBe(chain);
   });
 });
 
@@ -132,7 +140,7 @@ describe('SDK recover() lockTime sensitivity', () => {
 
   it('encodes lockTime=499_999_999 in the recovered transaction', async () => {
     const result = (await coin.recover(
-      buildRecoverParams(walletKeys, ECX_REPLAY_LOCK_TIME),
+      buildRecoverParams(walletKeys, ECX_REPLAY_LOCK_TIME)
     )) as Record<string, unknown>;
     const hex = extractTxHex(result);
     const tx = Transaction.fromBytes(Buffer.from(hex, 'hex'), COIN_NAME);
@@ -141,7 +149,7 @@ describe('SDK recover() lockTime sensitivity', () => {
 
   it('encodes lockTime=0 when lockTime is set to 0', async () => {
     const result = (await coin.recover(
-      buildRecoverParams(walletKeys, 0),
+      buildRecoverParams(walletKeys, 0)
     )) as Record<string, unknown>;
     const hex = extractTxHex(result);
     const tx = Transaction.fromBytes(Buffer.from(hex, 'hex'), COIN_NAME);
@@ -150,10 +158,10 @@ describe('SDK recover() lockTime sensitivity', () => {
 
   it('produces different transactions for different lockTime values', async () => {
     const resultWithLock = (await coin.recover(
-      buildRecoverParams(walletKeys, ECX_REPLAY_LOCK_TIME),
+      buildRecoverParams(walletKeys, ECX_REPLAY_LOCK_TIME)
     )) as Record<string, unknown>;
     const resultWithoutLock = (await coin.recover(
-      buildRecoverParams(walletKeys, 0),
+      buildRecoverParams(walletKeys, 0)
     )) as Record<string, unknown>;
 
     const hexWithLock = extractTxHex(resultWithLock);

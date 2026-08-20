@@ -53,17 +53,19 @@ function ecxEsploraCoin(sdk: BitGoAPI): 'btc' | 'tbtc' {
  */
 const ECX_REPLAY_LOCK_TIME = 499_999_999;
 
-export function createEcxCoin(sdk: BitGoAPI): RecoveryCoin {
+export function createEcxCoin(
+  sdk: BitGoAPI,
+  chain: 'ecx' | 'tecx'
+): RecoveryCoin {
   return {
     // Always 'btc' here (not env-dependent like the esplora below): ECX
     // addresses are BTC-mainnet-format regardless of which WRW build the
     // user is running, so key derivation always uses mainnet params.
     deriveKeyWithSeed: (key, seed) =>
       sdk.coin('btc').deriveKeyWithSeed({ key, seed }),
-    // Literal 'tecx', not sdk.coin('btc').getChain() — this is used as the
-    // sweep-file name prefix (BuildUnsignedSweepCoin.tsx), and it would
-    // otherwise write btc-unsigned-sweep-*.json for an ECX recovery.
-    getChain: () => 'tecx',
+    // Use the selected network name as the sweep-file prefix rather than
+    // sdk.coin('btc').getChain(), which would write a BTC filename.
+    getChain: () => chain,
 
     async recover(parameters: unknown) {
       const baseCoin = sdk.coin('btc') as AbstractUtxoCoin;
@@ -81,7 +83,7 @@ export function createEcxCoin(sdk: BitGoAPI): RecoveryCoin {
     },
 
     // ECX unsigned sweeps are written to a file and signed/broadcast outside
-    // WRW (see BuildUnsignedSweepCoin.tsx) — 'tecx' is not in
+    // WRW (see BuildUnsignedSweepCoin.tsx) — neither ECX alias is in
     // broadcastTransactionCoins, so this is unreachable from the UI.
     broadcast() {
       throw new Error(

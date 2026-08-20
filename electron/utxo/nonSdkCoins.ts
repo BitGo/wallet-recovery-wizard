@@ -5,7 +5,8 @@ import { createEcxCoin } from './ecx';
 type NonSdkUtxoCoinFactory = (sdk: BitGoAPI) => RecoveryCoin;
 
 const NON_SDK_UTXO_COINS: Record<string, NonSdkUtxoCoinFactory> = {
-  tecx: createEcxCoin,
+  ecx: sdk => createEcxCoin(sdk, 'ecx'),
+  tecx: sdk => createEcxCoin(sdk, 'tecx'),
 };
 
 export function isNonSdkUtxoCoin(coin: string): boolean {
