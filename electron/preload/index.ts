@@ -27,6 +27,7 @@ import {
   BroadcastTransactionOptions,
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
+  RecoverWithPsbtParams,
   TaoRecoverConsolidationRecoveryBatch,
   TaoRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
@@ -122,6 +123,10 @@ type Commands = {
       fullnodeRpcUrl?: string;
     }
   ): Promise<BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo>;
+  recoverWithPsbt(
+    coin: string,
+    params: RecoverWithPsbtParams
+  ): Promise<{ txHex: string }>;
   wrongChainRecover(
     sourceCoin: string,
     destinationCoin: string,
@@ -225,6 +230,9 @@ const commands: Commands = {
   },
   recover(coin, parameters) {
     return ipcRenderer.invoke('recover', coin, parameters);
+  },
+  recoverWithPsbt(coin, params) {
+    return ipcRenderer.invoke('recoverWithPsbt', coin, params);
   },
   signPsbt(coin, params) {
     return ipcRenderer.invoke('signPsbt', coin, params);
