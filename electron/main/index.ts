@@ -68,6 +68,7 @@ import { Trx, Ttrx, TrxToken } from '@bitgo/sdk-coin-trx';
 import { Txlm, Xlm } from '@bitgo/sdk-coin-xlm';
 import { Txrp, Xrp, XrpToken } from '@bitgo/sdk-coin-xrp';
 import { Zec } from '@bitgo/sdk-coin-zec';
+import { getCurrentZcashBlockHeight } from '../utxo/zec';
 import { Zeta, Tzeta } from '@bitgo/sdk-coin-zeta';
 import { Bsc, Tbsc } from '@bitgo/sdk-coin-bsc';
 import { BaseCoin } from '@bitgo/sdk-core';
@@ -331,14 +332,20 @@ function getRecoveryCoin(coinName: string): RecoveryCoin {
       const params = parameters as {
         ethCommonParams?: Partial<Record<string, unknown>>;
         common?: unknown;
+        blockHeight?: number;
+        apiKey?: string;
         [key: string]: unknown;
       };
       if (params.ethCommonParams) {
         params.common = EthereumCommon.custom(params.ethCommonParams);
       }
       const openSSLBytes = loadWebAssembly().buffer;
+      const recoveryParams =
+        coinName === 'zec' && params.blockHeight === undefined
+          ? { ...params, blockHeight: await getCurrentZcashBlockHeight(params.apiKey) }
+          : params;
       return await (baseCoin as AbstractEthLikeNewCoins).recover(
-        { ...params, openSSLBytes },
+        { ...recoveryParams, openSSLBytes },
         openSSLBytes
       );
     },
