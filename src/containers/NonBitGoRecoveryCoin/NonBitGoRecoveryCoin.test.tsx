@@ -3,7 +3,13 @@ import { FormikHelpers } from 'formik';
 import type { Dispatch, SetStateAction } from 'react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import type { Environments } from '@bitgo/sdk-core';
 import { AlertBannerContext } from '~/contexts';
+import {
+  applySuiNodeUrls,
+  SUI_JSON_RPC_MAINNET,
+  SUI_JSON_RPC_TESTNET,
+} from '../../../electron/main/suiNodeUrl';
 import { NonBitGoRecoveryCoin } from './NonBitGoRecoveryCoin';
 import type { UtxoFormProps, UtxoFormValues } from './UtxoForm';
 
@@ -110,5 +116,19 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
       JSON.stringify({ txHex }, null, 2),
       { encoding: 'utf-8' }
     );
+  });
+});
+
+describe('Sui recover RPC URLs', () => {
+  it('points test and prod at live JSON-RPC nodes', () => {
+    const environments = {
+      test: { suiNodeUrl: 'https://fullnode.testnet.sui.io' },
+      prod: { suiNodeUrl: 'https://fullnode.mainnet.sui.io' },
+    } as Environments;
+
+    applySuiNodeUrls(environments);
+
+    expect(environments.test.suiNodeUrl).toBe(SUI_JSON_RPC_TESTNET);
+    expect(environments.prod.suiNodeUrl).toBe(SUI_JSON_RPC_MAINNET);
   });
 });

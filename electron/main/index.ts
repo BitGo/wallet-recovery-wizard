@@ -97,6 +97,9 @@ import { CoinFeature, coins } from '@bitgo/statics';
 import { Xtz, Txtz } from '@bitgo/sdk-coin-xtz';
 import { Ton, Tton, JettonToken } from '@bitgo/sdk-coin-ton';
 import { Tempo, Tip20Token } from '@bitgo/sdk-coin-tempo';
+import { applySuiNodeUrls } from './suiNodeUrl';
+
+applySuiNodeUrls();
 
 const bip32 = BIP32Factory(ecc);
 
