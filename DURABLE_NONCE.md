@@ -29,3 +29,14 @@ npm run durable-nonce:build -- create
     ```bash
     npm run durable-nonce:build -- import -n mainnet-beta
     ```
+
+# Obtain Durable Nonce Instructions for Consolidation through WRW
+
+1. Clone and install BitgoJS project
+2. Exec ```npx ts-node create-account.ts```. This creates and populates a main nonce account - address and private keys in ```json/keypair.json```
+const accountsRequired = 5
+3. Update ```generate-nonce-accounts.ts``` as per the requirement; vars to be updated - ```network```, ```coin```, ```accountsRequired```; If the network is testnet, main account will be automatically air dropped with required funds for address creation (unless limits for the day has been reached) else it has to be done manually. ```accountsRequired``` - has a direct relation to the number of indexes which will be used with WRW; lets say startIndex is 1 and endIndex is 3, then the ```accountsRequired``` is ```2```
+
+4. File - ```BitGoJS/examples/ts/sol/utils/nonce-account-creation/json/nonceAddresses.json``` will have the final list of nonce accounts (format: ```secret key : [list of public keys]```) required to be used with WRW (Publick Keys for durable Nonces - make sure no quotes are used!; and Secret Key for durable Nonces)
+
+5. (Optional) After we use WRW along with keys generated from Step 4; a signed tx files can be downloaded from WRW whose content can be populated in ```json/txs.json``` to broadcast in testnet/mainnet; Command to be used - ```npx ts-node broadcast_sol.ts```; Please update ```network``` var in the file before execution
