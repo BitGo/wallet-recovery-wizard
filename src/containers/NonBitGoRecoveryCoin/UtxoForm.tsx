@@ -46,6 +46,7 @@ const validationSchema = Yup.object({
 
 export type UtxoFormConfig = {
   showKrsProvider?: boolean; // defaults true; pass false for coins without KRS support
+  requiresApiKey?: boolean; // defaults true; ECX uses the Blockstream API directly
   notice?: ReactNode; // optional notice rendered above the form heading (e.g. BCH)
 };
 
@@ -102,6 +103,11 @@ const BCHA_CONFIG: UtxoCoinHandlerConfig = {
   passApiKeyToEnv: true,
   bigintSerialization: false,
 };
+const ECX_CONFIG: UtxoCoinHandlerConfig = {
+  form: { requiresApiKey: false },
+  passApiKeyToEnv: false,
+  bigintSerialization: false,
+};
 
 export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
   btc: BTC_CONFIG,
@@ -114,6 +120,8 @@ export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
   tdoge: DOGE_CONFIG,
   bch: BCH_CONFIG,
   bcha: BCHA_CONFIG,
+  ecx: ECX_CONFIG,
+  tecx: ECX_CONFIG,
 };
 
 export type UtxoFormValues = Yup.Asserts<typeof validationSchema>;
@@ -127,6 +135,7 @@ export type UtxoFormProps = UtxoFormConfig & {
 
 export function UtxoForm({
   showKrsProvider = true,
+  requiresApiKey = true,
   notice,
   onSubmit,
 }: UtxoFormProps) {
@@ -145,7 +154,9 @@ export function UtxoForm({
       scan: 20,
       psbt: '',
     },
-    validationSchema,
+    validationSchema: requiresApiKey
+      ? validationSchema
+      : validationSchema.shape({ apiKey: Yup.string().optional() }),
   });
 
   const backupKeyHelperText =
@@ -258,14 +269,16 @@ export function UtxoForm({
                 Width="fill"
               />
             </div>
-            <div className="tw-mb-4">
-              <FormikTextfield
-                HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin."
-                Label="API Key"
-                name="apiKey"
-                Width="fill"
-              />
-            </div>
+            {requiresApiKey && (
+              <div className="tw-mb-4">
+                <FormikTextfield
+                  HelperText="An Api-Key Token from blockchair.com required for mainnet recovery of this coin."
+                  Label="API Key"
+                  name="apiKey"
+                  Width="fill"
+                />
+              </div>
+            )}
           </>
         )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
