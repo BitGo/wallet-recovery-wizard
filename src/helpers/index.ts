@@ -43,7 +43,11 @@ const INTERNAL_TEST_TOKENS = new Set([
   '0xerc721:soneiumtoken',
   '0xerc1155:soneiumtoken',
   '0xterc721:soneiumtoken',
-  '0xterc1155:soneiumtoken'
+  '0xterc1155:soneiumtoken',
+  '0xerc721:hbarevmtoken',
+  '0xterc721:hbarevmtoken',
+  '0xerc1155:hbarevmtoken',
+  '0xterc1155:hbarevmtoken',
 ]);
 
 export async function recoverWithToken(
