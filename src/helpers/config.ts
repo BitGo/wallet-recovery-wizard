@@ -1183,7 +1183,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   ip: {
     Title: 'IP',
-    Description: 'Story Mainnet',
+    Description: 'Data Network Mainnet',
     Icon: 'ip',
     value: 'ip',
     isTssSupported: true,
@@ -1191,7 +1191,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
   },
   tip: {
     Title: 'TIP',
-    Description: 'Story Testnet',
+    Description: 'Data Network Testnet',
     Icon: 'ip',
     value: 'tip',
     isTssSupported: true,
