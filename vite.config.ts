@@ -26,6 +26,7 @@ export default defineConfig({
     },
   },
   build: {
+    sourcemap: true,
     rollupOptions: {
       output: {
         format: 'es',
@@ -38,7 +39,7 @@ export default defineConfig({
     electron({
       include: ['electron', 'preload'],
       transformOptions: {
-        sourcemap: !!process.env.VSCODE_DEBUG,
+        sourcemap: true,
       },
       plugins: [
         ...(process.env.VSCODE_DEBUG || process.env.NODE_ENV === 'test'
