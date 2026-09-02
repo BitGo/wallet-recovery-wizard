@@ -83,11 +83,19 @@ export async function signPsbtWithBothKeys(
   psbtHex: string,
   userXprv: string,
   backupXprv: string,
+  bitgoXpub: string,
 ): Promise<{ txHex: string }> {
+  const pubs: [string, string, string] = [
+    BIP32.fromBase58(userXprv).neutered().toBase58(),
+    BIP32.fromBase58(backupXprv).neutered().toBase58(),
+    BIP32.fromBase58(bitgoXpub).toBase58(),
+  ];
+
   const half = await coin.signTransaction({
     txPrebuild: { txHex: psbtHex },
     prv: userXprv,
     isLastSignature: false,
+    pubs,
   });
   const halfHex = extractTxHex(half);
 
@@ -95,6 +103,7 @@ export async function signPsbtWithBothKeys(
     txPrebuild: { txHex: halfHex },
     prv: backupXprv,
     isLastSignature: true,
+    pubs,
   });
   return { txHex: extractTxHex(full) };
 }

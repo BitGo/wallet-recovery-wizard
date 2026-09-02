@@ -665,7 +665,7 @@ async function createWindow() {
       : await sdk.decrypt({ password: params.walletPassphrase, input: params.backupKey });
 
     const psbtHex = psbtToHex(params.psbt);
-    return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv);
+    return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv, params.bitgoKey);
   });
 
   ipcMain.handle('signPsbt', async (_event, coin: string, params: SignPsbtParams) => {
