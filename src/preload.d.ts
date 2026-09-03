@@ -127,7 +127,7 @@ type Commands = {
         maxPriorityFeePerGas: number;
       };
       replayProtectionOptions?: {
-        chain: 10001 | 560048 | typeof Chain[keyof typeof Chain];
+        chain: 10001 | 560048 | (typeof Chain)[keyof typeof Chain];
         hardfork: `${Hardfork}`;
       };
       walletContractAddress?: string;
@@ -167,10 +167,7 @@ type Commands = {
     coin: string,
     params: RecoverWithPsbtParams
   ): Promise<{ txHex: string }>;
-  signPsbt(
-    coin: string,
-    params: SignPsbtParams
-  ): Promise<SignPsbtResult>;
+  signPsbt(coin: string, params: SignPsbtParams): Promise<SignPsbtResult>;
 };
 
 type Queries = {

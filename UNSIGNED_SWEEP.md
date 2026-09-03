@@ -15,7 +15,6 @@ Build an unsigned transaction from a cold wallet using the user and backup publi
 5.  If you have a Key ID set to your Backup Key, it will be displayed on your KeyCard. You are supposed to provide the Key ID only if you have it on your KeyCard.
 
 6.  The next field will be different based on coin type
-
     1. For UTXO based coins, you are asked to provide the BitGo Public Key as found on your recovery KeyCard.
 
     2. For Coins like Stellar, Ripple, and EOS, Root Address of the wallet needs to be provided.
@@ -86,6 +85,7 @@ Cardano uses **EdDSA (Ed25519)** signing, so the OVC signing process takes **6 s
 - Native tokens (e.g. fungible tokens on the Cardano blockchain)
 
 When the wallet holds both ADA and native tokens, WRW produces **two outputs** in the unsigned sweep:
+
 - Token output: destination address + tokens + 1.5 ADA (Cardano minimum UTXO requirement)
 - ADA remainder: destination address + remaining ADA after fee
 
@@ -101,35 +101,39 @@ When the wallet holds both ADA and native tokens, WRW produces **two outputs** i
 > **Important:** Select **Sign TSS Recoveries** in OVC — not "Sign Transactions" or "Sign TSS Transactions".
 > Recovery files have no server-backed `txRequestId`; the standard signing flow will fail.
 
-| Step | OVC role   | Action |
-|------|------------|--------|
-| 1    | User OVC   | Upload unsigned sweep file → download share file |
-| 2    | Backup OVC | Upload user share → download backup share |
-| 3    | User OVC   | Upload backup share → download user signature share |
+| Step | OVC role   | Action                                                        |
+| ---- | ---------- | ------------------------------------------------------------- |
+| 1    | User OVC   | Upload unsigned sweep file → download share file              |
+| 2    | Backup OVC | Upload user share → download backup share                     |
+| 3    | User OVC   | Upload backup share → download user signature share           |
 | 4    | Backup OVC | Upload user signature share → download backup signature share |
-| 5    | User OVC   | Upload backup signature share → download final signed file |
-| 6    | —          | Broadcast the final signed file |
+| 5    | User OVC   | Upload backup signature share → download final signed file    |
+| 6    | —          | Broadcast the final signed file                               |
 
 ### Step 3 — Broadcast using `broadcast_ada.py`
 
 `broadcast_ada.py` (included in this repository) assembles the signed CBOR from the OVC output and submits it to the Cardano network via Koios.
 
 **Requirements:**
+
 ```bash
 pip install cbor2
 ```
 
 **Broadcast to testnet (TADA / Preprod):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json
 ```
 
 **Broadcast to mainnet (ADA):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --network mainnet
 ```
 
 **Dry run (assemble CBOR without broadcasting):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --dry-run
 ```

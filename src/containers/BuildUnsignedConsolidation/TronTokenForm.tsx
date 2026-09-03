@@ -14,25 +14,28 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().when('walletType', {
     is: 'hot',
-    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
-    otherwise: (schema) => schema,
+    then: schema =>
+      schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: schema => schema,
   }),
   tokenContractAddress: Yup.string().required(),
   startingScanIndex: Yup.number().required(),
-  endingScanIndex: Yup.number().required().moreThan(
-    Yup.ref('startingScanIndex'),
-    'Ending scan index must be greater than starting scan index'
-  ),
+  endingScanIndex: Yup.number()
+    .required()
+    .moreThan(
+      Yup.ref('startingScanIndex'),
+      'Ending scan index must be greater than starting scan index'
+    ),
 }).required();
 
-export type TronFormValues =  Yup.Asserts<typeof validationSchema>;
+export type TronFormValues = Yup.Asserts<typeof validationSchema>;
 
 export type TronFormProps = {
   onSubmit: (
     values: TronFormValues,
     formikHelpers: FormikHelpers<TronFormValues>
   ) => void | Promise<void>;
-}
+};
 
 export function TronTokenForm({ onSubmit }: TronFormProps) {
   const formik = useFormik<TronFormValues>({
@@ -159,5 +162,5 @@ export function TronTokenForm({ onSubmit }: TronFormProps) {
         </div>
       </Form>
     </FormikProvider>
-  )
+  );
 }

@@ -24,9 +24,8 @@ const psbtFormValues: UtxoFormValues = {
 const writeFile = vi.fn();
 
 vi.mock('./UtxoForm', async () => {
-  const actual = await vi.importActual<typeof import('./UtxoForm')>(
-    './UtxoForm'
-  );
+  const actual =
+    await vi.importActual<typeof import('./UtxoForm')>('./UtxoForm');
 
   return {
     ...actual,
@@ -77,7 +76,7 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
       undefined;
     const alertState: [
       string | undefined,
-      Dispatch<SetStateAction<string | undefined>>
+      Dispatch<SetStateAction<string | undefined>>,
     ] = [undefined, setAlert];
 
     render(

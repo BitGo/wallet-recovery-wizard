@@ -128,7 +128,7 @@ export function EvmCrossChainRecoveryBaseForm({
           Width="fill"
         />
       </div>
-      {!isCustodyWallet && !isAvaxcCoin(wrongChain) &&(
+      {!isCustodyWallet && !isAvaxcCoin(wrongChain) && (
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="An Api-Key Token required for the explorer."

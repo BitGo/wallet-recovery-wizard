@@ -2376,7 +2376,7 @@ export type EvmCcrNonBitgoCoinConfigType = {
 };
 
 export const evmCcrNonBitgoCoins = ['tbaseeth', 'baseeth'] as const;
-export type EvmCcrNonBitgoCoin = typeof evmCcrNonBitgoCoins[number];
+export type EvmCcrNonBitgoCoin = (typeof evmCcrNonBitgoCoins)[number];
 
 export const evmCcrNonBitgoCoinConfig = {
   baseeth: {

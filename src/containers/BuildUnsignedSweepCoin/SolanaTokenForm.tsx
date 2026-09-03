@@ -17,12 +17,15 @@ const validationSchema = Yup.object({
   tokenProgramId: Yup.string().required(),
   seed: Yup.string(),
   apiKey: Yup.string().test(
-    'not-url-or-alchemy', 
-    'API key should not be a URL', 
-    (value) => {
+    'not-url-or-alchemy',
+    'API key should not be a URL',
+    value => {
       if (!value) return true; // Skip validation if empty
       // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
-      return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
+      return (
+        !value.match(/^https?:\/\//i) &&
+        !value.toLowerCase().includes('alchemy')
+      );
     }
   ),
 })
@@ -117,8 +120,12 @@ export function SolanaTokenForm({ onSubmit }: SolanaTokenFormProps) {
             name="tokenProgramId"
             Width="fill"
           >
-            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">SOL SPL Token</option>
-            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">Sol SPL 2022 Token</option>
+            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">
+              SOL SPL Token
+            </option>
+            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">
+              Sol SPL 2022 Token
+            </option>
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">

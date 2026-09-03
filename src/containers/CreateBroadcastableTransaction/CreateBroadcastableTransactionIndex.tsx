@@ -41,8 +41,7 @@ function isSignedTransaction(
   | createSolBroadcastableSweepTransactionParameters
   | createSuiBroadcastableSweepTransactionParameters
   | createIcpBroadcastableSweepTransactionParameters
-  | createVetBroadcastableSweepTransactionParameters
-{
+  | createVetBroadcastableSweepTransactionParameters {
   const signedTransaction = json as
     | createAdaBroadcastableSweepTransactionParameters
     | createDotBroadcastableSweepTransactionParameters

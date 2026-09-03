@@ -8,7 +8,7 @@ Construct the API request to the full node:
 
     Optimism Sepolia Request URL: https://sepolia.optimism.io
 
-    Optimism Mainnet Request URL: https://mainnet.optimism.io 
+    Optimism Mainnet Request URL: https://mainnet.optimism.io
 
     Method: POST
 

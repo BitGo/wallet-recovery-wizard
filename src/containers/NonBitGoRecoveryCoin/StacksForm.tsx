@@ -113,7 +113,7 @@ export function StacksForm({ onSubmit, isToken }: StacksFormProps) {
             Width="fill"
           />
         </div>
-        { isToken && (
+        {isToken && (
           <div className="tw-mb-4">
             <FormikTextfield
               HelperText="The contract id of the token to recover. This is unique to each token, in the format <contractAddress>.<contractId>"
@@ -122,8 +122,7 @@ export function StacksForm({ onSubmit, isToken }: StacksFormProps) {
               Width="fill"
             />
           </div>
-        )
-        }
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

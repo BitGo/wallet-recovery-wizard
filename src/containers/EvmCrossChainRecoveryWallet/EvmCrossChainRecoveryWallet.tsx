@@ -61,7 +61,7 @@ type UpdateKeysFromsIdsDefaultParams = {
 };
 
 async function updateKeysFromIds<
-  TParams extends UpdateKeysFromsIdsDefaultParams
+  TParams extends UpdateKeysFromsIdsDefaultParams,
 >(coin: string, params: TParams): Promise<Omit<TParams, 'userKeyId'>> {
   const { userKeyId, ...copy } = params;
 
@@ -119,7 +119,8 @@ async function handleOnSubmit(
     }
 
     // COIN-52 : User key removal from the generated file
-    const responseObject = typeof recoverData === 'string' ? JSON.parse(recoverData) : recoverData;
+    const responseObject =
+      typeof recoverData === 'string' ? JSON.parse(recoverData) : recoverData;
     delete responseObject.userKey;
 
     await window.commands.writeFile(
@@ -174,11 +175,10 @@ async function handleNonCustodyFormSubmit(
     values.wrongChain,
     values.apiKey
   );
-  const { ...rest } =
-    await updateKeysFromIds<ColdWalletParams>(
-      values.wrongChain,
-      values as ColdWalletParams
-    );
+  const { ...rest } = await updateKeysFromIds<ColdWalletParams>(
+    values.wrongChain,
+    values as ColdWalletParams
+  );
 
   const recoverData = await window.commands.recover(values.wrongChain, {
     ...values,
@@ -188,7 +188,9 @@ async function handleNonCustodyFormSubmit(
       : '',
     backupKey: '',
     ignoreAddressTypes: [],
-    ethCommonParams: getEthCommonConfigParams(values.wrongChain as EvmCcrNonBitgoCoin),
+    ethCommonParams: getEthCommonConfigParams(
+      values.wrongChain as EvmCcrNonBitgoCoin
+    ),
   });
   assert(
     isRecoveryTransaction(recoverData),

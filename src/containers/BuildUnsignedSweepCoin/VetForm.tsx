@@ -6,8 +6,8 @@ import { Button, FormikTextarea, FormikTextfield } from '~/components';
 type VetFormValues = {
   bitgoKey: string;
   recoveryDestination: string;
-  tokenContractAddress?: string;  // optional based on isToken
-}
+  tokenContractAddress?: string; // optional based on isToken
+};
 
 export type VetFormProps = {
   isToken: boolean;
@@ -20,7 +20,9 @@ export type VetFormProps = {
 export function VetForm({ onSubmit, isToken }: VetFormProps) {
   const schemaFields: Record<keyof VetFormValues, Yup.AnySchema> = {
     bitgoKey: Yup.string().required('BitGo Key is required'),
-    recoveryDestination: Yup.string().required('Recovery Destination is required'),
+    recoveryDestination: Yup.string().required(
+      'Recovery Destination is required'
+    ),
     tokenContractAddress: isToken
       ? Yup.string().required('Token contract address is required')
       : Yup.string().notRequired(),
@@ -62,7 +64,7 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
             Width="fill"
           />
         </div>
-        { isToken && (
+        {isToken && (
           <div className="tw-mb-4">
             <FormikTextfield
               HelperText="The contract address of the token to recover. This is unique to each token"
@@ -71,8 +73,7 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
               Width="fill"
             />
           </div>
-        )
-        }
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

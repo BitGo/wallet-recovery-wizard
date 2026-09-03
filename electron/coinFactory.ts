@@ -39,8 +39,8 @@ const CoinFactory = () => {
     const coinFamily = coins.has(coinName)
       ? coins.get(coinName).family
       : coinName in tokenParentCoins
-      ? tokenParentCoins[coinName]
-      : undefined;
+        ? tokenParentCoins[coinName]
+        : undefined;
 
     if (!coinFamily) {
       throw new Error(`Coin not found. ${coinName}`);

@@ -14,12 +14,15 @@ This documentation provides a guide to broadcast Ethereum Classic transactions t
    ```bash
    npm install axios
 
+   ```
+
 2. Obtain an API Key from CryptoAPIs:
    - Sign up for [cryptoapis.io](https://my.cryptoapis.io/login)
    - Create a new api-key [here](https://my.cryptoapis.io/api-keys)
 
-## Script 
-Create a new file called `broadcastETCTransaction.js` 
+## Script
+
+Create a new file called `broadcastETCTransaction.js`
 and add the following script:
 
 ```js
@@ -39,38 +42,43 @@ const broadcastTransaction = async () => {
         context: '', // Optional
         data: {
           item: {
-            signedTransactionHex: signedTransactionHex
-          }
-        }
+            signedTransactionHex: signedTransactionHex,
+          },
+        },
       },
       {
         headers: {
           'x-api-key': apiKey,
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       }
     );
 
     console.log('Transaction Broadcasted Successfully:', response.data);
   } catch (error) {
-    console.error('Error broadcasting transaction:', error.response ? error.response.data : error.message);
+    console.error(
+      'Error broadcasting transaction:',
+      error.response ? error.response.data : error.message
+    );
   }
 };
 
 broadcastTransaction();
-
 ```
 
 ## Running the script
+
 1. Replace the `apiKey` and `signedTransactionHex` variables with your actual API key and signed transaction hex.
 2. Run the script:
-  ```
-  node broadcastETCTransaction.js
-  ```
+
+```
+node broadcastETCTransaction.js
+```
 
 ## Response
 
 If successful, the script will output a JSON object with the following structure:
+
 ```json
 {
   "apiVersion": "string",
@@ -83,6 +91,7 @@ If successful, the script will output a JSON object with the following structure
   }
 }
 ```
+
 The response will contain the following fields:
 
 - `apiVersion` (string): The version of the API.
@@ -92,7 +101,5 @@ The response will contain the following fields:
 - `context` (string): The context of the response.
 
 - `data` (object):
-
   - `item` (object):
-
     - `transactionId` (string): The ID of the broadcasted transaction.

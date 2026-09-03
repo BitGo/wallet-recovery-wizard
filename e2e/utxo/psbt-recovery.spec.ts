@@ -23,17 +23,27 @@ function stubRecoveryHandlers(app: ElectronApplication) {
     ipcMain.handle('setBitGoEnvironment', () => undefined);
     ipcMain.handle('getChain', () => 'tbtc');
     ipcMain.handle('recoverWithPsbt', (_event, coin, params) => {
-      if (coin !== 'tbtc') throw new Error(`Expected tbtc coin, received ${coin}`);
-      if (params.psbt !== 'cHNidP8BAHECAAAAA') throw new Error('Unexpected PSBT');
-      if (params.userKey !== 'xprv_placeholder_user_key') throw new Error('Unexpected user key');
-      if (params.backupKey !== 'xprv_placeholder_backup_key') throw new Error('Unexpected backup key');
-      if (params.bitgoKey !== 'xpub_placeholder_bitgo_key') throw new Error('Unexpected BitGo key');
-      if (params.walletPassphrase !== 'test-passphrase-123') throw new Error('Unexpected wallet passphrase');
-      if (params.krsProvider !== undefined) throw new Error('KRS provider must be omitted');
+      if (coin !== 'tbtc')
+        throw new Error(`Expected tbtc coin, received ${coin}`);
+      if (params.psbt !== 'cHNidP8BAHECAAAAA')
+        throw new Error('Unexpected PSBT');
+      if (params.userKey !== 'xprv_placeholder_user_key')
+        throw new Error('Unexpected user key');
+      if (params.backupKey !== 'xprv_placeholder_backup_key')
+        throw new Error('Unexpected backup key');
+      if (params.bitgoKey !== 'xpub_placeholder_bitgo_key')
+        throw new Error('Unexpected BitGo key');
+      if (params.walletPassphrase !== 'test-passphrase-123')
+        throw new Error('Unexpected wallet passphrase');
+      if (params.krsProvider !== undefined)
+        throw new Error('KRS provider must be omitted');
 
       return { txHex: 'deadbeef01020304' };
     });
-    ipcMain.handle('showSaveDialog', () => ({ filePath: '/tmp/test-psbt-recovery.json', canceled: false }));
+    ipcMain.handle('showSaveDialog', () => ({
+      filePath: '/tmp/test-psbt-recovery.json',
+      canceled: false,
+    }));
     ipcMain.handle('writeFile', () => undefined);
   });
 }
@@ -52,7 +62,9 @@ test.describe('UTXO PSBT recovery', () => {
   });
 
   test('tbtc PSBT recovery completes successfully', async () => {
-    await page.evaluate(() => { window.location.hash = '/test/non-bitgo-recovery/tbtc'; });
+    await page.evaluate(() => {
+      window.location.hash = '/test/non-bitgo-recovery/tbtc';
+    });
     await page.waitForSelector('[name="recoverySource"]');
 
     await page.selectOption('[name="recoverySource"]', 'psbt');
@@ -65,7 +77,9 @@ test.describe('UTXO PSBT recovery', () => {
 
     await page.click('button[type="submit"]');
 
-    await page.waitForURL(/non-bitgo-recovery\/tbtc\/success/, { timeout: 10_000 });
+    await page.waitForURL(/non-bitgo-recovery\/tbtc\/success/, {
+      timeout: 10_000,
+    });
     await expect(page.getByText('We recommend')).toBeVisible();
   });
 });

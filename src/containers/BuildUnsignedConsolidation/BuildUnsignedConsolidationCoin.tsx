@@ -9,7 +9,10 @@ import {
 import { TronForm } from '~/containers/BuildUnsignedConsolidation/TronForm';
 import { TronTokenForm } from '~/containers/BuildUnsignedConsolidation/TronTokenForm';
 import { CoinsSelectAutocomplete } from '~/components';
-import { buildUnsignedConsolidationCoins, tokenParentCoins } from '~/helpers/config';
+import {
+  buildUnsignedConsolidationCoins,
+  tokenParentCoins,
+} from '~/helpers/config';
 import { BackToHomeHelperText } from '~/components/BackToHomeHelperText';
 import { ConsolidationRecoveryBatch } from '@bitgo/sdk-coin-trx';
 import { useAlertBanner } from '~/contexts';
@@ -53,8 +56,10 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
                   ...recoveryParams,
                   durableNonces: {
                     ...recoveryParams.durableNonces,
-                    publicKeys: recoveryParams.durableNonces.publicKeys.split(',').map((v) => v.trim()),
-                  }
+                    publicKeys: recoveryParams.durableNonces.publicKeys
+                      .split(',')
+                      .map(v => v.trim()),
+                  },
                 });
 
               if (consolidateData instanceof Error) {
@@ -112,7 +117,9 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
                   ...recoveryParams,
                   durableNonces: {
                     ...recoveryParams.durableNonces,
-                    publicKeys: recoveryParams.durableNonces.publicKeys.split(',').map((v) => v.trim()),
+                    publicKeys: recoveryParams.durableNonces.publicKeys
+                      .split(',')
+                      .map(v => v.trim()),
                   },
                   programId: recoveryParams.tokenProgramId,
                 });
@@ -166,9 +173,17 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               const chainData = await window.queries.getChain(coin);
               // Exclude userKey, backupKey and walletPassphrase so recoverConsolidations
               // takes the unsigned sweep path (isUnsignedSweep = !userKey && !backupKey && !walletPassphrase)
-              const { walletPassphrase, userKey, backupKey, ...recoveryParams } = values;
+              const {
+                walletPassphrase,
+                userKey,
+                backupKey,
+                ...recoveryParams
+              } = values;
               const consolidateData =
-                await window.commands.recoverConsolidations(coin, recoveryParams);
+                await window.commands.recoverConsolidations(
+                  coin,
+                  recoveryParams
+                );
 
               if (consolidateData instanceof Error) {
                 throw consolidateData;
@@ -179,10 +194,12 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               // transactions from colliding on the same undefined key in OVC's signer map.
               const consolidateDataWithIds = {
                 ...(consolidateData as any),
-                txRequests: ((consolidateData as any).txRequests ?? []).map((txReq: any) => ({
-                  ...txReq,
-                  txRequestId: txReq.txRequestId ?? crypto.randomUUID(),
-                })),
+                txRequests: ((consolidateData as any).txRequests ?? []).map(
+                  (txReq: any) => ({
+                    ...txReq,
+                    txRequestId: txReq.txRequestId ?? crypto.randomUUID(),
+                  })
+                ),
               };
 
               const showSaveDialogData = await window.commands.showSaveDialog({
@@ -236,7 +253,10 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               // Exclude walletPassphrase to ensure unsigned transaction
               const { walletPassphrase, ...recoveryParams } = values;
               const consolidateData =
-                await window.commands.recoverConsolidations(coin, recoveryParams);
+                await window.commands.recoverConsolidations(
+                  coin,
+                  recoveryParams
+                );
 
               if (consolidateData instanceof Error) {
                 throw consolidateData;
@@ -434,12 +454,13 @@ function ConsolidationForm({ coin, environment }: ConsolidationFormProps) {
               const chainData = await window.queries.getChain(parentCoin);
               // Exclude walletPassphrase to ensure unsigned transaction
               const { walletPassphrase, ...recoveryParams } = values;
-              const consolidateData = await window.commands.recoverConsolidations(parentCoin, {
-                ...(await updateKeysFromIds(parentCoin, recoveryParams)),
-                bitgoKey: recoveryParams.bitgoKey.replace(/\s+/g, ''),
-                tokenContractAddress: recoveryParams.packageId,
-                seed: recoveryParams.seed,
-              });
+              const consolidateData =
+                await window.commands.recoverConsolidations(parentCoin, {
+                  ...(await updateKeysFromIds(parentCoin, recoveryParams)),
+                  bitgoKey: recoveryParams.bitgoKey.replace(/\s+/g, ''),
+                  tokenContractAddress: recoveryParams.packageId,
+                  seed: recoveryParams.seed,
+                });
 
               if (consolidateData instanceof Error) {
                 throw consolidateData;

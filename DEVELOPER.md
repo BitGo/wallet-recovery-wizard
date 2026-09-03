@@ -32,15 +32,19 @@ Besides the BitGo SDK, the WRW also depends on third-party nodes or block explor
 - For account-based coins, there are no shared functions defined in the parent class. Each coin class may have its own functions that communicate with a third-party node. For example, the ETH recovery has `recoveryBlockchainExplorerQuery` whereas EOS recovery has `getDataFromNode`.
 
 #### Upgrade the BitGo SDK dependencies
+
 ```
-npm run bump-bitgo-versions 
+npm run bump-bitgo-versions
 ```
 
 #### Upgrade the Cryptocurrency Icons dependencies
+
 WRW uses coin icons from [cryptocurrency-icons](https://github.com/BitGo/cryptocurrency-icons) repo. In order to add the icons for the new coin, you'll need to follow the following steps.
+
 - Ensure that the new coin icon is added in cryptocurrency-icons repo.
 - Update the latest commit hash from cryptocurrency-icons into package.json.
-- Run following commands to update get-dynamic-icons 
+- Run following commands to update get-dynamic-icons
+
 ```bash
 npm i
 npm run generate-icons

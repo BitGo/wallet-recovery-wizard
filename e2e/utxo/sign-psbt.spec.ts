@@ -9,22 +9,28 @@ const RECIPIENT = 'tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx';
 const FEE_RATE = '10';
 
 function buildFixture() {
-  const userKey   = BIP32.fromSeedSha256('default.0');
+  const userKey = BIP32.fromSeedSha256('default.0');
   const backupKey = BIP32.fromSeedSha256('default.1');
-  const bitgoKey  = BIP32.fromSeedSha256('default.2');
+  const bitgoKey = BIP32.fromSeedSha256('default.2');
 
   const walletKeys = RootWalletKeys.from({
     triple: [userKey, backupKey, bitgoKey],
     derivationPrefixes: ['m/0/0', 'm/0/0', 'm/0/0'],
   });
 
-  const psbt = BitGoPsbt.createEmpty('tbtc', walletKeys, { version: 2, lockTime: 0 });
+  const psbt = BitGoPsbt.createEmpty('tbtc', walletKeys, {
+    version: 2,
+    lockTime: 0,
+  });
 
   const externalChain = ChainCode.value('p2wsh', 'external');
   psbt.addWalletInput(
     { txid: '0'.repeat(64), vout: 0, value: BigInt(1_000_000) },
     walletKeys,
-    { scriptId: { chain: externalChain, index: 0 }, signPath: { signer: 'user', cosigner: 'bitgo' } },
+    {
+      scriptId: { chain: externalChain, index: 0 },
+      signPath: { signer: 'user', cosigner: 'bitgo' },
+    }
   );
   // No outputs — the backend derives the output from inputs + fee rate.
 
@@ -37,7 +43,10 @@ function buildFixture() {
 function stubFileHandlers(app: ElectronApplication) {
   return app.evaluate(({ ipcMain }) => {
     for (const ch of ['showSaveDialog', 'writeFile']) ipcMain.removeHandler(ch);
-    ipcMain.handle('showSaveDialog', () => ({ filePath: '/tmp/test-signed.psbt', canceled: false }));
+    ipcMain.handle('showSaveDialog', () => ({
+      filePath: '/tmp/test-signed.psbt',
+      canceled: false,
+    }));
     ipcMain.handle('writeFile', () => undefined);
   });
 }
@@ -58,7 +67,9 @@ test.describe('Sign PSBT – real signing', () => {
   test('signs a tbtc p2wsh PSBT with the user key', async () => {
     const { psbtBase64, userXprv } = buildFixture();
 
-    await page.evaluate(() => { window.location.hash = '/test/sign-psbt'; });
+    await page.evaluate(() => {
+      window.location.hash = '/test/sign-psbt';
+    });
     await page.waitForSelector('[name="coin"]');
     await page.screenshot({ path: 'test-results/sign-psbt-1-form-loaded.png' });
 

@@ -26,5 +26,5 @@ export function BuildUnsignedConsolidationIndex() {
         Please select a currency above.
       </p>
     </>
-  )
+  );
 }

@@ -114,7 +114,7 @@ export function WrongChainRecovery() {
                   walletPassphrase: values.walletPassphrase,
                   xprv: values.privateKey,
                   apiKey: values.apiKey,
-                  signed: values.signTransaction
+                  signed: values.signTransaction,
                 }
               );
               setSubmitting(false);

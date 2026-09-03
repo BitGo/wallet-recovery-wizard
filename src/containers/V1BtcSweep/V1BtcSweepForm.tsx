@@ -2,7 +2,7 @@ import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import { Button, FormikPasswordfield, FormikTextfield } from '~/components';
-import { FormikFilefield } from "~/components/FormikFilefield";
+import { FormikFilefield } from '~/components/FormikFilefield';
 
 const validationSchema = Yup.object({
   walletId: Yup.string().required(),
@@ -22,7 +22,7 @@ export type V1BtcSweepFormProps = {
 
 type V1BtcSweepFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function V1BtcSweepForm({onSubmit}: V1BtcSweepFormProps) {
+export function V1BtcSweepForm({ onSubmit }: V1BtcSweepFormProps) {
   const formik = useFormik<V1BtcSweepFormValues>({
     onSubmit,
     initialValues: {

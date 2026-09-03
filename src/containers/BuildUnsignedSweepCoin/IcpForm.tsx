@@ -6,7 +6,9 @@ import { Button, FormikTextarea, FormikTextfield } from '~/components';
 // Validation schema for ICP form
 const validationSchema = Yup.object({
   bitgoKey: Yup.string().required('BitGo Key is required'),
-  recoveryDestination: Yup.string().required('Recovery Destination is required'),
+  recoveryDestination: Yup.string().required(
+    'Recovery Destination is required'
+  ),
   recoveryDestinationMemo: Yup.string(), // Optional
   userKey: Yup.string(), // Optional
   backupKey: Yup.string(),
@@ -28,7 +30,7 @@ export function IcpForm({ onSubmit }: IcpFormProps) {
       recoveryDestination: '',
       recoveryDestinationMemo: '',
       userKey: '', // Optional
-      backupKey: '', // Optional  
+      backupKey: '', // Optional
     },
     validationSchema,
     onSubmit,

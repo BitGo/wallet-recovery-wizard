@@ -7,8 +7,12 @@ import { SignPsbtForm } from './SignPsbtForm';
 function createMockCommands(overrides = {}) {
   return {
     setBitGoEnvironment: vi.fn().mockResolvedValue(undefined),
-    signPsbt: vi.fn().mockResolvedValue({ halfSignedPsbt: 'abc123psbt', coin: 'tbtc' }),
-    showSaveDialog: vi.fn().mockResolvedValue({ filePath: '/tmp/test-output.json' }),
+    signPsbt: vi
+      .fn()
+      .mockResolvedValue({ halfSignedPsbt: 'abc123psbt', coin: 'tbtc' }),
+    showSaveDialog: vi
+      .fn()
+      .mockResolvedValue({ filePath: '/tmp/test-output.json' }),
     writeFile: vi.fn().mockResolvedValue(undefined),
     recover: vi.fn(),
     broadcastTransaction: vi.fn(),
@@ -76,7 +80,10 @@ describe('SignPsbt container', () => {
       <MemoryRouter initialEntries={[`/${env}/sign-psbt`]}>
         <Routes>
           <Route path="/:env/sign-psbt" element={<SignPsbt />} />
-          <Route path="/:env/sign-psbt/success" element={<div>Success Page</div>} />
+          <Route
+            path="/:env/sign-psbt/success"
+            element={<div>Success Page</div>}
+          />
         </Routes>
       </MemoryRouter>
     );

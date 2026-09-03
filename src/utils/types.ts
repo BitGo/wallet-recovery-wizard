@@ -79,7 +79,8 @@ export type BroadcastTransactionResult = Awaited<
     | Algo['broadcastTransaction']
     | Talgo['broadcastTransaction']
     | Sui['broadcastTransaction']
-    | Tsui['broadcastTransaction']>
+    | Tsui['broadcastTransaction']
+  >
 >;
 
 export type AdaRecoveryConsolidationRecoveryOptions =

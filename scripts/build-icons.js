@@ -60,7 +60,7 @@ const coins = [
   'mantra',
   'kavacosmos',
   'dydxcosmos',
-  'vet'
+  'vet',
 ];
 
 const paths = fs

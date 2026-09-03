@@ -7,8 +7,11 @@ type CryptocurrencyDynamicIconProps = {
   Size?: 'small' | 'medium' | 'large';
 } & JSX.IntrinsicElements['svg'];
 
-export function CryptocurrencyDynamicIcon({Name, Size, ...hostProps }: CryptocurrencyDynamicIconProps) {
-
+export function CryptocurrencyDynamicIcon({
+  Name,
+  Size,
+  ...hostProps
+}: CryptocurrencyDynamicIconProps) {
   const IconComponent = getDynamicIcon(Name);
 
   if (!IconComponent) return <div>Icon not found</div>;
@@ -21,6 +24,8 @@ export function CryptocurrencyDynamicIcon({Name, Size, ...hostProps }: Cryptocur
           'tw-w-6 tw-h-6': Size === 'medium',
           'tw-w-8 tw-h-8': Size === 'large',
         })}
-        {...hostProps} />
-    </Suspense>);
+        {...hostProps}
+      />
+    </Suspense>
+  );
 }

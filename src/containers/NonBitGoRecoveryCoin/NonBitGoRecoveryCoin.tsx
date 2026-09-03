@@ -128,11 +128,21 @@ function Form() {
   const navigate = useNavigate();
 
   switch (coin) {
-    case 'btc': case 'tbtc':
-    case 'ltc': case 'btg': case 'dash': case 'zec':
-    case 'doge': case 'tdoge':
-    case 'bch': case 'bcha': {
-      const { form: formConfig, passApiKeyToEnv, bigintSerialization } = UTXO_COIN_CONFIGS[coin];
+    case 'btc':
+    case 'tbtc':
+    case 'ltc':
+    case 'btg':
+    case 'dash':
+    case 'zec':
+    case 'doge':
+    case 'tdoge':
+    case 'bch':
+    case 'bcha': {
+      const {
+        form: formConfig,
+        passApiKeyToEnv,
+        bigintSerialization,
+      } = UTXO_COIN_CONFIGS[coin];
       return (
         <UtxoForm
           key={coin}
@@ -142,11 +152,16 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(
-                bitGoEnvironment, coin,
-                passApiKeyToEnv && values.recoverySource === 'blockchain' ? values.apiKey : undefined
+                bitGoEnvironment,
+                coin,
+                passApiKeyToEnv && values.recoverySource === 'blockchain'
+                  ? values.apiKey
+                  : undefined
               );
               const chainData = await window.queries.getChain(coin);
-              let recoverData: BackupKeyRecoveryTransansaction | FormattedOfflineVaultTxInfo;
+              let recoverData:
+                | BackupKeyRecoveryTransansaction
+                | FormattedOfflineVaultTxInfo;
               if (values.recoverySource === 'psbt') {
                 const { txHex } = await window.commands.recoverWithPsbt(coin, {
                   psbt: values.psbt!,
@@ -156,7 +171,9 @@ function Form() {
                   walletPassphrase: values.walletPassphrase,
                   krsProvider: values.krsProvider || undefined,
                 });
-                recoverData = { txHex } as unknown as BackupKeyRecoveryTransansaction;
+                recoverData = {
+                  txHex,
+                } as unknown as BackupKeyRecoveryTransansaction;
               } else {
                 recoverData = await window.commands.recover(coin, {
                   apiKey: values.apiKey!,
@@ -171,16 +188,26 @@ function Form() {
                   ignoreAddressTypes: [],
                 });
               }
-              assert(isRecoveryTransaction(recoverData), 'Fully-signed recovery transaction not detected.');
+              assert(
+                isRecoveryTransaction(recoverData),
+                'Fully-signed recovery transaction not detected.'
+              );
               const { filePath } = await window.commands.showSaveDialog({
                 filters: [{ name: 'Custom File Type', extensions: ['json'] }],
                 defaultPath: `~/${chainData}-recovery-${Date.now()}.json`,
               });
               if (!filePath) throw new Error('No file path selected');
               const serialized = bigintSerialization
-                ? JSON.stringify(recoverData, (_: string, v: unknown): unknown => typeof v === 'bigint' ? String(v) : v, 2)
+                ? JSON.stringify(
+                    recoverData,
+                    (_: string, v: unknown): unknown =>
+                      typeof v === 'bigint' ? String(v) : v,
+                    2
+                  )
                 : JSON.stringify(recoverData, null, 2);
-              await window.commands.writeFile(filePath, serialized, { encoding: 'utf-8' });
+              await window.commands.writeFile(filePath, serialized, {
+                encoding: 'utf-8',
+              });
               const txHex = getTxHex(recoverData);
               const successPath = `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`;
               if (txHex) navigate(successPath, { state: { txHex } });
@@ -570,17 +597,20 @@ function Form() {
             setSubmitting(true);
             try {
               await window.commands.setBitGoEnvironment(bitGoEnvironment, coin);
-              const result = await window.commands.recoverNestedAta(parentCoin, {
-                userKey: values.userKey,
-                backupKey: values.backupKey,
-                bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
-                walletPassphrase: values.walletPassphrase,
-                recoveryDestination: values.recoveryDestination,
-                nestedAtaAddress: values.nestedAtaAddress,
-                ownerAtaAddress: values.ownerAtaAddress,
-                tokenMintAddress: values.tokenMintAddress,
-                apiKey: values.apiKey || undefined,
-              });
+              const result = await window.commands.recoverNestedAta(
+                parentCoin,
+                {
+                  userKey: values.userKey,
+                  backupKey: values.backupKey,
+                  bitgoKey: values.bitgoKey.replace(/\s+/g, ''),
+                  walletPassphrase: values.walletPassphrase,
+                  recoveryDestination: values.recoveryDestination,
+                  nestedAtaAddress: values.nestedAtaAddress,
+                  ownerAtaAddress: values.ownerAtaAddress,
+                  tokenMintAddress: values.tokenMintAddress,
+                  apiKey: values.apiKey || undefined,
+                }
+              );
               navigate(
                 `/${bitGoEnvironment}/non-bitgo-recovery/${coin}/success`,
                 { state: { txId: result.txId } }

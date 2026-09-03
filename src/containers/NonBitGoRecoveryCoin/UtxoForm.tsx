@@ -24,29 +24,29 @@ const validationSchema = Yup.object({
   feeRate: Yup.number().nullable().optional(),
   apiKey: Yup.string().when('recoverySource', {
     is: 'blockchain',
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
+    then: s => s.required(),
+    otherwise: s => s.optional(),
   }),
   recoveryDestination: Yup.string().when('recoverySource', {
     is: 'blockchain',
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
+    then: s => s.required(),
+    otherwise: s => s.optional(),
   }),
   scan: Yup.number().when('recoverySource', {
     is: 'blockchain',
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
+    then: s => s.required(),
+    otherwise: s => s.optional(),
   }),
   psbt: Yup.string().when('recoverySource', {
     is: 'psbt',
-    then: (s) => s.required(),
-    otherwise: (s) => s.optional(),
+    then: s => s.required(),
+    otherwise: s => s.optional(),
   }),
 }).required();
 
 export type UtxoFormConfig = {
-  showKrsProvider?: boolean;  // defaults true; pass false for coins without KRS support
-  notice?: ReactNode;         // optional notice rendered above the form heading (e.g. BCH)
+  showKrsProvider?: boolean; // defaults true; pass false for coins without KRS support
+  notice?: ReactNode; // optional notice rendered above the form heading (e.g. BCH)
 };
 
 export type UtxoCoinHandlerConfig = {
@@ -56,7 +56,10 @@ export type UtxoCoinHandlerConfig = {
 };
 
 const BCH_NOTICE = (
-  <Notice Variant="Secondary" IconLeft={<Icon Name="warning-sign" Size="small" />}>
+  <Notice
+    Variant="Secondary"
+    IconLeft={<Icon Name="warning-sign" Size="small" />}
+  >
     Bitcoin Cash transactions are replayable on Bitcoin SV and Bitcoin ABC.
     Please make sure you are the owner of the Destination Address to avoid
     accidentally sending your Bitcoin Cash to an address you do not own.
@@ -64,10 +67,13 @@ const BCH_NOTICE = (
 );
 
 const BCHA_NOTICE = (
-  <Notice Variant="Secondary" IconLeft={<Icon Name="warning-sign" Size="small" />}>
-    BCHA (aka XEC) transactions are replayable on Bitcoin Cash. Please make
-    sure you are the owner of the Destination Address to avoid accidentally
-    sending your XEC to an address you do not own.
+  <Notice
+    Variant="Secondary"
+    IconLeft={<Icon Name="warning-sign" Size="small" />}
+  >
+    BCHA (aka XEC) transactions are replayable on Bitcoin Cash. Please make sure
+    you are the owner of the Destination Address to avoid accidentally sending
+    your XEC to an address you do not own.
   </Notice>
 );
 
@@ -98,9 +104,14 @@ const BCHA_CONFIG: UtxoCoinHandlerConfig = {
 };
 
 export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
-  btc: BTC_CONFIG, tbtc: BTC_CONFIG,
-  ltc: LTC_CONFIG, btg: LTC_CONFIG, dash: LTC_CONFIG, zec: LTC_CONFIG,
-  doge: DOGE_CONFIG, tdoge: DOGE_CONFIG,
+  btc: BTC_CONFIG,
+  tbtc: BTC_CONFIG,
+  ltc: LTC_CONFIG,
+  btg: LTC_CONFIG,
+  dash: LTC_CONFIG,
+  zec: LTC_CONFIG,
+  doge: DOGE_CONFIG,
+  tdoge: DOGE_CONFIG,
   bch: BCH_CONFIG,
   bcha: BCHA_CONFIG,
 };

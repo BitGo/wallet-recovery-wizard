@@ -11,7 +11,9 @@ import {
 const validationSchema = Yup.object({
   userKey: Yup.string().required('User Key is required'),
   backupKey: Yup.string().required('Backup Key is required'),
-  recoveryDestination: Yup.string().required('Recovery Destination is required'),
+  recoveryDestination: Yup.string().required(
+    'Recovery Destination is required'
+  ),
   apiKey: Yup.string().required('API Key is required'),
   walletPassphrase: Yup.string().required('Wallet Passphrase is required'),
   bitgoKey: Yup.string().required('BitGo Key is required'),
@@ -43,7 +45,7 @@ export function TonForm({ onSubmit }: TonCoinFormProps) {
   return (
     <FormikProvider value={formik}>
       <Form>
-      <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
+        <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed hot wallet details
         </h4>
         <div className="tw-mb-4">
@@ -97,17 +99,17 @@ export function TonForm({ onSubmit }: TonCoinFormProps) {
           />
         </div>
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
-            <Button Tag={Link} to="/" Variant="secondary" Width="hug">
+          <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel
-            </Button>
-            <Button
-                Variant="primary"
-                Width="hug"
-                type="submit"
-                disabled={formik.isSubmitting}
-            >
-                {formik.isSubmitting ? 'Recovering...' : 'Recover Funds'}
-            </Button>
+          </Button>
+          <Button
+            Variant="primary"
+            Width="hug"
+            type="submit"
+            disabled={formik.isSubmitting}
+          >
+            {formik.isSubmitting ? 'Recovering...' : 'Recover Funds'}
+          </Button>
         </div>
       </Form>
     </FormikProvider>

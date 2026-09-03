@@ -1,17 +1,16 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  Button,
-  FormikTextarea,
-  FormikTextfield,
-} from '~/components';
+import { Button, FormikTextarea, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   bitgoKey: Yup.string().required('BitGo Key (commonKeychain) is required'),
   recoveryDestination: Yup.string()
     .required('Recovery Destination is required')
-    .matches(/^0x[a-fA-F0-9]{64}$/, 'Invalid IOTA address format (must be 0x followed by 64 hex characters)'),
+    .matches(
+      /^0x[a-fA-F0-9]{64}$/,
+      'Invalid IOTA address format (must be 0x followed by 64 hex characters)'
+    ),
   seed: Yup.string(),
   fullnodeRpcUrl: Yup.string().url('Invalid URL format'),
   scan: Yup.number()
@@ -47,9 +46,10 @@ export function IotaForm({ onSubmit, coinName }: IotaUnsignedSweepFormProps) {
     validationSchema,
   });
 
-  const defaultRpcUrl = coinName === 'tiota'
-    ? 'https://api.testnet.iota.cafe'
-    : 'https://api.iota.cafe';
+  const defaultRpcUrl =
+    coinName === 'tiota'
+      ? 'https://api.testnet.iota.cafe'
+      : 'https://api.iota.cafe';
 
   return (
     <FormikProvider value={formik}>
@@ -58,7 +58,9 @@ export function IotaForm({ onSubmit, coinName }: IotaUnsignedSweepFormProps) {
           Self-Managed Cold / Custody Wallets
         </h4>
         <p className="tw-text-sm tw-text-gray-700 tw-mb-4">
-          Build an unsigned recovery transaction for offline signing. Use this for cold wallets or custody wallets where signing happens in a separate system.
+          Build an unsigned recovery transaction for offline signing. Use this
+          for cold wallets or custody wallets where signing happens in a
+          separate system.
         </p>
         <div className="tw-mb-4">
           <FormikTextarea
@@ -120,12 +122,15 @@ export function IotaForm({ onSubmit, coinName }: IotaUnsignedSweepFormProps) {
             type="submit"
             disabled={formik.isSubmitting}
           >
-            {formik.isSubmitting ? 'Building Unsigned Transaction...' : 'Build Unsigned Sweep'}
+            {formik.isSubmitting
+              ? 'Building Unsigned Transaction...'
+              : 'Build Unsigned Sweep'}
           </Button>
         </div>
         {formik.isSubmitting && (
           <div className="tw-text-sm tw-text-gray-700 tw-mt-2 tw-text-center">
-            This may take a few moments while we fetch objects and build the transaction...
+            This may take a few moments while we fetch objects and build the
+            transaction...
           </div>
         )}
       </Form>

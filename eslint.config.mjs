@@ -42,7 +42,11 @@ export default tseslint.config(
     extends: tseslint.configs.recommendedTypeChecked,
     languageOptions: {
       parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.test.json', './tsconfig.node.json'],
+        project: [
+          './tsconfig.json',
+          './tsconfig.test.json',
+          './tsconfig.node.json',
+        ],
         tsconfigRootDir: __dirname,
       },
     },
@@ -118,7 +122,9 @@ export default tseslint.config(
     },
   },
   {
-    files: ['src/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin.tsx'],
+    files: [
+      'src/containers/BuildUnsignedConsolidation/BuildUnsignedConsolidationCoin.tsx',
+    ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
@@ -152,14 +158,18 @@ export default tseslint.config(
     rules: { '@typescript-eslint/no-unnecessary-type-assertion': 'off' },
   },
   {
-    files: ['src/containers/CreateBroadcastableTransaction/CreateBroadcastableTransactionIndex.tsx'],
+    files: [
+      'src/containers/CreateBroadcastableTransaction/CreateBroadcastableTransactionIndex.tsx',
+    ],
     rules: {
       '@typescript-eslint/no-unnecessary-type-assertion': 'off',
       '@typescript-eslint/no-duplicate-type-constituents': 'off',
     },
   },
   {
-    files: ['src/containers/EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet.tsx'],
+    files: [
+      'src/containers/EvmCrossChainRecoveryWallet/EvmCrossChainRecoveryWallet.tsx',
+    ],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unsafe-assignment': 'off',
@@ -206,5 +216,5 @@ export default tseslint.config(
     },
   },
 
-  prettierConfig,
+  prettierConfig
 );

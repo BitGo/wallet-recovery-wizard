@@ -3,7 +3,7 @@ import * as React from 'react';
 export const forwardRef = React.forwardRef as <
   TDefaultTag extends TElementType,
   TProps,
-  TElementType extends React.ElementType = React.ElementType
+  TElementType extends React.ElementType = React.ElementType,
 >(
   renderFn: (
     props: React.ComponentPropsWithoutRef<TElementType> & {

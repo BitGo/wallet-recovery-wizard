@@ -8,7 +8,9 @@ test.describe('Sign PSBT E2E Tests', () => {
     await page.waitForLoadState('networkidle');
   });
 
-  test('Sign PSBT link should be accessible from home page', async ({ page }) => {
+  test('Sign PSBT link should be accessible from home page', async ({
+    page,
+  }) => {
     // Navigate directly to the sign-psbt page instead of finding the link
     await page.goto('http://localhost:5173/#/test/sign-psbt');
     await page.waitForURL('**/sign-psbt');
@@ -39,12 +41,16 @@ test.describe('Sign PSBT E2E Tests', () => {
     await expect(page.locator('a:has-text("Cancel")')).toBeVisible();
   });
 
-  test('Sign PSBT form should show optional recipient fields', async ({ page }) => {
+  test('Sign PSBT form should show optional recipient fields', async ({
+    page,
+  }) => {
     await page.goto('http://localhost:5173/#/test/sign-psbt');
     await page.waitForLoadState('networkidle');
 
     // Check optional fields using more specific selectors
-    await expect(page.locator('label:has-text("Recipient Address")')).toBeVisible();
+    await expect(
+      page.locator('label:has-text("Recipient Address")')
+    ).toBeVisible();
     await expect(page.locator('label:has-text("Fee Rate")')).toBeVisible();
   });
 
@@ -86,14 +92,18 @@ test.describe('Sign PSBT E2E Tests', () => {
     await psbtTextarea.fill('70736274ff010000');
 
     const userKeyTextarea = page.locator('[name="userKey"]');
-    await userKeyTextarea.fill('tprvAA2oWoHxCkMDMedFAEgCAJEdSYq5vTTPZp9VuCFJnNxYQhGJxp7JGZoAZiXNkFsLXQtqeQFZefFxvTFSzz2kDCzKe3tKo8GJqQ4pA3mbMK');
+    await userKeyTextarea.fill(
+      'tprvAA2oWoHxCkMDMedFAEgCAJEdSYq5vTTPZp9VuCFJnNxYQhGJxp7JGZoAZiXNkFsLXQtqeQFZefFxvTFSzz2kDCzKe3tKo8GJqQ4pA3mbMK'
+    );
 
     // Verify values are set
     const psbtValue = await psbtTextarea.inputValue();
     expect(psbtValue).toBe('70736274ff010000');
   });
 
-  test('Passphrase field should show when encrypted key is entered', async ({ page }) => {
+  test('Passphrase field should show when encrypted key is entered', async ({
+    page,
+  }) => {
     await page.goto('http://localhost:5173/#/test/sign-psbt');
     await page.waitForLoadState('networkidle');
 

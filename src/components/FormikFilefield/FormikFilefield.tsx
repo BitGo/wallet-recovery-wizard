@@ -9,11 +9,5 @@ export function FormikFilefield({
 }: FormikFilefieldProps &
   Omit<FilefieldProps, 'Invalid' | 'type'> &
   Omit<JSX.IntrinsicElements['input'], 'value'>) {
-  return (
-    <Filefield
-      {...props}
-      type='file'
-      HelperText={HelperText}
-    />
-  );
+  return <Filefield {...props} type="file" HelperText={HelperText} />;
 }

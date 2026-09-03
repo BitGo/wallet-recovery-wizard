@@ -117,7 +117,7 @@ function Form() {
       );
     case 'sui':
     case 'tsui':
-      return ( <SuiForm /> );
+      return <SuiForm />;
 
     default:
       throw new Error(`Unsupported coin: ${String(coin)}`);

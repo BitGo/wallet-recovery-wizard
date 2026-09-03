@@ -15,12 +15,15 @@ const validationSchema = Yup.object({
   recoveryDestination: Yup.string().required(),
   seed: Yup.string(),
   apiKey: Yup.string().test(
-    'not-url-or-alchemy', 
-    'API key should not be a URL', 
-    (value) => {
+    'not-url-or-alchemy',
+    'API key should not be a URL',
+    value => {
       if (!value) return true; // Skip validation if empty
       // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
-      return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
+      return (
+        !value.match(/^https?:\/\//i) &&
+        !value.toLowerCase().includes('alchemy')
+      );
     }
   ),
 })

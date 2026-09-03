@@ -1,10 +1,7 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  Button,
-  FormikTextfield,
-} from '~/components';
+import { Button, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
   backupKey: Yup.string().required(),
@@ -49,7 +46,7 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
         token: '',
         baseServer: '',
         port: 8443,
-      }
+      },
     },
     validationSchema,
   });

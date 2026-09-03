@@ -18,16 +18,20 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().when('walletType', {
     is: 'hot',
-    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
-    otherwise: (schema) => schema,
+    then: schema =>
+      schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: schema => schema,
   }),
   apiKey: Yup.string().test(
-    'not-url-or-alchemy', 
-    'API key should not be a URL', 
-    (value) => {
+    'not-url-or-alchemy',
+    'API key should not be a URL',
+    value => {
       if (!value) return true; // Skip validation if empty
       // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
-      return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
+      return (
+        !value.match(/^https?:\/\//i) &&
+        !value.toLowerCase().includes('alchemy')
+      );
     }
   ),
   durableNonces: Yup.object({
@@ -168,8 +172,12 @@ export function SolTokenForm({ onSubmit }: SolFormProps) {
             name="tokenProgramId"
             Width="fill"
           >
-            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">SOL SPL Token</option>
-            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">Sol SPL 2022 Token</option>
+            <option value="TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA">
+              SOL SPL Token
+            </option>
+            <option value="TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb">
+              Sol SPL 2022 Token
+            </option>
           </FormikSelectfield>
         </div>
         <div className="tw-mb-4">

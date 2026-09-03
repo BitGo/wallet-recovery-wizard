@@ -9,7 +9,22 @@ import {
   FormikTextfield,
 } from '~/components';
 
-const UTXO_COINS = ['btc', 'tbtc', 'ltc', 'tltc', 'doge', 'tdoge', 'dash', 'tdash', 'zec', 'tzec', 'bch', 'tbch', 'btg', 'tbtg'] as const;
+const UTXO_COINS = [
+  'btc',
+  'tbtc',
+  'ltc',
+  'tltc',
+  'doge',
+  'tdoge',
+  'dash',
+  'tdash',
+  'zec',
+  'tzec',
+  'bch',
+  'tbch',
+  'btg',
+  'tbtg',
+] as const;
 
 const validationSchema = Yup.object({
   coin: Yup.string()
@@ -52,7 +67,8 @@ export function SignPsbtForm({ onSubmit }: SignPsbtFormProps) {
     validationSchema,
   });
 
-  const showPassphrase = formik.values.userKey && !/^[xt]prv/.test(formik.values.userKey);
+  const showPassphrase =
+    formik.values.userKey && !/^[xt]prv/.test(formik.values.userKey);
 
   return (
     <FormikProvider value={formik}>
