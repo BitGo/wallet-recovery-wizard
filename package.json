@@ -152,6 +152,7 @@
     "dev": "vite",
     "durable-nonce:build": "node ./scripts/build-durable-nonce",
     "eth-eip1559:decode": "node ./scripts/decode-eth-eip1559",
+    "format:check": "prettier --ignore-path .gitignore --check .",
     "format:write": "prettier --ignore-path .gitignore --write .",
     "icons:build": "node ./scripts/build-icons.js",
     "lint": "eslint --quiet .",
