@@ -44,8 +44,9 @@ export async function launchApp(): Promise<{
     env: {
       ...process.env,
       ELECTRON_RUN_AS_NODE: '',
-      VITE_DEV_SERVER_URL:
-        process.env.VITE_DEV_SERVER_URL ?? 'http://127.0.0.1:5173',
+      ...(process.env.VITE_DEV_SERVER_URL
+        ? { VITE_DEV_SERVER_URL: process.env.VITE_DEV_SERVER_URL }
+        : {}),
     },
     recordVideo:
       process.env.RECORD_KEYCARD_VIDEO === '1'
