@@ -53,12 +53,25 @@ import { IotaForm } from './IotaForm';
 import { TezosForm } from './TezosForm';
 
 function getTxHex(value: unknown): string | undefined {
-  if (typeof value !== 'object' || value === null || !('txHex' in value)) {
+  if (typeof value !== 'object' || value === null) {
     return undefined;
   }
 
-  const txHex = value.txHex;
-  return typeof txHex === 'string' && txHex.length > 0 ? txHex : undefined;
+  if (
+    'txHex' in value &&
+    typeof value.txHex === 'string' &&
+    value.txHex.length > 0
+  ) {
+    return value.txHex;
+  }
+  if (
+    'transactionHex' in value &&
+    typeof value.transactionHex === 'string' &&
+    value.transactionHex.length > 0
+  ) {
+    return value.transactionHex;
+  }
+  return undefined;
 }
 
 const evmCoins = [
@@ -137,7 +150,9 @@ function Form() {
     case 'doge':
     case 'tdoge':
     case 'bch':
-    case 'bcha': {
+    case 'bcha':
+    case 'ecx':
+    case 'tecx': {
       const {
         form: formConfig,
         passApiKeyToEnv,

@@ -8,6 +8,7 @@ import { NonBitGoRecoveryCoin } from './NonBitGoRecoveryCoin';
 import type { UtxoFormProps, UtxoFormValues } from './UtxoForm';
 
 const txHex = '0200000001abcdef';
+const transactionHex = '0200000001fedcba';
 const psbtFormValues: UtxoFormValues = {
   recoverySource: 'psbt',
   krsProvider: '',
@@ -21,6 +22,14 @@ const psbtFormValues: UtxoFormValues = {
   scan: 20,
   psbt: 'unsigned-psbt',
 };
+const blockchainFormValues: UtxoFormValues = {
+  ...psbtFormValues,
+  recoverySource: 'blockchain',
+  apiKey: 'api-key',
+  recoveryDestination: 'destination',
+  psbt: '',
+};
+const recover = vi.fn();
 const writeFile = vi.fn();
 
 vi.mock('./UtxoForm', async () => {
@@ -35,12 +44,20 @@ vi.mock('./UtxoForm', async () => {
       } as unknown as FormikHelpers<UtxoFormValues>;
 
       return (
-        <button
-          type="button"
-          onClick={() => void onSubmit(psbtFormValues, helpers)}
-        >
-          Recover Funds
-        </button>
+        <>
+          <button
+            type="button"
+            onClick={() => void onSubmit(psbtFormValues, helpers)}
+          >
+            Recover Funds
+          </button>
+          <button
+            type="button"
+            onClick={() => void onSubmit(blockchainFormValues, helpers)}
+          >
+            Recover Blockchain Funds
+          </button>
+        </>
       );
     },
   };
@@ -61,6 +78,7 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
     window.commands = {
       setBitGoEnvironment: vi.fn().mockResolvedValue(undefined),
       recoverWithPsbt: vi.fn().mockResolvedValue({ txHex }),
+      recover: recover.mockReset().mockResolvedValue({ transactionHex }),
       showSaveDialog: vi
         .fn()
         .mockResolvedValue({ filePath: '/tmp/recovery.json' }),
@@ -107,6 +125,55 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
     expect(writeFile).toHaveBeenCalledWith(
       '/tmp/recovery.json',
       JSON.stringify({ txHex }, null, 2),
+      { encoding: 'utf-8' }
+    );
+  });
+
+  it('passes the backend transactionHex to the success route after saving JSON', async () => {
+    const setAlert: Dispatch<SetStateAction<string | undefined>> = () =>
+      undefined;
+    const alertState: [
+      string | undefined,
+      Dispatch<SetStateAction<string | undefined>>,
+    ] = [undefined, setAlert];
+
+    render(
+      <AlertBannerContext.Provider value={alertState}>
+        <MemoryRouter initialEntries={['/test/non-bitgo-recovery/btc']}>
+          <Routes>
+            <Route
+              path="/:env/non-bitgo-recovery/:coin"
+              element={<NonBitGoRecoveryCoin />}
+            />
+            <Route
+              path="/:env/non-bitgo-recovery/:coin/success"
+              element={<NavigationState />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </AlertBannerContext.Provider>
+    );
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Recover Blockchain Funds' })
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('navigation-state').textContent).toBe(
+        JSON.stringify({ txHex: transactionHex })
+      );
+    });
+
+    expect(recover).toHaveBeenCalledWith(
+      'btc',
+      expect.objectContaining({
+        apiKey: 'api-key',
+        recoveryDestination: 'destination',
+      })
+    );
+    expect(writeFile).toHaveBeenCalledWith(
+      '/tmp/recovery.json',
+      JSON.stringify({ transactionHex }, null, 2),
       { encoding: 'utf-8' }
     );
   });

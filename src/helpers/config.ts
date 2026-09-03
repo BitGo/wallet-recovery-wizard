@@ -1999,6 +1999,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
   {
     prod: [
       allCoinMetas.btc,
+      allCoinMetas.ecx,
       allCoinMetas.bch,
       allCoinMetas.ltc,
       allCoinMetas.xrp,
@@ -2087,6 +2088,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
     ] as const,
     test: [
       allCoinMetas.tbtc,
+      allCoinMetas.tecx,
       allCoinMetas.txrp,
       allCoinMetas.txrpToken,
       allCoinMetas.txlm,
