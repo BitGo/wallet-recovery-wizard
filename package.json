@@ -94,6 +94,7 @@
   },
   "description": "A UI-based desktop app for BitGo Recoveries",
   "devDependencies": {
+    "@bitgo/key-card": "0.34.11",
     "@playwright/test": "^1.49.1",
     "@solana/web3.js": "1.66.1",
     "@storybook/addon-essentials": "6.5.16",
@@ -125,6 +126,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "http-server": "14.1.1",
     "jsdom": "20.0.3",
+    "pdfjs-dist": "4.0.379",
     "playwright": "1.28.1",
     "prettier": "3.6.2",
     "tailwindcss": "3.2.4",
