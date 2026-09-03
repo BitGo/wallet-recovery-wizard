@@ -41,7 +41,13 @@ export async function launchApp(): Promise<{
     resolve(__dirname, '../../artifacts/keycard-recovery-videos');
   const app = await electron.launch({
     args: ['.', '--no-sandbox'],
-    env: { ...process.env, ELECTRON_RUN_AS_NODE: '' },
+    env: {
+      ...process.env,
+      ELECTRON_RUN_AS_NODE: '',
+      ...(process.env.VITE_DEV_SERVER_URL
+        ? { VITE_DEV_SERVER_URL: process.env.VITE_DEV_SERVER_URL }
+        : {}),
+    },
     recordVideo:
       process.env.RECORD_KEYCARD_VIDEO === '1'
         ? { dir: videoDirectory, size: { width: 1440, height: 900 } }

@@ -4,6 +4,7 @@ export * from './BackToHomeHeader';
 export * from './Button';
 export * from './CoinsSelectAutocomplete';
 export * from './CryptocurrencyIcon';
+export * from './ErrorBoundary';
 export * from './FormikSelectfield';
 export * from './FormikTextarea';
 export * from './FormikTextfield';
