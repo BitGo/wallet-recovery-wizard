@@ -1,4 +1,1 @@
-export {
-  isNonSdkUtxoCoin,
-  getNonSdkUtxoCoin,
-} from './nonSdkCoins';
+export { isNonSdkUtxoCoin, getNonSdkUtxoCoin } from './nonSdkCoins';

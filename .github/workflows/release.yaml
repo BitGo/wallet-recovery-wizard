@@ -23,12 +23,12 @@ jobs:
     name: Get the current release state
     runs-on: ubuntu-latest
     env:
-      NEXT_VERSION: "${{ inputs.next-version }}"
+      NEXT_VERSION: '${{ inputs.next-version }}'
     outputs:
-      dmg_filename: "Wallet Recovery Wizard-${{ inputs.next-version }}-arm64.dmg"
-      dmg_filename_intel: "Wallet Recovery Wizard-${{ inputs.next-version }}.dmg"
-      exe_filename: "Wallet Recovery Wizard-Setup-${{ inputs.next-version }}.exe"
-      deb_filename: "Wallet Recovery Wizard-Linux-${{ inputs.next-version }}.deb"
+      dmg_filename: 'Wallet Recovery Wizard-${{ inputs.next-version }}-arm64.dmg'
+      dmg_filename_intel: 'Wallet Recovery Wizard-${{ inputs.next-version }}.dmg'
+      exe_filename: 'Wallet Recovery Wizard-Setup-${{ inputs.next-version }}.exe'
+      deb_filename: 'Wallet Recovery Wizard-Linux-${{ inputs.next-version }}.deb'
     steps:
       - name: Verify the target branch
         if: github.ref != 'refs/heads/master'
@@ -66,8 +66,8 @@ jobs:
     needs:
       - get-current-state
     env:
-      DMG_FILENAME: "${{ needs.get-current-state.outputs.dmg_filename }}"
-      NEXT_VERSION: "${{ inputs.next-version }}"
+      DMG_FILENAME: '${{ needs.get-current-state.outputs.dmg_filename }}'
+      NEXT_VERSION: '${{ inputs.next-version }}'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -81,9 +81,9 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v6
         with:
-          name: "${{ env.DMG_FILENAME }}"
-          path: "release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME }}"
-          if-no-files-found: "error"
+          name: '${{ env.DMG_FILENAME }}'
+          path: 'release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME }}'
+          if-no-files-found: 'error'
 
   mac-build_intel:
     name: Create Mac Intel release
@@ -91,8 +91,8 @@ jobs:
     needs:
       - get-current-state
     env:
-      DMG_FILENAME_INTEL: "${{ needs.get-current-state.outputs.dmg_filename_intel }}"
-      NEXT_VERSION: "${{ inputs.next-version }}"
+      DMG_FILENAME_INTEL: '${{ needs.get-current-state.outputs.dmg_filename_intel }}'
+      NEXT_VERSION: '${{ inputs.next-version }}'
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
@@ -106,9 +106,9 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v6
         with:
-          name: "${{ env.DMG_FILENAME_INTEL }}"
-          path: "release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME_INTEL }}"
-          if-no-files-found: "error"
+          name: '${{ env.DMG_FILENAME_INTEL }}'
+          path: 'release/${{ env.NEXT_VERSION }}/${{ env.DMG_FILENAME_INTEL }}'
+          if-no-files-found: 'error'
 
   windows-linux-build:
     name: Create Windows and Linux release
@@ -116,9 +116,9 @@ jobs:
     needs:
       - get-current-state
     env:
-      EXE_FILENAME: "${{ needs.get-current-state.outputs.exe_filename }}"
-      DEB_FILENAME: "${{ needs.get-current-state.outputs.deb_filename }}"
-      NEXT_VERSION: "${{ inputs.next-version }}"
+      EXE_FILENAME: '${{ needs.get-current-state.outputs.exe_filename }}'
+      DEB_FILENAME: '${{ needs.get-current-state.outputs.deb_filename }}'
+      NEXT_VERSION: '${{ inputs.next-version }}'
     container:
       image: docker.io/electronuserland/builder:16-wine@sha256:a067f3efbc83d41f8a92f4bb347803e11ae0b29204520497edb3d34522d8d458
     steps:
@@ -136,14 +136,14 @@ jobs:
       - uses: actions/upload-artifact@v6
         if: ${{ inputs.skip-windows-build == false }}
         with:
-          name: "${{ env.EXE_FILENAME }}"
-          path: "release/${{ env.NEXT_VERSION }}/${{ env.EXE_FILENAME }}"
-          if-no-files-found: "error"
+          name: '${{ env.EXE_FILENAME }}'
+          path: 'release/${{ env.NEXT_VERSION }}/${{ env.EXE_FILENAME }}'
+          if-no-files-found: 'error'
       - uses: actions/upload-artifact@v6
         with:
-          name: "${{ env.DEB_FILENAME }}"
-          path: "release/${{ env.NEXT_VERSION }}/${{ env.DEB_FILENAME }}"
-          if-no-files-found: "error"
+          name: '${{ env.DEB_FILENAME }}'
+          path: 'release/${{ env.NEXT_VERSION }}/${{ env.DEB_FILENAME }}'
+          if-no-files-found: 'error'
 
   create-new-release:
     name: Create a new GitHub release
@@ -154,11 +154,11 @@ jobs:
       - mac-build_intel
       - windows-linux-build
     env:
-      DMG_FILENAME: "${{ needs.get-current-state.outputs.dmg_filename }}"
-      DMG_FILENAME_INTEL: "${{ needs.get-current-state.outputs.dmg_filename_intel }}"
-      EXE_FILENAME: "${{ needs.get-current-state.outputs.exe_filename }}"
-      DEB_FILENAME: "${{ needs.get-current-state.outputs.deb_filename }}"
-      NEXT_VERSION: "${{ inputs.next-version }}"
+      DMG_FILENAME: '${{ needs.get-current-state.outputs.dmg_filename }}'
+      DMG_FILENAME_INTEL: '${{ needs.get-current-state.outputs.dmg_filename_intel }}'
+      EXE_FILENAME: '${{ needs.get-current-state.outputs.exe_filename }}'
+      DEB_FILENAME: '${{ needs.get-current-state.outputs.deb_filename }}'
+      NEXT_VERSION: '${{ inputs.next-version }}'
     steps:
       - uses: actions/download-artifact@v7
         with:

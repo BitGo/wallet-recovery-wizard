@@ -101,13 +101,17 @@ export function RippleForm({ onSubmit }: RippleFormProps) {
             className="tw-mt-1"
           />
           <label htmlFor="reserveWithdrawal" className="tw-text-sm">
-            <span className="tw-font-semibold">Withdraw full balance including reserve (AccountDelete)</span>
+            <span className="tw-font-semibold">
+              Withdraw full balance including reserve (AccountDelete)
+            </span>
             <br />
             <span className="tw-text-gray-500">
-              Permanently deletes the XRP account and sends the entire balance — including the 10 XRP
-              base reserve — to the destination. The account cannot be reused afterwards. Requires: no
-              trustlines with non-zero balances, no open offers/escrows/checks, and the account must be
-              at least 256 ledgers old. A 2 XRP deletion fee is charged by the network.
+              Permanently deletes the XRP account and sends the entire balance —
+              including the 10 XRP base reserve — to the destination. The
+              account cannot be reused afterwards. Requires: no trustlines with
+              non-zero balances, no open offers/escrows/checks, and the account
+              must be at least 256 ledgers old. A 2 XRP deletion fee is charged
+              by the network.
             </span>
           </label>
         </div>

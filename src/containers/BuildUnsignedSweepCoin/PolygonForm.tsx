@@ -124,38 +124,38 @@ export function PolygonForm({ onSubmit, coinName }: PolygonFormProps) {
           />
         </div>
         {coinName === 'polygon' || coinName === 'tpolygon' ? (
-        <>
-         <div className="tw-mb-4">
-          <FormikTextfield
-            HelperText={`Max fee per gas for the ${coinName} transaction. The default is ${
-            coinName === 'polygon' ? '20 Gwei' : '15 Gwei'
-          }.`}
-          Label="Max Fee Per Gas (Gwei)"
-          name="maxFeePerGas"
-          Width="fill"
-         />
-        </div>
-        <div className="tw-mb-4">
-         <FormikTextfield
-            HelperText={`"Tip" to the ${coinName} miner. This is by default ${
-            coinName === 'polygon' ? '10 Gwei' : '5 Gwei'
-         }.`}
-         Label="Max Priority Fee Per Gas (Gwei)"
-         name="maxPriorityFeePerGas"
-         Width="fill"
-        />
-        </div>
-        </>
+          <>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText={`Max fee per gas for the ${coinName} transaction. The default is ${
+                  coinName === 'polygon' ? '20 Gwei' : '15 Gwei'
+                }.`}
+                Label="Max Fee Per Gas (Gwei)"
+                name="maxFeePerGas"
+                Width="fill"
+              />
+            </div>
+            <div className="tw-mb-4">
+              <FormikTextfield
+                HelperText={`"Tip" to the ${coinName} miner. This is by default ${
+                  coinName === 'polygon' ? '10 Gwei' : '5 Gwei'
+                }.`}
+                Label="Max Priority Fee Per Gas (Gwei)"
+                name="maxPriorityFeePerGas"
+                Width="fill"
+              />
+            </div>
+          </>
         ) : (
-        <div className="tw-mb-4">
-         <FormikTextfield
-           HelperText={`Gas price for the ${coinName} transaction. The value should be between 1 Gwei and 2,500 Gwei.`}
-           Label="Gas Price (Gwei)"
-           name="gasPrice"
-           Width="fill"
-         />
-         </div>
-       )}
+          <div className="tw-mb-4">
+            <FormikTextfield
+              HelperText={`Gas price for the ${coinName} transaction. The value should be between 1 Gwei and 2,500 Gwei.`}
+              Label="Gas Price (Gwei)"
+              name="gasPrice"
+              Width="fill"
+            />
+          </div>
+        )}
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="An Api-Key Token from etherscan.io required for Polygon Mainnet recoveries."

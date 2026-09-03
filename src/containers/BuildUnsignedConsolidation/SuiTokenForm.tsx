@@ -18,8 +18,9 @@ const validationSchema = Yup.object({
   packageId: Yup.string().required(),
   walletPassphrase: Yup.string().when('walletType', {
     is: 'hot',
-    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
-    otherwise: (schema) => schema,
+    then: schema =>
+      schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: schema => schema,
   }),
   startingScanIndex: Yup.number(),
   endingScanIndex: Yup.number().moreThan(

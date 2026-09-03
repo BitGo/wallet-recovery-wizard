@@ -2,7 +2,12 @@ import type {
   BackupKeyRecoveryTransansaction,
   FormattedOfflineVaultTxInfo,
 } from '@bitgo/abstract-utxo';
-import { coins, EthereumNetwork, BaseCoin, ContractAddressDefinedToken } from '@bitgo/statics';
+import {
+  coins,
+  EthereumNetwork,
+  BaseCoin,
+  ContractAddressDefinedToken,
+} from '@bitgo/statics';
 import {
   EvmCcrNonBitgoCoin,
   evmCcrNonBitgoCoinConfig,
@@ -61,7 +66,7 @@ export async function recoverWithToken(
     if (err instanceof Error) {
       throw new Error(err.message);
     } else {
-      console.error(err)
+      console.error(err);
     }
   }
 }
@@ -92,7 +97,7 @@ export function getEthLikeRecoveryChainId(
   }
 
   // default to eth
-  return bitGoEnvironment === 'prod' ? ethMainnetChainId: ethTestnetChainId;
+  return bitGoEnvironment === 'prod' ? ethMainnetChainId : ethTestnetChainId;
 }
 
 export type BitgoEnv = 'prod' | 'test';
@@ -124,7 +129,7 @@ export function isRecoveryTransaction(
     ('txid' in value && !!value['txid']) ||
     ('serializedTx' in value && !!value['serializedTx']) ||
     ('txRequests' in value && !!value['txRequests']) ||
-    ('transactions' in value && !!value['transactions']) || 
+    ('transactions' in value && !!value['transactions']) ||
     ('signableHex' in value && !!value['signableHex'])
   );
 }
@@ -152,7 +157,7 @@ export async function includePubsFor<
     backupKey: string;
     backupKeyId?: string;
     bitgoKey?: string;
-  }
+  },
 >(coin: string, values: TValues) {
   const userXpub = values.userKeyId
     ? (
@@ -226,13 +231,13 @@ export type UpdateKeysFromsIdsDefaultParams = {
   userKeyId?: string;
   backupKeyId?: string;
   backupKey: string;
-}
+};
 
 export async function updateKeysFromIds<
-  TParams extends UpdateKeysFromsIdsDefaultParams
+  TParams extends UpdateKeysFromsIdsDefaultParams,
 >(
   coin: string,
-  params: TParams,
+  params: TParams
 ): Promise<Omit<TParams, 'userKeyId' | 'backupKeyId'>> {
   const { userKeyId, backupKeyId, ...copy } = params;
   const data = [
@@ -255,7 +260,7 @@ export async function updateKeysFromIds<
       if (await isDerivationPath(item.id, item.description)) {
         copy[item.name] = await window.queries.deriveKeyByPath(
           item.key,
-          item.id,
+          item.id
         );
       } else {
         copy[item.name] = (
@@ -268,7 +273,9 @@ export async function updateKeysFromIds<
   return copy;
 }
 
-export function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDefaultParams>(token: string, ...args: Parameters<typeof updateKeysFromIds<TParams>>) {
+export function updateKeysFromIdsWithToken<
+  TParams extends UpdateKeysFromsIdsDefaultParams,
+>(token: string, ...args: Parameters<typeof updateKeysFromIds<TParams>>) {
   const [coin, ...rest] = args;
 
   try {
@@ -278,12 +285,14 @@ export function updateKeysFromIdsWithToken<TParams extends UpdateKeysFromsIdsDef
   }
 }
 
-export function isNonBitgoCoin(coin : EvmCcrNonBitgoCoin) {
+export function isNonBitgoCoin(coin: EvmCcrNonBitgoCoin) {
   return evmCcrNonBitgoCoins.includes(coin);
 }
 
-export function getEthCommonConfigParams(coin : EvmCcrNonBitgoCoin) : EvmCcrNonBitgoCoinConfigType | undefined {
-  if (!isNonBitgoCoin(coin)){
+export function getEthCommonConfigParams(
+  coin: EvmCcrNonBitgoCoin
+): EvmCcrNonBitgoCoinConfigType | undefined {
+  if (!isNonBitgoCoin(coin)) {
     return undefined;
   }
   const config = evmCcrNonBitgoCoinConfig[coin];
@@ -296,14 +305,18 @@ export function getEthCommonConfigParams(coin : EvmCcrNonBitgoCoin) : EvmCcrNonB
 }
 
 export function isBscChain(coin: string) {
-  return (coin === 'bsc' || coin === 'tbsc')
+  return coin === 'bsc' || coin === 'tbsc';
 }
 
 export function isEtcChain(coin: string) {
-  return (coin === 'etc' ||  coin === 'tetc')
+  return coin === 'etc' || coin === 'tetc';
 }
 
-export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriorityFeePerGas: number) {
+export function getEip1559Params(
+  coin: string,
+  maxFeePerGas: number,
+  maxPriorityFeePerGas: number
+) {
   // bsc/tbsc and etc/tetc doesn't support EIP-1559
   if (isBscChain(coin) || isEtcChain(coin)) {
     return undefined;
@@ -311,12 +324,11 @@ export function getEip1559Params(coin: string, maxFeePerGas: number, maxPriority
   return {
     maxFeePerGas: toWei(maxFeePerGas),
     maxPriorityFeePerGas: toWei(maxPriorityFeePerGas),
-  }
+  };
 }
 
-
 export function isAvaxcCoin(chainName: string) {
-  return (chainName === 'tavaxc' || chainName === 'avaxc') ;
+  return chainName === 'tavaxc' || chainName === 'avaxc';
 }
 
 function tokenHash(str: string): string {
@@ -331,7 +343,6 @@ function tokenHash(str: string): string {
   return str;
 }
 
-
 const tokenTickerMapByCoinFamily = coins.reduce(
   (acc: Record<string, Record<string, string>>, coin: Readonly<BaseCoin>) => {
     if (coin instanceof ContractAddressDefinedToken) {
@@ -345,16 +356,15 @@ const tokenTickerMapByCoinFamily = coins.reduce(
     }
     return acc;
   },
-  {},
+  {}
 );
 
 export function getTickerByCoinFamily(
   hash: string,
-  coinFamily: string,
+  coinFamily: string
 ): string {
-
-  console.log("hash and conFamily")
-  console.log(hash, coinFamily)
+  console.log('hash and conFamily');
+  console.log(hash, coinFamily);
   if (
     tokenTickerMapByCoinFamily[coinFamily.toLowerCase()] &&
     tokenTickerMapByCoinFamily[coinFamily.toLowerCase()][tokenHash(hash)]

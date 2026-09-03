@@ -54,8 +54,8 @@ describe('App console errors', () => {
       </MemoryRouter>
     );
 
-    const bigintErrors = warnMessages.filter(msg =>
-      msg.includes('bigint') && msg.includes('Failed to load bindings')
+    const bigintErrors = warnMessages.filter(
+      msg => msg.includes('bigint') && msg.includes('Failed to load bindings')
     );
 
     expect(bigintErrors).toHaveLength(0);
@@ -94,8 +94,8 @@ describe('App console errors', () => {
     );
 
     // Check for any binding-related warnings
-    const bindingWarnings = warnings.filter(msg =>
-      msg.includes('bindings') || msg.includes('native')
+    const bindingWarnings = warnings.filter(
+      msg => msg.includes('bindings') || msg.includes('native')
     );
 
     if (bindingWarnings.length > 0) {

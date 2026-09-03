@@ -51,7 +51,7 @@ export function AlgorandForm({ onSubmit }: AlgorandFormProps) {
         token: '',
         baseServer: '',
         port: 8443,
-      }
+      },
     },
     validationSchema,
   });

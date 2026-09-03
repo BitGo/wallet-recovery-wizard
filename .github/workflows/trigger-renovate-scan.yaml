@@ -1,5 +1,5 @@
 name: trigger-renovate-scan
-run-name: "trigger-renovate-scan: ${{ github.ref_name }}"
+run-name: 'trigger-renovate-scan: ${{ github.ref_name }}'
 
 on:
   issues:

@@ -16,8 +16,8 @@ type VetFormValues = {
   recoveryDestination: string;
   userKey: string;
   walletPassphrase: string;
-  tokenContractAddress?: string;  // optional based on isToken
-}
+  tokenContractAddress?: string; // optional based on isToken
+};
 
 export type VetFormProps = {
   isToken: boolean;
@@ -34,7 +34,9 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
     krsProvider: Yup.string()
       .oneOf(['keyternal', 'bitgoKRSv2', 'dai'])
       .label('Key Recovery Service'),
-    recoveryDestination: Yup.string().required('Recovery Destination is required'),
+    recoveryDestination: Yup.string().required(
+      'Recovery Destination is required'
+    ),
     userKey: Yup.string().required('User Key is required'),
     walletPassphrase: Yup.string().required('WalletPassphrase is required'),
     tokenContractAddress: isToken
@@ -127,7 +129,7 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
             Width="fill"
           />
         </div>
-        { isToken && (
+        {isToken && (
           <div className="tw-mb-4">
             <FormikTextfield
               HelperText="The contract address of the token to recover. This is unique to each token"
@@ -136,8 +138,7 @@ export function VetForm({ onSubmit, isToken }: VetFormProps) {
               Width="fill"
             />
           </div>
-        )
-        }
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

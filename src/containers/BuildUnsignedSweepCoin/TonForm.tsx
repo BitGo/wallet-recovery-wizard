@@ -1,18 +1,16 @@
 import { Form, FormikHelpers, FormikProvider, useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
-import {
-  Button,
-  FormikTextarea,
-  FormikTextfield,
-} from '~/components';
+import { Button, FormikTextarea, FormikTextfield } from '~/components';
 
 const validationSchema = Yup.object({
-  recoveryDestination: Yup.string().required('Recovery Destination is required'),
+  recoveryDestination: Yup.string().required(
+    'Recovery Destination is required'
+  ),
   apiKey: Yup.string().required('API Key is required'),
   bitgoKey: Yup.string().required('BitGo Key is required'),
   userKey: Yup.string(), // Optional
-  backupKey: Yup.string()
+  backupKey: Yup.string(),
 }).required();
 
 export type UnsignedSweepFormProps = {

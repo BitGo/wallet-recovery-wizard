@@ -14,7 +14,6 @@ Build a transaction from a hot wallet using the KeyCard in order to recover fund
 4.  You are asked to provide the Box B Value. This is your encrypted backup key as found on your recovery KeyCard if you have kept Key Recovery Service as blank. This is your backup public key for the wallet if you have selected a value in Key Recovery Service.
 
 5.  The next field will be different based on coin type
-
     1. For UTXO based coins, you are asked to provide the BitGo Public Key as found on your recovery KeyCard.
 
     2. For Coins like Stellar, Ripple, and EOS, Root Address of the wallet needs to be provided.

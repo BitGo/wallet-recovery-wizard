@@ -2,11 +2,12 @@ import * as React from 'react';
 
 type AlertBannerContextValue = [
   string | undefined,
-  React.Dispatch<React.SetStateAction<string | undefined>>
+  React.Dispatch<React.SetStateAction<string | undefined>>,
 ];
 
-export const AlertBannerContext =
-  React.createContext<AlertBannerContextValue | undefined>(undefined);
+export const AlertBannerContext = React.createContext<
+  AlertBannerContextValue | undefined
+>(undefined);
 
 export const useAlertBanner = () => {
   const alertBanner = React.useContext(AlertBannerContext);

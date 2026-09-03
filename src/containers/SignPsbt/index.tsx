@@ -49,9 +49,13 @@ export default function SignPsbt() {
         return;
       }
 
-      await window.commands.writeFile(filePath, JSON.stringify(result, null, 2), {
-        encoding: 'utf-8',
-      });
+      await window.commands.writeFile(
+        filePath,
+        JSON.stringify(result, null, 2),
+        {
+          encoding: 'utf-8',
+        }
+      );
 
       navigate(`/${env}/sign-psbt/success`);
     } catch (err) {

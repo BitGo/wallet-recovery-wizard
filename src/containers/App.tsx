@@ -15,7 +15,7 @@ import { CreateBroadcastableTransactionIndex } from '~/containers/CreateBroadcas
 import { BroadcastTransactionIndex } from './BroadcastTransactionIndex';
 import { SuccessfulBroadcastTransaction } from './SuccessfulBroadcastTransaction';
 import { BroadcastTransactionCoin } from './BroadcastTransactionCoin';
-import {V1BtcSweep} from "~/containers/V1BtcSweep";
+import { V1BtcSweep } from '~/containers/V1BtcSweep';
 import SignPsbt from '~/containers/SignPsbt';
 
 export default function App() {

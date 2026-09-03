@@ -8,8 +8,8 @@ type NearFormValues = {
   backupKey: string;
   userKey: string;
   recoveryDestination: string;
-  tokenContractAddress?: string;  // optional based on isToken
-}
+  tokenContractAddress?: string; // optional based on isToken
+};
 
 export type NearFormProps = {
   isToken: boolean;
@@ -22,7 +22,9 @@ export type NearFormProps = {
 export function NearForm({ onSubmit, isToken }: NearFormProps) {
   const schemaFields: Record<keyof NearFormValues, Yup.AnySchema> = {
     bitgoKey: Yup.string().required('BitGo Key is required'),
-    recoveryDestination: Yup.string().required('Recovery Destination is required'),
+    recoveryDestination: Yup.string().required(
+      'Recovery Destination is required'
+    ),
     userKey: Yup.string(),
     backupKey: Yup.string(),
     tokenContractAddress: isToken
@@ -68,7 +70,7 @@ export function NearForm({ onSubmit, isToken }: NearFormProps) {
             Width="fill"
           />
         </div>
-        { isToken && (
+        {isToken && (
           <div className="tw-mb-4">
             <FormikTextfield
               HelperText="The contract address of the token to recover. This is unique to each token"
@@ -77,8 +79,7 @@ export function NearForm({ onSubmit, isToken }: NearFormProps) {
               Width="fill"
             />
           </div>
-        )
-        }
+        )}
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

@@ -13,7 +13,7 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 3. If you have a **Key ID** set to your User Key, it will be displayed on your KeyCard. Provide the Key ID only if it appears on your KeyCard (TRON only).
 
 4. You are asked to provide the **Backup Public Key** as found on your recovery KeyCard.
-   - For ECDSA coins (ADA, DOT, TAO, SUI): Optional  
+   - For ECDSA coins (ADA, DOT, TAO, SUI): Optional
    - For TRON coins: Required
 
 5. If you have a **Key ID** set to your Backup Key, it will be displayed on your KeyCard. Provide the Key ID only if it appears on your KeyCard (TRON only).
@@ -43,6 +43,7 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 ## What coins are supported?
 
 ### Production Environment
+
 - **TRON (TRX)** and TRC20 tokens
 - **Cardano (ADA)**
 - **Polkadot (DOT)**
@@ -51,6 +52,7 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 - **Sui (SUI)** and Sui tokens
 
 ### Test Environment
+
 - **Test TRON (TTRX)** and test TRC20 tokens
 - **Test Cardano (TADA)**
 - **Test Polkadot (TDOT)**
@@ -68,6 +70,7 @@ Build a file containing a list of unsigned consolidation recovery transactions t
 - Native tokens (e.g. fungible tokens on the Cardano blockchain)
 
 When a receive address holds native tokens alongside ADA, the consolidation transaction for that address produces **two outputs**:
+
 - Token output: root address + tokens + 1.5 ADA (minimum UTXO requirement)
 - ADA remainder: root address + remaining ADA after fee
 
@@ -77,14 +80,14 @@ Cardano uses **EdDSA (Ed25519)**, so signing takes **6 steps** in OVC.
 
 > **Important:** Select **Sign TSS Recoveries** in OVC — not "Sign Transactions" or "Sign TSS Transactions".
 
-| Step | OVC role   | Action |
-|------|------------|--------|
-| 1    | User OVC   | Upload unsigned consolidation file → download share file |
-| 2    | Backup OVC | Upload user share → download backup share |
-| 3    | User OVC   | Upload backup share → download user signature share |
+| Step | OVC role   | Action                                                        |
+| ---- | ---------- | ------------------------------------------------------------- |
+| 1    | User OVC   | Upload unsigned consolidation file → download share file      |
+| 2    | Backup OVC | Upload user share → download backup share                     |
+| 3    | User OVC   | Upload backup share → download user signature share           |
 | 4    | Backup OVC | Upload user signature share → download backup signature share |
-| 5    | User OVC   | Upload backup signature share → download final signed file |
-| 6    | —          | Broadcast each transaction in the signed file |
+| 5    | User OVC   | Upload backup signature share → download final signed file    |
+| 6    | —          | Broadcast each transaction in the signed file                 |
 
 ### Multiple transactions per file
 
@@ -95,21 +98,25 @@ WRW produces **one unsigned transaction per funded receive address**. If two add
 `broadcast_ada.py` (included in this repository) assembles and submits all transactions in the signed file automatically, in order.
 
 **Requirements:**
+
 ```bash
 pip install cbor2
 ```
 
 **Broadcast to testnet (TADA / Preprod):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json
 ```
 
 **Broadcast to mainnet (ADA):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --network mainnet
 ```
 
 **Dry run (inspect assembled CBOR without broadcasting):**
+
 ```bash
 python3 broadcast_ada.py path/to/SIGNED-ovc-signed-part-6-of-6-<timestamp>.json --dry-run
 ```

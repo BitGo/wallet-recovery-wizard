@@ -10,9 +10,7 @@
       "./node_modules/@types",
       "./src/@types"
     ],
-    "types": [
-      "node"
-    ],
+    "types": ["node"],
     "baseUrl": ".",
     "target": "ESNext",
     "useDefineForClassFields": true,
@@ -34,6 +32,11 @@
     "jsx": "react-jsx"
   },
   "include": ["src"],
-  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx", "src/**/*.spec.ts", "src/**/*.spec.tsx"],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

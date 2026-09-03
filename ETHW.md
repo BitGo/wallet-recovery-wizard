@@ -2,7 +2,7 @@
 
 Version 4.3.0 of the Wallet Recovery Wizard supports building transactions to recover ETHw from your BitGo Hot and Self-Managed Cold wallets.
 
-Below is the full node RPC endpoint that must be called to broadcast the transaction as there are no suitable explorers available for ETHw. 
+Below is the full node RPC endpoint that must be called to broadcast the transaction as there are no suitable explorers available for ETHw.
 
 Construct the API request to the full node:
 

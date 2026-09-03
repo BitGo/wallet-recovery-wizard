@@ -22,9 +22,12 @@ const validationSchema = Yup.object({
   apiKey: Yup.string().test(
     'not-url-or-alchemy',
     'API key should not be a URL',
-    (value) => {
+    value => {
       if (!value) return true;
-      return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
+      return (
+        !value.match(/^https?:\/\//i) &&
+        !value.toLowerCase().includes('alchemy')
+      );
     }
   ),
 }).required();

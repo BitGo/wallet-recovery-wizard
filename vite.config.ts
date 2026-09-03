@@ -29,9 +29,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         format: 'es',
-        inlineDynamicImports: false
-      }
-    }
+        inlineDynamicImports: false,
+      },
+    },
   },
   plugins: [
     react(),

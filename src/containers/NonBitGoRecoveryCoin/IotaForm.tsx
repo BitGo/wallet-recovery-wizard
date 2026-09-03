@@ -9,7 +9,10 @@ import {
 } from '~/components';
 
 interface IotaFormProps {
-  onSubmit: (values: IotaFormValues, formikHelpers: FormikHelpers<IotaFormValues>) => void | Promise<void>;
+  onSubmit: (
+    values: IotaFormValues,
+    formikHelpers: FormikHelpers<IotaFormValues>
+  ) => void | Promise<void>;
   coinName: string;
 }
 
@@ -42,10 +45,15 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
       userKey: Yup.string().required('User key is required'),
       backupKey: Yup.string().required('Backup key is required'),
       bitgoKey: Yup.string().required('BitGo key is required'),
-      walletPassphrase: Yup.string().required('Wallet passphrase is required to decrypt keys'),
+      walletPassphrase: Yup.string().required(
+        'Wallet passphrase is required to decrypt keys'
+      ),
       recoveryDestination: Yup.string()
         .required('Recovery destination is required')
-        .matches(/^0x[a-fA-F0-9]{64}$/, 'Invalid IOTA address format (must be 0x followed by 64 hex characters)'),
+        .matches(
+          /^0x[a-fA-F0-9]{64}$/,
+          'Invalid IOTA address format (must be 0x followed by 64 hex characters)'
+        ),
       seed: Yup.string(),
       fullnodeRpcUrl: Yup.string().url('Invalid URL format'),
       scan: Yup.number()
@@ -59,9 +67,10 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
     onSubmit,
   });
 
-  const defaultRpcUrl = coinName === 'tiota'
-    ? 'https://api.testnet.iota.cafe'
-    : 'https://api.iota.cafe';
+  const defaultRpcUrl =
+    coinName === 'tiota'
+      ? 'https://api.testnet.iota.cafe'
+      : 'https://api.iota.cafe';
 
   return (
     <FormikProvider value={formik}>
@@ -171,7 +180,8 @@ export function IotaForm({ onSubmit, coinName }: IotaFormProps) {
         </div>
         {formik.isSubmitting && (
           <div className="tw-text-sm tw-text-gray-700 tw-mt-2 tw-text-center">
-            This may take a few moments while we fetch objects and build the transaction...
+            This may take a few moments while we fetch objects and build the
+            transaction...
           </div>
         )}
       </Form>

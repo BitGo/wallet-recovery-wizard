@@ -1,24 +1,33 @@
-import {useNavigate, useParams} from 'react-router-dom';
-import {useAlertBanner} from '~/contexts';
-import {assert, safeEnv} from '~/helpers';
-import {V1BtcSweepForm} from "~/containers/V1BtcSweep/V1BtcSweepForm";
-import { BitGoV1Unspent } from "@bitgo/abstract-utxo";
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAlertBanner } from '~/contexts';
+import { assert, safeEnv } from '~/helpers';
+import { V1BtcSweepForm } from '~/containers/V1BtcSweep/V1BtcSweepForm';
+import { BitGoV1Unspent } from '@bitgo/abstract-utxo';
 
 function parseBitGoV1Unspents(input: string): BitGoV1Unspent[] {
   const unspentsArray: Array<BitGoV1Unspent> = JSON.parse(input);
   assert(unspentsArray.length > 0, 'Unspents file is empty');
 
   unspentsArray.forEach((unspent, index) => {
-    assert(unspent.tx_hash !== undefined, `Unspent at index ${index} is missing tx_hash`);
-    assert(unspent.tx_output_n !== undefined, `Unspent at index ${index} is missing tx_output_n`);
-    assert(unspent.value !== undefined, `Unspent at index ${index} is missing value`);
+    assert(
+      unspent.tx_hash !== undefined,
+      `Unspent at index ${index} is missing tx_hash`
+    );
+    assert(
+      unspent.tx_output_n !== undefined,
+      `Unspent at index ${index} is missing tx_output_n`
+    );
+    assert(
+      unspent.value !== undefined,
+      `Unspent at index ${index} is missing value`
+    );
   });
 
   return unspentsArray;
 }
 
 export function V1BtcSweep() {
-  const {env} = useParams<'env'>();
+  const { env } = useParams<'env'>();
   const navigate = useNavigate();
   const [_, setAlert] = useAlertBanner();
 
@@ -27,7 +36,7 @@ export function V1BtcSweep() {
 
   return (
     <V1BtcSweepForm
-      onSubmit={async (values, {setSubmitting}) => {
+      onSubmit={async (values, { setSubmitting }) => {
         if (!values.unspents) {
           setAlert('Unspents file is required');
           return;
@@ -46,7 +55,9 @@ export function V1BtcSweep() {
         fileReader.readAsText(values.unspents, 'UTF-8');
         fileReader.onload = async event => {
           try {
-            const unspents = parseBitGoV1Unspents(event.target?.result as string);
+            const unspents = parseBitGoV1Unspents(
+              event.target?.result as string
+            );
             setSubmitting(true);
             await window.commands.unlock(values.otp);
             const chainData = await window.queries.getChain(coin);
@@ -77,9 +88,7 @@ export function V1BtcSweep() {
               JSON.stringify(result, null, 2),
               { encoding: 'utf8' }
             );
-            navigate(
-              `/${environment}/v1btc-sweep/${coin}/success`
-            );
+            navigate(`/${environment}/v1btc-sweep/${coin}/success`);
           } catch (error) {
             setSubmitting(false);
             console.log(error);
@@ -90,7 +99,6 @@ export function V1BtcSweep() {
             setSubmitting(false);
           }
         };
-
       }}
     />
   );

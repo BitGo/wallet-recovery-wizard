@@ -16,8 +16,9 @@ export function SuccessfulRecovery() {
     typeof txHexValue === 'string' && txHexValue.length > 0
       ? txHexValue
       : undefined;
-  const [copyStatus, setCopyStatus] =
-    useState<'idle' | 'copied' | 'error'>('idle');
+  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>(
+    'idle'
+  );
 
   useEffect(() => {
     if (copyStatus === 'idle') return;

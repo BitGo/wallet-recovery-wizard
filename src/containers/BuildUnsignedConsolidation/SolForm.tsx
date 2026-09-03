@@ -17,18 +17,22 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().when('walletType', {
     is: 'hot',
-    then: (schema) => schema.required('Wallet passphrase is required for hot wallets'),
-    otherwise: (schema) => schema,
+    then: schema =>
+      schema.required('Wallet passphrase is required for hot wallets'),
+    otherwise: schema => schema,
   }),
   apiKey: Yup.string().test(
-      'not-url-or-alchemy', 
-      'API key should not be a URL', 
-      (value) => {
-        if (!value) return true; // Skip validation if empty
-        // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
-        return !value.match(/^https?:\/\//i) && !value.toLowerCase().includes('alchemy');
-      }
-    ),
+    'not-url-or-alchemy',
+    'API key should not be a URL',
+    value => {
+      if (!value) return true; // Skip validation if empty
+      // Check it doesn't start with http:// or https:// and doesn't contain the word "alchemy"
+      return (
+        !value.match(/^https?:\/\//i) &&
+        !value.toLowerCase().includes('alchemy')
+      );
+    }
+  ),
   durableNonces: Yup.object({
     // TODO: Figure out how to transform this into a string array via Yup
     publicKeys: Yup.string().required(),

@@ -58,7 +58,9 @@ describe('NestedATAForm', () => {
 
   it('renders submit button with correct label', () => {
     renderForm();
-    expect(screen.getByRole('button', { name: /recover tokens/i })).not.toBeNull();
+    expect(
+      screen.getByRole('button', { name: /recover tokens/i })
+    ).not.toBeNull();
   });
 
   it('calls onSubmit with correct values when form is valid', async () => {
@@ -71,10 +73,18 @@ describe('NestedATAForm', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledOnce();
       const [values] = onSubmit.mock.calls[0] as [Record<string, string>][];
-      expect(values.nestedAtaAddress).toBe('FGuZSBhtreqSUsE86xokyjKz2i8VBtJzy6uMXXKyGHug');
-      expect(values.ownerAtaAddress).toBe('Zfm98ZpVafydhFTYcsY6bHgubhB4cFgWFvbdEJxYhTA');
-      expect(values.tokenMintAddress).toBe('ZBCNpuD7YMXzTHB2fhGkGi78MNsHGLRXUhRewNRm9RU');
-      expect(values.recoveryDestination).toBe('7YbcLmVorrH7KCKMj38rFidsruisWi2CmvCTs4cygf8K');
+      expect(values.nestedAtaAddress).toBe(
+        'FGuZSBhtreqSUsE86xokyjKz2i8VBtJzy6uMXXKyGHug'
+      );
+      expect(values.ownerAtaAddress).toBe(
+        'Zfm98ZpVafydhFTYcsY6bHgubhB4cFgWFvbdEJxYhTA'
+      );
+      expect(values.tokenMintAddress).toBe(
+        'ZBCNpuD7YMXzTHB2fhGkGi78MNsHGLRXUhRewNRm9RU'
+      );
+      expect(values.recoveryDestination).toBe(
+        '7YbcLmVorrH7KCKMj38rFidsruisWi2CmvCTs4cygf8K'
+      );
     });
   });
 

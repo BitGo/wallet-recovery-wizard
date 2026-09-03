@@ -18,6 +18,7 @@ Two-step lookup for `ApiKeyProvider`:
 
 **Step 1** — `Environments[env].evm?.[coinName]?.baseUrl` from `@bitgo/sdk-core`  
 Covers all coins using `SHARED_EVM_SDK` (the standard path for new EVM chains). Example:
+
 - `inketh` (prod): `https://explorer.inkonchain.com/api` → `explorer.inkonchain.com`
 - `tinketh` (test): `https://explorer-sepolia.inkonchain.com/api` → `explorer-sepolia.inkonchain.com` ✓
 
@@ -36,6 +37,7 @@ Example: `thoodeth` → `https://explorer.testnet.chain.robinhood.com/tx/` → `
 ### Step 1 — Add `generateEvmCoinMeta` helper (after the `allCoinMetas` closing brace, before `assertMetadata`)
 
 Add import at the top of config.ts:
+
 ```typescript
 import { Environments } from '@bitgo/sdk-core';
 ```
@@ -48,7 +50,8 @@ function generateEvmCoinMeta(coin: {
 }): CoinMetadata {
   const isTestnet = coin.network.type === NetworkType.TESTNET;
   // Testnet coins typically start with 't'; use the mainnet name for the icon
-  const iconName = isTestnet && coin.name.startsWith('t') ? coin.name.slice(1) : coin.name;
+  const iconName =
+    isTestnet && coin.name.startsWith('t') ? coin.name.slice(1) : coin.name;
   // Step 1: check Environments evm map (SHARED_EVM_SDK coins)
   const env = isTestnet ? 'test' : 'prod';
   const evmBaseUrl = Environments[env].evm?.[coin.name]?.baseUrl;
@@ -80,8 +83,12 @@ coins.forEach(coin => {
 
   const name = coin.name;
   const isTestnet = coin.network.type === NetworkType.TESTNET;
-  const hasUnsignedSweep = coin.features.includes(CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY);
-  const hasNonBitgo = coin.features.includes(CoinFeature.EVM_NON_BITGO_RECOVERY);
+  const hasUnsignedSweep = coin.features.includes(
+    CoinFeature.EVM_UNSIGNED_SWEEP_RECOVERY
+  );
+  const hasNonBitgo = coin.features.includes(
+    CoinFeature.EVM_NON_BITGO_RECOVERY
+  );
 
   if (!hasUnsignedSweep && !hasNonBitgo) return;
 
@@ -110,13 +117,13 @@ Delete lines 1552–1558. The auto-generation in step 2 replaces its gating role
 
 ## Default values rationale
 
-| Field | Default | Reason |
-|---|---|---|
-| `Icon` | strip `t` prefix for testnets | Matches existing pattern (`tinketh` → `inketh`) |
-| `ApiKeyProvider` | `Environments[env].evm?.[coin].baseUrl` then `coin.network.explorerUrl` | evm map covers SHARED_EVM_SDK coins; explorerUrl fallback covers 31 testnet coins missing from evm map; both are undefined only for `phrs` (which has a TODO in the SDK) |
-| `defaultGasLimit` | `'500,000'` / `500000` | Conservative safe default |
-| `defaultMaxFeePerGas` | `20` | Matches most explicit entries |
-| `defaultMaxPriorityFeePerGas` | `10` | Matches most explicit entries |
+| Field                         | Default                                                                 | Reason                                                                                                                                                                   |
+| ----------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `Icon`                        | strip `t` prefix for testnets                                           | Matches existing pattern (`tinketh` → `inketh`)                                                                                                                          |
+| `ApiKeyProvider`              | `Environments[env].evm?.[coin].baseUrl` then `coin.network.explorerUrl` | evm map covers SHARED_EVM_SDK coins; explorerUrl fallback covers 31 testnet coins missing from evm map; both are undefined only for `phrs` (which has a TODO in the SDK) |
+| `defaultGasLimit`             | `'500,000'` / `500000`                                                  | Conservative safe default                                                                                                                                                |
+| `defaultMaxFeePerGas`         | `20`                                                                    | Matches most explicit entries                                                                                                                                            |
+| `defaultMaxPriorityFeePerGas` | `10`                                                                    | Matches most explicit entries                                                                                                                                            |
 
 Explicit entries in `allCoinMetas` are checked first via `hasOwnProperty`, so any custom override (different gas limits, custom `ApiKeyProvider`, `isTssSupported`, etc.) is always respected.
 
@@ -128,6 +135,7 @@ Explicit entries in `allCoinMetas` are checked first via `hasOwnProperty`, so an
 
 `tempo` already has an explicit `allCoinMetas` entry (so it won't be auto-generated normally).
 To test the auto-generation path end-to-end, temporarily:
+
 1. Add `tempo: { baseUrl: 'https://dummy.alchemy.com/api' }` to the `evm` prod block in
    `node_modules/@bitgo/sdk-core/dist/src/bitgo/environments.js`
 2. Temporarily **delete** the `tempo` entry from `allCoinMetas` in `config.ts`
@@ -137,11 +145,13 @@ To test the auto-generation path end-to-end, temporarily:
 ### After making changes, run inline Node.js snippets to verify:
 
 **1. TypeScript type-check**
+
 ```bash
 npx tsc --noEmit
 ```
 
 **2. UI smoke-test**
+
 - Start dev server, switch to testnet, open Unsigned Sweep and Non-BitGo Recovery
 - Confirm existing EVM coins appear with correct gas defaults
 - Confirm new auto-generated coins (e.g. `tunieth`, `thoodeth`) now appear in coin dropdown

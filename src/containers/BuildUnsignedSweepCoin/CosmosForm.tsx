@@ -14,8 +14,8 @@ const validationSchema = Yup.object({
   recoveryDestination: Yup.string().required(),
   scan: Yup.number().required(),
   startingScanIndex: Yup.number().required(),
-  userKey: Yup.string()
-})
+  userKey: Yup.string(),
+});
 
 export type CosmosFormProps = {
   onSubmit: (
@@ -46,8 +46,7 @@ export function CosmosForm({ onSubmit }: CosmosFormProps) {
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed cold wallet details
         </h4>
-        
-        
+
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The BitGo public key for the wallet, as found on your recovery KeyCard."
@@ -56,7 +55,7 @@ export function CosmosForm({ onSubmit }: CosmosFormProps) {
             Width="fill"
           />
         </div>
-    
+
         <div className="tw-mb-4">
           <FormikTextfield
             HelperText="The base address of the wallet (also known as root address)"
@@ -81,7 +80,7 @@ export function CosmosForm({ onSubmit }: CosmosFormProps) {
             Width="fill"
           />
         </div>
-        
+
         <div className="tw-flex tw-flex-col-reverse sm:tw-justify-between sm:tw-flex-row tw-gap-1 tw-mt-4">
           <Button Tag={Link} to="/" Variant="secondary" Width="hug">
             Cancel

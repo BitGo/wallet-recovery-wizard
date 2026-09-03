@@ -12,14 +12,10 @@ import {
 
 function hasBroadcastableTransactions(
   json: unknown
-): json is
-  | suiBroadcastTransactionParameters {
-  const data = json as
-    | suiBroadcastTransactionParameters;
+): json is suiBroadcastTransactionParameters {
+  const data = json as suiBroadcastTransactionParameters;
   return (
-    data &&
-    data.transactions !== undefined &&
-    data.transactions.length > 0
+    data && data.transactions !== undefined && data.transactions.length > 0
   );
 }
 
@@ -41,19 +37,20 @@ export function SuiForm() {
         fileReader.readAsText(values.file, 'UTF-8');
         fileReader.onload = async event => {
           try {
-            const data = JSON.parse(event.target?.result as string) as
-              | suiBroadcastTransactionParameters;
+            const data = JSON.parse(
+              event.target?.result as string
+            ) as suiBroadcastTransactionParameters;
 
             console.log(data);
-            assert(hasBroadcastableTransactions(data), 'Broadcastable transactions not found');
+            assert(
+              hasBroadcastableTransactions(data),
+              'Broadcastable transactions not found'
+            );
 
             const chainData = await window.queries.getChain(coin!);
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const broadcastResult: Error | BroadcastTransactionResult =
-              await window.commands.broadcastTransaction(
-                coin!,
-                data
-              );
+              await window.commands.broadcastTransaction(coin!, data);
 
             if (broadcastResult instanceof Error) {
               throw broadcastResult;
@@ -77,9 +74,7 @@ export function SuiForm() {
               JSON.stringify(broadcastResult, null, 2),
               { encoding: 'utf8' }
             );
-            navigate(
-              `/${environment}/broadcast-transaction/${coin}/success`
-            );
+            navigate(`/${environment}/broadcast-transaction/${coin}/success`);
           } catch (error) {
             if (error instanceof Error) {
               formikHelpers.setFieldError('file', error.message);

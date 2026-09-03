@@ -24,6 +24,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check formatting
+        run: npm run format:check
+
   windows-linux-build:
     name: Test Windows and Linux builds
     runs-on: ubuntu-latest

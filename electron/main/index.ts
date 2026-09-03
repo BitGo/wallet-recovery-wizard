@@ -1,5 +1,15 @@
-import { TrxConsolidationRecoveryOptions, RecoverWithPsbtParams, SignPsbtParams } from '../types';
-import { isUtxoCoin, isXprv, psbtToHex, signPsbt, signPsbtWithBothKeys } from '../utxo/psbt';
+import {
+  TrxConsolidationRecoveryOptions,
+  RecoverWithPsbtParams,
+  SignPsbtParams,
+} from '../types';
+import {
+  isUtxoCoin,
+  isXprv,
+  psbtToHex,
+  signPsbt,
+  signPsbtWithBothKeys,
+} from '../utxo/psbt';
 import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
 import EthereumCommon from '@ethereumjs/common';
@@ -324,8 +334,7 @@ function getRecoveryCoin(coinName: string): RecoveryCoin {
   }
   const baseCoin = sdk.coin(coinName);
   return {
-    deriveKeyWithSeed: (key, seed) =>
-      baseCoin.deriveKeyWithSeed({ key, seed }),
+    deriveKeyWithSeed: (key, seed) => baseCoin.deriveKeyWithSeed({ key, seed }),
     getChain: () => baseCoin.getChain(),
     async recover(parameters) {
       const params = parameters as {
@@ -650,34 +659,62 @@ async function createWindow() {
     }
   });
 
-  ipcMain.handle('recoverWithPsbt', async (event, coin: string, params: RecoverWithPsbtParams) => {
-    if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
-    if (params.krsProvider) throw new Error('KRS is not supported in PSBT recovery mode');
+  ipcMain.handle(
+    'recoverWithPsbt',
+    async (event, coin: string, params: RecoverWithPsbtParams) => {
+      if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
+      if (params.krsProvider)
+        throw new Error('KRS is not supported in PSBT recovery mode');
 
-    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+      const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
 
-    const userXprv = isXprv(params.userKey)
-      ? params.userKey
-      : await sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
+      const userXprv = isXprv(params.userKey)
+        ? params.userKey
+        : await sdk.decrypt({
+            password: params.walletPassphrase,
+            input: params.userKey,
+          });
 
-    const backupXprv = isXprv(params.backupKey)
-      ? params.backupKey
-      : await sdk.decrypt({ password: params.walletPassphrase, input: params.backupKey });
+      const backupXprv = isXprv(params.backupKey)
+        ? params.backupKey
+        : await sdk.decrypt({
+            password: params.walletPassphrase,
+            input: params.backupKey,
+          });
 
-    const psbtHex = psbtToHex(params.psbt);
-    return signPsbtWithBothKeys(baseCoin, psbtHex, userXprv, backupXprv, params.bitgoKey);
-  });
+      const psbtHex = psbtToHex(params.psbt);
+      return signPsbtWithBothKeys(
+        baseCoin,
+        psbtHex,
+        userXprv,
+        backupXprv,
+        params.bitgoKey
+      );
+    }
+  );
 
-  ipcMain.handle('signPsbt', async (_event, coin: string, params: SignPsbtParams) => {
-    if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
-    const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
-    const userXprv = isXprv(params.userKey)
-      ? params.userKey
-      : await sdk.decrypt({ password: params.walletPassphrase, input: params.userKey });
-    const psbtHex = psbtToHex(params.psbt);
-    const halfSignedHex = signPsbt(baseCoin, psbtHex, userXprv, params.recipientAddress, params.feeRateSatVB);
-    return { halfSignedPsbt: halfSignedHex, coin };
-  });
+  ipcMain.handle(
+    'signPsbt',
+    async (_event, coin: string, params: SignPsbtParams) => {
+      if (!isUtxoCoin(coin)) throw new Error(`Unsupported coin: ${coin}`);
+      const baseCoin = sdk.coin(coin) as AbstractUtxoCoin;
+      const userXprv = isXprv(params.userKey)
+        ? params.userKey
+        : await sdk.decrypt({
+            password: params.walletPassphrase,
+            input: params.userKey,
+          });
+      const psbtHex = psbtToHex(params.psbt);
+      const halfSignedHex = signPsbt(
+        baseCoin,
+        psbtHex,
+        userXprv,
+        params.recipientAddress,
+        params.feeRateSatVB
+      );
+      return { halfSignedPsbt: halfSignedHex, coin };
+    }
+  );
 }
 
 void app.whenReady().then(createWindow);
