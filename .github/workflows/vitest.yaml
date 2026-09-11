@@ -12,5 +12,9 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Remove optional canvas binding
+        # pdfjs-dist's optional native canvas binding is incompatible with jsdom
+        # in this Node 20 Vitest job and is not needed by the unit tests.
+        run: rm -rf node_modules/canvas
       - name: Run Vitest tests
         run: npm test
