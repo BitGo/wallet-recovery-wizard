@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -105,5 +105,28 @@ describe('App console errors', () => {
     // This test documents that these warnings exist
     // If they appear, they'll be logged for visibility
     expect(bindingWarnings).toBeDefined();
+  });
+
+  it('should render the ECX recovery route', () => {
+    render(
+      <MemoryRouter initialEntries={['/test/non-bitgo-recovery/ecx']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText('Self-managed hot wallet details')).toBeTruthy();
+  });
+
+  it('should render uncaught route errors in the application UI', () => {
+    render(
+      <MemoryRouter initialEntries={['/test/non-bitgo-recovery/unsupported']}>
+        <App />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('alert').textContent).toContain(
+      'Unsupported coin: unsupported'
+    );
+    expect(screen.getByText('Stack trace')).toBeTruthy();
   });
 });
