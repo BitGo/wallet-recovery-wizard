@@ -60,6 +60,12 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'zec',
     value: 'zec',
   },
+  tzec: {
+    Title: 'TZEC',
+    Description: 'ZCash Testnet',
+    Icon: 'zec',
+    value: 'tzec',
+  },
   btg: {
     Title: 'BTG',
     Description: 'Bitcoin Gold',
@@ -1911,6 +1917,7 @@ export const buildUnsignedSweepCoins: Record<
   ] as const,
   test: [
     allCoinMetas.tbtc,
+    allCoinMetas.tzec,
     allCoinMetas.tecx,
     allCoinMetas.txrp,
     allCoinMetas.txrpToken,
@@ -2088,6 +2095,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
     ] as const,
     test: [
       allCoinMetas.tbtc,
+      allCoinMetas.tzec,
       allCoinMetas.tecx,
       allCoinMetas.txrp,
       allCoinMetas.txrpToken,

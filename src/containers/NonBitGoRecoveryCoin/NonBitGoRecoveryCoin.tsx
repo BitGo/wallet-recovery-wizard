@@ -147,6 +147,7 @@ function Form() {
     case 'btg':
     case 'dash':
     case 'zec':
+    case 'tzec':
     case 'doge':
     case 'tdoge':
     case 'bch':
@@ -200,6 +201,9 @@ function Form() {
                   userKey: values.userKey,
                   walletPassphrase: values.walletPassphrase,
                   feeRate: values.feeRate ? Number(values.feeRate) : undefined,
+                  ...(coin === 'zec' || coin === 'tzec'
+                    ? { blockHeight: Number(values.blockHeight) }
+                    : {}),
                   ignoreAddressTypes: [],
                 });
               }

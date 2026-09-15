@@ -22,6 +22,7 @@ const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
   walletPassphrase: Yup.string().required(),
   feeRate: Yup.number().nullable().optional(),
+  blockHeight: Yup.number().integer().nullable().optional(),
   apiKey: Yup.string().when('recoverySource', {
     is: 'blockchain',
     then: s => s.required(),
@@ -47,6 +48,8 @@ const validationSchema = Yup.object({
 export type UtxoFormConfig = {
   showKrsProvider?: boolean; // defaults true; pass false for coins without KRS support
   requiresApiKey?: boolean; // defaults true; ECX uses the Blockstream API directly
+  requiresBlockHeight?: boolean;
+  minimumBlockHeight?: number;
   notice?: ReactNode; // optional notice rendered above the form heading (e.g. BCH)
 };
 
@@ -103,6 +106,19 @@ const BCHA_CONFIG: UtxoCoinHandlerConfig = {
   passApiKeyToEnv: true,
   bigintSerialization: false,
 };
+const ZEC_CONFIG: UtxoCoinHandlerConfig = {
+  form: {
+    requiresBlockHeight: true,
+    minimumBlockHeight: 3364600,
+  },
+  passApiKeyToEnv: true,
+  bigintSerialization: false,
+};
+const TZEC_CONFIG: UtxoCoinHandlerConfig = {
+  form: { requiresBlockHeight: true },
+  passApiKeyToEnv: true,
+  bigintSerialization: false,
+};
 const ECX_CONFIG: UtxoCoinHandlerConfig = {
   form: { requiresApiKey: false },
   passApiKeyToEnv: false,
@@ -115,7 +131,8 @@ export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
   ltc: LTC_CONFIG,
   btg: LTC_CONFIG,
   dash: LTC_CONFIG,
-  zec: LTC_CONFIG,
+  zec: ZEC_CONFIG,
+  tzec: TZEC_CONFIG,
   doge: DOGE_CONFIG,
   tdoge: DOGE_CONFIG,
   bch: BCH_CONFIG,
@@ -136,6 +153,8 @@ export type UtxoFormProps = UtxoFormConfig & {
 export function UtxoForm({
   showKrsProvider = true,
   requiresApiKey = true,
+  requiresBlockHeight = false,
+  minimumBlockHeight,
   notice,
   onSubmit,
 }: UtxoFormProps) {
@@ -149,14 +168,28 @@ export function UtxoForm({
       bitgoKey: '',
       walletPassphrase: '',
       feeRate: null,
+      blockHeight: null,
       apiKey: '',
       recoveryDestination: '',
       scan: 20,
       psbt: '',
     },
-    validationSchema: requiresApiKey
-      ? validationSchema
-      : validationSchema.shape({ apiKey: Yup.string().optional() }),
+    validationSchema: validationSchema.shape({
+      ...(requiresApiKey ? {} : { apiKey: Yup.string().optional() }),
+      ...(requiresBlockHeight
+        ? {
+            blockHeight: Yup.number().when('recoverySource', {
+              is: 'blockchain',
+              then: schema =>
+                schema
+                  .integer()
+                  .min(minimumBlockHeight ?? 0)
+                  .required(),
+              otherwise: schema => schema.optional(),
+            }),
+          }
+        : {}),
+    }),
   });
 
   const backupKeyHelperText =
@@ -269,6 +302,20 @@ export function UtxoForm({
                 Width="fill"
               />
             </div>
+            {requiresBlockHeight && (
+              <div className="tw-mb-4">
+                <FormikTextfield
+                  HelperText={
+                    minimumBlockHeight
+                      ? `Block height from an independent Zcash block explorer. Mainnet ZEC must be at least ${minimumBlockHeight}.`
+                      : 'Block height from an independent Zcash block explorer.'
+                  }
+                  Label="Current Block Height"
+                  name="blockHeight"
+                  Width="fill"
+                />
+              </div>
+            )}
             {requiresApiKey && (
               <div className="tw-mb-4">
                 <FormikTextfield

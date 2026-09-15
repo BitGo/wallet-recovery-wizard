@@ -17,6 +17,7 @@ const psbtFormValues: UtxoFormValues = {
   bitgoKey: 'bitgo-key',
   walletPassphrase: 'wallet-passphrase',
   feeRate: null,
+  blockHeight: null,
   apiKey: '',
   recoveryDestination: '',
   scan: 20,
@@ -26,6 +27,7 @@ const blockchainFormValues: UtxoFormValues = {
   ...psbtFormValues,
   recoverySource: 'blockchain',
   apiKey: 'api-key',
+  blockHeight: 3364600,
   recoveryDestination: 'destination',
   psbt: '',
 };
@@ -129,7 +131,7 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
     );
   });
 
-  it('passes the backend transactionHex to the success route after saving JSON', async () => {
+  it('passes the backend transactionHex and Zcash block height', async () => {
     const setAlert: Dispatch<SetStateAction<string | undefined>> = () =>
       undefined;
     const alertState: [
@@ -137,9 +139,11 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
       Dispatch<SetStateAction<string | undefined>>,
     ] = [undefined, setAlert];
 
+    window.queries.getChain = vi.fn().mockResolvedValue('zec');
+
     render(
       <AlertBannerContext.Provider value={alertState}>
-        <MemoryRouter initialEntries={['/test/non-bitgo-recovery/btc']}>
+        <MemoryRouter initialEntries={['/test/non-bitgo-recovery/zec']}>
           <Routes>
             <Route
               path="/:env/non-bitgo-recovery/:coin"
@@ -165,9 +169,10 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
     });
 
     expect(recover).toHaveBeenCalledWith(
-      'btc',
+      'zec',
       expect.objectContaining({
         apiKey: 'api-key',
+        blockHeight: 3364600,
         recoveryDestination: 'destination',
       })
     );
