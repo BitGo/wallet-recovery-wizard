@@ -1193,7 +1193,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'ip',
     value: 'ip',
     isTssSupported: true,
-    ApiKeyProvider: 'storyscan.io',
+    ApiKeyProvider: 'datanetscan.io',
   },
   tip: {
     Title: 'TIP',
@@ -1201,7 +1201,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'ip',
     value: 'tip',
     isTssSupported: true,
-    ApiKeyProvider: 'aeneid.storyscan.io',
+    ApiKeyProvider: 'aeneid.datanetscan.io',
   },
   og: {
     Title: 'OG',
