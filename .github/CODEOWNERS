@@ -8,4 +8,4 @@
 /src/containers/NonBitGoRecoveryCoin/UtxoForm.tsx @BitGo/btc-team
 
 ## THIS SHOULD ALWAYS BE LAST ##
-/.github/CODEOWNERS @BitGo/git-admins
+/.github/CODEOWNERS @BitGo/production
