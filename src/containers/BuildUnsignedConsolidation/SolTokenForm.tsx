@@ -167,7 +167,7 @@ export function SolTokenForm({ onSubmit }: SolFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikSelectfield
-            HelperText="The programId for smart contract of the token to recover."
+            HelperText="The programId for the smart contract of the token to recover."
             Label="Token ProgramId"
             name="tokenProgramId"
             Width="fill"
