@@ -130,3 +130,8 @@ export type SignPsbtParams = {
   recipientAddress: string;
   feeRateSatVB: number;
 };
+
+export type SignPsbtResult = {
+  halfSignedPsbt: string;
+  coin: string;
+};

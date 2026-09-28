@@ -593,6 +593,10 @@ async function createWindow() {
     }
   );
 
+  ipcMain.handle('showMessageBox', async (event, options) => {
+    return await dialog.showMessageBox(options);
+  });
+
   ipcMain.handle('showSaveDialog', async (event, options) => {
     return await dialog.showSaveDialog(options);
   });
