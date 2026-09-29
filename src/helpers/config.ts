@@ -2211,6 +2211,7 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.baseeth,
       allCoinMetas.arbeth,
       allCoinMetas.avaxc,
+      allCoinMetas.arcusdc,
     ] as const,
     test: [
       allCoinMetas.tpolygon,
@@ -2220,6 +2221,8 @@ export const evmCCRWrongChainCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbaseeth,
       allCoinMetas.tarbeth,
       allCoinMetas.tavaxc,
+      // tarcusdc (Arc testnet) is intentionally excluded: cross chain recovery for it
+      // needs an RPC-based explorer adapter that hasn't shipped yet (see CHALO-1626).
     ] as const,
   };
 
@@ -2278,6 +2281,12 @@ export const evmCCRIntendedChainCoins: Record<string, readonly CoinMetadata[]> =
       allCoinMetas.tarbeth,
       allCoinMetas.topeth,
       allCoinMetas.tpolygon,
+    ] as const,
+    arcusdc: [
+      allCoinMetas.arbeth,
+      allCoinMetas.eth,
+      allCoinMetas.opeth,
+      allCoinMetas.polygon,
     ] as const,
     arbeth: [
       allCoinMetas.eth,
