@@ -1,4 +1,8 @@
-import { AbstractUtxoCoin } from '@bitgo/abstract-utxo';
+import {
+  AbstractUtxoCoin,
+  assertExternalPsbtSighashPolicy,
+  signExternalPsbt,
+} from '@bitgo/abstract-utxo';
 import {
   fixedScriptWallet,
   BIP32,
@@ -47,6 +51,11 @@ function buildOutput(
   recipientAddress: string,
   feeRateSatVB: number
 ): string {
+  // Reject a foreign PSBT before doing any fee math: an input whose sighash
+  // type does not commit to the entire transaction would leave the user
+  // signature unbound to the recipient output added below (WCN-1994).
+  assertExternalPsbtSighashPolicy(psbtHex, coinName as CoinName);
+
   const bytes = Buffer.from(psbtHex, 'hex');
   const psbt = fixedScriptWallet.BitGoPsbt.fromBytes(
     bytes,
@@ -101,10 +110,10 @@ export function signPsbt(
     recipientAddress,
     feeRateSatVB
   );
-  const bytes = Buffer.from(withOutput, 'hex');
-  const psbt = fixedScriptWallet.BitGoPsbt.fromBytes(bytes, coin.getChain());
-  psbt.sign(BIP32.fromBase58(xprv));
-  return Buffer.from(psbt.serialize()).toString('hex');
+  // signExternalPsbt enforces the SIGHASH_ALL-only policy before signing and
+  // verifies the signed PSBT (sighash policy, output set, signatures), so the
+  // user signature always commits to the recipient output (WCN-1994).
+  return signExternalPsbt(withOutput, coin.getChain(), xprv).psbtHex;
 }
 
 function extractTxHex(result: unknown): string {
@@ -120,6 +129,10 @@ export async function signPsbtWithBothKeys(
   backupXprv: string,
   bitgoXpub: string
 ): Promise<{ txHex: string }> {
+  // The SDK signer signs the PSBT as handed to it, so reject sighash types
+  // that do not commit to the entire transaction up front (WCN-1994).
+  assertExternalPsbtSighashPolicy(psbtHex, coin.getChain());
+
   const pubs: [string, string, string] = [
     BIP32.fromBase58(userXprv).neutered().toBase58(),
     BIP32.fromBase58(backupXprv).neutered().toBase58(),
