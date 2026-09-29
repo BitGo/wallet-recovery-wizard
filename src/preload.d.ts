@@ -12,7 +12,12 @@ import type {
 } from '@bitgo/abstract-utxo';
 
 import type { Chain, Hardfork } from '@ethereumjs/common';
-import { contextBridge, ipcRenderer } from 'electron';
+import type {
+  MessageBoxOptions,
+  MessageBoxReturnValue,
+  SaveDialogOptions,
+  SaveDialogReturnValue,
+} from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
 import {
   AdaRecoveryConsolidationRecoveryBatch,
@@ -95,12 +100,8 @@ type Commands = {
     data: string,
     options?: ObjectEncodingOptions
   ): Promise<void>;
-  showMessageBox(
-    options: Electron.MessageBoxOptions
-  ): Promise<Electron.MessageBoxReturnValue>;
-  showSaveDialog(
-    options: Electron.SaveDialogOptions
-  ): Promise<Electron.SaveDialogReturnValue>;
+  showMessageBox(options: MessageBoxOptions): Promise<MessageBoxReturnValue>;
+  showSaveDialog(options: SaveDialogOptions): Promise<SaveDialogReturnValue>;
   recoverNestedAta(
     coin: string,
     parameters: {
@@ -185,91 +186,6 @@ type Queries = {
   getUser(): Promise<Error | User>;
   isSdkAuthenticated(): Promise<boolean>;
 };
-
-const queries: Queries = {
-  getVersion() {
-    return ipcRenderer.invoke('getVersion');
-  },
-  deriveKeyWithSeed(coin, key, seed) {
-    return ipcRenderer.invoke('deriveKeyWithSeed', coin, key, seed);
-  },
-  deriveKeyByPath(key, id) {
-    return ipcRenderer.invoke('deriveKeyByPath', key, id);
-  },
-  getChain(coin) {
-    return ipcRenderer.invoke('getChain', coin);
-  },
-  getUser() {
-    return ipcRenderer.invoke('getUser');
-  },
-  isSdkAuthenticated() {
-    return ipcRenderer.invoke('isSdkAuthenticated');
-  },
-};
-
-const commands: Commands = {
-  broadcastTransaction(coin: string, options: BroadcastTransactionOptions) {
-    return ipcRenderer.invoke('broadcastTransaction', coin, options);
-  },
-  recoverConsolidations(
-    coin: string,
-    params:
-      | TrxConsolidationRecoveryOptions
-      | AdaRecoveryConsolidationRecoveryOptions
-      | DotRecoveryConsolidationRecoveryOptions
-      | TaoRecoveryConsolidationRecoveryOptions
-      | SolRecoveryConsolidationRecoveryOptions
-      | SuiRecoveryConsolidationRecoveryOptions
-  ): Promise<
-    | Error
-    | TrxConsolidationRecoveryBatch
-    | AdaRecoveryConsolidationRecoveryBatch
-    | DotRecoverConsolidationRecoveryBatch
-    | TaoRecoverConsolidationRecoveryBatch
-    | SolRecoverConsolidationRecoveryBatch
-    | SuiRecoverConsolidationRecoveryBatch
-  > {
-    return ipcRenderer.invoke('recoverConsolidations', coin, params);
-  },
-  writeFile(file, data, options) {
-    return ipcRenderer.invoke('writeFile', file, data, options);
-  },
-  showMessageBox(options) {
-    return ipcRenderer.invoke('showMessageBox', options);
-  },
-  showSaveDialog(options) {
-    return ipcRenderer.invoke('showSaveDialog', options);
-  },
-  recover(coin, parameters) {
-    return ipcRenderer.invoke('recover', coin, parameters);
-  },
-  wrongChainRecover(sourceCoin, destinationCoin, parameters) {
-    return ipcRenderer.invoke(
-      'wrongChainRecover',
-      sourceCoin,
-      destinationCoin,
-      parameters
-    );
-  },
-  setBitGoEnvironment(environment, coin, apiKey) {
-    return ipcRenderer.invoke('setBitGoEnvironment', environment, coin, apiKey);
-  },
-  login(username, password, otp) {
-    return ipcRenderer.invoke('login', username, password, otp);
-  },
-  logout() {
-    return ipcRenderer.invoke('logout');
-  },
-  recoverWithPsbt(coin, params) {
-    return ipcRenderer.invoke('recoverWithPsbt', coin, params);
-  },
-  signPsbt(coin, params) {
-    return ipcRenderer.invoke('signPsbt', coin, params);
-  },
-};
-
-contextBridge.exposeInMainWorld('commands', commands);
-contextBridge.exposeInMainWorld('queries', queries);
 
 // This is needed due to collisions of Electron.Parameters in the Electron namespace
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

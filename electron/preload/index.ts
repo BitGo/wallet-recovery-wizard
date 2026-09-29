@@ -28,6 +28,8 @@ import {
   DotRecoverConsolidationRecoveryBatch,
   DotRecoveryConsolidationRecoveryOptions,
   RecoverWithPsbtParams,
+  SignPsbtParams,
+  SignPsbtResult,
   TaoRecoverConsolidationRecoveryBatch,
   TaoRecoveryConsolidationRecoveryOptions,
   SolRecoverConsolidationRecoveryBatch,
@@ -127,6 +129,7 @@ type Commands = {
     coin: string,
     params: RecoverWithPsbtParams
   ): Promise<{ txHex: string }>;
+  signPsbt(coin: string, params: SignPsbtParams): Promise<SignPsbtResult>;
   wrongChainRecover(
     sourceCoin: string,
     destinationCoin: string,
@@ -206,6 +209,7 @@ const commands: Commands = {
       | DotRecoveryConsolidationRecoveryOptions
       | TaoRecoveryConsolidationRecoveryOptions
       | SolRecoveryConsolidationRecoveryOptions
+      | SuiRecoveryConsolidationRecoveryOptions
   ): Promise<
     | Error
     | TrxConsolidationRecoveryBatch
@@ -213,6 +217,7 @@ const commands: Commands = {
     | DotRecoverConsolidationRecoveryBatch
     | TaoRecoverConsolidationRecoveryBatch
     | SolRecoverConsolidationRecoveryBatch
+    | SuiRecoverConsolidationRecoveryBatch
   > {
     return ipcRenderer.invoke('recoverConsolidations', coin, params);
   },
