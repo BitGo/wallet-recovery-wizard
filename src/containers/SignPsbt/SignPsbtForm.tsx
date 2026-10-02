@@ -77,6 +77,18 @@ export function SignPsbtForm({ onSubmit }: SignPsbtFormProps) {
           Sign Unsigned PSBT
         </h4>
 
+        <div
+          className="tw-mb-4 tw-p-3 tw-bg-yellow-100 tw-border tw-border-yellow-400 tw-text-yellow-900 tw-rounded"
+          role="note"
+        >
+          Sighash policy: only sighash modes that commit to the entire
+          transaction are accepted (SIGHASH_ALL (0x01) and its network
+          equivalents, e.g. SIGHASH_ALL|FORKID (0x41) on BCH-family coins).
+          Inputs with an explicit NONE, SINGLE, ANYONECANPAY, or combined
+          sighash mode are rejected before signing; omitted sighash types use
+          the signer’s default.
+        </div>
+
         <div className="tw-mb-4">
           <FormikSelectfield
             HelperText="The UTXO coin (BTC, LTC, DOGE, etc.)"

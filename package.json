@@ -12,7 +12,7 @@
     "@bitgo-forks/cryptocurrency-icons": "0.128.0",
     "@bitgo/abstract-cosmos": "11.19.34",
     "@bitgo/abstract-substrate": "2.2.14",
-    "@bitgo/abstract-utxo": "13.2.0",
+    "@bitgo/abstract-utxo": "13.3.0",
     "@bitgo/blockapis": "1.13.11",
     "@bitgo/sdk-api": "3.0.4",
     "@bitgo/sdk-coin-ada": "5.2.0",

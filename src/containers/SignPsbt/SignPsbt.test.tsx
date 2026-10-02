@@ -57,6 +57,20 @@ describe('SignPsbtForm', () => {
     expect(screen.getByText(/fee rate \(sat\/vbyte\)/i)).not.toBeNull();
   });
 
+  it('displays the enforced sighash policy', () => {
+    const onSubmit = vi.fn();
+    render(
+      <MemoryRouter>
+        <SignPsbtForm onSubmit={onSubmit} />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('note').textContent).toContain(
+      'SIGHASH_ALL (0x01)'
+    );
+    expect(screen.getByRole('note').textContent).toContain('ANYONECANPAY');
+  });
+
   it('shows passphrase field initially hidden', () => {
     const onSubmit = vi.fn();
     render(
