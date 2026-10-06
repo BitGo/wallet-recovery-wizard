@@ -22,6 +22,7 @@ Withdraw Funds without BitGo:
   | EOS   | Yes        | Yes  |
   | ERC20 | Yes        | Yes  |
   | LTC   | Yes        | No   |
+  | SOL   | Yes        | Yes  |
   | TRX   | Yes        | Yes  |
   | XLM   | Yes        | Yes  |
   | XRP   | Yes        | Yes  |
@@ -50,6 +51,10 @@ Instructions to broadcast NEAR transactions: [NEAR.md](NEAR.md)
 
 Instructions to broadcast SOL transactions: [SOL.md](SOL.md)
 
+Instructions for Solana self-managed cold wallet recovery (Mainnet): [SOL_MAINNET_RECOVERY_GUIDE.md](SOL_MAINNET_RECOVERY_GUIDE.md)
+
+Instructions for Solana self-managed cold wallet recovery (Devnet practice): [SOL_DEVNET_RECOVERY_GUIDE.md](SOL_DEVNET_RECOVERY_GUIDE.md)
+
 Instructions to do Non-BitGo recovery from hot wallets: [NON_BITGO_RECOVERY.md](NON_BITGO_RECOVERY.md)
 
 Instructions to do Non-BitGo recovery from cold wallets (Unsigned Sweep): [UNSIGNED_SWEEP.md](UNSIGNED_SWEEP.md)
@@ -59,6 +64,13 @@ Instructions to do Non-BitGo consolidate recovery from cold wallets (Unsigned Co
 Instructions to decode ETH transactions [DECODE.md](DECODE.MD)
 
 Instructions to obtain durable nonce for SOL transactions [DURABLE_NONCE.md](DURABLE_NONCE.md)
+
+## Python Scripts
+
+The repo includes runnable Python scripts to assist with recovery flows. These run locally and require no BitGo services:
+
+- Solana recovery helpers (base58 key conversion, signature verification, signature splice, and RPC broadcast): [sol_recovery.py](sol_recovery.py). Run `python3 sol_recovery.py --help` for usage. The `verify` subcommand requires `pip3 install cryptography`.
+- Cardano transaction assembly and broadcast: [broadcast_ada.py](broadcast_ada.py). Requires `pip3 install cbor2`.
 
 ## FAQs
 
