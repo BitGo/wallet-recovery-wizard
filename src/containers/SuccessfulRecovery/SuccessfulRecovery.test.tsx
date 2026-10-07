@@ -26,6 +26,50 @@ describe('SuccessfulRecovery', () => {
     expect(screen.queryByRole('button', { name: 'Copy' })).toBeNull();
   });
 
+  it('shows Solana guide link alongside the recovery message', () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/test/build-unsigned-sweep/sol/success',
+            state: { coin: 'sol' },
+          },
+        ]}
+      >
+        <SuccessfulRecovery />
+      </MemoryRouter>
+    );
+
+    expect(
+      screen.getByText(/use a third-party API to decode your txHex/i)
+    ).not.toBeNull();
+    const link = screen.getByRole('link', { name: /this guide/i });
+    expect(link).not.toBeNull();
+    expect(link.getAttribute('href')).toBe(
+      'https://github.com/BitGo/wallet-recovery-wizard/blob/master/SOL_MAINNET_RECOVERY_GUIDE.md'
+    );
+  });
+
+  it('keeps the generic message without a guide link for non-Solana builds', () => {
+    render(
+      <MemoryRouter
+        initialEntries={[
+          {
+            pathname: '/test/build-unsigned-sweep/btc/success',
+            state: { coin: 'btc' },
+          },
+        ]}
+      >
+        <SuccessfulRecovery />
+      </MemoryRouter>
+    );
+
+    expect(
+      screen.getByText(/use a third-party API to decode your txHex/i)
+    ).not.toBeNull();
+    expect(screen.queryByRole('link', { name: /this guide/i })).toBeNull();
+  });
+
   it('renders and copies transaction hex from navigation state', async () => {
     const txHex = '0200000001abcdef';
     const writeText = vi.fn().mockResolvedValue(undefined);

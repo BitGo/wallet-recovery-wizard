@@ -1211,6 +1211,7 @@ function Form() {
       return (
         <SolanaForm
           key={coin}
+          coin={coin}
           onSubmit={async (values, { setSubmitting }) => {
             setAlert(undefined);
             setSubmitting(true);
@@ -1262,7 +1263,8 @@ function Form() {
               );
 
               navigate(
-                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`
+                `/${bitGoEnvironment}/build-unsigned-sweep/${coin}/success`,
+                { state: { coin } }
               );
             } catch (err) {
               if (err instanceof Error) {

@@ -6,6 +6,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { AlertBannerContext } from '~/contexts';
 import { NonBitGoRecoveryCoin } from './NonBitGoRecoveryCoin';
 import type { UtxoFormProps, UtxoFormValues } from './UtxoForm';
+import type { SolanaFormProps } from './SolanaForm';
 
 const txHex = '0200000001abcdef';
 const transactionHex = '0200000001fedcba';
@@ -33,6 +34,20 @@ const blockchainFormValues: UtxoFormValues = {
 };
 const recover = vi.fn();
 const writeFile = vi.fn();
+
+type SolanaFormValues = Parameters<SolanaFormProps['onSubmit']>[0];
+
+const solFormValues: SolanaFormValues = {
+  backupKey: 'backup-key',
+  bitgoKey: 'bitgo-key',
+  krsProvider: '',
+  recoveryDestination: 'destination',
+  userKey: 'user-key',
+  walletPassphrase: 'passphrase',
+  publicKey: '',
+  secretKey: '',
+  apiKey: '',
+};
 
 vi.mock('./UtxoForm', async () => {
   const actual =
@@ -73,6 +88,29 @@ function NavigationState() {
     </output>
   );
 }
+
+vi.mock('./SolanaForm', async () => {
+  const actual =
+    await vi.importActual<typeof import('./SolanaForm')>('./SolanaForm');
+
+  return {
+    ...actual,
+    SolanaForm: ({ onSubmit }: SolanaFormProps) => {
+      const helpers = {
+        setSubmitting: vi.fn(),
+      } as unknown as FormikHelpers<SolanaFormValues>;
+
+      return (
+        <button
+          type="button"
+          onClick={() => void onSubmit(solFormValues, helpers)}
+        >
+          Recover Solana Funds
+        </button>
+      );
+    },
+  };
+});
 
 describe('NonBitGoRecoveryCoin PSBT recovery', () => {
   beforeEach(() => {
@@ -181,5 +219,60 @@ describe('NonBitGoRecoveryCoin PSBT recovery', () => {
       JSON.stringify({ transactionHex }, null, 2),
       { encoding: 'utf-8' }
     );
+  });
+});
+
+describe('NonBitGoRecoveryCoin Solana recovery', () => {
+  beforeEach(() => {
+    writeFile.mockResolvedValue(undefined);
+    window.commands = {
+      setBitGoEnvironment: vi.fn().mockResolvedValue(undefined),
+      recover: vi
+        .fn()
+        .mockResolvedValue({ transactionHex: '0200000001abcdef' }),
+      showSaveDialog: vi
+        .fn()
+        .mockResolvedValue({ filePath: '/tmp/recovery.json' }),
+      writeFile,
+    } as unknown as typeof window.commands;
+    window.queries = {
+      getChain: vi.fn().mockResolvedValue('sol'),
+    } as unknown as typeof window.queries;
+  });
+
+  it('passes the coin in navigation state to the success route', async () => {
+    const setAlert: Dispatch<SetStateAction<string | undefined>> = () =>
+      undefined;
+    const alertState: [
+      string | undefined,
+      Dispatch<SetStateAction<string | undefined>>,
+    ] = [undefined, setAlert];
+
+    render(
+      <AlertBannerContext.Provider value={alertState}>
+        <MemoryRouter initialEntries={['/test/non-bitgo-recovery/sol']}>
+          <Routes>
+            <Route
+              path="/:env/non-bitgo-recovery/:coin"
+              element={<NonBitGoRecoveryCoin />}
+            />
+            <Route
+              path="/:env/non-bitgo-recovery/:coin/success"
+              element={<NavigationState />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </AlertBannerContext.Provider>
+    );
+
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Recover Solana Funds' })
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('navigation-state').textContent).toBe(
+        JSON.stringify({ coin: 'sol' })
+      );
+    });
   });
 });

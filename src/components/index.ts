@@ -14,6 +14,7 @@ export * from './Notice';
 export * from './PageLayout';
 export * from './SelectAutocomplete';
 export * from './Selectfield';
+export * from './SolanaRecoveryNotice';
 export * from './Textarea';
 export * from './Textfield';
 export * from './Title';

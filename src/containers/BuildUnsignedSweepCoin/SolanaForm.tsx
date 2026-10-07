@@ -6,9 +6,9 @@ import {
   FormikSelectfield,
   FormikTextarea,
   FormikTextfield,
-  Icon,
-  Notice,
+  SolanaRecoveryNotice,
 } from '~/components';
+import type { SolRecoveryCoin } from '~/helpers/solanaRecoveryGuide';
 
 const validationSchema = Yup.object({
   bitgoKey: Yup.string().required(),
@@ -47,6 +47,7 @@ const validationSchema = Yup.object({
   );
 
 export type SolanaFormProps = {
+  coin: SolRecoveryCoin;
   onSubmit: (
     values: SolanaFormValues,
     formikHelpers: FormikHelpers<SolanaFormValues>
@@ -55,7 +56,7 @@ export type SolanaFormProps = {
 
 type SolanaFormValues = Yup.Asserts<typeof validationSchema>;
 
-export function SolanaForm({ onSubmit }: SolanaFormProps) {
+export function SolanaForm({ coin, onSubmit }: SolanaFormProps) {
   const formik = useFormik<SolanaFormValues>({
     onSubmit,
     initialValues: {
@@ -73,14 +74,7 @@ export function SolanaForm({ onSubmit }: SolanaFormProps) {
     <FormikProvider value={formik}>
       <Form>
         <div className="tw-mb-8">
-          <Notice
-            Variant="Secondary"
-            IconLeft={<Icon Name="warning-sign" Size="small" />}
-          >
-            Solana transactions have a broadcast window of 60 seconds. By
-            filling out the Durable Nonce: Public Key field and the Durable
-            Nonce: Secret Key field, you can extend this window.
-          </Notice>
+          <SolanaRecoveryNotice coin={coin} />
         </div>
         <h4 className="tw-text-body tw-font-semibold tw-border-b-0.5 tw-border-solid tw-border-gray-700 tw-mb-4">
           Self-managed cold wallet details
