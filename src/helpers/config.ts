@@ -1621,7 +1621,7 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Description: 'Robinhood Chain',
     Icon: 'hoodeth',
     value: 'hoodeth',
-    ApiKeyProvider: '8crv4vmq6tiu1yqr.blockscout.com/api',
+    ApiKeyProvider: 'robinhoodchain.blockscout.com/api',
     isTssSupported: true,
   },
   thoodeth: {
