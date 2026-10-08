@@ -2,6 +2,7 @@ import { Player } from '@lottiefiles/react-lottie-player';
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '../../components';
+import { getSolRecoveryGuideUrl } from '../../helpers/solanaRecoveryGuide';
 import CelebrationCheck from './CelebrationCheck.json';
 
 export function SuccessfulRecovery() {
@@ -9,6 +10,7 @@ export function SuccessfulRecovery() {
   const locationState = location.state as {
     txId?: string;
     txHex?: unknown;
+    coin?: string;
   } | null;
   const txId = locationState?.txId;
   const txHexValue = locationState?.txHex;
@@ -16,6 +18,9 @@ export function SuccessfulRecovery() {
     typeof txHexValue === 'string' && txHexValue.length > 0
       ? txHexValue
       : undefined;
+  const solGuideUrl = locationState?.coin
+    ? getSolRecoveryGuideUrl(locationState.coin)
+    : undefined;
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied' | 'error'>(
     'idle'
   );
@@ -73,6 +78,21 @@ export function SuccessfulRecovery() {
           <div className="tw-text-center tw-text-label-1 tw-text-gray-900 tw-pb-2 tw-max-w-prose">
             We recommend that you use a third-party API to decode your txHex and
             verify its accuracy before broadcasting.
+            {solGuideUrl && (
+              <>
+                {' '}
+                Refer to{' '}
+                <a
+                  href={solGuideUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="tw-text-blue-500 tw-underline"
+                >
+                  this guide
+                </a>{' '}
+                to complete the recovery.
+              </>
+            )}
           </div>
         )}
         {txHex && (
