@@ -4,8 +4,8 @@
 # These owners and first officers will be the default owners for everything in the repo.
 * @BitGo/ecosystem
 
-/e2e/utxo/ @BitGo/btc-team
-/src/containers/NonBitGoRecoveryCoin/UtxoForm.tsx @BitGo/btc-team
+/e2e/utxo/ @BitGo/ecosystem
+/src/containers/NonBitGoRecoveryCoin/UtxoForm.tsx @BitGo/ecosystem
 
 ## THIS SHOULD ALWAYS BE LAST ##
 /.github/CODEOWNERS @BitGo/production
