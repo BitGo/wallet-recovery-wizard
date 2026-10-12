@@ -9,7 +9,7 @@
     }
   },
   "dependencies": {
-    "@bitgo-forks/cryptocurrency-icons": "0.128.0",
+    "@bitgo-forks/cryptocurrency-icons": "^0.136.0",
     "@bitgo/abstract-cosmos": "11.19.34",
     "@bitgo/abstract-substrate": "2.2.14",
     "@bitgo/abstract-utxo": "13.2.0",
@@ -54,6 +54,7 @@
     "@bitgo/sdk-coin-oas": "2.7.46",
     "@bitgo/sdk-coin-opeth": "18.10.46",
     "@bitgo/sdk-coin-osmo": "3.7.46",
+    "@bitgo/sdk-coin-pearl": "^1.1.19",
     "@bitgo/sdk-coin-polygon": "21.7.46",
     "@bitgo/sdk-coin-polyx": "2.2.0",
     "@bitgo/sdk-coin-rune": "1.9.34",

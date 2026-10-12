@@ -153,7 +153,9 @@ function Form() {
     case 'bch':
     case 'bcha':
     case 'ecx':
-    case 'tecx': {
+    case 'tecx':
+    case 'pearl':
+    case 'tpearl': {
       const {
         form: formConfig,
         passApiKeyToEnv,

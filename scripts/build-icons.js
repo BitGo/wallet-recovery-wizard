@@ -28,6 +28,7 @@ const coins = [
   'ada',
   'atom',
   'osmo',
+  'pearl',
   'tia',
   'injective',
   'bld',
