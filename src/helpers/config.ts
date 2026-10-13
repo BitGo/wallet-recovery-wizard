@@ -1732,6 +1732,18 @@ export const allCoinMetas: Record<string, CoinMetadata> = {
     Icon: 'btc',
     value: 'tecx',
   },
+  pearl: {
+    Title: 'PEARL',
+    Description: 'Pearl (self-custody recovery)',
+    Icon: 'pearl',
+    value: 'pearl',
+  },
+  tpearl: {
+    Title: 'TPEARL',
+    Description: 'Testnet Pearl (self-custody recovery)',
+    Icon: 'pearl',
+    value: 'tpearl',
+  },
 } as const;
 
 function generateEvmCoinMeta(coin: {
@@ -1831,6 +1843,7 @@ export const buildUnsignedSweepCoins: Record<
   prod: [
     allCoinMetas.btc,
     allCoinMetas.ecx,
+    allCoinMetas.pearl,
     allCoinMetas.bch,
     allCoinMetas.ltc,
     allCoinMetas.xrp,
@@ -1919,6 +1932,7 @@ export const buildUnsignedSweepCoins: Record<
     allCoinMetas.tbtc,
     allCoinMetas.tzec,
     allCoinMetas.tecx,
+    allCoinMetas.tpearl,
     allCoinMetas.txrp,
     allCoinMetas.txrpToken,
     allCoinMetas.txlm,
@@ -2007,6 +2021,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
     prod: [
       allCoinMetas.btc,
       allCoinMetas.ecx,
+      allCoinMetas.pearl,
       allCoinMetas.bch,
       allCoinMetas.ltc,
       allCoinMetas.xrp,
@@ -2097,6 +2112,7 @@ export const nonBitgoRecoveryCoins: Record<BitgoEnv, readonly CoinMetadata[]> =
       allCoinMetas.tbtc,
       allCoinMetas.tzec,
       allCoinMetas.tecx,
+      allCoinMetas.tpearl,
       allCoinMetas.txrp,
       allCoinMetas.txrpToken,
       allCoinMetas.txlm,

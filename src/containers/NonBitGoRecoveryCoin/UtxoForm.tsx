@@ -124,6 +124,11 @@ const ECX_CONFIG: UtxoCoinHandlerConfig = {
   passApiKeyToEnv: false,
   bigintSerialization: false,
 };
+const PEARL_CONFIG: UtxoCoinHandlerConfig = {
+  form: { requiresApiKey: false },
+  passApiKeyToEnv: false,
+  bigintSerialization: false,
+};
 
 export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
   btc: BTC_CONFIG,
@@ -139,6 +144,8 @@ export const UTXO_COIN_CONFIGS: Record<string, UtxoCoinHandlerConfig> = {
   bcha: BCHA_CONFIG,
   ecx: ECX_CONFIG,
   tecx: ECX_CONFIG,
+  pearl: PEARL_CONFIG,
+  tpearl: PEARL_CONFIG,
 };
 
 export type UtxoFormValues = Yup.Asserts<typeof validationSchema>;

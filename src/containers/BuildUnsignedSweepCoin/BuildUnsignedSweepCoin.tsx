@@ -129,6 +129,8 @@ function Form() {
     case 'tbtc':
     case 'ecx':
     case 'tecx':
+    case 'pearl':
+    case 'tpearl':
       return (
         <BitcoinForm
           key={coin}

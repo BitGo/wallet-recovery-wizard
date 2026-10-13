@@ -21,6 +21,8 @@ export const UTXO_COINS = [
   'tbch',
   'btg',
   'tbtg',
+  'pearl',
+  'tpearl',
 ] as const;
 
 export type UtxoCoin = (typeof UTXO_COINS)[number];
