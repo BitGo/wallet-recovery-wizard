@@ -113,7 +113,7 @@ export function AvalancheCTokenForm({ onSubmit }: AvalancheCTokenFormProps) {
         </div>
         <div className="tw-mb-4">
           <FormikTextfield
-            HelperText="Gas limit for the AVAXC transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 unit of gas."
+            HelperText="Gas limit for the AVAXC transaction. The value should be between 30,000 and 20,000,000. The default is 500,000 units of gas."
             Label="Gas Limit"
             name="gasLimit"
             Width="fill"
