@@ -120,7 +120,7 @@ jobs:
       DEB_FILENAME: '${{ needs.get-current-state.outputs.deb_filename }}'
       NEXT_VERSION: '${{ inputs.next-version }}'
     container:
-      image: docker.io/electronuserland/builder:16-wine@sha256:a067f3efbc83d41f8a92f4bb347803e11ae0b29204520497edb3d34522d8d458
+      image: docker.io/electronuserland/builder:24-wine@sha256:f3a8d451994c881d0972e7b1846ee4d4fdc15eb41fc6b1f350b38cbf99ca90fe
     steps:
       - uses: actions/checkout@v6
       - run: |

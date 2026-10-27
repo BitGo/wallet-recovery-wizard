@@ -1,0 +1,8 @@
+{
+  "name": "cbor-extract",
+  "version": "0.0.0",
+  "description": "Stub replacing the cbor-extract native addon in wallet-recovery-wizard builds. See the package.json `overrides` entry and index.js for the rationale.",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "private": true
+}
