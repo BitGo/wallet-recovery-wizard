@@ -12,6 +12,8 @@ import {
 } from '../utxo/psbt';
 import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
+import { recoverSafe } from '../safe/recoverSafe';
+import { parseSafeRecoveryRequest } from '../../src/utils/safeRecovery';
 import EthereumCommon from '@ethereumjs/common';
 
 // Allow self-signed / intermediate-CA certs when running in dev mode.
@@ -131,6 +133,9 @@ const indexHtml = join(process.env.DIST, 'index.html');
 let sdk = new BitGoAPI({
   env: 'test',
 });
+
+// Abort handle of the active Safe recovery; only one run at a time.
+let safeRecoveryAbort: AbortController | undefined;
 
 sdk.register('btc', Btc.createInstance);
 sdk.register('tbtc', Tbtc.createInstance);
@@ -515,6 +520,34 @@ async function createWindow() {
     return getRecoveryCoin(coin).recover(parameters);
   });
 
+  ipcMain.handle('recoverSafe', async (event, params) => {
+    const req = parseSafeRecoveryRequest(params);
+    if (safeRecoveryAbort) {
+      throw new Error('A Safe recovery is already running');
+    }
+    const abort = new AbortController();
+    safeRecoveryAbort = abort;
+    try {
+      return await recoverSafe(sdk, getRecoveryCoin(req.recoverCoin), req, {
+        writeFile: (file, data) => fs.writeFile(file, data, 'utf-8'),
+        onProgress: progress => {
+          // The window can close mid-run; sending to it would throw and end the run.
+          if (!event.sender.isDestroyed()) {
+            event.sender.send('safeRecoveryProgress', progress);
+          }
+        },
+        signal: abort.signal,
+      });
+    } finally {
+      safeRecoveryAbort = undefined;
+    }
+  });
+
+  ipcMain.handle('cancelSafeRecovery', () => {
+    safeRecoveryAbort?.abort();
+    return Promise.resolve();
+  });
+
   ipcMain.handle('recoverNestedAta', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as Sol;
     const openSSLBytes = loadWebAssembly().buffer;
@@ -602,6 +635,10 @@ async function createWindow() {
 
   ipcMain.handle('showSaveDialog', async (event, options) => {
     return await dialog.showSaveDialog(options);
+  });
+
+  ipcMain.handle('showOpenDialog', async (event, options) => {
+    return await dialog.showOpenDialog(options);
   });
 
   ipcMain.handle('writeFile', async (event, file, data, options) => {
