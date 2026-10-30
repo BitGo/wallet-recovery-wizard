@@ -94,6 +94,26 @@ function handledChannels(sf: ts.SourceFile): string[] {
   return channels;
 }
 
+// Channel names of `<anything>.<method>('channel', ...)` calls, such as a
+// main-process `webContents.send(...)` or a preload `ipcRenderer.on(...)`.
+function calledChannels(sf: ts.SourceFile, method: string): string[] {
+  const channels: string[] = [];
+  const visit = (node: ts.Node) => {
+    if (
+      ts.isCallExpression(node) &&
+      ts.isPropertyAccessExpression(node.expression) &&
+      node.expression.name.text === method &&
+      node.arguments.length >= 1 &&
+      ts.isStringLiteral(node.arguments[0])
+    ) {
+      channels.push(node.arguments[0].text);
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return channels;
+}
+
 const sorted = (values: string[]): string[] => [...values].sort();
 
 const preload = sourceFile('electron/preload/index.ts');
@@ -158,5 +178,15 @@ describe('IPC channel parity (declared vs exposed vs handled)', () => {
 
   it('no channel is handled more than once', () => {
     expect(new Set(handled).size).toBe(handled.length);
+  });
+});
+
+describe('IPC push channels (main send vs preload listener)', () => {
+  it('every channel the preload listens on is sent by the main process', () => {
+    const sent = calledChannels(main, 'send');
+    const listened = calledChannels(preload, 'on');
+
+    expect(listened.length).toBeGreaterThan(0);
+    expect(listened.filter(channel => !sent.includes(channel))).toEqual([]);
   });
 });

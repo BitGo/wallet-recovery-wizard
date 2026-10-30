@@ -16,6 +16,8 @@ import type {
   MessageBoxOptions,
   MessageBoxReturnValue,
   SaveDialogOptions,
+  OpenDialogOptions,
+  OpenDialogReturnValue,
   SaveDialogReturnValue,
 } from 'electron';
 import type { ObjectEncodingOptions } from 'node:fs';
@@ -50,6 +52,11 @@ import {
   SignPsbtParams,
   SignPsbtResult,
 } from '~/utils/types';
+import type {
+  SafeRecoveryProgress,
+  SafeRecoveryRequest,
+  SafeRecoveryResult,
+} from '~/utils/safeRecovery';
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '~/helpers/config';
 
@@ -102,6 +109,9 @@ type Commands = {
   ): Promise<void>;
   showMessageBox(options: MessageBoxOptions): Promise<MessageBoxReturnValue>;
   showSaveDialog(options: SaveDialogOptions): Promise<SaveDialogReturnValue>;
+  showOpenDialog(options: OpenDialogOptions): Promise<OpenDialogReturnValue>;
+  recoverSafe(request: SafeRecoveryRequest): Promise<SafeRecoveryResult[]>;
+  cancelSafeRecovery(): Promise<void>;
   recoverNestedAta(
     coin: string,
     parameters: {
@@ -187,6 +197,12 @@ type Queries = {
   isSdkAuthenticated(): Promise<boolean>;
 };
 
+type Events = {
+  onSafeRecoveryProgress(
+    callback: (progress: SafeRecoveryProgress) => void
+  ): () => void;
+};
+
 // This is needed due to collisions of Electron.Parameters in the Electron namespace
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TParameters<T extends (...args: any) => any> = Parameters<T>;
@@ -223,5 +239,6 @@ declare global {
   interface Window {
     queries: Queries;
     commands: Commands;
+    events: Events;
   }
 }
