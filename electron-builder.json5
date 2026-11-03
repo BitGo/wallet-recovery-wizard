@@ -23,7 +23,7 @@
   },
   mac: {
     category: 'public.app-category.utilities',
-    target: ['dmg'],
+    minimumSystemVersion: '12.0',
     extendInfo: {
       NSUserNotificationAlertStyle: 'alert',
     },

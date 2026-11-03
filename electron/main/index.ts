@@ -86,7 +86,6 @@ import assert from 'assert';
 import BIP32Factory from 'bip32';
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
-import { release } from 'os';
 import { join } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { Hbar, Thbar, HbarToken } from '@bitgo/sdk-coin-hbar';
@@ -110,9 +109,6 @@ import { Ton, Tton, JettonToken } from '@bitgo/sdk-coin-ton';
 import { Tempo, Tip20Token } from '@bitgo/sdk-coin-tempo';
 
 const bip32 = BIP32Factory(ecc);
-
-// Disable GPU Acceleration for Windows 7
-if (release().startsWith('6.1')) app.disableHardwareAcceleration();
 
 // Set application name for Windows 10+ notifications
 if (process.platform === 'win32') app.setAppUserModelId(app.getName());
