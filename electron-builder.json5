@@ -42,6 +42,7 @@
     oneClick: false,
     perMachine: false,
   },
+  npmRebuild: false,
   pkg: {
     installLocation: '/Applications',
     allowAnywhere: true,

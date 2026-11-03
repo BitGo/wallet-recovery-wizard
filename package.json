@@ -116,7 +116,7 @@
     "commander": "9.4.1",
     "concurrently": "7.6.0",
     "electron": "^45.0.0",
-    "electron-builder": "25.1.8",
+    "electron-builder": "26.18.1",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-import-resolver-alias": "1.1.2",
@@ -141,6 +141,7 @@
     "node": "24.22.1",
     "npm": ">=10.2.3"
   },
+  "homepage": "https://github.com/BitGo/wallet-recovery-wizard",
   "keywords": [],
   "license": "Apache-2.0",
   "main": "dist-electron/electron/main/index.js",
