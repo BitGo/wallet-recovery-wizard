@@ -54,6 +54,7 @@
   productName: 'Wallet Recovery Wizard',
   win: {
     target: ['nsis'],
+    verifyUpdateCodeSignature: false,
   },
   nativeModules: {
     npmRebuild: false,
