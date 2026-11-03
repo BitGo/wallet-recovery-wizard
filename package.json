@@ -116,7 +116,7 @@
     "commander": "9.4.1",
     "concurrently": "7.6.0",
     "electron": "^45.0.0",
-    "electron-builder": "26.18.1",
+    "electron-builder": "27.0.0-alpha.14",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-import-resolver-alias": "1.1.2",
