@@ -12,5 +12,7 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
       - name: Run Storybook tests
         run: npm run storybook:test:ci

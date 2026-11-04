@@ -8,13 +8,11 @@
     publisherDisplayName: 'Bitgo Inc.',
     setBuildNumber: true,
   },
-  asar: true,
   copyright: 'Copyright © 2022 ${author}',
   directories: {
     buildResources: 'electron/resources',
     output: 'release/${version}',
   },
-  files: ['dist-electron', 'dist'],
   linux: {
     artifactName: '${productName}-Linux-${version}.${ext}',
     category: 'Utility',
@@ -24,14 +22,15 @@
     target: ['deb'],
   },
   mac: {
-    hardenedRuntime: true,
-    gatekeeperAssess: false,
     category: 'public.app-category.utilities',
-    entitlements: './electron/resources/entitlements.mac.plist',
-    entitlementsInherit: './electron/resources/entitlements.mac.plist',
-    target: ['dmg'],
+    minimumSystemVersion: '12.0',
     extendInfo: {
       NSUserNotificationAlertStyle: 'alert',
+    },
+    sign: {
+      entitlements: './electron/resources/entitlements.mac.plist',
+      entitlementsInherit: './electron/resources/entitlements.mac.plist',
+      hardenedRuntime: true,
     },
   },
   nsis: {
@@ -55,5 +54,13 @@
   productName: 'Wallet Recovery Wizard',
   win: {
     target: ['nsis'],
+    verifyUpdateCodeSignature: false,
+  },
+  nativeModules: {
+    npmRebuild: false,
+    verifyNativeBinaries: 'warn',
+  },
+  fileOptions: {
+    files: ['dist-electron', 'dist'],
   },
 }
