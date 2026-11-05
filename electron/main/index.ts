@@ -86,7 +86,7 @@ import assert from 'assert';
 import BIP32Factory from 'bip32';
 import { BrowserWindow, app, dialog, ipcMain, shell } from 'electron';
 import fs from 'node:fs/promises';
-import { join } from 'path';
+import { isAbsolute, join, resolve } from 'path';
 import * as ecc from 'tiny-secp256k1';
 import { Hbar, Thbar, HbarToken } from '@bitgo/sdk-coin-hbar';
 import { Algo, Talgo } from '@bitgo/sdk-coin-algo';
@@ -596,12 +596,36 @@ async function createWindow() {
     return await dialog.showMessageBox(options);
   });
 
+  // WCI-2170: the renderer is untrusted. A write is only permitted to a path
+  // this window issued from a save dialog, consumed once, with options fixed
+  // by the main process (encoding is the only knob the app ever uses).
+  const approvedSavePaths = new WeakMap<Electron.WebContents, Set<string>>();
+
   ipcMain.handle('showSaveDialog', async (event, options) => {
-    return await dialog.showSaveDialog(options);
+    const result = await dialog.showSaveDialog(options);
+    if (!result.canceled && result.filePath) {
+      const paths = approvedSavePaths.get(event.sender) ?? new Set();
+      paths.add(resolve(result.filePath));
+      approvedSavePaths.set(event.sender, paths);
+    }
+    return result;
   });
 
-  ipcMain.handle('writeFile', async (event, file, data, options) => {
-    return await fs.writeFile(file, data, options);
+  ipcMain.handle('writeFile', async (event, file, data) => {
+    if (typeof file !== 'string' || !isAbsolute(file)) {
+      throw new Error(
+        'writeFile rejected: an absolute path string is required'
+      );
+    }
+    const paths = approvedSavePaths.get(event.sender);
+    if (!paths?.has(resolve(file))) {
+      throw new Error(
+        'writeFile rejected: path was not approved via the save dialog'
+      );
+    }
+    const res = await fs.writeFile(file, data, { encoding: 'utf-8' });
+    paths.delete(resolve(file));
+    return res;
   });
 
   // queries
