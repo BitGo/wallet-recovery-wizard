@@ -41,6 +41,11 @@ import {
 import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '../../src/helpers/config';
 import { MPCSweepRecoveryOptions } from '@bitgo/sdk-core';
+import type {
+  SafeRecoveryProgress,
+  SafeRecoveryRequest,
+  SafeRecoveryResult,
+} from '../../src/utils/safeRecovery';
 
 type User = { username: string };
 
@@ -84,6 +89,11 @@ type Commands = {
   showSaveDialog(
     options: Electron.SaveDialogOptions
   ): Promise<Electron.SaveDialogReturnValue>;
+  showOpenDialog(
+    options: Electron.OpenDialogOptions
+  ): Promise<Electron.OpenDialogReturnValue>;
+  recoverSafe(request: SafeRecoveryRequest): Promise<SafeRecoveryResult[]>;
+  cancelSafeRecovery(): Promise<void>;
   recoverNestedAta(
     coin: string,
     parameters: {
@@ -160,6 +170,12 @@ type Queries = {
   isSdkAuthenticated(): Promise<boolean>;
 };
 
+type Events = {
+  onSafeRecoveryProgress(
+    callback: (progress: SafeRecoveryProgress) => void
+  ): () => void;
+};
+
 const queries: Queries = {
   getVersion() {
     return ipcRenderer.invoke('getVersion');
@@ -230,6 +246,15 @@ const commands: Commands = {
   showSaveDialog(options) {
     return ipcRenderer.invoke('showSaveDialog', options);
   },
+  showOpenDialog(options) {
+    return ipcRenderer.invoke('showOpenDialog', options);
+  },
+  recoverSafe(request) {
+    return ipcRenderer.invoke('recoverSafe', request);
+  },
+  cancelSafeRecovery() {
+    return ipcRenderer.invoke('cancelSafeRecovery');
+  },
   recoverNestedAta(coin, parameters) {
     return ipcRenderer.invoke('recoverNestedAta', coin, parameters);
   },
@@ -263,6 +288,21 @@ const commands: Commands = {
 
 contextBridge.exposeInMainWorld('commands', commands);
 contextBridge.exposeInMainWorld('queries', queries);
+
+// Main-to-renderer pushes are not invoke channels, so they are not in `Commands`.
+const events: Events = {
+  onSafeRecoveryProgress(callback) {
+    const listener = (
+      _event: Electron.IpcRendererEvent,
+      progress: SafeRecoveryProgress
+    ) => callback(progress);
+    ipcRenderer.on('safeRecoveryProgress', listener);
+    return () => {
+      ipcRenderer.removeListener('safeRecoveryProgress', listener);
+    };
+  },
+};
+contextBridge.exposeInMainWorld('events', events);
 
 // This is needed due to collisions of Electron.Parameters in the Electron namespace
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -299,6 +339,7 @@ declare global {
   }
   interface Window {
     queries: Queries;
+    events: Events;
     commands: Commands;
   }
 }
