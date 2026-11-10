@@ -15,6 +15,25 @@ npm i
 npm run dev
 ```
 
+### TLS in development
+
+Node.js TLS certificate verification is enforced in every build and can never
+be skipped in packaged (released) builds. In dev, if a testnet fullnode
+presents a certificate that is not in Node's default CA bundle (e.g. rippled
+`s.altnet.rippletest.net`), prefer trusting the specific CA:
+
+```bash
+NODE_EXTRA_CA_CERTS=/path/to/testnet-ca.pem npm run dev
+```
+
+or explicitly opt in to skipping verification for the unpackaged dev build:
+
+```bash
+WRW_INSECURE_TLS=1 npm run dev
+```
+
+See the guard in `electron/main/index.ts` (WCI-2168).
+
 ## Adding Coin Support for Non-BitGo Recovery & Unsigned Sweep
 
 ### Dependencies
