@@ -14,10 +14,12 @@ import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
 import EthereumCommon from '@ethereumjs/common';
 
-// Allow self-signed / intermediate-CA certs when running in dev mode.
-// This is needed for testnet rippled nodes (s.altnet.rippletest.net) whose
-// certificate chain is not in Node's default CA bundle.
-if (process.env.NODE_ENV !== 'production') {
+// Relax TLS certificate verification only in unpackaged dev builds and only
+// with an explicit opt-in (WCI-2168). Never gate this on NODE_ENV: packaged
+// Electron apps do not receive NODE_ENV at runtime, so a `!== 'production'`
+// check is always true in shipped builds and silently disabled certificate
+// verification for all main-process traffic.
+if (!app.isPackaged && process.env.WRW_INSECURE_TLS === '1') {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
