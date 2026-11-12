@@ -12,6 +12,8 @@ import {
 } from '../utxo/psbt';
 import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
+import { recoverSafe } from '../safe/recoverSafe';
+import { parseSafeRecoveryRequest } from '../safe/safeRecovery';
 import EthereumCommon from '@ethereumjs/common';
 
 // Relax TLS certificate verification only in unpackaged dev builds and only
@@ -129,6 +131,12 @@ const indexHtml = join(process.env.DIST, 'index.html');
 let sdk = new BitGoAPI({
   env: 'test',
 });
+
+let safeRecoveryAbort: AbortController | undefined;
+
+// Directories each window picked in the open dialog; the Safe engine may only
+// write into these, since the renderer is untrusted (WCI-2170).
+const approvedOutputDirs = new WeakMap<Electron.WebContents, Set<string>>();
 
 sdk.register('btc', Btc.createInstance);
 sdk.register('tbtc', Tbtc.createInstance);
@@ -513,6 +521,39 @@ async function createWindow() {
     return getRecoveryCoin(coin).recover(parameters);
   });
 
+  ipcMain.handle('recoverSafe', async (event, params) => {
+    const req = parseSafeRecoveryRequest(params);
+    if (!approvedOutputDirs.get(event.sender)?.has(resolve(req.output.dir))) {
+      throw new Error(
+        'recoverSafe rejected: output directory was not chosen via the open dialog'
+      );
+    }
+    if (safeRecoveryAbort) {
+      throw new Error('A Safe recovery is already running');
+    }
+    const abort = new AbortController();
+    safeRecoveryAbort = abort;
+    try {
+      return await recoverSafe(sdk, getRecoveryCoin(req.recoverCoin), req, {
+        writeFile: (file, data) => fs.writeFile(file, data, 'utf-8'),
+        onProgress: progress => {
+          // Sending to a closed window throws and would end the run.
+          if (!event.sender.isDestroyed()) {
+            event.sender.send('safeRecoveryProgress', progress);
+          }
+        },
+        signal: abort.signal,
+      });
+    } finally {
+      safeRecoveryAbort = undefined;
+    }
+  });
+
+  ipcMain.handle('cancelSafeRecovery', () => {
+    safeRecoveryAbort?.abort();
+    return Promise.resolve();
+  });
+
   ipcMain.handle('recoverNestedAta', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as Sol;
     const openSSLBytes = loadWebAssembly().buffer;
@@ -609,6 +650,19 @@ async function createWindow() {
       const paths = approvedSavePaths.get(event.sender) ?? new Set();
       paths.add(resolve(result.filePath));
       approvedSavePaths.set(event.sender, paths);
+    }
+    return result;
+  });
+
+  ipcMain.handle('showOpenDialog', async (event, options) => {
+    const result = await dialog.showOpenDialog({
+      ...options,
+      properties: ['openDirectory', 'createDirectory'],
+    });
+    if (!result.canceled) {
+      const dirs = approvedOutputDirs.get(event.sender) ?? new Set();
+      result.filePaths.forEach(dir => dirs.add(resolve(dir)));
+      approvedOutputDirs.set(event.sender, dirs);
     }
     return result;
   });
