@@ -122,7 +122,7 @@ export function EthLikeForm({ onSubmit, coinName }: EthLikeFormProps) {
               allCoinMetas[coinName].minGasLimit ?? '30,000'
             } and 20,000,000. The default is ${
               allCoinMetas[coinName].defaultGasLimit ?? '500,000'
-            } unit of gas.`}
+            } units of gas.`}
             Label="Gas Limit"
             name="gasLimit"
             Width="fill"
