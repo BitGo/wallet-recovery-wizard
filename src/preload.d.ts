@@ -53,6 +53,10 @@ import {
   SignPsbtResult,
 } from '~/utils/types';
 import type {
+  SafeDiscoveryRequest,
+  SafeDiscoveryRow,
+  SafeKeycardBoxes,
+  SafeRecoverOneRequest,
   SafeRecoveryProgress,
   SafeRecoveryRequest,
   SafeRecoveryResult,
@@ -112,6 +116,10 @@ type Commands = {
   showOpenDialog(options: OpenDialogOptions): Promise<OpenDialogReturnValue>;
   recoverSafe(request: SafeRecoveryRequest): Promise<SafeRecoveryResult[]>;
   cancelSafeRecovery(): Promise<void>;
+  discoverSafeWallets(
+    request: SafeDiscoveryRequest
+  ): Promise<SafeDiscoveryRow[]>;
+  recoverSafeWallet(request: SafeRecoverOneRequest): Promise<unknown>;
   recoverNestedAta(
     coin: string,
     parameters: {
@@ -195,6 +203,7 @@ type Queries = {
   getChain(coin: string): Promise<string>;
   getUser(): Promise<Error | User>;
   isSdkAuthenticated(): Promise<boolean>;
+  isSafeKeycard(boxes: SafeKeycardBoxes): Promise<boolean>;
 };
 
 type Events = {

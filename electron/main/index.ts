@@ -12,8 +12,19 @@ import {
 } from '../utxo/psbt';
 import * as utxoRecovery from '../utxo';
 import type { RecoveryCoin } from '../recoveryCoin';
-import { recoverSafe } from '../safe/recoverSafe';
-import { parseSafeRecoveryRequest } from '../safe/safeRecovery';
+import {
+  discoverSafeWallets,
+  isSafeKeycard,
+  recoverSafe,
+  recoverSafeWallet,
+} from '../safe/recoverSafe';
+import {
+  parseSafeDiscoveryRequest,
+  parseSafeKeycardBoxes,
+  parseSafeRecoverOneRequest,
+  parseSafeRecoveryRequest,
+} from '../safe/safeRecovery';
+import type { SafeRecoveryProgress } from '../safe/safeRecovery';
 import EthereumCommon from '@ethereumjs/common';
 
 // Relax TLS certificate verification only in unpackaged dev builds and only
@@ -133,6 +144,32 @@ let sdk = new BitGoAPI({
 });
 
 let safeRecoveryAbort: AbortController | undefined;
+
+// One Safe scan or sweep at a time; `cancelSafeRecovery` stops either.
+async function runSafe<T>(
+  run: (signal: AbortSignal) => Promise<T>
+): Promise<T> {
+  if (safeRecoveryAbort) {
+    throw new Error('A Safe recovery is already running');
+  }
+  const abort = new AbortController();
+  safeRecoveryAbort = abort;
+  try {
+    return await run(abort.signal);
+  } finally {
+    safeRecoveryAbort = undefined;
+  }
+}
+
+function sendSafeProgress(
+  sender: Electron.WebContents,
+  progress: SafeRecoveryProgress
+) {
+  // Sending to a closed window throws and would end the run.
+  if (!sender.isDestroyed()) {
+    sender.send('safeRecoveryProgress', progress);
+  }
+}
 
 // Directories each window picked in the open dialog; the Safe engine may only
 // write into these, since the renderer is untrusted (WCI-2170).
@@ -528,31 +565,38 @@ async function createWindow() {
         'recoverSafe rejected: output directory was not chosen via the open dialog'
       );
     }
-    if (safeRecoveryAbort) {
-      throw new Error('A Safe recovery is already running');
-    }
-    const abort = new AbortController();
-    safeRecoveryAbort = abort;
-    try {
-      return await recoverSafe(sdk, getRecoveryCoin(req.recoverCoin), req, {
+    return await runSafe(signal =>
+      recoverSafe(sdk, getRecoveryCoin(req.recoverCoin), req, {
         writeFile: (file, data) => fs.writeFile(file, data, 'utf-8'),
-        onProgress: progress => {
-          // Sending to a closed window throws and would end the run.
-          if (!event.sender.isDestroyed()) {
-            event.sender.send('safeRecoveryProgress', progress);
-          }
-        },
-        signal: abort.signal,
-      });
-    } finally {
-      safeRecoveryAbort = undefined;
-    }
+        onProgress: progress => sendSafeProgress(event.sender, progress),
+        signal,
+      })
+    );
   });
 
   ipcMain.handle('cancelSafeRecovery', () => {
     safeRecoveryAbort?.abort();
     return Promise.resolve();
   });
+
+  ipcMain.handle('discoverSafeWallets', async (event, params) => {
+    const req = parseSafeDiscoveryRequest(params);
+    return await runSafe(signal =>
+      discoverSafeWallets(sdk, getRecoveryCoin(req.recoverCoin), req, {
+        onProgress: progress => sendSafeProgress(event.sender, progress),
+        signal,
+      })
+    );
+  });
+
+  ipcMain.handle('recoverSafeWallet', async (event, params) => {
+    const req = parseSafeRecoverOneRequest(params);
+    return await recoverSafeWallet(sdk, getRecoveryCoin(req.recoverCoin), req);
+  });
+
+  ipcMain.handle('isSafeKeycard', (event, boxes) =>
+    Promise.resolve(isSafeKeycard(parseSafeKeycardBoxes(boxes)))
+  );
 
   ipcMain.handle('recoverNestedAta', async (event, coin, parameters) => {
     const baseCoin = sdk.coin(coin) as Sol;

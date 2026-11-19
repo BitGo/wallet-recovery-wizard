@@ -42,6 +42,10 @@ import type * as EthLikeCommon from '@ethereumjs/common';
 import { EvmCcrNonBitgoCoinConfigType } from '../../src/helpers/config';
 import { MPCSweepRecoveryOptions } from '@bitgo/sdk-core';
 import type {
+  SafeDiscoveryRequest,
+  SafeDiscoveryRow,
+  SafeKeycardBoxes,
+  SafeRecoverOneRequest,
   SafeRecoveryProgress,
   SafeRecoveryRequest,
   SafeRecoveryResult,
@@ -94,6 +98,10 @@ type Commands = {
   ): Promise<Electron.OpenDialogReturnValue>;
   recoverSafe(request: SafeRecoveryRequest): Promise<SafeRecoveryResult[]>;
   cancelSafeRecovery(): Promise<void>;
+  discoverSafeWallets(
+    request: SafeDiscoveryRequest
+  ): Promise<SafeDiscoveryRow[]>;
+  recoverSafeWallet(request: SafeRecoverOneRequest): Promise<unknown>;
   recoverNestedAta(
     coin: string,
     parameters: {
@@ -168,6 +176,7 @@ type Queries = {
   getChain(coin: string): Promise<string>;
   getUser(): Promise<Error | User>;
   isSdkAuthenticated(): Promise<boolean>;
+  isSafeKeycard(boxes: SafeKeycardBoxes): Promise<boolean>;
 };
 
 type Events = {
@@ -194,6 +203,9 @@ const queries: Queries = {
   },
   isSdkAuthenticated() {
     return ipcRenderer.invoke('isSdkAuthenticated');
+  },
+  isSafeKeycard(boxes) {
+    return ipcRenderer.invoke('isSafeKeycard', boxes);
   },
 };
 
@@ -254,6 +266,12 @@ const commands: Commands = {
   },
   cancelSafeRecovery() {
     return ipcRenderer.invoke('cancelSafeRecovery');
+  },
+  discoverSafeWallets(request) {
+    return ipcRenderer.invoke('discoverSafeWallets', request);
+  },
+  recoverSafeWallet(request) {
+    return ipcRenderer.invoke('recoverSafeWallet', request);
   },
   recoverNestedAta(coin, parameters) {
     return ipcRenderer.invoke('recoverNestedAta', coin, parameters);
