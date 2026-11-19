@@ -16,12 +16,19 @@ import type {
   DerivedSafeWalletKeys,
 } from '@bitgo/sdk-core';
 import type { RecoveryCoin } from '../recoveryCoin';
+import type { RootKeyType } from '@bitgo/public-types';
 import type {
+  SafeDiscoveryRequest,
+  SafeRecoverOneRequest,
   SafeRecoveryProgress,
   SafeRecoveryRequest,
-  SafeSlot,
 } from './safeRecovery';
-import { recoverSafe } from './recoverSafe';
+import {
+  discoverSafeWallets,
+  isSafeKeycard,
+  recoverSafe,
+  recoverSafeWallet,
+} from './recoverSafe';
 
 vi.mock('@bitgo/sdk-core', async () => ({
   ...(await vi.importActual<typeof SdkCore>('@bitgo/sdk-core')),
@@ -52,7 +59,7 @@ const roots: DecryptedSafeRoots = {
   eddsaMpc: mpcRoot,
 };
 
-function derived(slot: SafeSlot, account: number): DerivedSafeWalletKeys {
+function derived(slot: RootKeyType, account: number): DerivedSafeWalletKeys {
   const path = `m/44'/0'/${slot === SLOT_1 ? 1 : 3}'/${account}'`;
   if (slot === SLOT_1) {
     return {
@@ -223,7 +230,7 @@ describe('account scan', () => {
     });
     const results = await done;
 
-    const probesFor = (slot: SafeSlot) =>
+    const probesFor = (slot: RootKeyType) =>
       recoverSpy.mock.calls.filter(([p]) => text(p.userKey).startsWith(slot))
         .length;
     // slot 1: 0..6 (found at 1, then 5 empties); slot 3: 0..8 (found at 3, then 5 empties)
@@ -665,5 +672,225 @@ describe('output', () => {
       startAccount: 0,
       gap: 1,
     });
+  });
+});
+
+const { derivationCoin, recoverCoin, mode, baseParams, keycard, password } =
+  baseRequest;
+const walletRequest = {
+  derivationCoin,
+  recoverCoin,
+  mode,
+  baseParams,
+  keycard,
+  password,
+};
+
+function discover(
+  recover: Recover,
+  overrides: Partial<SafeDiscoveryRequest> = {},
+  signal: AbortSignal = new AbortController().signal
+) {
+  const { coin, recoverSpy } = fakeCoin(recover);
+  const progress: SafeRecoveryProgress[] = [];
+  const done = discoverSafeWallets(
+    sdk,
+    coin,
+    { ...walletRequest, startAccount: 0, ...overrides },
+    { onProgress: p => progress.push(p), signal }
+  );
+  const probedAccounts = () => recoverSpy.mock.calls.map(([p]) => accountOf(p));
+  return { done, progress, recoverSpy, probedAccounts };
+}
+
+describe('discoverSafeWallets', () => {
+  it('stops after 5 wallets in a row without funds, and a funded wallet resets the count', async () => {
+    const { done, probedAccounts } = discover(fundedAt(0, 3));
+    const rows = await done;
+
+    // 3 funded, then 4-8 are the five misses
+    expect(probedAccounts()).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(rows.filter(r => r.status === 'funded').map(r => r.account)).toEqual(
+      [0, 3]
+    );
+  });
+
+  it('starts at startAccount', async () => {
+    const { done, probedAccounts } = discover(fundedAt(), { startAccount: 10 });
+    await done;
+    expect(probedAccounts()).toEqual([10, 11, 12, 13, 14]);
+  });
+
+  it('classifies funded, empty and error, and counts an error toward the gap', async () => {
+    const { done, probedAccounts } = discover(params =>
+      accountOf(params) === 0
+        ? Promise.resolve({ txHex: 'tx' })
+        : accountOf(params) === 2
+          ? Promise.reject(new Error('explorer timeout'))
+          : Promise.reject(new ErrorNoInputToRecover())
+    );
+    const rows = await done;
+
+    expect(probedAccounts()).toEqual([0, 1, 2, 3, 4, 5]);
+    expect(rows.map(r => r.status)).toEqual([
+      'funded',
+      'empty',
+      'error',
+      'empty',
+      'empty',
+      'empty',
+    ]);
+    expect(rows[2]).toMatchObject({ account: 2, error: 'explorer timeout' });
+    expect(rows[1].error).toBeUndefined();
+  });
+
+  it('scans every slot with its own count', async () => {
+    vi.mocked(safeSlotsForCoin).mockReturnValue([SLOT_1, SLOT_3]);
+    const { done } = discover(fundedAt(1));
+    const rows = await done;
+
+    // slot 1: 0..6 (found at 1, then 5 empties); slot 3 is derived with the same accounts
+    expect(rows.filter(r => r.slot === SLOT_1)).toHaveLength(7);
+    expect(rows.filter(r => r.slot === SLOT_3)).toHaveLength(7);
+  });
+
+  it('reports each wallet as it is found', async () => {
+    const { done, progress } = discover(fundedAt(0));
+    const rows = await done;
+
+    expect(progress).toEqual(rows);
+    expect(progress[0]).toEqual({
+      slot: SLOT_1,
+      account: 0,
+      path: "m/44'/0'/1'/0'",
+      status: 'funded',
+    });
+  });
+
+  it('stops scanning when cancelled and returns the rows found so far', async () => {
+    const abort = new AbortController();
+    const { done, probedAccounts } = discover(
+      params => {
+        if (accountOf(params) === 1) abort.abort();
+        return fundedAt(0)(params);
+      },
+      {},
+      abort.signal
+    );
+    const rows = await done;
+
+    expect(probedAccounts()).toEqual([0, 1]);
+    expect(rows.map(r => r.account)).toEqual([0, 1]);
+  });
+
+  it('writes nothing and returns no tx or key material', async () => {
+    const { done, progress } = discover(fundedAt(0));
+    const rows = await done;
+
+    const text = JSON.stringify([rows, progress]);
+    expect(text).not.toContain('tx-0');
+    expect(text).not.toContain(SECRET);
+    expect(text).not.toContain('ephemeral');
+    expect(text).not.toContain('"pw"');
+  });
+
+  it('fails before the first recover() when the password is wrong', async () => {
+    vi.mocked(decryptSafeKeycard).mockRejectedValue(
+      new IncorrectPasswordError('bad password')
+    );
+    const { done, recoverSpy } = discover(fundedAt(0));
+
+    await expect(done).rejects.toThrow(IncorrectPasswordError);
+    expect(recoverSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe('recoverSafeWallet', () => {
+  const recoverOne = (
+    recover: Recover,
+    target: SafeRecoverOneRequest['target'] = { slot: SLOT_1, account: 2 }
+  ) => {
+    const { coin, recoverSpy } = fakeCoin(recover);
+    const done = recoverSafeWallet(sdk, coin, { ...walletRequest, target });
+    return { done, recoverSpy };
+  };
+
+  it('derives the one wallet and returns the recover() result', async () => {
+    const { done, recoverSpy } = recoverOne(fundedAt(2));
+
+    await expect(done).resolves.toEqual({ txHex: 'tx-2' });
+    expect(recoverSpy).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(deriveSafeWalletKeys)).toHaveBeenCalledWith(
+      expect.objectContaining({ slot: SLOT_1, account: 2, roots })
+    );
+    expect(recoverSpy.mock.calls[0][0]).toMatchObject({
+      recoveryDestination: 'dest',
+      userKey: 'user-key-user-pub-2',
+    });
+  });
+
+  it('says there is nothing to recover when the wallet is empty', async () => {
+    const { done } = recoverOne(fundedAt());
+    await expect(done).rejects.toThrow('Nothing to recover at this wallet');
+  });
+
+  it('passes on the recover() error message', async () => {
+    const { done } = recoverOne(() =>
+      Promise.reject(new Error('explorer timeout'))
+    );
+    await expect(done).rejects.toThrow('explorer timeout');
+  });
+
+  it('rejects a slot the coin does not have before any chain call', async () => {
+    const { done, recoverSpy } = recoverOne(fundedAt(2), {
+      slot: SLOT_3,
+      account: 2,
+    });
+
+    await expect(done).rejects.toThrow('ecdsaMpc is not a Safe slot for tbtc');
+    expect(vi.mocked(decryptSafeKeycard)).not.toHaveBeenCalled();
+    expect(recoverSpy).not.toHaveBeenCalled();
+  });
+
+  it('fails before recover() when the password is wrong', async () => {
+    vi.mocked(decryptSafeKeycard).mockRejectedValue(
+      new IncorrectPasswordError('bad password')
+    );
+    const { done, recoverSpy } = recoverOne(fundedAt(2));
+
+    await expect(done).rejects.toThrow(IncorrectPasswordError);
+    expect(recoverSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe('isSafeKeycard', () => {
+  // All four roots: sdk-lib-safes 1.9.0 rejects a box with fewer.
+  const safeBox = JSON.stringify({
+    secp256k1Multisig: 'a',
+    ed25519Multisig: 'b',
+    ecdsaMpc: 'c',
+    eddsaMpc: 'd',
+  });
+
+  it('is true for a Safe keycard box', () => {
+    expect(isSafeKeycard({ boxA: safeBox, boxB: safeBox, boxC: safeBox })).toBe(
+      true
+    );
+  });
+
+  it('is true when only one box is a Safe box, so a torn keycard reaches the Safe flow', () => {
+    expect(isSafeKeycard({ boxA: safeBox, boxB: 'garbage' })).toBe(true);
+  });
+
+  it('is false for a non-Safe keycard box', () => {
+    const encryptedPrv = JSON.stringify({ iv: 'a', salt: 'b', ct: 'c' });
+    expect(
+      isSafeKeycard({ boxA: encryptedPrv, boxB: encryptedPrv, boxC: 'xpub661' })
+    ).toBe(false);
+  });
+
+  it('is false for no boxes or empty boxes', () => {
+    expect(isSafeKeycard({})).toBe(false);
+    expect(isSafeKeycard({ boxA: '', boxB: '', boxC: '' })).toBe(false);
   });
 });

@@ -1,14 +1,9 @@
 import * as t from 'io-ts';
-
-export type SafeSlot =
-  | 'secp256k1Multisig'
-  | 'ed25519Multisig'
-  | 'ecdsaMpc'
-  | 'eddsaMpc';
+import { RootKeyType } from '@bitgo/public-types';
 
 export const MAX_SAFE_ACCOUNT = 2 ** 31 - 1;
-export const MAX_SAFE_GAP = 50;
-export const MAX_SAFE_ADDRESSES = 50;
+// Discovery stops after this many wallets in a row without funds.
+export const SAFE_WALLET_GAP = 5;
 
 const boundedInteger = (name: string, min: number, max: number) =>
   t.refinement(
@@ -27,22 +22,28 @@ const FilePrefix = t.refinement(
 const AddressList = t.refinement(
   t.array(t.string),
   addresses =>
-    addresses.length >= 1 &&
-    addresses.length <= MAX_SAFE_ADDRESSES &&
-    new Set(addresses).size === addresses.length,
+    addresses.length >= 1 && new Set(addresses).size === addresses.length,
   'AddressList'
 );
 
+const AccountIndex = boundedInteger('Account', 0, MAX_SAFE_ACCOUNT);
+
+// What every Safe request carries: the coin, the keycard and the password.
+export const SafeWalletRequest = t.type({
+  derivationCoin: t.string,
+  recoverCoin: t.string,
+  mode: t.union([t.literal('signed'), t.literal('unsigned')]),
+  baseParams: t.record(t.string, t.unknown),
+  keycard: t.type({ boxA: t.string, boxB: t.string, boxC: t.string }),
+  password: t.string,
+});
+export type SafeWalletRequest = t.TypeOf<typeof SafeWalletRequest>;
+
 export const SafeRecoveryRequest = t.intersection([
+  SafeWalletRequest,
   t.type({
-    derivationCoin: t.string,
-    recoverCoin: t.string,
-    mode: t.union([t.literal('signed'), t.literal('unsigned')]),
-    baseParams: t.record(t.string, t.unknown),
-    keycard: t.type({ boxA: t.string, boxB: t.string, boxC: t.string }),
-    password: t.string,
-    startAccount: boundedInteger('StartAccount', 0, MAX_SAFE_ACCOUNT),
-    gap: boundedInteger('Gap', 1, MAX_SAFE_GAP),
+    startAccount: AccountIndex,
+    gap: boundedInteger('Gap', 1, MAX_SAFE_ACCOUNT),
     output: t.type({
       dir: t.string,
       filePrefix: FilePrefix,
@@ -63,12 +64,25 @@ export const SafeRecoveryRequest = t.intersection([
 ]);
 export type SafeRecoveryRequest = t.TypeOf<typeof SafeRecoveryRequest>;
 
+// The wallet gap is fixed for discovery, so it is not a request field.
+export const SafeDiscoveryRequest = t.intersection([
+  SafeWalletRequest,
+  t.type({ startAccount: AccountIndex }),
+]);
+export type SafeDiscoveryRequest = t.TypeOf<typeof SafeDiscoveryRequest>;
+
+export const SafeRecoverOneRequest = t.intersection([
+  SafeWalletRequest,
+  t.type({ target: t.type({ slot: RootKeyType, account: AccountIndex }) }),
+]);
+export type SafeRecoverOneRequest = t.TypeOf<typeof SafeRecoverOneRequest>;
+
 /**
  * Decodes an IPC payload. The error names the failing fields only: the payload
  * carries the password and keycard, which must not come back in a message.
  */
-export function parseSafeRecoveryRequest(input: unknown): SafeRecoveryRequest {
-  const decoded = SafeRecoveryRequest.decode(input);
+function parseRequest<A>(codec: t.Decoder<unknown, A>, input: unknown): A {
+  const decoded = codec.decode(input);
   if (decoded._tag === 'Left') {
     const fields = decoded.left.map(({ context }) =>
       context.map(({ key }) => key).join('.')
@@ -78,8 +92,26 @@ export function parseSafeRecoveryRequest(input: unknown): SafeRecoveryRequest {
   return decoded.right;
 }
 
+export const parseSafeRecoveryRequest = (input: unknown) =>
+  parseRequest(SafeRecoveryRequest, input);
+export const parseSafeDiscoveryRequest = (input: unknown) =>
+  parseRequest(SafeDiscoveryRequest, input);
+export const parseSafeRecoverOneRequest = (input: unknown) =>
+  parseRequest(SafeRecoverOneRequest, input);
+
+// Box C is optional on a non-Safe keycard, so detection accepts any subset.
+export const SafeKeycardBoxes = t.partial({
+  boxA: t.string,
+  boxB: t.string,
+  boxC: t.string,
+});
+export type SafeKeycardBoxes = t.TypeOf<typeof SafeKeycardBoxes>;
+
+export const parseSafeKeycardBoxes = (input: unknown) =>
+  parseRequest(SafeKeycardBoxes, input);
+
 export type SafeWalletResult = {
-  slot: SafeSlot;
+  slot: RootKeyType;
   account: number;
   path?: string;
   address?: string;
@@ -98,7 +130,15 @@ export type SafeAddressResult = {
 
 export type SafeRecoveryResult = SafeWalletResult | SafeAddressResult;
 
-export type SafeRecoveryProgress = Pick<
-  SafeWalletResult,
-  'slot' | 'account' | 'address' | 'status'
->;
+// A discovered wallet. No file, tx or key material: the screen only lists it.
+export type SafeDiscoveryRow = {
+  slot: RootKeyType;
+  account: number;
+  path?: string;
+  status: 'funded' | 'empty' | 'error';
+  error?: string;
+};
+
+export type SafeRecoveryProgress =
+  | Pick<SafeWalletResult, 'slot' | 'account' | 'address' | 'status'>
+  | SafeDiscoveryRow;
